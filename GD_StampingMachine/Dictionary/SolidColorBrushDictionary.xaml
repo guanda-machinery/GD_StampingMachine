@@ -1,0 +1,815 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--PRIMARY-->
+    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#858585"/>
+    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#c4c4c4"/>
+    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#363535"/>
+    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+
+    <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#1565c0"/>
+    <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#5e92f3"/>
+    <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#003c8f"/>
+    <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+    <!--ACCENT--> 
+    <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#C61922"/>
+    <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Black"/>
+    
+    <SolidColorBrush x:Key="BackgroundColorBrush" Color="#FAFCFB"/>
+    <SolidColorBrush x:Key="ToggleButtonBackgroundLightGrayBrush" Color="#d9d9d9"/>
+    
+    
+    <Color x:Key="cToggleButtonBackgroundSkyBlueBrush">#007be4</Color>
+    <SolidColorBrush x:Key="ToggleButtonBackgroundSkyBlueBrush" Color="{StaticResource cToggleButtonBackgroundSkyBlueBrush}"/>
+
+
+
+
+    <Color x:Key="clr_CreamyWhite">#FFF3F3F3</Color>
+    <Color x:Key="clr_CreamyGray">#FFEEEEEE</Color>
+    <!--
+    <Color x:Key="clr_LightGray">#FFD3D3D3</Color>-->
+    <Color x:Key="clr_SilverGray">#FFC0C0C0</Color>
+    <!--
+    <Color x:Key="clr_Gray">#FF808080</Color>-->
+    <!--
+    <Color x:Key="clr_DimGray">#FF666666</Color>-->
+    <!--
+    <Color x:Key="clr_DarkGray">#FF303030</Color>-->
+    <Color x:Key="clr_BlackGray">#FF1E1E1E</Color>
+    <Color x:Key="clr_TiffanyBlue">#FF81D8D0</Color>
+    <!--
+    <Color x:Key="clr_DarkGreen">#FF034F48</Color>-->
+    <Color x:Key="clr_ButtonBlue">#FF17A7FF</Color>
+    <Color x:Key="clr_ButtonRed">#FFDC143C</Color>
+    <Color x:Key="clr_ButtonOrange">#FFFF8C00</Color>
+    <Color x:Key="clr_ButtonGold">#FFFFD700</Color>
+    <!--
+    <SolidColorBrush x:Key="solidclr_LightGray"
+                     Color="#FFD3D3D3" />-->
+    <SolidColorBrush x:Key="solidclr_CreamyGray"
+                     Color="#FFEEEEEE" />
+    <SolidColorBrush x:Key="solidclr_SilverGray"
+                     Color="#FFC0C0C0" />
+    <!--
+    <SolidColorBrush x:Key="solidclr_Gray"
+                     Color="#FF808080" />-->
+    <!--
+    <SolidColorBrush x:Key="solidclr_DimGray"
+                     Color="#FF666666" />-->
+    <!--
+    <SolidColorBrush x:Key="solidclr_DarkGray"
+                     Color="#FF303030" />-->
+    <SolidColorBrush x:Key="solidclr_BlackGray"
+                     Color="#FF1E1E1E" />
+    <SolidColorBrush x:Key="solidclr_CreamyWhite"
+                     Color="#FFF3F3F3" />
+    <SolidColorBrush x:Key="solidclr_TiffanyBlue"
+                     Color="#FF81D8D0" />
+    <!--
+    <SolidColorBrush x:Key="solidclr_DarkGreen"
+                     Color="#FF034F48" /> -->
+    <SolidColorBrush x:Key="solidclr_ButtonBlue"
+                     Color="#FF17A7FF" />
+    <SolidColorBrush x:Key="solidclr_ButtonRed"
+                     Color="#FFFF5151" />
+    <SolidColorBrush x:Key="solidclr_ButtonOrange"
+                     Color="#FFFF8C00" />
+    <SolidColorBrush x:Key="solidclr_ButtonGold"
+                     Color="#FFFFD700" />
+    <!--純紅-->
+    <Color x:Key="clr_Red">#FFFF0000</Color>
+    <!--淺鮭魚色-->
+    <Color x:Key="clr_LightSalmon">#FFFFA07A</Color>
+    <!--鮭魚色-->
+    <Color x:Key="clr_Salmon">#FFFA8072</Color>
+    <!--深鮭魚色-->
+    <Color x:Key="clr_DarkSalmon">#FFE9967A</Color>
+    <!--淡珊瑚色-->
+    <Color x:Key="clr_LightCoral">#FFF08080</Color>
+    <!--印度紅-->
+    <Color x:Key="clr_IndianRed">#FFCD5C5C</Color>
+    <!--猩紅-->
+    <Color x:Key="clr_Crimson">#FFDC143C</Color>
+    <!--火磚色-->
+    <Color x:Key="clr_FireBrick">#FFB22222</Color>
+    <!--深紅-->
+    <Color x:Key="clr_DarkRed">#FF8B0000</Color>
+    <!--粉紅色系-->
+    <!--粉紅-->
+    <Color x:Key="clr_Pink">#FFFFC0CB</Color>
+    <!--淺粉-->
+    <Color x:Key="clr_LightPink">#FFFFB6C1</Color>
+    <!--熱情粉紅-->
+    <Color x:Key="clr_HotPink">#FFFF69B4</Color>
+    <!--深粉-->
+    <Color x:Key="clr_DeepPink">#FFFF1493</Color>
+    <!--蒼紫羅蘭紅-->
+    <Color x:Key="clr_PaleVioletRed">#FFDB7093</Color>
+    <!--中紫羅蘭紅-->
+    <Color x:Key="clr_MediumVioletRed">#FFC71585</Color>
+    <!--橙色系-->
+    <!--橙色-->
+    <Color x:Key="clr_Orange">#FFFFA500</Color>
+    <!--深橙-->
+    <Color x:Key="clr_DarkOrange">#FFFF8C00</Color>
+    <!--珊瑚色-->
+    <Color x:Key="clr_Coral">#FFFF7F50</Color>
+    <!--番茄色-->
+    <Color x:Key="clr_Tomato">#FFFF6347</Color>
+    <!--橙紅-->
+    <Color x:Key="clr_OrangeRed">#FFFF4500</Color>
+    <!--黃色系-->
+    <!--純黃-->
+    <Color x:Key="clr_Yellow">#FFFFFF00</Color>
+    <!--淺黃-->
+    <Color x:Key="clr_LightYellow">#FFFFFFE0</Color>
+    <!--檸檬薄紗-->
+    <Color x:Key="clr_LemonChiffon">#FFFFFACD</Color>
+    <!--淺秋麒麟黃-->
+    <Color x:Key="clr_LightGoldenrodYellow">#FFFAFAD2</Color>
+    <!--番木瓜色-->
+    <Color x:Key="clr_PapayaWhip">#FFFFEFD5</Color>
+    <!--鹿皮鞋色-->
+    <Color x:Key="clr_Moccasin">#FFFFE4B5</Color>
+    <!--桃色-->
+    <Color x:Key="clr_PeachPuff">#FFFFDAB9</Color>
+    <!--灰秋麒麟色-->
+    <Color x:Key="clr_PaleGoldenrod">#FFEEE8AA</Color>
+    <!--卡其布色-->
+    <Color x:Key="clr_Khaki">#FFF0E68C</Color>
+    <!--深卡其布色-->
+    <Color x:Key="clr_DarkKhaki">#FFBDB76B</Color>
+    <!--金色-->
+    <Color x:Key="clr_Gold">#FFFFD700</Color>
+    <!--紫色系-->
+    <!--紫色-->
+    <Color x:Key="clr_Purple">#FF800080</Color>
+    <!--淡薰衣草紫-->
+    <Color x:Key="clr_Lavender">#FFE6E6FA</Color>
+    <!--薊色-->
+    <Color x:Key="clr_Thistle">#FFD8BFD8</Color>
+    <!--李子色-->
+    <Color x:Key="clr_Plum">#FFDDA0DD</Color>
+    <!--紫羅蘭色-->
+    <Color x:Key="clr_Violet">#FFEE82EE</Color>
+    <!--蘭花紫-->
+    <Color x:Key="clr_Orchid">#FFDA70D6</Color>
+    <!--燈籠海棠色-->
+    <Color x:Key="clr_Fuchsia">#FFFF00FF</Color>
+    <!--洋紅-->
+    <Color x:Key="clr_Magenta">#FFFF00FF</Color>
+    <!--中蘭花紫-->
+    <Color x:Key="clr_MediumOrchid">#FFBA55D3</Color>
+    <!--中紫-->
+    <Color x:Key="clr_MediumPurple">#FF9370DB</Color>
+    <!--紫水晶色-->
+    <Color x:Key="clr_Amethyst">#FF9966CC</Color>
+    <!--深紫羅蘭藍-->
+    <Color x:Key="clr_BlueViolet">#FF8A2BE2</Color>
+    <!--深紫羅蘭色-->
+    <Color x:Key="clr_DarkViolet">#FF9400D3</Color>
+    <!--深蘭花紫-->
+    <Color x:Key="clr_DarkOrchid">#FF9932CC</Color>
+    <!--深洋紅-->
+    <Color x:Key="clr_DarkMagenta">#FF8B008B</Color>
+    <!--中板岩暗藍灰-->
+    <Color x:Key="clr_MediumSlateBlue">#FF7B68EE</Color>
+    <!--板岩暗藍灰-->
+    <Color x:Key="clr_SlateBlue">#FF6A5ACD</Color>
+    <!--深岩暗藍灰-->
+    <Color x:Key="clr_DarkSlateBlue">#FF483D8B</Color>
+    <!--靛青-->
+    <Color x:Key="clr_Indigo">#FF4B0082</Color>
+    <!--綠色系-->
+    <!--純綠-->
+    <Color x:Key="clr_Green">#FF008000</Color>
+    <!--蒼綠-->
+    <Color x:Key="clr_PaleGreen">#FF98FB98</Color>
+    <!--淡綠-->
+    <Color x:Key="clr_LightGreen">#FF90EE90</Color>
+    <!--黃綠-->
+    <Color x:Key="clr_YellowGreen">#FF9ACD32</Color>
+    <!--綠黃-->
+    <Color x:Key="clr_GreenYellow">#FFADFF2F</Color>
+    <!--查特酒綠-->
+    <Color x:Key="clr_Chartreuse">#FF7FFF00</Color>
+    <!--草坪綠-->
+    <Color x:Key="clr_LawnGreen">#FF7CFC00</Color>
+    <!--青檸色-->
+    <Color x:Key="clr_Lime">#FF00FF00</Color>
+    <!--青檸綠-->
+    <Color x:Key="clr_LimeGreen">#FF32CD32</Color>
+    <!--中春綠-->
+    <Color x:Key="clr_MediumSpringGreen">#FF00FA9A</Color>
+    <!--春綠-->
+    <Color x:Key="clr_SpringGreen">#FF00FF7F</Color>
+    <!--中碧綠-->
+    <Color x:Key="clr_MediumAquamarine">#FF66CDAA</Color>
+    <!--碧綠-->
+    <Color x:Key="clr_Aquamarine">#FF7FFFD4</Color>
+    <!--淺海洋綠-->
+    <Color x:Key="clr_LightSeaGreen">#FF20B2AA</Color>
+    <!--中海洋綠-->
+    <Color x:Key="clr_MediumSeaGreen">#FF3CB371</Color>
+    <!--海洋綠-->
+    <Color x:Key="clr_SeaGreen">#FF2E8B57</Color>
+    <!--深海洋綠-->
+    <Color x:Key="clr_DarkSeaGreen">#FF8FBC8F</Color>
+    <!--森林綠-->
+    <Color x:Key="clr_ForestGreen">#FF228B22</Color>
+    <!--深綠-->
+    <Color x:Key="clr_DarkGreen">#FF006400</Color>
+    <!--橄欖土褐-->
+    <Color x:Key="clr_OliveDrab">#FF6B8E23</Color>
+    <!--橄欖-->
+    <Color x:Key="clr_Olive">#FF808000</Color>
+    <!--深橄欖綠-->
+    <Color x:Key="clr_DarkOliveGreen">#FF556B2F</Color>
+    <!--深青-->
+    <Color x:Key="clr_Teal">#FF008080</Color>
+    <!--藍色系-->
+    <!--純藍-->
+    <Color x:Key="clr_Blue">#FF0000FF</Color>
+    <!--淡藍-->
+    <Color x:Key="clr_LightBlue">#FFADD8E6</Color>
+    <!--粉藍-->
+    <Color x:Key="clr_PowderBlue">#FFB0E0E6</Color>
+    <!--蒼綠松石色-->
+    <Color x:Key="clr_PaleTurquoise">#FFAFEEEE</Color>
+    <!--中綠松石色-->
+    <Color x:Key="clr_MediumTurquoise">#FF48D1CC</Color>
+    <!--綠松石色-->
+    <Color x:Key="clr_Turquoise">#FF40E0D0</Color>
+    <!--深綠松石色-->
+    <Color x:Key="clr_DarkTurquoise">#FF00CED1</Color>
+    <!--淺青-->
+    <Color x:Key="clr_LightCyan">#FFE0FFFF</Color>
+    <!--青色-->
+    <Color x:Key="clr_Cyan">#FF00FFFF</Color>
+    <!--水色-->
+    <Color x:Key="clr_Aqua">#FF00FFFF</Color>
+    <!--深青-->
+    <Color x:Key="clr_DarkCyan">#FF008B8B</Color>
+    <!--學員藍-->
+    <Color x:Key="clr_CadetBlue">#FF5F9EA0</Color>
+    <!--淡鋼藍-->
+    <Color x:Key="clr_LightSteelBlue">#FFB0C4DE</Color>
+    <!--鋼藍-->
+    <Color x:Key="clr_SteelBlue">#FF4682B4</Color>
+    <!--淡天藍-->
+    <Color x:Key="clr_LightSkyBlue">#FF87CEFA</Color>
+    <!--天藍-->
+    <Color x:Key="clr_SkyBlue">#FF87CEEB</Color>
+    <!--深天藍-->
+    <Color x:Key="clr_DeepSkyBlue">#FF00BFFF</Color>
+    <!--道奇藍-->
+    <Color x:Key="clr_DodgerBlue">#FF1E90FF</Color>
+    <!--矢車菊藍-->
+    <Color x:Key="clr_CornflowerBlue">#FF6495ED</Color>
+    <!--寶藍-->
+    <Color x:Key="clr_RoyalBlue">#FF4169E1</Color>
+    <!--中藍-->
+    <Color x:Key="clr_MediumBlue">#FF0000CD</Color>
+    <!--深藍-->
+    <Color x:Key="clr_DarkBlue">#FF00008B</Color>
+    <!--海軍藍-->
+    <Color x:Key="clr_Navy">#FF000080</Color>
+    <!--午夜藍-->
+    <Color x:Key="clr_MidnightBlue">#FF191970</Color>
+    <!--純褐-->
+    <Color x:Key="clr_Brown">#FFA52A2A</Color>
+    <!--玉米絲色-->
+    <Color x:Key="clr_Cornsilk">#FFFFF8DC</Color>
+    <!--白杏仁色-->
+    <Color x:Key="clr_BlanchedAlmond">#FFFFEBCD</Color>
+    <!--濃湯色-->
+    <Color x:Key="clr_Bisque">#FFFFE4C4</Color>
+    <!--納瓦霍白-->
+    <Color x:Key="clr_NavajoWhite">#FFFFDEAD</Color>
+    <!--小麥色-->
+    <Color x:Key="clr_Wheat">#FFF5DEB3</Color>
+    <!--硬木色-->
+    <Color x:Key="clr_BurlyWood">#FFDEB887</Color>
+    <!--棕褐-->
+    <Color x:Key="clr_Tan">#FFD2B48C</Color>
+    <!--玫瑰金-->
+    <Color x:Key="clr_RosyBrown">#FFBC8F8F</Color>
+    <!--沙褐-->
+    <Color x:Key="clr_SandyBrown">#FFF4A460</Color>
+    <!--金菊色-->
+    <Color x:Key="clr_Goldenrod">#FFDAA520</Color>
+    <!--深金菊色-->
+    <Color x:Key="clr_DarkGoldenrod">#FFB8860B</Color>
+    <!--秘魯色-->
+    <Color x:Key="clr_Peru">#FFCD853F</Color>
+    <!--巧克力色-->
+    <Color x:Key="clr_Chocolate">#FFD2691E</Color>
+    <!--鞍褐色-->
+    <Color x:Key="clr_SaddleBrown">#FF8B4513</Color>
+    <!--赭黃-->
+    <Color x:Key="clr_Sienna">#FFA0522D</Color>
+    <!--栗色-->
+    <Color x:Key="clr_Maroon">#FF800000</Color>
+    <!--白色系-->
+    <!--純白-->
+    <Color x:Key="clr_White">#FFFFFFFF</Color>
+    <!--雪白-->
+    <Color x:Key="clr_Snow">#FFFFFAFA</Color>
+    <!--哈密瓜色-->
+    <Color x:Key="clr_Honeydew">#FFF0FFF0</Color>
+    <!--薄荷奶油色-->
+    <Color x:Key="clr_MintCream">#FFF5FFFA</Color>
+    <!--天藍白-->
+    <Color x:Key="clr_Azure">#FFF0FFFF</Color>
+    <!--愛麗絲藍-->
+    <Color x:Key="clr_AliceBlue">#FFF0F8FF</Color>
+    <!--幽靈白-->
+    <Color x:Key="clr_GhostWhite">#FFF8F8FF</Color>
+    <!--煙燻白-->
+    <Color x:Key="clr_WhiteSmoke">#FFF5F5F5</Color>
+    <!--貝殼白-->
+    <Color x:Key="clr_Seashell">#FFFFF5EE</Color>
+    <!--米白-->
+    <Color x:Key="clr_Beige">#FFF5F5DC</Color>
+    <!--舊蕾絲白-->
+    <Color x:Key="clr_OldLace">#FFFDF5E6</Color>
+    <!--花白-->
+    <Color x:Key="clr_FloralWhite">#FFFFFAF0</Color>
+    <!--象牙白-->
+    <Color x:Key="clr_Ivory">#FFFFFFF0</Color>
+    <!--古董白-->
+    <Color x:Key="clr_AntiqueWhite">#FFFAEBD7</Color>
+    <!--亞麻白-->
+    <Color x:Key="clr_Linen">#FFFAF0E6</Color>
+    <!--薰衣草紫紅-->
+    <Color x:Key="clr_LavenderBlush">#FFFFF0F5</Color>
+    <!--霧玫瑰色-->
+    <Color x:Key="clr_MistyRose">#FFFFE4E1</Color>
+    <!--灰色系與黑色系-->
+    <!--純灰-->
+    <Color x:Key="clr_Gray">#FF808080</Color>
+    <!--庚斯博羅灰-->
+    <Color x:Key="clr_Gainsboro">#FFDCDCDC</Color>
+    <!--淡灰-->
+    <Color x:Key="clr_LightGray">#FFD3D3D3</Color>
+    <!--純銀-->
+    <Color x:Key="clr_Silver">#FFC0C0C0</Color>
+    <!--深灰-->
+    <Color x:Key="clr_DarkGray">#FF303030</Color>
+    <!--昏灰-->
+    <Color x:Key="clr_DimGray">#FF666666</Color>
+    <!--淡岩灰-->
+    <Color x:Key="clr_LightSlateGray">#FF778899</Color>
+    <!--岩灰-->
+    <Color x:Key="clr_SlateGray">#FF708090</Color>
+    <!--深岩灰-->
+    <Color x:Key="clr_DarkSlateGray">#FF2F4F4F</Color>
+    <!--純黑-->
+    <Color x:Key="clr_Black">#FF000000</Color>
+    <!--純紅-->
+    <SolidColorBrush x:Key="solidclr_Red"
+                     Color="#FFFF0000" />
+    <!--淺鮭魚色-->
+    <SolidColorBrush x:Key="solidclr_LightSalmon"
+                     Color="#FFFFA07A" />
+    <!--鮭魚色-->
+    <SolidColorBrush x:Key="solidclr_Salmon"
+                     Color="#FFFA8072" />
+    <!--深鮭魚色-->
+    <SolidColorBrush x:Key="solidclr_DarkSalmon"
+                     Color="#FFE9967A" />
+    <!--淡珊瑚色-->
+    <SolidColorBrush x:Key="solidclr_LightCoral"
+                     Color="#FFF08080" />
+    <!--印度紅-->
+    <SolidColorBrush x:Key="solidclr_IndianRed"
+                     Color="#FFCD5C5C" />
+    <!--猩紅-->
+    <SolidColorBrush x:Key="solidclr_Crimson"
+                     Color="#FFDC143C" />
+    <!--火磚色-->
+    <SolidColorBrush x:Key="solidclr_FireBrick"
+                     Color="#FFB22222" />
+    <!--深紅-->
+    <SolidColorBrush x:Key="solidclr_DarkRed"
+                     Color="#FF8B0000" />
+    <!--粉紅色系-->
+    <!--粉紅-->
+    <SolidColorBrush x:Key="solidclr_Pink"
+                     Color="#FFFFC0CB" />
+    <!--淺粉-->
+    <SolidColorBrush x:Key="solidclr_LightPink"
+                     Color="#FFFFB6C1" />
+    <!--熱情粉紅-->
+    <SolidColorBrush x:Key="solidclr_HotPink"
+                     Color="#FFFF69B4" />
+    <!--深粉-->
+    <SolidColorBrush x:Key="solidclr_DeepPink"
+                     Color="#FFFF1493" />
+    <!--蒼紫羅蘭紅-->
+    <SolidColorBrush x:Key="solidclr_PaleVioletRed"
+                     Color="#FFDB7093" />
+    <!--中紫羅蘭紅-->
+    <SolidColorBrush x:Key="solidclr_MediumVioletRed"
+                     Color="#FFC71585" />
+    <!--橙色系-->
+    <!--橙色-->
+    <SolidColorBrush x:Key="solidclr_Orange"
+                     Color="#FFFFA500" />
+    <!--深橙-->
+    <SolidColorBrush x:Key="solidclr_DarkOrange"
+                     Color="#FFFF8C00" />
+    <!--珊瑚色-->
+    <SolidColorBrush x:Key="solidclr_Coral"
+                     Color="#FFFF7F50" />
+    <!--番茄色-->
+    <SolidColorBrush x:Key="solidclr_Tomato"
+                     Color="#FFFF6347" />
+    <!--橙紅-->
+    <SolidColorBrush x:Key="solidclr_OrangeRed"
+                     Color="#FFFF4500" />
+    <!--黃色系-->
+    <!--純黃-->
+    <SolidColorBrush x:Key="solidclr_Yellow"
+                     Color="#FFFFFF00" />
+    <!--淺黃-->
+    <SolidColorBrush x:Key="solidclr_LightYellow"
+                     Color="#FFFFFFE0" />
+    <!--檸檬薄紗-->
+    <SolidColorBrush x:Key="solidclr_LemonChiffon"
+                     Color="#FFFFFACD" />
+    <!--淺秋麒麟黃-->
+    <SolidColorBrush x:Key="solidclr_LightGoldenrodYellow"
+                     Color="#FFFAFAD2" />
+    <!--番木瓜色-->
+    <SolidColorBrush x:Key="solidclr_PapayaWhip"
+                     Color="#FFFFEFD5" />
+    <!--鹿皮鞋色-->
+    <SolidColorBrush x:Key="solidclr_Moccasin"
+                     Color="#FFFFE4B5" />
+    <!--桃色-->
+    <SolidColorBrush x:Key="solidclr_PeachPuff"
+                     Color="#FFFFDAB9" />
+    <!--灰秋麒麟色-->
+    <SolidColorBrush x:Key="solidclr_PaleGoldenrod"
+                     Color="#FFEEE8AA" />
+    <!--卡其布色-->
+    <SolidColorBrush x:Key="solidclr_Khaki"
+                     Color="#FFF0E68C" />
+    <!--深卡其布色-->
+    <SolidColorBrush x:Key="solidclr_DarkKhaki"
+                     Color="#FFBDB76B" />
+    <!--金色-->
+    <SolidColorBrush x:Key="solidclr_Gold"
+                     Color="#FFFFD700" />
+    <!--紫色系-->
+    <!--紫色-->
+    <SolidColorBrush x:Key="solidclr_Purple"
+                     Color="#FF800080" />
+    <!--淡薰衣草紫-->
+    <SolidColorBrush x:Key="solidclr_Lavender"
+                     Color="#FFE6E6FA" />
+    <!--薊色-->
+    <SolidColorBrush x:Key="solidclr_Thistle"
+                     Color="#FFD8BFD8" />
+    <!--李子色-->
+    <SolidColorBrush x:Key="solidclr_Plum"
+                     Color="#FFDDA0DD" />
+    <!--紫羅蘭色-->
+    <SolidColorBrush x:Key="solidclr_Violet"
+                     Color="#FFEE82EE" />
+    <!--蘭花紫-->
+    <SolidColorBrush x:Key="solidclr_Orchid"
+                     Color="#FFDA70D6" />
+    <!--燈籠海棠色-->
+    <SolidColorBrush x:Key="solidclr_Fuchsia"
+                     Color="#FFFF00FF" />
+    <!--洋紅-->
+    <SolidColorBrush x:Key="solidclr_Magenta"
+                     Color="#FFFF00FF" />
+    <!--中蘭花紫-->
+    <SolidColorBrush x:Key="solidclr_MediumOrchid"
+                     Color="#FFBA55D3" />
+    <!--中紫-->
+    <SolidColorBrush x:Key="solidclr_MediumPurple"
+                     Color="#FF9370DB" />
+    <!--紫水晶色-->
+    <SolidColorBrush x:Key="solidclr_Amethyst"
+                     Color="#FF9966CC" />
+    <!--深紫羅蘭藍-->
+    <SolidColorBrush x:Key="solidclr_BlueViolet"
+                     Color="#FF8A2BE2" />
+    <!--深紫羅蘭色-->
+    <SolidColorBrush x:Key="solidclr_DarkViolet"
+                     Color="#FF9400D3" />
+    <!--深蘭花紫-->
+    <SolidColorBrush x:Key="solidclr_DarkOrchid"
+                     Color="#FF9932CC" />
+    <!--深洋紅-->
+    <SolidColorBrush x:Key="solidclr_DarkMagenta"
+                     Color="#FF8B008B" />
+    <!--中板岩暗藍灰-->
+    <SolidColorBrush x:Key="solidclr_MediumSlateBlue"
+                     Color="#FF7B68EE" />
+    <!--板岩暗藍灰-->
+    <SolidColorBrush x:Key="solidclr_SlateBlue"
+                     Color="#FF6A5ACD" />
+    <!--深岩暗藍灰-->
+    <SolidColorBrush x:Key="solidclr_DarkSlateBlue"
+                     Color="#FF483D8B" />
+    <!--靛青-->
+    <SolidColorBrush x:Key="solidclr_Indigo"
+                     Color="#FF4B0082" />
+    <!--綠色系-->
+    <!--純綠-->
+    <SolidColorBrush x:Key="solidclr_Green"
+                     Color="#FF008000" />
+    <!--蒼綠-->
+    <SolidColorBrush x:Key="solidclr_PaleGreen"
+                     Color="#FF98FB98" />
+    <!--淡綠-->
+    <SolidColorBrush x:Key="solidclr_LightGreen"
+                     Color="#FF90EE90" />
+    <!--黃綠-->
+    <SolidColorBrush x:Key="solidclr_YellowGreen"
+                     Color="#FF9ACD32" />
+    <!--綠黃-->
+    <SolidColorBrush x:Key="solidclr_GreenYellow"
+                     Color="#FFADFF2F" />
+    <!--查特酒綠-->
+    <SolidColorBrush x:Key="solidclr_Chartreuse"
+                     Color="#FF7FFF00" />
+    <!--草坪綠-->
+    <SolidColorBrush x:Key="solidclr_LawnGreen"
+                     Color="#FF7CFC00" />
+    <!--青檸色-->
+    <SolidColorBrush x:Key="solidclr_Lime"
+                     Color="#FF00FF00" />
+    <!--青檸綠-->
+    <SolidColorBrush x:Key="solidclr_LimeGreen"
+                     Color="#FF32CD32" />
+    <!--中春綠-->
+    <SolidColorBrush x:Key="solidclr_MediumSpringGreen"
+                     Color="#FF00FA9A" />
+    <!--春綠-->
+    <SolidColorBrush x:Key="solidclr_SpringGreen"
+                     Color="#FF00FF7F" />
+    <!--中碧綠-->
+    <SolidColorBrush x:Key="solidclr_MediumAquamarine"
+                     Color="#FF66CDAA" />
+    <!--碧綠-->
+    <SolidColorBrush x:Key="solidclr_Aquamarine"
+                     Color="#FF7FFFD4" />
+    <!--淺海洋綠-->
+    <SolidColorBrush x:Key="solidclr_LightSeaGreen"
+                     Color="#FF20B2AA" />
+    <!--中海洋綠-->
+    <SolidColorBrush x:Key="solidclr_MediumSeaGreen"
+                     Color="#FF3CB371" />
+    <!--海洋綠-->
+    <SolidColorBrush x:Key="solidclr_SeaGreen"
+                     Color="#FF2E8B57" />
+    <!--深海洋綠-->
+    <SolidColorBrush x:Key="solidclr_DarkSeaGreen"
+                     Color="#FF8FBC8F" />
+    <!--森林綠-->
+    <SolidColorBrush x:Key="solidclr_ForestGreen"
+                     Color="#FF228B22" />
+    <!--深綠-->
+    <SolidColorBrush x:Key="solidclr_DarkGreen"
+                     Color="#FF006400" />
+    <!--橄欖土褐-->
+    <SolidColorBrush x:Key="solidclr_OliveDrab"
+                     Color="#FF6B8E23" />
+    <!--橄欖-->
+    <SolidColorBrush x:Key="solidclr_Olive"
+                     Color="#FF808000" />
+    <!--深橄欖綠-->
+    <SolidColorBrush x:Key="solidclr_DarkOliveGreen"
+                     Color="#FF556B2F" />
+    <!--深青-->
+    <SolidColorBrush x:Key="solidclr_Teal"
+                     Color="#FF008080" />
+    <!--藍色系-->
+    <!--純藍-->
+    <SolidColorBrush x:Key="solidclr_Blue"
+                     Color="#FF0000FF" />
+    <!--淡藍-->
+    <SolidColorBrush x:Key="solidclr_LightBlue"
+                     Color="#FFADD8E6" />
+    <!--粉藍-->
+    <SolidColorBrush x:Key="solidclr_PowderBlue"
+                     Color="#FFB0E0E6" />
+    <!--蒼綠松石色-->
+    <SolidColorBrush x:Key="solidclr_PaleTurquoise"
+                     Color="#FFAFEEEE" />
+    <!--中綠松石色-->
+    <SolidColorBrush x:Key="solidclr_MediumTurquoise"
+                     Color="#FF48D1CC" />
+    <!--綠松石色-->
+    <SolidColorBrush x:Key="solidclr_Turquoise"
+                     Color="#FF40E0D0" />
+    <!--深綠松石色-->
+    <SolidColorBrush x:Key="solidclr_DarkTurquoise"
+                     Color="#FF00CED1" />
+    <!--淺青-->
+    <SolidColorBrush x:Key="solidclr_LightCyan"
+                     Color="#FFE0FFFF" />
+    <!--青色-->
+    <SolidColorBrush x:Key="solidclr_Cyan"
+                     Color="#FF00FFFF" />
+    <!--水色-->
+    <SolidColorBrush x:Key="solidclr_Aqua"
+                     Color="#FF00FFFF" />
+    <!--深青-->
+    <SolidColorBrush x:Key="solidclr_DarkCyan"
+                     Color="#FF008B8B" />
+    <!--學員藍-->
+    <SolidColorBrush x:Key="solidclr_CadetBlue"
+                     Color="#FF5F9EA0" />
+    <!--淡鋼藍-->
+    <SolidColorBrush x:Key="solidclr_LightSteelBlue"
+                     Color="#FFB0C4DE" />
+    <!--鋼藍-->
+    <SolidColorBrush x:Key="solidclr_SteelBlue"
+                     Color="#FF4682B4" />
+    <!--淡天藍-->
+    <SolidColorBrush x:Key="solidclr_LightSkyBlue"
+                     Color="#FF87CEFA" />
+    <!--天藍-->
+    <SolidColorBrush x:Key="solidclr_SkyBlue"
+                     Color="#FF87CEEB" />
+    <!--深天藍-->
+    <SolidColorBrush x:Key="solidclr_DeepSkyBlue"
+                     Color="#FF00BFFF" />
+    <!--道奇藍-->
+    <SolidColorBrush x:Key="solidclr_DodgerBlue"
+                     Color="#FF1E90FF" />
+    <!--矢車菊藍-->
+    <SolidColorBrush x:Key="solidclr_CornflowerBlue"
+                     Color="#FF6495ED" />
+    <!--寶藍-->
+    <SolidColorBrush x:Key="solidclr_RoyalBlue"
+                     Color="#FF4169E1" />
+    <!--中藍-->
+    <SolidColorBrush x:Key="solidclr_MediumBlue"
+                     Color="#FF0000CD" />
+    <!--深藍-->
+    <SolidColorBrush x:Key="solidclr_DarkBlue"
+                     Color="#FF00008B" />
+    <!--海軍藍-->
+    <SolidColorBrush x:Key="solidclr_Navy"
+                     Color="#FF000080" />
+    <!--午夜藍-->
+    <SolidColorBrush x:Key="solidclr_MidnightBlue"
+                     Color="#FF191970" />
+    <!--純褐-->
+    <SolidColorBrush x:Key="solidclr_Brown"
+                     Color="#FFA52A2A" />
+    <!--玉米絲色-->
+    <SolidColorBrush x:Key="solidclr_Cornsilk"
+                     Color="#FFFFF8DC" />
+    <!--白杏仁色-->
+    <SolidColorBrush x:Key="solidclr_BlanchedAlmond"
+                     Color="#FFFFEBCD" />
+    <!--濃湯色-->
+    <SolidColorBrush x:Key="solidclr_Bisque"
+                     Color="#FFFFE4C4" />
+    <!--納瓦霍白-->
+    <SolidColorBrush x:Key="solidclr_NavajoWhite"
+                     Color="#FFFFDEAD" />
+    <!--小麥色-->
+    <SolidColorBrush x:Key="solidclr_Wheat"
+                     Color="#FFF5DEB3" />
+    <!--硬木色-->
+    <SolidColorBrush x:Key="solidclr_BurlyWood"
+                     Color="#FFDEB887" />
+    <!--棕褐-->
+    <SolidColorBrush x:Key="solidclr_Tan"
+                     Color="#FFD2B48C" />
+    <!--玫瑰金-->
+    <SolidColorBrush x:Key="solidclr_RosyBrown"
+                     Color="#FFBC8F8F" />
+    <!--沙褐-->
+    <SolidColorBrush x:Key="solidclr_SandyBrown"
+                     Color="#FFF4A460" />
+    <!--金菊色-->
+    <SolidColorBrush x:Key="solidclr_Goldenrod"
+                     Color="#FFDAA520" />
+    <!--深金菊色-->
+    <SolidColorBrush x:Key="solidclr_DarkGoldenrod"
+                     Color="#FFB8860B" />
+    <!--秘魯色-->
+    <SolidColorBrush x:Key="solidclr_Peru"
+                     Color="#FFCD853F" />
+    <!--巧克力色-->
+    <SolidColorBrush x:Key="solidclr_Chocolate"
+                     Color="#FFD2691E" />
+    <!--鞍褐色-->
+    <SolidColorBrush x:Key="solidclr_SaddleBrown"
+                     Color="#FF8B4513" />
+    <!--赭黃-->
+    <SolidColorBrush x:Key="solidclr_Sienna"
+                     Color="#FFA0522D" />
+    <!--栗色-->
+    <SolidColorBrush x:Key="solidclr_Maroon"
+                     Color="#FF800000" />
+    <!--白色系-->
+    <!--純白-->
+    <SolidColorBrush x:Key="solidclr_White"
+                     Color="#FFFFFFFF" />
+    <!--雪白-->
+    <SolidColorBrush x:Key="solidclr_Snow"
+                     Color="#FFFFFAFA" />
+    <!--哈密瓜色-->
+    <SolidColorBrush x:Key="solidclr_Honeydew"
+                     Color="#FFF0FFF0" />
+    <!--薄荷奶油色-->
+    <SolidColorBrush x:Key="solidclr_MintCream"
+                     Color="#FFF5FFFA" />
+    <!--天藍白-->
+    <SolidColorBrush x:Key="solidclr_Azure"
+                     Color="#FFF0FFFF" />
+    <!--愛麗絲藍-->
+    <SolidColorBrush x:Key="solidclr_AliceBlue"
+                     Color="#FFF0F8FF" />
+    <!--幽靈白-->
+    <SolidColorBrush x:Key="solidclr_GhostWhite"
+                     Color="#FFF8F8FF" />
+    <!--煙燻白-->
+    <SolidColorBrush x:Key="solidclr_WhiteSmoke"
+                     Color="#FFF5F5F5" />
+    <!--貝殼白-->
+    <SolidColorBrush x:Key="solidclr_Seashell"
+                     Color="#FFFFF5EE" />
+    <!--米白-->
+    <SolidColorBrush x:Key="solidclr_Beige"
+                     Color="#FFF5F5DC" />
+    <!--舊蕾絲白-->
+    <SolidColorBrush x:Key="solidclr_OldLace"
+                     Color="#FFFDF5E6" />
+    <!--花白-->
+    <SolidColorBrush x:Key="solidclr_FloralWhite"
+                     Color="#FFFFFAF0" />
+    <!--象牙白-->
+    <SolidColorBrush x:Key="solidclr_Ivory"
+                     Color="#FFFFFFF0" />
+    <!--古董白-->
+    <SolidColorBrush x:Key="solidclr_AntiqueWhite"
+                     Color="#FFFAEBD7" />
+    <!--亞麻白-->
+    <SolidColorBrush x:Key="solidclr_Linen"
+                     Color="#FFFAF0E6" />
+    <!--薰衣草紫紅-->
+    <SolidColorBrush x:Key="solidclr_LavenderBlush"
+                     Color="#FFFFF0F5" />
+    <!--霧玫瑰色-->
+    <SolidColorBrush x:Key="solidclr_MistyRose"
+                     Color="#FFFFE4E1" />
+    <!--灰色系與黑色系-->
+    <!--純灰-->
+    <SolidColorBrush x:Key="solidclr_Gray"
+                     Color="#FF808080" />
+    <!--庚斯博羅灰-->
+    <SolidColorBrush x:Key="solidclr_Gainsboro"
+                     Color="#FFDCDCDC" />
+    <!--淡灰-->
+    <SolidColorBrush x:Key="solidclr_LightGray"
+                     Color="#FFD3D3D3" />
+    <!--純銀-->
+    <SolidColorBrush x:Key="solidclr_Silver"
+                     Color="#FFC0C0C0" />
+    <!--深灰-->
+    <SolidColorBrush x:Key="solidclr_DarkGray"
+                     Color="#FF303030" />
+    <!--昏灰-->
+    <SolidColorBrush x:Key="solidclr_DimGray"
+                     Color="#FF666666" />
+    <!--淡岩灰-->
+    <SolidColorBrush x:Key="solidclr_LightSlateGray"
+                     Color="#FF778899" />
+    <!--岩灰-->
+    <SolidColorBrush x:Key="solidclr_SlateGray"
+                     Color="#FF708090" />
+    <!--深岩灰-->
+    <SolidColorBrush x:Key="solidclr_DarkSlateGray"
+                     Color="#FF2F4F4F" />
+    <!--純黑-->
+    <SolidColorBrush x:Key="solidclr_Black"
+                     Color="#FF000000" />
+
+
+
+
+
+
+
+
+
+
+
+</ResourceDictionary>

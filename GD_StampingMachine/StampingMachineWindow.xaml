@@ -1,0 +1,14 @@
+﻿<dx:ThemedWindow  xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" x:Class="GD_StampingMachine.StampingMachineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GD_StampingMachine"
+         xmlns:Views="clr-namespace:GD_StampingMachine.Views"
+        mc:Ignorable="d"
+                  Closed="ThemedWindow_Closed"
+        Title="StampingMachineWindow" Height="450" Width="800" MinWidth="700">
+    <Grid >
+        <Views:StampingMainView/>
+    </Grid>
+</dx:ThemedWindow>

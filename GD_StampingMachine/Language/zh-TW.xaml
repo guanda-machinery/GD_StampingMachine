@@ -1,0 +1,75 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+                    
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="btnOk">OK</sys:String>
+    <sys:String x:Key="btnDescription_MainSystem">主系統</sys:String>
+    <sys:String x:Key="btnDescription_ProductSettings">製品設定</sys:String>
+    <sys:String x:Key="btnDescription_LayoutSettings">排版設定</sys:String>
+    <sys:String x:Key="btnDescription_MachiningSettings">加工設定</sys:String>
+    <sys:String x:Key="btnDescription_MachineFunction">機台功能</sys:String>
+    <sys:String x:Key="btnDescription_OneKeyReturn">一鍵返航</sys:String>
+    <sys:String x:Key="btnDescription_LightUpSwitch">照明開關</sys:String>
+
+
+
+    <sys:String x:Key="btnDescription_UsualKey1">常用鍵1</sys:String>
+    <sys:String x:Key="btnDescription_UsualKey2">常用鍵2</sys:String>
+    <sys:String x:Key="btnDescription_Calendar">行事曆</sys:String>
+    <sys:String x:Key="btnDescription_Speed">速度</sys:String>
+    <sys:String x:Key="btnDescription_Alarm">警報</sys:String>
+
+    <sys:String x:Key="btnDescription_MachineInfo">關於本機</sys:String>
+    <sys:String x:Key="btnDescription_PunchedFontSetting">字模設定</sys:String>
+    <sys:String x:Key="btnDescription_ParameterSetting">參數設定</sys:String>
+    <sys:String x:Key="btnDescription_SoftwareUpdate">軟體更新</sys:String>
+
+
+    <sys:String x:Key="Text_MechanicalSpecification">機械規格</sys:String>
+    
+    <sys:String x:Key="Text_AllowMachiningSize">允許的工作尺寸</sys:String>
+    <sys:String x:Key="Text_WebHeight">腹板高度</sys:String>
+    <sys:String x:Key="Text_FlangeWidth">翼板寬度</sys:String>
+    <sys:String x:Key="Text_MachiningMaxLength">最大加工長度</sys:String>
+    <sys:String x:Key="Text_MachiningMinLength">最短加工長度</sys:String>
+
+    <sys:String x:Key="Text_MachiningProperty">加工性能</sys:String>
+    <sys:String x:Key="Text_VerticalDrillCount">垂直鑽孔頭</sys:String>
+    <sys:String x:Key="Text_HorizontalDrillCount">水平鑽孔頭</sys:String>
+    <sys:String x:Key="Text_Each_VerticalDrill_Spindle">每一垂直鑽孔頭的主軸</sys:String>
+    <sys:String x:Key="Text_Each_HorizontalDrill_Spindle">每一水平鑽孔頭的主軸</sys:String>
+    <sys:String x:Key="Text_AuxiliaryAxisEffectiveTravelMax">輔助軸最大行程</sys:String>
+    <sys:String x:Key="Text_MaxDrillDiameter">最大孔徑</sys:String>
+    <sys:String x:Key="Text_MaxDrillThickness">最大板厚</sys:String>
+    <sys:String x:Key="Text_SpindleMaxPower">主軸最大功率</sys:String>
+    <sys:String x:Key="Text_SpindleToolHolder">刀把規格</sys:String>
+    <sys:String x:Key="Text_SpindleRotationalFrequency">主軸轉速</sys:String>
+    <sys:String x:Key="Text_SpindleFeedSpeed">鑽孔軸進給速度</sys:String>
+    <sys:String x:Key="Text_SpindleMoveSpeed">鑽孔軸軸向移動速度</sys:String>
+
+    <sys:String x:Key="Text_MachineSize">機台尺寸</sys:String>
+
+    <sys:String x:Key="Text_Length">長</sys:String>
+    <sys:String x:Key="Text_Width">寬</sys:String>
+    <sys:String x:Key="Text_Height">高</sys:String>
+    <sys:String x:Key="Text_MachineWeight">機台重量</sys:String>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ResourceDictionary>
