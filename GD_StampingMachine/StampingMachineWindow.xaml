@@ -9,6 +9,10 @@
                   Closed="ThemedWindow_Closed"
         Title="StampingMachineWindow" Height="800" Width="800" MinWidth="700">
     <Grid >
-        <Views:StampingMainView/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="697*"/>
+        </Grid.ColumnDefinitions>
+        <Views:StampingMainView Grid.ColumnSpan="2"/>
     </Grid>
 </dx:ThemedWindow>

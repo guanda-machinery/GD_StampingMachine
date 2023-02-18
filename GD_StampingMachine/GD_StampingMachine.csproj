@@ -163,6 +163,7 @@
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">

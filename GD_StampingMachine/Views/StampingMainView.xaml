@@ -6,7 +6,10 @@
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.Enum"
              mc:Ignorable="d"
-            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:valueconverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              d:DesignHeight="1000" d:DesignWidth="1100" >
     <UserControl.DataContext>
         <GD_ViewModels:StampingMainViewModel/>
@@ -83,214 +86,214 @@
 
         <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1"   HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
             <Grid>
+            <TabControl Name="MainTabControl">
+                <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
+                    <Grid>
                 <Grid.Resources>
                     <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
                 </Grid.Resources>
-
-               
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <TabControl>
-                    <TabControl.Resources>
-                        <Style TargetType="TabItem" >
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </Style>
-                    </TabControl.Resources>
-                        <TabItem  IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MechanicalSpecificationVM}">
-                            <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
-                            <StackPanel Margin="10" Width="500">
-                                <TextBlock Text="{DynamicResource btnDescription_MachineInfo}" HorizontalAlignment="Left" Margin="0,0,0,30" Foreground="#d8d8d8"/>
-                                <Border Background="White" Margin="5">
-                                    <Grid Margin="1">
-                                        <Grid.Resources>
-                                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
-                                                <Setter Property="Padding" Value="1"/>
-                                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Grid>
+                                    <TabControl Name="TabControl_MachineInfo">
+                                        <TabControl.Resources>
+                                            <Style TargetType="TabItem" >
+                                                <Setter Property="Visibility" Value="Collapsed"/>
                                             </Style>
-                                            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
-                                                <Setter Property="CornerRadius" Value="0"/>
-                                                <Setter Property="Margin" Value="0"/>
-                                                <Setter Property="Padding" Value="0,2"/>
-                                            </Style>
-                                                <Style TargetType="TextBox">
-                                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                                    <Setter Property="MinWidth" Value="5"/>
-                                                    <Setter Property="Margin" Value="0"/>
-                                                    <Setter Property="Padding" Value="0"/>
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="FontWeight" Value="Bold"/>
-                                                </Style>
-                                        </Grid.Resources>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Border Background="#a00010" Grid.ColumnSpan="2">
-                                            <TextBlock Text="{DynamicResource Text_MechanicalSpecification}" Foreground="White"/>
-                                        </Border>
-                                        <Border Background="#1c2c42" Grid.ColumnSpan="2" Grid.Row="1">
-                                            <TextBlock Text="{DynamicResource Text_AllowMachiningSize}" Foreground="White"/>
-                                        </Border>
-                                        <TextBlock Grid.Row="2" Text="{DynamicResource Text_WebHeight}"/>
-                                        <TextBlock Grid.Row="3" Text="{DynamicResource Text_FlangeWidth}"/>
-                                        <TextBlock Grid.Row="4" Text="{DynamicResource Text_MachiningMinLength}"/>
-                                        <TextBlock Grid.Row="5" Text="{DynamicResource Text_MachiningMaxLength}"/>
+                                        </TabControl.Resources>
+                                        <TabItem  IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MechanicalSpecificationVM}">
+                                            <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
+                                                <StackPanel Margin="10" Width="500">
+                                                    <TextBlock Text="{DynamicResource btnDescription_MachineInfo}" HorizontalAlignment="Left" Margin="0,0,0,30" Foreground="#d8d8d8"/>
+                                                    <Border Background="White" Margin="5">
+                                                        <Grid Margin="1">
+                                                            <Grid.Resources>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+                                                                    <Setter Property="Padding" Value="1"/>
+                                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                                </Style>
+                                                                <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
+                                                                    <Setter Property="CornerRadius" Value="0"/>
+                                                                    <Setter Property="Margin" Value="0"/>
+                                                                    <Setter Property="Padding" Value="0,2"/>
+                                                                </Style>
+                                                                <Style TargetType="TextBox">
+                                                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                                    <Setter Property="MinWidth" Value="5"/>
+                                                                    <Setter Property="Margin" Value="0"/>
+                                                                    <Setter Property="Padding" Value="0"/>
+                                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                                </Style>
+                                                            </Grid.Resources>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <Border Background="#a00010" Grid.ColumnSpan="2">
+                                                                <TextBlock Text="{DynamicResource Text_MechanicalSpecification}" Foreground="White"/>
+                                                            </Border>
+                                                            <Border Background="#1c2c42" Grid.ColumnSpan="2" Grid.Row="1">
+                                                                <TextBlock Text="{DynamicResource Text_AllowMachiningSize}" Foreground="White"/>
+                                                            </Border>
+                                                            <TextBlock Grid.Row="2" Text="{DynamicResource Text_WebHeight}"/>
+                                                            <TextBlock Grid.Row="3" Text="{DynamicResource Text_FlangeWidth}"/>
+                                                            <TextBlock Grid.Row="4" Text="{DynamicResource Text_MachiningMinLength}"/>
+                                                            <TextBlock Grid.Row="5" Text="{DynamicResource Text_MachiningMaxLength}"/>
 
-                                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}"/>
-                                                <TextBlock Text="～"/>
-                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}"/>
-                                                <TextBlock Text="mm" VerticalAlignment="Bottom"/>
-                                            </StackPanel>
-
-
-                                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.FlangeWidthLowerLimited}"/>
-                                                <TextBlock Text="～"/>
-                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.FlangeWidthUpperLimited}"/>
-                                                <TextBlock Text="mm" VerticalAlignment="Bottom"/>
-                                            </StackPanel>
-
-                                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding MechanicalSpecification.AllowMachiningSize.MachiningMaxLength,StringFormat={}{0:0}}" />
-                                            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding MechanicalSpecification.AllowMachiningSize.MachiningMinLength,StringFormat={}{0:0}}" />
-
-
-
-                                            <Border Background="#4b3943" Grid.ColumnSpan="2" Grid.Row="6">
-                                            <TextBlock Text="{DynamicResource Text_MachiningProperty}" Foreground="White"/>
-                                        </Border>
-                                    
-                                        <TextBlock Grid.Row="7" Text="{DynamicResource Text_VerticalDrillCount}"/>
-                                        <TextBlock Grid.Row="8" Text="{DynamicResource Text_HorizontalDrillCount}"/>
-                                        <TextBlock Grid.Row="9" Text="{DynamicResource Text_Each_VerticalDrill_Spindle}"/>
-                                        <TextBlock Grid.Row="10" Text="{DynamicResource Text_Each_HorizontalDrill_Spindle}"/>
-                                        <TextBlock Grid.Row="11" Text="{DynamicResource Text_AuxiliaryAxisEffectiveTravelMax}"/>
-                                        <TextBlock Grid.Row="12" Text="{DynamicResource Text_MaxDrillDiameter}"/>
-                                        <TextBlock Grid.Row="13" Text="{DynamicResource Text_MaxDrillThickness}"/>
-                                        <TextBlock Grid.Row="14" Text="{DynamicResource Text_SpindleMaxPower}"/>
-                                        <TextBlock Grid.Row="15" Text="{DynamicResource Text_SpindleToolHolder}"/>
-                                        <TextBlock Grid.Row="16" Text="{DynamicResource Text_SpindleRotationalFrequency}"/>
-                                        <TextBlock Grid.Row="17" Text="{DynamicResource Text_SpindleFeedSpeed}"/>
-                                        <TextBlock Grid.Row="18" Text="{DynamicResource Text_SpindleMoveSpeed}"/>
+                                                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}"/>
+                                                                <TextBlock Text="～"/>
+                                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}"/>
+                                                                <TextBlock Text="mm" VerticalAlignment="Bottom"/>
+                                                            </StackPanel>
 
 
-                                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.HorizontalDrillCount}"/>
-                                            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.VerticalDrillCount}"/>
-                                            <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_HorizontalDrill_SpindleCount}"/>
-                                            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_VerticalDrill_SpindleCount}"/>
-                                            <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
-                                            <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.AuxiliaryAxisEffectiveTravelMax}"/>
-                                                <TextBlock Text="mm"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBlock Text="Φ"/>
-                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillDiameter}"/>
-                                            </StackPanel>
+                                                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.FlangeWidthLowerLimited}"/>
+                                                                <TextBlock Text="～"/>
+                                                                <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.FlangeWidthUpperLimited}"/>
+                                                                <TextBlock Text="mm" VerticalAlignment="Bottom"/>
+                                                            </StackPanel>
 
-                                            <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillThickness}"/>
-                                                <TextBlock Text="mm"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="14" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMaxPower}"/>
-                                                <TextBlock Text="kw"/>
-                                            </StackPanel>
-                                        
-                                            <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1" FontWeight="Bold"
+                                                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding MechanicalSpecification.AllowMachiningSize.MachiningMaxLength,StringFormat={}{0:0}}" />
+                                                            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding MechanicalSpecification.AllowMachiningSize.MachiningMinLength,StringFormat={}{0:0}}" />
+
+
+
+                                                            <Border Background="#4b3943" Grid.ColumnSpan="2" Grid.Row="6">
+                                                                <TextBlock Text="{DynamicResource Text_MachiningProperty}" Foreground="White"/>
+                                                            </Border>
+
+                                                            <TextBlock Grid.Row="7" Text="{DynamicResource Text_VerticalDrillCount}"/>
+                                                            <TextBlock Grid.Row="8" Text="{DynamicResource Text_HorizontalDrillCount}"/>
+                                                            <TextBlock Grid.Row="9" Text="{DynamicResource Text_Each_VerticalDrill_Spindle}"/>
+                                                            <TextBlock Grid.Row="10" Text="{DynamicResource Text_Each_HorizontalDrill_Spindle}"/>
+                                                            <TextBlock Grid.Row="11" Text="{DynamicResource Text_AuxiliaryAxisEffectiveTravelMax}"/>
+                                                            <TextBlock Grid.Row="12" Text="{DynamicResource Text_MaxDrillDiameter}"/>
+                                                            <TextBlock Grid.Row="13" Text="{DynamicResource Text_MaxDrillThickness}"/>
+                                                            <TextBlock Grid.Row="14" Text="{DynamicResource Text_SpindleMaxPower}"/>
+                                                            <TextBlock Grid.Row="15" Text="{DynamicResource Text_SpindleToolHolder}"/>
+                                                            <TextBlock Grid.Row="16" Text="{DynamicResource Text_SpindleRotationalFrequency}"/>
+                                                            <TextBlock Grid.Row="17" Text="{DynamicResource Text_SpindleFeedSpeed}"/>
+                                                            <TextBlock Grid.Row="18" Text="{DynamicResource Text_SpindleMoveSpeed}"/>
+
+
+                                                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.HorizontalDrillCount}"/>
+                                                            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.VerticalDrillCount}"/>
+                                                            <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_HorizontalDrill_SpindleCount}"/>
+                                                            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_VerticalDrill_SpindleCount}"/>
+                                                            <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.AuxiliaryAxisEffectiveTravelMax}"/>
+                                                                <TextBlock Text="mm"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBlock Text="Φ"/>
+                                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillDiameter}"/>
+                                                            </StackPanel>
+
+                                                            <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillThickness}"/>
+                                                                <TextBlock Text="mm"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="14" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMaxPower}"/>
+                                                                <TextBlock Text="kw"/>
+                                                            </StackPanel>
+
+                                                            <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1" FontWeight="Bold"
                                                               EditValue="{Binding MechanicalSpecification.MachiningProperty.SpindleToolHolder, Mode=TwoWay}" 
                                                               IsTextEditable="False"         
                                                               ShowBorder="False" ShowEditorButtons="False"
                                                               ApplyItemTemplateToSelectedItem="True" >
-                                                <dxmvvm:Interaction.Behaviors>
-                                                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:SpindleToolHolderEnum}" ImageSize="95,95" />
-                                                    <!--SortMode="DisplayName"-->
-                                                </dxmvvm:Interaction.Behaviors>
-                                            </dxe:ComboBoxEdit>
-                                            <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMin }"/>
-                                                <TextBlock  Text="~"/>
-                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMax }"/>
-                                                <TextBlock  Text="RPM"/>
-                                            </StackPanel>
+                                                                <dxmvvm:Interaction.Behaviors>
+                                                                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:SpindleToolHolderEnum}" ImageSize="95,95" />
+                                                                    <!--SortMode="DisplayName"-->
+                                                                </dxmvvm:Interaction.Behaviors>
+                                                            </dxe:ComboBoxEdit>
+                                                            <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMin }"/>
+                                                                <TextBlock  Text="~"/>
+                                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMax }"/>
+                                                                <TextBlock  Text="RPM"/>
+                                                            </StackPanel>
 
-                                            <StackPanel Grid.Row="17" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMin }"/>
-                                                <TextBlock  Text="~"/>
-                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMax }"/>
-                                                <TextBlock  Text="mm/min"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="18" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMoveSpeed }"/>
-                                                <TextBlock  Text="M/min"/>
-                                            </StackPanel>
-
-
-                                            <Border Grid.Row="19"  Background="#10362b" Grid.ColumnSpan="2">
-                                            <TextBlock Text="{DynamicResource Text_MachineSize}" Foreground="White"/>
-                                        </Border>
-                                        <TextBlock Grid.Row="20" Text="{DynamicResource Text_Length}"/>
-                                        <TextBlock Grid.Row="21" Text="{DynamicResource Text_Width}"/>
-                                        <TextBlock Grid.Row="22" Text="{DynamicResource Text_Height}"/>
-                                        <TextBlock Grid.Row="23" Text="{DynamicResource Text_MachineWeight}"/>
-
-                                            <StackPanel Grid.Row="20" Grid.Column="1" Orientation="Horizontal">
-
-                                                <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Length}"/>
-                                                <TextBlock Text="mm"/>
-                                                <TextBlock  Text="(" Padding="0"/>
-                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
-                                                <TextBlock  Text="{DynamicResource Text_ChipConveyor}" Padding="0" VerticalAlignment="Center"/>
-                                                <TextBlock  Text=")" Padding="0"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="21" Grid.Column="1" Orientation="Horizontal">
-
-                                                <TextBox  Text="{Binding MechanicalSpecification.MachineSize.Width}"/>
-                                                <TextBlock Text="mm"/>
-                                                <TextBlock  Text="(" Padding="0"/>
-                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
-                                                <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
-                                                <TextBlock  Text=")" Padding="0"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="22" Grid.Column="1" Orientation="Horizontal">
-
-                                                <TextBlock Text="{Binding MechanicalSpecification.MachineSize.Height}"/>
-                                                <TextBlock Text="mm"/>
-                                                <TextBlock  Text="(" Padding="0"/>
-                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
-                                                <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
-                                                <TextBlock  Text=")" Padding="0"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="23" Grid.Column="1" Orientation="Horizontal">
-                                                <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Weight}"/>
-                                                <TextBlock Text="Ton"/>
-                                            </StackPanel>
+                                                            <StackPanel Grid.Row="17" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMin }"/>
+                                                                <TextBlock  Text="~"/>
+                                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMax }"/>
+                                                                <TextBlock  Text="mm/min"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="18" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMoveSpeed }"/>
+                                                                <TextBlock  Text="M/min"/>
+                                                            </StackPanel>
 
 
+                                                            <Border Grid.Row="19"  Background="#10362b" Grid.ColumnSpan="2">
+                                                                <TextBlock Text="{DynamicResource Text_MachineSize}" Foreground="White"/>
+                                                            </Border>
+                                                            <TextBlock Grid.Row="20" Text="{DynamicResource Text_Length}"/>
+                                                            <TextBlock Grid.Row="21" Text="{DynamicResource Text_Width}"/>
+                                                            <TextBlock Grid.Row="22" Text="{DynamicResource Text_Height}"/>
+                                                            <TextBlock Grid.Row="23" Text="{DynamicResource Text_MachineWeight}"/>
+
+                                                            <StackPanel Grid.Row="20" Grid.Column="1" Orientation="Horizontal">
+
+                                                                <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Length}"/>
+                                                                <TextBlock Text="mm"/>
+                                                                <TextBlock  Text="(" Padding="0"/>
+                                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                                <TextBlock  Text="{DynamicResource Text_ChipConveyor}" Padding="0" VerticalAlignment="Center"/>
+                                                                <TextBlock  Text=")" Padding="0"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="21" Grid.Column="1" Orientation="Horizontal">
+
+                                                                <TextBox  Text="{Binding MechanicalSpecification.MachineSize.Width}"/>
+                                                                <TextBlock Text="mm"/>
+                                                                <TextBlock  Text="(" Padding="0"/>
+                                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                                <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
+                                                                <TextBlock  Text=")" Padding="0"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="22" Grid.Column="1" Orientation="Horizontal">
+
+                                                                <TextBlock Text="{Binding MechanicalSpecification.MachineSize.Height}"/>
+                                                                <TextBlock Text="mm"/>
+                                                                <TextBlock  Text="(" Padding="0"/>
+                                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                                <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
+                                                                <TextBlock  Text=")" Padding="0"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="23" Grid.Column="1" Orientation="Horizontal">
+                                                                <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Weight}"/>
+                                                                <TextBlock Text="Ton"/>
+                                                            </StackPanel>
 
 
 
@@ -307,23 +310,29 @@
 
 
 
-                                        </Grid>
-                                </Border>
 
-                            </StackPanel>
-                        </Border>
-                    </TabItem>
-                    <TabItem  IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
-                        <TextBlock Text="tabitem2"/>
-                    </TabItem>
-                    <TabItem  IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}">
-                        <TextBlock Text="tabitem3"/>
-                    </TabItem>
-                    <TabItem  IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
-                        <TextBlock Text="tabitem4"/>
-                    </TabItem>
-                    </TabControl>
-                </ScrollViewer>
+
+                                                        </Grid>
+                                                    </Border>
+
+                                                </StackPanel>
+                                            </Border>
+                                        </TabItem>
+                                        <TabItem  IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
+                                            <TextBlock Text="tabitem2"/>
+                                        </TabItem>
+                                        <TabItem  IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}">
+                                            <TextBlock Text="tabitem3"/>
+                                        </TabItem>
+                                        <TabItem  IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
+                                            <TextBlock Text="tabitem4"/>
+                                        </TabItem>
+                                    </TabControl>
+                                    <StackPanel>
+                                        <TextBlock Text="Nne" Visibility="{Binding ElementName=TabControl_MachineInfo, Path=SelectedIndex,ConverterParameter={StaticResource MinusOne} ,Converter={valueconverters:ObjectIsEqualToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </ScrollViewer>
              <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left">
                     <StackPanel.Resources>
                         <Style TargetType="StackPanel">
@@ -359,6 +368,30 @@
             
             
             </Grid>
+                </TabItem>
+                    <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
+                        <TextBlock Text="test"/>
+                    </TabItem>
+
+                </TabControl>
+                <StackPanel  Background="White"
+                    Visibility="{Binding ElementName=MainTabControl, 
+                    Path=SelectedIndex,
+                    ConverterParameter={StaticResource MinusOne} ,
+                    Converter={valueconverters:ObjectIsEqualToVisibilityConverter}, 
+                    UpdateSourceTrigger=PropertyChanged}">
+                    <Grid  Width="500" Height="500" >
+                        <TextBlock Text="這裡會放鋼印機的圖形" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <GroupBox Header="鋼印字模設定" Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
+                        
+                        
+                    </GroupBox>
+                </StackPanel>
+                
+                
+                
+            </Grid>
         </materialDesign:ColorZone>
 
 
@@ -373,13 +406,13 @@
                             <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
                         </StackPanel.Resources>
                     <StackPanel>
-                        <ToggleButton Content="Logo">
+                        <ToggleButton Content="Logo" Name="TBtn_MainSysyem">
                         </ToggleButton>
                             <TextBlock Text="{DynamicResource btnDescription_MainSystem}"  />
                     </StackPanel>
                     <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
                     <StackPanel>
-                        <ToggleButton Content="Logo">
+                            <ToggleButton Content="Logo" Name="TBtn_ProductSettings">
                         </ToggleButton>
                             <TextBlock Text="{DynamicResource btnDescription_ProductSettings}"  />
                     </StackPanel>
