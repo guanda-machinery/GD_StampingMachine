@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.Enum"
              mc:Ignorable="d"
-                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1"
-             d:DesignHeight="900" d:DesignWidth="1100" >
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             d:DesignHeight="1000" d:DesignWidth="1100" >
     <UserControl.DataContext>
-        <ViewModels:StampingMainViewModel/>
+        <GD_ViewModels:StampingMainViewModel/>
     </UserControl.DataContext>
     <Grid  Margin="-5">
         <Grid.Resources>
@@ -87,7 +88,7 @@
                 </Grid.Resources>
 
                
-                <ScrollViewer>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <TabControl>
                     <TabControl.Resources>
                         <Style TargetType="TabItem" >
@@ -116,6 +117,7 @@
                                                     <Setter Property="Margin" Value="0"/>
                                                     <Setter Property="Padding" Value="0"/>
                                                     <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
                                                 </Style>
                                         </Grid.Resources>
                                         <Grid.ColumnDefinitions>
@@ -198,27 +200,54 @@
 
 
                                             <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.HorizontalDrillCount}"/>
-                                            <TextBlock Grid.Row="8" Grid.Column="1" Text="{DynamicResource Text_HorizontalDrillCount}"/>
-                                            <TextBlock Grid.Row="9" Grid.Column="1" Text="{DynamicResource Text_Each_VerticalDrill_Spindle}"/>
-                                            <TextBlock Grid.Row="10" Grid.Column="1" Text="{DynamicResource Text_Each_HorizontalDrill_Spindle}"/>
-                                            <TextBlock Grid.Row="11" Grid.Column="1" Text="{DynamicResource Text_AuxiliaryAxisEffectiveTravelMax}"/>
-                                            <TextBlock Grid.Row="12" Grid.Column="1" Text="{DynamicResource Text_MaxDrillDiameter}"/>
-                                            <TextBlock Grid.Row="13" Grid.Column="1" Text="{DynamicResource Text_MaxDrillThickness}"/>
-                                            <TextBlock Grid.Row="14" Grid.Column="1" Text="{DynamicResource Text_SpindleMaxPower}"/>
-                                            <TextBlock Grid.Row="15" Grid.Column="1" Text="{DynamicResource Text_SpindleToolHolder}"/>
-                                            <TextBlock Grid.Row="16" Grid.Column="1" Text="{DynamicResource Text_SpindleSpeed}"/>
-                                            <TextBlock Grid.Row="17" Grid.Column="1" Text="{DynamicResource Text_SpindleFeedSpeed}"/>
-                                            <TextBlock Grid.Row="18" Grid.Column="1" Text="{DynamicResource Text_SpindleMoveSpeed}"/>
+                                            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.VerticalDrillCount}"/>
+                                            <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_HorizontalDrill_SpindleCount}"/>
+                                            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_VerticalDrill_SpindleCount}"/>
+                                            <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
+                                            <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.AuxiliaryAxisEffectiveTravelMax}"/>
+                                                <TextBlock Text="mm"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal">
+                                                <TextBlock Text="Φ"/>
+                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillDiameter}"/>
+                                            </StackPanel>
 
+                                            <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal">
+                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillThickness}"/>
+                                                <TextBlock Text="mm"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="14" Grid.Column="1" Orientation="Horizontal">
+                                                <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMaxPower}"/>
+                                                <TextBlock Text="kw"/>
+                                            </StackPanel>
+                                        
+                                            <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1" FontWeight="Bold"
+                                                              EditValue="{Binding MechanicalSpecification.MachiningProperty.SpindleToolHolder, Mode=TwoWay}" 
+                                                              IsTextEditable="False"         
+                                                              ShowBorder="False" ShowEditorButtons="False"
+                                                              ApplyItemTemplateToSelectedItem="True" >
+                                                <dxmvvm:Interaction.Behaviors>
+                                                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:SpindleToolHolderEnum}" ImageSize="95,95" />
+                                                    <!--SortMode="DisplayName"-->
+                                                </dxmvvm:Interaction.Behaviors>
+                                            </dxe:ComboBoxEdit>
+                                            <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal">
+                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMin }"/>
+                                                <TextBlock  Text="~"/>
+                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMax }"/>
+                                                <TextBlock  Text="RPM"/>
+                                            </StackPanel>
 
-
-
-
-
-
-
-
-
+                                            <StackPanel Grid.Row="17" Grid.Column="1" Orientation="Horizontal">
+                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMin }"/>
+                                                <TextBlock  Text="~"/>
+                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMax }"/>
+                                                <TextBlock  Text="mm/min"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="18" Grid.Column="1" Orientation="Horizontal">
+                                                <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMoveSpeed }"/>
+                                                <TextBlock  Text="M/min"/>
+                                            </StackPanel>
 
 
                                             <Border Grid.Row="19"  Background="#10362b" Grid.ColumnSpan="2">
@@ -229,6 +258,37 @@
                                         <TextBlock Grid.Row="22" Text="{DynamicResource Text_Height}"/>
                                         <TextBlock Grid.Row="23" Text="{DynamicResource Text_MachineWeight}"/>
 
+                                            <StackPanel Grid.Row="20" Grid.Column="1" Orientation="Horizontal">
+
+                                                <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Length}"/>
+                                                <TextBlock Text="mm"/>
+                                                <TextBlock  Text="(" Padding="0"/>
+                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                <TextBlock  Text="{DynamicResource Text_ChipConveyor}" Padding="0" VerticalAlignment="Center"/>
+                                                <TextBlock  Text=")" Padding="0"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="21" Grid.Column="1" Orientation="Horizontal">
+
+                                                <TextBox  Text="{Binding MechanicalSpecification.MachineSize.Width}"/>
+                                                <TextBlock Text="mm"/>
+                                                <TextBlock  Text="(" Padding="0"/>
+                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
+                                                <TextBlock  Text=")" Padding="0"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="22" Grid.Column="1" Orientation="Horizontal">
+
+                                                <TextBlock Text="{Binding MechanicalSpecification.MachineSize.Height}"/>
+                                                <TextBlock Text="mm"/>
+                                                <TextBlock  Text="(" Padding="0"/>
+                                                <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
+                                                <TextBlock  Text=")" Padding="0"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="23" Grid.Column="1" Orientation="Horizontal">
+                                                <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Weight}"/>
+                                                <TextBlock Text="Ton"/>
+                                            </StackPanel>
 
 
 
@@ -247,9 +307,7 @@
 
 
 
-
-
-                                    </Grid>
+                                        </Grid>
                                 </Border>
 
                             </StackPanel>
@@ -266,7 +324,7 @@
                     </TabItem>
                     </TabControl>
                 </ScrollViewer>
-             <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+             <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left">
                     <StackPanel.Resources>
                         <Style TargetType="StackPanel">
                             <Setter Property="Orientation" Value="Horizontal"/>

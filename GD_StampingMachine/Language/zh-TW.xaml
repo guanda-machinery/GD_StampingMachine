@@ -55,7 +55,10 @@
     <sys:String x:Key="Text_MachineWeight">機台重量</sys:String>
 
 
-
+    <sys:String x:Key="Text_ChipConveyor">排削機</sys:String>
+    <sys:String x:Key="Text_ProminentAccessories">突出附件</sys:String>
+    <sys:String x:Key="Text_NotInclude">不含</sys:String>
+   
 
 
 

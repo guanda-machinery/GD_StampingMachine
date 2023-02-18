@@ -43,6 +43,15 @@ namespace GD_StampingMachine.ViewModels
         public MechanicalSpecificationViewModel MechanicalSpecificationVM { get; set; } = new MechanicalSpecificationViewModel();
 
 
+        public RelayCommand Command
+        {
+            get
+            {
+                return new RelayCommand(()
+                    => { });
+
+            }
+        }
 
 
 
