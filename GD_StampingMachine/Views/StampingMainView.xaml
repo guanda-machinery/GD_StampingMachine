@@ -6,10 +6,11 @@
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.Enum"
              mc:Ignorable="d"
-            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:valueconverters="clr-namespace:GD_StampingMachine.ValueConverters" 
+             xmlns:usercontrols="clr-namespace:GD_StampingMachine.UserControls"
              d:DesignHeight="1000" d:DesignWidth="1100" >
     <UserControl.DataContext>
         <GD_ViewModels:StampingMainViewModel/>
@@ -49,7 +50,8 @@
                         </Style>
                     </StackPanel.Resources>
                     <TextBlock Text="專案名稱：" VerticalAlignment="Center" Margin="5,0"/>
-                    <Button Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Padding="2,0" Height="auto">
+                    <Button Command="{Binding OpenProjectFileCommand}"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Padding="2,0" Height="auto">
                         <Grid>
                             <Border BorderBrush="{StaticResource PrimaryHueDarkBrush}" BorderThickness="0,0,0,1.5"/>
                             <TextBlock Text="廣達總部大樓" Margin="2"/>
@@ -86,13 +88,13 @@
 
         <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1"   HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
             <Grid>
-            <TabControl Name="MainTabControl">
-                <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
-                    <Grid>
-                <Grid.Resources>
-                    <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
-                </Grid.Resources>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <TabControl Name="MainTabControl">
+                    <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
+                        <Grid>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
+                            </Grid.Resources>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <Grid>
                                     <TabControl Name="TabControl_MachineInfo">
                                         <TabControl.Resources>
@@ -102,7 +104,7 @@
                                         </TabControl.Resources>
                                         <TabItem  IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MechanicalSpecificationVM}">
                                             <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
-                                                <StackPanel Margin="10" Width="500">
+                                                <StackPanel Margin="10" Width="450">
                                                     <TextBlock Text="{DynamicResource btnDescription_MachineInfo}" HorizontalAlignment="Left" Margin="0,0,0,30" Foreground="#d8d8d8"/>
                                                     <Border Background="White" Margin="5">
                                                         <Grid Margin="1">
@@ -333,62 +335,112 @@
                                     </StackPanel>
                                 </Grid>
                             </ScrollViewer>
-             <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left">
-                    <StackPanel.Resources>
-                        <Style TargetType="StackPanel">
-                            <Setter Property="Orientation" Value="Horizontal"/>
-                            <Setter Property="Margin" Value="8"/>
-                        </Style>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}">
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Margin" Value="5"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <StackPanel>
-                        <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_MachineInfo">
-                        </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_MachineInfo}"/>
-                    </StackPanel>
-                    <StackPanel>
-                        <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_PunchedFontSetting">
-                        </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_PunchedFontSetting}"/>
-                    </StackPanel>
-                    <StackPanel>
-                        <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_ParameterSetting">
-                        </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_ParameterSetting}"/>
-                    </StackPanel>
-                    <StackPanel>
-                        <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_SoftwareUpdate">
-                        </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_SoftwareUpdate}"/>
-                    </StackPanel>
-                </StackPanel>
-            
-            
-            </Grid>
-                </TabItem>
+                            <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left">
+                                <StackPanel.Resources>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Orientation" Value="Horizontal"/>
+                                        <Setter Property="Margin" Value="8"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="Margin" Value="5"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <StackPanel>
+                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_MachineInfo">
+                                    </ToggleButton>
+                                    <TextBlock Text="{DynamicResource btnDescription_MachineInfo}"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_PunchedFontSetting">
+                                    </ToggleButton>
+                                    <TextBlock Text="{DynamicResource btnDescription_PunchedFontSetting}"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_ParameterSetting">
+                                    </ToggleButton>
+                                    <TextBlock Text="{DynamicResource btnDescription_ParameterSetting}"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_SoftwareUpdate">
+                                    </ToggleButton>
+                                    <TextBlock Text="{DynamicResource btnDescription_SoftwareUpdate}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+
+                        </Grid>
+                    </TabItem>
                     <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
                         <TextBlock Text="test"/>
                     </TabItem>
 
                 </TabControl>
-                <StackPanel  Background="White"
-                    Visibility="{Binding ElementName=MainTabControl, 
+                <ScrollViewer VerticalScrollBarVisibility="Auto"  Visibility="{Binding ElementName=MainTabControl, 
                     Path=SelectedIndex,
                     ConverterParameter={StaticResource MinusOne} ,
                     Converter={valueconverters:ObjectIsEqualToVisibilityConverter}, 
                     UpdateSourceTrigger=PropertyChanged}">
-                    <Grid  Width="500" Height="500" >
-                        <TextBlock Text="這裡會放鋼印機的圖形" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
-                    <GroupBox Header="鋼印字模設定" Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
+                <StackPanel  Background="White">
+                    <Grid  Width="600"  >
+                            <Image Source="pack://application:,,,/image/擷取1.PNG"/>
+                        </Grid>
+                    <GroupBox Header="鋼印字模設定" 
+                              Margin="10"
+                              Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
+                        <WrapPanel>
+                            <WrapPanel.Resources>
+                                <Style TargetType="usercontrols:StampingTypeUserControl" >
+                                    <Setter Property="Margin" Value="10"/>
+                                </Style>
+                            </WrapPanel.Resources>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=0}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=1}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=2}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=3}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=4}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=5}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=6}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=7}"/>
+                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=8}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=9}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=10}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=11}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=12}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=13}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=14}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=15}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=16}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=17}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=18}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=19}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=20}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=21}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=22}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=23}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=24}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=25}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=26}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=27}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=28}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=29}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=30}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=31}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=32}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=33}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=34}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=35}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=36}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=37}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=38}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=39}"/>
+
+                            </WrapPanel>
                         
                         
                     </GroupBox>
                 </StackPanel>
-                
+                </ScrollViewer>
                 
                 
             </Grid>

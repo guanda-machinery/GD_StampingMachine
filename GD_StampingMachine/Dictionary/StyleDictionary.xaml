@@ -25,7 +25,7 @@
     <Style TargetType="{x:Type GroupBox}" x:Key="ParameterBaseStyleGroupBox">
         <Setter Property="Padding" Value="5,15,5,5"/>
         <Setter Property="BorderBrush" Value="#666666"/>
-        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
@@ -46,7 +46,7 @@
                             Grid.ColumnSpan="2"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="1">
+                            CornerRadius="0">
                             <Border.OpacityMask>
                                 <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="6">
                                     <Binding ElementName="Header" Path="ActualWidth" />

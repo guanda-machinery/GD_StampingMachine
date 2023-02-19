@@ -1,0 +1,57 @@
+﻿using DevExpress.Mvvm.Native;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Markup;
+
+namespace GD_StampingMachine.ValueConverters
+{
+    internal class ObservableCollectionToOneObjectConverter : MarkupExtension, IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value is IEnumerable<object>)
+            {
+               var ObservableCollectionValue = (value as IEnumerable<object>).ToList();
+
+                int CollectionCount = 0;
+                if (parameter is int)
+                {
+                    CollectionCount = (int)parameter ;
+                }
+
+                if (parameter is string)
+                {
+                    int.TryParse((string)parameter, out CollectionCount);
+                }
+
+
+
+
+
+                if (ObservableCollectionValue.Count > CollectionCount)
+                    return ObservableCollectionValue[CollectionCount];
+                else
+                    return null;
+            }
+            return null;
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+    }
+}

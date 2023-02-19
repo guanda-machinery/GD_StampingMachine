@@ -58,10 +58,10 @@
     <sys:String x:Key="Text_ChipConveyor">排削機</sys:String>
     <sys:String x:Key="Text_ProminentAccessories">突出附件</sys:String>
     <sys:String x:Key="Text_NotInclude">不含</sys:String>
-   
 
 
 
+    <sys:String x:Key="Text_Count">次數</sys:String>
 
 
 
