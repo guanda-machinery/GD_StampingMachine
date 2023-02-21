@@ -411,8 +411,6 @@
                                     </StackPanel>
                                 </Grid>
                             </ScrollViewer>
-
-
                         </Grid>
                     </TabItem>
                     <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
@@ -420,6 +418,7 @@
                     </TabItem>
                 </TabControl>
 
+                <!--彈出式按鈕-->
                 <materialDesign:DrawerHost  Opacity="0.9" 
                         IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
                     <materialDesign:DrawerHost.LeftDrawerContent>
@@ -459,8 +458,6 @@
                         </materialDesign:ColorZone>
                     </materialDesign:DrawerHost.LeftDrawerContent>
                     </materialDesign:DrawerHost>
-
-
 
 
             </Grid>
