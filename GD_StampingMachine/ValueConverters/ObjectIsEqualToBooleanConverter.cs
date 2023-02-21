@@ -10,7 +10,7 @@ using System.Windows.Markup;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    public class ObjectIsEqualToVisibilityConverter : MarkupExtension, IValueConverter
+    public class ObjectIsEqualToBooleanConverter : MarkupExtension, IValueConverter
     {
         public bool Invert { get; set; }
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -18,18 +18,18 @@ namespace GD_StampingMachine.ValueConverters
 
             if (object.Equals(value, parameter))
             {
-                return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
+                return (!Invert) ;
             }
             else
             {
-                return (Invert) ? Visibility.Visible : Visibility.Collapsed;
+                return (Invert);
             }
         }
 
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return parameter;
         }
 
         public override object ProvideValue(IServiceProvider serviceProvider)

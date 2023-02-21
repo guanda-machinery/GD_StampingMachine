@@ -87,9 +87,85 @@
        <!-- <Grid  Grid.Row="1"  Background="{StaticResource solidclr_CreamyWhite}">-->
 
         <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1"   HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
-            <Grid>
+            <Grid >
+                <!--首頁-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                              Visibility="{Binding ElementName=MainTabControl, 
+                    Path=SelectedIndex , 
+                    ConverterParameter={StaticResource MinusOne} ,Converter={valueconverters:ObjectIsEqualToVisibilityConverter}}">
+                    <StackPanel  Background="White">
+                        <Grid  Width="600"  >
+                            <Image Source="pack://application:,,,/image/擷取1.PNG"/>
+                        </Grid>
+                        <GroupBox Header="鋼印字模設定" 
+                              Margin="10"
+                              Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
+                            <WrapPanel>
+                                <WrapPanel.Resources>
+                                    <Style TargetType="usercontrols:StampingTypeUserControl" >
+                                        <Setter Property="Margin" Value="10"/>
+                                    </Style>
+                                </WrapPanel.Resources>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=0}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=1}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=2}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=3}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=4}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=5}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=6}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=7}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=8}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=9}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=10}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=11}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=12}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=13}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=14}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=15}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=16}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=17}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=18}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=19}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=20}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=21}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=22}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=23}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=24}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=25}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=26}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=27}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=28}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=29}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=30}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=31}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=32}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=33}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=34}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=35}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=36}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=37}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=38}"/>
+                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=39}"/>
+
+                            </WrapPanel>
+
+
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
                 <TabControl Name="MainTabControl">
-                    <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
+                    <TabItem Visibility="Collapsed">
+                        <TabItem.IsSelected>
+                            <MultiBinding
+                                Converter="{valueconverters:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource TrueValue}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="TBtn_MachineInfo" Path="IsChecked"/>
+                                    <Binding ElementName="TBtn_PunchedFontSetting" Path="IsChecked"/>
+                                    <Binding ElementName="TBtn_ParameterSetting" Path="IsChecked"/>
+                                    <Binding ElementName="TBtn_SoftwareUpdate" Path="IsChecked"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </TabItem.IsSelected>
                         <Grid>
                             <Grid.Resources>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
@@ -335,7 +411,20 @@
                                     </StackPanel>
                                 </Grid>
                             </ScrollViewer>
-                            <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left">
+
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
+                        <TextBlock Text="test"/>
+                    </TabItem>
+                </TabControl>
+
+                <materialDesign:DrawerHost  Opacity="0.9" 
+                        IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
+                    <materialDesign:DrawerHost.LeftDrawerContent>
+                        <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Stretch" Margin="-1" >
+                            <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left" >
                                 <StackPanel.Resources>
                                     <Style TargetType="StackPanel">
                                         <Setter Property="Orientation" Value="Horizontal"/>
@@ -367,82 +456,13 @@
                                     <TextBlock Text="{DynamicResource btnDescription_SoftwareUpdate}"/>
                                 </StackPanel>
                             </StackPanel>
+                        </materialDesign:ColorZone>
+                    </materialDesign:DrawerHost.LeftDrawerContent>
+                    </materialDesign:DrawerHost>
 
 
-                        </Grid>
-                    </TabItem>
-                    <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
-                        <TextBlock Text="test"/>
-                    </TabItem>
 
-                </TabControl>
-                <ScrollViewer VerticalScrollBarVisibility="Auto"  Visibility="{Binding ElementName=MainTabControl, 
-                    Path=SelectedIndex,
-                    ConverterParameter={StaticResource MinusOne} ,
-                    Converter={valueconverters:ObjectIsEqualToVisibilityConverter}, 
-                    UpdateSourceTrigger=PropertyChanged}">
-                <StackPanel  Background="White">
-                    <Grid  Width="600"  >
-                            <Image Source="pack://application:,,,/image/擷取1.PNG"/>
-                        </Grid>
-                    <GroupBox Header="鋼印字模設定" 
-                              Margin="10"
-                              Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
-                        <WrapPanel>
-                            <WrapPanel.Resources>
-                                <Style TargetType="usercontrols:StampingTypeUserControl" >
-                                    <Setter Property="Margin" Value="10"/>
-                                </Style>
-                            </WrapPanel.Resources>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=0}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=1}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=2}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=3}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=4}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=5}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=6}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=7}"/>
-                            <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=8}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=9}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=10}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=11}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=12}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=13}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=14}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=15}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=16}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=17}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=18}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=19}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=20}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=21}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=22}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=23}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=24}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=25}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=26}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=27}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=28}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=29}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=30}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=31}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=32}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=33}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=34}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=35}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=36}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=37}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=38}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=39}"/>
 
-                            </WrapPanel>
-                        
-                        
-                    </GroupBox>
-                </StackPanel>
-                </ScrollViewer>
-                
-                
             </Grid>
         </materialDesign:ColorZone>
 
@@ -451,13 +471,13 @@
             <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Horizontal" Margin="5,10,5,0">
-                    <StackPanel.Resources>
+                        <StackPanel.Resources>
                             <Style TargetType="StackPanel">
                                 <Setter Property="Margin" Value="10,0"/>
                             </Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
                         </StackPanel.Resources>
-                    <StackPanel>
+                        <StackPanel>
                         <ToggleButton Content="Logo" Name="TBtn_MainSysyem">
                         </ToggleButton>
                             <TextBlock Text="{DynamicResource btnDescription_MainSystem}"  />
