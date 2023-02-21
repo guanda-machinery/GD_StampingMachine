@@ -3,6 +3,8 @@
                     
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="btnOk">OK</sys:String>
+
+    <!--#region主介面 -->
     <sys:String x:Key="btnDescription_MainSystem">主系統</sys:String>
     <sys:String x:Key="btnDescription_ProductSettings">製品設定</sys:String>
     <sys:String x:Key="btnDescription_LayoutSettings">排版設定</sys:String>
@@ -10,9 +12,6 @@
     <sys:String x:Key="btnDescription_MachineFunction">機台功能</sys:String>
     <sys:String x:Key="btnDescription_OneKeyReturn">一鍵返航</sys:String>
     <sys:String x:Key="btnDescription_LightUpSwitch">照明開關</sys:String>
-
-
-
     <sys:String x:Key="btnDescription_UsualKey1">常用鍵1</sys:String>
     <sys:String x:Key="btnDescription_UsualKey2">常用鍵2</sys:String>
     <sys:String x:Key="btnDescription_Calendar">行事曆</sys:String>
@@ -23,10 +22,10 @@
     <sys:String x:Key="btnDescription_PunchedFontSetting">字模設定</sys:String>
     <sys:String x:Key="btnDescription_ParameterSetting">參數設定</sys:String>
     <sys:String x:Key="btnDescription_SoftwareUpdate">軟體更新</sys:String>
+    <!--#endregion-->
 
-
+    <!--#region關於本機-->
     <sys:String x:Key="Text_MechanicalSpecification">機械規格</sys:String>
-    
     <sys:String x:Key="Text_AllowMachiningSize">允許的工作尺寸</sys:String>
     <sys:String x:Key="Text_WebHeight">腹板高度</sys:String>
     <sys:String x:Key="Text_FlangeWidth">翼板寬度</sys:String>
@@ -54,19 +53,31 @@
     <sys:String x:Key="Text_Height">高</sys:String>
     <sys:String x:Key="Text_MachineWeight">機台重量</sys:String>
 
-
     <sys:String x:Key="Text_ChipConveyor">排削機</sys:String>
     <sys:String x:Key="Text_ProminentAccessories">突出附件</sys:String>
     <sys:String x:Key="Text_NotInclude">不含</sys:String>
+    <!--#endregion-->
+
+    <!--#region字模設定 -->
+
+    <sys:String x:Key="Text_SteelPunchedFontSetting">鋼印字模設定</sys:String>
+    <sys:String x:Key="Text_RecorderCount">記錄次數</sys:String>
+
+    <!--#endregion-->
 
 
 
+
+
+    <!--#region通用按鈕 -->
+
+    <sys:String x:Key="Btn_Add">新增</sys:String>
+    <sys:String x:Key="Btn_Delete">刪除</sys:String>
+    <sys:String x:Key="Btn_Replace">替換</sys:String>
+    
+    
     <sys:String x:Key="Text_Count">次數</sys:String>
-
-
-
-
-
+    <!--#endregion-->
 
 
 

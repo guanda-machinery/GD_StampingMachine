@@ -89,96 +89,76 @@
         <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1"   HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
             <Grid >
                 <!--首頁-->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                              Visibility="{Binding ElementName=MainTabControl, 
+                <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                    <Grid>
+                    <StackPanel Visibility="{Binding ElementName=MainTabControl, 
                     Path=SelectedIndex , 
-                    ConverterParameter={StaticResource MinusOne} ,Converter={valueconverters:ObjectIsEqualToVisibilityConverter}}">
-                    <StackPanel  Background="White">
+                    ConverterParameter={StaticResource MinusOne} ,Converter={valueconverters:ObjectIsEqualToVisibilityConverter}}"
+                        Background="White">
                         <Grid  Width="600"  >
                             <Image Source="pack://application:,,,/image/擷取1.PNG"/>
                         </Grid>
                         <GroupBox Header="鋼印字模設定" 
                               Margin="10"
                               Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
-                            <WrapPanel>
-                                <WrapPanel.Resources>
-                                    <Style TargetType="usercontrols:StampingTypeUserControl" >
-                                        <Setter Property="Margin" Value="10"/>
-                                    </Style>
-                                </WrapPanel.Resources>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=0}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=1}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=2}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=3}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=4}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=5}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=6}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=7}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=8}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=9}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=10}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=11}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=12}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=13}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=14}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=15}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=16}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=17}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=18}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=19}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=20}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=21}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=22}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=23}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=24}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=25}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=26}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=27}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=28}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=29}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=30}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=31}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=32}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=33}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=34}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=35}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=36}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=37}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=38}"/>
-                                <usercontrols:StampingTypeUserControl DataContext="{Binding StampingTypeVMObservableCollection, Converter={valueconverters:ObservableCollectionToOneObjectConverter}, ConverterParameter=39}"/>
 
-                            </WrapPanel>
+                                <StackPanel>
+                                    <ListBox  SelectionMode="Multiple"
+                                        Grid.Row="1" ItemsSource="{Binding StampingTypeVMObservableCollection}">
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border BorderThickness="0.5" BorderBrush="Black" 
+                CornerRadius="3"
+                Width="45"
+                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
+                                                        <TextBlock Text="{Binding StampingTypeString}" FontSize="30"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
+                                                        <TextBlock Text="NO." FontSize="10"/>
+                                                        <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
+                                                    </StackPanel>
+                                                    <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" 
+                CornerRadius="3">
+                                                        <TextBlock Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
 
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+
+                                </StackPanel>
+                            
 
                         </GroupBox>
                     </StackPanel>
-                </ScrollViewer>
-                <TabControl Name="MainTabControl">
-                    <TabItem Visibility="Collapsed">
-                        <TabItem.IsSelected>
-                            <MultiBinding
-                                Converter="{valueconverters:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource TrueValue}">
-                                <MultiBinding.Bindings>
-                                    <Binding ElementName="TBtn_MachineInfo" Path="IsChecked"/>
-                                    <Binding ElementName="TBtn_PunchedFontSetting" Path="IsChecked"/>
-                                    <Binding ElementName="TBtn_ParameterSetting" Path="IsChecked"/>
-                                    <Binding ElementName="TBtn_SoftwareUpdate" Path="IsChecked"/>
-                                </MultiBinding.Bindings>
-                            </MultiBinding>
-                        </TabItem.IsSelected>
-                        <Grid>
-                            <Grid.Resources>
-                                <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
-                            </Grid.Resources>
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <Grid>
-                                    <TabControl Name="TabControl_MachineInfo">
-                                        <TabControl.Resources>
-                                            <Style TargetType="TabItem" >
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </Style>
-                                        </TabControl.Resources>
-                                        <TabItem  IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MechanicalSpecificationVM}">
+                    <TabControl Name="MainTabControl">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem" >
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
+                    </TabControl.Resources>
+                    
+                   <TabItem IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MechanicalSpecificationVM}">
                                             <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
                                                 <StackPanel Margin="10" Width="450">
                                                     <TextBlock Text="{DynamicResource btnDescription_MachineInfo}" HorizontalAlignment="Left" Margin="0,0,0,30" Foreground="#d8d8d8"/>
@@ -396,28 +376,126 @@
                                                 </StackPanel>
                                             </Border>
                                         </TabItem>
-                                        <TabItem  IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
-                                            <TextBlock Text="tabitem2"/>
-                                        </TabItem>
-                                        <TabItem  IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}">
+                   <TabItem IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
+                        <StackPanel>
+                            <Grid Height="300" >
+                                <TextBlock Text="圓形鋼印圖片" VerticalAlignment="Center" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Border BorderThickness="0,0,0,2" BorderBrush="White">
+                                    <TextBlock Text="{DynamicResource Text_SteelPunchedFontSetting}" />
+                                </Border>
+
+
+
+                                        <!--https://stackoverflow.com/questions/248545/wpf-trigger-for-isselected-in-a-datatemplate-for-listbox-items-->
+                               <ListBox Grid.Row="1" SelectionMode="Single"
+                                        ItemsSource="{Binding StampingTypeVMObservableCollection}">
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding
+                                                            RelativeSource={RelativeSource
+                                                            Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsSelected}"
+                                                            Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>
+                                                          
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Border BorderThickness="0.5" BorderBrush="Black" Name="SteelFontBorder"
+                                                                CornerRadius="3"
+                                                                Width="45"
+                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
+                                                            <TextBlock Text="{Binding StampingTypeString}" FontSize="30"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+
+
+
+                                                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
+                                                            <TextBlock Text="NO." FontSize="10"/>
+                                                            <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+
+
+                                            </ListBox.ItemTemplate>
+                                            </ListBox>
+            
+
+
+                                <Grid Grid.Column="1" Grid.Row="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Button Grid.Row="0" Content="{DynamicResource Btn_Replace}"/>
+                                    <Button Grid.Row="1" Content="{DynamicResource Btn_Delete}"/>
+                                </Grid>
+                                
+                                
+                                <Border BorderThickness="0,0,0,2" BorderBrush="White" Grid.Column="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{DynamicResource Text_RecorderCount}" HorizontalAlignment="Left" />
+                                        <Button Grid.Column="1" Content="{DynamicResource Btn_Add}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </Border>
+
+
+
+
+
+
+
+                            </Grid>
+                        </StackPanel>
+                     </TabItem>
+                   <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}">
                                             <TextBlock Text="tabitem3"/>
                                         </TabItem>
-                                        <TabItem  IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
-                                            <TextBlock Text="tabitem4"/>
-                                        </TabItem>
-                                    </TabControl>
-                                    <StackPanel>
-                                        <TextBlock Text="Nne" Visibility="{Binding ElementName=TabControl_MachineInfo, Path=SelectedIndex,ConverterParameter={StaticResource MinusOne} ,Converter={valueconverters:ObjectIsEqualToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </StackPanel>
-                                </Grid>
-                            </ScrollViewer>
-                        </Grid>
+                   <TabItem IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
+                        <TextBlock Text="tabitem4"/>
                     </TabItem>
-                    <TabItem Visibility="Collapsed" IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
+                   <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
                         <TextBlock Text="test"/>
                     </TabItem>
                 </TabControl>
-
+                    </Grid>
+                </ScrollViewer>
                 <!--彈出式按鈕-->
                 <materialDesign:DrawerHost  Opacity="0.9" 
                         IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
