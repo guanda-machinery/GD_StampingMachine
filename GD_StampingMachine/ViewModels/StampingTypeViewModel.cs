@@ -77,19 +77,7 @@ namespace GD_StampingMachine.ViewModels
                 _stampingTypeUseCount = value;
             }
         }
-        /*
-        private bool? _isselected ;
-        public bool? IsSelected
-        {
-            get
-            {
-                return _isselected;
-            }
-            set
-            {
-                _isselected = value;
-            }
-        }*/
+
 
 
 

@@ -63,20 +63,51 @@
     <sys:String x:Key="Text_SteelPunchedFontSetting">鋼印字模設定</sys:String>
     <sys:String x:Key="Text_RecorderCount">記錄次數</sys:String>
 
+    <sys:String x:Key="Text_AddSteelPunchedFont">新增字模</sys:String>
+    
     <!--#endregion-->
 
+    <!--#region參數設定 -->
 
+    <sys:String x:Key="btnNumberSetting">號碼設定</sys:String>
+    <sys:String x:Key="btnQRSetting">QR設定</sys:String>
+    <sys:String x:Key="btnAxisSetting">軸向設定</sys:String>
+    <sys:String x:Key="btnTimimgSetting">計時設定</sys:String>
+    <sys:String x:Key="btnSegregationSetting">分料設定</sys:String>
+    <sys:String x:Key="btnInput">In Put</sys:String>
+    <sys:String x:Key="btnOutput">Out Put</sys:String>
+    <sys:String x:Key="btnSeEngineeringMode">工程模式</sys:String>
+    <!--#region號碼設定 -->
+
+    <sys:String x:Key="textMode">模式</sys:String>
+    <sys:String x:Key="textCurrentMode">目前模式</sys:String>
+    <sys:String x:Key="textIronPlateMarginSetting">鐵牌間距設定</sys:String>
+    <sys:String x:Key="textSingleRowNumber">單排數量</sys:String>
+    <sys:String x:Key="textSpecialSequence">特殊排序</sys:String>
+    <sys:String x:Key="textMargin">間距</sys:String>
+
+    <sys:String x:Key="textSelectMode">請選擇模式</sys:String>
+    <sys:String x:Key="textSelectCount">請選擇數量</sys:String>
+    <sys:String x:Key="textInputMargin">請輸入間距</sys:String>
+
+    <!--#endregion-->
+    
+    <!--#endregion-->
 
 
 
     <!--#region通用按鈕 -->
 
-    <sys:String x:Key="Btn_Add">新增</sys:String>
-    <sys:String x:Key="Btn_Delete">刪除</sys:String>
-    <sys:String x:Key="Btn_Replace">替換</sys:String>
-    
-    
+    <sys:String x:Key="btnAdd">新增</sys:String>
+    <sys:String x:Key="btnDelete">刪除</sys:String>
+    <sys:String x:Key="btnReplace">替換</sys:String>
+
+    <sys:String x:Key="btnConfirm">確認</sys:String>
+    <sys:String x:Key="btnCancel">取消</sys:String>
+    <sys:String x:Key="btnClose">關閉</sys:String>
+
     <sys:String x:Key="Text_Count">次數</sys:String>
+    <sys:String x:Key="Text_Count2">次</sys:String>
     <!--#endregion-->
 
 

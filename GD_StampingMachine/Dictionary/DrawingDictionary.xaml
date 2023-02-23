@@ -6,6 +6,20 @@
                     >
 
 
+    <DrawingImage x:Key="Window_Close">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="{StaticResource solidclr_DimGray}" Geometry="M415.6,310.9L296.7,192L415.6,73.1c11.2-11.2,11.2-29.5,0-40.7s-29.5-11.2-40.7,0L256,151.3L137.1,32.4              c-11.2-11.2-29.5-11.2-40.7,0l0,0c-11.2,11.2-11.2,29.5,0,40.7L215.3,192L96.4,310.9c-11.2,11.2-11.2,29.5,0,40.7s29.5,11.2,40.7,0              L256,232.7l118.9,118.9c11.2,11.2,29.5,11.2,40.7,0l0,0C426.8,340.4,426.8,322.1,415.6,310.9z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Window_Close_Light">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="{StaticResource solidclr_CreamyWhite}" Geometry="M415.6,310.9L296.7,192L415.6,73.1c11.2-11.2,11.2-29.5,0-40.7s-29.5-11.2-40.7,0L256,151.3L137.1,32.4              c-11.2-11.2-29.5-11.2-40.7,0l0,0c-11.2,11.2-11.2,29.5,0,40.7L215.3,192L96.4,310.9c-11.2,11.2-11.2,29.5,0,40.7s29.5,11.2,40.7,0              L256,232.7l118.9,118.9c11.2,11.2,29.5,11.2,40.7,0l0,0C426.8,340.4,426.8,322.1,415.6,310.9z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
     <!--  Logo  -->
     <DrawingImage x:Key="Logo">
         <DrawingImage.Drawing>

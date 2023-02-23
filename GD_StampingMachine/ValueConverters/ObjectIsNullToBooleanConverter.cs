@@ -10,20 +10,30 @@ using System.Windows.Markup;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    public class ObjectIsEqualToBooleanConverter : MarkupExtension, IValueConverter
+    public class ObjectIsNullToBooleanConverter : MarkupExtension, IValueConverter
     {
         public bool Invert { get; set; }
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if(value == null)
+            {
+                return (!Invert);
+            }
 
-             if (object.Equals(value, parameter))
+            if (value is string)
             {
-                return (!Invert) ;
+                if (string.IsNullOrEmpty(value as string))
+                {
+                    return (!Invert);
+                }
+                else
+                {
+                    return (Invert);
+                }
             }
-            else
-            {
-                return (Invert);
-            }
+
+            return (!Invert);
+
         }
 
 

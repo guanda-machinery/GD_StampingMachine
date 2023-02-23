@@ -11,7 +11,7 @@ using System.Windows.Markup;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    internal class MultiValueHasParameterValueToBooleanConverter : MarkupExtension, IMultiValueConverter
+    public class MultiValueHasParameterValueToBooleanConverter : MarkupExtension, IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
