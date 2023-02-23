@@ -88,7 +88,9 @@
 
     <sys:String x:Key="textSelectMode">請選擇模式</sys:String>
     <sys:String x:Key="textSelectCount">請選擇數量</sys:String>
+    <sys:String x:Key="textSelectSequence">請選擇排序</sys:String>
     <sys:String x:Key="textInputMargin">請輸入間距</sys:String>
+
 
     <!--#endregion-->
     
@@ -108,6 +110,10 @@
 
     <sys:String x:Key="Text_Count">次數</sys:String>
     <sys:String x:Key="Text_Count2">次</sys:String>
+    
+    <sys:String x:Key="btnLoadMode">載入模式</sys:String>
+    <sys:String x:Key="btnRecover">還原設定</sys:String>
+    <sys:String x:Key="btnSave">儲存</sys:String>
     <!--#endregion-->
 
 

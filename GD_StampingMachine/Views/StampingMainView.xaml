@@ -600,7 +600,7 @@
                                 <TabControl>
                                     <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}">
                                             <StackPanel HorizontalAlignment="Left">
-                                                <Grid >
+                                                <Grid Margin="20">
                                                     <Grid.Resources>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Foreground" Value="White"/>
@@ -753,7 +753,7 @@
                                                             <Setter Property="Width" Value="300"/>
                                                             <Setter Property="Margin" Value="10,0"/>
                                                             <Setter Property="Padding" Value="10,0,0,2"/>
-                                                            <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="Light"/>
+                                                            <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
                                                             <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
                                                             <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".2"/>
                                                             <Setter Property="IsEditable" Value="False"/>
@@ -770,10 +770,16 @@
                                                             <TextBlock Text="："/>
                                                         </StackPanel>
 
-                                                       <ComboBox   Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}" >
-                                                            <dxe:ComboBoxEditItem Content="Apple" />
-                                                            <dxe:ComboBoxEditItem Content="Banana" />
-                                                        </ComboBox>
+                                                            <ComboBox   Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}" >
+                                                                <dxe:ComboBoxEditItem Content="Type1" />
+                                                                <dxe:ComboBoxEditItem Content="Type2" />
+                                                                <dxe:ComboBoxEditItem Content="Type3" />
+                                                                <dxe:ComboBoxEditItem Content="Type4" />
+                                                                <dxe:ComboBoxEditItem Content="Type5" />
+                                                                <dxe:ComboBoxEditItem Content="Type6" />
+                                                                <dxe:ComboBoxEditItem Content="Type7" />
+                                                                <dxe:ComboBoxEditItem Content="Type8" />
+                                                            </ComboBox>
 
 
                                                     </Grid>
@@ -878,8 +884,10 @@
 
 
                                                     </GroupBox>
-                                                    <StackPanel Grid.Row="2" Grid.Column="1">
-                                                        <Button Content="{DynamicResource}"/>
+                                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,50">
+                                                        <Button Content="{DynamicResource btnLoadMode}" Margin="10"/>
+                                                        <Button Content="{DynamicResource btnRecover}"  Margin="10"/>
+                                                        <Button Content="{DynamicResource btnSave}"  Margin="10"/>
                                                     </StackPanel>
                                                     
                                                 </Grid>
