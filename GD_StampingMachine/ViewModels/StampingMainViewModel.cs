@@ -182,6 +182,16 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public StampingTypeModel UnusedStampingFontSelected { get; set; }
 
+
+
+        #region VM
+        public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
+
+        #endregion
+
+
+
+
         public RelayCommand StampingFontReplaceCommand
         {
             get => new RelayCommand(() =>

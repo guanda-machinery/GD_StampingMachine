@@ -182,8 +182,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enum\NumberSettingModeEnum.cs" />
+    <Compile Include="Enum\SpecialSequenceEnum.cs" />
     <Compile Include="Enum\SpindleToolHolderEnum.cs" />
+    <Compile Include="Extensions\GetEnumData.cs" />
     <Compile Include="Model\MechanicalSpecificationModel.cs" />
+    <Compile Include="Model\NumberSettingModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
     <Compile Include="DraggablePopup.cs" />
     <Compile Include="ProcessingScreenWindow.xaml.cs">
@@ -197,6 +201,10 @@
     <Compile Include="UserControls\StampingTypeUserControl.xaml.cs">
       <DependentUpon>StampingTypeUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TriggerSliderUserControl.xaml.cs">
+      <DependentUpon>TriggerSliderUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />
@@ -204,6 +212,8 @@
     <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\NumberSettingViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\ParameterSettingViewModel.cs" />
     <Compile Include="ViewModels\StampingMainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">
@@ -221,10 +231,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Language\zh-TW.xaml">
+    <Content Include="Language\StringResource.zh-TW.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -248,6 +259,10 @@
     <Page Include="UserControls\StampingTypeUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserControls\TriggerSliderUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StampingMainView.xaml">
       <SubType>Designer</SubType>

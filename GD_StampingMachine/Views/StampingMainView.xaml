@@ -11,7 +11,8 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:valueconverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              xmlns:usercontrols="clr-namespace:GD_StampingMachine.UserControls"
-             xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="1000" d:DesignWidth="1100" >
     <UserControl.DataContext>
         <GD_ViewModels:StampingMainViewModel/>
@@ -27,6 +28,9 @@
             <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}" x:Key="ToggleButtonTitleWhite">
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="GroupBox" BasedOn="{StaticResource UnderLineStyleGroupBox}">
+                <Setter Property="Padding" Value="50,20"/>
             </Style>
         </Grid.Resources>
         <Grid.RowDefinitions>
@@ -123,18 +127,18 @@
                                                         <RowDefinition/>
                                                     </Grid.RowDefinitions>
                                                     <Border BorderThickness="0.5" BorderBrush="Black" 
-                CornerRadius="3"
-                Width="45"
-                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
+                                                            CornerRadius="3"
+                                                            Width="45"
+                                                            Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
                                                         <TextBlock Text="{Binding StampingTypeString}" FontSize="30"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
                                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
                                                         <TextBlock Text="NO." FontSize="10"/>
                                                         <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
                                                     </StackPanel>
                                                     <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" 
-                CornerRadius="3">
+                                                            CornerRadius="3">
                                                         <TextBlock Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
                                                     </Border>
                                                     <TextBlock Grid.Row="2" Grid.Column="1" Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
@@ -151,6 +155,7 @@
                             </GroupBox>
                         </StackPanel>
                         <TabControl Name="MainTabControl">
+                            
                             <TabControl.Resources>
                                 <Style TargetType="TabItem" >
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -549,7 +554,7 @@
                                 </Grid>
                             </ScrollViewer>
                         </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}">
+                        <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}" DataContext="{Binding ParameterSettingVM}">
                             <Grid  Margin="150,0,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
@@ -598,7 +603,7 @@
                                 </Border>
                                 <ScrollViewer VerticalAlignment="Stretch" Grid.Row="1">
                                 <TabControl>
-                                    <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}">
+                                        <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}" DataContext="{Binding NumberSettingVM}">
                                             <StackPanel HorizontalAlignment="Left">
                                                 <Grid Margin="20">
                                                     <Grid.Resources>
@@ -731,9 +736,7 @@
                                                         <RowDefinition Height="auto"/>
                                                     </Grid.RowDefinitions>
                                                     <Grid.Resources>
-                                                        <Style TargetType="GroupBox" BasedOn="{StaticResource UnderLineStyleGroupBox}">
-                                                            <Setter Property="Padding" Value="50,20"/>
-                                                        </Style>
+
                                                         <Style TargetType="TextBlock" >
                                                             <Setter Property="FontSize" Value="16"/>
                                                             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -770,19 +773,16 @@
                                                             <TextBlock Text="："/>
                                                         </StackPanel>
 
-                                                            <ComboBox   Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}" >
-                                                                <dxe:ComboBoxEditItem Content="Type1" />
-                                                                <dxe:ComboBoxEditItem Content="Type2" />
-                                                                <dxe:ComboBoxEditItem Content="Type3" />
-                                                                <dxe:ComboBoxEditItem Content="Type4" />
-                                                                <dxe:ComboBoxEditItem Content="Type5" />
-                                                                <dxe:ComboBoxEditItem Content="Type6" />
-                                                                <dxe:ComboBoxEditItem Content="Type7" />
-                                                                <dxe:ComboBoxEditItem Content="Type8" />
+                                                            <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding NumberSettingModeCollection}" 
+                                                                      SelectedItem="{Binding NumberSetting.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding Converter={ valueconverters:EnumGetNameConverter}}"></TextBlock>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
                                                             </ComboBox>
 
-
-                                                    </Grid>
+                                                        </Grid>
 
                                                 </GroupBox>
                                                     <GroupBox  Grid.Row="1" Header="{DynamicResource textIronPlateMarginSetting}">
@@ -800,23 +800,28 @@
                                                                 <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <TextBox   Grid.Column="1" >
+                                                            <TextBox   Grid.Column="1" Text="{Binding NumberSetting.NumberSettingMode , Converter={valueconverters:EnumGetNameConverter}}">
                                                             </TextBox>
                                                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                                                 <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <ComboBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" >
-                                                                <dxe:ComboBoxEditItem Content="Apple" />
-                                                                <dxe:ComboBoxEditItem Content="Banana" />
+                                                            <ComboBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" SelectedValue="{Binding NumberSetting.SequenceCount}" ItemsSource="{Binding SequenceCountCollection}">
+     
                                                             </ComboBox>
                                                             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                                                 <TextBlock Text="{DynamicResource textSpecialSequence}"/>
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <ComboBox  Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}" >
-                                                                <dxe:ComboBoxEditItem Content="Apple" />
-                                                                <dxe:ComboBoxEditItem Content="Banana" />
+                                                            <ComboBox  Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
+                                                                       ItemsSource="{Binding SpecialSequenceCollection}"
+                                                                       SelectedValue="{Binding NumberSetting.SpecialSequence}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding Converter={ valueconverters:EnumGetNameConverter}}"></TextBlock>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+
                                                             </ComboBox>
 
                                                         </Grid>
@@ -843,7 +848,7 @@
                                                                 <TextBlock Text="{DynamicResource textMargin}"/>
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <TextBox   Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" />
+                                                            <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.A_Margin}"/>
                                                             <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                                             <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
@@ -851,23 +856,23 @@
                                                                 <TextBlock Text="{DynamicResource textMargin}"/>
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
+                                                            <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.B_Margin}"/>
                                                             <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                                             <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                                                 <TextBlock Text="C"/>
-                                                                <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" />
+                                                                <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"   />
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
+                                                            <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.C_Margin}"/>
                                                             <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                                             <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                                                 <TextBlock Text="D"/>
-                                                                <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" />
+                                                                <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  />
+                                                            <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.D_Margin}"  />
                                                             <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                                             <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
@@ -875,7 +880,7 @@
                                                                 <TextBlock Text="{DynamicResource textMargin}"/>
                                                                 <TextBlock Text="："/>
                                                             </StackPanel>
-                                                            <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" />
+                                                            <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.E_Margin}"/>
                                                             <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                                         </Grid>
@@ -885,31 +890,57 @@
 
                                                     </GroupBox>
                                                     <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,50">
-                                                        <Button Content="{DynamicResource btnLoadMode}" Margin="10"/>
-                                                        <Button Content="{DynamicResource btnRecover}"  Margin="10"/>
-                                                        <Button Content="{DynamicResource btnSave}"  Margin="10"/>
+                                                        <Button Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
+                                                        <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                                        <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
                                                     </StackPanel>
                                                     
                                                 </Grid>
 
                                             </StackPanel>
                                         </TabItem>
-                                    <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}">
+                                    <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}">
 
                                     </TabItem>
-                                    <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnAxisSetting, Path=IsChecked}">
+                                        <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnAxisSetting, Path=IsChecked}">
+                                            <TabItem.Resources>
+                                                <Style TargetType="TextBlock" >
+                                                    <Setter Property="FontSize" Value="16"/>
+                                                </Style>
+                                            </TabItem.Resources>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <GroupBox Grid.Column="0" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10">
+                                                    <Grid VerticalAlignment="Top">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                    <StackPanel Orientation="Horizontal" >
+                                                        <TextBlock Text="{DynamicResource Text_XAxisSpeed}"/>
+                                                        <TextBlock Text="："/>
+                                                        </StackPanel>
+                                                        <usercontrols:TriggerSliderUserControl Grid.Column="1"/>
+                                                    </Grid>
+                                                </GroupBox>
+                                                <GroupBox Grid.Column="1" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10">
+
+                                                </GroupBox>
+                                            </Grid>
+                                        </TabItem>
+                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnTimimgSetting, Path=IsChecked}">
 
                                     </TabItem>
-                                    <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnTimimgSetting, Path=IsChecked}">
+                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}">
 
                                     </TabItem>
-                                    <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}">
+                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}">
 
                                     </TabItem>
-                                    <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}">
-
-                                    </TabItem>
-                                    <TabItem Header="123" Visibility="Visible" IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}">
+                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}">
 
                                     </TabItem>
                                     </TabControl>

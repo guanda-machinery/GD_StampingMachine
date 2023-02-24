@@ -55,9 +55,12 @@ namespace GD_StampingMachine
 
             //靜態調用. 當資源字典變更成其他語系後, Title並不會隨著變化
             //lblTitle.Content = FindResource(“lblTitle”).ToString();
-
             //動態調用, Title會隨著字典而變化.
             // lblTitle.SetResourceReference(Label.ContentProperty, “lblTitle”);
+
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
+
         }
 
 
@@ -68,7 +71,7 @@ namespace GD_StampingMachine
             try
             {
                 langRd = Application.LoadComponent(
-                new Uri(@"Language\" + currentCultureInfo.Name + ".xaml ", UriKind.Relative)) as ResourceDictionary;
+                new Uri(@"Language\" + "StringResource." + currentCultureInfo.Name + ".xaml ", UriKind.Relative)) as ResourceDictionary;
             }
             catch
             {
