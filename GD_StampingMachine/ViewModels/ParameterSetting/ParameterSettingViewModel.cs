@@ -10,6 +10,8 @@ namespace GD_StampingMachine.ViewModels
     {
         public NumberSettingViewModel NumberSettingVM { get; set; } = new NumberSettingViewModel();
 
+        public AxisSettingViewModel AxisSettingVM { get; set; } = new AxisSettingViewModel();
+
 
     }
 }

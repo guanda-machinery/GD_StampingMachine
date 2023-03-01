@@ -11,7 +11,7 @@ namespace GD_StampingMachine.Model
     {
         public NumberSettingModel()
         {
-            PlateMargin = new PlateMarginStruct();
+
         }
 
 

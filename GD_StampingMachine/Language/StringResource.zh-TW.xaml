@@ -99,15 +99,22 @@
     <sys:String x:Key="Text_FeedDistance">進給距離</sys:String>
     <sys:String x:Key="Text_PEnterDistance">請輸入距離</sys:String>
     <sys:String x:Key="Text_XAxisSpeed">X軸速度</sys:String>
+
+
+    <sys:String x:Key="Text_RouletteAxisSetting">輪盤軸向設定</sys:String>
     <sys:String x:Key="Text_YAxisSpeed">Y軸速度</sys:String>
     <sys:String x:Key="Text_FontDepth">字型深度</sys:String>
     <sys:String x:Key="Text_RouletteSpeed">輪盤速度</sys:String>
 
+
+
+    <sys:String x:Key="Text_ShearingMachineSetting">剪床設定</sys:String>
     <sys:String x:Key="Text_ZAxisPressure">Z軸壓力</sys:String>
     <sys:String x:Key="Text_ZAxisOrigin">Z軸 原點</sys:String>
     <sys:String x:Key="Text_ZAxisPreparationPoint">Z軸 預備點</sys:String>
 
 
+    
     <!--#endregion-->
     
     
