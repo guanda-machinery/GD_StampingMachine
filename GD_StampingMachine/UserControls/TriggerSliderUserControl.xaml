@@ -20,14 +20,14 @@
             <materialDesign:PackIcon Kind="MinusThick" />
         </RepeatButton>
         <Slider Grid.Column="1"  VerticalAlignment="Center" Name="MainSlider" MinWidth="50"  Height="20" FontSize="12"
-                Margin="5,0" Style="{StaticResource CustomSlider}" Value="{Binding MainSilderValue}"
+                Margin="5,0" Style="{StaticResource CustomSlider}" Value="{Binding MainSilderValue}" 
                              Foreground="#E82127" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
                             Minimum="0"
                             Maximum="100"
                             TickFrequency="1" >
 
         </Slider>
-        <TextBlock FontSize="12"
+        <TextBlock FontSize="12"  Foreground="White"
             Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=MainSlider, Path=Value}"></TextBlock>
         <RepeatButton Margin="5,0" Click="RepeatButton_Plus_Click" Style="{StaticResource SiegCustomRepeatButton}"  
                       Grid.Column="2" Padding="0"    Height="24"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">

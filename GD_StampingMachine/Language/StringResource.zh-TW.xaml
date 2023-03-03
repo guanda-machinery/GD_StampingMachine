@@ -73,7 +73,7 @@
     <sys:String x:Key="btnQRSetting">QR設定</sys:String>
     <sys:String x:Key="btnAxisSetting">軸向設定</sys:String>
     <sys:String x:Key="btnTimimgSetting">計時設定</sys:String>
-    <sys:String x:Key="btnSegregationSetting">分料設定</sys:String>
+    <sys:String x:Key="btnSeparateSetting">分料設定</sys:String>
     <sys:String x:Key="btnInput">In Put</sys:String>
     <sys:String x:Key="btnOutput">Out Put</sys:String>
     <sys:String x:Key="btnSeEngineeringMode">工程模式</sys:String>
@@ -94,34 +94,72 @@
 
     <!--#endregion-->
 
+
+    <!--#regionQR設定 -->
+
+
+    <sys:String x:Key="Text_Spec">特</sys:String>
+    <sys:String x:Key="Text_CodeSetting">Code設定</sys:String>
+    <sys:String x:Key="Text_CharacterCount">字元數量</sys:String>
+    <sys:String x:Key="Text_CharacterForm">字元型態</sys:String>
+    <sys:String x:Key="Text_DataMartix">Data Martix</sys:String>
+    <sys:String x:Key="Text_ModelSize">模組大小</sys:String>
+    
+    <!--#endregion-->
+
     <!--#region軸向設定 -->
     <sys:String x:Key="Text_FeedAxisDirectionSetting">進料軸向設定</sys:String>
     <sys:String x:Key="Text_FeedDistance">進給距離</sys:String>
     <sys:String x:Key="Text_PEnterDistance">請輸入距離</sys:String>
     <sys:String x:Key="Text_XAxisSpeed">X軸速度</sys:String>
 
-
     <sys:String x:Key="Text_RouletteAxisSetting">輪盤軸向設定</sys:String>
     <sys:String x:Key="Text_YAxisSpeed">Y軸速度</sys:String>
     <sys:String x:Key="Text_FontDepth">字型深度</sys:String>
     <sys:String x:Key="Text_RouletteSpeed">輪盤速度</sys:String>
 
-
-
     <sys:String x:Key="Text_ShearingMachineSetting">剪床設定</sys:String>
     <sys:String x:Key="Text_ZAxisPressure">Z軸壓力</sys:String>
     <sys:String x:Key="Text_ZAxisOrigin">Z軸 原點</sys:String>
     <sys:String x:Key="Text_ZAxisPreparationPoint">Z軸 預備點</sys:String>
-
-
-    
-    <!--#endregion-->
-    
-    
-    
     <!--#endregion-->
 
+    <!--#region計時設定 -->
+    <sys:String x:Key="Text_TimingSetting">定時設定</sys:String>
+    <sys:String x:Key="Text_SettingName">設定名稱</sys:String>
+    <sys:String x:Key="Text_RestTime">休息時間</sys:String>
+    <sys:String x:Key="Text_OpenTime">開啟時間</sys:String>
+    <sys:String x:Key="Text_RepeatCount">重複次數</sys:String>
 
+    <sys:String x:Key="Text_SlidewayOilSystem">滑道油系統</sys:String>
+    <sys:String x:Key="Text_CycleTime">循環時間</sys:String>
+    <sys:String x:Key="Text_Intervals">間隔時間</sys:String>
+
+    <sys:String x:Key="Text_PSelectTime">請選擇時間</sys:String>
+    <sys:String x:Key="Text_PEnterName">請輸入名稱</sys:String>
+
+    <!--#endregion-->
+
+    <!--#region分料 -->
+    <sys:String x:Key="Text_Separate">分料</sys:String>
+    <sys:String x:Key="Text_SelectSeparateMode">選擇分料模式</sys:String>
+    <sys:String x:Key="Text_UnifiedSetting">統一設定</sys:String>
+    <sys:String x:Key="Text_SingleSetting">單一設定</sys:String>
+    
+    <sys:String x:Key="Text_Box">盒子</sys:String>
+    <!--#endregion-->
+    
+    <!--#region軟體更新 -->
+
+    <sys:String x:Key="Text_ThisVersionIntroduce">此版本介紹</sys:String>
+    <sys:String x:Key="Text_UpdateVersionContent">更新版本內容</sys:String>
+    <sys:String x:Key="Text_DownloadAndInstall">下載並安裝</sys:String>
+    <sys:String x:Key="Text_AnyQuestion">有任何問題嗎</sys:String>
+    <sys:String x:Key="Text_PleaseContactUs">請聯繫我們</sys:String>
+    <sys:String x:Key="Text_GuandaMachinery">廣達國際機械有限公司</sys:String>
+    <sys:String x:Key="Text_PhoneNumber">04 2335 6118</sys:String>
+
+    <!--#endregion-->
 
     <!--#region通用按鈕 -->
 

@@ -1,0 +1,210 @@
+﻿<UserControl x:Class="GD_StampingMachine.UserControls.StampingFontChangedUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
+              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.GD_ValueConverters">
+
+        <Grid VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <Image Source="pack://application:,,,/image/擷取2.PNG" MaxHeight="400"/>
+            </Grid>
+            <Grid Grid.Row="1">
+
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
+                    <ListBox  Grid.Row="1" VerticalAlignment="Top"  MinHeight="160" 
+                              SelectedItem="{Binding StampingFontSelected}"  Margin="10,10,10,0"  Name="StampingFontListBox" 
+                              ItemsSource="{Binding StampingTypeVMObservableCollection}"
+
+                              PreviewMouseLeftButtonDown="StampingFontListBox_PreviewMouseLeftButtonDown"
+                              AllowDrop="True" Drop="StampingFontListBox_Drop"
+                              MouseMove="StampingFontListBox_MouseMove"
+                              
+                              
+                              
+                              >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                            <Grid Margin="0,5" AllowDrop="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
+                                                                CornerRadius="3"
+                                                                Width="40" 
+                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
+                                        <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
+                                        <TextBlock Text="NO." FontSize="10" Foreground="White"/>
+                                        <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10" Foreground="White"/>
+                                    </StackPanel>
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsSelected}" Value="True">
+                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="DeepSkyBlue"/>
+                                        <Setter Property="TextBox.Foreground"  Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsSelected}" Value="False">
+                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="Transparent"/>
+                                        <Setter Property="TextBox.Foreground"  Value="White"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+                <Grid  VerticalAlignment="Top" Margin="10,50" Grid.Column="1" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Content="{DynamicResource btnReplace}" Command="{Binding StampingFontReplaceCommand}" Margin="5,10"/>
+                    <Button Grid.Row="1" Content="{DynamicResource btnDelete}" Margin="5,10" Command="{Binding UnusedStampingFontDelCommand}"/>
+                </Grid>
+
+                <GroupBox Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
+                <ListBox Name="UnusedStampingFontListBox"
+                                                Height="{Binding ElementName=StampingFontListBox, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
+                                                SelectedItem="{Binding UnusedStampingFontSelected}" 
+                                                ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
+                                         PreviewMouseLeftButtonDown="UnusedStampingFontListBox_PreviewMouseLeftButtonDown"
+                 AllowDrop="True" Drop="UnusedStampingFontListBox_Drop"
+                 MouseMove="UnusedStampingFontListBox_MouseMove"
+                        >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                            <Grid AllowDrop="True">
+                                <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
+                                                                CornerRadius="3"
+                                                                Width="40" 
+                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
+                                        <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0" Width="100">
+                                        <TextBlock  Text="{Binding StampingTypeUseCount}" VerticalAlignment="Center" FontSize="14" Width="50" TextAlignment="Right"/>
+                                        <TextBlock  Text="{DynamicResource Text_Count2}" VerticalAlignment="Center" FontSize="16"/>
+                                    </StackPanel>
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsSelected}" Value="True">
+                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="DeepSkyBlue"/>
+                                        <Setter Property="TextBox.Foreground"  Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsSelected}" Value="False">
+                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="Transparent"/>
+                                        <Setter Property="TextBox.Foreground"  Value="White"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+                <materialDesign:DialogHost  
+                                            DialogTheme="Dark" Grid.Column="2" Grid.Row="0" DialogMargin="20" VerticalAlignment="Top" HorizontalAlignment="Right" >
+                    <materialDesign:DialogHost.DialogContent>
+                        <StackPanel Margin="16">
+                            <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" />
+                            <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
+                                                                CornerRadius="3"
+                                                                Width="40" 
+                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
+
+                                <TextBox
+                                                                FontSize="20"
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                                                x:Name="AddStampingFontTextBox" Text="{Binding NewUnnsedStampingFontString , UpdateSourceTrigger=PropertyChanged}" />
+                            </Border>
+
+
+                            <StackPanel
+                                                                Orientation="Horizontal"
+                                                                HorizontalAlignment="Right">
+                                <Button  Margin="8" 
+                                                                         IsEnabled="{Binding NewUnnsedStampingFontString,
+                                                                    Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, 
+                                                                    UpdateSourceTrigger=PropertyChanged}"
+                                                                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                                                    IsDefault="True"
+                                                                    Content="{DynamicResource btnAdd}" 
+                                                                    >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding UnusedStampingFontAddCommand}" />
+                                            <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+
+
+
+                                </Button>
+                                <Button Margin="8"
+                                                                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                                                    IsCancel="True"
+                                                                    Content="{DynamicResource btnClose}"
+                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:DialogHost.DialogContent>
+                    <Button  Height="26" Padding="15,0" Margin="10,0"
+                                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="{DynamicResource btnAdd}"/>
+                </materialDesign:DialogHost>
+
+            </Grid>
+
+        </Grid>
+
+</UserControl>

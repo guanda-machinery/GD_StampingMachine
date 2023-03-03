@@ -13,20 +13,20 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class NumberSettingViewModel: ViewModelBase
+    public class QRSettingViewModel : ViewModelBase
     {
-        private NumberSettingModel _NumberSettingModel = new NumberSettingModel();
+        private QRSettingModel _QRSettingModel = new QRSettingModel();
 
-        public NumberSettingModel NumberSetting
+        public QRSettingModel QRSetting
         {
             get 
             {
-                return _NumberSettingModel;
+                return _QRSettingModel;
             } 
             set 
             {
-                _NumberSettingModel = value;
-                OnPropertyChanged(nameof(NumberSetting));
+                _QRSettingModel = value;
+                OnPropertyChanged(nameof(QRSetting));
             }
 
         } 
@@ -71,7 +71,52 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        public ObservableCollection<int> CharactersCountCollection
+        {
+            get
+            {
+                var EnumList = new ObservableCollection<int>();
+                EnumList.Add(1); 
+                EnumList.Add(2); 
+                EnumList.Add(3); 
+                EnumList.Add(4); 
+                EnumList.Add(5);
 
+
+                return EnumList;
+            }
+        }
+
+
+        public ObservableCollection<CharactersFormEnum> CharactersFormEnumCollection
+        {
+            get
+            {
+                var EnumList = new ObservableCollection<CharactersFormEnum>();
+                foreach (CharactersFormEnum EachEnum in System.Enum.GetValues(typeof(CharactersFormEnum)))
+                {
+                    EnumList.Add(EachEnum);
+                }
+
+                return EnumList;
+            }
+        }
+
+
+
+
+        public ObservableCollection<string> ModelSizeCollection
+        {
+            get
+            {
+                var EnumList = new ObservableCollection<string>();
+                EnumList.Add("11x11");
+                EnumList.Add("11x22");
+                EnumList.Add("22x22");
+
+                return EnumList;
+            }
+        }
 
 
 
@@ -87,7 +132,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                NumberSetting = new NumberSettingModel();
+                QRSetting = new QRSettingModel();
             });
         }
 

@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace GD_StampingMachine.ValueConverters
+namespace GD_StampingMachine.GD_ValueConverters
 {
     public class MultiValueHasParameterValueToBooleanConverter : MarkupExtension, IMultiValueConverter
     {

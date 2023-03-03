@@ -9,30 +9,15 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-             xmlns:valueconverters="clr-namespace:GD_StampingMachine.ValueConverters" 
-             xmlns:usercontrols="clr-namespace:GD_StampingMachine.UserControls"
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.GD_ValueConverters" 
+             xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DesignHeight="1000" d:DesignWidth="1100" >
+             d:DesignHeight="800" d:DesignWidth="900" >
     <UserControl.DataContext>
         <GD_ViewModels:StampingMainViewModel/>
     </UserControl.DataContext>
     <Grid  Margin="-5">
-        <Grid.Resources>
-            <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
-                <Setter Property="Width" Value="45"/>
-                <Setter Property="Height" Value="45"/>
-                <Setter Property="Margin" Value="2"/>
-                <Setter Property="Padding" Value="0"/>
-            </Style>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}" x:Key="ToggleButtonTitleWhite">
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-            </Style>
-            <Style TargetType="GroupBox" BasedOn="{StaticResource UnderLineStyleGroupBox}">
-                <Setter Property="Padding" Value="50,20"/>
-            </Style>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -98,7 +83,7 @@
                     <Grid>
                     <StackPanel Visibility="{Binding ElementName=MainTabControl, 
                     Path=SelectedIndex , 
-                    ConverterParameter={StaticResource MinusOne} ,Converter={valueconverters:ObjectIsEqualToVisibilityConverter}}"
+                    ConverterParameter={StaticResource MinusOne} ,Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
                         Background="White">
                             <Grid  Width="600"  >
                                 <Image Source="pack://application:,,,/image/擷取1.PNG"/>
@@ -108,7 +93,7 @@
                               Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
                                 <StackPanel>
                                     <ListBox  SelectionMode="Multiple" 
-                                        Grid.Row="1" ItemsSource="{Binding StampingTypeVMObservableCollection, UpdateSourceTrigger=PropertyChanged}">
+                                        Grid.Row="1" ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection, UpdateSourceTrigger=PropertyChanged}">
                                         <ListBox.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel Orientation="Horizontal"/>
@@ -366,682 +351,84 @@
                         </TabItem>
                             <TabItem IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
                             <ScrollViewer VerticalScrollBarVisibility="auto">
-                                <Grid VerticalAlignment="Stretch">
+                                <GD_UserControls:StampingFontChangedUserControl DataContext="{Binding StampingFontChangedVM}"/>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}" >
+                            <GD_UserControls:ParamaterSettingUserControl DataContext="{Binding ParameterSettingVM}"/>
+                        </TabItem>
+                            <TabItem IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
+                            <TabItem.Resources>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                </Style>
+                            </TabItem.Resources>
+                            <ScrollViewer VerticalScrollBarVisibility="auto">
+                                <StackPanel  Margin="200,15,0,0">
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="250"/>
+                                    </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="400"/>
                                     </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0" >
-                                        <Image Source="pack://application:,,,/image/擷取2.PNG" MaxHeight="400"/>
-                                    </Grid>
-                                    <Grid Grid.Row="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
+                                        <Border Grid.Column="0" Background="#989797" CornerRadius="20"  >
+                                            <Grid Margin="10" >
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{DynamicResource Text_ThisVersionIntroduce}" />
+                                                        <TextBlock Text="："/>
+                                                    </StackPanel>
 
-                                        <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
-                                            <ListBox  Grid.Row="1" VerticalAlignment="Top"  MinHeight="160"
-                                                  SelectedItem="{Binding StampingFontSelected}"  Margin="10,10,10,0"  Name="StampingFontListBoxScrollViewer" 
-                                        ItemsSource="{Binding StampingTypeVMObservableCollection}">
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel/>
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Margin="0,5">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="auto"/>
-                                                                <ColumnDefinition Width="auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
-                                                                CornerRadius="3"
-                                                                Width="40" 
-                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                                                <TextBlock Text="{Binding StampingTypeString}" FontSize="30"  
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                            </Border>
-                                                            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
-                                                                <TextBlock Text="NO." FontSize="10" Foreground="White"/>
-                                                                <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10" Foreground="White"/>
-                                                            </StackPanel>
-                                                        </Grid>
-                                                        <DataTemplate.Triggers>
-                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="True">
-                                                                <Setter TargetName="SteelFontBorder" Property="Background" Value="DeepSkyBlue"/>
-                                                                <Setter Property="TextBox.Foreground"  Value="White"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="False">
-                                                                <Setter TargetName="SteelFontBorder" Property="Background" Value="Transparent"/>
-                                                                <Setter Property="TextBox.Foreground"  Value="White"/>
-                                                            </DataTrigger>
-                                                        </DataTemplate.Triggers>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                            </ListBox>
-                                        </GroupBox>
-                                        <Grid  VerticalAlignment="Top" Margin="10,50" Grid.Column="1" Grid.Row="1">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <Button Grid.Row="0" Content="{DynamicResource btnReplace}" Command="{Binding StampingFontReplaceCommand}" Margin="5,10"/>
-                                            <Button Grid.Row="1" Content="{DynamicResource btnDelete}" Margin="5,10" Command="{Binding UnusedStampingFontDelCommand}"/>
-                                        </Grid>
-                                  
-                                        <GroupBox Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
-                                        <ListBox  
-                                                      Height="{Binding ElementName=StampingFontListBoxScrollViewer, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                            ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
-                                             SelectedItem="{Binding UnusedStampingFontSelected}" 
-                                        ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}">
-                                            <ListBox.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <WrapPanel Orientation="Vertical" />
-
-                                                </ItemsPanelTemplate>
-                                            </ListBox.ItemsPanel>
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
+                                                <Border Grid.Row="1" Background="White" Width="130" Height="60" CornerRadius="10" Margin="5,10"  HorizontalAlignment="Left">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition/>
                                                         </Grid.ColumnDefinitions>
-                                                        <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
-                                                                CornerRadius="3"
-                                                                Width="40" 
-                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                                            <TextBlock Text="{Binding StampingTypeString}" FontSize="30"  
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                        </Border>
-                                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0" Width="100">
-                                                            <TextBlock  Text="{Binding StampingTypeUseCount}" VerticalAlignment="Center" FontSize="14" Width="50" TextAlignment="Right"/>
-                                                            <TextBlock  Text="{DynamicResource Text_Count2}" VerticalAlignment="Center" FontSize="16"/>
-                                                        </StackPanel>
-
-                                                    </Grid>
-                                                    <DataTemplate.Triggers>
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="True">
-                                                            <Setter TargetName="SteelFontBorder" Property="Background" Value="DeepSkyBlue"/>
-                                                            <Setter Property="TextBox.Foreground"  Value="White"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="False">
-                                                            <Setter TargetName="SteelFontBorder" Property="Background" Value="Transparent"/>
-                                                            <Setter Property="TextBox.Foreground"  Value="White"/>
-                                                        </DataTrigger>
-                                                    </DataTemplate.Triggers>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                        </GroupBox>
-                                        <materialDesign:DialogHost  
-                                            DialogTheme="Dark" Grid.Column="2" Grid.Row="0" DialogMargin="20" VerticalAlignment="Top" HorizontalAlignment="Right" >
-                                            <materialDesign:DialogHost.DialogContent>
-                                                <StackPanel Margin="16">
-                                                    <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" />
-                                                    <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
-                                                                CornerRadius="3"
-                                                                Width="40" 
-                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-
-                                                        <TextBox
-                                                                FontSize="20"
-                                                                VerticalAlignment="Bottom"
-                                                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                                                                x:Name="AddStampingFontTextBox" Text="{Binding NewUnnsedStampingFontString , UpdateSourceTrigger=PropertyChanged}" />
+                                                        <Border Background="#0042c9" Width="50" CornerRadius="10" Margin="5" HorizontalAlignment="Left" >
+                                                        <TextBlock Text="16" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}"/>
                                                     </Border>
-
-
-                                                    <StackPanel
-                                                                Orientation="Horizontal"
-                                                                HorizontalAlignment="Right">
-                                                        <Button  Margin="8" 
-                                                                         IsEnabled="{Binding NewUnnsedStampingFontString,
-                                                                    Converter={valueconverters:ObjectIsNullToBooleanConverter Invert=True}, 
-                                                                    UpdateSourceTrigger=PropertyChanged}"
-                                                                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                                                                    IsDefault="True"
-                                                                    Content="{DynamicResource btnAdd}" 
-                                                                    >
-                                                            <i:Interaction.Triggers>
-                                                                <i:EventTrigger EventName="Click">
-                                                                    <i:InvokeCommandAction Command="{Binding UnusedStampingFontAddCommand}" />
-                                                                    <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                                                </i:EventTrigger>
-                                                            </i:Interaction.Triggers>
-
-
-
-
-                                                        </Button>
-                                                        <Button Margin="8"
-                                                                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                                                                    IsCancel="True"
-                                                                    Content="{DynamicResource btnClose}"
-                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
-                                                        </Button>
-                                                    </StackPanel>
+                                                        <Grid Grid.Column="1" Margin="0,3">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Column="1" Grid.Row="0" Text="iOS 16.1" Foreground="Black" FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" FontSize="16"/>
+                                                        <TextBlock Grid.Column="1" Grid.Row="1" Text="Apple Inc." Foreground="Black" FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}"/>
+                                                        <TextBlock Grid.Column="1" Grid.Row="2" Text="948.8 MB" Foreground="Black" FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}"/>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Border>
+                                                <TextBlock Grid.Row="2" Text="--更新訊息--"/>
+                                                <StackPanel Grid.Row="3" >
+                                                    <TextBlock  Text="{DynamicResource Text_AnyQuestion}" HorizontalAlignment="Left" FontSize="12"/>
+                                                    <TextBlock  Text="{DynamicResource Text_PleaseContactUs}" HorizontalAlignment="Left" FontSize="12"/>
+                                                    <TextBlock  Text="{DynamicResource Text_GuandaMachinery}" HorizontalAlignment="Left" FontSize="12"/>
+                                                    <TextBlock  Text="{DynamicResource Text_PhoneNumber}" HorizontalAlignment="Left" FontSize="12"/>
                                                 </StackPanel>
-                                            </materialDesign:DialogHost.DialogContent>
-                                            <Button  Height="26" Padding="15,0" Margin="10,0"
-                                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="{DynamicResource btnAdd}"/>
-                                        </materialDesign:DialogHost>
-                                        
+                                            </Grid>
+                                        </Border>
+                                    <Border Grid.Column="1" Margin="20" BorderThickness="1.5" CornerRadius="1" BorderBrush="#989797"/>
+                                    <Border Grid.Column="2" Background="#989797" CornerRadius="20"  >
+                                            <StackPanel Margin="10" Orientation="Horizontal">
+                                                <TextBlock Text="{DynamicResource Text_UpdateVersionContent}" />
+                                                <TextBlock Text="："/>
+                                            </StackPanel>
+                                    </Border>
                                     </Grid>
-
-                                </Grid>
+                                    <Button Content="{DynamicResource Text_DownloadAndInstall}" Width="auto" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+                                </StackPanel>
                             </ScrollViewer>
                         </TabItem>
-                        <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}" DataContext="{Binding ParameterSettingVM}">
-                            <TabItem.Resources>
-                                <Style TargetType="TextBlock" >
-                                    <Setter Property="FontSize" Value="16"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                                <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
-                                    <Setter Property="FontSize" Value="16"/>
-                                    <Setter Property="BorderBrush" Value="White"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Width" Value="300"/>
-                                    <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="10,0,0,2"/>
-                                </Style>
-                                <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                                    <Setter Property="FontSize" Value="16"/>
-                                    <Setter Property="BorderBrush" Value="White"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                                    <Setter Property="Width" Value="300"/>
-                                    <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="10,0,0,2"/>
-                                    <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                                    <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                                    <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".2"/>
-                                    <Setter Property="IsEditable" Value="False"/>
-                                </Style>
-                            </TabItem.Resources>
-                            <Grid  Margin="150,0,0,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Border BorderThickness="0,0,0,1" BorderBrush="White">
-                                    <Border.Resources>
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}">
-                                        </Style>
-                                    </Border.Resources>
-                                    <StackPanel Orientation="Horizontal">
-                                    <StackPanel Margin="15">
-                                        <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnNumberSetting" >
-                                        </ToggleButton>
-                                            <TextBlock Text="{DynamicResource btnNumberSetting}" Margin="0,5"/>
-                                    </StackPanel>
-                                        <StackPanel Margin="15">
-                                        <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnQRSetting" >
-                                        </ToggleButton>
-                                            <TextBlock Text="{DynamicResource btnQRSetting}" Margin="0,5"/>
-                                        </StackPanel>
-                                        <StackPanel  Margin="15">
-                                            <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnAxisSetting" >
-                                            </ToggleButton>
-                                            <TextBlock Text="{DynamicResource btnAxisSetting}" Margin="0,5"/>
-                                        </StackPanel>
-                                        <StackPanel  Margin="15">
-                                            <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnTimimgSetting" >
-                                            </ToggleButton>
-                                            <TextBlock Text="{DynamicResource btnTimimgSetting}" Margin="0,5"/>
-                                        </StackPanel>
-                                        <StackPanel  Margin="15">
-                                            <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnSegregationSetting" >
-                                            </ToggleButton>
-                                            <TextBlock Text="{DynamicResource btnSegregationSetting}" Margin="0,5"/>
-                                        </StackPanel>
-                                        <StackPanel  Margin="15">
-                                            <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnInputOutput" >
-                                            </ToggleButton>
-                                            <TextBlock Text="{DynamicResource btnInput}" HorizontalAlignment="Left" Margin="0,5,0,0"/>
-                                                <TextBlock Text="{DynamicResource btnOutput}" HorizontalAlignment="Left"/>
-
-                                        </StackPanel>
-                                        <StackPanel  Margin="15">
-                                            <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnSeEngineeringMode" >
-                                            </ToggleButton>
-                                            <TextBlock Text="{DynamicResource btnSeEngineeringMode}" Margin="0,5"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Border>
-                                <ScrollViewer VerticalAlignment="Stretch" Grid.Row="1">
-                                <TabControl>
-                                        <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}" DataContext="{Binding NumberSettingVM}">
-                                            <StackPanel HorizontalAlignment="Left">
-                                                <Grid Margin="20">
-                                                    <Grid.Resources>
-                                                        <Style TargetType="TextBlock">
-                                                            <Setter Property="Foreground" Value="White"/>
-                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                                            <Setter Property="FontSize" Value="24"/>
-                                                        </Style>
-                                                    </Grid.Resources>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="20"/>
-                                                        <ColumnDefinition Width="40"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                        <ColumnDefinition Width="50"/>
-                                                        <ColumnDefinition Width="40"/>
-                                                        <ColumnDefinition Width="25"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="25"/>
-                                                        <RowDefinition Height="20"/>
-                                                        <RowDefinition Height="25"/>
-                                                        <RowDefinition Height="70"/>
-                                                        <RowDefinition Height="25"/>
-                                                        <RowDefinition Height="70"/>
-                                                        <RowDefinition Height="25"/>
-                                                        <RowDefinition Height="25"/>
-                                                    </Grid.RowDefinitions>
-                                                    <Border Background="#d6d5ce" CornerRadius="10" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="17" Grid.RowSpan="5"
-                                                         HorizontalAlignment="Stretch" />
-                                                    <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="20"/>
-                                                    <TextBlock Text="B" Foreground="Red" Grid.Row="2" FontSize="20"/>
-                                                    <TextBlock Text="C" Foreground="Red" Grid.Column="6" FontSize="20"/>
-                                                    <TextBlock Text="D" Foreground="Red" Grid.Row="4" FontSize="20"/>
-                                                    <TextBlock Text="E" Foreground="Red" Grid.Column="18" FontSize="20"/>
-
-
-                                                    <Border Background="#55534d" Grid.Column="3" Grid.Row="3">
-                                                        <TextBlock Text="1" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="5" Grid.Row="3">
-                                                        <TextBlock Text="2" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="7" Grid.Row="3">
-                                                        <TextBlock Text="3" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="9" Grid.Row="3">
-                                                        <TextBlock Text="4" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="11" Grid.Row="3">
-                                                        <TextBlock Text="5" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="13" Grid.Row="3">
-                                                        <TextBlock Text="6" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="15" Grid.Row="3">
-                                                        <TextBlock Text="7" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="17" Grid.Row="3">
-                                                        <TextBlock Text="8" />
-                                                    </Border>
-                                                    
-                                                    <Border Background="#55534d" Grid.Column="3" Grid.Row="5">
-                                                        <TextBlock Text="9" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="5" Grid.Row="5">
-                                                        <TextBlock Text="10" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="7" Grid.Row="5">
-                                                        <TextBlock Text="11" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="9" Grid.Row="5">
-                                                        <TextBlock Text="12" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="11" Grid.Row="5">
-                                                        <TextBlock Text="13" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="13" Grid.Row="5">
-                                                        <TextBlock Text="14" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="15" Grid.Row="5">
-                                                        <TextBlock Text="15" />
-                                                    </Border>
-                                                    <Border Background="#55534d" Grid.Column="17" Grid.Row="5">
-                                                        <TextBlock Text="16" />
-                                                    </Border>
-
-
-                                                    <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
-                                                    <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="8"/>
-
-
-                                                    <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center"/>
-                                                    <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="6" Grid.Row="1" Grid.RowSpan="8"/>
-
-
-                                                    <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="18" Grid.Row="1" VerticalAlignment="Center"/>
-                                                    <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="18" Grid.Row="1" Grid.RowSpan="8"/>
-
-
-                                                    <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center"/>
-                                                    <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="19"/>
-
-                                                    <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center"/>
-                                                    <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="19"/>
-
-                                                </Grid>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="auto"/>
-                                                        <RowDefinition Height="auto"/>
-                                                        <RowDefinition Height="auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <GroupBox Grid.Row="0" Header="{DynamicResource textMode}">
-                                                    <Grid HorizontalAlignment="Left">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="80"/>
-                                                                <ColumnDefinition Width="auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                            <StackPanel Orientation="Horizontal" >
-                                                            <TextBlock Text="{DynamicResource textCurrentMode}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-
-                                                            <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding NumberSettingModeCollection}" 
-                                                                      SelectedItem="{Binding NumberSetting.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
-                                                                <ComboBox.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock Text="{Binding Converter={ valueconverters:EnumGetNameConverter}}"></TextBlock>
-                                                                    </DataTemplate>
-                                                                </ComboBox.ItemTemplate>
-                                                            </ComboBox>
-
-                                                        </Grid>
-
-                                                </GroupBox>
-                                                    <GroupBox  Grid.Row="1" Header="{DynamicResource textIronPlateMarginSetting}">
-                                                        <Grid HorizontalAlignment="Left">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="80"/>
-                                                                <ColumnDefinition Width="auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <StackPanel Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="{DynamicResource textCurrentMode}"/>
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <TextBox   Grid.Column="1" Text="{Binding NumberSetting.NumberSettingMode , Converter={valueconverters:EnumGetNameConverter}}">
-                                                            </TextBox>
-                                                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <ComboBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" SelectedValue="{Binding NumberSetting.SequenceCount}" ItemsSource="{Binding SequenceCountCollection}">
-     
-                                                            </ComboBox>
-                                                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="{DynamicResource textSpecialSequence}"/>
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <ComboBox  Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
-                                                                       ItemsSource="{Binding SpecialSequenceCollection}"
-                                                                       SelectedValue="{Binding NumberSetting.SpecialSequence}">
-                                                                <ComboBox.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock Text="{Binding Converter={ valueconverters:EnumGetNameConverter}}"></TextBlock>
-                                                                    </DataTemplate>
-                                                                </ComboBox.ItemTemplate>
-
-                                                            </ComboBox>
-
-                                                        </Grid>
-
-
-
-
-                                                    </GroupBox>
-                                                    <GroupBox  Grid.Row="2" Header="{DynamicResource textIronPlateMarginSetting}">
-                                                        <Grid HorizontalAlignment="Left">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="80"/>
-                                                                <ColumnDefinition Width="auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <StackPanel Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="A"/>
-                                                                <TextBlock Text="{DynamicResource textMargin}"/>
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.A_Margin}"/>
-                                                            <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                                            <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="B"/>
-                                                                <TextBlock Text="{DynamicResource textMargin}"/>
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.B_Margin}"/>
-                                                            <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                                            <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="C"/>
-                                                                <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"   />
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.C_Margin}"/>
-                                                            <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                                            <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="D"/>
-                                                                <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.D_Margin}"  />
-                                                            <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                                            <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
-                                                                <TextBlock Text="E"/>
-                                                                <TextBlock Text="{DynamicResource textMargin}"/>
-                                                                <TextBlock Text="："/>
-                                                            </StackPanel>
-                                                            <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.E_Margin}"/>
-                                                            <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                                        </Grid>
-
-
-
-
-                                                    </GroupBox>
-                                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,50">
-                                                        <Button Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
-                                                        <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                                        <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
-                                                    </StackPanel>
-                                                    
-                                                </Grid>
-
-                                            </StackPanel>
-                                        </TabItem>
-                                    <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}">
-
-                                    </TabItem>
-                                        <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnAxisSetting, Path=IsChecked}" DataContext="{Binding AxisSettingVM}">
-                                            <TabItem.Resources>
-                                                <Style TargetType="TextBlock" >
-                                                    <Setter Property="FontSize" Value="16"/>
-                                                </Style>
-                                                <Style TargetType="GroupBox" BasedOn="{StaticResource UnderLineStyleGroupBox}">
-                                                    <Setter Property="Padding" Value="20"/>
-                                                </Style>
-                                            </TabItem.Resources>
-                                            
-                                            <Grid >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition MaxWidth="450"/>
-                                                    <ColumnDefinition MaxWidth="450"/>
-                                                    <ColumnDefinition Width="auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                <GroupBox Grid.Column="0" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10"  >
-                                                    <Grid VerticalAlignment="Top">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                                                            <TextBlock Text="{DynamicResource Text_XAxisSpeed}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-                                                        <usercontrols:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding XAxisSpeed, Mode=TwoWay}" />
-                                                    </Grid>
-                                                </GroupBox>
-                                                <GroupBox Grid.Column="0" Grid.Row="1" Header="{DynamicResource Text_RouletteAxisSetting}" Margin="10" >
-                                                    <Grid VerticalAlignment="Top">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition/>
-                                                            <RowDefinition/>
-                                                            <RowDefinition/>
-                                                        </Grid.RowDefinitions>
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="0,0,0,10" >
-                                                            <TextBlock Text="{DynamicResource Text_YAxisSpeed}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-                                                        <usercontrols:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.YAxisSpeed}" Margin="0,0,0,10" />
-                                              
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Margin="0,10">
-                                                            <TextBlock Text="{DynamicResource Text_FontDepth}" />
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-                                                        <usercontrols:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.FontDepth}" Grid.Row="1" Margin="0,10"/>
-                                                        
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Margin="0,10">
-                                                            <TextBlock Text="{DynamicResource Text_RouletteSpeed}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-                                                        <usercontrols:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.RouletteSpeed}" Grid.Row="2" Margin="0,10"/>
-                                                        
-                                                    </Grid>
-                                                </GroupBox>
-                                                <GroupBox Grid.Column="0" Grid.Row="2" Header="{DynamicResource Text_ShearingMachineSetting}" Margin="10" >
-                                                    <Grid VerticalAlignment="Top">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition/>
-                                                            <RowDefinition/>
-                                                            <RowDefinition/>
-                                                        </Grid.RowDefinitions>
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10" >
-                                                            <TextBlock Text="{DynamicResource Text_ZAxisPressure}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-                                                        <usercontrols:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.ZAxisPressure, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
-
-
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Margin="0,10" >
-                                                            <TextBlock Text="{DynamicResource Text_ZAxisOrigin}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-                                                        <TextBox Grid.Column="1" Text="{Binding AxisSetting.ZAxisOrigin}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Grid.Row="1" Margin="0,10"/>
-                                                        <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10" />
-
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" >
-                                                            <TextBlock Text="{DynamicResource Text_ZAxisPreparationPoint}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-                                                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding AxisSetting.ZAxisPreparationPoint}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Margin="0,10"/>
-                                                        <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10"/>
-
-
-                                                    </Grid>
-                                                </GroupBox>
-                                                
-                                                
-                                                <GroupBox Grid.Column="1" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10" >
-                                                    <Grid VerticalAlignment="Top">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                                                            <TextBlock Text="{DynamicResource Text_FeedDistance}"/>
-                                                            <TextBlock Text="："/>
-                                                        </StackPanel>
-
-                                                        <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Text="{Binding AxisSetting.FeedDistance}"/>
-                                                        <TextBlock  Grid.Column="1" Text="mm"  HorizontalAlignment="Right" Margin="10,0" />
-
-                                                    </Grid>
-                                                </GroupBox>
-                                            </Grid>
-                                        </TabItem>
-                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnTimimgSetting, Path=IsChecked}">
-
-                                    </TabItem>
-                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}">
-
-                                    </TabItem>
-                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}">
-
-                                    </TabItem>
-                                    <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}">
-
-                                    </TabItem>
-                                    </TabControl>
-                                </ScrollViewer>
-                            </Grid>
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
-                                <TextBlock Text="tabitem4"/>
-                            </TabItem>
                             <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
                                 <TextBlock Text="test"/>
                             </TabItem>

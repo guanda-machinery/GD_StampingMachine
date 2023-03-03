@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.ViewModels
+namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class AxisSettingViewModel : ViewModelBase
     {
@@ -16,6 +16,8 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
+                //存檔
+
                return _AxisSettingModel;
             }
             set

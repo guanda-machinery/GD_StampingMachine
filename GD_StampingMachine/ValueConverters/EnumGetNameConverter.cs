@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Xml.Linq;
 
-namespace GD_StampingMachine.ValueConverters
+namespace GD_StampingMachine.GD_ValueConverters
 {
     internal class EnumGetNameConverter : MarkupExtension, IValueConverter
     {

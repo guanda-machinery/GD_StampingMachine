@@ -29,7 +29,7 @@ namespace GD_StampingMachine.ViewModels
              });
             MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
 
-            StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>()
+            StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>()
             {
                     new Model.StampingTypeModel(){ StampingTypeNumber =1 , StampingTypeString = "1" , StampingTypeUseCount=25} ,
                     new Model.StampingTypeModel(){ StampingTypeNumber =2 , StampingTypeString = "2" , StampingTypeUseCount=180},
@@ -99,8 +99,7 @@ namespace GD_StampingMachine.ViewModels
                     new Model.StampingTypeModel(){ StampingTypeNumber =39, StampingTypeString = "g" , StampingTypeUseCount=150},
                     new Model.StampingTypeModel(){ StampingTypeNumber =40, StampingTypeString = "-" , StampingTypeUseCount=2550}
              };
-
-            UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>()
+            StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>()
             {
                     new Model.StampingTypeModel(){ StampingTypeNumber =1 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0} ,
                     new Model.StampingTypeModel(){ StampingTypeNumber =2 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
@@ -128,7 +127,6 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        public MechanicalSpecificationViewModel MechanicalSpecificationVM { get; set; } = new MechanicalSpecificationViewModel();
 
 
         public RelayCommand OpenProjectFileCommand
@@ -170,21 +168,14 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        public ObservableCollection<StampingTypeModel> StampingTypeVMObservableCollection { get; set; } = new ObservableCollection<StampingTypeModel>();
-
-        public ObservableCollection<StampingTypeModel> UnusedStampingTypeVMObservableCollection { get; set; } = new ObservableCollection<StampingTypeModel>();
-        /// <summary>
-        /// 鋼印機上的字模
-        /// </summary>
-        public StampingTypeModel StampingFontSelected { get; set; }
-        /// <summary>
-        /// 被新建出來還沒放上去的字模/被換下來的字模
-        /// </summary>
-        public StampingTypeModel UnusedStampingFontSelected { get; set; }
 
 
 
         #region VM
+
+        public MechanicalSpecificationViewModel MechanicalSpecificationVM { get; set; } = new MechanicalSpecificationViewModel();
+
+        public StampingFontChangedViewModel StampingFontChangedVM { get; set; } = new StampingFontChangedViewModel();
         public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
 
         #endregion
@@ -192,80 +183,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        public RelayCommand StampingFontReplaceCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                if(StampingFontSelected != null && UnusedStampingFontSelected != null)
-                {
-                    var FontString = StampingFontSelected.StampingTypeString;
-                    var FontStringNumber =  StampingFontSelected.StampingTypeNumber;
-                    var FontStringUseCount =  StampingFontSelected.StampingTypeUseCount;
-                  
-                    var UnusedFontString =  UnusedStampingFontSelected.StampingTypeString;
-                    var UnusedFontStringNumber = UnusedStampingFontSelected.StampingTypeNumber;
-                    var UnusedFontStringUseCount = UnusedStampingFontSelected.StampingTypeUseCount;
-    
-                    var ST_index = StampingTypeVMObservableCollection.FindIndex(x => x == StampingFontSelected);
-                    var UST_index = UnusedStampingTypeVMObservableCollection.FindIndex(x => x == UnusedStampingFontSelected);
 
-                    StampingTypeVMObservableCollection[ST_index] = new StampingTypeModel()
-                    {
-                        StampingTypeNumber = FontStringNumber,
-                        StampingTypeString = UnusedFontString,
-                        StampingTypeUseCount = UnusedFontStringUseCount
-                    };
-
-                    UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeModel()
-                    {
-                        StampingTypeNumber = UnusedFontStringNumber,
-                        StampingTypeString = FontString,
-                        StampingTypeUseCount = FontStringUseCount
-                    };
-
-                    // UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeModel() { StampingTypeNumber=  };
-                    //
-                }
-
-
-
-
-            
-            });
-        }
-
-        private string _newUnnsedStampingFontString;
-        public string NewUnnsedStampingFontString 
-        {
-            get { return _newUnnsedStampingFontString; }
-            set { _newUnnsedStampingFontString = value; OnPropertyChanged(nameof(NewUnnsedStampingFontString)); } 
-        }
-        public ICommand UnusedStampingFontAddCommand
-        {
-            get => new RelayCommand(() => 
-            {
-                if (!string.IsNullOrEmpty(NewUnnsedStampingFontString))
-                {
-                    UnusedStampingTypeVMObservableCollection.Add(new StampingTypeModel()
-                    {
-                        StampingTypeNumber = 0,
-                        StampingTypeString = NewUnnsedStampingFontString,
-                        StampingTypeUseCount = 0
-                    });
-                }
-            });
-        }
-
-        public RelayCommand UnusedStampingFontDelCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                if (UnusedStampingFontSelected != null)
-                    UnusedStampingTypeVMObservableCollection.Remove(UnusedStampingFontSelected);
-
-
-            });
-        }
 
         
 

@@ -1,0 +1,1054 @@
+﻿<UserControl x:Class="GD_StampingMachine.UserControls.ParamaterSettingUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.GD_ValueConverters" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d" >
+    <Grid  Margin="150,0,0,0">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" >
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Width" Value="300"/>
+                <Setter Property="Margin" Value="10,0"/>
+                <Setter Property="Padding" Value="10,0,0,2"/>
+            </Style>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
+                <Setter Property="Width" Value="300"/>
+                <Setter Property="Margin" Value="10,0"/>
+                <Setter Property="Padding" Value="10,0,0,2"/>
+                <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
+                <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
+                <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".2"/>
+                <Setter Property="IsEditable" Value="False"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0,0,0,1" BorderBrush="White">
+            <Border.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}">
+                </Style>
+            </Border.Resources>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="15">
+                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnNumberSetting" >
+                    </ToggleButton>
+                    <TextBlock Text="{DynamicResource btnNumberSetting}" Margin="0,5"/>
+                </StackPanel>
+                <StackPanel Margin="15">
+                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnQRSetting" >
+                    </ToggleButton>
+                    <TextBlock Text="{DynamicResource btnQRSetting}" Margin="0,5"/>
+                </StackPanel>
+                <StackPanel  Margin="15">
+                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnAxisSetting" >
+                    </ToggleButton>
+                    <TextBlock Text="{DynamicResource btnAxisSetting}" Margin="0,5"/>
+                </StackPanel>
+                <StackPanel  Margin="15">
+                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnTimimgSetting" >
+                    </ToggleButton>
+                    <TextBlock Text="{DynamicResource btnTimimgSetting}" Margin="0,5"/>
+                </StackPanel>
+                <StackPanel  Margin="15">
+                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnSegregationSetting" >
+                    </ToggleButton>
+                    <TextBlock Text="{DynamicResource btnSeparateSetting}" Margin="0,5"/>
+                </StackPanel>
+                <StackPanel  Margin="15">
+                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnInputOutput" >
+                    </ToggleButton>
+                    <TextBlock Text="{DynamicResource btnInput}" HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                    <TextBlock Text="{DynamicResource btnOutput}" HorizontalAlignment="Left"/>
+
+                </StackPanel>
+                <StackPanel  Margin="15">
+                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnSeEngineeringMode" >
+                    </ToggleButton>
+                    <TextBlock Text="{DynamicResource btnSeEngineeringMode}" Margin="0,5"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <ScrollViewer VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
+            <TabControl>
+                <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}" DataContext="{Binding NumberSettingVM}">
+                    <StackPanel HorizontalAlignment="Left">
+                        <Grid Margin="20">
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="24"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="25"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="#d6d5ce" CornerRadius="10" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="17" Grid.RowSpan="5"
+                                                         HorizontalAlignment="Stretch" />
+                            <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="20"/>
+                            <TextBlock Text="B" Foreground="Red" Grid.Row="2" FontSize="20"/>
+                            <TextBlock Text="C" Foreground="Red" Grid.Column="6" FontSize="20"/>
+                            <TextBlock Text="D" Foreground="Red" Grid.Row="4" FontSize="20"/>
+                            <TextBlock Text="E" Foreground="Red" Grid.Column="18" FontSize="20"/>
+
+
+                            <Border Background="White" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Width="25" Height="25" CornerRadius="12.5" VerticalAlignment="Top" Margin="0,12"/>
+
+                            <Border Background="#55534d" Grid.Column="3" Grid.Row="3">
+                                <TextBlock Text="1" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="5" Grid.Row="3">
+                                <TextBlock Text="2" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="7" Grid.Row="3">
+                                <TextBlock Text="3" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="9" Grid.Row="3">
+                                <TextBlock Text="4" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="11" Grid.Row="3">
+                                <TextBlock Text="5" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="13" Grid.Row="3">
+                                <TextBlock Text="6" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="15" Grid.Row="3">
+                                <TextBlock Text="7" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="17" Grid.Row="3">
+                                <TextBlock Text="8" />
+                            </Border>
+
+                            <Border Background="#55534d" Grid.Column="3" Grid.Row="5">
+                                <TextBlock Text="9" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="5" Grid.Row="5">
+                                <TextBlock Text="10" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="7" Grid.Row="5">
+                                <TextBlock Text="11" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="9" Grid.Row="5">
+                                <TextBlock Text="12" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="11" Grid.Row="5">
+                                <TextBlock Text="13" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="13" Grid.Row="5">
+                                <TextBlock Text="14" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="15" Grid.Row="5">
+                                <TextBlock Text="15" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="17" Grid.Row="5">
+                                <TextBlock Text="16" />
+                            </Border>
+
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="8"/>
+
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="6" Grid.Row="1" Grid.RowSpan="8"/>
+
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="18" Grid.Row="1" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="18" Grid.Row="1" Grid.RowSpan="8"/>
+
+
+                            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center"/>
+                            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="19"/>
+
+                            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center"/>
+                            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="19"/>
+
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <GroupBox Grid.Row="0" Header="{DynamicResource textMode}">
+                                <Grid HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <TextBlock Text="{DynamicResource textCurrentMode}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+
+                                    <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding NumberSettingModeCollection}" 
+                                                                      SelectedItem="{Binding NumberSetting.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                </Grid>
+
+                            </GroupBox>
+                            <GroupBox  Grid.Row="1" Header="{DynamicResource textIronPlateMarginSetting}">
+                                <Grid HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="{DynamicResource textCurrentMode}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox   Grid.Column="1" Text="{Binding NumberSetting.NumberSettingMode , Converter={GD_ValueConverters:EnumGetNameConverter}}">
+                                    </TextBox>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <ComboBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" SelectedValue="{Binding NumberSetting.SequenceCount}" ItemsSource="{Binding SequenceCountCollection}">
+
+                                    </ComboBox>
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="{DynamicResource textSpecialSequence}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <ComboBox  Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
+                                                                       ItemsSource="{Binding SpecialSequenceCollection}"
+                                                                       SelectedValue="{Binding NumberSetting.SpecialSequence}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+
+                                    </ComboBox>
+
+                                </Grid>
+
+
+
+
+                            </GroupBox>
+                            <GroupBox  Grid.Row="2" Header="{DynamicResource textIronPlateMarginSetting}">
+                                <Grid HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="A"/>
+                                        <TextBlock Text="{DynamicResource textMargin}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.A_Margin}"/>
+                                    <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                    <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="B"/>
+                                        <TextBlock Text="{DynamicResource textMargin}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.B_Margin}"/>
+                                    <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                    <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="C"/>
+                                        <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"   />
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.C_Margin}"/>
+                                    <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                    <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="D"/>
+                                        <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.D_Margin}"  />
+                                    <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                    <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="E"/>
+                                        <TextBlock Text="{DynamicResource textMargin}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.E_Margin}"/>
+                                    <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                </Grid>
+
+
+
+
+                            </GroupBox>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Margin="10" VerticalAlignment="Bottom">
+                                <Button Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
+                                <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                            </StackPanel>
+
+                        </Grid>
+
+                    </StackPanel>
+                </TabItem>
+                <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}" DataContext="{Binding QRSettingVM}" Cursor="">
+                    <Grid HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Margin="20">
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="24"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="25"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="#d6d5ce" CornerRadius="10" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="17" Grid.RowSpan="7"
+                                                         HorizontalAlignment="Stretch" />
+                            <TextBlock Text="A" Foreground="Red" Grid.Column="2" Grid.Row="2" FontSize="20"/>
+                            <TextBlock Text="B" Foreground="Red" Grid.Row="4" FontSize="20"/>
+                            <TextBlock Text="C" Foreground="Red" Grid.Column="6" Grid.Row="2"  FontSize="20"/>
+                            <TextBlock Text="D" Foreground="Red" Grid.Row="7" FontSize="20"/>
+                            <TextBlock Text="E" Foreground="Red" Grid.Column="18" FontSize="20"/>
+                            <TextBlock Text="F" Foreground="Red" Grid.Column="2" FontSize="20" Grid.ColumnSpan="12"/>
+                            <TextBlock Text="G" Foreground="Red" Grid.Column="16" Grid.Row="2" FontSize="20" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="H" Foreground="Red" Grid.Column="20" Grid.Row="5" Grid.RowSpan="2" FontSize="20" Margin="0,20,0,0" />
+
+                            <TextBlock Text="I" Foreground="Red" Grid.Row="9" FontSize="20" Grid.RowSpan="2"/>
+
+                            <Border Background="White" Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Width="25" Height="25" CornerRadius="12.5" VerticalAlignment="Top" Margin="0,12"/>
+
+                            <Border Background="#55534d" Grid.Column="2" Grid.Row="6" Grid.RowSpan="3" Margin="4,0">
+                                <TextBlock Text="{DynamicResource Text_Spec}" FontSize="16" />
+                            </Border>
+
+                            <Border Background="#55534d" Grid.Column="3" Grid.Row="5" Grid.RowSpan="2">
+                                <TextBlock Text="1" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2">
+                                <TextBlock Text="2" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="7" Grid.Row="5" Grid.RowSpan="2">
+                                <TextBlock Text="3" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="9" Grid.Row="5" Grid.RowSpan="2">
+                                <TextBlock Text="4" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="11" Grid.Row="5" Grid.RowSpan="2">
+                                <TextBlock Text="5" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="13" Grid.Row="5" Grid.RowSpan="2">
+                                <TextBlock Text="6" />
+                            </Border>
+
+
+                            <Border Background="White" Grid.Column="15" Grid.ColumnSpan="3" Grid.Row="5" Grid.RowSpan="5"  VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Qrcode"  Width="auto" Height="auto" Margin="-10" />
+                            </Border>
+
+                            <Border Background="#55534d" Grid.Column="3" Grid.Row="8" Grid.RowSpan="2">
+                                <TextBlock Text="9" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="5" Grid.Row="8" Grid.RowSpan="2">
+                                <TextBlock Text="10" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="7" Grid.Row="8" Grid.RowSpan="2">
+                                <TextBlock Text="11" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="9" Grid.Row="8" Grid.RowSpan="2">
+                                <TextBlock Text="12" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="11" Grid.Row="8" Grid.RowSpan="2">
+                                <TextBlock Text="13" />
+                            </Border>
+                            <Border Background="#55534d" Grid.Column="13" Grid.Row="8" Grid.RowSpan="2">
+                                <TextBlock Text="14" />
+                            </Border>
+
+
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="3" Grid.RowSpan="9"/>
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="3" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="6" Grid.Row="3" Grid.RowSpan="9"/>
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="18" Grid.Row="1" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="18" Grid.Row="1" Grid.RowSpan="11"/>
+
+                            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center"/>
+                            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="13" Margin="0,0,-5,0"/>
+
+                            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center"/>
+                            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="13" Margin="0,0,-5,0"/>
+
+                            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="9" Grid.RowSpan="2" HorizontalAlignment="Center"/>
+                            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="9" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,0,-5,0"/>
+
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.ColumnSpan="12" Grid.Row="1" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2"  Grid.ColumnSpan="12" Grid.Row="1" Grid.RowSpan="11"/>
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="16" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+                            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="16" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="11"/>
+
+
+                            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="19" Grid.Row="5" Grid.RowSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+                            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="15" Grid.ColumnSpan="5" Grid.Row="5"  Grid.RowSpan="2" Margin="-5,20,0,0" />
+
+
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Margin="0,0,20,0">
+                                <GroupBox  Header="{DynamicResource textMode}">
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <TextBlock Text="{DynamicResource textCurrentMode}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding NumberSettingModeCollection}" 
+                                                                      SelectedItem="{Binding QRSetting.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Header="{DynamicResource textIronPlateMarginSetting}">
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="{DynamicResource textCurrentMode}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox   Grid.Column="1" Text="{Binding QRSetting.NumberSettingMode , Converter={GD_ValueConverters:EnumGetNameConverter}}">
+                                        </TextBox>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" SelectedValue="{Binding QRSetting.SequenceCount}" ItemsSource="{Binding SequenceCountCollection}">
+
+                                        </ComboBox>
+
+                                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="{DynamicResource textSpecialSequence}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox  Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
+                                                                       ItemsSource="{Binding SpecialSequenceCollection}"
+                                                                       SelectedValue="{Binding QRSetting.SpecialSequence}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+
+                                        </ComboBox>
+
+                                    </Grid>
+
+
+
+
+                                </GroupBox>
+                            </StackPanel>
+                            <Grid Grid.Column="1" Margin="10,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <GroupBox Grid.Row="0" Header="{DynamicResource Text_CodeSetting}">
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <TextBlock Text="{DynamicResource Text_CharacterCount}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding CharactersCountCollection}" 
+                                                                      SelectedValue="{Binding QRSetting.CharactersCount, UpdateSourceTrigger=PropertyChanged}">
+                                        </ComboBox>
+
+
+                                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                            <TextBlock Text="{DynamicResource Text_CharacterForm}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox Grid.Column="1" Grid.Row="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding CharactersFormEnumCollection}" 
+                                                                      SelectedValue="{Binding QRSetting.CharactersForm, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Row="1" VerticalAlignment="Bottom" Header="{DynamicResource Text_DataMartix}">
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <TextBlock Text="{DynamicResource Text_ModelSize}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding ModelSizeCollection}" 
+                                                                      SelectedItem="{Binding QRSetting.ModelSize, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                            <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="{DynamicResource textIronPlateMarginSetting}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="A"/>
+                                            <TextBlock Text="{DynamicResource textMargin}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSetting.IronPlateMargin.A_Margin}"/>
+                                        <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="B"/>
+                                            <TextBlock Text="{DynamicResource textMargin}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSetting.IronPlateMargin.B_Margin}"/>
+                                        <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="C"/>
+                                            <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"   />
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSetting.IronPlateMargin.C_Margin}"/>
+                                        <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="D"/>
+                                            <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSetting.IronPlateMargin.D_Margin}"  />
+                                        <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="E"/>
+                                            <TextBlock Text="{DynamicResource textMargin}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSetting.IronPlateMargin.E_Margin}"/>
+                                        <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="0" Grid.Column="3" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="F"/>
+                                            <TextBlock Text="{DynamicResource textMargin}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+
+                                        <TextBox Grid.Column="4"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSetting.IronPlateMargin.F_Margin}"/>
+                                        <TextBlock Text="mm" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel Grid.Column="3"  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="G"/>
+                                            <TextBlock Text="{DynamicResource textMargin}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox Grid.Row="1"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSetting.IronPlateMargin.G_Margin}"/>
+                                        <TextBlock Text="mm" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="H"/>
+                                            <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"   />
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="2"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding  QRSetting.IronPlateMargin.H_Margin}"/>
+                                        <TextBlock Text="mm" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="I"/>
+                                            <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox   Grid.Row="3" Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSetting.IronPlateMargin.I_Margin}"  />
+                                        <TextBlock Text="mm" Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
+
+
+
+                                        <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
+                                            <Button Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
+                                            <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                            <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+                        </Grid>
+
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnAxisSetting, Path=IsChecked}" DataContext="{Binding AxisSettingVM}">
+                    <TabItem.Resources>
+                        <Style TargetType="TextBlock" >
+                            <Setter Property="FontSize" Value="16"/>
+                        </Style>
+                        <Style TargetType="GroupBox" BasedOn="{StaticResource UnderLineStyleGroupBox}">
+                            <Setter Property="Padding" Value="20"/>
+                        </Style>
+                    </TabItem.Resources>
+
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MaxWidth="450"/>
+                            <ColumnDefinition MaxWidth="450"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <GroupBox Grid.Column="0" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10"  >
+                            <Grid VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                                    <TextBlock Text="{DynamicResource Text_XAxisSpeed}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.XAxisSpeed, Mode=TwoWay}" />
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="0" Grid.Row="1" Header="{DynamicResource Text_RouletteAxisSetting}" Margin="10" >
+                            <Grid VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="0,0,0,10" >
+                                    <TextBlock Text="{DynamicResource Text_YAxisSpeed}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.YAxisSpeed, Mode=TwoWay}" Margin="0,0,0,10" />
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Margin="0,10">
+                                    <TextBlock Text="{DynamicResource Text_FontDepth}" />
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.FontDepth , Mode=TwoWay}" Grid.Row="1" Margin="0,10"/>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Margin="0,10">
+                                    <TextBlock Text="{DynamicResource Text_RouletteSpeed}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.RouletteSpeed , Mode=TwoWay}" Grid.Row="2" Margin="0,10"/>
+
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="0" Grid.Row="2" Header="{DynamicResource Text_ShearingMachineSetting}" Margin="10" >
+                            <Grid VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10" >
+                                    <TextBlock Text="{DynamicResource Text_ZAxisPressure}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.ZAxisPressure, Mode=TwoWay}" Margin="0,0,0,10" />
+
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Margin="0,10" >
+                                    <TextBlock Text="{DynamicResource Text_ZAxisOrigin}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <TextBox Grid.Column="1" Text="{Binding AxisSetting.ZAxisOrigin}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Grid.Row="1" Margin="0,10"/>
+                                <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10" />
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" >
+                                    <TextBlock Text="{DynamicResource Text_ZAxisPreparationPoint}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding AxisSetting.ZAxisPreparationPoint}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Margin="0,10"/>
+                                <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10"/>
+
+
+                            </Grid>
+                        </GroupBox>
+
+
+                        <GroupBox Grid.Column="1" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10" >
+                            <Grid VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                                    <TextBlock Text="{DynamicResource Text_FeedDistance}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Text="{Binding AxisSetting.FeedDistance}"/>
+                                <TextBlock  Grid.Column="1" Text="mm"  HorizontalAlignment="Right" Margin="10,0" />
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnTimimgSetting, Path=IsChecked}" DataContext="{Binding TimingSettingVM}">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="{DynamicResource Text_TimingSetting}" Margin="10">
+                            <Grid HorizontalAlignment="Left">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                    <TextBlock Text="{DynamicResource Text_SettingName}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <TextBox   Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterName}"
+                                                                   Text="{Binding TimingSetting.SettingName}">
+                                </TextBox>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                    <TextBlock Text="{DynamicResource Text_RestTime}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+
+
+                                <materialDesign:TimePicker Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
+                                                SelectedTime="{Binding TimingSetting.RestTime, UpdateSourceTrigger=PropertyChanged}"                     />
+
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                    <TextBlock Text="{DynamicResource Text_OpenTime}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+
+                                <materialDesign:TimePicker Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}"
+                                                                    SelectedTime="{Binding TimingSetting.OpenTime}"             />
+
+                                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
+                                    <TextBlock Text="{DynamicResource Text_RepeatCount}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <ComboBox  Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint=""  
+                                                                       ItemsSource="{Binding CharactersCountCollection}"
+                                                                       SelectedValue="{Binding TimingSetting.RepeatCount}">
+
+
+                                </ComboBox>
+
+                            </Grid>
+
+
+
+
+                        </GroupBox>
+                        <GroupBox Grid.Row="1" Header="{DynamicResource Text_SlidewayOilSystem}">
+                            <Grid HorizontalAlignment="Left">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,10" >
+                                    <TextBlock Text="{DynamicResource Text_CycleTime}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <materialDesign:TimePicker Grid.Row="0"  Grid.Column="1"  Width="300"
+                                                           materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
+                                                           WithSeconds="True"
+                                                           SelectedTime="{Binding CycleTimeTimePicker}">
+
+                                </materialDesign:TimePicker>
+
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                    <TextBlock Text="{DynamicResource Text_Intervals}"/>
+                                    <TextBlock Text="："/>
+                                </StackPanel>
+                                <materialDesign:TimePicker  Grid.Row="1" Grid.Column="1"  Width="300"
+                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
+                                                            WithSeconds="True"
+                                                             SelectedTime="{Binding IntervalsTimePicker}"
+                                                            >
+
+
+                                </materialDesign:TimePicker>
+
+                            </Grid>
+
+
+
+
+                            </GroupBox>
+      
+                        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"   Margin="10,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                            <Button Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
+                            <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                            <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}" DataContext="{Binding SeparateSettingVM}">
+                    <GroupBox Header="{DynamicResource Text_Separate}" Margin="10" HorizontalAlignment="Left"  Padding="20">
+                        <StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock Text="{DynamicResource Text_SelectSeparateMode}"/>
+                                <TextBlock Text="："/>
+                                <StackPanel Orientation="Horizontal" Margin="40,0">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignTabRadioButton}">
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Style.Resources>
+                                                <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="White"/>
+                                            </Style.Resources>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <RadioButton GroupName="SeparateModeRadioButton" Content="{DynamicResource Text_SingleSetting}" IsChecked="{Binding SingleSettingBoolean}"/>
+                                    <RadioButton GroupName="SeparateModeRadioButton" Content="{DynamicResource Text_UnifiedSetting}" IsChecked="{Binding UnifiedSettingBoolean}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <Grid Grid.Row="1"  Margin="0,10" Visibility="{Binding SingleSettingBoolean, Converter={dx:BooleanToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="250"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{DynamicResource Text_Box}"/>
+                                <GD_UserControls:TriggerSliderUserControl
+                                    Grid.Row="1" Grid.Column="1" 
+                                    MainSilderValue="{Binding SeparateSetting.SingleSetting_SeparateBoxModel.BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+                            <!--   Height="{Binding ElementName=StampingFontListBoxScrollViewer, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"-->
+                            <ListBox Visibility="{Binding UnifiedSettingBoolean, Converter={dx:BooleanToVisibilityConverter}}" SelectionMode="Multiple"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"  ClipToBounds="True" Grid.Row="2"  Grid.ColumnSpan="2" Margin="-8,-1,0,0"
+                                     ItemsSource="{Binding SeparateSetting.UnifiedSetting_SeparateBoxModel ,UpdateSourceTrigger=PropertyChanged}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5" >
+                                                <TextBlock Text="{DynamicResource Text_Box}" Foreground="White" FontSize="16"/>
+                                                <TextBlock  Text="{Binding BoxNumber}" VerticalAlignment="Center" FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="White"/>
+                                            </StackPanel>
+                                            <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                        </StackPanel>
+                    </GroupBox>
+                </TabItem>
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}">
+
+                </TabItem>
+                <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}">
+
+                </TabItem>
+            </TabControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

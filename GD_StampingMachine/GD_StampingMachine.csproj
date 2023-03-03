@@ -188,13 +188,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enum\CharactersFormEnum.cs" />
     <Compile Include="Enum\NumberSettingModeEnum.cs" />
+    <Compile Include="Enum\SettingTypeEnum.cs" />
     <Compile Include="Enum\SpecialSequenceEnum.cs" />
     <Compile Include="Enum\SpindleToolHolderEnum.cs" />
     <Compile Include="Extensions\GetEnumData.cs" />
-    <Compile Include="Model\AxisSettingModel.cs" />
+    <Compile Include="Model\ParameterSetting\SeparateSettingModel.cs" />
+    <Compile Include="Model\ParameterSetting\TimingSettingModel.cs" />
+    <Compile Include="Model\ParameterSetting\AxisSettingModel.cs" />
     <Compile Include="Model\MechanicalSpecificationModel.cs" />
-    <Compile Include="Model\NumberSettingModel.cs" />
+    <Compile Include="Model\ParameterSetting\QRSettingModel.cs" />
+    <Compile Include="Model\ParameterSetting\NumberSettingModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
     <Compile Include="DraggablePopup.cs" />
     <Compile Include="ProcessingScreenWindow.xaml.cs">
@@ -204,6 +209,12 @@
     <Compile Include="RelayParameterizedCommand.cs" />
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ParamaterSettingUserControl.xaml.cs">
+      <DependentUpon>ParamaterSettingUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\StampingFontChangedUserControl.xaml.cs">
+      <DependentUpon>StampingFontChangedUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\StampingTypeUserControl.xaml.cs">
       <DependentUpon>StampingTypeUserControl.xaml</DependentUpon>
@@ -220,8 +231,12 @@
     <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\SeparateSettingViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\TimingSettingViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\QRSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\NumberSettingViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\ParameterSettingViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSettingViewModel.cs" />
+    <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="ViewModels\StampingMainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">
@@ -261,6 +276,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StampingMachineWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ParamaterSettingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\StampingFontChangedUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
