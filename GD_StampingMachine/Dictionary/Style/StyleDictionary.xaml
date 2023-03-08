@@ -6,7 +6,7 @@
                                             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     >
 
-        <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton" x:Name="GD_ToggleButton">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
@@ -15,8 +15,8 @@
         <Setter Property="Height" Value="{Binding}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{StaticResource solidclr_SilverGray}"/>
-                </Trigger>
+                <Setter Property="Background" Value="{StaticResource solidclr_SilverGray}"/>
+            </Trigger>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>

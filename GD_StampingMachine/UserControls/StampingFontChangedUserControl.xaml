@@ -34,20 +34,19 @@
                 </Grid.RowDefinitions>
 
                 <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
-                    <ListBox  Grid.Row="1" VerticalAlignment="Top"  MinHeight="160" 
+                <ListBox  Grid.Row="1" VerticalAlignment="Top"  MinHeight="160" 
                               SelectedItem="{Binding StampingFontSelected}"  Margin="10,10,10,0"  Name="StampingFontListBox" 
                               ItemsSource="{Binding StampingTypeVMObservableCollection}"
-                  ItemTemplate="{StaticResource StampingTypeDataTemplate}"
                               dd:DragDrop.CanDragWithMouseRightButton="True"
                                          dd:DragDrop.DropTargetAdornerBrush="Coral"
                                          dd:DragDrop.IsDragSource="True"
                                          dd:DragDrop.IsDropTarget="True"
                                          dd:DragDrop.UseDefaultEffectDataTemplate="False"
-                                dd:DragDrop.UseDefaultDragAdorner ="True"
+                                dd:DragDrop.UseDefaultDragAdorner ="True" 
                          dd:DragDrop.DefaultDragAdornerOpacity="1"
                                             dd:DragDrop.DropHandler="{Binding}"
-
-                              >
+                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
+                          >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
@@ -62,10 +61,8 @@
                     </Grid.RowDefinitions>
                     <Button Grid.Row="0" Content="{DynamicResource btnReplace}" Command="{Binding StampingFontReplaceCommand}" Margin="5,10"/>
                     <Button Grid.Row="1" Content="{DynamicResource btnDelete}" Margin="5,10" Command="{Binding UnusedStampingFontDelCommand}"/>
-                <ListBox Grid.Row="1"  Background="Red" 
-                                         dd:DragDrop.IsDropTarget="True"
-                         dd:DragDrop.DropHandler="{Binding}"  />
-                <TextBlock Text="test garbagecan" Grid.Row="2" VerticalAlignment="Center"/>
+                <ListBox Grid.Row="1"  Background="Red"  Width="100"  Height="100"
+                                         dd:DragDrop.IsDropTarget="True" />
 
             </Grid>
 
@@ -75,7 +72,8 @@
                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
                                                 SelectedItem="{Binding UnusedStampingFontSelected}" 
                                                 ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
-                ItemTemplate="{StaticResource UnusedStampingTypeDataTemplate}"
+
+                                    ItemContainerStyle="{StaticResource UnusedStampingTypeDataStyle}"
                               dd:DragDrop.CanDragWithMouseRightButton="True"
                                          dd:DragDrop.DropTargetAdornerBrush="SkyBlue"
                                          dd:DragDrop.IsDragSource="True"
@@ -85,6 +83,7 @@
                          dd:DragDrop.DefaultDragAdornerOpacity="1"
                                             dd:DragDrop.DropHandler="{Binding}"
                         >
+
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Vertical" />

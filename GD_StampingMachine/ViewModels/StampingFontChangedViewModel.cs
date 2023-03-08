@@ -24,14 +24,14 @@ namespace GD_StampingMachine.ViewModels
 
 
         private ObservableCollection<StampingTypeModel> _stampingTypeVMObservableCollection;
-        public ObservableCollection<StampingTypeModel> StampingTypeVMObservableCollection 
+        public ObservableCollection<StampingTypeModel> StampingTypeVMObservableCollection
         {
             get
             {
-                if(_stampingTypeVMObservableCollection == null)
+                if (_stampingTypeVMObservableCollection == null)
                     _stampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>();
                 return _stampingTypeVMObservableCollection;
-            } 
+            }
             set
             {
                 _stampingTypeVMObservableCollection = value;
@@ -72,41 +72,40 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (StampingFontSelected != null && UnusedStampingFontSelected != null)
                 {
-                    var FontString = StampingFontSelected.StampingTypeString;
-                    var FontStringNumber = StampingFontSelected.StampingTypeNumber;
-                    var FontStringUseCount = StampingFontSelected.StampingTypeUseCount;
-
-                    var UnusedFontString = UnusedStampingFontSelected.StampingTypeString;
-                    var UnusedFontStringNumber = UnusedStampingFontSelected.StampingTypeNumber;
-                    var UnusedFontStringUseCount = UnusedStampingFontSelected.StampingTypeUseCount;
-
-                    var ST_index = StampingTypeVMObservableCollection.FindIndex(x => x == StampingFontSelected);
-                    var UST_index = UnusedStampingTypeVMObservableCollection.FindIndex(x => x == UnusedStampingFontSelected);
-
-                    StampingTypeVMObservableCollection[ST_index] = new StampingTypeModel()
-                    {
-                        StampingTypeNumber = FontStringNumber,
-                        StampingTypeString = UnusedFontString,
-                        StampingTypeUseCount = UnusedFontStringUseCount
-                    };
-
-                    UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeModel()
-                    {
-                        StampingTypeNumber = UnusedFontStringNumber,
-                        StampingTypeString = FontString,
-                        StampingTypeUseCount = FontStringUseCount
-                    };
-
-                    // UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeModel() { StampingTypeNumber=  };
-                    //
+                    StampingTypeModelExchanged();
                 }
-
-
-
-
-
             });
         }
+
+        private void StampingTypeModelExchanged()
+        {
+            var FontString = StampingFontSelected.StampingTypeString;
+            var FontStringNumber = StampingFontSelected.StampingTypeNumber;
+            var FontStringUseCount = StampingFontSelected.StampingTypeUseCount;
+
+            var UnusedFontString = UnusedStampingFontSelected.StampingTypeString;
+            var UnusedFontStringNumber = UnusedStampingFontSelected.StampingTypeNumber;
+            var UnusedFontStringUseCount = UnusedStampingFontSelected.StampingTypeUseCount;
+
+            var ST_index = StampingTypeVMObservableCollection.FindIndex(x => x == StampingFontSelected);
+            var UST_index = UnusedStampingTypeVMObservableCollection.FindIndex(x => x == UnusedStampingFontSelected);
+
+            StampingTypeVMObservableCollection[ST_index] = new StampingTypeModel()
+            {
+                StampingTypeNumber = FontStringNumber,
+                StampingTypeString = UnusedFontString,
+                StampingTypeUseCount = UnusedFontStringUseCount
+            };
+
+            UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeModel()
+            {
+                StampingTypeNumber = UnusedFontStringNumber,
+                StampingTypeString = FontString,
+                StampingTypeUseCount = FontStringUseCount
+            };
+        }
+
+
 
         private string _newUnnsedStampingFontString;
         public string NewUnnsedStampingFontString
@@ -155,6 +154,7 @@ namespace GD_StampingMachine.ViewModels
 
         public override void Drop(IDropInfo dropInfo)
         {
+            
             var targetList = dropInfo.TargetCollection.TryGetList();
             var data = dropInfo.DragInfo.Data;
             var sourceList = dropInfo.DragInfo.SourceCollection.TryGetList();
@@ -165,7 +165,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     var SIndex = dropInfo.DragInfo.SourceIndex;
                     var TIndex = dropInfo.InsertIndex;
-                    if(TIndex <= targetList.Count)
+                    if(TIndex >= targetList.Count)
                     {
                         TIndex--;
                     }
@@ -182,6 +182,11 @@ namespace GD_StampingMachine.ViewModels
 
                             (dropInfo.Data as StampingTypeModel).StampingTypeNumber = TargetTypeNumber;
                             (TargetOldData as StampingTypeModel).StampingTypeNumber = SourceTypeNumber;
+
+                         //   if (StampingFontSelected != null && UnusedStampingFontSelected != null)
+
+
+
                         }
                         sourceList.RemoveAt(SIndex);
                         sourceList.Insert(SIndex, TargetOldData);
@@ -210,14 +215,6 @@ namespace GD_StampingMachine.ViewModels
                     ((ICollectionView)dropInfo.DragInfo.SourceCollection).Refresh();
                 }
             }
-
-
-
-
-
-
-
-
 
         }
 
