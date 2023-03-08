@@ -158,6 +158,12 @@
     <Reference Include="DynamicExpresso.Core, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicExpresso.Core.2.3.1\lib\net461\DynamicExpresso.Core.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.3.2.1\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2022.3.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=2.1.1.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.2.1.1\lib\net462\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -188,6 +194,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseMultiValueConverter.cs" />
+    <Compile Include="BaseValueConverter.cs" />
     <Compile Include="Enum\CharactersFormEnum.cs" />
     <Compile Include="Enum\NumberSettingModeEnum.cs" />
     <Compile Include="Enum\SettingTypeEnum.cs" />
@@ -210,21 +218,35 @@
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\BottomRowDiagramUserControl.xaml.cs">
+      <DependentUpon>BottomRowDiagramUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\MiddleRowDiagramUserControl.xaml.cs">
+      <DependentUpon>MiddleRowDiagramUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\TopRowDiagramUserControl.xaml.cs">
+      <DependentUpon>TopRowDiagramUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\TwoRowDiagramUserControl.xaml.cs">
+      <DependentUpon>TwoRowDiagramUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ParamaterSettingUserControl.xaml.cs">
       <DependentUpon>ParamaterSettingUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SettingButtonUserControl.xaml.cs">
+      <DependentUpon>SettingButtonUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\StampingFontChangedUserControl.xaml.cs">
       <DependentUpon>StampingFontChangedUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\StampingTypeUserControl.xaml.cs">
-      <DependentUpon>StampingTypeUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\TriggerSliderUserControl.xaml.cs">
       <DependentUpon>TriggerSliderUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
     <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
@@ -246,11 +268,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dictionary\SolidColorBrushDictionary.xaml">
+    <Page Include="Dictionary\Style\DragDropStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dictionary\StyleDictionary.xaml">
+    <Page Include="Dictionary\Style\SolidColorBrushDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionary\Style\StyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,17 +305,33 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\NumberSettingSchematicDiagram\BottomRowDiagramUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NumberSettingSchematicDiagram\MiddleRowDiagramUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NumberSettingSchematicDiagram\TopRowDiagramUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NumberSettingSchematicDiagram\TwoRowDiagramUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ParamaterSettingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SettingButtonUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\StampingFontChangedUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\StampingTypeUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="UserControls\TriggerSliderUserControl.xaml">
       <SubType>Designer</SubType>

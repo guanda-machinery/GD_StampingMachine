@@ -9,11 +9,11 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace GD_StampingMachine.GD_ValueConverters
+namespace GD_StampingMachine.ValueConverters
 {
-    public class MultiValueHasParameterValueToBooleanConverter : MarkupExtension, IMultiValueConverter
+    public class MultiValueHasParameterValueToBooleanConverter : BaseMultiValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
            var  ValueList = values.ToList();
 
@@ -29,7 +29,7 @@ namespace GD_StampingMachine.GD_ValueConverters
             return false;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             if (value is bool)
             {
@@ -50,9 +50,6 @@ namespace GD_StampingMachine.GD_ValueConverters
             throw new NotImplementedException();
         }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+       
     }
 }

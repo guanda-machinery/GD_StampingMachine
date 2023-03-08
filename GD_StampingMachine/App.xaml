@@ -12,8 +12,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
 
-                <ResourceDictionary Source="Dictionary/SolidColorBrushDictionary.xaml" />
-                <ResourceDictionary Source="Dictionary/StyleDictionary.xaml" />
+                <ResourceDictionary Source="Dictionary/Style/SolidColorBrushDictionary.xaml" />
+                <ResourceDictionary Source="Dictionary/Style/StyleDictionary.xaml" />
+
+                <ResourceDictionary Source="Dictionary/Style/DragDropStyleDictionary.xaml" />
+
+
                 <ResourceDictionary Source="Dictionary/DrawingDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <sys:Int32 x:Key="IntZero">0</sys:Int32>

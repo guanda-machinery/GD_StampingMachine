@@ -23,7 +23,7 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 單排數量
         /// </summary>
-        public int SequenceCount { get; set; }
+        public int SequenceCount { get; set; } = 8;
 
         /// <summary>
         /// 特殊排序

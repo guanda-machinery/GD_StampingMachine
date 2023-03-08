@@ -19,8 +19,8 @@
                        Height="24"  Padding="0"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">
             <materialDesign:PackIcon Kind="MinusThick" />
         </RepeatButton>
-        <Slider Grid.Column="1"  VerticalAlignment="Center" Name="MainSlider" MinWidth="50"  Height="20" FontSize="12"
-                Margin="5,0" Style="{StaticResource CustomSlider}" Value="{Binding MainSilderValue}" 
+        <Slider Grid.Column="1"  VerticalAlignment="Center" x:Name="MainSlider" MinWidth="50"  Height="20" FontSize="12"
+                Margin="5,0" Style="{StaticResource CustomSlider}"  Value="{Binding MainSilderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Foreground="#E82127" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
                             Minimum="0"
                             Maximum="100"

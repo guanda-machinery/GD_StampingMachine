@@ -9,11 +9,11 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Xml.Linq;
 
-namespace GD_StampingMachine.GD_ValueConverters
+namespace GD_StampingMachine.ValueConverters
 {
-    internal class EnumGetNameConverter : MarkupExtension, IValueConverter
+    internal class EnumGetNameConverter : BaseValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if(value is System.Enum)
             {
@@ -22,7 +22,7 @@ namespace GD_StampingMachine.GD_ValueConverters
             return value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
             foreach (System.Enum A in System.Enum.GetValues(targetType))
@@ -36,9 +36,6 @@ namespace GD_StampingMachine.GD_ValueConverters
             return value;
         }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+       
     }
 }

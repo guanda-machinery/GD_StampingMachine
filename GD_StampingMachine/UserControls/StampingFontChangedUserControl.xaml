@@ -7,8 +7,9 @@
               xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
-              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.GD_ValueConverters">
+            xmlns:dd="urn:gong-wpf-dragdrop"
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters">
 
         <Grid VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
@@ -36,59 +37,23 @@
                     <ListBox  Grid.Row="1" VerticalAlignment="Top"  MinHeight="160" 
                               SelectedItem="{Binding StampingFontSelected}"  Margin="10,10,10,0"  Name="StampingFontListBox" 
                               ItemsSource="{Binding StampingTypeVMObservableCollection}"
+                  ItemTemplate="{StaticResource StampingTypeDataTemplate}"
+                              dd:DragDrop.CanDragWithMouseRightButton="True"
+                                         dd:DragDrop.DropTargetAdornerBrush="Coral"
+                                         dd:DragDrop.IsDragSource="True"
+                                         dd:DragDrop.IsDropTarget="True"
+                                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
+                                dd:DragDrop.UseDefaultDragAdorner ="True"
+                         dd:DragDrop.DefaultDragAdornerOpacity="1"
+                                            dd:DragDrop.DropHandler="{Binding}"
 
-                              PreviewMouseLeftButtonDown="StampingFontListBox_PreviewMouseLeftButtonDown"
-                              AllowDrop="True" Drop="StampingFontListBox_Drop"
-                              MouseMove="StampingFontListBox_MouseMove"
-                              
-                              
-                              
                               >
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                            <Grid Margin="0,5" AllowDrop="True">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
-                                                                CornerRadius="3"
-                                                                Width="40" 
-                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                        <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
-                                        <TextBlock Text="NO." FontSize="10" Foreground="White"/>
-                                        <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10" Foreground="White"/>
-                                    </StackPanel>
-                                </Grid>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="True">
-                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="DeepSkyBlue"/>
-                                        <Setter Property="TextBox.Foreground"  Value="White"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="False">
-                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="Transparent"/>
-                                        <Setter Property="TextBox.Foreground"  Value="White"/>
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
                 </GroupBox>
                 <Grid  VerticalAlignment="Top" Margin="10,50" Grid.Column="1" Grid.Row="1">
                     <Grid.RowDefinitions>
@@ -97,58 +62,35 @@
                     </Grid.RowDefinitions>
                     <Button Grid.Row="0" Content="{DynamicResource btnReplace}" Command="{Binding StampingFontReplaceCommand}" Margin="5,10"/>
                     <Button Grid.Row="1" Content="{DynamicResource btnDelete}" Margin="5,10" Command="{Binding UnusedStampingFontDelCommand}"/>
-                </Grid>
+                <ListBox Grid.Row="1"  Background="Red" 
+                                         dd:DragDrop.IsDropTarget="True"
+                         dd:DragDrop.DropHandler="{Binding}"  />
+                <TextBlock Text="test garbagecan" Grid.Row="2" VerticalAlignment="Center"/>
 
-                <GroupBox Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
+            </Grid>
+
+                <GroupBox MinWidth="190" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
                 <ListBox Name="UnusedStampingFontListBox"
                                                 Height="{Binding ElementName=StampingFontListBox, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
                                                 SelectedItem="{Binding UnusedStampingFontSelected}" 
                                                 ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
-                                         PreviewMouseLeftButtonDown="UnusedStampingFontListBox_PreviewMouseLeftButtonDown"
-                 AllowDrop="True" Drop="UnusedStampingFontListBox_Drop"
-                 MouseMove="UnusedStampingFontListBox_MouseMove"
+                ItemTemplate="{StaticResource UnusedStampingTypeDataTemplate}"
+                              dd:DragDrop.CanDragWithMouseRightButton="True"
+                                         dd:DragDrop.DropTargetAdornerBrush="SkyBlue"
+                                         dd:DragDrop.IsDragSource="True"
+                                         dd:DragDrop.IsDropTarget="True"
+                                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
+                                              dd:DragDrop.UseDefaultDragAdorner ="True"
+                         dd:DragDrop.DefaultDragAdornerOpacity="1"
+                                            dd:DragDrop.DropHandler="{Binding}"
                         >
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                            <Grid AllowDrop="True">
-                                <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
-                                                                CornerRadius="3"
-                                                                Width="40" 
-                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                        <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0" Width="100">
-                                        <TextBlock  Text="{Binding StampingTypeUseCount}" VerticalAlignment="Center" FontSize="14" Width="50" TextAlignment="Right"/>
-                                        <TextBlock  Text="{DynamicResource Text_Count2}" VerticalAlignment="Center" FontSize="16"/>
-                                    </StackPanel>
-                                </Grid>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="True">
-                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="DeepSkyBlue"/>
-                                        <Setter Property="TextBox.Foreground"  Value="White"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="False">
-                                        <Setter TargetName="SteelFontBorder" Property="Background" Value="Transparent"/>
-                                        <Setter Property="TextBox.Foreground"  Value="White"/>
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
                 </GroupBox>
                 <materialDesign:DialogHost  
                                             DialogTheme="Dark" Grid.Column="2" Grid.Row="0" DialogMargin="20" VerticalAlignment="Top" HorizontalAlignment="Right" >

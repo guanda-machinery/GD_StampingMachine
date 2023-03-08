@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DevExpress.Dialogs.Core.ViewModel;
+using DevExpress.Mvvm;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,41 +37,17 @@ namespace GD_StampingMachine.UserControls
             MainSlider.Value++;
         }
 
-
-        /// <summary>
-        /// 修改命令
-        /// </summary>
-   /*     public double MainSilderValue
+        public double MainSilderValue
         {
-            get { return (double)GetValue(MainSilderValueProperty); }
-            set { SetValue(MainSilderValueProperty, value); }
-        }*/
-        /// <summary>
-        /// <see cref="MainSilderValueProperty"/> 註冊相依屬性
-        /// </summary>
-       // public static readonly DependencyProperty MainSilderValueProperty =
-         //   DependencyProperty.Register(nameof(MainSilderValue), typeof(double), typeof(TriggerSliderUserControl), new PropertyMetadata(MainSilderValuePropertyChange));
-        /// <summary>
-        /// <see cref="MainSilderValuePropertyChange"/> 變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-       /* private static void MainSilderValuePropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((TriggerSliderUserControl)d).MainSlider.Value = (double)e.NewValue;
-        }*/
-
+            get => (double)GetValue(MainSilderValueProperty);
+            set => SetValue(MainSilderValueProperty, value);
+        }
 
         public static readonly DependencyProperty MainSilderValueProperty = DependencyProperty.Register(
             nameof(MainSilderValue),
             typeof(double),
             typeof(TriggerSliderUserControl),
             new PropertyMetadata());
-        public double MainSilderValue
-        {
-            get => (double)GetValue(MainSilderValueProperty);
-            set => SetValue(MainSilderValueProperty, value);
-        }
 
 
 

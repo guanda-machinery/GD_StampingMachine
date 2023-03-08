@@ -10,11 +10,11 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace GD_StampingMachine.GD_ValueConverters
+namespace GD_StampingMachine.ValueConverters
 {
-    internal class ObservableCollectionToOneObjectConverter : MarkupExtension, IValueConverter
+    internal class ObservableCollectionToOneObjectConverter : BaseValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if(value is IEnumerable<object>)
             {
@@ -44,14 +44,11 @@ namespace GD_StampingMachine.GD_ValueConverters
         }
 
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+       
     }
 }

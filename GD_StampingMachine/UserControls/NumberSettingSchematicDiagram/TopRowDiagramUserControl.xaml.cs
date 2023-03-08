@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GD_StampingMachine.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GD_StampingMachine.UserControls
+namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
 {
     /// <summary>
-    /// StampingFontChangedUserControl.xaml 的互動邏輯
+    /// NumberSettingSchematicDiagramUserControl.xaml 的互動邏輯
     /// </summary>
-    public partial class StampingFontChangedUserControl : UserControl
+    public partial class TopRowDiagramUserControl : UserControl
     {
-        public StampingFontChangedUserControl()
+        public TopRowDiagramUserControl()
         {
             InitializeComponent();
         }
-
-
-
     }
 }
