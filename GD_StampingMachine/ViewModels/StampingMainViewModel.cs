@@ -101,15 +101,9 @@ namespace GD_StampingMachine.ViewModels
              };
             StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>()
             {
-                    new Model.StampingTypeModel(){ StampingTypeNumber =1 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0} ,
-                    new Model.StampingTypeModel(){ StampingTypeNumber =2 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
-                    new Model.StampingTypeModel(){ StampingTypeNumber =3, StampingTypeString = "ㄇ" , StampingTypeUseCount=0},
-                    new Model.StampingTypeModel(){ StampingTypeNumber =1 , StampingTypeString = "ㄈ" , StampingTypeUseCount=0} ,
-                    new Model.StampingTypeModel(){ StampingTypeNumber =2 , StampingTypeString = "ㄉ" , StampingTypeUseCount=0},
-                    new Model.StampingTypeModel(){ StampingTypeNumber =3, StampingTypeString = "ㄊ" , StampingTypeUseCount=0},
-                    new Model.StampingTypeModel(){ StampingTypeNumber =1 , StampingTypeString = "ㄋ" , StampingTypeUseCount=0} ,
-                    new Model.StampingTypeModel(){ StampingTypeNumber =2 , StampingTypeString = "ㄌ" , StampingTypeUseCount=0},
-                    new Model.StampingTypeModel(){ StampingTypeNumber =3, StampingTypeString = "ㄍ" , StampingTypeUseCount=0},
+                    new Model.StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0} ,
+                    new Model.StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
+                    new Model.StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0},
             };
         }
 

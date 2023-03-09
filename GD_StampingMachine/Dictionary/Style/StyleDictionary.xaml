@@ -3,10 +3,10 @@
                                  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
                     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
                        xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-                                            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     >
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton" x:Name="GD_ToggleButton">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
@@ -22,14 +22,10 @@
                 <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>
             </Trigger>
         </Style.Triggers>
+        
         </Style>
 
-    <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
-        <Setter Property="Width" Value="45"/>
-        <Setter Property="Height" Value="45"/>
-        <Setter Property="Margin" Value="2"/>
-        <Setter Property="Padding" Value="0"/>
-    </Style>
+
     <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}" x:Key="ToggleButtonTitleWhite">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>

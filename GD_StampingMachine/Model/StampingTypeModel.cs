@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class StampingTypeModel
+    public class StampingTypeModel : ICloneable
     {
         /// <summary>
         /// 鋼印文字
@@ -22,8 +22,11 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public int StampingTypeUseCount { get; set; }
 
+        public bool IsNewAddStamping { get; set; } = false;
 
-
-
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

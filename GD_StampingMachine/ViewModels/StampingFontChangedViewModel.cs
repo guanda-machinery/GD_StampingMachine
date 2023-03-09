@@ -105,22 +105,60 @@ namespace GD_StampingMachine.ViewModels
             };
         }
 
-
-
-        private string _newUnnsedStampingFontString;
-        public string NewUnnsedStampingFontString
+        private ObservableCollection<StampingTypeModel> _newUnusedStampingFont;
+        /// <summary>
+        /// 新增字模
+        /// </summary>
+        public ObservableCollection<StampingTypeModel> NewUnusedStampingFont
         {
-            get { return _newUnnsedStampingFontString; }
+            get
+            {
+                if (_newUnusedStampingFont == null)
+                {
+                    _newUnusedStampingFont = new ObservableCollection<StampingTypeModel>();
+                }
+
+                if (_newUnusedStampingFont.Count == 0)
+                {
+                    _newUnusedStampingFont.Add(new StampingTypeModel()
+                    {
+                        StampingTypeNumber = 0,
+                        StampingTypeUseCount = 0,
+                        StampingTypeString = null,
+                        IsNewAddStamping = true,
+                    });
+                };
+
+                return _newUnusedStampingFont;
+            }
+            set
+            {
+                _newUnusedStampingFont = value;
+                OnPropertyChanged(nameof(NewUnusedStampingFont));
+            }
+        }
+
+        //private string _newUnnsedStampingFontString;
+        /*public string NewUnnsedStampingFontString
+        {
+            get
+            {
+                return  NewUnusedStampingFont.FirstOrDefault().StampingTypeString;
+            }
             set 
             {
-                _newUnnsedStampingFontString = value; 
+                NewUnusedStampingFont.FirstOrDefault().StampingTypeString = value; 
                 OnPropertyChanged(nameof(NewUnnsedStampingFontString));
               }
-        }
+        }*/
         public ICommand UnusedStampingFontAddCommand
         {
             get => new RelayCommand(() =>
             {
+                var FirstFont = NewUnusedStampingFont.FirstOrDefault().Clone() as StampingTypeModel;
+                FirstFont.IsNewAddStamping = false;
+                UnusedStampingTypeVMObservableCollection.Add(FirstFont);
+                /*
                 if (!string.IsNullOrEmpty(NewUnnsedStampingFontString))
                 {
                     UnusedStampingTypeVMObservableCollection.Add(new StampingTypeModel()
@@ -129,7 +167,7 @@ namespace GD_StampingMachine.ViewModels
                         StampingTypeString = NewUnnsedStampingFontString,
                         StampingTypeUseCount = 0
                     });
-                }
+                }*/
             });
         }
 
@@ -140,7 +178,7 @@ namespace GD_StampingMachine.ViewModels
                 if (UnusedStampingFontSelected != null)
                 {
                     //下列配合DragDrop會導致介面異常 已停用
-                    //UnusedStampingTypeVMObservableCollection.Remove(UnusedStampingFontSelected);
+                    UnusedStampingTypeVMObservableCollection.Remove(UnusedStampingFontSelected);
 
 
 
@@ -150,56 +188,188 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+        public override void DragOver(IDropInfo dropInfo)
+        {
+            if (dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource)    // 同item時不互換
+            {
+                bool IsPreFont = false;
+                //除非是未上鋼印機的預備區字模 否則不容許自己互換
+                if (dropInfo.DragInfo.Data is StampingTypeModel SourceData)
+                {
+                    if (SourceData.StampingTypeNumber != 0 || SourceData.IsNewAddStamping == true)
+                    {
+                        dropInfo.NotHandled = dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                if (dropInfo.DragInfo.Data is StampingTypeModel SourceData && dropInfo.TargetItem is StampingTypeModel TargetData )
+                {
+                    //若源頭是新增字模 且目標是鋼印機的字模 則不可以放上去
+                    if (SourceData.IsNewAddStamping == true && TargetData.StampingTypeNumber > 0)
+                    {
+                        dropInfo.NotHandled = dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource;
+                        return;
+                    }
+
+                    //目標是新增字模不可以放上去
+                    if (TargetData.IsNewAddStamping)
+                    {
+                        dropInfo.NotHandled = dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource;
+                        return;
+                    }
+                }
+
+
+
+            }
+
+
+
+            dropInfo.DropTargetAdorner = typeof(DropTargetHighlightAdorner);
+            dropInfo.Effects = DragDropEffects.Move;
+        }
+
+        private enum DragDropMethod
+        {
+            None,
+            /// <summary>
+            /// 移動
+            /// </summary>
+            Move,
+            /// <summary>
+            /// 複製
+            /// </summary>
+            Copy,
+            /// <summary>
+            /// 交換
+            /// </summary>
+            Exchange,
+            /// <summary>
+            /// 刪除
+            /// </summary>
+            Delete,
+        }
 
 
         public override void Drop(IDropInfo dropInfo)
         {
-            
-            var targetList = dropInfo.TargetCollection.TryGetList();
-            var data = dropInfo.DragInfo.Data;
             var sourceList = dropInfo.DragInfo.SourceCollection.TryGetList();
+            var targetList = dropInfo.TargetCollection.TryGetList();
+            var SourceData = dropInfo.Data;
+            var TargetData = dropInfo.TargetItem;
+
+
+            if (SourceData == null)
+            {
+                //沒資料不須處理
+                return;
+            }
 
             if (targetList != null && sourceList != null)
             {
-                if (targetList.Count > 0 && sourceList.Count > 0)
+                var DDMethodType = DragDropMethod.Exchange;
+                //符合資料結構 可進行互換值
+                if (dropInfo.Data is StampingTypeModel)//&& dropInfo.TargetItem is StampingTypeModel)
                 {
-                    var SIndex = dropInfo.DragInfo.SourceIndex;
-                    var TIndex = dropInfo.InsertIndex;
-                    if(TIndex >= targetList.Count)
+                    //新字模區不能放東西進來
+                    if ((TargetData as StampingTypeModel)?.IsNewAddStamping == true)
                     {
-                        TIndex--;
+                        DDMethodType = DragDropMethod.None;
+                        return;
                     }
-                    if (TIndex != -1)
+
+                    //如果來源是新字模 將模式從互換更改為增加
+                    if ((SourceData as StampingTypeModel)?.IsNewAddStamping == true)
                     {
-                        //若選擇的目標index會掉出邊界 則-1
-                        var TargetOldData = targetList[TIndex];
-                        //符合資料結構 可互換值
-                        if (dropInfo.Data is StampingTypeModel && TargetOldData is StampingTypeModel)
+                        //不可以把新建的字模直接增加到鋼印機上
+                        if ((TargetData as StampingTypeModel)?.StampingTypeNumber != 0 && (TargetData as StampingTypeModel)?.StampingTypeNumber != null)
                         {
-                            //取出
-                            var SourceTypeNumber = (dropInfo.Data as StampingTypeModel).StampingTypeNumber;
-                            var TargetTypeNumber = (TargetOldData as StampingTypeModel).StampingTypeNumber;
-
-                            (dropInfo.Data as StampingTypeModel).StampingTypeNumber = TargetTypeNumber;
-                            (TargetOldData as StampingTypeModel).StampingTypeNumber = SourceTypeNumber;
-
-                         //   if (StampingFontSelected != null && UnusedStampingFontSelected != null)
-
-
-
+                            DDMethodType = DragDropMethod.None;
+                            return;
                         }
-                        sourceList.RemoveAt(SIndex);
-                        sourceList.Insert(SIndex, TargetOldData);
-                        targetList.RemoveAt(TIndex);
-                        targetList.Insert(TIndex, data);
+                        else
+                        {
+                            SourceData = (SourceData as StampingTypeModel).Clone();
+                            (SourceData as StampingTypeModel).IsNewAddStamping = false;
+                            DDMethodType = DragDropMethod.Copy;
+                        }
+                    }
+
+                    if (SourceData != null && TargetData != null)
+                    {
+                        //有數值才需要互換No編號
+                        var SourceTypeNumber = (SourceData as StampingTypeModel).StampingTypeNumber;
+                        var TargetTypeNumber = (TargetData as StampingTypeModel).StampingTypeNumber;
+                        (TargetData as StampingTypeModel).StampingTypeNumber = SourceTypeNumber;
+                        (SourceData as StampingTypeModel).StampingTypeNumber = TargetTypeNumber;
                     }
                 }
-                else
+
+                var SIndex = dropInfo.DragInfo.SourceIndex;
+                var TIndex = targetList.IndexOf(TargetData);
+                switch (DDMethodType)
                 {
-                    //移動不互換
-                    GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+                    case DragDropMethod.Move:
+                        sourceList.RemoveAt(SIndex);
+                        targetList.Insert(dropInfo.UnfilteredInsertIndex, SourceData);
+                        break;
+                    case DragDropMethod.Copy:
+
+                        if (SourceData is ICloneableDragItem cloneableItem)
+                        {
+                            SourceData = cloneableItem.CloneItem(dropInfo);
+                        }
+                        else if (SourceData is ICloneable cloneable)
+                        {
+                            SourceData = cloneable.Clone();
+                        }
+                        targetList.Insert(dropInfo.UnfilteredInsertIndex, SourceData);
+                        break;
+                    case DragDropMethod.Delete:
+                        sourceList.RemoveAt(SIndex);
+                        break;
+                    case DragDropMethod.Exchange:
+                        if (SIndex != -1 && TIndex != -1)
+                        {
+                            sourceList.RemoveAt(SIndex);
+                            sourceList.Insert(SIndex, TargetData);
+                            targetList.RemoveAt(TIndex);
+                            targetList.Insert(TIndex, SourceData);
+                        }
+                        break;
+
+
+                    default:
+                        break;
                 }
             }
+
+
+
+            else
+            {
+                //移動不互換
+                GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+            }
+
+            //建立新物件
+            if(targetList !=null && sourceList == null)
+            {
+                try
+                {
+                   // GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+                    if (SourceData is StampingTypeModel)
+                        targetList.Insert(dropInfo.UnfilteredInsertIndex, SourceData);
+                }
+                catch(Exception e) 
+                {
+
+                }
+            }
+
 
             // Changing group data at runtime isn't handled well: force a refresh on the collection view.
             if (dropInfo.TargetCollection is ICollectionView)
@@ -207,8 +377,7 @@ namespace GD_StampingMachine.ViewModels
                 ((ICollectionView)dropInfo.TargetCollection).Refresh();
             }
 
-            var isSameCollection = sourceList.IsSameObservableCollection(targetList);
-            if (!isSameCollection)
+            if (dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource)    
             {
                 if (dropInfo.DragInfo.SourceCollection is ICollectionView)
                 {

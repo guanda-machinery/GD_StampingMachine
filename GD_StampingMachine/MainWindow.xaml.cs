@@ -31,7 +31,7 @@ namespace GD_StampingMachine
 
 
 
-            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new ProcessingScreenWindow(), new DXSplashScreenViewModel { });
+            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindow.ProcessingScreenWindow(), new DXSplashScreenViewModel { });
             manager.ViewModel.Status = "讀取中.";
             manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
 

@@ -9,39 +9,39 @@
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
             xmlns:dd="urn:gong-wpf-dragdrop"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
+             xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine">
 
         <Grid VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" >
-                <Image Source="pack://application:,,,/image/擷取2.PNG" MaxHeight="400"/>
-            </Grid>
-            <Grid Grid.Row="1">
-
-            </Grid>
-
-            <Grid Grid.Row="1">
+        <Grid Grid.Row="0" >
+            <Image Source="pack://application:,,,/image/擷取2.PNG" MaxHeight="400"/>
+        </Grid>
+        <Grid Grid.Row="1" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
+                <GroupBox 
+                   Name="StampingFontGroupBox" 
+                    Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,5,5,0" VerticalAlignment="Top">
                 <ListBox  Grid.Row="1" VerticalAlignment="Top"  MinHeight="160" 
                               SelectedItem="{Binding StampingFontSelected}"  Margin="10,10,10,0"  Name="StampingFontListBox" 
                               ItemsSource="{Binding StampingTypeVMObservableCollection}"
                               dd:DragDrop.CanDragWithMouseRightButton="True"
                                          dd:DragDrop.DropTargetAdornerBrush="Coral"
                                          dd:DragDrop.IsDragSource="True"
-                                         dd:DragDrop.IsDropTarget="True"
-                                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
+                                         dd:DragDrop.IsDropTarget="True"                   
+                          dd:DragDrop.UseDefaultEffectDataTemplate="False"
                                 dd:DragDrop.UseDefaultDragAdorner ="True" 
                          dd:DragDrop.DefaultDragAdornerOpacity="1"
                                             dd:DragDrop.DropHandler="{Binding}"
@@ -54,36 +54,30 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
                 </GroupBox>
-                <Grid  VerticalAlignment="Top" Margin="10,50" Grid.Column="1" Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Content="{DynamicResource btnReplace}" Command="{Binding StampingFontReplaceCommand}" Margin="5,10"/>
+            <Grid  VerticalAlignment="Top" Margin="10,50" Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Content="{DynamicResource btnReplace}" Command="{Binding StampingFontReplaceCommand}" Margin="5,10"/>
                 <Button Grid.Row="1" Content="{DynamicResource btnDelete}" Margin="5,10" Command="{Binding UnusedStampingFontDelCommand}"/>
-                    
-                <!--https://qiita.com/mkuwan/items/35d91e7c2f9edfe9884a-->
-                <ListBox Grid.Row="1"  Background="Red"  Width="100"  Height="100"
-                                         dd:DragDrop.IsDropTarget="True" />
-
             </Grid>
-
-                <GroupBox MinWidth="190" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
-                <ListBox Name="UnusedStampingFontListBox"
-                                                Height="{Binding ElementName=StampingFontListBox, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            <GroupBox     Height="{Binding ElementName=StampingFontGroupBox, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                Name="UnusedStampingGroupBox" MinWidth="190" Padding="0" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
+                <ScrollViewer  >
+                    <ListBox Name="UnusedStampingFontListBox"
                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
                                                 SelectedItem="{Binding UnusedStampingFontSelected}" 
                                                 ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
-
                                     ItemContainerStyle="{StaticResource UnusedStampingTypeDataStyle}"
-                              dd:DragDrop.CanDragWithMouseRightButton="True"
-                                         dd:DragDrop.DropTargetAdornerBrush="SkyBlue"
-                                         dd:DragDrop.IsDragSource="True"
-                                         dd:DragDrop.IsDropTarget="True"
-                                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
-                                              dd:DragDrop.UseDefaultDragAdorner ="True"
+                         dd:DragDrop.CanDragWithMouseRightButton="True"
+                         dd:DragDrop.DropTargetAdornerBrush="DodgerBlue"
+                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
+                         dd:DragDrop.IsDragSource="True"
+                         dd:DragDrop.IsDropTarget="True"
+                         dd:DragDrop.UseDefaultDragAdorner ="True"
                          dd:DragDrop.DefaultDragAdornerOpacity="1"
-                                            dd:DragDrop.DropHandler="{Binding}"
+                         dd:DragDrop.DropHandler="{Binding}"
                         >
 
                     <ListBox.ItemsPanel>
@@ -91,33 +85,53 @@
                             <WrapPanel Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                </ListBox>
-                </GroupBox>
+                    </ListBox>
+                </ScrollViewer>
+            </GroupBox>
+
+
+            
                 <materialDesign:DialogHost  
-                                            DialogTheme="Dark" Grid.Column="2" Grid.Row="0" DialogMargin="20" VerticalAlignment="Top" HorizontalAlignment="Right" >
+                                            DialogTheme="Dark" Grid.Column="2" Grid.Row="0" DialogMargin="10" VerticalAlignment="Top" HorizontalAlignment="Right" >
                     <materialDesign:DialogHost.DialogContent>
-                        <StackPanel Margin="16">
-                            <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" />
-                            <Border BorderThickness="1" BorderBrush="White" Name="SteelFontBorder"
-                                                                CornerRadius="3"
-                                                                Width="40" 
-                                                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-
-                                <TextBox
-                                                                FontSize="20"
-                                                                VerticalAlignment="Bottom"
-                                                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                                                                x:Name="AddStampingFontTextBox" Text="{Binding NewUnnsedStampingFontString , UpdateSourceTrigger=PropertyChanged}" />
-                            </Border>
-
+                    <Border>
+                        <StackPanel Margin="8">
+                            <StackPanel  HorizontalAlignment="Center">
+                                <ListBox ItemsSource="{Binding NewUnusedStampingFont}"  Margin="5"
+                                         dd:DragDrop.CanDragWithMouseRightButton="True"
+                                         dd:DragDrop.DropTargetAdornerBrush="Coral"
+                                         dd:DragDrop.IsDragSource="True"
+                                         dd:DragDrop.IsDropTarget="True"        
+                                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
+                                         dd:DragDrop.UseDefaultDragAdorner ="True" 
+                                         dd:DragDrop.DefaultDragAdornerOpacity="1"
+                                         dd:DragDrop.DropHandler="{Binding}">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border Background="Black" CornerRadius="5">
+                                                            <StackPanel Margin="5">
+                                                                <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" Foreground="White" HorizontalAlignment="Center"/>
+                                                                <Border Style="{StaticResource DragDropBorderStyle}" Width="50" Height="50" Name="MainBorder" Margin="10">
+                                                                    <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"
+                                                                        Text="{Binding StampingTypeString, UpdateSourceTrigger=PropertyChanged}"  FontSize="30"  Foreground="White"/>
+                                                                </Border>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </StackPanel>
 
                             <StackPanel
                                                                 Orientation="Horizontal"
                                                                 HorizontalAlignment="Right">
                                 <Button  Margin="8" 
-                                                                         IsEnabled="{Binding NewUnnsedStampingFontString,
-                                                                    Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, 
-                                                                    UpdateSourceTrigger=PropertyChanged}"
                                                                     Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                                     IsDefault="True"
                                                                     Content="{DynamicResource btnAdd}" 
@@ -125,8 +139,10 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding UnusedStampingFontAddCommand}" />
+                                            <!--
                                             <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                        </i:EventTrigger>
+                                             -->
+                                            </i:EventTrigger>
                                     </i:Interaction.Triggers>
 
 
@@ -141,12 +157,15 @@
                                 </Button>
                             </StackPanel>
                         </StackPanel>
-                    </materialDesign:DialogHost.DialogContent>
+                    </Border>
+                </materialDesign:DialogHost.DialogContent>
                     <Button  Height="26" Padding="15,0" Margin="10,0"
                                                 Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="{DynamicResource btnAdd}"/>
                 </materialDesign:DialogHost>
 
-            </Grid>
+
+
+        </Grid>
 
         </Grid>
 

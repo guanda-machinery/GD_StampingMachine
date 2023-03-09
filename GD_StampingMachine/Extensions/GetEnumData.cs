@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Extensions
 {
-    public static class Extensions
+    public static class EnumExtensions
     {
         public static string GetDescription(this System.Enum enumValue)
         {

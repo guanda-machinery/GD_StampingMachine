@@ -14,7 +14,31 @@
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:dd="urn:gong-wpf-dragdrop"
              d:DesignHeight="800" d:DesignWidth="900" >
+    <UserControl.Resources>
+        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="0"/>
+            <!--
+            <Setter Property="dd:DragDrop.CanDragWithMouseRightButton" Value="True"></Setter>
+
+            <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
+            <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
+            <Setter Property="dd:DragDrop.IsDropTarget" Value="True"/>
+            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="True"/>
+            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="True" />
+            <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
+            <Setter Property="dd:DragDrop.DropHandler" Value="{Binding}"/>-->
+
+
+
+
+
+        </Style>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <GD_ViewModels:StampingMainViewModel/>
     </UserControl.DataContext>
@@ -431,7 +455,15 @@
                             </ScrollViewer>
                         </TabItem>
                             <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}">
-                                <TextBlock Text="test"/>
+           
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                             </TabItem>
                         </TabControl>
                     </Grid>

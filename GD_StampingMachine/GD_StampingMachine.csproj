@@ -194,8 +194,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseMultiValueConverter.cs" />
-    <Compile Include="BaseValueConverter.cs" />
+    <Compile Include="Method\BaseMultiValueConverter.cs" />
+    <Compile Include="Method\BaseValueConverter.cs" />
     <Compile Include="Enum\CharactersFormEnum.cs" />
     <Compile Include="Enum\NumberSettingModeEnum.cs" />
     <Compile Include="Enum\SettingTypeEnum.cs" />
@@ -209,12 +209,12 @@
     <Compile Include="Model\ParameterSetting\QRSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\NumberSettingModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
-    <Compile Include="DraggablePopup.cs" />
-    <Compile Include="ProcessingScreenWindow.xaml.cs">
+    <Compile Include="Method\DraggablePopup.cs" />
+    <Compile Include="SplashScreenWindow\ProcessingScreenWindow.xaml.cs">
       <DependentUpon>ProcessingScreenWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="RelayParameterizedCommand.cs" />
+    <Compile Include="Method\RelayCommand.cs" />
+    <Compile Include="Method\RelayParameterizedCommand.cs" />
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
@@ -297,7 +297,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProcessingScreenWindow.xaml">
+    <Page Include="SplashScreenWindow\ProcessingScreenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
