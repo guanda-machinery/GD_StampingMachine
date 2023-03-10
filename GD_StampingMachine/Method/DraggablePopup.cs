@@ -15,7 +15,7 @@ namespace GD_StampingMachine
 {
     public class DraggablePopup : NonTopmostPopup
     {
-
+       
         Point _initialMousePosition;
         bool _isDragging;
 

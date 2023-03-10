@@ -11,6 +11,9 @@ using System.Windows.Markup;
 
 namespace GD_StampingMachine.ValueConverters
 {
+    /// <summary>
+    /// 當多重綁定的值有空值時 回傳
+    /// </summary>
     public class MultiValueNotContainNullToBooleanConverter : BaseMultiValueConverter
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

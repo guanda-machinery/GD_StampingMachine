@@ -167,6 +167,7 @@
     <sys:String x:Key="btnDelete">刪除</sys:String>
     <sys:String x:Key="btnReplace">替換</sys:String>
 
+    <sys:String x:Key="btnCreate">建立</sys:String>
     <sys:String x:Key="btnConfirm">確認</sys:String>
     <sys:String x:Key="btnCancel">取消</sys:String>
     <sys:String x:Key="btnClose">關閉</sys:String>
@@ -178,8 +179,16 @@
     <sys:String x:Key="btnRecover">還原設定</sys:String>
     <sys:String x:Key="btnSave">儲存</sys:String>
     <!--#endregion-->
+    
+    <!--#region 製品設定 -->
+    <sys:String x:Key="Text_Search">搜尋</sys:String>
 
 
+    <sys:String x:Key="Text_CreateOrEditProject">建立/編輯專案</sys:String>
+    <sys:String x:Key="Text_SavePath">儲存路徑</sys:String>
+    <sys:String x:Key="Text_ProjectName">專案名稱</sys:String>
+    <sys:String x:Key="Text_ConstructionNumber">工程案號</sys:String>
+    <sys:String x:Key="Text_MachiningForm">加工型態</sys:String>
 
 
 

@@ -194,6 +194,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Method\BaseDropTarget.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
     <Compile Include="Enum\CharactersFormEnum.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="Enum\SpecialSequenceEnum.cs" />
     <Compile Include="Enum\SpindleToolHolderEnum.cs" />
     <Compile Include="Extensions\GetEnumData.cs" />
+    <Compile Include="Method\StampingTypeDropTarget.cs" />
     <Compile Include="Model\ParameterSetting\SeparateSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\TimingSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\AxisSettingModel.cs" />
@@ -244,6 +246,7 @@
     </Compile>
     <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
     <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />

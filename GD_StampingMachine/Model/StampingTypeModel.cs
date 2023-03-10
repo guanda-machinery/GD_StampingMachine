@@ -22,7 +22,7 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public int StampingTypeUseCount { get; set; }
 
-        public bool IsNewAddStamping { get; set; } = false;
+        public bool IsNewAddStamping { get; set; } 
 
         public object Clone()
         {

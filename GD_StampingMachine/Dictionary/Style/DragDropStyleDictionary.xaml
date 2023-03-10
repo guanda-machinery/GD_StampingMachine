@@ -12,7 +12,6 @@
             <Trigger Property="IsMouseOver" Value="False">
                 <Setter Property="Background" Value="Transparent"/>
             </Trigger>
-
             <EventTrigger RoutedEvent="MouseEnter">
                 <EventTrigger.Actions>
                     <BeginStoryboard>
@@ -23,7 +22,6 @@
                     </BeginStoryboard>
                 </EventTrigger.Actions>
             </EventTrigger>
-
             <EventTrigger RoutedEvent="MouseLeave">
                 <EventTrigger.Actions>
                     <BeginStoryboard>
@@ -34,7 +32,6 @@
                     </BeginStoryboard>
                 </EventTrigger.Actions>
             </EventTrigger>
-
             <EventTrigger RoutedEvent="DragEnter">
                 <EventTrigger.Actions>
                     <BeginStoryboard>
@@ -92,9 +89,21 @@
                 <Setter Property="Background" Value="DeepSkyBlue"/>
             </DataTrigger>
         </Style.Triggers>
+
+
     </Style>
 
     <Style TargetType="Border" x:Key="SelectedListBoxItemBackground" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TransformGroup>
+                    <TranslateTransform X="0" Y="0" x:Name="AnimatedTranslateTransform"/>
+                    <RotateTransform Angle="0" x:Name="AnimatedRotateTransform"/>
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
@@ -102,7 +111,58 @@
                                                             Path=IsSelected}" Value="True">
                 <Setter Property="Background" Value="Gray"/>
             </DataTrigger>
+
+        <EventTrigger RoutedEvent="DragEnter">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.200" To="DarkCyan" />
+                        <!--
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Children[0].X" RepeatBehavior="5x">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Children[0].Y" RepeatBehavior="5x">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>-->
+
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="Forever">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="4"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-4"/>
+                            </DoubleAnimationUsingKeyFrames>
+
+                        </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="DragLeave">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <!--離開-->
+                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.500" To="Transparent" />
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="1x">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
         </Style.Triggers>
+
+
     </Style>
 
 
@@ -111,7 +171,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border Style="{StaticResource SelectedListBoxItemBackground}" Padding="5,5,5,0">
+                    <Border Padding="5,5,5,0" Style="{StaticResource SelectedListBoxItemBackground }">
                         <Grid AllowDrop="True" >
                             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>

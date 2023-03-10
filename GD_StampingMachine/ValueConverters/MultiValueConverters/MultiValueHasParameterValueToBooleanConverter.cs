@@ -15,7 +15,7 @@ namespace GD_StampingMachine.ValueConverters
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-           var  ValueList = values.ToList();
+           var ValueList = values.ToList();
 
             if (parameter != null)
             {
