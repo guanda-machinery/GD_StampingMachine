@@ -190,9 +190,13 @@
     <sys:String x:Key="Text_ConstructionNumber">工程案號</sys:String>
     <sys:String x:Key="Text_MachiningForm">加工型態</sys:String>
 
+    <sys:String x:Key="Text_AddNewProject">新增專案</sys:String>
 
 
-
-
+    <sys:String x:Key="Text_ConstructionSerialNumber">工程編號</sys:String>
+    <sys:String x:Key="Text_Form">型態</sys:String>
+    <sys:String x:Key="Text_CreateTime">建立時間</sys:String>
+    <sys:String x:Key="Text_EditTime">修改時間</sys:String>
+    <sys:String x:Key="Text_FinishProgress">完成進度</sys:String>
 
 </ResourceDictionary>

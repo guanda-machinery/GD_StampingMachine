@@ -210,6 +210,7 @@
     <Compile Include="Model\MechanicalSpecificationModel.cs" />
     <Compile Include="Model\ParameterSetting\QRSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\NumberSettingModel.cs" />
+    <Compile Include="Model\ProductProjectModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
     <Compile Include="Method\DraggablePopup.cs" />
     <Compile Include="SplashScreenWindow\ProcessingScreenWindow.xaml.cs">
@@ -261,6 +262,8 @@
     <Compile Include="ViewModels\ParameterSetting\QRSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\NumberSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSettingViewModel.cs" />
+    <Compile Include="ViewModels\ProductSetting\ProductSettingViewModel.cs" />
+    <Compile Include="ViewModels\ProductSetting\ProductProjectViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="ViewModels\StampingMainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

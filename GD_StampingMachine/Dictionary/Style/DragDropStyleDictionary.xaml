@@ -112,7 +112,9 @@
                 <Setter Property="Background" Value="Gray"/>
             </DataTrigger>
 
-        <EventTrigger RoutedEvent="DragEnter">
+
+            
+            <EventTrigger RoutedEvent="DragEnter">
             <EventTrigger.Actions>
                 <BeginStoryboard>
                     <Storyboard>

@@ -3,6 +3,7 @@ using DevExpress.Data.Extensions;
 using DevExpress.Utils.CommonDialogs;
 using DevExpress.Utils.CommonDialogs.Internal;
 using GD_StampingMachine.Model;
+using GD_StampingMachine.ViewModels.ProductSetting;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
@@ -105,6 +106,42 @@ namespace GD_StampingMachine.ViewModels
                     new Model.StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
                     new Model.StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0},
             };
+
+            ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
+            {
+                new ProductProjectViewModel()
+                {
+                    ProductProject = new ProductProjectModel() {
+                        Name="創典科技總公司基地",
+                        Number = "AS001",
+                        Form ="QR",
+                        CreateTime= new DateTime(2022,10,27, 14,02,00)
+                    }
+                }       
+                ,         
+                new ProductProjectViewModel()
+                {
+                    ProductProject = new ProductProjectModel() {
+                        Name="創典科技總公司基地-1",
+                        Number = "AS002",
+                        Form ="QR",
+                        CreateTime= new DateTime(2022,10,27, 14,02,00)
+                    }
+                }          ,
+                new ProductProjectViewModel()
+                {
+                    ProductProject = new ProductProjectModel() {
+                        Name="創典科技總公司基地-2",
+                        Number = "AS003",
+                        Form ="QR",
+                        CreateTime= new DateTime(2022,10,27, 14,02,00)
+                    }
+                }
+            };
+
+
+
+
         }
 
         private DateTime _dateTimeNow = new DateTime();
@@ -172,6 +209,8 @@ namespace GD_StampingMachine.ViewModels
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; } = new StampingFontChangedViewModel();
         public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
 
+        public ProductSettingViewModel ProductSettingVM { get; set; } = new ProductSettingViewModel();
+
         #endregion
 
 
@@ -179,7 +218,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        
+
 
 
 
