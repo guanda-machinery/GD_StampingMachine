@@ -27,7 +27,7 @@
                             TickFrequency="1" >
 
         </Slider>
-        <TextBlock FontSize="12"  Foreground="White"
+        <TextBlock FontSize="12"  Foreground="Black"
             Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=MainSlider, Path=Value}"></TextBlock>
         <RepeatButton Margin="5,0" Click="RepeatButton_Plus_Click" Style="{StaticResource SiegCustomRepeatButton}"  
                       Grid.Column="2" Padding="0"    Height="24"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">

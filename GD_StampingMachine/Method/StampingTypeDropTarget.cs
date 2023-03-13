@@ -42,6 +42,13 @@ namespace GD_StampingMachine.Method
                             return;
                         }
 
+                        //當鋼印機是目標是阻擋拖曳
+                     /*   if (SourceData.IsNewAddStamping == true && TargetData.StampingTypeNumber > 0)
+                        {
+                            dropInfo.NotHandled = false;
+                            return;
+                        }*/
+
                         //目標是新增字模不可以放上去
                         if (TargetData.IsNewAddStamping)
                         {
@@ -51,19 +58,41 @@ namespace GD_StampingMachine.Method
                     }
 
                     //目標是垃圾桶
-                    if (dropInfo.TargetItem is null && dropInfo.TargetCollection.TryGetList() is null)
+                    if (dropInfo.TargetItem is null)
                     {
-                        if (SourceData.StampingTypeNumber > 0)
+                        if (dropInfo.TargetCollection.TryGetList() is null)
                         {
-                            dropInfo.NotHandled = false;
-                            return;
+                            if (SourceData.StampingTypeNumber > 0)
+                            {
+                                dropInfo.NotHandled = false;
+                                return;
+                            }
+                            if (SourceData.IsNewAddStamping)
+                            {
+                                dropInfo.NotHandled = false;
+                                return;
+                            }
                         }
-                        if (SourceData.IsNewAddStamping)
+
+                        if (dropInfo.TargetCollection is IEnumerable<StampingTypeModel> TargetEnumerable)
                         {
-                            dropInfo.NotHandled = false;
-                            return;
+                            if (TargetEnumerable.ToList().Exists(x => x.StampingTypeNumber > 0))
+                            {
+                                dropInfo.NotHandled = false;
+                                return;
+                            }
                         }
                     }
+
+
+
+                    if (dropInfo.TargetItem is null)
+                    {
+                        dropInfo.DropTargetAdorner = typeof(DropTargetInsertionAdorner);
+                        dropInfo.Effects = DragDropEffects.Move;
+                        return;
+                    }
+
                 }
             }
 
@@ -118,7 +147,7 @@ namespace GD_StampingMachine.Method
                 if (SourceData != null)
                 {
                     //目標是刪除按鈕 或是為空
-                    if (TargetData is System.Windows.Controls.Button || (TargetData is null && TargetData is null))
+                    if (TargetData is System.Windows.Controls.Button || (TargetData is null && dropInfo.TargetCollection is null))
                     {
                         DDMethodType = DragDropMethod.None;
                         if ((SourceData as StampingTypeModel).StampingTypeNumber <= 0)

@@ -221,14 +221,8 @@
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\BottomRowDiagramUserControl.xaml.cs">
-      <DependentUpon>BottomRowDiagramUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\MiddleRowDiagramUserControl.xaml.cs">
-      <DependentUpon>MiddleRowDiagramUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\TopRowDiagramUserControl.xaml.cs">
-      <DependentUpon>TopRowDiagramUserControl.xaml</DependentUpon>
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramUserControl.xaml.cs">
+      <DependentUpon>PlateRowDiagramUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\TwoRowDiagramUserControl.xaml.cs">
       <DependentUpon>TwoRowDiagramUserControl.xaml</DependentUpon>
@@ -250,6 +244,7 @@
     <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\ObjectIsEqualToAutoOrNaNValueConverter.cs" />
     <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
@@ -311,21 +306,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\BottomRowDiagramUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\MiddleRowDiagramUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\TopRowDiagramUserControl.xaml">
+    <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\NumberSettingSchematicDiagram\TwoRowDiagramUserControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="UserControls\ParamaterSettingUserControl.xaml">
       <SubType>Designer</SubType>

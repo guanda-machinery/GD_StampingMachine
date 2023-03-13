@@ -20,12 +20,8 @@ namespace GD_StampingMachine.Enum
         //[Image(imageUri: @"pack://application:,,,/GD_STD.Enum;component/ImageSVG/SelectPlate_Front.svg"), Description("前面", Description = "腹板")]
         [Description("雙排")]
         TwoRow,
-        [Description("單排靠上")]
-        OneTop,
-        [Description("單排置中")]
-        OneCenter,
-        [Description("單排靠下")]
-        OneBottom,
+        [Description("單排")]
+        OneRow,
     }
 
 

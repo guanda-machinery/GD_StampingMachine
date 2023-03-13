@@ -100,19 +100,17 @@
 
         <!--單排靠上時負責擠開顯示-->
         <Border  Grid.Column="0" Grid.Row="5" Height="100" Width="auto" 
-                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneTop}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
+                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneRow}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
 
         <!--單排置中時撐開表單用-->
         <Border  Grid.Column="0" Grid.Row="2" Height="75" Width="auto" 
-                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneCenter}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
+                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneRow}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
         <Border  Grid.Column="0" Grid.Row="4" Height="55" Width="auto" 
-                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneCenter}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
+                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneRow}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
 
         <!--單排靠下時撐開表單用-->
         <Border  Grid.Column="0" Grid.Row="2" Height="130" Width="auto"  
-                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneBottom}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
-
-
+                   Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneRow}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
 
         <Border Background="#55534d" Grid.Column="3" Grid.Row="3"  Name="FirstBorder"
                 Width="{calc:Binding (400+30*(8-SequenceCountComboBoxSelectValue))/SequenceCountComboBoxSelectValue}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=1}">

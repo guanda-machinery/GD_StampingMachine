@@ -1,4 +1,5 @@
-﻿using GD_StampingMachine.Enum;
+﻿using DevExpress.Utils.Extensions;
+using GD_StampingMachine.Enum;
 using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 
@@ -97,6 +99,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _sequenceCountComboBoxSelectValue = value;
                 OnPropertyChanged(nameof(SequenceCountComboBoxSelectValue));
+                OnPropertyChanged(nameof(PlateNumberList));
             }
         }
 
@@ -108,7 +111,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                if (_sequenceCountComboBoxSelectValue.HasValue)
+                if (_specialSequenceComboBoxSelectValue.HasValue)
                 {
                     NumberSetting.SpecialSequence = _specialSequenceComboBoxSelectValue.Value;
                 }
@@ -119,12 +122,91 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _specialSequenceComboBoxSelectValue = value;
                 OnPropertyChanged(nameof(SpecialSequenceComboBoxSelectValue));
+                OnPropertyChanged(nameof(PlateNumberList));
+            }
+        }
+
+        /// <summary>
+        /// 這是鐵牌上要打的位置
+        /// </summary>
+        public ObservableCollection<int> PlateNumberList
+        {
+            get
+            {
+                int ColumnCount = 8;
+                if (SequenceCountComboBoxSelectValue.HasValue)
+                {
+                    ColumnCount = SequenceCountComboBoxSelectValue.Value;
+                }
+
+                int RowCount = 2;
+                _ = SpecialSequenceComboBoxSelectValue switch
+                {
+                    SpecialSequenceEnum.OneRow => RowCount = 1,
+                    SpecialSequenceEnum.TwoRow => RowCount = 2,
+                    _ => RowCount = 2,
+                };
+
+                var NumberList = new ObservableCollection<int>();
+
+                var ListCount = ColumnCount * RowCount;
+                for (int i = 0; i < ListCount; i++)
+                {
+                    NumberList.Add(i + 1);
+                }
+                return NumberList;
+            }
+        }
+
+
+        public HorizontalAlignment _horizontalAlignmentComboBoxSelectValue= HorizontalAlignment.Left;
+        public VerticalAlignment _verticalAlignmentComboBoxSelectValue = VerticalAlignment.Top;
+        public HorizontalAlignment HorizontalAlignmentComboBoxSelectValue
+        {
+            get => _horizontalAlignmentComboBoxSelectValue;
+            set
+            {
+                _horizontalAlignmentComboBoxSelectValue = value; OnPropertyChanged(nameof(HorizontalAlignmentComboBoxSelectValue));
+            }
+        }
+        public VerticalAlignment VerticalAlignmentComboBoxSelectValue
+        {
+            get => _verticalAlignmentComboBoxSelectValue;
+            set { _verticalAlignmentComboBoxSelectValue = value;OnPropertyChanged(nameof(VerticalAlignmentComboBoxSelectValue)); }
+        }
+
+
+        public ObservableCollection<HorizontalAlignment> HorizontalAlignmentCollection
+        {
+            get
+            {
+                var EnumList = new ObservableCollection<HorizontalAlignment>();
+                foreach (HorizontalAlignment EachEnum in System.Enum.GetValues(typeof(HorizontalAlignment)))
+                {
+                    EnumList.Add(EachEnum);
+                }
+                EnumList.Remove(HorizontalAlignment.Stretch);
+
+                return EnumList;
             }
         }
 
 
 
+        public ObservableCollection<VerticalAlignment> VerticalAlignmentCollection
+        {
+            get
+            {
+                var EnumList = new ObservableCollection<VerticalAlignment>();
+                foreach (VerticalAlignment EachEnum in System.Enum.GetValues(typeof(VerticalAlignment)))
+                {
+                    EnumList.Add(EachEnum);
+                }
+                EnumList.Remove(VerticalAlignment.Stretch);
 
+                return EnumList;
+            }
+        }
 
 
 

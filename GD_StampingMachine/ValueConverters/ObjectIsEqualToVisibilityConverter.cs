@@ -13,8 +13,17 @@ namespace GD_StampingMachine.ValueConverters
     public class ObjectIsEqualToVisibilityConverter : BaseValueConverter
     {
         public bool Invert { get; set; }
-         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public bool IsNullable { get; set; }
+
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if(IsNullable && value is null)
+            {
+                if (object.Equals(value, null))
+                {
+                    return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
 
             if (object.Equals(value, parameter))
             {

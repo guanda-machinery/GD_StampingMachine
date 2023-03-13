@@ -19,9 +19,9 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
     /// <summary>
     /// NumberSettingSchematicDiagramUserControl.xaml 的互動邏輯
     /// </summary>
-    public partial class TwoRowDiagramUserControl : UserControl
+    public partial class PlateRowDiagramUserControl : UserControl
     {
-        public TwoRowDiagramUserControl()
+        public PlateRowDiagramUserControl()
         {
             InitializeComponent();
 
@@ -38,8 +38,10 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public static readonly DependencyProperty SequenceCountProperty = DependencyProperty.Register(
             nameof(SequenceCount),
             typeof(int),
-            typeof(TwoRowDiagramUserControl),
+            typeof(PlateRowDiagramUserControl),
             new PropertyMetadata());
+
+
 
 
 
