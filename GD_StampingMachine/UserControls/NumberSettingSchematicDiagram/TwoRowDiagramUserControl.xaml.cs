@@ -24,9 +24,6 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public TwoRowDiagramUserControl()
         {
             InitializeComponent();
-
-
-
         }
 
         public int SequenceCount
@@ -38,6 +35,45 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public static readonly DependencyProperty SequenceCountProperty = DependencyProperty.Register(
             nameof(SequenceCount),
             typeof(int),
+            typeof(TwoRowDiagramUserControl),
+            new PropertyMetadata());
+
+        public SpecialSequenceEnum SpecialSequence
+        {
+            get => (SpecialSequenceEnum)GetValue(SpecialSequenceProperty);
+            set => SetValue(SpecialSequenceProperty, value);
+        }
+
+        public static readonly DependencyProperty SpecialSequenceProperty = DependencyProperty.Register(
+            nameof(SpecialSequence),
+            typeof(SpecialSequenceEnum),
+            typeof(TwoRowDiagramUserControl),
+            new PropertyMetadata());
+
+
+
+        public HorizontalAlignment PlateHorizontalAlignment
+        {
+            get => (HorizontalAlignment)GetValue(PlateHorizontalAlignmentProperty);
+            set => SetValue(PlateHorizontalAlignmentProperty, value);
+        }
+
+        public static readonly DependencyProperty PlateHorizontalAlignmentProperty = DependencyProperty.Register(
+            nameof(PlateHorizontalAlignment),
+            typeof(HorizontalAlignment),
+            typeof(TwoRowDiagramUserControl),
+            new PropertyMetadata());
+
+
+        public VerticalAlignment PlateVerticalAlignment
+        {
+            get => (VerticalAlignment)GetValue(PlateVerticalAlignmentProperty);
+            set => SetValue(PlateVerticalAlignmentProperty, value);
+        }
+
+        public static readonly DependencyProperty PlateVerticalAlignmentProperty = DependencyProperty.Register(
+            nameof(PlateVerticalAlignment),
+            typeof(VerticalAlignment),
             typeof(TwoRowDiagramUserControl),
             new PropertyMetadata());
 

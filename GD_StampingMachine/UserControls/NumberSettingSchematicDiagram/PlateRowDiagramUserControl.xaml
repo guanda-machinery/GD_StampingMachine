@@ -6,11 +6,12 @@
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting"
              xmlns:calc="clr-namespace:CalcBinding;assembly=CalcBinding"
              xmlns:gd_valueconverters="clr-namespace:GD_StampingMachine.ValueConverters" 
-             xmlns:GD_enum="clr-namespace:GD_StampingMachine.Enum"
-             d:DataContext="{d:DesignInstance Type=GD_ParameterSettingViewModels:NumberSettingViewModel}"
+             xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum"
+            
              mc:Ignorable="d" >
 
-    <Grid  >
+    <Grid 
+             DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
         <Grid.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground" Value="White"/>
@@ -26,24 +27,24 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="{Binding HorizontalAlignmentComboBoxSelectValue, ConverterParameter={x:Static HorizontalAlignment.Left},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
+            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_enum:HorizontalAlignEnum.Left},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="{Binding HorizontalAlignmentComboBoxSelectValue, ConverterParameter={x:Static HorizontalAlignment.Right},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
+            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_enum:HorizontalAlignEnum.Right},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="{Binding VerticalAlignmentComboBoxSelectValue, ConverterParameter={x:Static VerticalAlignment.Top},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
+            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_enum:VerticalAlignEnum.Top},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
             <!--B30-->
             <RowDefinition Height="auto" d:Height="70"/>
-            <RowDefinition Height="{Binding VerticalAlignmentComboBoxSelectValue, ConverterParameter={x:Static VerticalAlignment.Bottom},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
+            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_enum:VerticalAlignEnum.Bottom},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
             <!--底-->
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
 
-        <Border  Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="3" Width="660" Height="230"
+        <Border  Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="3" Width="655" Height="250"
             Background="#d6d5ce" CornerRadius="10" 
                                                          HorizontalAlignment="Stretch" />
         <Border Background="White" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Width="25" HorizontalAlignment="Left" Height="25" CornerRadius="12.5" VerticalAlignment="Top" Margin="7.5,12"/>
@@ -51,7 +52,7 @@
             <Grid Grid.Column="3"  Grid.Row="3" >
                 <ListBox 
             Margin="-12.5,-15"
-            ItemsSource="{Binding PlateNumberList}" Width="{calc:Binding (50*SequenceCountComboBoxSelectValue+25*(SequenceCountComboBoxSelectValue))}"  >
+            ItemsSource="{Binding PlateNumberList}" Width="{calc:Binding (50*SequenceCount+25*(SequenceCount))}"  >
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Template">
@@ -85,7 +86,7 @@
 
 
 
-        <TextBlock Text="D" Foreground="Red" Grid.Row="3" FontSize="20" Visibility="{Binding SpecialSequenceComboBoxSelectValue,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
+        <TextBlock Text="D" Foreground="Red" Grid.Row="3" FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
         <TextBlock Text="E" Foreground="Red" Grid.Column="4" FontSize="20"/>
 
 
@@ -93,43 +94,38 @@
         <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" />
         <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="7"/>
 
-        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="30" Visibility="{Binding SpecialSequenceComboBoxSelectValue,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
-        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="7" Height="30" Visibility="{Binding SpecialSequenceComboBoxSelectValue,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="7" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
 
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="4" Grid.Row="1" VerticalAlignment="Center"/>
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="4" Grid.Row="1" Grid.RowSpan="7"/>
 
 
-        <StackPanel HorizontalAlignment="Center" 
-            Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
+        <Grid HorizontalAlignment="Center" 
+            Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
-            <TextBlock Text="C" Foreground="Red" FontSize="20"   Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
-        </StackPanel>
-
-        
-        <StackPanel HorizontalAlignment="Center"  Width="25"
-            Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
-            Grid.Column="3"  Grid.Row="0" >
-            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
-        </StackPanel>
+            <TextBlock Text="C" Foreground="Red" FontSize="20"   
+                       Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
+        </Grid>
 
 
-        <StackPanel HorizontalAlignment="Center"  VerticalAlignment="Stretch" Grid.RowSpan="7"  Width="25"
-            Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
+
+
+
+        <Grid HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="5"  Width="25"
+            Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
-            <Border BorderThickness="1,0"  BorderBrush="Red" 
-                Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
-        </StackPanel>
-
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="3" Grid.Row="1" Grid.RowSpan="7" Width="25"/>
+        <Border BorderThickness="1,0"  BorderBrush="Red"  Width="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
+        </Grid>
 
 
 
 
 
-        <TextBlock Text="C" Foreground="Red" FontSize="20" Grid.Column="3" Width="25" HorizontalAlignment="Left" Margin="130,0,0,0" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
-        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
-        <Border BorderThickness="1,0" HorizontalAlignment="Left" BorderBrush="Red" Grid.Column="3" Grid.Row="1" Margin="125,0,0,0" Grid.RowSpan="8" Width="25" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+        <TextBlock Text="C" Foreground="Red" FontSize="20" Grid.Column="3" Width="25" HorizontalAlignment="Left" Margin="130,0,0,0" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+        <Border BorderThickness="1,0" HorizontalAlignment="Left" BorderBrush="Red" Grid.Column="3" Grid.Row="1" Margin="125,0,0,0" Grid.RowSpan="8" Width="25" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
 
 
 

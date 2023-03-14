@@ -20,9 +20,9 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
     /// <summary>
     /// NumberSettingSchematicDiagramUserControl.xaml 的互動邏輯
     /// </summary>
-    public partial class PlateRowDiagramUserControl : UserControl
+    public partial class PlateRowDiagramWithQRUserControl : UserControl
     {
-        public PlateRowDiagramUserControl()
+        public PlateRowDiagramWithQRUserControl()
         {
             InitializeComponent();
 
@@ -41,7 +41,7 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public static readonly DependencyProperty SequenceCountProperty = DependencyProperty.Register(
             nameof(SequenceCount),
             typeof(int),
-            typeof(PlateRowDiagramUserControl),
+            typeof(PlateRowDiagramWithQRUserControl),
             new PropertyMetadata());
 
          
@@ -54,7 +54,7 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public static readonly DependencyProperty PlateNumberListProperty = DependencyProperty.Register(
             nameof(PlateNumberList),
             typeof(ObservableCollection<int>),
-            typeof(PlateRowDiagramUserControl),
+            typeof(PlateRowDiagramWithQRUserControl),
             new PropertyMetadata());
 
 
@@ -70,7 +70,7 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public static readonly DependencyProperty SpecialSequenceProperty = DependencyProperty.Register(
             nameof(SpecialSequence),
             typeof(SpecialSequenceEnum),
-            typeof(PlateRowDiagramUserControl),
+            typeof(PlateRowDiagramWithQRUserControl),
             new PropertyMetadata());
 
 
@@ -84,7 +84,7 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public static readonly DependencyProperty PlateHorizontalAlignmentProperty = DependencyProperty.Register(
             nameof(PlateHorizontalAlignment),
             typeof(HorizontalAlignEnum),
-            typeof(PlateRowDiagramUserControl),
+            typeof(PlateRowDiagramWithQRUserControl),
             new PropertyMetadata());
 
 
@@ -97,7 +97,7 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
         public static readonly DependencyProperty PlateVerticalAlignmentProperty = DependencyProperty.Register(
             nameof(PlateVerticalAlignment),
             typeof(VerticalAlignEnum),
-            typeof(PlateRowDiagramUserControl),
+            typeof(PlateRowDiagramWithQRUserControl),
             new PropertyMetadata());
 
 

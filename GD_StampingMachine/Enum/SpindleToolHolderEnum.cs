@@ -1,7 +1,7 @@
 ﻿using DevExpress.Mvvm.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
 
-namespace GD_StampingMachine.Enum
+namespace GD_StampingMachine.GD_Enum
 {
     public enum SpindleToolHolderEnum
     {

@@ -100,6 +100,7 @@
                 <TransformGroup>
                     <TranslateTransform X="0" Y="0" x:Name="AnimatedTranslateTransform"/>
                     <RotateTransform Angle="0" x:Name="AnimatedRotateTransform"/>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
                 </TransformGroup>
             </Setter.Value>
         </Setter>
@@ -134,13 +135,24 @@
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-2"/>
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>-->
-
-                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="Forever">
+                            <!--RepeatBehavior="Forever"-->
+                        <!--
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="2x">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="4"/>
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-4"/>
-                            </DoubleAnimationUsingKeyFrames>
+                            </DoubleAnimationUsingKeyFrames>-->
+
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                                               To="1.2" Duration="0:0:0.5"
+                                               />
+
+
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                                                 To="1.2" Duration="0:0:0.5"
+                                               />
+
 
                         </Storyboard>
                 </BeginStoryboard>
@@ -156,6 +168,16 @@
                             <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="1x">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                                               To="1" Duration="0:0:0.5"
+                                               />
+
+
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                                                 To="1" Duration="0:0:0.5"
+                                               />
+
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -202,15 +224,15 @@
                     <Border Padding="5,5,5,0" Style="{StaticResource SelectedListBoxItemBackground }">
                         <Grid  >
                             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder">
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder">
                             <Border Style="{StaticResource SelectedBorder}"  CornerRadius="{Binding ElementName=MainBorder, Path=CornerRadius}">
                     <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                 </Border>
@@ -232,7 +254,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem" >
-                    <Border Style="{StaticResource SelectedListBoxItemBackground}" Padding="5">
+                    <Border Style="{StaticResource SelectedListBoxItemBackground }" Padding="5" Margin="10,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>

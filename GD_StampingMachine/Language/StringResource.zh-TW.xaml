@@ -86,11 +86,13 @@
     <sys:String x:Key="textSpecialSequence">特殊排序</sys:String>
     <sys:String x:Key="textVerticalAlignment">垂直對齊</sys:String>
     <sys:String x:Key="textHorizontalAlignment">水平對齊</sys:String>
+    <sys:String x:Key="textAlignmentMode">對齊模式</sys:String>
     <sys:String x:Key="textMargin">間距</sys:String>
 
     <sys:String x:Key="textSelectMode">請選擇模式</sys:String>
     <sys:String x:Key="textSelectCount">請選擇數量</sys:String>
     <sys:String x:Key="textSelectSequence">請選擇排序</sys:String>
+    <sys:String x:Key="textSelectAlignment">請選擇對齊方式</sys:String>
     <sys:String x:Key="textInputMargin">請輸入間距</sys:String>
 
 

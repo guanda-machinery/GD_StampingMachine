@@ -85,6 +85,9 @@
       <HintPath>..\packages\DevExpress.Utils.21.1.4\lib\net452\DevExpress.Utils.v21.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Utils.v21.1.UI, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Controls.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Wpf.Controls.21.1.4\lib\net452\DevExpress.Xpf.Controls.v21.1.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Xpf.Core.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.Core.21.1.4\lib\net452\DevExpress.Xpf.Core.v21.1.dll</HintPath>
     </Reference>
@@ -194,6 +197,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enum\Method\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="Enum\HorizontalAlignEnum.cs" />
+    <Compile Include="Enum\Method\LocalizedDescriptionAttribute.cs" />
+    <Compile Include="Enum\VerticalAlignEnum.cs" />
+    <Compile Include="Extensions\EnumHelper.cs" />
+    <Compile Include="Language\EnumResources.zh-TW.Designer.cs">
+      <DependentUpon>EnumResources.zh-TW.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Method\BaseDropTarget.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
@@ -213,6 +226,11 @@
     <Compile Include="Model\ProductProjectModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
     <Compile Include="Method\DraggablePopup.cs" />
+    <Compile Include="Language\EnumResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SplashScreenWindow\ProcessingScreenWindow.xaml.cs">
       <DependentUpon>ProcessingScreenWindow.xaml</DependentUpon>
     </Compile>
@@ -221,11 +239,11 @@
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRUserControl.xaml.cs">
+      <DependentUpon>PlateRowDiagramWithQRUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramUserControl.xaml.cs">
       <DependentUpon>PlateRowDiagramUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\TwoRowDiagramUserControl.xaml.cs">
-      <DependentUpon>TwoRowDiagramUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ParamaterSettingUserControl.xaml.cs">
       <DependentUpon>ParamaterSettingUserControl.xaml</DependentUpon>
@@ -306,13 +324,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramUserControl.xaml">
+    <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\TwoRowDiagramUserControl.xaml">
+    <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="UserControls\ParamaterSettingUserControl.xaml">
       <SubType>Designer</SubType>
@@ -349,6 +367,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Language\EnumResources.zh-TW.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EnumResources.zh-TW.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Language\EnumResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EnumResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,5 +1,5 @@
 ﻿using DevExpress.Text.Interop;
-using GD_StampingMachine.Enum;
+using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;

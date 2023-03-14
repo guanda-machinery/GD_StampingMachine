@@ -1,4 +1,4 @@
-﻿using GD_StampingMachine.Enum;
+﻿using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

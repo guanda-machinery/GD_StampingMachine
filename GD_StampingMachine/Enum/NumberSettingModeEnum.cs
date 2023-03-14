@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace GD_StampingMachine.Enum
+namespace GD_StampingMachine.GD_Enum
 {
     public enum NumberSettingModeEnum
     {

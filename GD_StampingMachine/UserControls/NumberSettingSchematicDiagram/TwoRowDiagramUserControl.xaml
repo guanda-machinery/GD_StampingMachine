@@ -65,12 +65,12 @@
         <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="20"/>
         <TextBlock Text="B" Foreground="Red" Grid.Row="2" FontSize="20"/>
 
-        <StackPanel  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
+        <StackPanel  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="4"  >
-            <TextBlock Text="C" Foreground="Red" FontSize="20"   Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
+            <TextBlock Text="C" Foreground="Red" FontSize="20"   Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
         </StackPanel>
 
-        <TextBlock Text="C" Foreground="Red" FontSize="20" Grid.Column="6"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
+        <TextBlock Text="C" Foreground="Red" FontSize="20" Grid.Column="6"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
 
         <TextBlock Text="D" Foreground="Red" Grid.Row="4" FontSize="20" Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}"/>
         <TextBlock Text="E" Foreground="Red" Grid.Column="18" FontSize="20"/>
@@ -82,13 +82,13 @@
 
 
         <!--撐開表單用-->       
-        <Border Grid.Column="4" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"/>
-        <Border Grid.Column="6" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
-        <Border Grid.Column="8" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=4}"/>
-        <Border Grid.Column="10" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=5}"/>
-        <Border Grid.Column="12" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=6}"/>
-        <Border Grid.Column="14" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=7}"/>
-        <Border Grid.Column="16" Grid.Row="0"  Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=8}"/>
+        <Border Grid.Column="4" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"/>
+        <Border Grid.Column="6" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+        <Border Grid.Column="8" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=4}"/>
+        <Border Grid.Column="10" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=5}"/>
+        <Border Grid.Column="12" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=6}"/>
+        <Border Grid.Column="14" Grid.Row="0" Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=7}"/>
+        <Border Grid.Column="16" Grid.Row="0"  Style="{StaticResource TransparentBorder}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=8}"/>
 
         <Border Grid.Column="0" Grid.Row="2" Style="{StaticResource TransparentBorder}" />
         <Border Grid.Column="0" Grid.Row="4" Style="{StaticResource TransparentBorder}" Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}"/>
@@ -113,76 +113,76 @@
                    Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.OneRow}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}"/>
 
         <Border Background="#55534d" Grid.Column="3" Grid.Row="3"  Name="FirstBorder"
-                Width="{calc:Binding (400+30*(8-SequenceCountComboBoxSelectValue))/SequenceCountComboBoxSelectValue}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=1}">
+                Width="{calc:Binding (400+30*(8-SequenceCount))/SequenceCount}"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=1}">
             <TextBlock Text="1" />
         </Border>
-        <Border Background="#55534d" Grid.Column="5" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}">
+        <Border Background="#55534d" Grid.Column="5" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}">
             <TextBlock Text="2" />
         </Border>
-        <Border Background="#55534d" Grid.Column="7" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}">
+        <Border Background="#55534d" Grid.Column="7" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}">
             <TextBlock Text="3" />
         </Border>
-        <Border Background="#55534d" Grid.Column="9" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=4}">
+        <Border Background="#55534d" Grid.Column="9" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=4}">
             <TextBlock Text="4" />
         </Border>
-        <Border Background="#55534d" Grid.Column="11" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=5}">
+        <Border Background="#55534d" Grid.Column="11" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=5}">
             <TextBlock Text="5" />
         </Border>
 
 
-        <Border Background="#55534d" Grid.Column="13" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=6}">
+        <Border Background="#55534d" Grid.Column="13" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=6}">
             <TextBlock Text="6" />
         </Border>
 
 
-        <Border Background="#55534d" Grid.Column="15" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=7}">
+        <Border Background="#55534d" Grid.Column="15" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}"  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=7}">
             <TextBlock Text="7" />
         </Border>
         
 
-        <Border  Background="#55534d" Grid.Column="17" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=8}">
+        <Border  Background="#55534d" Grid.Column="17" Grid.Row="3" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=8}">
             <TextBlock Text="8" />
         </Border>
 
 
 
         <Grid Grid.Column="3" Grid.Row="5"  Visibility="{Binding SpecialSequenceComboBoxSelectValue, ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow}, Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter}}">
-            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=1}">
+            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=1}">
                 <TextBlock Text="9" />
             </Border>
         </Grid>
         <Grid Grid.Column="5" Grid.Row="5" Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}">
-            <Border Background="#55534d" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}">
+            <Border Background="#55534d" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}">
             <TextBlock Text="10" />
         </Border>
         </Grid>
         <Grid Grid.Column="7" Grid.Row="5"  Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}">
-            <Border Background="#55534d" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}">
+            <Border Background="#55534d" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}">
             <TextBlock Text="11" />
         </Border>
         </Grid>
         <Grid Grid.Column="9" Grid.Row="5"  Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}">
-            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=4}">
+            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=4}">
             <TextBlock Text="12" />
         </Border>
         </Grid>
         <Grid Grid.Column="11" Grid.Row="5"  Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}">
-            <Border Background="#55534d" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=5}">
+            <Border Background="#55534d" Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=5}">
             <TextBlock Text="13" />
         </Border>
         </Grid>
         <Grid Grid.Column="13" Grid.Row="5"  Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}">
-            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=6}">
+            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=6}">
             <TextBlock Text="14" />
         </Border>
         </Grid>
         <Grid Grid.Column="15" Grid.Row="5"  Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}">
-            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=7}">
+            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=7}">
             <TextBlock Text="15" />
         </Border>
         </Grid>
         <Grid Grid.Column="17" Grid.Row="5"  Visibility="{Binding ElementName=SecondRowBorder, Path=Visibility}">
-            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=8}">
+            <Border Background="#55534d"  Width="{Binding ElementName=FirstBorder, Path=ActualWidth}" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=8}">
                 <TextBlock Text="16" />
             </Border>
         </Grid>
@@ -192,21 +192,21 @@
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="8"/>
 
 
-        <Grid  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
+        <Grid  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
              Grid.Column="4" Grid.Row="1"  >
              <Border BorderThickness="0,0,0,1" BorderBrush="Red" VerticalAlignment="Center"
-                     Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
+                     Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
         </Grid>
         
-            <Grid  Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
+            <Grid  Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
              Grid.Column="4" Grid.Row="1"  Grid.RowSpan="8"  >
                 <Border BorderThickness="1,0" BorderBrush="Red"  
-                        Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
+                        Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
         </Grid>
 
 
-        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="6" Grid.Row="1" Grid.RowSpan="8" Visibility="{Binding SequenceCountComboBoxSelectValue, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="6" Grid.Row="1" Grid.RowSpan="8" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
 
 
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="18" Grid.Row="1" VerticalAlignment="Center"/>

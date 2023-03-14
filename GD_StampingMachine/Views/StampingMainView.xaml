@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
-             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.Enum"
+             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1"
@@ -468,10 +468,8 @@
                                 </StackPanel>
                             </ScrollViewer>
                         </TabItem>
-                        <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}" 
-                                 DataContext="{Binding ProductSettingVM}"
-                                 >
-
+                            <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}" 
+                                 DataContext="{Binding ProductSettingVM}">
                                 <Grid Margin="20,10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
@@ -484,8 +482,11 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"  Margin="10">
                                             <TextBlock Text="{DynamicResource Text_Search}" FontSize="20"  />
-                                            <TextBox BorderBrush="White" Width="300" Margin="5,0"/>
+                                            <TextBox BorderBrush="White" Width="300"  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                                     Margin="5,0" Name="SearchTextBox" 
+                                                     Foreground="White"/>
                                         </StackPanel>
+
                                         <ToggleButton Grid.Column="1" 
                                             IsChecked="{Binding ElementName=AddProjectDarggablePopup, Path=IsOpen}" 
                                                   Width="auto"
@@ -578,14 +579,14 @@
                                     </Grid>
 
                                     <DataGrid Grid.Row="1"
-                                        ItemsSource="{Binding ProductProjectVMObservableCollection}"
+                                        ItemsSource="{Binding Search_ProductProjectVMObservableCollection}"
                                         CanUserSortColumns="False"
                                         materialDesign:DataGridAssist.CellPadding="4 2 2 2"
                                         materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"                                                    
-                                           AutoGenerateColumns="False"
-                                              CanUserAddRows="False"
-                                              HeadersVisibility="All"
-                                              SelectionUnit="{Binding ElementName=selectionUnitComboBox, Path=SelectedValue}"
+                                        AutoGenerateColumns="False"
+                                        CanUserAddRows="False"
+                                        HeadersVisibility="All"
+                                        SelectionUnit="{Binding ElementName=selectionUnitComboBox, Path=SelectedValue}"
                                               >
                                         <DataGrid.Columns>
                                             <!-- by default a DataGridCheckBoxColumn will have the MaterialDesignDataGridCheckBoxColumnStyle and MaterialDesignDataGridCheckBoxColumnEditingStyle applied. See DataGridAssist.ApplyMaterialDesignColumnStyles attached property -->
