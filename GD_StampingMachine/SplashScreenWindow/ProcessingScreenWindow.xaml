@@ -6,6 +6,8 @@
                        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
                         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                        xmlns:local="clr-namespace:GD_StampingMachine"
                         WindowStyle="None"
                        Topmost="True"
                        WindowStartupLocation="CenterScreen"
@@ -37,7 +39,9 @@
                      Background="LightGray"
                      IsIndeterminate="{Binding IsIndeterminate}"
                      Style="{ StaticResource MaterialDesignCircularProgressBar }"
-                     />
+                     >
+
+            </ProgressBar>
             <StackPanel Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal"
  Visibility="{Binding IsIndeterminate, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
 
@@ -63,7 +67,10 @@
                      Background="LightGray"
                      IsIndeterminate="{Binding IsIndeterminate}"
                      Style="{ StaticResource MaterialDesignLinearProgressBar }"
-                     />
+                     >
+
+
+            </ProgressBar>
         </Grid>
     </Grid>
 </dx:SplashScreenWindow>

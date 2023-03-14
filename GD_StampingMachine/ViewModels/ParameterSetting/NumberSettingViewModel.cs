@@ -1,5 +1,6 @@
-﻿using DevExpress.Utils.Extensions;
-using GD_StampingMachine.Enum;
+﻿using DevExpress.Mvvm.Native;
+using DevExpress.Utils.Extensions;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get
             {
                 var CountCollection = new ObservableCollection<int>();
-                for (int i = 1; i <= 8; i++)
+                for (int i = 1; i <= PlateNumberListMax; i++)
                 {
                     CountCollection.Add(i);
                 }
@@ -90,7 +91,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_sequenceCountComboBoxSelectValue.HasValue)
                 {
-                    //NumberSettingSchematicDiagramVM.SequenceCount = _sequenceCountComboBoxSelectValue.Value;
                     NumberSetting.SequenceCount = _sequenceCountComboBoxSelectValue.Value;
                 }
                 return _sequenceCountComboBoxSelectValue;
@@ -126,6 +126,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+
+        public virtual int PlateNumberListMax { get; set; } =8;
         /// <summary>
         /// 這是鐵牌上要打的位置
         /// </summary>
@@ -133,10 +135,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                int ColumnCount = 8;
+                int ColumnCount = PlateNumberListMax;
                 if (SequenceCountComboBoxSelectValue.HasValue)
                 {
-                    ColumnCount = SequenceCountComboBoxSelectValue.Value;
+                    if(SequenceCountComboBoxSelectValue.Value <= PlateNumberListMax)               
+                        ColumnCount = SequenceCountComboBoxSelectValue.Value;
                 }
 
                 int RowCount = 2;
@@ -159,66 +162,50 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        public HorizontalAlignment _horizontalAlignmentComboBoxSelectValue= HorizontalAlignment.Left;
-        public VerticalAlignment _verticalAlignmentComboBoxSelectValue = VerticalAlignment.Top;
-        public HorizontalAlignment HorizontalAlignmentComboBoxSelectValue
+        private HorizontalAlignEnum? _HorizontalAlignEnumComboBoxSelectValue;
+        private VerticalAlignEnum? _VerticalAlignEnumComboBoxSelectValue;
+        public HorizontalAlignEnum? HorizontalAlignEnumComboBoxSelectValue
         {
-            get => _horizontalAlignmentComboBoxSelectValue;
+            get => _HorizontalAlignEnumComboBoxSelectValue;
             set
             {
-                _horizontalAlignmentComboBoxSelectValue = value; OnPropertyChanged(nameof(HorizontalAlignmentComboBoxSelectValue));
+                _HorizontalAlignEnumComboBoxSelectValue = value; OnPropertyChanged(nameof(HorizontalAlignEnumComboBoxSelectValue));
             }
         }
-        public VerticalAlignment VerticalAlignmentComboBoxSelectValue
+        public VerticalAlignEnum? VerticalAlignEnumComboBoxSelectValue
         {
-            get => _verticalAlignmentComboBoxSelectValue;
-            set { _verticalAlignmentComboBoxSelectValue = value;OnPropertyChanged(nameof(VerticalAlignmentComboBoxSelectValue)); }
+            get => _VerticalAlignEnumComboBoxSelectValue;
+            set { _VerticalAlignEnumComboBoxSelectValue = value; OnPropertyChanged(nameof(VerticalAlignEnumComboBoxSelectValue)); }
         }
 
 
-        public ObservableCollection<HorizontalAlignment> HorizontalAlignmentCollection
-        {
-            get
-            {
-                var EnumList = new ObservableCollection<HorizontalAlignment>();
-                foreach (HorizontalAlignment EachEnum in System.Enum.GetValues(typeof(HorizontalAlignment)))
-                {
-                    EnumList.Add(EachEnum);
-                }
-                EnumList.Remove(HorizontalAlignment.Stretch);
-
-                return EnumList;
-            }
-        }
-
-
-
-        public ObservableCollection<VerticalAlignment> VerticalAlignmentCollection
+        public Array HorizontalAlignmentCollection
         {
             get
             {
-                var EnumList = new ObservableCollection<VerticalAlignment>();
-                foreach (VerticalAlignment EachEnum in System.Enum.GetValues(typeof(VerticalAlignment)))
-                {
-                    EnumList.Add(EachEnum);
-                }
-                EnumList.Remove(VerticalAlignment.Stretch);
+                return System.Enum.GetValues(typeof(HorizontalAlignEnum));
+            }
+        }
 
-                return EnumList;
+        public Array VerticalAlignmentCollection
+        {
+            get
+            {
+                return System.Enum.GetValues(typeof(VerticalAlignEnum));
             }
         }
 
 
 
 
-        public ICommand LoadModeCommand
+
+        public virtual ICommand LoadModeCommand
         {
             get => new RelayCommand(() =>
-            {
-
+            { 
             });
         }
-        public ICommand RecoverSettingCommand
+        public virtual ICommand RecoverSettingCommand
         {
             get => new RelayCommand(() =>
             {
@@ -226,22 +213,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-        public ICommand SaveSettingCommand
+        public virtual ICommand SaveSettingCommand
         {
             get => new RelayCommand(() =>
             {
 
             });
         }
+
+
     }
-
-
-
-
-
-
-
-
-
 
 }

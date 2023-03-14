@@ -33,17 +33,21 @@ namespace GD_StampingMachine
 
             SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindow.ProcessingScreenWindow(), new DXSplashScreenViewModel { });
             manager.ViewModel.Status = "讀取中.";
+
+            manager.ViewModel.Progress = 0;
+            manager.ViewModel.IsIndeterminate = false;
             manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
 
             Task.Run(() =>
             {
-                manager.ViewModel.IsIndeterminate = false;
+                Thread.Sleep(1000);
                 for (int i = 0; i <= 100; i++)
                 {
                     manager.ViewModel.Progress = i;
                     Thread.Sleep(10);
                 }
-                Thread.Sleep(1000);
+                manager.ViewModel.Status = "正在啟動...";
+                Thread.Sleep(2000);
                 Dispatcher.BeginInvoke(new Action(delegate
                 {
                     var MachineWindow = new StampingMachineWindow();
@@ -51,6 +55,8 @@ namespace GD_StampingMachine
                 }));
                 manager.Close();
             });
+
+
             LoadLanguage();
 
             //靜態調用. 當資源字典變更成其他語系後, Title並不會隨著變化

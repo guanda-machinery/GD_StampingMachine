@@ -1,4 +1,4 @@
-﻿using GD_StampingMachine.Enum;
+﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class QRSettingViewModel : ViewModelBase
+    public class QRSettingViewModel : NumberSettingViewModel
     {
         private QRSettingModel _QRSettingModel = new QRSettingModel();
 
@@ -30,47 +30,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
 
         } 
-
-        public ObservableCollection<NumberSettingModeEnum> NumberSettingModeCollection
-        { 
-            get
-            {
-                var EnumList = new ObservableCollection<NumberSettingModeEnum>();
-                foreach (NumberSettingModeEnum EachEnum in System.Enum.GetValues(typeof(NumberSettingModeEnum)))
-                {
-                    EnumList.Add(EachEnum);
-                }
-                return EnumList;
-            }
-        }
-
-        public ObservableCollection<int> SequenceCountCollection
-        {
-            get
-            {
-                var CountCollection = new ObservableCollection<int>();  
-                for(int i=1; i<=8;i++)
-                {
-                    CountCollection.Add(i);
-                }
-                return CountCollection;
-            }
-        }
-
-        public ObservableCollection<SpecialSequenceEnum> SpecialSequenceCollection
-        {
-            get
-            {
-                var EnumList = new ObservableCollection<SpecialSequenceEnum>();
-                foreach (SpecialSequenceEnum EachEnum in System.Enum.GetValues(typeof(SpecialSequenceEnum)))
-                {
-                    EnumList.Add(EachEnum);
-                }
-
-                return EnumList;
-            }
-        }
-
         public ObservableCollection<int> CharactersCountCollection
         {
             get
@@ -86,8 +45,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 return EnumList;
             }
         }
-
-
         public ObservableCollection<CharactersFormEnum> CharactersFormEnumCollection
         {
             get
@@ -101,10 +58,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 return EnumList;
             }
         }
-
-
-
-
         public ObservableCollection<string> ModelSizeCollection
         {
             get
@@ -118,17 +71,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        public override int PlateNumberListMax { get; set; } = 6;
 
-
-
-        public ICommand LoadModeCommand
+        public override ICommand LoadModeCommand
         {
             get => new RelayCommand(() =>
             {
 
             });
         }
-        public ICommand RecoverSettingCommand
+        public override ICommand RecoverSettingCommand
         {
             get => new RelayCommand(() =>
             {
@@ -136,7 +88,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-        public ICommand SaveSettingCommand
+        public override ICommand SaveSettingCommand
         {
             get => new RelayCommand(() =>
             {

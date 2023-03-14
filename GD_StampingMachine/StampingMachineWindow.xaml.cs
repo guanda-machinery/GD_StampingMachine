@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DevExpress.Xpf.WindowsUI;
 
 namespace GD_StampingMachine
 {
@@ -27,7 +28,24 @@ namespace GD_StampingMachine
 
         private void ThemedWindow_Closed(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+                Environment.Exit(0);
+        }
+
+        private void ThemedWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var MessageBoxReturn = WinUIMessageBox.Show(null,
+                "是否要結束程式?",
+                "通知",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Exclamation,
+                MessageBoxResult.None,
+                MessageBoxOptions.None,
+                FloatingMode.Window);
+            if (MessageBoxReturn == MessageBoxResult.Yes)
+                e.Cancel = false;
+            else
+                e.Cancel = true;
+            //呼叫各儲存命令
         }
     }
 }

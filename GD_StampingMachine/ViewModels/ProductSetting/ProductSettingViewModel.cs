@@ -1,4 +1,5 @@
-﻿using GD_StampingMachine.Model;
+﻿using DevExpress.Mvvm.Native;
+using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,8 +13,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     public class ProductSettingViewModel : ViewModelBase
     {
 
-
-
+        private string _searchText;
+        public string SearchText
+        {
+            get
+            {
+                return _searchText;
+            }
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
+            }
+        }
 
         private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection
@@ -31,6 +44,33 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+
+        public ObservableCollection<ProductProjectViewModel> Search_ProductProjectVMObservableCollection
+        {
+            get
+            {
+
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    var searchText_NoneUpper = SearchText.ToLower();
+                    var SearchList = ProductProjectVMObservableCollection.Where
+                        (x => x.ProductProject.Name.ToLower().Contains(searchText_NoneUpper) ||
+                        x.ProductProject.Number.ToLower().Contains(searchText_NoneUpper) || 
+                        x.ProductProject.Form.ToLower().Contains(searchText_NoneUpper));
+
+  
+                        return SearchList.ToObservableCollection();
+
+                }
+                else
+                    return ProductProjectVMObservableCollection;
+            }
+        }
+
+
+
+
+
         public ICommand CreateProjectCommand
         {
             get=> new RelayCommand(() =>
@@ -40,7 +80,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     ProductProject = (ProductProjectModel)CreatedProjectModel.Clone()
                 });
-
+                OnPropertyChanged(nameof(ProductProjectVMObservableCollection));
+                OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
                 /*
                 ProductProjectVMObservableCollection.Add(new ProductProjectViewModel()
                 {
@@ -65,10 +106,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                Form = "newQR",
                CreateTime = DateTime.Now
            };
-
-
-
-
 
     }
 }
