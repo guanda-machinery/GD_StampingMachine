@@ -12,6 +12,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 {
     public class ProductSettingViewModel : ViewModelBase
     {
+        private bool _addProjectDarggableIsPopup;
+        public bool AddProjectDarggableIsPopup
+        {
+            get
+            {
+                return _addProjectDarggableIsPopup;
+            }
+            set
+            {
+                _addProjectDarggableIsPopup = value;
+                OnPropertyChanged(nameof(AddProjectDarggableIsPopup));
+            }
+        }
 
         private string _searchText;
         public string SearchText
@@ -27,6 +40,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
             }
         }
+
 
         private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection

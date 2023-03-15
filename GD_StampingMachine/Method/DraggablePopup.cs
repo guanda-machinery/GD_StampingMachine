@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows;
 
-namespace GD_StampingMachine
+namespace GD_StampingMachine.GD_Popup
 {
     public class DraggablePopup : NonTopmostPopup
     {

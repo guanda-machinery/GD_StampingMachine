@@ -102,12 +102,5 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
 
 
 
-
-
-
-
-
-
-
     }
 }

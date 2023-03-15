@@ -170,6 +170,7 @@
     <sys:String x:Key="btnAdd">新增</sys:String>
     <sys:String x:Key="btnDelete">刪除</sys:String>
     <sys:String x:Key="btnReplace">替換</sys:String>
+    <sys:String x:Key="btnEdit">編輯</sys:String>
 
     <sys:String x:Key="btnCreate">建立</sys:String>
     <sys:String x:Key="btnConfirm">確認</sys:String>
@@ -203,4 +204,11 @@
     <sys:String x:Key="Text_EditTime">修改時間</sys:String>
     <sys:String x:Key="Text_FinishProgress">完成進度</sys:String>
 
+
+
+
+    <sys:String x:Key="Text_notify">通知</sys:String>
+    <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
+    <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
+    
 </ResourceDictionary>

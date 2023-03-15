@@ -1,6 +1,7 @@
 ﻿using DevExpress.Xpf.Core.Native;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,11 @@ namespace GD_StampingMachine.ValueConverters
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             var ValueList = values.ToList();
+
+            if(ValueList.Contains(DependencyProperty.UnsetValue))
+            {
+                Debugger.Break();
+            }
 
             return ValueList.Contains(true);
         }

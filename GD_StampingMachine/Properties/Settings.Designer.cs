@@ -26,12 +26,12 @@ namespace GD_StampingMachine.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("zh-TW")]
-        public global::System.Globalization.CultureInfo DefaultLanguage {
+        public global::System.Globalization.CultureInfo DefaultCulture {
             get {
-                return ((global::System.Globalization.CultureInfo)(this["DefaultLanguage"]));
+                return ((global::System.Globalization.CultureInfo)(this["DefaultCulture"]));
             }
             set {
-                this["DefaultLanguage"] = value;
+                this["DefaultCulture"] = value;
             }
         }
     }

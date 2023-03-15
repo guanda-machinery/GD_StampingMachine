@@ -34,8 +34,8 @@ namespace GD_StampingMachine
         private void ThemedWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var MessageBoxReturn = WinUIMessageBox.Show(null,
-                "是否要結束程式?",
-                "通知",
+                (string)Application.Current.FindResource("Text_AskCloseProgram"),
+                (string)Application.Current.FindResource("Text_notify"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Exclamation,
                 MessageBoxResult.None,

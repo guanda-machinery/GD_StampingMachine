@@ -12,7 +12,9 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
-             xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine"
+             xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
+             xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
+             
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:dd="urn:gong-wpf-dragdrop"
              d:DesignHeight="800" d:DesignWidth="900"  >
@@ -38,6 +40,9 @@
 
 
         </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+            
+        </Style>
     </UserControl.Resources>
     <UserControl.DataContext>
         <GD_ViewModels:StampingMainViewModel/>
@@ -47,7 +52,7 @@
         <materialDesign:DialogHost.IsOpen>
             <MultiBinding Converter="{GD_ValueConverters:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
-                    <Binding ElementName="AddProjectDarggablePopup" Path="IsOpen"/>
+                    <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
                     <!--<Binding Path="rbtn_DrillingFace_Tube" ConverterParameter="{x:Static GD_STD_Enum:TubeFace.TOP}"  Converter="{STD105:ObjectEqualToBooleanConverter}"/>-->
                 </MultiBinding.Bindings>
             </MultiBinding>
@@ -403,260 +408,26 @@
                                 </Style>
                             </TabItem.Resources>
                             <ScrollViewer VerticalScrollBarVisibility="auto">
-                                <StackPanel  Margin="200,15,0,0">
-                                    <Grid >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="250"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="250"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="400"/>
-                                        </Grid.RowDefinitions>
-                                        <Border Grid.Column="0" Background="#989797" CornerRadius="20"  >
-                                            <Grid Margin="10" >
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{DynamicResource Text_ThisVersionIntroduce}" />
-                                                    <TextBlock Text="："/>
-                                                </StackPanel>
-
-                                                <Border Grid.Row="1" Background="White" Width="130" Height="60" CornerRadius="10" Margin="5,10"  HorizontalAlignment="Left">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Border Background="#0042c9" Width="50" CornerRadius="10" Margin="5" HorizontalAlignment="Left" >
-                                                            <TextBlock Text="16" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}"/>
-                                                        </Border>
-                                                        <Grid Grid.Column="1" Margin="0,3">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Column="1" Grid.Row="0" Text="iOS 16.1" Foreground="Black" FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" FontSize="16"/>
-                                                            <TextBlock Grid.Column="1" Grid.Row="1" Text="Apple Inc." Foreground="Black" FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}"/>
-                                                            <TextBlock Grid.Column="1" Grid.Row="2" Text="948.8 MB" Foreground="Black" FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}"/>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Border>
-                                                <TextBlock Grid.Row="2" Text="--更新訊息--"/>
-                                                <StackPanel Grid.Row="3" >
-                                                    <TextBlock  Text="{DynamicResource Text_AnyQuestion}" HorizontalAlignment="Left" FontSize="12"/>
-                                                    <TextBlock  Text="{DynamicResource Text_PleaseContactUs}" HorizontalAlignment="Left" FontSize="12"/>
-                                                    <TextBlock  Text="{DynamicResource Text_GuandaMachinery}" HorizontalAlignment="Left" FontSize="12"/>
-                                                    <TextBlock  Text="{DynamicResource Text_PhoneNumber}" HorizontalAlignment="Left" FontSize="12"/>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-                                        <Border Grid.Column="1" Margin="20" BorderThickness="1.5" CornerRadius="1" BorderBrush="#989797"/>
-                                        <Border Grid.Column="2" Background="#989797" CornerRadius="20"  >
-                                            <StackPanel Margin="10" Orientation="Horizontal">
-                                                <TextBlock Text="{DynamicResource Text_UpdateVersionContent}" />
-                                                <TextBlock Text="："/>
-                                            </StackPanel>
-                                        </Border>
-                                    </Grid>
-                                    <Button Content="{DynamicResource Text_DownloadAndInstall}" Width="auto" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
-                                </StackPanel>
+                                    <GD_UserControls:SoftwareUpdateUserControl/>
                             </ScrollViewer>
                         </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}" 
+                            <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}" >
+                                <GD_UserControls:ProductSettingUserControl DataContext="{Binding ProductSettingVM}"/>
+                            </TabItem>
+                            <TabItem IsSelected="{Binding ElementName=TBtn_LayoutSettings, Path=IsChecked}" 
                                  DataContext="{Binding ProductSettingVM}">
-                                <Grid Margin="20,10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"  Margin="10">
-                                            <TextBlock Text="{DynamicResource Text_Search}" FontSize="20"  />
-                                            <TextBox BorderBrush="White" Width="300"  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                                     Margin="5,0" Name="SearchTextBox" 
-                                                     Foreground="White"/>
-                                        </StackPanel>
-
-                                        <ToggleButton Grid.Column="1" 
-                                            IsChecked="{Binding ElementName=AddProjectDarggablePopup, Path=IsOpen}" 
-                                                  Width="auto"
-                                                      Height="auto" Padding="10"
-                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                      Content="{DynamicResource Text_AddNewProject}" />
-                                        <gd_stampingmachine:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddProjectDarggablePopup">
-                                            <Border
-                                                CornerRadius="10"
-                                               Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Style.Resources >
-                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
-                                                                <Setter Property="Foreground" Value="Black"/>
-                                                            </Style>
-                                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                                                <Setter Property="Foreground" Value="Black"/>
-                                                                <Setter Property="BorderBrush" Value="Black"/>
-                                                                <Setter Property="BorderThickness" Value="0.5"/>
-                                                                <Setter Property="Padding" Value="10,0"/>
-                                                                <Setter Property="Margin" Value="5,0"/>
-                                                            </Style>
-                                                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
-                                                                <Setter Property="FontSize" Value="16"/>
-                                                                <Setter Property="BorderBrush" Value="Black"/>
-                                                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                                                <Setter Property="Width" Value="200"/>
-                                                                <Setter Property="Margin" Value="10,0"/>
-                                                                <Setter Property="Padding" Value="10,0,0,2"/>
-                                                            </Style>
-                                                            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                                                                <Setter Property="FontSize" Value="16"/>
-                                                                <Setter Property="BorderBrush" Value="Black"/>
-                                                                <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                                                                <Setter Property="Width" Value="200"/>
-                                                                <Setter Property="Margin" Value="10,0"/>
-                                                                <Setter Property="Padding" Value="10,0,0,2"/>
-                                                                <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                                                                <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                                                                <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".8"/>
-                                                                <Setter Property="IsEditable" Value="False"/>
-                                                            </Style>
-                                                        </Style.Resources>
-                                                    </Style>
-                                                </Border.Style>
-                                                <Grid  MinWidth="100" MinHeight="100" Margin="10">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Grid.Row="0" Text="{DynamicResource Text_CreateOrEditProject}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
-                                                    <TextBlock Grid.Row="1" Text="{DynamicResource Text_SavePath}"/>
-                                                    <TextBlock Grid.Row="2" Text="{DynamicResource Text_ProjectName}"/>
-                                                    <TextBlock Grid.Row="3" Text="{DynamicResource Text_ConstructionNumber}"/>
-                                                    <TextBlock Grid.Row="4" Text="{DynamicResource Text_MachiningForm}"/>
-
-                                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="："/>
-                                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="："/>
-                                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="："/>
-                                                    <TextBlock Grid.Column="1" Grid.Row="4" Text="："/>
-
-                                                    <TextBox Grid.Column="2" Grid.Row="1"/>
-                                                    <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding CreatedProjectModel.Name}"/>
-                                                    <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding CreatedProjectModel.Number}"/>
-                                                    <ComboBox Grid.Column="2" Grid.Row="4" SelectedValue="{Binding CreatedProjectModel.Form}"/>
-
-
-
-                                                    <StackPanel  Grid.Row="5" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="0,5">
-                                                        <Button   
-                                                                    Content="{DynamicResource btnCancel}"
-                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
-                                                        </Button>
-                                                        <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}"/>
-                                                    </StackPanel>
-
-                                                </Grid>
-                                            </Border>
-                                        </gd_stampingmachine:DraggablePopup>
-                                    </Grid>
-
-                                    <DataGrid Grid.Row="1"
-                                        ItemsSource="{Binding Search_ProductProjectVMObservableCollection}"
-                                        CanUserSortColumns="False"
-                                        materialDesign:DataGridAssist.CellPadding="4 2 2 2"
-                                        materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"                                                    
-                                        AutoGenerateColumns="False"
-                                        CanUserAddRows="False"
-                                        HeadersVisibility="All"
-                                        SelectionUnit="{Binding ElementName=selectionUnitComboBox, Path=SelectedValue}"
-                                              >
-                                        <DataGrid.Columns>
-                                            <!-- by default a DataGridCheckBoxColumn will have the MaterialDesignDataGridCheckBoxColumnStyle and MaterialDesignDataGridCheckBoxColumnEditingStyle applied. See DataGridAssist.ApplyMaterialDesignColumnStyles attached property -->
-                                            <DataGridCheckBoxColumn
-      Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}">
-                                                <DataGridCheckBoxColumn.Header>
-                                                    <Border
-          Background="Transparent">
-                                                        <CheckBox/>
-                                                    </Border>
-                                                </DataGridCheckBoxColumn.Header>
-                                                <DataGridCheckBoxColumn.HeaderStyle>
-                                                    <Style
-          TargetType="{x:Type DataGridColumnHeader}"
-          BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                                        <Setter
-            Property="HorizontalContentAlignment"
-            Value="Center" />
-                                                    </Style>
-                                                </DataGridCheckBoxColumn.HeaderStyle>
-                                            </DataGridCheckBoxColumn>
-                                            <!-- by default a DataGridTextColumn will have the MaterialDesignDataGridTextColumnStyle and MaterialDesignDataGridTextColumnEditingStyle applied. See DataGridAssist.ApplyMaterialDesignColumnStyles attached property -->
-                                            <DataGridTextColumn      Binding="{Binding ProductProject.Number}"
-                                                                     Header="{DynamicResource Text_ConstructionSerialNumber}" />
-                                            <DataGridTextColumn      Binding="{Binding ProductProject.Name}"
-                                                                     Header="{DynamicResource Text_ProjectName}" />
-                                            <DataGridTextColumn      Binding="{Binding ProductProject.Form}"
-                                                                     Header="{DynamicResource Text_Form}" />
-                                            <DataGridTextColumn      Binding="{Binding ProductProject.CreateTime}"
-                                                                     Header="{DynamicResource Text_CreateTime}" />
-                                            <DataGridTextColumn      Binding="{Binding ProductProject.EditTime}"
-                                                                     Header="{DynamicResource Text_EditTime}" />
-                                            <DataGridTextColumn      Binding="{Binding ProductProject.FinishProgress}"
-                                                                     Header="{DynamicResource Text_FinishProgress}" />
-                                            
-                                            <DataGridTextColumn      Binding="{Binding ProductProject.FinishProgress}"
-                                                                     Header="--------test----------" />
-
-                                            <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
-                                            <materialDesign:DataGridTextColumn
-                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
-                                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                                Header="Name"/>
-                                            
-
-                                            <materialDesign:DataGridComboBoxColumn
-      Header="ComboBox with long list"
-      ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Files}"
-      SelectedValueBinding="{Binding Files}" />
-                                        </DataGrid.Columns>
-
-                                    </DataGrid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                </Grid>
-
-
-                        </TabItem>
-                    </TabControl>
+                                <StackPanel>
+                                    <Slider Name="testslider" Minimum="0" Maximum="100"/>
+                                    <TextBlock Text="{Binding ElementName=testslider, Path=Value}"></TextBlock>
+                                    <ProgressBar          Style="{ StaticResource MaterialDesignLinearProgressBar }"
+                                        Value="{Binding ElementName=testslider, Path=Value}" IsIndeterminate="False">
+                                        <i:Interaction.Behaviors>
+                                            <GD_Behavior:ProgresBarAnimateBehavior />
+                                        </i:Interaction.Behaviors>
+                                    </ProgressBar>
+                                </StackPanel>
+                            </TabItem>
+                        </TabControl>
                 </Grid>
                 <!--彈出式按鈕-->
                 <materialDesign:DrawerHost  Opacity="0.9"
@@ -725,8 +496,9 @@
                         <TextBlock Text="{DynamicResource btnDescription_ProductSettings}"  />
                     </StackPanel>
                     <StackPanel>
-                        <ToggleButton Content="Logo">
-                        </ToggleButton>
+                                <ToggleButton Content="Logo" Name="TBtn_LayoutSettings">
+                                    
+                                </ToggleButton>
                             <TextBlock Text="{DynamicResource btnDescription_LayoutSettings}"  />
                     </StackPanel>
                     <StackPanel>
@@ -777,6 +549,16 @@
                         </ToggleButton>
                         <TextBlock Text="{DynamicResource btnDescription_Alarm}"  />
                     </StackPanel>
+                            <StackPanel Visibility="Collapsed">
+                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="100"
+                                    ItemsSource="{Binding SupportedCultures}" 
+                                          SelectedValue="{Binding SelectedCultures}">
+                                    <ComboBox.DataContext>
+                                        <GD_ViewModels:CultureViewModel/>
+                                    </ComboBox.DataContext>
+                                </ComboBox>
+                            </StackPanel>
+                    
                     </StackPanel>
                 </ScrollViewer>
             </Border>

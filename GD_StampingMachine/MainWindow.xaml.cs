@@ -40,14 +40,14 @@ namespace GD_StampingMachine
 
             Task.Run(() =>
             {
-                Thread.Sleep(1000);
+               Thread.Sleep(1000);
                 for (int i = 0; i <= 100; i++)
                 {
                     manager.ViewModel.Progress = i;
                     Thread.Sleep(10);
                 }
                 manager.ViewModel.Status = "正在啟動...";
-                Thread.Sleep(2000);
+
                 Dispatcher.BeginInvoke(new Action(delegate
                 {
                     var MachineWindow = new StampingMachineWindow();

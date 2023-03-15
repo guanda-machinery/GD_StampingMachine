@@ -6,8 +6,10 @@ using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -191,28 +193,19 @@ namespace GD_StampingMachine.ViewModels
                         }
                     }
 
-
+                    
 
                 });
 
             }
         }
-
-
-
-
-
         #region VM
 
         public MechanicalSpecificationViewModel MechanicalSpecificationVM { get; set; } = new MechanicalSpecificationViewModel();
-
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; } = new StampingFontChangedViewModel();
         public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
-
         public ProductSettingViewModel ProductSettingVM { get; set; } = new ProductSettingViewModel();
-
         #endregion
-
 
 
 

@@ -62,29 +62,67 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}">
-                <Button  IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
-                    Grid.Row="0" Content="{DynamicResource btnReplace}" Command="{Binding StampingFontReplaceCommand}" Margin="5,10"/>
+                    <Button  IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
+                    Grid.Row="0" Command="{Binding StampingFontReplaceCommand}" Margin="5,10">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnReplace}" Foreground="Black"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <materialDesign:PackIcon Kind="SwapHorizontal" Width="20" Height="20"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
                 </StackPanel>
-                <Button 
+
+                    <Button  Grid.Row="1" Margin="5,10" 
                     IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
-                    Grid.Row="1"   Margin="5,10" Command="{Binding UnusedStampingFontDelCommand}"
+                    Command="{Binding UnusedStampingFontDelCommand}"
                          dd:DragDrop.DropTargetAdornerBrush="Red"
                          dd:DragDrop.IsDragSource="False"
                          dd:DragDrop.IsDropTarget="True"                   
                          dd:DragDrop.UseDefaultEffectDataTemplate="False"
                          dd:DragDrop.UseDefaultDragAdorner ="True" 
                          dd:DragDrop.DefaultDragAdornerOpacity="1"
-                         dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}"
+                         dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}" 
                         >
-                    <Button.Content>
-                        <Grid>
-                            <TextBlock Name="btn_TB_Delete" Text="{DynamicResource btnDelete}" Foreground="Black"/>
-                        </Grid>
-                    </Button.Content>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnDelete}" Foreground="Black"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="Delete" Width="20" Height="20"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
 
+
+
             </Grid>
-            <GroupBox     Height="{Binding ElementName=StampingFontGroupBox, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            <GroupBox   Width="230"
+                Height="{Binding ElementName=StampingFontGroupBox, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 Name="UnusedStampingGroupBox" MinWidth="190" Padding="10" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <ListBox Name="UnusedStampingFontListBox" Padding="10"
@@ -157,7 +195,6 @@
                                                                 Orientation="Horizontal"
                                                                 HorizontalAlignment="Right">
                                 <Button  Margin="8" 
-                                                                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                                     IsDefault="True"
                                                                     Content="{DynamicResource btnAdd}" 
                                                                     >
@@ -175,7 +212,6 @@
 
                                 </Button>
                                 <Button Margin="8" 
-                                                                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                                 
                                                                     Content="{DynamicResource btnClose}"
                                             IsCancel="True"

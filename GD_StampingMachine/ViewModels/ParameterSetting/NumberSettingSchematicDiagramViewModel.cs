@@ -1,7 +1,7 @@
 ﻿using GD_StampingMachine.Enum;
 using System.Windows;
 
-namespace GD_StampingMachine.ViewModels.ParameterSetting
+namespace GD_StampingMachine.ViewModels
 {
     public class NumberSettingSchematicDiagramViewModel : ViewModelBase
     {

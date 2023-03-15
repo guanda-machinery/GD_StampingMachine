@@ -7,7 +7,7 @@
                        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
                         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-                        xmlns:local="clr-namespace:GD_StampingMachine"
+                        xmlns:local="clr-namespace:GD_StampingMachine" xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
                         WindowStyle="None"
                        Topmost="True"
                        WindowStartupLocation="CenterScreen"
@@ -40,7 +40,9 @@
                      IsIndeterminate="{Binding IsIndeterminate}"
                      Style="{ StaticResource MaterialDesignCircularProgressBar }"
                      >
-
+                <i:Interaction.Behaviors>
+                    <GD_Behavior:ProgresBarAnimateBehavior />
+                </i:Interaction.Behaviors>
             </ProgressBar>
             <StackPanel Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal"
  Visibility="{Binding IsIndeterminate, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
@@ -68,7 +70,9 @@
                      IsIndeterminate="{Binding IsIndeterminate}"
                      Style="{ StaticResource MaterialDesignLinearProgressBar }"
                      >
-
+                <i:Interaction.Behaviors>
+                    <GD_Behavior:ProgresBarAnimateBehavior />
+                </i:Interaction.Behaviors>
 
             </ProgressBar>
         </Grid>

@@ -104,11 +104,11 @@
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="ContentSite"
                                                         Storyboard.TargetProperty="(TextBlock.Foreground).Color"
-                                                        To="{ StaticResource clr_SilverGray }"
+                                                        To="{StaticResource clr_SilverGray }"
                                                         Duration="0" />
                                         <ColorAnimation Storyboard.TargetName="Border"
                                                         Storyboard.TargetProperty="(Background).Color"
-                                                        To="{  StaticResource clr_LightSkyBlue }"
+                                                        To="{StaticResource clr_LightSkyBlue }"
                                                         Duration="0" />
                                     </Storyboard>
                                 </VisualState>

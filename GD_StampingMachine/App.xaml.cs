@@ -12,5 +12,6 @@ namespace GD_StampingMachine
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

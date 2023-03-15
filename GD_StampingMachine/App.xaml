@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source ="Language\StringResource.zh-TW.xaml"/>
+                <ResourceDictionary Source ="Cultures\StringResources.zh-TW.xaml"/>
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
@@ -16,7 +16,8 @@
                 <ResourceDictionary Source="Dictionary/Style/StyleDictionary.xaml" />
 
                 <ResourceDictionary Source="Dictionary/Style/DragDropStyleDictionary.xaml" />
-
+                <ResourceDictionary Source="Dictionary/Style/GridControlStyleDictionary.xaml" />
+                
 
                 <ResourceDictionary Source="Dictionary/DrawingDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>

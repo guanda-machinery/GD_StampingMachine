@@ -1,10 +1,15 @@
-﻿using DevExpress.Mvvm;
+﻿using DevExpress.Data;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.WindowsUI;
 using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -12,9 +17,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     {
         public ProductProjectModel ProductProject { get; set; } = new ProductProjectModel();
 
-
-
-        public RelayParameterizedCommand _projectEditCommand;
+        private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
         {
             get
@@ -35,7 +38,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        public RelayParameterizedCommand _projectDeleteCommand;
+        private RelayParameterizedCommand _projectDeleteCommand;
         public RelayParameterizedCommand ProjectDeleteCommand
         {
             get
@@ -44,10 +47,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _projectDeleteCommand = new RelayParameterizedCommand(obj =>
                     {
+                       if (obj is GridControl ObjGridControl)
+                        {
+                            if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
+                            {
+                                var MessageBoxReturn = WinUIMessageBox.Show(null,
+                                    (string)Application.Current.FindResource("Text_AskDelProject"),
+                                    (string)Application.Current.FindResource("Text_notify"),
+                                    MessageBoxButton.YesNo,
+                                    MessageBoxImage.Exclamation,
+                                    MessageBoxResult.None,
+                                    MessageBoxOptions.None,
+                                    DevExpress.Xpf.Core.FloatingMode.Window);
 
+                                if (MessageBoxReturn == MessageBoxResult.Yes)
+                                    GridItemSource.Remove(this);
+                            }
+                        }
                     });
                 }
-
                 return _projectDeleteCommand;
             }
             set

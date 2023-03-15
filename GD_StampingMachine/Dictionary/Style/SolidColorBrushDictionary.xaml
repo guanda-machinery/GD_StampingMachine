@@ -804,7 +804,9 @@
     <SolidColorBrush x:Key="solidclr_Black"
                      Color="#FF000000" />
 
-
+    <!--Excel的綠-->
+    <SolidColorBrush x:Key="Excel_Green"
+                     Color="#217346" />
 
 
 

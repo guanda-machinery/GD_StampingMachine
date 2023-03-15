@@ -1,4 +1,4 @@
-﻿using GD_StampingMachine.Language;
+﻿using GD_StampingMachine.Cultures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,14 +9,13 @@ using System.Threading.Tasks;
 namespace GD_StampingMachine.GD_Enum
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    public enum VerticalAlignEnum
+    public enum HorizontalAlignEnum
     {
-        [LocalizedDescription("Top", typeof(EnumResources))]
-        Top, 
+        [LocalizedDescription("Left", typeof(EnumResources))]
+        Left,
         [LocalizedDescription("Center", typeof(EnumResources))]
         Center,
-        [LocalizedDescription("Bottom", typeof(EnumResources))]
-        Bottom,
-
+        [LocalizedDescription("Right", typeof(EnumResources))]
+        Right,
     }
 }

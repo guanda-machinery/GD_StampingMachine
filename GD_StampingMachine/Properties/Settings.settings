@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GD_StampingMachine.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DefaultLanguage" Type="System.Globalization.CultureInfo" Scope="User">
+    <Setting Name="DefaultCulture" Type="System.Globalization.CultureInfo" Scope="User">
       <Value Profile="(Default)">zh-TW</Value>
     </Setting>
   </Settings>

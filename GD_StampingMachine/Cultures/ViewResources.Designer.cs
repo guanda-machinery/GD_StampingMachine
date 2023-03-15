@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GD_StampingMachine.Language {
+namespace GD_StampingMachine.Cultures {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace GD_StampingMachine.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EnumResources {
+    internal class ViewResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal EnumResources() {
+        internal ViewResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace GD_StampingMachine.Language {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GD_StampingMachine.Language.EnumResources", typeof(EnumResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GD_StampingMachine.Cultures.ViewResources", typeof(ViewResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,60 +57,6 @@ namespace GD_StampingMachine.Language {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 Bottom 的當地語系化字串。
-        /// </summary>
-        internal static string Bottom {
-            get {
-                return ResourceManager.GetString("Bottom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 Center 的當地語系化字串。
-        /// </summary>
-        internal static string Center {
-            get {
-                return ResourceManager.GetString("Center", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 Left 的當地語系化字串。
-        /// </summary>
-        internal static string Left {
-            get {
-                return ResourceManager.GetString("Left", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 Right 的當地語系化字串。
-        /// </summary>
-        internal static string Right {
-            get {
-                return ResourceManager.GetString("Right", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 Stretch 的當地語系化字串。
-        /// </summary>
-        internal static string Stretch {
-            get {
-                return ResourceManager.GetString("Stretch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似 Top 的當地語系化字串。
-        /// </summary>
-        internal static string Top {
-            get {
-                return ResourceManager.GetString("Top", resourceCulture);
             }
         }
     }

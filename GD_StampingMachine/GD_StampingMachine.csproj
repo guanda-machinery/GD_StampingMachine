@@ -197,26 +197,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Enum\Method\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="Enum\HorizontalAlignEnum.cs" />
-    <Compile Include="Enum\Method\LocalizedDescriptionAttribute.cs" />
-    <Compile Include="Enum\VerticalAlignEnum.cs" />
+    <Compile Include="Cultures\CulturesHelper.cs" />
+    <Compile Include="GD_Enum\Method\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="GD_Enum\HorizontalAlignEnum.cs" />
+    <Compile Include="GD_Enum\Method\LocalizedDescriptionAttribute.cs" />
+    <Compile Include="GD_Enum\VerticalAlignEnum.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
-    <Compile Include="Language\EnumResources.zh-TW.Designer.cs">
-      <DependentUpon>EnumResources.zh-TW.resx</DependentUpon>
+    <Compile Include="Cultures\ViewResources.zh-TW.Designer.cs">
+      <DependentUpon>ViewResources.zh-TW.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cultures\ViewResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Method\BaseDropTarget.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
-    <Compile Include="Enum\CharactersFormEnum.cs" />
-    <Compile Include="Enum\NumberSettingModeEnum.cs" />
-    <Compile Include="Enum\SettingTypeEnum.cs" />
-    <Compile Include="Enum\SpecialSequenceEnum.cs" />
-    <Compile Include="Enum\SpindleToolHolderEnum.cs" />
+    <Compile Include="GD_Enum\CharactersFormEnum.cs" />
+    <Compile Include="GD_Enum\NumberSettingModeEnum.cs" />
+    <Compile Include="GD_Enum\SettingTypeEnum.cs" />
+    <Compile Include="GD_Enum\SpecialSequenceEnum.cs" />
+    <Compile Include="GD_Enum\SpindleToolHolderEnum.cs" />
     <Compile Include="Extensions\GetEnumData.cs" />
-    <Compile Include="Method\ProgresBarAnimateBehavior.cs" />
+    <Compile Include="GD_Behavior\ProgresBarAnimateBehavior.cs" />
     <Compile Include="Method\StampingTypeDropTarget.cs" />
     <Compile Include="Model\ParameterSetting\SeparateSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\TimingSettingModel.cs" />
@@ -227,7 +233,7 @@
     <Compile Include="Model\ProductProjectModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
     <Compile Include="Method\DraggablePopup.cs" />
-    <Compile Include="Language\EnumResources.Designer.cs">
+    <Compile Include="Cultures\EnumResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EnumResources.resx</DependentUpon>
@@ -249,8 +255,14 @@
     <Compile Include="UserControls\ParamaterSettingUserControl.xaml.cs">
       <DependentUpon>ParamaterSettingUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ProductSettingUserControl.xaml.cs">
+      <DependentUpon>ProductSettingUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SettingButtonUserControl.xaml.cs">
       <DependentUpon>SettingButtonUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SoftwareUpdateUserControl.xaml.cs">
+      <DependentUpon>SoftwareUpdateUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\StampingFontChangedUserControl.xaml.cs">
       <DependentUpon>StampingFontChangedUserControl.xaml</DependentUpon>
@@ -269,6 +281,7 @@
     <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
+    <Compile Include="ViewModels\CultureViewModel.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateSettingViewModel.cs" />
@@ -292,6 +305,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dictionary\Style\GridControlStyleDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dictionary\Style\SolidColorBrushDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -300,9 +317,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Content Include="Language\StringResource.zh-TW.xaml">
+    <Content Include="Cultures\StringResources.zh-TW.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Page Include="MainWindow.xaml">
@@ -337,7 +353,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ProductSettingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SettingButtonUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SoftwareUpdateUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,13 +392,21 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Language\EnumResources.zh-TW.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>EnumResources.zh-TW.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Language\EnumResources.resx">
+    <Content Include="Cultures\EnumResources.zh-TW.resx">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Cultures\EnumResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EnumResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cultures\ViewResources.zh-TW.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewResources.zh-TW.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cultures\ViewResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -1,5 +1,5 @@
 ﻿using DevExpress.Mvvm.DataAnnotations;
-using GD_StampingMachine.Language;
+using GD_StampingMachine.Cultures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
