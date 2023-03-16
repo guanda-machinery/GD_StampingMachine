@@ -126,8 +126,8 @@
                     ConverterParameter={StaticResource MinusOne} ,Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}">
                             <Border  Background="White">
                         <StackPanel >
-                            <Grid  Width="600"  >
-                                <Image Source="pack://application:,,,/image/擷取1.PNG"/>
+                                    <Grid  Width="600"  >
+                                        <Image Source="pack://application:,,,/image/擷取1.PNG"/>
                             </Grid>
                             <GroupBox Header="鋼印字模設定" 
                               Margin="10"

@@ -10,8 +10,8 @@ namespace GD_StampingMachine
 {
     public class LocalizedDescriptionAttribute : DescriptionAttribute
     {
-        ResourceManager _resourceManager;
-        string _resourceKey;
+        private readonly ResourceManager _resourceManager;
+        private readonly string _resourceKey;
         public LocalizedDescriptionAttribute(string resourceKey, Type resourceType)
         {
             _resourceManager = new ResourceManager(resourceType);

@@ -27,18 +27,8 @@
                 <Setter Property="Margin" Value="10,0"/>
                 <Setter Property="Padding" Value="10,0,0,2"/>
             </Style>
-            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="BorderBrush" Value="White"/>
-                <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                <Setter Property="Width" Value="300"/>
-                <Setter Property="Margin" Value="10,0"/>
-                <Setter Property="Padding" Value="10,0,0,2"/>
-                <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".2"/>
-                <Setter Property="IsEditable" Value="False"/>
-            </Style>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource WhiteMDComboBox}"/>
+
 
         </Grid.Resources>
         <Grid.RowDefinitions>
@@ -169,47 +159,32 @@
                                         <TextBlock Text="{DynamicResource textSpecialSequence}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <ComboBox  Name="SpecialSequenceComboBox"
+                                    <ComboBox  Name="SpecialSequenceComboBox" Style="{StaticResource WhiteMDComboBox_WithIconPack}"
                                         Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
                                                                        ItemsSource="{Binding SpecialSequenceCollection}"
                                                                        SelectedValue="{Binding SpecialSequenceComboBoxSelectValue}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
 
                                     </ComboBox>
                                     <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textHorizontalAlignment}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <ComboBox  
+                                    <ComboBox Style="{StaticResource WhiteMDComboBox_WithIconPack}"
                                         Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
                                                                        SelectedValue="{Binding HorizontalAlignEnumComboBoxSelectValue}"
                                         ItemsSource="{Binding HorizontalAlignmentCollection}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Converter={GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                        
 
                                     </ComboBox>
                                     <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10">
                                         <TextBlock Text="{DynamicResource textVerticalAlignment}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <ComboBox  
+                                    <ComboBox  Style="{StaticResource WhiteMDComboBox_WithIconPack}"
                                         Grid.Row="4" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
                                                                        SelectedValue="{Binding VerticalAlignEnumComboBoxSelectValue}"
                                         ItemsSource="{Binding VerticalAlignmentCollection}"
                                         >
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
+
                                         
                                     </ComboBox>
 
@@ -367,14 +342,10 @@
                                             <TextBlock Text="{DynamicResource textSpecialSequence}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <ComboBox  Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
+                                        <ComboBox  Style="{StaticResource WhiteMDComboBox_WithIconPack}"
+                                            Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
                                                                        ItemsSource="{Binding SpecialSequenceCollection}"
                                                                        SelectedValue="{Binding SpecialSequenceComboBoxSelectValue}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
 
                                         </ComboBox>
 
@@ -382,33 +353,19 @@
                                             <TextBlock Text="{DynamicResource textHorizontalAlignment}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <ComboBox  
+                                        <ComboBox  Style="{StaticResource WhiteMDComboBox_WithIconPack}"
                                         Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
                                                                        SelectedValue="{Binding HorizontalAlignEnumComboBoxSelectValue}"
                                         ItemsSource="{Binding HorizontalAlignmentCollection}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-
-
                                         </ComboBox>
                                         <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10">
                                             <TextBlock Text="{DynamicResource textVerticalAlignment}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <ComboBox  
+                                        <ComboBox  Style="{StaticResource WhiteMDComboBox_WithIconPack}"
                                         Grid.Row="4" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
                                                                        SelectedValue="{Binding VerticalAlignEnumComboBoxSelectValue}"
-                                        ItemsSource="{Binding VerticalAlignmentCollection}"
-                                        >
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-
+                                        ItemsSource="{Binding VerticalAlignmentCollection}">
                                         </ComboBox>
                                         <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10" Visibility="Collapsed">
                                             <TextBlock Text="{DynamicResource textAlignmentMode}"/>
@@ -770,8 +727,9 @@
                                 </StackPanel>
 
 
-                                <materialDesign:TimePicker Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
-                                                SelectedTime="{Binding TimingSetting.RestTime, UpdateSourceTrigger=PropertyChanged}"                     />
+                                <materialDesign:TimePicker Grid.Row="1"  Grid.Column="1"  
+                                                           materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
+                                                          SelectedTime="{Binding TimingSetting.RestTime, UpdateSourceTrigger=PropertyChanged}"                     />
 
                                 <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                     <TextBlock Text="{DynamicResource Text_OpenTime}"/>

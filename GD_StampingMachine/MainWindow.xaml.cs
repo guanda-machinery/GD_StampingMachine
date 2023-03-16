@@ -32,7 +32,9 @@ namespace GD_StampingMachine
 
 
             SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindow.ProcessingScreenWindow(), new DXSplashScreenViewModel { });
-            manager.ViewModel.Status = "讀取中.";
+
+            manager.ViewModel.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading");
+           // manager.ViewModel.Status = "讀取中.";
 
             manager.ViewModel.Progress = 0;
             manager.ViewModel.IsIndeterminate = false;
@@ -46,7 +48,8 @@ namespace GD_StampingMachine
                     manager.ViewModel.Progress = i;
                     Thread.Sleep(10);
                 }
-                manager.ViewModel.Status = "正在啟動...";
+                //manager.ViewModel.Status = "正在啟動...";
+                manager.ViewModel.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
 
                 Dispatcher.BeginInvoke(new Action(delegate
                 {
