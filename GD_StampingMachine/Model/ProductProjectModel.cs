@@ -8,6 +8,7 @@ namespace GD_StampingMachine.Model
 {
     public class ProductProjectModel :ICloneable
     {
+        public string ProjectPath { get; set; }
         /// <summary>
         /// 工程編號
         /// </summary>

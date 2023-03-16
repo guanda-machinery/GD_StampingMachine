@@ -17,7 +17,7 @@
 
                 <ResourceDictionary Source="Dictionary/Style/DragDropStyleDictionary.xaml" />
                 <ResourceDictionary Source="Dictionary/Style/GridControlStyleDictionary.xaml" />
-                
+                <ResourceDictionary Source="Dictionary/Style/ComboBoxStyleDictionary.xaml" />
 
                 <ResourceDictionary Source="Dictionary/DrawingDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>

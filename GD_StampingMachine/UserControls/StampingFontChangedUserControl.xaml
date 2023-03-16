@@ -21,6 +21,7 @@
             </Grid.RowDefinitions>
         <Grid Grid.Row="0" >
             <Image Source="pack://application:,,,/image/擷取2.PNG" MaxHeight="400"/>
+            <local:StampingMachineFontMonitorUserControl/>
         </Grid>
         <Grid Grid.Row="1" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>

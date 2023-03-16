@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
@@ -41,6 +42,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        public string ProjectPathText
+        {
+            get
+            {
+                return CreatedProjectModel.ProjectPath;
+            }
+            set
+            {
+                CreatedProjectModel.ProjectPath = value;
+                OnPropertyChanged(nameof(ProjectPathText));
+            }
+        }
+
 
         private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection
@@ -63,7 +77,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-
                 if (!string.IsNullOrEmpty(SearchText))
                 {
                     var searchText_NoneUpper = SearchText.ToLower();
@@ -83,7 +96,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-
+        public ICommand SetProjectFolder
+        {
+            get => new RelayCommand(() =>
+            {
+                using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+                {
+                    DialogResult result = dialog.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        ProjectPathText = dialog.SelectedPath;
+                    }
+                }
+            });
+         }
 
         public ICommand CreateProjectCommand
         {
@@ -115,7 +141,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         //   public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel();
            public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel()
            {
-               Name = "創典科技總公司基地(new)",
+               Name = "NewProject",
                Number = "newAS001",
                Form = "newQR",
                CreateTime = DateTime.Now

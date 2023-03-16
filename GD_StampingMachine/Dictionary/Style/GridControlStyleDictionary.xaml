@@ -13,10 +13,11 @@
                 <Setter Property="CellStyle">
                     <Setter.Value>
                         <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
-                            <Setter Property="TextBlock.FontSize" Value="14"/>
+                            <Setter Property="TextBlock.FontSize" Value="16"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
                             <Style.Triggers>
                                 <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True" >
-                                    <Setter Property="Foreground" Value="LightBlue"/>
+                                    <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Background" Value="Transparent"/>
                                 </Trigger>
                             </Style.Triggers>
@@ -26,16 +27,18 @@
                 <Setter Property="RowStyle">
                     <Setter.Value>
                         <Style TargetType="{x:Type dxg:RowControl}">
+                            <Setter Property="Height" Value="40"/>
                             <Setter Property="Foreground" Value="{StaticResource solidclr_White}"/>
+                            <Setter Property="Background" Value="Transparent" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                                     <Setter Property="Background" Value="DimGray" />
                                     <Setter Property="Foreground" Value="{StaticResource solidclr_White}" />
                                 </DataTrigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#67b32c" />
-                                    <Setter Property="Foreground" Value="{StaticResource solidclr_White}" />
+                                    <Setter Property="Background" Value="DodgerBlue"/>
                                 </Trigger>
+
                             </Style.Triggers>
                         </Style>
                     </Setter.Value>

@@ -52,8 +52,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
                             {
                                 var MessageBoxReturn = WinUIMessageBox.Show(null,
-                                    (string)Application.Current.FindResource("Text_AskDelProject"),
-                                    (string)Application.Current.FindResource("Text_notify"),
+                                    (string)Application.Current.TryFindResource("Text_AskDelProject") +
+                                    "\r\n" +
+                                    $"{this.ProductProject.Number} - {this.ProductProject.Name}"+
+                                    "?"
+                                    ,
+                                    (string)Application.Current.TryFindResource("Text_notify"),
                                     MessageBoxButton.YesNo,
                                     MessageBoxImage.Exclamation,
                                     MessageBoxResult.None,

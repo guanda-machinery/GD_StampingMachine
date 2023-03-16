@@ -205,10 +205,24 @@
     <sys:String x:Key="Text_FinishProgress">完成進度</sys:String>
 
 
-
-
     <sys:String x:Key="Text_notify">通知</sys:String>
     <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
+
+    <sys:String x:Key="Text_Starting">正在啟動...</sys:String>
+    <sys:String x:Key="Text_Loading">讀取中...</sys:String>
+
+
     
+    <!--enum-->
+    <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
+    <sys:String x:Key="Enum_Center">置中</sys:String>
+    <sys:String x:Key="Enum_Left">靠左對齊</sys:String>
+    <sys:String x:Key="Enum_Right">靠右對齊</sys:String>
+    <sys:String x:Key="Enum_Stretch">分散對齊</sys:String>
+    <sys:String x:Key="Enum_Top">靠上對齊</sys:String>
+
+    <sys:String x:Key="Enum_OneRow">單排</sys:String>
+    <sys:String x:Key="Enum_TwoRow">雙排</sys:String>
+
 </ResourceDictionary>

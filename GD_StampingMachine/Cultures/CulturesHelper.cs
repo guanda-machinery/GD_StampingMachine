@@ -41,10 +41,7 @@ namespace GD_StampingMachine
                     try
                     {
                         string cultureName = file.Substring(file.IndexOf(".") + 1).Replace(".xaml", "");
-
                         cultureInfo = CultureInfo.GetCultureInfo(cultureName);
-
-
                         if (cultureInfo != null)
                         {
                             CultList.Add(cultureInfo);
