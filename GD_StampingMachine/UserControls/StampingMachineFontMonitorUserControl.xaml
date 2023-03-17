@@ -9,7 +9,8 @@
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
              >
     <Grid>
-        <Border Width="350" Height="350" BorderThickness="1" CornerRadius="200" BorderBrush="Red" Background="White" RenderTransformOrigin="0.5,0.5">
+        <Border Width="350" Height="350" BorderThickness="1" CornerRadius="200" BorderBrush="Black" Background="White" >
+            <Border Margin="0" >
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -24,10 +25,9 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Height="50" Width="50" CornerRadius="0" BorderThickness="1" BorderBrush="SkyBlue"
-                                        Style="{StaticResource SelectedBorder}"  >
+                                    <Border Height="40" Width="20" CornerRadius="0" BorderThickness="1" BorderBrush="SkyBlue" >
                                         <TextBlock Text="{Binding StampingTypeString}" 
-                                                   FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                                                   FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -36,11 +36,11 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <views:RadialPanel/>
+                        <views:RadialPanel StartAngle="0" RoundAngle="360" ItemRotateAngle="90" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
         </Border>
-
+         </Border>
     </Grid>
 </UserControl>

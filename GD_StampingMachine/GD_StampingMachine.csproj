@@ -295,17 +295,17 @@
     <Compile Include="ViewModels\StampingMainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\RadialPanel.cs" />
-    <Compile Include="Views\RotateRadiaPanel.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">
       <DependentUpon>StampingMainView.xaml</DependentUpon>
     </Compile>
+    <Resource Include="Image\擷取3.PNG" />
     <Resource Include="Image\擷取1.PNG" />
     <Resource Include="Image\擷取2.PNG" />
     <None Include="Resources\Image1.bmp" />
     <None Include="Resources\Icon_AlignHorizontalLeft.ico" />
     <Page Include="Dictionary\DrawingDictionary.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dictionary\Style\ComboBoxStyleDictionary.xaml">
       <SubType>Designer</SubType>

@@ -27,21 +27,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private string _searchText;
-        public string SearchText
-        {
-            get
-            {
-                return _searchText;
-            }
-            set
-            {
-                _searchText = value;
-                OnPropertyChanged(nameof(SearchText));
-                OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
-            }
-        }
-
         public string ProjectPathText
         {
             get
@@ -73,26 +58,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        public ObservableCollection<ProductProjectViewModel> Search_ProductProjectVMObservableCollection
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(SearchText))
-                {
-                    var searchText_NoneUpper = SearchText.ToLower();
-                    var SearchList = ProductProjectVMObservableCollection.Where
-                        (x => x.ProductProject.Name.ToLower().Contains(searchText_NoneUpper) ||
-                        x.ProductProject.Number.ToLower().Contains(searchText_NoneUpper) || 
-                        x.ProductProject.Form.ToLower().Contains(searchText_NoneUpper));
-
-  
-                        return SearchList.ToObservableCollection();
-
-                }
-                else
-                    return ProductProjectVMObservableCollection;
-            }
-        }
 
 
 
@@ -121,7 +86,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     ProductProject = (ProductProjectModel)CreatedProjectModel.Clone()
                 });
                 OnPropertyChanged(nameof(ProductProjectVMObservableCollection));
-                OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
+              //  OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
                 /*
                 ProductProjectVMObservableCollection.Add(new ProductProjectViewModel()
                 {
@@ -139,13 +104,37 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         //   public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel();
-           public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel()
+        public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel()
            {
                Name = "NewProject",
                Number = "newAS001",
                Form = "newQR",
                CreateTime = DateTime.Now
            };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

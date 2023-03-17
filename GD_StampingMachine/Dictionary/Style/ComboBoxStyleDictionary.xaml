@@ -6,6 +6,7 @@
                     xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters">
 
     <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}" x:Key="WhiteMDComboBox">
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="BorderBrush" Value="White"/>
         <Setter Property="BorderThickness" Value="0,0,0,1.5"/>

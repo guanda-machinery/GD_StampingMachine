@@ -30,10 +30,10 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"  Margin="10">
                             <TextBlock Text="{DynamicResource Text_Search}" FontSize="20"  />
-                            <TextBox BorderBrush="White" Width="300"  
+                            <TextBox BorderBrush="White" Width="300"   Padding="5"
                          materialDesign:HintAssist.Hint="Search Tasks(Ctrl + F)"
                          materialDesign:HintAssist.Foreground="Blue"
-                         Text="{Binding SearchText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      
                                                      Margin="5,0" Name="SearchTextBox" 
                                                      Foreground="White"/>
                         </StackPanel>
@@ -193,12 +193,11 @@
 
                             <dxg:GridControl.View >
                                 <dxg:TableView   
-                        SearchString="{Binding SearchText}"
+                        SearchString="{Binding ElementName=SearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 IsColumnMenuEnabled ="False"
                                 AllowSorting="false"
                                 AllowColumnFiltering="False"
                                 AllowColumnMoving="False"
-                                Name="MachineMessage_TableView"
                                 AllowEditing="False"
                                 ShowColumnHeaders="True"
                                 HeaderHorizontalAlignment="Center"
@@ -316,7 +315,145 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="123"/>
+                    <Image Source="pack://application:,,,/image/擷取3.PNG" Width="500" HorizontalAlignment="Left" Margin="20,10"/>
+                   
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom"  Margin="10">
+                        <TextBlock Text="{DynamicResource Text_Search}" FontSize="20"  />
+                        <TextBox BorderBrush="White" Width="300"   Padding="5"
+                         materialDesign:HintAssist.Hint="Search Tasks(Ctrl + F)"
+                         materialDesign:HintAssist.Foreground="Blue"
+                                                     Margin="5,0" Name="ParameterSearchTextBox" 
+                                                     Foreground="White"/>
+                    </StackPanel>
+                    
+                    <Border  Margin="0" Grid.Row="2"
+                 Background="Transparent" 
+                 BorderThickness="0" 
+                 BorderBrush="#595E60" >
+               <dxg:GridControl  Background="Transparent" 
+                   Style="{StaticResource ProjectGridControl}"
+                    AutoGenerateColumns="None"
+                    SelectionMode="Row"
+                    ItemsSource="{Binding ProductProjectVMObservableCollection , UpdateSourceTrigger=PropertyChanged}"
+                    MaxHeight="2000"    >
+
+                            <dxg:GridControl.View >
+                                <dxg:TableView   
+                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsColumnMenuEnabled ="False"
+                                AllowSorting="false"
+                                AllowColumnFiltering="False"
+                                AllowColumnMoving="False"
+                                AllowEditing="False"
+                                ShowColumnHeaders="True"
+                                HeaderHorizontalAlignment="Center"
+                                VerticalScrollbarVisibility="Auto"
+                                HorizontalScrollbarVisibility="Auto"
+                                ShowHorizontalLines="False"
+                                ShowVerticalLines="False"
+                                ShowGroupPanel="False"
+                                ShowSearchPanelMode="Never"
+                                SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                SearchPanelFindMode="Always"
+                                ShowIndicator="False"
+                                SearchDelay="0"
+                        
+                        />
+                            </dxg:GridControl.View>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProject.Number" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProject.Name" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  Header="{DynamicResource Text_Form}" FieldName="ProductProject.Form" 
+                                 Width="auto" HorizontalHeaderContentAlignment="Center" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProductProject.CreateTime" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="ProductProject.EditTime" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
+                                 Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
+                                <dxg:GridColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Height="auto" Margin="2,5">
+                                            <ProgressBar Value="{Binding Row.ProductProject.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
+                                             BorderThickness="0" 
+                                             Height="auto" Minimum="0" Maximum="100" Background="White" >
+                                                <ProgressBar.Foreground>
+                                                    <Binding Path="Row.ProductProject.FinishProgress" Converter="{GD_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                </ProgressBar.Foreground>
+                                            </ProgressBar>
+
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
+                                                <TextBlock Foreground="Black"
+                                        Text="{CalcB:Binding Row.ProductProject.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </dxg:GridColumn.CellTemplate>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false" IsSmart="True">
+                                <dxg:GridColumn.HeaderStyle>
+                                    <Style TargetType="dxg:BaseGridHeader">
+                                        <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                    </Style>
+                                </dxg:GridColumn.HeaderStyle>
+                                <dxg:GridColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" Height="30"/>
+                                    </DataTemplate>
+                                </dxg:GridColumn.CellTemplate>
+                            </dxg:GridColumn>
+
+                            <!--https://www.grapecity.com/blogs/using-mvvm-to-remove-rows-from-wpf-datagrid-->
+                            <!--刪除指令-->
+                            <dxg:GridColumn Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.HeaderStyle>
+                                    <Style TargetType="dxg:BaseGridHeader">
+                                        <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                    </Style>
+                                </dxg:GridColumn.HeaderStyle>
+                                <dxg:GridColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Height="30" Content="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
+                                    </DataTemplate>
+                                </dxg:GridColumn.CellTemplate>
+                            </dxg:GridColumn>
+
+
+
+
+
+                        </dxg:GridControl>
+                    </Border>
+
+                    
+
                 </Grid>
             </TabItem>
         </TabControl>

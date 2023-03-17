@@ -22,6 +22,9 @@
     <sys:String x:Key="btnDescription_PunchedFontSetting">字模設定</sys:String>
     <sys:String x:Key="btnDescription_ParameterSetting">參數設定</sys:String>
     <sys:String x:Key="btnDescription_SoftwareUpdate">軟體更新</sys:String>
+
+    <sys:String x:Key="Text_SteelCoil_XAxis">鋼捲(X軸)</sys:String>
+   
     <!--#endregion-->
 
     <!--#region關於本機-->
@@ -204,6 +207,19 @@
     <sys:String x:Key="Text_EditTime">修改時間</sys:String>
     <sys:String x:Key="Text_FinishProgress">完成進度</sys:String>
 
+    <sys:String x:Key="Text_Parameter_A">A參數</sys:String>
+    <sys:String x:Key="Text_Parameter_B">B參數</sys:String>
+    <sys:String x:Key="Text_Parameter_C">C參數(Data-Martix)</sys:String>
+
+
+
+
+
+
+
+
+
+
 
     <sys:String x:Key="Text_notify">通知</sys:String>
     <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
@@ -213,6 +229,8 @@
     <sys:String x:Key="Text_Loading">讀取中...</sys:String>
 
 
+    
+    
     
     <!--enum-->
     <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
