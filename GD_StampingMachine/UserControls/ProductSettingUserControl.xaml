@@ -340,6 +340,8 @@
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                PageSize="4"
+                                AllowPaging="True"
                                 IsColumnMenuEnabled ="False"
                                 AllowSorting="false"
                                 AllowColumnFiltering="False"
@@ -361,35 +363,26 @@
                         />
                             </dxg:GridControl.View>
 
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProject.Number" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ProductProject.Number" Width="auto" AllowMoving="false"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>
                             </dxg:GridColumn>
 
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProject.Name" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ProductProject.Name" Width="auto" AllowMoving="false"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>
                             </dxg:GridColumn>
 
-                            <dxg:GridColumn  Header="{DynamicResource Text_Form}" FieldName="ProductProject.Form" 
-                                 Width="auto" HorizontalHeaderContentAlignment="Center" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C}" FieldName="ProductProject.Name" Width="auto" AllowMoving="false"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>
                             </dxg:GridColumn>
 
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProductProject.CreateTime" Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="ProductProject.EditTime" Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
+
+
 
                             <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
                                  Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
