@@ -1,11 +1,17 @@
-﻿using DevExpress.Mvvm.Native;
+﻿using DevExpress.Mvvm;
+using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.WindowsUI;
 using GD_StampingMachine.Model;
+using GD_StampingMachine.SplashScreenWindow;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -114,6 +120,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
+        public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand
+        {
+            get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
+            {
+                if(args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
+                {
+                    //ProjectItem.
+
+                }
+
+
+            });
+        }
 
 
 

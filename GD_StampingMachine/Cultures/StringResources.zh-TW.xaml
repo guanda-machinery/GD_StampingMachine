@@ -152,8 +152,9 @@
     <sys:String x:Key="Text_SelectSeparateMode">選擇分料模式</sys:String>
     <sys:String x:Key="Text_UnifiedSetting">統一設定</sys:String>
     <sys:String x:Key="Text_SingleSetting">單一設定</sys:String>
-    
+
     <sys:String x:Key="Text_Box">盒子</sys:String>
+    <sys:String x:Key="Text_Box_AllSetting">盒子全設定</sys:String>
     <!--#endregion-->
     
     <!--#region軟體更新 -->

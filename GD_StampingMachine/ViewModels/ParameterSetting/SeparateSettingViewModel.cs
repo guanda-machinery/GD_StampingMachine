@@ -33,30 +33,58 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        //private double _ss_SeparateBoxValue = 0;
-        
-        public double SingleSetting_SeparateBoxValue
+
+        public ObservableCollection<SeparateBoxViewModel> UnifiedSetting_SeparateBoxModel
         {
-            get 
+            get
             {
-                return SeparateSetting.SingleSetting_SeparateBoxModel.BoxSliderValue;
-                //return _ss_SeparateBoxValue;
+                return SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection;
             }
             set
             {
-                //_ss_SeparateBoxValue = value;
-                SeparateSetting.SingleSetting_SeparateBoxModel.BoxSliderValue = value;
-                //SeparateSetting.UnifiedSetting_SeparateBoxModel.ForEach(x => x.BoxSliderValue = _ss_SeparateBoxValue);
-                OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
+                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection = value;
+                OnPropertyChanged();
             }
         }
 
+        public SeparateBoxViewModel SingleSetting_SeparateBoxModel
+        {
+            get
+            {
+                return SeparateSetting.SingleSetting_SeparateBox;
+            }
+            set
+            {
+                SeparateSetting.SingleSetting_SeparateBox = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public double SingleSetting_SeparateBoxValue
+        {
+            get
+            {
+                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x => x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue);
+                return SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
+            }
+            set
+            {
+                SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
+                OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
+            }
+        }
 
 
         public bool SingleSettingBoolean
         {
             get
             {
+                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                {
+                    x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
+                    x.BoxSliderIsEnabled = SeparateSetting.SettingType == SettingTypeEnum.SingleSetting;
+                });
                 return SeparateSetting.SettingType == SettingTypeEnum.SingleSetting;
             }
             set
@@ -65,13 +93,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     SeparateSetting.SettingType = SettingTypeEnum.SingleSetting;
                 }
-                OnPropertyChanged(nameof(SingleSettingBoolean));
+                OnPropertyChanged();
             }
         }
         public bool UnifiedSettingBoolean
         {
             get
             {
+                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                {
+                    x.BoxSliderIsEnabled = SeparateSetting.SettingType == SettingTypeEnum.SingleSetting;
+                });
                 return SeparateSetting.SettingType == SettingTypeEnum.UnifiedSetting;
             }
             set
@@ -104,15 +136,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private void initSeparateSetting()
         {
             SingleSetting_SeparateBoxValue = 0;
-            if (SeparateSetting.UnifiedSetting_SeparateBoxModel.Count == 0)
+            if (SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Count == 0)
             {
                 for (int i = 1; i <= 10; i++)
                 {
-                    SeparateSetting.UnifiedSetting_SeparateBoxModel.Add(new SeparateBoxModel()
+                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(new SeparateBoxViewModel()
                     {
                         BoxNumber = i,
-                        BoxSliderValue = 0
-                    });
+                        BoxSliderValue = 0,
+                        BoxIsEnabled = true,
+                    }) ;
                 }
             }
         }

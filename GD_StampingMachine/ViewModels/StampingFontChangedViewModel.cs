@@ -2,7 +2,6 @@
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using JetBrains.Annotations;
@@ -23,13 +22,13 @@ namespace GD_StampingMachine.ViewModels
     public class StampingFontChangedViewModel : ViewModelBase
     {
 
-        private ObservableCollection<StampingTypeModel> _stampingTypeVMObservableCollection;
-        public ObservableCollection<StampingTypeModel> StampingTypeVMObservableCollection
+        private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
+        public ObservableCollection<StampingTypeViewModel> StampingTypeVMObservableCollection
         {
             get
             {
                 if (_stampingTypeVMObservableCollection == null)
-                    _stampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>();
+                    _stampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>();
                 return _stampingTypeVMObservableCollection;
             }
             set
@@ -40,13 +39,13 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ObservableCollection<StampingTypeModel> _unusedStampingTypeVMObservableCollection;
-        public ObservableCollection<StampingTypeModel> UnusedStampingTypeVMObservableCollection
+        private ObservableCollection<StampingTypeViewModel> _unusedStampingTypeVMObservableCollection;
+        public ObservableCollection<StampingTypeViewModel> UnusedStampingTypeVMObservableCollection
         {
             get
             {
                 if (_unusedStampingTypeVMObservableCollection == null)
-                    _unusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeModel>();
+                    _unusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>();
                 return _unusedStampingTypeVMObservableCollection;
             }
             set
@@ -55,14 +54,28 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(UnusedStampingTypeVMObservableCollection));
             }
         }
+
+
+        private StampingTypeViewModel _stampingFontSelected;
         /// <summary>
         /// 鋼印機上的字模
         /// </summary>
-        public StampingTypeModel StampingFontSelected { get; set; }
+        public StampingTypeViewModel StampingFontSelected
+        {
+            get
+            {
+                return _stampingFontSelected;
+            }
+            set
+            {
+                _stampingFontSelected = value;
+                OnPropertyChanged(nameof(StampingFontSelected));
+            }
+        }
         /// <summary>
         /// 被新建出來還沒放上去的字模/被換下來的字模
         /// </summary>
-        public StampingTypeModel UnusedStampingFontSelected { get; set; }
+        public StampingTypeViewModel UnusedStampingFontSelected { get; set; }
 
         public RelayCommand StampingFontReplaceCommand
         {
@@ -88,14 +101,14 @@ namespace GD_StampingMachine.ViewModels
             var ST_index = StampingTypeVMObservableCollection.FindIndex(x => x == StampingFontSelected);
             var UST_index = UnusedStampingTypeVMObservableCollection.FindIndex(x => x == UnusedStampingFontSelected);
 
-            StampingTypeVMObservableCollection[ST_index] = new StampingTypeModel()
+            StampingTypeVMObservableCollection[ST_index] = new StampingTypeViewModel()
             {
                 StampingTypeNumber = FontStringNumber,
                 StampingTypeString = UnusedFontString,
                 StampingTypeUseCount = UnusedFontStringUseCount
-            };
+            };  
 
-            UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeModel()
+            UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeViewModel()
             {
                 StampingTypeNumber = UnusedFontStringNumber,
                 StampingTypeString = FontString,
@@ -103,22 +116,22 @@ namespace GD_StampingMachine.ViewModels
             };
         }
 
-        private ObservableCollection<StampingTypeModel> _newUnusedStampingFont;
+        private ObservableCollection<StampingTypeViewModel> _newUnusedStampingFont;
         /// <summary>
         /// 新增字模
         /// </summary>
-        public ObservableCollection<StampingTypeModel> NewUnusedStampingFont
+        public ObservableCollection<StampingTypeViewModel> NewUnusedStampingFont
         {
             get
             {
                 if (_newUnusedStampingFont == null)
                 {
-                    _newUnusedStampingFont = new ObservableCollection<StampingTypeModel>();
+                    _newUnusedStampingFont = new ObservableCollection<StampingTypeViewModel>();
                 }
 
                 if (_newUnusedStampingFont.Count == 0)
                 {
-                    _newUnusedStampingFont.Add(new StampingTypeModel()
+                    _newUnusedStampingFont.Add(new StampingTypeViewModel()
                     {
                         StampingTypeNumber = 0,
                         StampingTypeUseCount = 0,
@@ -141,7 +154,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                var FirstFont = NewUnusedStampingFont.FirstOrDefault().Clone() as StampingTypeModel;
+                var FirstFont = NewUnusedStampingFont.FirstOrDefault().Clone() as StampingTypeViewModel;
                 FirstFont.IsNewAddStamping = false;
                 UnusedStampingTypeVMObservableCollection.Add(FirstFont);
                 /*
@@ -202,8 +215,8 @@ namespace GD_StampingMachine.ViewModels
 
         private readonly object balanceLock = new object();
         private bool StampingTypeModel_ReadyStamping_IsRotating = false;
-        private StampingTypeModel _stampingTypeModel_readyStamping;
-        public StampingTypeModel StampingTypeModel_ReadyStamping
+        private StampingTypeViewModel _stampingTypeModel_readyStamping;
+        public StampingTypeViewModel StampingTypeModel_ReadyStamping
         {
             get
             {
@@ -247,8 +260,7 @@ namespace GD_StampingMachine.ViewModels
                         }
                         try
                         {
-
-
+                            StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
                             StampingTypeModelMartix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
                             double RotateGap = StampingTypeVMObservableCollection.Count / 4;
 
@@ -312,8 +324,11 @@ namespace GD_StampingMachine.ViewModels
                                 System.Threading.Thread.Sleep(SleepTime);
                             }
                             StampingFontTurntable_RorateAngle = TargetAngle;
-                            StampingTypeModel_ReadyStamping_IsRotating = false;
 
+
+                            StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
+                            StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
+                            StampingTypeModel_ReadyStamping_IsRotating = false;
 
                             //找出上下左右四個格子的方塊
                             //下方
@@ -420,12 +435,12 @@ namespace GD_StampingMachine.ViewModels
 
     public class StampingTypeModelMartixClass : ViewModelBase
     {
-        private StampingTypeModel _bottomStampingTypeModel;
-        private StampingTypeModel _rightStampingTypeModel;
-        private StampingTypeModel _topStampingTypeModel;
-        private StampingTypeModel _leftStampingTypeModel;
+        private StampingTypeViewModel _bottomStampingTypeModel;
+        private StampingTypeViewModel _rightStampingTypeModel;
+        private StampingTypeViewModel _topStampingTypeModel;
+        private StampingTypeViewModel _leftStampingTypeModel;
 
-        public StampingTypeModel BottomStampingTypeModel
+        public StampingTypeViewModel BottomStampingTypeModel
         {
             get=> _bottomStampingTypeModel;
             set
@@ -434,7 +449,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(BottomStampingTypeModel));
             }
         }
-        public StampingTypeModel RightStampingTypeModel
+        public StampingTypeViewModel RightStampingTypeModel
         {
             get => _rightStampingTypeModel;
             set
@@ -443,7 +458,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(RightStampingTypeModel));
             }
         }
-        public StampingTypeModel TopStampingTypeModel
+        public StampingTypeViewModel TopStampingTypeModel
         {
             get => _topStampingTypeModel;
             set
@@ -452,7 +467,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(TopStampingTypeModel));
             }
         }
-        public StampingTypeModel LeftStampingTypeModel
+        public StampingTypeViewModel LeftStampingTypeModel
         {
             get => _leftStampingTypeModel; set
             {

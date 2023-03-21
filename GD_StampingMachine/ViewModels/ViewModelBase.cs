@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class ViewModelBase : INotifyPropertyChanged 
+    public class ViewModelBase : INotifyPropertyChanged , ICloneable
     {
         
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
@@ -22,9 +23,22 @@ namespace GD_StampingMachine.ViewModels
         /// 屬性變更事件
         /// </summary>
         /// <param name="propertyName">屬性名稱</param>
-        public void OnPropertyChanged(string propertyName)
+      /*  public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }*/
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            }
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DevExpress.CodeParser;
+using GD_StampingMachine.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class StampingTypeModel : ICloneable
+    public class StampingTypeModel : ViewModelBase, ICloneable
     {
         /// <summary>
         /// 鋼印文字
@@ -22,7 +24,7 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public int StampingTypeUseCount { get; set; }
 
-        public bool IsNewAddStamping { get; set; } 
+        public bool IsNewAddStamping { get; set; }
 
         public object Clone()
         {

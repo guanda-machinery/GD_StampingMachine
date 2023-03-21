@@ -9,72 +9,71 @@ namespace GD_StampingMachine.ViewModels
 {
    public class StampingTypeViewModel:ViewModelBase
     {
+        private StampingTypeModel StampingType;
+
         public StampingTypeViewModel()
         {
-
-        }
-
-        public StampingTypeViewModel(StampingTypeModel StampingType)
-        {
-            StampingTypeString = StampingType.StampingTypeString;
-            StampingTypeNumber = StampingType.StampingTypeNumber.ToString();
-            StampingTypeUseCount = StampingType.StampingTypeUseCount.ToString();
+            StampingType = new StampingTypeModel();
         }
 
 
-        private string _stampingTypeString = null;
         /// <summary>
         /// 鋼印文字
         /// </summary>
-        public string StampingTypeString 
+        public string StampingTypeString
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_stampingTypeString))
-                    return "NaN";
-                return _stampingTypeString;
-            }
+            get => StampingType.StampingTypeString;
             set
             {
-                _stampingTypeString = value;
+                StampingType.StampingTypeString = value;
+                OnPropertyChanged();
             }
         }
-
-        private string _stampingTypeNumber;
 
         /// <summary>
         /// No編號
         /// </summary>
-        public string StampingTypeNumber
+        public int StampingTypeNumber
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_stampingTypeNumber))
-                    return "NaN";
-                return _stampingTypeNumber;
-            }
+            get => StampingType.StampingTypeNumber;
             set
             {
-                _stampingTypeNumber = value;
+                StampingType.StampingTypeNumber = value;
+                OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 使用次數
+        /// </summary>
+        public int StampingTypeUseCount
+        {
+            get => StampingType.StampingTypeUseCount;
+            set
+            {
+                StampingType.StampingTypeUseCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsNewAddStamping
+        {
+            get => StampingType.IsNewAddStamping;
+            set
+            {
+                StampingType.IsNewAddStamping = value;
+                OnPropertyChanged();
             }
         }
 
 
-        private string _stampingTypeUseCount;
-        /// <summary>
-        /// 使用次數
-        /// </summary>
-        public string StampingTypeUseCount
+        private bool _stampingIsUsing = false;
+        public bool StampingIsUsing
         {
-            get
-            {
-                if (_stampingTypeUseCount == null)
-                    return "NaN";
-                return _stampingTypeUseCount;
-            }
+            get => _stampingIsUsing;
             set
             {
-                _stampingTypeUseCount = value;
+                _stampingIsUsing = value;
+                OnPropertyChanged(nameof(StampingIsUsing));
             }
         }
 

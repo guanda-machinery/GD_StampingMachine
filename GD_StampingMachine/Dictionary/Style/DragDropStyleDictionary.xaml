@@ -58,12 +58,8 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard Duration="00:00:01">
-                            <!--   <DoubleAnimation To="35" Duration="0:0:1.5"  
-                AccelerationRatio="0.10" DecelerationRatio="0.25" 
-                Storyboard.TargetProperty="(Canvas.Width)"  />-->
                             <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.500" To="Transparent" />
-
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -145,12 +141,10 @@
                             </DoubleAnimationUsingKeyFrames>-->
 
                             <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
-                                               To="1.2" Duration="0:0:0.5"
+                                               To="1.2" Duration="0:0:0.1"
                                                />
-
-
                             <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
-                                                 To="1.2" Duration="0:0:0.5"
+                                                 To="1.2" Duration="0:0:0.1"
                                                />
 
 
@@ -170,12 +164,10 @@
                             </DoubleAnimationUsingKeyFrames>
 
                             <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
-                                               To="1" Duration="0:0:0.5"
+                                               To="1" Duration="0:0:0.1"
                                                />
-
-
                             <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
-                                                 To="1" Duration="0:0:0.5"
+                                                 To="1" Duration="0:0:0.1"
                                                />
 
                         </Storyboard>

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DevExpress.Xpf.WindowsUI.Internal;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +34,19 @@ namespace GD_StampingMachine.Model
         public DateTime? EditTime { get; set; }
 
         public double FinishProgress { get; set; }
+
+
+        /// <summary>
+        /// 參數設定表
+        /// </summary>
+        //public ObservableCollection
+
+
+
+
+
+
+
 
 
         public object Clone()

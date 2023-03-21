@@ -9,12 +9,6 @@ namespace GD_StampingMachine.Model
 {
     public class NumberSettingModel
     {
-        public NumberSettingModel()
-        {
-
-        }
-
-
         /// <summary>
         /// 目前模式
         /// </summary>
@@ -30,6 +24,20 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public SpecialSequenceEnum SpecialSequence { get; set; }
 
+
+        /// <summary>
+        /// 水平對齊
+        /// </summary>
+        public HorizontalAlignEnum HorizontalAlign { get; set; }
+        /// <summary>
+        /// 垂直對齊
+        /// </summary>
+        public VerticalAlignEnum VerticalAlign { get; set; }
+
+
+
+
+
         public PlateMarginStruct PlateMargin { get; set; } = new PlateMarginStruct();
     }
 
@@ -41,12 +49,5 @@ namespace GD_StampingMachine.Model
         public double D_Margin { get; set; }
         public double E_Margin { get; set; }
     }
-
-
-
-
-
-
-
 
 }

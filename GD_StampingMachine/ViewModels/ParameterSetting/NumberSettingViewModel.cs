@@ -1,10 +1,12 @@
 ﻿using DevExpress.Mvvm.Native;
 using DevExpress.Utils.Extensions;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,22 +25,57 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// </summary>
         //public NumberSettingSchematicDiagramViewModel NumberSettingSchematicDiagramVM = new NumberSettingSchematicDiagramViewModel();
 
+        private string NumberSettingFilePath
+        {
+            get => Path.Combine(Directory.GetCurrentDirectory(), "NumberSetting", "Normal.csv");
+        }
 
-        private NumberSettingModel _NumberSettingModel = new NumberSettingModel();
 
+        private NumberSettingModel _numberSetting;
         public NumberSettingModel NumberSetting
         {
             get
             {
-                return _NumberSettingModel;
+                if(_numberSetting == null)
+                    _numberSetting = new NumberSettingModel();
+                return _numberSetting;
             }
             set
             {
-                _NumberSettingModel = value;
+                if(value == new NumberSettingModel())
+                {
+                    SequenceCountComboBoxSelectValue = null;
+                    SpecialSequenceComboBoxSelectValue = null;
+                    VerticalAlignEnumComboBoxSelectValue = null;
+                    HorizontalAlignEnumComboBoxSelectValue = null;
+                } 
+                else if(value!= null)
+                {
+                    SequenceCountComboBoxSelectValue = NumberSetting.SequenceCount;
+                    SpecialSequenceComboBoxSelectValue = NumberSetting.SpecialSequence;
+                    VerticalAlignEnumComboBoxSelectValue = NumberSetting.VerticalAlign;
+                    HorizontalAlignEnumComboBoxSelectValue = NumberSetting.HorizontalAlign;
+                }
+                _numberSetting = value;
                 OnPropertyChanged(nameof(NumberSetting));
             }
-
         }
+
+        public NumberSettingModel NumberSettingModelSavedCollectionSelected { get; set; }
+        public List<NumberSettingModel> NumberSettingModelSavedCollection
+        {
+            get
+            {
+                var CsvHM = new CsvHelperMethod();
+                CsvHM.ReadCSVFileIEnumerable(NumberSettingFilePath , out List<NumberSettingModel> NumberSettingList );
+                return NumberSettingList;
+            }
+        }
+
+
+
+
+
 
         public ObservableCollection<NumberSettingModeEnum> NumberSettingModeCollection
         {
@@ -116,7 +153,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     NumberSetting.SpecialSequence = _specialSequenceComboBoxSelectValue.Value;
                 }
                 return _specialSequenceComboBoxSelectValue;
-
             }
             set
             {
@@ -161,21 +197,29 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
-        private HorizontalAlignEnum? _HorizontalAlignEnumComboBoxSelectValue;
-        private VerticalAlignEnum? _VerticalAlignEnumComboBoxSelectValue;
+        private HorizontalAlignEnum? _horizontalAlignEnumComboBoxSelectValue;
+        private VerticalAlignEnum? _verticalAlignEnumComboBoxSelectValue;
         public HorizontalAlignEnum? HorizontalAlignEnumComboBoxSelectValue
         {
-            get => _HorizontalAlignEnumComboBoxSelectValue;
+            get => _horizontalAlignEnumComboBoxSelectValue;
             set
             {
-                _HorizontalAlignEnumComboBoxSelectValue = value; OnPropertyChanged(nameof(HorizontalAlignEnumComboBoxSelectValue));
+                _horizontalAlignEnumComboBoxSelectValue = value;
+                if (_horizontalAlignEnumComboBoxSelectValue.HasValue)
+                    NumberSetting.HorizontalAlign = _horizontalAlignEnumComboBoxSelectValue.Value;
+                OnPropertyChanged(nameof(HorizontalAlignEnumComboBoxSelectValue));
             }
         }
         public VerticalAlignEnum? VerticalAlignEnumComboBoxSelectValue
         {
-            get => _VerticalAlignEnumComboBoxSelectValue;
-            set { _VerticalAlignEnumComboBoxSelectValue = value; OnPropertyChanged(nameof(VerticalAlignEnumComboBoxSelectValue)); }
+            get => _verticalAlignEnumComboBoxSelectValue;
+            set 
+            {
+                _verticalAlignEnumComboBoxSelectValue = value;
+                if (_verticalAlignEnumComboBoxSelectValue.HasValue)
+                    NumberSetting.VerticalAlign = _verticalAlignEnumComboBoxSelectValue.Value;
+                OnPropertyChanged(nameof(VerticalAlignEnumComboBoxSelectValue));
+            }
         }
 
 
@@ -202,7 +246,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public virtual ICommand LoadModeCommand
         {
             get => new RelayCommand(() =>
-            { 
+            {
+                var CsvHM = new CsvHelperMethod();
+                CsvHM.ReadCSVFile(NumberSettingFilePath, out NumberSettingModel LoadNumberSetting2);
+                NumberSetting = LoadNumberSetting2;
             });
         }
         public virtual ICommand RecoverSettingCommand
@@ -213,11 +260,19 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
+
+
+
         public virtual ICommand SaveSettingCommand
         {
             get => new RelayCommand(() =>
             {
+                var CsvHM = new CsvHelperMethod();
 
+                CsvHM.WriteCSVFile(NumberSettingFilePath , NumberSettingModelSavedCollection);
+                //CsvHM.WriteCSVFile<NumberSettingModel>(NumberSettingFilePath, NumberSetting);
+
+                OnPropertyChanged(nameof(NumberSettingModelSavedCollection));
             });
         }
 

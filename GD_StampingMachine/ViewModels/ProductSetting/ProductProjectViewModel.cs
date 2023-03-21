@@ -17,6 +17,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     {
         public ProductProjectModel ProductProject { get; set; } = new ProductProjectModel();
 
+
+
         private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
         {
@@ -37,7 +39,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ProjectEditCommand));
             }
         }
-
         private RelayParameterizedCommand _projectDeleteCommand;
         public RelayParameterizedCommand ProjectDeleteCommand
         {
@@ -78,6 +79,5 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ProjectDeleteCommand));
             }
         }
-
     }
 }

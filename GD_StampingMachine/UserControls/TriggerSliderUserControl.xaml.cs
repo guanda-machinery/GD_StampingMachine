@@ -63,6 +63,5 @@ namespace GD_StampingMachine.UserControls
 
 
 
-
     }
 }

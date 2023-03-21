@@ -675,7 +675,12 @@
           Value="true" />
         <Setter Property="OverridesDefaultStyle"
           Value="true" />
+        <Setter Property="Opacity" Value="1.0"/>
         <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.3"/>
+            </Trigger>
+            
             <Trigger Property="Orientation"
              Value="Horizontal">
                 <Setter Property="MinWidth"
