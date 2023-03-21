@@ -188,7 +188,7 @@ namespace GD_StampingMachine.Method
                         {
                             SourceData = cloneableItem.CloneItem(dropInfo);
                         }
-                        else if (SourceData is ICloneable cloneable)
+                        else if (SourceData is CloneableModelBase cloneable)
                         {
                             SourceData = cloneable.Clone();
                         }

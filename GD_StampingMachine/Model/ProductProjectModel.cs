@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class ProductProjectModel :ICloneable
+    public class ProductProjectModel : CloneableModelBase
     {
         public string ProjectPath { get; set; }
         /// <summary>
@@ -49,10 +49,7 @@ namespace GD_StampingMachine.Model
 
 
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+
 
 
 

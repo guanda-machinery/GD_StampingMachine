@@ -41,6 +41,7 @@ namespace GD_StampingMachine.Method
                 return;
             }
             //drop預設
+            
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
             return;
             var insertIndex = dropInfo.UnfilteredInsertIndex;

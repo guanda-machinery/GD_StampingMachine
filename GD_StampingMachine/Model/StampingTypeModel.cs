@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class StampingTypeModel : ViewModelBase, ICloneable
+    public class StampingTypeModel : ViewModelBase
     {
         /// <summary>
         /// 鋼印文字

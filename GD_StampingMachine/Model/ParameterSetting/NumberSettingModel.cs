@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class NumberSettingModel
+    public class NumberSettingModel:CloneableModelBase
     {
+        public string NumberSettingName { get; set; }
         /// <summary>
         /// 目前模式
         /// </summary>
@@ -39,6 +40,11 @@ namespace GD_StampingMachine.Model
 
 
         public PlateMarginStruct PlateMargin { get; set; } = new PlateMarginStruct();
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class PlateMarginStruct

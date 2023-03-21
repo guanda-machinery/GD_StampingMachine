@@ -254,13 +254,15 @@
 
                             </GroupBox>
                             <StackPanel Grid.Row="2" Grid.Column="1" Margin="10" VerticalAlignment="Bottom">
-                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                                <ComboBox Name="NumberSettingModelSavedComboBox"
+                                    SelectedItem="{Binding NumberSettingModelSavedCollectionSelected, UpdateSourceTrigger=PropertyChanged}"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}" 
                                           Background="White" Margin="10"
                                           ItemsSource="{Binding NumberSettingModelSavedCollection}"
                                           >
                                     
                                 </ComboBox>
-                                <Button IsEnabled="{Binding NumberSettingModelSavedCollectionSelected, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                <Button IsEnabled="{Binding ElementName=NumberSettingModelSavedComboBox, Path=SelectedItem, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                     Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
                                 <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
                                 <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>

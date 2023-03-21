@@ -310,6 +310,7 @@
     <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
     <Compile Include="ViewModels\CultureViewModel.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
+    <Compile Include="Model\CloneableModelBase.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateBoxViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateSettingViewModel.cs" />

@@ -32,7 +32,7 @@ namespace GD_StampingMachine.ValueConverters
                 }
             }
 
-            return (!Invert);
+            return (Invert);
 
         }
 

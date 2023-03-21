@@ -61,14 +61,30 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        public NumberSettingModel NumberSettingModelSavedCollectionSelected { get; set; }
+        public NumberSettingModel NumberSettingModelSavedCollectionSelected
+        { 
+            get; 
+            set; 
+        }
+
+        private List<NumberSettingModel> _numberSettingModelSavedCollection;
         public List<NumberSettingModel> NumberSettingModelSavedCollection
         {
             get
             {
-                var CsvHM = new CsvHelperMethod();
-                CsvHM.ReadCSVFileIEnumerable(NumberSettingFilePath , out List<NumberSettingModel> NumberSettingList );
-                return NumberSettingList;
+                if (_numberSettingModelSavedCollection == null)
+                {
+                    var CsvHM = new CsvHelperMethod();
+                    CsvHM.ReadCSVFileIEnumerable(NumberSettingFilePath, out List<NumberSettingModel> SavedCollection);
+                    _numberSettingModelSavedCollection = new List<NumberSettingModel>();
+                    _numberSettingModelSavedCollection.AddRange(SavedCollection);
+                }
+                return _numberSettingModelSavedCollection;
+            }
+            set
+            {
+                _numberSettingModelSavedCollection = value;
+                OnPropertyChanged(nameof(NumberSettingModelSavedCollection));
             }
         }
 
@@ -247,9 +263,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                var CsvHM = new CsvHelperMethod();
-                CsvHM.ReadCSVFile(NumberSettingFilePath, out NumberSettingModel LoadNumberSetting2);
-                NumberSetting = LoadNumberSetting2;
+                //var CsvHM = new CsvHelperMethod();
+               // CsvHM.ReadCSVFile(NumberSettingFilePath, out NumberSettingModel LoadNumberSetting2);
+                NumberSetting = NumberSettingModelSavedCollectionSelected.Clone() as NumberSettingModel;
             });
         }
         public virtual ICommand RecoverSettingCommand
@@ -269,7 +285,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 var CsvHM = new CsvHelperMethod();
 
-                CsvHM.WriteCSVFile(NumberSettingFilePath , NumberSettingModelSavedCollection);
+
+                NumberSettingModelSavedCollection.Add(NumberSetting);
+                CsvHM.WriteCSVFileIEnumerable(NumberSettingFilePath , NumberSettingModelSavedCollection);
                 //CsvHM.WriteCSVFile<NumberSettingModel>(NumberSettingFilePath, NumberSetting);
 
                 OnPropertyChanged(nameof(NumberSettingModelSavedCollection));
