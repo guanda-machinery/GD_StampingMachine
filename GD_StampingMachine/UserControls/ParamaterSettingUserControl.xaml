@@ -221,7 +221,7 @@
                                         <TextBlock Text="{DynamicResource textMargin}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.A_Margin}"/>
+                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.IronPlateMargin.A_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
@@ -229,7 +229,7 @@
                                         <TextBlock Text="{DynamicResource textMargin}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.B_Margin}"/>
+                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.IronPlateMargin.B_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
@@ -237,7 +237,7 @@
                                         <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"   />
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.PlateMargin.C_Margin}"/>
+                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSetting.IronPlateMargin.C_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
@@ -245,7 +245,7 @@
                                         <TextBlock Text="{DynamicResource textMargin}" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.D_Margin}"  />
+                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.IronPlateMargin.D_Margin}"  />
                                     <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
@@ -253,7 +253,7 @@
                                         <TextBlock Text="{DynamicResource textMargin}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.PlateMargin.E_Margin}"/>
+                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSetting.IronPlateMargin.E_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                 </Grid>
@@ -467,13 +467,10 @@
                                             <TextBlock Text="{DynamicResource Text_ModelSize}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding ModelSizeCollection}" 
+                                        <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}" 
+                                                  ItemsSource="{Binding ModelSizeCollection}" 
                                                                       SelectedItem="{Binding QRSetting.ModelSize, UpdateSourceTrigger=PropertyChanged}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
+
                                         </ComboBox>
                                     </Grid>
                                 </GroupBox>

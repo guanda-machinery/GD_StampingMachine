@@ -9,11 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace GD_StampingMachine.ViewModels
+namespace GD_StampingMachine.Interfaces
 {
     public interface NumberSettingInterface
     {
-
         public ObservableCollection<int> SequenceCountCollection{get;}
         /// <summary>
         /// 單排數量
@@ -40,9 +39,6 @@ namespace GD_StampingMachine.ViewModels
 
         public ICommand LoadModeCommand { get; }
         public ICommand RecoverSettingCommand { get; }
-
-
-
         public ICommand SaveSettingCommand { get; }
         public ICommand DeleteSettingCommand { get; }
 

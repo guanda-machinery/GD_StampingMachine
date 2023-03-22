@@ -1,6 +1,7 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using System;
@@ -19,54 +20,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// <summary>
     /// 繼承
     /// </summary>
-    public class QRSettingViewModel : NumberSettingViewModel
+    public class QRSettingViewModel : SettingViewModelBase
     {
-        GD_RWCsvFile CsvHM = new GD_RWCsvFile();
+
 
         private QRSettingModel _qrSetting = new QRSettingModel();
-
-        public override NumberSettingModel NumberSetting
-        {
-            get
-            {
-                if (_qrSetting == null)
-                    _qrSetting = new QRSettingModel();
-
-                if (_qrSetting != null)
-                {
-                    if (SequenceCountComboBoxSelectValue.HasValue)
-                        _qrSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
-                    if (SpecialSequenceComboBoxSelectValue.HasValue)
-                        _qrSetting.SpecialSequence = SpecialSequenceComboBoxSelectValue.Value;
-                    if (VerticalAlignEnumComboBoxSelectValue.HasValue)
-                        _qrSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
-                    if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
-                        _qrSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
-                }
-                return _qrSetting;
-            }
-            set
-            {
-                _qrSetting = (QRSettingModel)value;
-                if (_qrSetting == new QRSettingModel())
-                {
-                    SequenceCountComboBoxSelectValue = null;
-                    SpecialSequenceComboBoxSelectValue = null;
-                    VerticalAlignEnumComboBoxSelectValue = null;
-                    HorizontalAlignEnumComboBoxSelectValue = null;
-                }
-                else if (_qrSetting != null)
-                {
-                    SequenceCountComboBoxSelectValue = _qrSetting.SequenceCount;
-                    SpecialSequenceComboBoxSelectValue = _qrSetting.SpecialSequence;
-                    VerticalAlignEnumComboBoxSelectValue = _qrSetting.VerticalAlign;
-                    HorizontalAlignEnumComboBoxSelectValue = _qrSetting.HorizontalAlign;
-                }
-                OnPropertyChanged();
-            }
-        }
-
-
         public QRSettingModel QRSetting
         {
             get 
@@ -151,12 +109,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                var EnumList = new ObservableCollection<int>();
-                EnumList.Add(1); 
-                EnumList.Add(2); 
-                EnumList.Add(3); 
-                EnumList.Add(4); 
-                EnumList.Add(5);
+                var EnumList = new ObservableCollection<int>
+                {
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                };
 
 
                 return EnumList;
@@ -179,16 +139,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                var EnumList = new ObservableCollection<string>();
-                EnumList.Add("11x11");
-                EnumList.Add("11x22");
-                EnumList.Add("22x22");
+                var EnumList = new ObservableCollection<string>
+                {
+                    "11x11",
+                    "11x22",
+                    "22x22"
+                };
 
                 return EnumList;
             }
         }
 
-        public override int PlateNumberListMax { get; set; } = 6;
+        public override int PlateNumberListMax => 6;
 
 
         public override ICommand LoadModeCommand
@@ -228,7 +190,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     QRSettingModelCollection.Add(QRSetting.Clone() as QRSettingModel);
                 }
 
-                if (CsvHM.WriteQRNumberSetting(QRSettingModelCollection.ToList()))
+                if (this.CsvHM.WriteQRNumberSetting(QRSettingModelCollection.ToList()))
                     Method.MethodWinUIMessageBox.SaveSuccessful(true);
                 else
                     Method.MethodWinUIMessageBox.SaveSuccessful(false);
@@ -246,22 +208,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
             });
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 

@@ -1,15 +1,19 @@
 ﻿using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Method;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class SettingViewModelBase: ViewModelBase
+    public abstract class SettingViewModelBase: ViewModelBase
     {
+        public GD_RWCsvFile CsvHM { get => new GD_RWCsvFile(); }
+
         private int? _sequenceCountComboBoxSelectValue = null;
         /// <summary>
         /// 單排數量
@@ -27,7 +31,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(PlateNumberList));
             }
         }
-        public virtual int PlateNumberListMax { get; set; } = 8;
+        public abstract int PlateNumberListMax { get;}
         /// <summary>
         /// 這是鐵牌上要打的位置
         /// </summary>
@@ -139,6 +143,12 @@ namespace GD_StampingMachine.ViewModels
                 return EnumList;
             }
         }
+
+
+        public abstract ICommand LoadModeCommand { get; }
+        public abstract ICommand RecoverSettingCommand { get; }
+        public abstract ICommand SaveSettingCommand { get; }
+        public abstract ICommand DeleteSettingCommand { get; }
 
 
     }

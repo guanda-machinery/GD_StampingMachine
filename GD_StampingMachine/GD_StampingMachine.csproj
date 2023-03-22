@@ -230,6 +230,7 @@
     <Compile Include="GD_Enum\SheetStampingTypeFormEnum.cs" />
     <Compile Include="GD_Enum\VerticalAlignEnum.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
+    <Compile Include="Interfaces\NumberSettingInterface.cs" />
     <Compile Include="Method\BaseDropTarget.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
@@ -312,7 +313,6 @@
     <Compile Include="ViewModels\CultureViewModel.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
     <Compile Include="Model\CloneableModelBase.cs" />
-    <Compile Include="ViewModels\NumberSettingInterface.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateBoxViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateSettingViewModel.cs" />

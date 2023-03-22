@@ -3,6 +3,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Pdf.Native;
 using DevExpress.Utils.Extensions;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using System;
@@ -20,10 +21,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class NumberSettingViewModel : SettingViewModelBase
     {
-        GD_RWCsvFile CsvHM = new GD_RWCsvFile();
-
         private NumberSettingModel _numberSetting;
-        public virtual NumberSettingModel NumberSetting
+        public NumberSettingModel NumberSetting
         {
             get
             {
@@ -58,12 +57,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     SpecialSequenceComboBoxSelectValue = _numberSetting.SpecialSequence;
                     VerticalAlignEnumComboBoxSelectValue = _numberSetting.VerticalAlign;
                     HorizontalAlignEnumComboBoxSelectValue = _numberSetting.HorizontalAlign;
-                    OnPropertyChanged();
                 }
+                OnPropertyChanged();
             }
         }
 
-        public NumberSettingModel _numberSettingModelCollectionSelected;
+        private NumberSettingModel _numberSettingModelCollectionSelected;
         public NumberSettingModel NumberSettingModelCollectionSelected
         {
             get => _numberSettingModelCollectionSelected;
@@ -96,21 +95,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        public override int PlateNumberListMax => 8;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public virtual ICommand LoadModeCommand
+        public override ICommand LoadModeCommand
         {
             get => new RelayCommand(() =>
             {
@@ -118,15 +105,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     NumberSetting = NumberSettingModelCollectionSelected.Clone() as NumberSettingModel;
             });
         }
-        public virtual ICommand RecoverSettingCommand
+        public override ICommand RecoverSettingCommand
         {
             get => new RelayCommand(() =>
             {
                 NumberSetting = new NumberSettingModel();
             });
         }
-
-        public virtual ICommand SaveSettingCommand
+        public override ICommand SaveSettingCommand
         {
             get => new RelayCommand(() =>
             {
@@ -154,8 +140,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     Method.MethodWinUIMessageBox.SaveSuccessful(false);
             });
         }
-
-        public virtual ICommand DeleteSettingCommand
+        public override ICommand DeleteSettingCommand
         {
             get => new RelayCommand(() =>
             {
@@ -166,7 +151,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
             });
          }
-  
 
     }
 

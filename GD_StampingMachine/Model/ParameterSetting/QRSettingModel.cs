@@ -10,22 +10,17 @@ namespace GD_StampingMachine.Model
     /// <summary>
     /// 直接繼承NumberSettingModel
     /// </summary>
-    public class QRSettingModel : NumberSettingModel
+    public class QRSettingModel : CloneableModelBase
     {
-        public QRSettingModel()
-        {
-
-        }
-
+        // public string NumberSettingName { get; set; }
         /// <summary>
         /// 目前模式
         /// </summary>
         public string NumberSettingMode { get; set; }
-
         /// <summary>
         /// 單排數量
         /// </summary>
-        public int SequenceCount { get; set; }
+        public virtual int SequenceCount { get; set; } = 6;
 
         /// <summary>
         /// 特殊排序
@@ -41,14 +36,15 @@ namespace GD_StampingMachine.Model
         public VerticalAlignEnum VerticalAlign { get; set; }
 
 
-
+        public override object Clone()
+        {
+            return base.Clone();
+        }
 
         /// <summary>
         /// Code設定 字元數量
         /// </summary>
         public int CharactersCount { get; set; }
-
-
         /// <summary>
         /// Code設定 字元型態
         /// </summary>
@@ -56,9 +52,7 @@ namespace GD_StampingMachine.Model
 
         public string ModelSize { get; set; }
 
-        public IronPlateMarginStruct IronPlateMargin { get; set; } = new IronPlateMarginStruct();
-
-
+        public IronPlateMarginStruct IronPlateMargin { get;} = new IronPlateMarginStruct();
     }
 
     public class IronPlateMarginStruct
