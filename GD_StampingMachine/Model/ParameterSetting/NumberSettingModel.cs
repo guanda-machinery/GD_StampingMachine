@@ -9,12 +9,17 @@ namespace GD_StampingMachine.Model
 {
     public class NumberSettingModel:CloneableModelBase
     {
-        public string NumberSettingName { get; set; }
+
+       public NumberSettingModel()
+        {
+            //NumberSettingName  = "NewSetting";
+        }
+
+        // public string NumberSettingName { get; set; }
         /// <summary>
         /// 目前模式
         /// </summary>
-        public NumberSettingModeEnum NumberSettingMode { get; set; }
-
+        public string NumberSettingMode { get; set; }
         /// <summary>
         /// 單排數量
         /// </summary>
@@ -24,8 +29,6 @@ namespace GD_StampingMachine.Model
         /// 特殊排序
         /// </summary>
         public SpecialSequenceEnum SpecialSequence { get; set; }
-
-
         /// <summary>
         /// 水平對齊
         /// </summary>
@@ -35,15 +38,11 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public VerticalAlignEnum VerticalAlign { get; set; }
 
-
-
-
-
         public PlateMarginStruct PlateMargin { get; set; } = new PlateMarginStruct();
 
-        public object Clone()
+        public override object Clone()
         {
-            return this.MemberwiseClone();
+            return base.Clone();
         }
     }
 

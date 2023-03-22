@@ -13,10 +13,7 @@ namespace GD_StampingMachine.Model
         {
 
         }
-
         public double XAxisSpeed { get; set; } 
-
-
         public double YAxisSpeed { get; set; }
         public double FontDepth { get; set; }
         public double RouletteSpeed { get; set; }

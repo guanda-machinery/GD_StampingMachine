@@ -126,6 +126,12 @@
   <data name="Left" xml:space="preserve">
     <value>Left</value>
   </data>
+  <data name="NormalSheetStamping" xml:space="preserve">
+    <value>NormalSheetStamping</value>
+  </data>
+  <data name="QRSheetStamping" xml:space="preserve">
+    <value>QRSheetStamping</value>
+  </data>
   <data name="Right" xml:space="preserve">
     <value>Right</value>
   </data>

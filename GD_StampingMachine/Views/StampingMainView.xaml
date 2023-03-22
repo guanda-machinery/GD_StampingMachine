@@ -53,6 +53,9 @@
             <MultiBinding Converter="{GD_ValueConverters:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.AddParameterDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.ImportParameterDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.ExportParameterDarggableIsPopup"/>
                     <!--<Binding Path="rbtn_DrillingFace_Tube" ConverterParameter="{x:Static GD_STD_Enum:TubeFace.TOP}"  Converter="{STD105:ObjectEqualToBooleanConverter}"/>-->
                 </MultiBinding.Bindings>
             </MultiBinding>
@@ -394,9 +397,9 @@
                             </ScrollViewer>
                         </TabItem>
                         <TabItem IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
-                            <ScrollViewer VerticalScrollBarVisibility="auto">
+
                                 <GD_UserControls:StampingFontChangedUserControl DataContext="{Binding StampingFontChangedVM}"/>
-                            </ScrollViewer>
+
                         </TabItem>
                         <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}" >
                             <GD_UserControls:ParamaterSettingUserControl DataContext="{Binding ParameterSettingVM}"/>

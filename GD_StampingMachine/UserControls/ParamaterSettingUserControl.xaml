@@ -85,8 +85,7 @@
                 <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}" DataContext="{Binding NumberSettingVM}">
                     <StackPanel HorizontalAlignment="Left">
                         <Grid  Margin="20">
-
-                                    <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
+                            <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
                             <GD_SchematicDiagram:PlateRowDiagramUserControl
                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
@@ -117,13 +116,16 @@
                                         <TextBlock Text="："/>
                                     </StackPanel>
 
-                                    <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding NumberSettingModeCollection}" 
-                                                                      SelectedItem="{Binding NumberSetting.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
-                                        <ComboBox.ItemTemplate>
+                                    <ComboBox  Name="NumberSettingModeComboBox"
+                                        Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  
+                                              DisplayMemberPath="NumberSettingMode"
+                                              ItemsSource="{Binding NumberSettingModelSavedCollection}" 
+                                                 SelectedItem="{Binding NumberSettingModelCollectionSelected, UpdateSourceTrigger=PropertyChanged}">
+                                      <!--  <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
                                             </DataTemplate>
-                                        </ComboBox.ItemTemplate>
+                                        </ComboBox.ItemTemplate>-->
                                     </ComboBox>
 
                                 </Grid>
@@ -141,47 +143,54 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                         <RowDefinition/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                 <!--   <StackPanel Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox   Grid.Column="1" Text="{Binding NumberSetting.NumberSettingMode , Converter={GD_ValueConverters:EnumGetNameConverter}}">
-                                    </TextBox>
+                                    <TextBox  Grid.Column="1" Text="{Binding NumberSetting.NumberSettingName}">
+                                    </TextBox>-->
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="{DynamicResource textCurrentMode}"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding NumberSetting.NumberSettingMode}">
+                                    </TextBox>
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <ComboBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" SelectedValue="{Binding SequenceCountComboBoxSelectValue}" ItemsSource="{Binding SequenceCountCollection}">
+                                    <ComboBox Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" SelectedValue="{Binding SequenceCountComboBoxSelectValue}" ItemsSource="{Binding SequenceCountCollection}">
 
                                     </ComboBox>
-                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textSpecialSequence}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <ComboBox  Name="SpecialSequenceComboBox" Style="{StaticResource WhiteMDComboBox_WithIconPack}"
-                                        Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
+                                        Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
                                                                        ItemsSource="{Binding SpecialSequenceCollection}"
                                                                        SelectedValue="{Binding SpecialSequenceComboBoxSelectValue}">
 
                                     </ComboBox>
-                                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
+                                    <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textHorizontalAlignment}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <ComboBox Style="{StaticResource WhiteMDComboBox_WithIconPack}"
-                                        Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
+                                        Grid.Row="4" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
                                                                        SelectedValue="{Binding HorizontalAlignEnumComboBoxSelectValue}"
                                         ItemsSource="{Binding HorizontalAlignmentCollection}">
 
                                     </ComboBox>
-                                    <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10">
+                                    <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10">
                                         <TextBlock Text="{DynamicResource textVerticalAlignment}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <ComboBox  Style="{StaticResource WhiteMDComboBox_WithIconPack}"
-                                        Grid.Row="4" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
-                                                                       SelectedValue="{Binding VerticalAlignEnumComboBoxSelectValue}"
+                                        Grid.Row="5" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
+                                        SelectedValue="{Binding VerticalAlignEnumComboBoxSelectValue}"
                                         ItemsSource="{Binding VerticalAlignmentCollection}"
                                         >
 
@@ -248,25 +257,17 @@
                                     <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                 </Grid>
-
-
-
-
                             </GroupBox>
-                            <StackPanel Grid.Row="2" Grid.Column="1" Margin="10" VerticalAlignment="Bottom">
-                                <ComboBox Name="NumberSettingModelSavedComboBox"
-                                    SelectedItem="{Binding NumberSettingModelSavedCollectionSelected, UpdateSourceTrigger=PropertyChanged}"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}" 
-                                          Background="White" Margin="10"
-                                          ItemsSource="{Binding NumberSettingModelSavedCollection}"
-                                          >
-                                    
-                                </ComboBox>
-                                <Button IsEnabled="{Binding ElementName=NumberSettingModelSavedComboBox, Path=SelectedItem, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                           
+                                <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="10" VerticalAlignment="Bottom">
+
+                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                     Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
-                                <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
-                            </StackPanel>
+                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                         Content="{DynamicResource btnDelete}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
+                                    <Button HorizontalAlignment="Left" Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                    <Button HorizontalAlignment="Left" Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                                </StackPanel>
 
                         </Grid>
                     </StackPanel>
@@ -308,13 +309,15 @@
                                             <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding NumberSettingModeCollection}" 
-                                                                      SelectedItem="{Binding QRSetting.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
-                                            <ComboBox.ItemTemplate>
+                                        <ComboBox Name="QRNumberSettingModeComboBox"
+                                            Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}" 
+                                                  ItemsSource="{Binding QRSettingModelCollection}" DisplayMemberPath="NumberSettingMode"
+                                                                      SelectedItem="{Binding QRSettingModelCollectionSelected, UpdateSourceTrigger=PropertyChanged}">
+                                            <!--<ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Converter={ GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
                                                 </DataTemplate>
-                                            </ComboBox.ItemTemplate>
+                                            </ComboBox.ItemTemplate>-->
                                         </ComboBox>
                                     </Grid>
                                 </GroupBox>
@@ -336,7 +339,7 @@
                                             <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox   Grid.Column="1" Text="{Binding QRSetting.NumberSettingMode , Converter={GD_ValueConverters:EnumGetNameConverter}}">
+                                        <TextBox   Grid.Column="1" Text="{Binding QRSetting.NumberSettingMode}">
                                         </TextBox>
                                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
@@ -569,7 +572,12 @@
 
 
                                         <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
-                                            <Button Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
+                                            <Button 
+                                                 IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                                Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
+                                            <Button HorizontalAlignment="Left" 
+                                                    IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                         Content="{DynamicResource btnDelete}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                             <Button Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
                                             <Button Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
                                         </StackPanel>

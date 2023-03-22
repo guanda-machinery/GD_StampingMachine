@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class QRSettingModel
+    /// <summary>
+    /// 直接繼承NumberSettingModel
+    /// </summary>
+    public class QRSettingModel : NumberSettingModel
     {
         public QRSettingModel()
         {
 
         }
 
-
         /// <summary>
         /// 目前模式
         /// </summary>
-        public NumberSettingModeEnum NumberSettingMode { get; set; }
+        public string NumberSettingMode { get; set; }
 
         /// <summary>
         /// 單排數量
@@ -29,12 +31,23 @@ namespace GD_StampingMachine.Model
         /// 特殊排序
         /// </summary>
         public SpecialSequenceEnum SpecialSequence { get; set; }
+        /// <summary>
+        /// 水平對齊
+        /// </summary>
+        public HorizontalAlignEnum HorizontalAlign { get; set; }
+        /// <summary>
+        /// 垂直對齊
+        /// </summary>
+        public VerticalAlignEnum VerticalAlign { get; set; }
+
+
 
 
         /// <summary>
         /// Code設定 字元數量
         /// </summary>
         public int CharactersCount { get; set; }
+
 
         /// <summary>
         /// Code設定 字元型態
@@ -43,12 +56,9 @@ namespace GD_StampingMachine.Model
 
         public string ModelSize { get; set; }
 
-
-
-
-
-
         public IronPlateMarginStruct IronPlateMargin { get; set; } = new IronPlateMarginStruct();
+
+
     }
 
     public class IronPlateMarginStruct

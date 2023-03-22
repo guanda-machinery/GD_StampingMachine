@@ -116,7 +116,7 @@ namespace GD_StampingMachine.ViewModels
                     ProductProject = new ProductProjectModel() {
                         Name="創典科技總公司基地",
                         Number = "AS001",
-                        Form ="QR",
+                        SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         EditTime = DateTime.Now,
                         FinishProgress = 10
@@ -129,7 +129,7 @@ namespace GD_StampingMachine.ViewModels
                     ProductProject = new ProductProjectModel() {
                         Name="創典科技總公司基地-1",
                         Number = "AS002",
-                        Form ="QR",
+                        SheetStampingTypeForm =GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 26
                     }
@@ -139,7 +139,7 @@ namespace GD_StampingMachine.ViewModels
                     ProductProject = new ProductProjectModel() {
                         Name="創典科技總公司基地-2",
                         Number = "AS003",
-                        Form ="QR",
+                        SheetStampingTypeForm =GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 51
                     }
@@ -149,7 +149,7 @@ namespace GD_StampingMachine.ViewModels
                     ProductProject = new ProductProjectModel() {
                         Name="創典科技總公司基地-2",
                         Number = "AS003",
-                        Form ="QR",
+                        SheetStampingTypeForm =GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 76
                     }
@@ -159,7 +159,7 @@ namespace GD_StampingMachine.ViewModels
                     ProductProject = new ProductProjectModel() {
                         Name="創典科技總公司基地-2",
                         Number = "AS003",
-                        Form ="QR",
+                        SheetStampingTypeForm=GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 100
                     }

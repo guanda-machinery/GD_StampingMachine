@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.WindowsUI.Internal;
+using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,7 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 型態
         /// </summary>
-        public string Form { get; set; }
+        public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
 
         /// <summary>
         /// 建立時間
@@ -41,7 +42,7 @@ namespace GD_StampingMachine.Model
         /// </summary>
         //public ObservableCollection
 
-
+        public SheetStampingTypeFormEnum SheetStampingType { get; set; }
 
 
 

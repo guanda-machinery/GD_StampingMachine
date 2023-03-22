@@ -8,7 +8,7 @@ namespace GD_StampingMachine.Model
 {
     public class CloneableModelBase : ICloneable
     {
-        public object Clone()
+        public virtual object Clone()
         {
             return this.MemberwiseClone();
         }

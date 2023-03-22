@@ -88,6 +88,24 @@ namespace GD_StampingMachine.Cultures {
         }
         
         /// <summary>
+        ///   查詢類似 NormalSheetStamping 的當地語系化字串。
+        /// </summary>
+        internal static string NormalSheetStamping {
+            get {
+                return ResourceManager.GetString("NormalSheetStamping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 QRSheetStamping 的當地語系化字串。
+        /// </summary>
+        internal static string QRSheetStamping {
+            get {
+                return ResourceManager.GetString("QRSheetStamping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 Right 的當地語系化字串。
         /// </summary>
         internal static string Right {

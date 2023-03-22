@@ -1,4 +1,7 @@
-﻿using GD_StampingMachine.GD_Enum;
+﻿using DevExpress.Data.Extensions;
+using DevExpress.Mvvm.Native;
+using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
@@ -13,23 +16,137 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
+    /// <summary>
+    /// 繼承
+    /// </summary>
     public class QRSettingViewModel : NumberSettingViewModel
     {
-        private QRSettingModel _QRSettingModel = new QRSettingModel();
+        GD_RWCsvFile CsvHM = new GD_RWCsvFile();
+
+        private QRSettingModel _qrSetting = new QRSettingModel();
+
+        public override NumberSettingModel NumberSetting
+        {
+            get
+            {
+                if (_qrSetting == null)
+                    _qrSetting = new QRSettingModel();
+
+                if (_qrSetting != null)
+                {
+                    if (SequenceCountComboBoxSelectValue.HasValue)
+                        _qrSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
+                    if (SpecialSequenceComboBoxSelectValue.HasValue)
+                        _qrSetting.SpecialSequence = SpecialSequenceComboBoxSelectValue.Value;
+                    if (VerticalAlignEnumComboBoxSelectValue.HasValue)
+                        _qrSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
+                    if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
+                        _qrSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
+                }
+                return _qrSetting;
+            }
+            set
+            {
+                _qrSetting = (QRSettingModel)value;
+                if (_qrSetting == new QRSettingModel())
+                {
+                    SequenceCountComboBoxSelectValue = null;
+                    SpecialSequenceComboBoxSelectValue = null;
+                    VerticalAlignEnumComboBoxSelectValue = null;
+                    HorizontalAlignEnumComboBoxSelectValue = null;
+                }
+                else if (_qrSetting != null)
+                {
+                    SequenceCountComboBoxSelectValue = _qrSetting.SequenceCount;
+                    SpecialSequenceComboBoxSelectValue = _qrSetting.SpecialSequence;
+                    VerticalAlignEnumComboBoxSelectValue = _qrSetting.VerticalAlign;
+                    HorizontalAlignEnumComboBoxSelectValue = _qrSetting.HorizontalAlign;
+                }
+                OnPropertyChanged();
+            }
+        }
+
 
         public QRSettingModel QRSetting
         {
             get 
             {
-                return _QRSettingModel;
+                if (_qrSetting == null)
+                    _qrSetting = new QRSettingModel();
+
+                if (_qrSetting != null)
+                {
+                    if (SequenceCountComboBoxSelectValue.HasValue)
+                        _qrSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
+                    if (SpecialSequenceComboBoxSelectValue.HasValue)
+                        _qrSetting.SpecialSequence = SpecialSequenceComboBoxSelectValue.Value;
+                    if (VerticalAlignEnumComboBoxSelectValue.HasValue)
+                        _qrSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
+                    if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
+                        _qrSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
+                }
+                return _qrSetting;
             } 
             set 
             {
-                _QRSettingModel = value;
-                OnPropertyChanged(nameof(QRSetting));
+                _qrSetting = value;
+                if (_qrSetting == new QRSettingModel ())
+                {
+                    SequenceCountComboBoxSelectValue = null;
+                    SpecialSequenceComboBoxSelectValue = null;
+                    VerticalAlignEnumComboBoxSelectValue = null;
+                    HorizontalAlignEnumComboBoxSelectValue = null;
+                }
+                else if (_qrSetting != null)
+                {
+                    SequenceCountComboBoxSelectValue = _qrSetting.SequenceCount;
+                    SpecialSequenceComboBoxSelectValue = _qrSetting.SpecialSequence;
+                    VerticalAlignEnumComboBoxSelectValue = _qrSetting.VerticalAlign;
+                    HorizontalAlignEnumComboBoxSelectValue = _qrSetting.HorizontalAlign;
+                }
+                OnPropertyChanged();
             }
 
-        } 
+        }
+
+        /// <summary>
+        /// 選擇
+        /// </summary>
+        private QRSettingModel _qrSettingModelCollectionSelected;
+        public QRSettingModel QRSettingModelCollectionSelected
+        {
+            get => _qrSettingModelCollectionSelected;
+            set
+            {
+                _qrSettingModelCollectionSelected = value;
+                if (_qrSettingModelCollectionSelected != null)
+                    QRSetting = _qrSettingModelCollectionSelected.Clone() as QRSettingModel;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<QRSettingModel> _qrSettingModelModelCollection;
+        public ObservableCollection<QRSettingModel> QRSettingModelCollection
+        {
+            get
+            {
+                if (_qrSettingModelModelCollection == null)
+                {
+                    CsvHM.ReadQRNumberSetting(out var SavedCollection);
+                    _qrSettingModelModelCollection = SavedCollection.ToObservableCollection();
+                }
+                return _qrSettingModelModelCollection;
+            }
+            set
+            {
+                _qrSettingModelModelCollection = value;
+                OnPropertyChanged(nameof(QRSettingModelCollection));
+            }
+        }
+
+
+
+
         public ObservableCollection<int> CharactersCountCollection
         {
             get
@@ -73,11 +190,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override int PlateNumberListMax { get; set; } = 6;
 
+
         public override ICommand LoadModeCommand
         {
             get => new RelayCommand(() =>
             {
-
+                if (QRSettingModelCollectionSelected != null)
+                    QRSetting = QRSettingModelCollectionSelected.Clone() as QRSettingModel;
             });
         }
         public override ICommand RecoverSettingCommand
@@ -92,9 +211,57 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
+                var FIndex = QRSettingModelCollection.FindIndex(x => x.NumberSettingMode == QRSetting.NumberSettingMode);
+                if (FIndex != -1)
+                {
+                    if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                    {
+                        QRSettingModelCollection[FIndex] = QRSetting.Clone() as QRSettingModel;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    QRSettingModelCollection.Add(QRSetting.Clone() as QRSettingModel);
+                }
 
+                if (CsvHM.WriteQRNumberSetting(QRSettingModelCollection.ToList()))
+                    Method.MethodWinUIMessageBox.SaveSuccessful(true);
+                else
+                    Method.MethodWinUIMessageBox.SaveSuccessful(false);
             });
         }
+
+        public override ICommand DeleteSettingCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                if (QRSettingModelCollectionSelected != null)
+                {
+                    QRSettingModelCollection.Remove(QRSettingModelCollectionSelected);
+                    CsvHM.WriteQRNumberSetting(QRSettingModelCollection.ToList());
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

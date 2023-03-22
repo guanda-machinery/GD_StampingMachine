@@ -10,6 +10,8 @@ using System.Globalization;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using DevExpress.XtraRichEdit.Model;
+using GD_StampingMachine.Model;
+using DevExpress.Mvvm.Native;
 
 namespace GD_StampingMachine.Method
 {
@@ -124,4 +126,65 @@ namespace GD_StampingMachine.Method
 
 
     }
+
+
+    public class GD_RWCsvFile
+    {
+        private string NumberSettingFilePath
+        {
+            get => Path.Combine(Directory.GetCurrentDirectory(), "NumberSetting", "Normal.csv");
+        }
+        private string QRNumberSettingFilePath
+        {
+            get => Path.Combine(Directory.GetCurrentDirectory(), "NumberSetting", "QR.csv");
+        }
+
+        private CsvHelperMethod CsvHM = new CsvHelperMethod();
+
+        /// <summary>
+        /// 取得一般號碼牌設定
+        /// </summary>
+        /// <param name="SavedCollection"></param>
+        /// <returns></returns>
+        public bool ReadNumberSetting(out List<NumberSettingModel> SavedCollection)
+        {
+            return CsvHM.ReadCSVFileIEnumerable(NumberSettingFilePath, out SavedCollection);
+        }
+        /// <summary>
+        /// 存取一般號碼牌設定
+        /// </summary>
+        /// <param name="NumberSettingModelSavedList"></param>
+        /// <returns></returns>
+        public bool WriteNumberSetting(List<NumberSettingModel> NumberSettingModelSavedList)
+        {
+            return CsvHM.WriteCSVFileIEnumerable<NumberSettingModel>(NumberSettingFilePath, NumberSettingModelSavedList);
+        }
+
+        /// <summary>
+        /// 取得QR號碼牌設定
+        /// </summary>
+        /// <param name="SavedCollection"></param>
+        /// <returns></returns>
+        public bool ReadQRNumberSetting(out List<QRSettingModel> SavedCollection)
+        {
+            return CsvHM.ReadCSVFileIEnumerable(QRNumberSettingFilePath, out SavedCollection);
+        }
+
+        /// <summary>
+        /// 存取QR號碼牌設定
+        /// </summary>
+        /// <param name="NumberSettingModelSavedList"></param>
+        /// <returns></returns>
+        public bool WriteQRNumberSetting(List<QRSettingModel> NumberSettingModelSavedList)
+        {
+            return CsvHM.WriteCSVFileIEnumerable<QRSettingModel>(QRNumberSettingFilePath, NumberSettingModelSavedList);
+        }
+
+    }
+
+
+
 }
+
+
+

@@ -1,6 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.WindowsUI;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.SplashScreenWindow;
 using System;
@@ -32,6 +33,50 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(AddProjectDarggableIsPopup));
             }
         }
+
+
+        private bool _addParameterDarggableIsPopup;
+        public bool AddParameterDarggableIsPopup
+        {
+            get
+            {
+                return _addParameterDarggableIsPopup;
+            }
+            set
+            {
+                _addParameterDarggableIsPopup = value;
+                OnPropertyChanged(nameof(AddParameterDarggableIsPopup));
+            }
+        }
+
+
+        private bool _importParameterDarggableIsPopup;
+        public bool ImportParameterDarggableIsPopup
+        {
+            get
+            {
+                return _importParameterDarggableIsPopup;
+            }
+            set
+            {
+                _importParameterDarggableIsPopup = value;
+                OnPropertyChanged(nameof(ImportParameterDarggableIsPopup));
+            }
+        }
+        private bool _exportParameterDarggableIsPopup;
+        public bool ExportParameterDarggableIsPopup
+        {
+            get
+            {
+                return _exportParameterDarggableIsPopup;
+            }
+            set
+            {
+                _exportParameterDarggableIsPopup = value;
+                OnPropertyChanged(nameof(ExportParameterDarggableIsPopup));
+            }
+        }
+
 
         public string ProjectPathText
         {
@@ -114,11 +159,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
            {
                Name = "NewProject",
                Number = "newAS001",
-               Form = "newQR",
                CreateTime = DateTime.Now
            };
 
-
+        public Array SheetStampingTypeEnumCollection
+        {
+            get
+            {
+                return System.Enum.GetValues(typeof(SheetStampingTypeFormEnum));
+            }
+        }
 
         public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand
         {
@@ -133,6 +183,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             });
         }
+
+        //public ObservableCollection<> Parameter { get; set; }
 
 
 

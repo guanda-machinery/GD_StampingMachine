@@ -21,7 +21,7 @@
     <Grid VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" MinHeight="260"/>
         </Grid.RowDefinitions>
         <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
         <ComboBox  DisplayMemberPath="StampingTypeString"  Width="50" 
@@ -371,7 +371,7 @@
         </StackPanel>
 
 
-        <Grid Grid.Row="1" VerticalAlignment="Bottom">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
@@ -382,8 +382,8 @@
             </Grid.RowDefinitions>
 
             <GroupBox 
-                   Name="StampingFontGroupBox" 
-                    Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,5,5,0" VerticalAlignment="Top">
+                   Name="StampingFontGroupBox"  
+                    Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,5,5,0" >
                 <ListBox  Grid.Row="1" VerticalAlignment="Top"  MinHeight="160" 
                          SelectedItem="{Binding StampingFontSelected}"  Margin="10,10,10,0"  Name="StampingFontListBox" 
                          ItemsSource="{Binding StampingTypeVMObservableCollection}"
@@ -470,11 +470,11 @@
 
 
             </Grid>
-            <GroupBox   Width="230"
-                Height="{Binding ElementName=StampingFontGroupBox, Path=ActualHeight , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+
+            <GroupBox   Width="230" 
+              
                 Name="UnusedStampingGroupBox" MinWidth="190" Padding="10" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <ListBox Name="UnusedStampingFontListBox" Padding="10"
+                <ListBox Name="UnusedStampingFontListBox" Padding="10"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
                          SelectedItem="{Binding UnusedStampingFontSelected}" 
                          ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
@@ -488,19 +488,23 @@
                          dd:DragDrop.DefaultDragAdornerOpacity="1"
                          dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}"
                         >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Margin="8"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.Template>
+                        <ControlTemplate TargetType="ListBox">
+                            <Border>
+                                <ScrollViewer>
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </ListBox.Template>
 
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Vertical" Margin="8"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-
-                </ScrollViewer>
+                </ListBox>
             </GroupBox>
-
-
-
             <materialDesign:DialogHost  Name="AddFontDialogHost" 
                                             DialogTheme="Dark"  DialogMargin="20" VerticalAlignment="Top" HorizontalAlignment="Right" >
                 <materialDesign:DialogHost.DialogContent>

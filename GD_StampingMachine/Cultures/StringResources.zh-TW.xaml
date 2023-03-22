@@ -85,6 +85,8 @@
     <sys:String x:Key="textMode">模式</sys:String>
     <sys:String x:Key="textCurrentMode">目前模式</sys:String>
     <sys:String x:Key="textIronPlateMarginSetting">鐵牌間距設定</sys:String>
+    <sys:String x:Key="textSettingNane">設定名稱</sys:String>
+    <sys:String x:Key="textSettingManger">設定管理</sys:String>
     <sys:String x:Key="textSingleRowNumber">單排數量</sys:String>
     <sys:String x:Key="textSpecialSequence">特殊排序</sys:String>
     <sys:String x:Key="textVerticalAlignment">垂直對齊</sys:String>
@@ -175,6 +177,8 @@
     <sys:String x:Key="btnDelete">刪除</sys:String>
     <sys:String x:Key="btnReplace">替換</sys:String>
     <sys:String x:Key="btnEdit">編輯</sys:String>
+    <sys:String x:Key="btnImport">匯入</sys:String>
+    <sys:String x:Key="btnExport">匯出</sys:String>
 
     <sys:String x:Key="btnCreate">建立</sys:String>
     <sys:String x:Key="btnConfirm">確認</sys:String>
@@ -220,11 +224,16 @@
 
 
 
-
+<!--Method-->
 
     <sys:String x:Key="Text_notify">通知</sys:String>
     <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
+
+    <sys:String x:Key="Text_SaveSuccessful">儲存成功</sys:String>
+    <sys:String x:Key="Text_SaveFail">儲存失敗</sys:String>
+
+    <sys:String x:Key="Text_SettingAskOverwrite">設定已存在，是否要覆蓋</sys:String>
 
     <sys:String x:Key="Text_Starting">正在啟動...</sys:String>
     <sys:String x:Key="Text_Loading">讀取中...</sys:String>
@@ -243,5 +252,8 @@
 
     <sys:String x:Key="Enum_OneRow">單排</sys:String>
     <sys:String x:Key="Enum_TwoRow">雙排</sys:String>
+    <sys:String x:Key="Enum_NormalSheetStamping">一般加工</sys:String>
+    <sys:String x:Key="Enum_QRSheetStamping">QR加工</sys:String>
+
 
 </ResourceDictionary>

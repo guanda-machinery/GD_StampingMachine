@@ -126,8 +126,14 @@
   <data name="Left" xml:space="preserve">
     <value>靠左對齊</value>
   </data>
+  <data name="NormalSheetStamping" xml:space="preserve">
+    <value>一般加工</value>
+  </data>
   <data name="OneRow" xml:space="preserve">
     <value>單排</value>
+  </data>
+  <data name="QRSheetStamping" xml:space="preserve">
+    <value>QR加工</value>
   </data>
   <data name="Right" xml:space="preserve">
     <value>靠右對齊</value>

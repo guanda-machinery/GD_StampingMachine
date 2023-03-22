@@ -3,7 +3,8 @@
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
                     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters">
+                    xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters"
+                    >
 
     <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}" x:Key="WhiteMDComboBox">
         <Setter Property="Foreground" Value="White"/>

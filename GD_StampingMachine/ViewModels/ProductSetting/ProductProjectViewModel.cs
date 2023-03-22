@@ -17,8 +17,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     {
         public ProductProjectModel ProductProject { get; set; } = new ProductProjectModel();
 
-
-
         private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
         {
