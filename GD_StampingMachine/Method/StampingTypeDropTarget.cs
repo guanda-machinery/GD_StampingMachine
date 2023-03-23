@@ -1,5 +1,5 @@
 ﻿
-using Force.DeepCloner;
+using GD_StampingMachine.Extensions;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels;
 using GongSolutions.Wpf.DragDrop;
@@ -196,7 +196,7 @@ namespace GD_StampingMachine.Method
                         }
                         else
                         {
-                            SourceData = SourceData.DeepClone();
+                            SourceData = SourceData.DeepCloneByJson();
                         }
                         (SourceData as StampingTypeViewModel).IsNewAddStamping = false;
                         DDMethodType = DragDropMethod.Copy;

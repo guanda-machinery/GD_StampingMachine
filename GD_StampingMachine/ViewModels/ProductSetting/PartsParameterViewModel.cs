@@ -63,12 +63,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        public PartsParameterViewModel BaseDeepClone()
-        {
-          var CloneModel =  this.Clone() as PartsParameterViewModel;
-            CloneModel.NumberSetting = this.NumberSetting.Clone() as NumberSettingModelBase;
-            return CloneModel;
-        }
+
 
 
 

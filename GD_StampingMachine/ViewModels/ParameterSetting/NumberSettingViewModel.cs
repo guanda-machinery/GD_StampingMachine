@@ -20,8 +20,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class NumberSettingViewModel : SettingViewModelBase
     {
-        private NumberSettingModel _numberSetting;
-        public NumberSettingModel NumberSetting
+        private NumberSettingModelBase _numberSetting;
+        public NumberSettingModelBase NumberSetting
         {
             get
             {
