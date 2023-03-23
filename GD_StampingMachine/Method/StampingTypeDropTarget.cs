@@ -1,4 +1,6 @@
-﻿using GD_StampingMachine.Model;
+﻿
+using Force.DeepCloner;
+using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
@@ -188,9 +190,13 @@ namespace GD_StampingMachine.Method
                         {
                             SourceData = cloneableItem.CloneItem(dropInfo);
                         }
-                        else if (SourceData is CloneableModelBase cloneable)
+                        else if (SourceData is ICloneable cloneable)
                         {
                             SourceData = cloneable.Clone();
+                        }
+                        else
+                        {
+                            SourceData = SourceData.DeepClone();
                         }
                         (SourceData as StampingTypeViewModel).IsNewAddStamping = false;
                         DDMethodType = DragDropMethod.Copy;

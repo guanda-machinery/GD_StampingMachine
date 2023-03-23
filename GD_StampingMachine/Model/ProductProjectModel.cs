@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.WindowsUI.Internal;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Model.ProductionSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class ProductProjectModel : CloneableModelBase
+    public class ProductProjectModel :CloneableBase
     {
         public string ProjectPath { get; set; }
         /// <summary>
@@ -44,14 +45,11 @@ namespace GD_StampingMachine.Model
 
         public SheetStampingTypeFormEnum SheetStampingType { get; set; }
 
-
-
-
-
-
-
-
-
+        /// <summary>
+        /// 加工參數
+        /// </summary>
+        public ObservableCollection<PartsParameterModel> PartsParameterObservableCollection { get; set; }
+        
 
 
     }

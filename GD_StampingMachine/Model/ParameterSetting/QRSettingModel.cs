@@ -10,36 +10,29 @@ namespace GD_StampingMachine.Model
     /// <summary>
     /// 直接繼承NumberSettingModel
     /// </summary>
-    public class QRSettingModel : CloneableModelBase
+    public class QRSettingModel : NumberSettingModel
     {
-        // public string NumberSettingName { get; set; }
         /// <summary>
         /// 目前模式
         /// </summary>
-        public string NumberSettingMode { get; set; }
+        //public string NumberSettingMode { get; set; }
         /// <summary>
         /// 單排數量
         /// </summary>
-        public virtual int SequenceCount { get; set; } = 6;
+        public override int SequenceCount { get; set; } = 6;
 
         /// <summary>
         /// 特殊排序
         /// </summary>
-        public SpecialSequenceEnum SpecialSequence { get; set; }
+        //public SpecialSequenceEnum SpecialSequence { get; set; }
         /// <summary>
         /// 水平對齊
         /// </summary>
-        public HorizontalAlignEnum HorizontalAlign { get; set; }
+        //public HorizontalAlignEnum HorizontalAlign { get; set; }
         /// <summary>
         /// 垂直對齊
         /// </summary>
-        public VerticalAlignEnum VerticalAlign { get; set; }
-
-
-        public override object Clone()
-        {
-            return base.Clone();
-        }
+        //public VerticalAlignEnum VerticalAlign { get; set; }
 
         /// <summary>
         /// Code設定 字元數量
@@ -52,21 +45,9 @@ namespace GD_StampingMachine.Model
 
         public string ModelSize { get; set; }
 
-        public IronPlateMarginStruct IronPlateMargin { get;} = new IronPlateMarginStruct();
+        public new IronPlateMarginStruct IronPlateMargin { get; set; } =new IronPlateMarginStruct();
     }
 
-    public class IronPlateMarginStruct
-    {
-        public double A_Margin { get; set; }
-        public double B_Margin { get; set; }
-        public double C_Margin { get; set; }
-        public double D_Margin { get; set; }
-        public double E_Margin { get; set; }
-        public double F_Margin { get; set; }
-        public double G_Margin { get; set; }
-        public double H_Margin { get; set; }
-        public double I_Margin { get; set; }
-    }
 
 
 

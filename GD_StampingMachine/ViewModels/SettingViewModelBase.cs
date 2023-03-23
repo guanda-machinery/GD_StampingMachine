@@ -1,5 +1,6 @@
 ﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
+using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,8 @@ namespace GD_StampingMachine.ViewModels
     public abstract class SettingViewModelBase: ViewModelBase
     {
         public GD_RWCsvFile CsvHM { get => new GD_RWCsvFile(); }
+
+
 
         private int? _sequenceCountComboBoxSelectValue = null;
         /// <summary>
@@ -143,6 +146,20 @@ namespace GD_StampingMachine.ViewModels
                 return EnumList;
             }
         }
+
+
+        private double _margin_A;
+        private double _margin_B;
+        private double _margin_C;
+        private double _margin_D;
+        private double _margin_E;
+        public double Margin_A { get => _margin_A; set { _margin_A = value; OnPropertyChanged(); } }
+        public double Margin_B { get => _margin_B; set { _margin_B = value; OnPropertyChanged(); } }
+        public double Margin_C { get => _margin_C; set { _margin_C = value; OnPropertyChanged(); } }
+        public double Margin_D { get => _margin_D; set { _margin_D = value; OnPropertyChanged(); } }
+        public double Margin_E { get => _margin_E; set { _margin_E = value; OnPropertyChanged(); } }
+
+
 
 
         public abstract ICommand LoadModeCommand { get; }

@@ -1,9 +1,12 @@
-﻿using DevExpress.Mvvm;
+﻿
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.WindowsUI;
+using Force.DeepCloner;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.SplashScreenWindow;
+using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,50 +36,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(AddProjectDarggableIsPopup));
             }
         }
-
-
-        private bool _addParameterDarggableIsPopup;
-        public bool AddParameterDarggableIsPopup
-        {
-            get
-            {
-                return _addParameterDarggableIsPopup;
-            }
-            set
-            {
-                _addParameterDarggableIsPopup = value;
-                OnPropertyChanged(nameof(AddParameterDarggableIsPopup));
-            }
-        }
-
-
-        private bool _importParameterDarggableIsPopup;
-        public bool ImportParameterDarggableIsPopup
-        {
-            get
-            {
-                return _importParameterDarggableIsPopup;
-            }
-            set
-            {
-                _importParameterDarggableIsPopup = value;
-                OnPropertyChanged(nameof(ImportParameterDarggableIsPopup));
-            }
-        }
-        private bool _exportParameterDarggableIsPopup;
-        public bool ExportParameterDarggableIsPopup
-        {
-            get
-            {
-                return _exportParameterDarggableIsPopup;
-            }
-            set
-            {
-                _exportParameterDarggableIsPopup = value;
-                OnPropertyChanged(nameof(ExportParameterDarggableIsPopup));
-            }
-        }
-
 
         public string ProjectPathText
         {
@@ -109,9 +68,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-
-
-
         public ICommand SetProjectFolder
         {
             get => new RelayCommand(() =>
@@ -125,19 +81,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     }
                 }
             });
-         }
+        }
 
         public ICommand CreateProjectCommand
         {
-            get=> new RelayCommand(() =>
+            get => new RelayCommand(() =>
             {
                 //若不clone會導致資料互相繫結
                 ProductProjectVMObservableCollection.Add(new ProductProjectViewModel()
                 {
                     ProductProject = (ProductProjectModel)CreatedProjectModel.Clone()
                 });
-                OnPropertyChanged(nameof(ProductProjectVMObservableCollection));
-              //  OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
+                //  OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
                 /*
                 ProductProjectVMObservableCollection.Add(new ProductProjectViewModel()
                 {
@@ -155,12 +110,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         //   public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel();
-        public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel()
-           {
-               Name = "NewProject",
-               Number = "newAS001",
-               CreateTime = DateTime.Now
-           };
+        public ProductProjectModel CreatedProjectModel { get; set; } = new ProductProjectModel()
+        {
+            Name = "NewProject",
+            Number = "newAS001",
+            CreateTime = DateTime.Now
+        };
 
         public Array SheetStampingTypeEnumCollection
         {
@@ -174,29 +129,28 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
             {
-                if(args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
+                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
                 {
-                    //ProjectItem.
-
+                    SelectProductProjectVM = ProjectItem;
+                    //PartsParameterSheetStampingTypeFormEnum = ProjectItem.ProductProject.SheetStampingTypeForm;
+                    //PartsParameterVMObservableCollection = ProjectItem.PProjectPartsParameterVMObservableCollection;//會直接繫結
+                    //初始化
                 }
 
 
             });
         }
 
-        //public ObservableCollection<> Parameter { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
+        private ProductProjectViewModel _selectProductProjectVM = new ProductProjectViewModel();
+        /// <summary>
+        /// 新增零件的vm
+        /// </summary>
+        public ProductProjectViewModel SelectProductProjectVM
+        {
+            get => _selectProductProjectVM;
+            set { _selectProductProjectVM = value;
+                OnPropertyChanged(nameof(SelectProductProjectVM)); }
+        } 
 
 
 

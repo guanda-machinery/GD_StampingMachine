@@ -1,4 +1,6 @@
 ﻿using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.Core.Native;
+using GD_StampingMachine.Model;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using System;
@@ -14,7 +16,7 @@ using System.Windows.Controls;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class ViewModelBase : INotifyPropertyChanged , ICloneable
+    public class ViewModelBase : CloneableBase,INotifyPropertyChanged
     {
         
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
@@ -36,10 +38,9 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+
+
+
 
 
     }

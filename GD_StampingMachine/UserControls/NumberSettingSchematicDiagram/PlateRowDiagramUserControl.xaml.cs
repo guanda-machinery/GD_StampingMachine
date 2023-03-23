@@ -102,5 +102,17 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
 
 
 
+        public Visibility RedMeasurementLineVisibility
+        {
+            get => (Visibility)GetValue(RedMeasurementLineVisibilityProperty);
+            set => SetValue(RedMeasurementLineVisibilityProperty, value);
+        }
+
+        public static readonly DependencyProperty RedMeasurementLineVisibilityProperty = DependencyProperty.Register(
+            nameof(RedMeasurementLineVisibility),
+            typeof(Visibility),
+            typeof(PlateRowDiagramUserControl),
+            new PropertyMetadata(Visibility.Visible));
+
     }
 }

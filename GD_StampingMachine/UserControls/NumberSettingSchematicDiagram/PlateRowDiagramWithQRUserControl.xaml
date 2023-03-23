@@ -9,7 +9,7 @@
              xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" >
 
-        <Grid  HorizontalAlignment="Left" Margin="20"
+        <Grid  HorizontalAlignment="Left" Margin="20" 
              DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
             <Grid.Resources>
                 <Style TargetType="TextBlock">
@@ -93,52 +93,57 @@
             </Grid>
 
 
-            <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="20" Grid.Row="2" VerticalAlignment="Top"/>
-            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" />
-            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="3" Grid.RowSpan="7"/>
+        <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="20" Grid.Row="2" VerticalAlignment="Top" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="3" Grid.RowSpan="7" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
 
-            <TextBlock Text="B" Foreground="Red" Grid.Row="4" FontSize="20"/>
+        <TextBlock Text="B" Foreground="Red" Grid.Row="4" FontSize="20" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
 
+        <Grid Grid.Row="5" Visibility="{Binding RedMeasurementLineVisibility}">
+            <TextBlock Text="D" Foreground="Red" FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
+        </Grid>
+        <TextBlock Text="E" Foreground="Red" Grid.Column="5" HorizontalAlignment="Right" Width="15" FontSize="20" Grid.Row="0" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <TextBlock Text="F" Foreground="Red" Grid.Column="1" Grid.ColumnSpan="3" FontSize="20" Grid.Row="0" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <TextBlock Text="G" Foreground="Red" Grid.Column="5" FontSize="20" Grid.Row="2" Width="50" HorizontalAlignment="Right" Margin="0,0,0,0" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <TextBlock Text="I" Foreground="Red" Grid.Row="4" Grid.RowSpan="3" FontSize="20" Height="60" VerticalAlignment="Bottom" Visibility="{Binding RedMeasurementLineVisibility}" />
+        <TextBlock Text="H" Foreground="Red" Grid.Column="7" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-70,0,0" HorizontalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
-            <TextBlock Text="D" Foreground="Red" Grid.Row="5" FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
-        <TextBlock Text="E" Foreground="Red" Grid.Column="5" HorizontalAlignment="Right" Width="15" FontSize="20" Grid.Row="0"/>
-            <TextBlock Text="F" Foreground="Red" Grid.Column="1" Grid.ColumnSpan="3" FontSize="20" Grid.Row="0"/>
-        <TextBlock Text="G" Foreground="Red" Grid.Column="5" FontSize="20" Grid.Row="2" Width="50" HorizontalAlignment="Right" Margin="0,0,0,0"/>
-            <TextBlock Text="I" Foreground="Red" Grid.Row="4" Grid.RowSpan="3" FontSize="20" Height="60" VerticalAlignment="Bottom" />
-            <TextBlock Text="H" Foreground="Red" Grid.Column="7" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-70,0,0" HorizontalAlignment="Center" />
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,-10,0" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Grid Grid.Column="1" Grid.Row="5" Visibility="{Binding RedMeasurementLineVisibility}">
+            <Border BorderThickness="1,0,0,0" BorderBrush="Red"  HorizontalAlignment="Center" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+          </Grid>
+        <Grid Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="-10,0" Visibility="{Binding RedMeasurementLineVisibility}">
+            <Border BorderThickness="0,1" BorderBrush="Red" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+   </Grid>
 
-            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" />
-            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,-10,0"/>
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Height="90" Visibility="{Binding RedMeasurementLineVisibility}" />
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="60" VerticalAlignment="Bottom"  Height="90" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
-            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
-            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="-10,0" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="2" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
-
-            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Height="90"  />
-            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="60" VerticalAlignment="Bottom"  Height="90"/>
-
-            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-            <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="2"/>
-
-        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" VerticalAlignment="Center" Margin="-1,0,20,0"  Width="50" HorizontalAlignment="Right" />
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.RowSpan="7" Grid.ColumnSpan="1" Margin="-1,0,19,0"  Width="50" HorizontalAlignment="Right" />
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" VerticalAlignment="Center" Margin="-1,0,20,0"  Width="50" HorizontalAlignment="Right" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.RowSpan="7" Grid.ColumnSpan="1" Margin="-1,0,19,0"  Width="50" HorizontalAlignment="Right" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
 
-            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" />
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="1"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="1" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
-            <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-90,0,0" HorizontalAlignment="Center"/>
-            <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="4" Grid.RowSpan="3" Height="50" Margin="-100,-90,0,0" Grid.ColumnSpan="2"  />
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-90,0,0" HorizontalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="4" Grid.RowSpan="3" Height="50" Margin="-100,-90,0,0" Grid.ColumnSpan="2" Visibility="{Binding RedMeasurementLineVisibility}" />
 
 
 
             <Grid HorizontalAlignment="Center"  Grid.Row="2"
             Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
+            <Grid Visibility="{Binding RedMeasurementLineVisibility}">
                 <TextBlock Text="C" Foreground="Red" FontSize="20"    Grid.Row="2"
                        Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
+        </Grid>
             </Grid>
 
 
@@ -148,13 +153,25 @@
             <Grid HorizontalAlignment="Center" Grid.Row="3" Grid.RowSpan="5"  Width="25" 
             Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
+            <Grid Visibility="{Binding RedMeasurementLineVisibility}">
                 <Border BorderThickness="1,0"  BorderBrush="Red"  Width="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2"
                 Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
             </Grid>
+            </Grid>
 
-            <TextBlock Text="C" Foreground="Red" FontSize="20" Grid.Column="3"  Width="25" Grid.Row="2" HorizontalAlignment="Left" Margin="130,0,0,0" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
-            <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
-            <Border BorderThickness="1,0" HorizontalAlignment="Left" BorderBrush="Red" Grid.Column="3" Grid.Row="3" Margin="125,0,0,0" Grid.RowSpan="8" Width="25" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+        <Grid Grid.Column="3" Grid.Row="2" Visibility="{Binding RedMeasurementLineVisibility}">
+            <TextBlock Text="C" Foreground="Red" FontSize="20" Width="25"  HorizontalAlignment="Left" Margin="130,0,0,0" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
+         </Grid>
+
+            
+        <Grid Grid.Column="3" Grid.Row="3" Visibility="{Binding RedMeasurementLineVisibility}">
+            <Border BorderThickness="0,0,0,1"  Margin="125,0,0,0" BorderBrush="Red"  HorizontalAlignment="Left"  VerticalAlignment="Center"  Width="25" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+
+        </Grid>
+
+        <Grid Grid.Column="3" Grid.Row="3" Grid.RowSpan="8" Visibility="{Binding RedMeasurementLineVisibility}">
+            <Border BorderThickness="1,0" Margin="125,0,0,0"  HorizontalAlignment="Left" BorderBrush="Red"  Width="25" Visibility="{Binding SequenceCount, Converter={gd_valueconverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+        </Grid>
 
 
         </Grid>

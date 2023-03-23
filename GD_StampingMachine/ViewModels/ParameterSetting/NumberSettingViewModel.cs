@@ -3,7 +3,6 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Pdf.Native;
 using DevExpress.Utils.Extensions;
 using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using System;
@@ -38,6 +37,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         _numberSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
                     if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
                         _numberSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
+
+                    _numberSetting.IronPlateMargin = new PlateMarginStruct
+                    {
+                        A_Margin = this.Margin_A,
+                        B_Margin = this.Margin_B,
+                        C_Margin = this.Margin_C,
+                        D_Margin = this.Margin_D,
+                        E_Margin = this.Margin_E,
+                    };
                 }
                 return _numberSetting;
             }
@@ -57,10 +65,19 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     SpecialSequenceComboBoxSelectValue = _numberSetting.SpecialSequence;
                     VerticalAlignEnumComboBoxSelectValue = _numberSetting.VerticalAlign;
                     HorizontalAlignEnumComboBoxSelectValue = _numberSetting.HorizontalAlign;
+
+                    this.Margin_A = _numberSetting.IronPlateMargin.A_Margin;
+                    this.Margin_B = _numberSetting.IronPlateMargin.B_Margin;
+                    this.Margin_C = _numberSetting.IronPlateMargin.C_Margin;
+                    this.Margin_D = _numberSetting.IronPlateMargin.D_Margin;
+                    this.Margin_E = _numberSetting.IronPlateMargin.E_Margin;
                 }
                 OnPropertyChanged();
             }
         }
+
+
+
 
         private NumberSettingModel _numberSettingModelCollectionSelected;
         public NumberSettingModel NumberSettingModelCollectionSelected

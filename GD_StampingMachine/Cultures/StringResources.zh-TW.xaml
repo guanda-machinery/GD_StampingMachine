@@ -212,9 +212,12 @@
     <sys:String x:Key="Text_EditTime">修改時間</sys:String>
     <sys:String x:Key="Text_FinishProgress">完成進度</sys:String>
 
+
+    <sys:String x:Key="Text_CreatePart">建立零件</sys:String>
     <sys:String x:Key="Text_Parameter_A">A參數</sys:String>
     <sys:String x:Key="Text_Parameter_B">B參數</sys:String>
-    <sys:String x:Key="Text_Parameter_C">C參數(Data-Martix)</sys:String>
+    <sys:String x:Key="Text_Parameter_C_DataMartix">C參數(Data-Martix)</sys:String>
+    <sys:String x:Key="Text_Parameter_C">C參數</sys:String>
 
 
 

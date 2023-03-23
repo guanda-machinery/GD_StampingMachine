@@ -1,16 +1,19 @@
-﻿using System;
+﻿using DevExpress.CodeParser;
+using Force.DeepCloner;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.Model
+namespace GD_StampingMachine
 {
-    public class CloneableModelBase : ICloneable
+    public abstract class CloneableBase
     {
         public virtual object Clone()
         {
             return this.MemberwiseClone();
         }
+
     }
 }

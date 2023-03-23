@@ -1,7 +1,7 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
+ 
 using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using System;
@@ -22,8 +22,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public class QRSettingViewModel : SettingViewModelBase
     {
-
-
         private QRSettingModel _qrSetting = new QRSettingModel();
         public QRSettingModel QRSetting
         {
@@ -42,6 +40,23 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         _qrSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
                     if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
                         _qrSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
+
+                    _qrSetting.IronPlateMargin = new IronPlateMarginStruct
+                    {
+                        A_Margin = this.Margin_A,
+                        B_Margin = this.Margin_B,
+                        C_Margin = this.Margin_C,
+                        D_Margin = this.Margin_D,
+                        E_Margin = this.Margin_E,
+                        F_Margin = this.Margin_F,
+                        G_Margin = this.Margin_G,
+                        H_Margin = this.Margin_H,
+                        I_Margin = this.Margin_I,
+                    };
+                        
+
+
+
                 }
                 return _qrSetting;
             } 
@@ -61,6 +76,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     SpecialSequenceComboBoxSelectValue = _qrSetting.SpecialSequence;
                     VerticalAlignEnumComboBoxSelectValue = _qrSetting.VerticalAlign;
                     HorizontalAlignEnumComboBoxSelectValue = _qrSetting.HorizontalAlign;
+
+                    this.Margin_A = _qrSetting.IronPlateMargin.A_Margin;
+                    this.Margin_B = _qrSetting.IronPlateMargin.B_Margin;
+                    this.Margin_C = _qrSetting.IronPlateMargin.C_Margin;
+                    this.Margin_D = _qrSetting.IronPlateMargin.D_Margin;
+                    this.Margin_E = _qrSetting.IronPlateMargin.E_Margin;
+                    this.Margin_F = _qrSetting.IronPlateMargin.F_Margin;
+                    this.Margin_G = _qrSetting.IronPlateMargin.G_Margin;
+                    this.Margin_H = _qrSetting.IronPlateMargin.H_Margin;
+                    this.Margin_I = _qrSetting.IronPlateMargin.I_Margin;
+
+
                 }
                 OnPropertyChanged();
             }
@@ -153,6 +180,23 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override int PlateNumberListMax => 6;
 
 
+
+        private double _margin_F;
+
+        private double _margin_G;
+
+        private double _margin_H;
+
+        private double _margin_I;
+
+
+        public double Margin_F { get => _margin_F; set { _margin_F = value; OnPropertyChanged(); } }
+        public double Margin_G { get => _margin_G; set { _margin_G = value; OnPropertyChanged(); } }
+        public double Margin_H { get => _margin_H; set { _margin_H = value; OnPropertyChanged(); } }
+        public double Margin_I { get => _margin_I; set { _margin_I = value; OnPropertyChanged(); } }
+
+
+
         public override ICommand LoadModeCommand
         {
             get => new RelayCommand(() =>
@@ -173,6 +217,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
+                
+                
                 var FIndex = QRSettingModelCollection.FindIndex(x => x.NumberSettingMode == QRSetting.NumberSettingMode);
                 if (FIndex != -1)
                 {

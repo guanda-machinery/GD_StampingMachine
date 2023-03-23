@@ -53,9 +53,9 @@
             <MultiBinding Converter="{GD_ValueConverters:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.AddParameterDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.ImportParameterDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.ExportParameterDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.ExportParameterDarggableIsPopup"/>
                     <!--<Binding Path="rbtn_DrillingFace_Tube" ConverterParameter="{x:Static GD_STD_Enum:TubeFace.TOP}"  Converter="{STD105:ObjectEqualToBooleanConverter}"/>-->
                 </MultiBinding.Bindings>
             </MultiBinding>
