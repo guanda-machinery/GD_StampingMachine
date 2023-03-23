@@ -4,7 +4,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
-using Force.DeepCloner;
+using GD_StampingMachine.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -193,11 +193,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
        {
             get
             {
-                if(_partsParameterViewModelSelectItem!=null)
+                if (_partsParameterViewModelSelectItem != null)
+                {
                     SettingVM = new NumberSettingViewModel()
-                    {  
-                        NumberSetting = _partsParameterViewModelSelectItem.NumberSetting as NumberSettingModel
-                    };
+                    {
+                        NumberSetting = _partsParameterViewModelSelectItem.NumberSetting
+                    }; 
+                }
                 return _partsParameterViewModelSelectItem;
             }
             set
@@ -228,7 +230,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private readonly object balanceLock = new object();
 
         /// <summary>
         /// 建立零件
@@ -238,18 +239,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => new RelayCommand(() =>
             {
 
-                SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindow.ProcessingScreenWindow(), new DXSplashScreenViewModel { });
+               // SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindow.ProcessingScreenWindow(), new DXSplashScreenViewModel { });
 
-                manager.ViewModel.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading");
+                //manager.ViewModel.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading");
                 // manager.ViewModel.Status = "讀取中.";
 
-                manager.ViewModel.Progress = 0;
-                manager.ViewModel.IsIndeterminate = true;
-                manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
 
-                PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepClone());
+                PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
 
-                manager.Close();
 
             });
         }

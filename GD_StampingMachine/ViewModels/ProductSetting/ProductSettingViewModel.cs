@@ -1,7 +1,6 @@
 ﻿
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.WindowsUI;
-using Force.DeepCloner;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;

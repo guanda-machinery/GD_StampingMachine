@@ -347,28 +347,38 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                          <StackPanel>
-                    <GD_SchematicDiagram:PlateRowDiagramUserControl
+                        <Expander Background="Transparent"  
+                                  ExpandDirection="Down" Margin="0,-60,0,-30"
+                                  IsExpanded="{Binding PartsParameterViewModelSelectItem,
+                            Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}}"
+                                  IsEnabled="False">
+                    <StackPanel>
+                            <GD_SchematicDiagram:PlateRowDiagramUserControl        
+                             Margin="0,-25,0,0"  
+                                Visibility="{Binding ProductProject.SheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.NormalSheetStamping}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
+
                                 PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
                                 SequenceCount="{Binding SettingVM.SequenceCountComboBoxSelectValue, FallbackValue=8}"
                                 PlateNumberList="{Binding SettingVM.PlateNumberList}"
-                        RedMeasurementLineVisibility="Hidden"
+                        RedMeasurementLineVisibility="Collapsed"
                         />
                     <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl
+                        Margin="-20,-90,0,0"
+                        Visibility="{Binding ProductProject.SheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
                                 PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
                                 SequenceCount="{Binding SettingVM.SequenceCountComboBoxSelectValue, FallbackValue=8}"
                                 PlateNumberList="{Binding SettingVM.PlateNumberList}"            
-                        RedMeasurementLineVisibility="Hidden"
+                        RedMeasurementLineVisibility="Collapsed"
                                 />
                     </StackPanel>
+                        </Expander>
 
 
-
-                    <Grid Grid.Row="1"  VerticalAlignment="Bottom"  Margin="10">
+                        <Grid Grid.Row="1"  VerticalAlignment="Bottom"  Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
@@ -750,14 +760,15 @@
                         <dxg:GridControl  Background="Transparent"  MinHeight="200"
                                           Style="{StaticResource ProjectGridControl}"
                                           AutoGenerateColumns="None"
-                                          SelectionMode="Row"
+                                          
                                           SelectedItem="{Binding PartsParameterViewModelSelectItem}"
                                           ItemsSource="{Binding PartsParameterVMObservableCollection , UpdateSourceTrigger=PropertyChanged}"
                                           MaxHeight="2000"    >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                PageSize="10"
+                         
+                                    PageSize="15"
                                 AllowPaging="True"
                                 IsColumnMenuEnabled ="False"
                                 AllowSorting="false"
