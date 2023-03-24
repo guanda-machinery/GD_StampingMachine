@@ -10,6 +10,8 @@ namespace GD_StampingMachine.Extensions
 {
     public static class CommonExtensions
     {
+
+
         /// <summary>
         /// 深層複製
         /// </summary>

@@ -16,7 +16,7 @@ using System.Windows.Controls;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class ViewModelBase : CloneableBase,INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };

@@ -10,7 +10,7 @@ namespace GD_StampingMachine.Model
     /// <summary>
     /// 直接繼承NumberSettingModel
     /// </summary>
-    public class QRSettingModel : NumberSettingModel
+    public class QRSettingModel : NumberSettingModelBase
     {
         /// <summary>
         /// 目前模式

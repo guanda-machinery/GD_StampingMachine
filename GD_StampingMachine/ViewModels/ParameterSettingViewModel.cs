@@ -9,8 +9,8 @@ namespace GD_StampingMachine.ViewModels
 {
     public class ParameterSettingViewModel : ViewModelBase
     {
-        public NumberSettingViewModel NumberSettingVM { get; set; } = new NumberSettingViewModel();
-        public QRSettingViewModel QRSettingVM { get; set; } = new QRSettingViewModel();
+        public NumberSettingViewModel NumberSettingVM { get; set; } = new NumberSettingViewModel(new Model.NumberSettingModelBase());
+        public QRSettingViewModel QRSettingVM { get; set; } = new QRSettingViewModel(new Model.NumberSettingModelBase());
         public AxisSettingViewModel AxisSettingVM { get; set; } = new AxisSettingViewModel();
         public TimingSettingViewModel TimingSettingVM { get; set; } = new TimingSettingViewModel();
         public SeparateSettingViewModel SeparateSettingVM { get; set; } = new SeparateSettingViewModel();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class NumberSettingModelBase: CloneableBase
+    public class NumberSettingModelBase
     {
         // public string NumberSettingName { get; set; }
         /// <summary>

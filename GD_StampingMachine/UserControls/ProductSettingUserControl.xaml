@@ -19,7 +19,7 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:GD_Models="clr-namespace:GD_StampingMachine.Model"
               xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting"
-               xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+               xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
 
     <Grid>
@@ -241,20 +241,20 @@
                                     />
                         </dxg:GridControl.View>
 
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProject.Number" Width="auto"   IsSmart="True" >
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProjectNumber" Width="auto"   IsSmart="True" >
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
 
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProject.Name" Width="auto"   IsSmart="True">
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto"   IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
 
                         <dxg:GridColumn  Header="{DynamicResource Text_Form}" 
-                                             Binding="{Binding ProductProject.SheetStampingTypeForm, Converter={GD_ValueConverters:EnumGetNameConverter}}" 
+                                             Binding="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_ValueConverters:EnumGetNameConverter}}" 
                                  Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
@@ -262,7 +262,7 @@
                         </dxg:GridColumn>
 
                         <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_SavePath}"
-                                             FieldName="ProductProject.ProjectPath" Width="auto"   IsSmart="True">
+                                             FieldName="ProductProjectPath" Width="auto"   IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
@@ -270,12 +270,12 @@
 
 
 
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProductProject.CreateTime" Width="auto" AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProductProjectCreateTime" Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="ProductProject.EditTime" Width="auto" AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="ProductProjectEditTime" Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
                             </dxg:GridColumn.EditSettings>
@@ -354,9 +354,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                 <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <TextBlock Text="{Binding ProductProject.Number}" HorizontalAlignment="Center" FontSize="20"/>
-                    <TextBlock Text="{Binding ProductProject.Name}" HorizontalAlignment="Center" FontSize="20" Margin="15,0"/>
-                    <TextBlock Text="{Binding ProductProject.SheetStampingTypeForm, Converter={GD_ValueConverters:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
+                    <TextBlock Text="{Binding  ProductProjectNumber}" HorizontalAlignment="Center" FontSize="20"/>
+                    <TextBlock Text="{Binding ProductProjectName}" HorizontalAlignment="Center" FontSize="20" Margin="15,0"/>
+                    <TextBlock Text="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_ValueConverters:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
                 </StackPanel>
                 <Expander Grid.Row="1"
                     Background="Transparent" Foreground="Transparent" Margin="-10,-60,0,-120"
@@ -371,7 +371,7 @@
                             </StackPanel.RenderTransform>
                             <GD_SchematicDiagram:PlateRowDiagramUserControl        
                              Margin="0,-5,0,10"  
-                                Visibility="{Binding ProductProject.SheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.NormalSheetStamping}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
+                                Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.NormalSheetStamping}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
                                 PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -381,7 +381,7 @@
                         />
                             <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl
                         Margin="-20,-80,0,0"
-                        Visibility="{Binding ProductProject.SheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
+                        Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
                                 PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -497,17 +497,22 @@
                                         <TextBox Grid.Column="3" Grid.Row="3" 
                                                  Text="{Binding  AddNewPartsParameterVM.ParameterC,UpdateSourceTrigger=PropertyChanged}"/>
 
-                                        <ComboBox  
+                                      <!--  <ComboBox  
                                             Name="NumberSettingSelectComboBox" 
                                             Grid.Column="3" Grid.Row="4" DisplayMemberPath="NumberSettingMode"
                                               ItemsSource="{Binding NumberSettingModelSavedCollection, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValue="{Binding AddNewPartsParameterVM.NumberSetting}">
-                                    </ComboBox>
+                                    </ComboBox>-->
 
                                     <ComboBox Style="{StaticResource MaterialDesignFilledComboBox}" Margin="10,0" Padding="0"
-                                            Grid.Column="3" Grid.Row="5"
-                                              ItemsSource="{Binding NumberSettingModelSavedCollection_Pic, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding AddNewPartsParameterVM.NumberSettingVM}">
+                                            Grid.Column="3" Grid.Row="5" 
+                                              ItemsSource="{Binding NumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValue="{Binding AddNewPartsParameterVM.NumberSetting}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RefreshSavedCollectionCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid Margin="5,0">
@@ -518,13 +523,12 @@
                                                     <TextBlock Text="{Binding NumberSetting.NumberSettingMode}"/>
                                                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="-10,-10,0,0">
                                                         <Grid 
-                                                            RenderTransformOrigin="0.0,0.0" Margin="0,0,-700,-280"
-                                                            d:DataContext="{d:DesignInstance Type=GD_ParameterSettingViewModels:NumberSettingViewModel}">
+                                                            RenderTransformOrigin="0.0,0.0" Margin="0,0,-700,-280">
                                                                 <Grid.RenderTransform>
                                                                     <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
                                                                 </Grid.RenderTransform>
                                                             <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,0,0,30"
-                                                                Visibility="{Binding NumberSetting ,ConverterParameter={x:Type GD_Models:NumberSettingModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
+                                                                Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                   PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -533,7 +537,7 @@
                         RedMeasurementLineVisibility="Collapsed"
                         />
                                                             <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
-                                         Visibility="{Binding NumberSetting ,ConverterParameter={x:Type GD_Models:QRSettingModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
+                                         Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -558,7 +562,7 @@
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                         <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                         <Binding Path="AddNewPartsParameterVM.ParameterC"/>
-                                                        <Binding Path="AddNewPartsParameterVM.NumberSetting" />
+                                                    <Binding Path="AddNewPartsParameterVM.NumberSetting" />
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
                                             </Button>
@@ -881,9 +885,14 @@
                             </dxg:GridColumn>
 
 
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="NumberSettingVM.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
 
 
-                            <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
+                        <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
                                  Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
                                 <dxg:GridColumn.CellTemplate>
                                     <DataTemplate>

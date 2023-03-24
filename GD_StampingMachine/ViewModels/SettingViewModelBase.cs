@@ -11,10 +11,11 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public abstract class SettingViewModelBase: ViewModelBase
+    public class SettingViewModelBase : ViewModelBase
     {
         public GD_CsvHelperMethod CsvHM { get => new GD_CsvHelperMethod(); }
 
+        public virtual NumberSettingModelBase NumberSetting{get;set;}
 
 
         private int? _sequenceCountComboBoxSelectValue = null;
@@ -34,7 +35,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(PlateNumberList));
             }
         }
-        public abstract int PlateNumberListMax { get;}
+        public virtual int PlateNumberListMax { get; } = 6;
         /// <summary>
         /// 這是鐵牌上要打的位置
         /// </summary>
@@ -162,10 +163,10 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        public abstract ICommand LoadModeCommand { get; }
-        public abstract ICommand RecoverSettingCommand { get; }
-        public abstract ICommand SaveSettingCommand { get; }
-        public abstract ICommand DeleteSettingCommand { get; }
+        public virtual ICommand LoadModeCommand { get; }
+        public virtual ICommand RecoverSettingCommand { get; }
+        public virtual ICommand SaveSettingCommand { get; }
+        public virtual ICommand DeleteSettingCommand { get; }
 
 
     }
