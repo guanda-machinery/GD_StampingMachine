@@ -124,9 +124,8 @@
                 <!--首頁-->
                     <Grid>
                     <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" 
-                        Visibility="{Binding ElementName=MainTabControl, 
-                    Path=SelectedIndex , 
-                    ConverterParameter={StaticResource MinusOne} ,Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}">
+                           VerticalScrollBarVisibility="Auto"
+                        Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}">
                             <Border  Background="White">
                         <StackPanel >
                                     <Grid  Width="600"  >

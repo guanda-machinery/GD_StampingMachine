@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data;
+using DevExpress.DataAccess.Json;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Core;
@@ -12,8 +13,10 @@ using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -22,39 +25,53 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 {
     public class ProductProjectViewModel : ViewModelBase
     {
-        public ProductProjectModel ProductProject { get; set; } = new ProductProjectModel();
+        public ProductProjectViewModel() 
+        {
+            Task.Run(() =>
+            { 
+                while (true)
+                {
+                    Thread.Sleep(100);
+                    OnPropertyChanged(nameof(ProductProjectFinishProcessing));
+                    //OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
+                } 
+            });
+        }
 
-        private ObservableCollection<PartsParameterViewModel> _pProjectPartsParameterVMObservableCollection;
+
+
+        public ProductProjectModel ProductProject { get; set; } = new ProductProjectModel();
+     
         /// <summary>
-        /// 參數gridcontrol用vm (展開後展開)
+        /// 進度條 會以專案內的資料為準
         /// </summary>
-        public ObservableCollection<PartsParameterViewModel> PProjectPartsParameterVMObservableCollection
+        public double ProductProjectFinishProcessing
         {
             get
             {
-                if (_pProjectPartsParameterVMObservableCollection == null)
+                ProductProject.FinishProgress = 0;
+                if (PartsParameterVMObservableCollection.Count > 0)
                 {
-                    ProductProject.PartsParameterObservableCollection.ForEach(obj =>
+                    double AverageProgress = 0;
+                    PartsParameterVMObservableCollection.ForEach(p =>
                     {
-                        _pProjectPartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
+                        AverageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
                     });
+
+                    ProductProject.FinishProgress = AverageProgress;
+
                 }
-                return _pProjectPartsParameterVMObservableCollection;
+                return ProductProject.FinishProgress;
             }
             set
             {
-                _pProjectPartsParameterVMObservableCollection = value;
-
-                ProductProject.PartsParameterObservableCollection = new ObservableCollection<Model.ProductionSetting.PartsParameterModel>();
-                _pProjectPartsParameterVMObservableCollection.ForEach(obj =>
-                {
-                    ProductProject.PartsParameterObservableCollection.Add(obj.PartsParameter);
-                });
-
-
-                OnPropertyChanged(nameof(PProjectPartsParameterVMObservableCollection));
+                ProductProject.FinishProgress = value;
+                OnPropertyChanged(nameof(ProductProject));
             }
         }
+
+
+
         private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
         {
@@ -109,17 +126,24 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
                 return _projectDeleteCommand;
             }
-            set
+            /*set
             {
                 _projectDeleteCommand = value;
                 OnPropertyChanged(nameof(ProjectDeleteCommand));
-            }
+            }*/
         }
 
 
 
 
 
+
+
+
+
+
+        private bool _isInParameterPage;
+        public bool IsInParameterPage { get=> _isInParameterPage; set { _isInParameterPage = value;OnPropertyChanged(); } }
         public PartsParameterViewModel AddNewPartsParameterVM { get; set; } = new PartsParameterViewModel();
         public NumberSettingModelBase NumberSettingModelSavedComboSelected
         {
@@ -136,12 +160,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public ObservableCollection<NumberSettingModelBase> NumberSettingModelSavedCollection
         {
-            get 
+            get
             {
                 if (_numberSettingModelSavedCollection == null)
                 {
                     _numberSettingModelSavedCollection = new ObservableCollection<NumberSettingModelBase>();
-                    var CsvHM = new GD_RWCsvFile();
+                    var CsvHM = new GD_CsvHelperMethod();
                     if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                     {
                         CsvHM.ReadNumberSetting(out var SavedCollection);
@@ -167,14 +191,45 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
-
-
-
+        private ObservableCollection<SettingViewModelBase> _numberSettingModelSavedCollection_Pic;
+        public ObservableCollection<SettingViewModelBase> NumberSettingModelSavedCollection_Pic
+        {
+            get
+            {
+                if (_numberSettingModelSavedCollection_Pic == null)
+                {
+                    _numberSettingModelSavedCollection_Pic = new ObservableCollection<SettingViewModelBase>();
+                    var CsvHM = new GD_CsvHelperMethod();
+                    if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
+                    {
+                        CsvHM.ReadNumberSetting(out var SavedCollection);
+                        foreach (var asd in SavedCollection)
+                        {
+                            _numberSettingModelSavedCollection_Pic.Add(new NumberSettingViewModel(asd));
+                        }
+                    }
+                    if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                    {
+                        CsvHM.ReadQRNumberSetting(out var QRSavedCollection);
+                        foreach (var asd in QRSavedCollection)
+                        {
+                            _numberSettingModelSavedCollection_Pic.Add(new NumberSettingViewModel(asd));
+                        }
+                    }
+                }
+                return _numberSettingModelSavedCollection_Pic;
+            }
+            set
+            {
+                _numberSettingModelSavedCollection_Pic = value;
+                OnPropertyChanged();
+            }
+        }
         private SettingViewModelBase _settingVM;
         /// <summary>
-        /// 上方的排列示意圖
+        /// 上方的排列示意圖(純顯示)
         /// </summary>
-        public SettingViewModelBase SettingVM 
+        public SettingViewModelBase SettingVM
         {
             get => _settingVM;
             set
@@ -182,15 +237,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 _settingVM = value;
                 OnPropertyChanged();
             }
-        } 
-
-
+        }
         private PartsParameterViewModel _partsParameterViewModelSelectItem;
         /// <summary>
         /// 參數gridcontrol選擇
         /// </summary>
-       public PartsParameterViewModel PartsParameterViewModelSelectItem
-       {
+        public PartsParameterViewModel PartsParameterViewModelSelectItem
+        {
             get
             {
                 if (_partsParameterViewModelSelectItem != null)
@@ -198,7 +251,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     SettingVM = new NumberSettingViewModel()
                     {
                         NumberSetting = _partsParameterViewModelSelectItem.NumberSetting
-                    }; 
+                    };
                 }
                 return _partsParameterViewModelSelectItem;
             }
@@ -207,7 +260,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 _partsParameterViewModelSelectItem = value;
                 OnPropertyChanged();
             }
-       }
+        }
 
         private ObservableCollection<PartsParameterViewModel> _partsParameterVMObservableCollection;
         /// <summary>
@@ -217,8 +270,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                if (_partsParameterVMObservableCollection == null)
+               if (_partsParameterVMObservableCollection == null)
                     _partsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+
+
+                ProductProject.PartsParameterObservableCollection = new ObservableCollection<Model.ProductionSetting.PartsParameterModel>();
+                _partsParameterVMObservableCollection.ForEach(obj =>
+                {
+                        ProductProject.PartsParameterObservableCollection.Add(obj.PartsParameter);
+                });
                 return _partsParameterVMObservableCollection;
             }
             set
@@ -238,20 +298,47 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-
-               // SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindow.ProcessingScreenWindow(), new DXSplashScreenViewModel { });
-
-                //manager.ViewModel.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading");
-                // manager.ViewModel.Status = "讀取中.";
-
-
                 PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
-
-
+                //儲存 ProductProject
+                SaveProductProject();
             });
         }
+        public ICommand SaveProductProjectCommand 
+        {
+            get => new RelayCommand(() =>
+            {
+                if (string.IsNullOrWhiteSpace(ProductProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(ProductProject.ProjectPath)))
+                {
+                    //跳出彈跳式視窗
+                    using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+                    {
+                        System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                        if (result == System.Windows.Forms.DialogResult.OK)
+                            ProductProject.ProjectPath = dialog.SelectedPath;
+                    }
+                }
+
+                SaveProductProject();
+            });
+        }
+        public bool SaveProductProject()
+        {
+
+            if (ProductProject.ProjectPath != null)
+            {
+                if (!Path.HasExtension(ProductProject.ProjectPath))
+                {
+                    ProductProject.ProjectPath = Path.Combine(ProductProject.ProjectPath, ProductProject.Name , ".csv");
+                    ProductProject.EditTime= DateTime.Now;
+                }
+
+                return new GD_CsvHelperMethod().WriteProductProject(ProductProject.ProjectPath, ProductProject);
 
 
+            }
+
+            return false;
+        }
 
         private bool _addParameterDarggableIsPopup;
         public bool AddParameterDarggableIsPopup
@@ -294,7 +381,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ExportParameterDarggableIsPopup));
             }
         }
-
 
 
 

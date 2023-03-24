@@ -13,7 +13,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public abstract class SettingViewModelBase: ViewModelBase
     {
-        public GD_RWCsvFile CsvHM { get => new GD_RWCsvFile(); }
+        public GD_CsvHelperMethod CsvHM { get => new GD_CsvHelperMethod(); }
 
 
 

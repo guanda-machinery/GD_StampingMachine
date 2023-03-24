@@ -20,6 +20,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class NumberSettingViewModel : SettingViewModelBase
     {
+        public NumberSettingViewModel()
+        {
+
+        }
+        public NumberSettingViewModel(NumberSettingModelBase NumberS)
+        {
+            NumberSetting = NumberS;
+        }
+
+
         private NumberSettingModelBase _numberSetting;
         public NumberSettingModelBase NumberSetting
         {
@@ -75,9 +85,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged();
             }
         }
-
-
-
 
         private NumberSettingModel _numberSettingModelCollectionSelected;
         public NumberSettingModel NumberSettingModelCollectionSelected

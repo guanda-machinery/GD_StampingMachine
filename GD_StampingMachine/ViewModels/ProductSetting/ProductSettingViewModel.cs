@@ -91,20 +91,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     ProductProject = (ProductProjectModel)CreatedProjectModel.Clone()
                 });
-                //  OnPropertyChanged(nameof(Search_ProductProjectVMObservableCollection));
-                /*
-                ProductProjectVMObservableCollection.Add(new ProductProjectViewModel()
-                {
-                    ProductProject = new ProductProjectModel()
-                    { 
-                        Name="創典科技總公司基地(new)",
-                        Number = "newAS001",
-                        Form ="newQR",
-                        CreateTime=DateTime.Now
-                    }
-
-                });
-                */
             });
         }
 
@@ -130,15 +116,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
                 {
-                    SelectProductProjectVM = ProjectItem;
+                    if(SelectProductProjectVM != ProjectItem)
+                        SelectProductProjectVM = ProjectItem;
+                    SelectProductProjectVM.IsInParameterPage = true;
                     //PartsParameterSheetStampingTypeFormEnum = ProjectItem.ProductProject.SheetStampingTypeForm;
                     //PartsParameterVMObservableCollection = ProjectItem.PProjectPartsParameterVMObservableCollection;//會直接繫結
                     //初始化
                 }
-
-
             });
         }
+
+
 
         private ProductProjectViewModel _selectProductProjectVM = new ProductProjectViewModel();
         /// <summary>

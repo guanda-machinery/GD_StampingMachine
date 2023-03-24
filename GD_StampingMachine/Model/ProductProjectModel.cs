@@ -48,7 +48,7 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 加工參數
         /// </summary>
-        public ObservableCollection<PartsParameterModel> PartsParameterObservableCollection { get; set; }
+        public ObservableCollection<PartsParameterModel> PartsParameterObservableCollection { get; set; } = new ObservableCollection<PartsParameterModel>();
         
 
 

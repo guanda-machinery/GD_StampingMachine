@@ -174,6 +174,7 @@
     <!--#region通用按鈕 -->
 
     <sys:String x:Key="btnAdd">新增</sys:String>
+    <sys:String x:Key="btnExit">離開</sys:String>
     <sys:String x:Key="btnDelete">刪除</sys:String>
     <sys:String x:Key="btnReplace">替換</sys:String>
     <sys:String x:Key="btnEdit">編輯</sys:String>
@@ -191,6 +192,7 @@
     <sys:String x:Key="btnLoadMode">載入模式</sys:String>
     <sys:String x:Key="btnRecover">還原設定</sys:String>
     <sys:String x:Key="btnSave">儲存</sys:String>
+    <sys:String x:Key="btnSaveChange">儲存變更</sys:String>
     <!--#endregion-->
     
     <!--#region 製品設定 -->

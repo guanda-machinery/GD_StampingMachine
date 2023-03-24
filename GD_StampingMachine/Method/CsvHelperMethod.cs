@@ -12,6 +12,7 @@ using System.Diagnostics;
 using DevExpress.XtraRichEdit.Model;
 using GD_StampingMachine.Model;
 using DevExpress.Mvvm.Native;
+using DevExpress.XtraGrid.Registrator;
 
 namespace GD_StampingMachine.Method
 {
@@ -26,6 +27,10 @@ namespace GD_StampingMachine.Method
         /// <returns></returns>
         public bool WriteCSVFile<T>(string fileName, object CSVData)
         {
+            //先建立資料夾
+            if(!Directory.Exists(fileName))
+                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
             var CSVDataIEnumerable = new List<object>() { CSVData };
             return WriteCSVFileIEnumerable(fileName, CSVDataIEnumerable);
         }
@@ -128,16 +133,17 @@ namespace GD_StampingMachine.Method
     }
 
 
-    public class GD_RWCsvFile
+    public class GD_CsvHelperMethod
     {
-        private string NumberSettingFilePath
+        public virtual string NumberSettingFilePath
         {
             get => Path.Combine(Directory.GetCurrentDirectory(), "NumberSetting", "Normal.csv");
         }
-        private string QRNumberSettingFilePath
+        public virtual string QRNumberSettingFilePath
         {
             get => Path.Combine(Directory.GetCurrentDirectory(), "NumberSetting", "QR.csv");
         }
+
 
         private CsvHelperMethod CsvHM = new CsvHelperMethod();
 
@@ -149,6 +155,27 @@ namespace GD_StampingMachine.Method
         public bool ReadNumberSetting(out List<NumberSettingModel> SavedCollection)
         {
             return CsvHM.ReadCSVFileIEnumerable(NumberSettingFilePath, out SavedCollection);
+        }
+
+        /// <summary>
+        /// 取得一般號碼牌設定
+        /// </summary>
+        /// <param name="SavedCollection"></param>
+        /// <returns></returns>
+        public bool ReadNumberSetting(string FilePath , out List<NumberSettingModel> SavedCollection)
+        {
+            return CsvHM.ReadCSVFileIEnumerable(FilePath, out SavedCollection);
+        }
+
+
+        /// <summary>
+        /// 存取一般號碼牌設定
+        /// </summary>
+        /// <param name="NumberSettingModelSavedList"></param>
+        /// <returns></returns>
+        public bool WriteNumberSetting(string FilePath , List<NumberSettingModel> NumberSettingModelSavedList)
+        {
+            return CsvHM.WriteCSVFileIEnumerable<NumberSettingModel>(FilePath, NumberSettingModelSavedList);
         }
         /// <summary>
         /// 存取一般號碼牌設定
@@ -169,7 +196,10 @@ namespace GD_StampingMachine.Method
         {
             return CsvHM.ReadCSVFileIEnumerable(QRNumberSettingFilePath, out SavedCollection);
         }
-
+        public bool ReadQRNumberSetting(string FilePath, out List<QRSettingModel> SavedCollection)
+        {
+            return CsvHM.ReadCSVFileIEnumerable(FilePath, out SavedCollection);
+        }
         /// <summary>
         /// 存取QR號碼牌設定
         /// </summary>
@@ -178,6 +208,22 @@ namespace GD_StampingMachine.Method
         public bool WriteQRNumberSetting(List<QRSettingModel> NumberSettingModelSavedList)
         {
             return CsvHM.WriteCSVFileIEnumerable<QRSettingModel>(QRNumberSettingFilePath, NumberSettingModelSavedList);
+        }
+
+        public bool WriteQRNumberSetting(string FilePath, List<QRSettingModel> NumberSettingModelSavedList)
+        {
+            return CsvHM.WriteCSVFileIEnumerable<QRSettingModel>(FilePath, NumberSettingModelSavedList);
+        }
+
+
+        public bool ReadProductProject(string FilePath ,out ProductProjectModel ProductProject)
+        {
+            return CsvHM.ReadCSVFile(FilePath, out ProductProject);
+        }
+
+        public bool WriteProductProject(string FilePath  , ProductProjectModel ProductProject)
+        {
+            return CsvHM.WriteCSVFile<ProductProjectModel>(FilePath, ProductProject);
         }
 
     }

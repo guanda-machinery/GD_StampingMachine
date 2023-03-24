@@ -88,7 +88,8 @@
 
             <Grid  Grid.Column="4" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2"  HorizontalAlignment="Right" >
                 <Border Background="White"  VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20,0" >
-                    <materialDesign:PackIcon Kind="Qrcode" Width="155" Margin="-10"  Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
+                <materialDesign:PackIcon Foreground="#55534d"
+                        Kind="Qrcode" Width="155" Margin="-10"  Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
                 </Border>
             </Grid>
 

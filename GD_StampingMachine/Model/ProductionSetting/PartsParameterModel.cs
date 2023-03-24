@@ -12,6 +12,9 @@ namespace GD_StampingMachine.Model.ProductionSetting
         public string Parametert_B{ get; set; }
         public string Parametert_C { get; set; }
 
+        public double FinishProgress { get; set; }
+
+
         public NumberSettingModelBase NumberSetting{get; set; }
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.CodeParser;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace GD_StampingMachine.ValueConverters
     {
         public bool Invert { get; set; }
         public bool IsNullable { get; set; }
+        public bool IsTypeJudge { get; set; }
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -24,6 +26,19 @@ namespace GD_StampingMachine.ValueConverters
                     return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
+
+            if(IsTypeJudge)
+            { 
+                if(value.GetType() == parameter as Type)
+                {
+                    return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
+                }
+                else
+                {
+                    return (Invert) ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+
 
             if (object.Equals(value, parameter))
             {
