@@ -1,4 +1,5 @@
 ﻿using DevExpress.CodeParser;
+using DevExpress.DataAccess.DataFederation;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -32,6 +33,12 @@ namespace GD_StampingMachine.ValueConverters
             {
                 if (value != null)
                 {
+                    if (Object.ReferenceEquals(value, parameter))
+                    {
+                        return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
+                    }
+
+
                     if (value.GetType() == parameter as Type)
                     {
                         return (!Invert) ? Visibility.Visible : Visibility.Collapsed;

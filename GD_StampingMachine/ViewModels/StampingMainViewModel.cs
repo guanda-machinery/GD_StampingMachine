@@ -30,8 +30,10 @@ namespace GD_StampingMachine.ViewModels
                      Thread.Sleep(100);
                  }
              });
-            MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
 
+            Task.Run(() =>
+            {
+                MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
             StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =1 , StampingTypeString = "1" , StampingTypeUseCount=25} ,
@@ -108,8 +110,7 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
                     new StampingTypeViewModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0},
             };
-
-            ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
+                ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
             {
                 new ProductProjectViewModel(new ProductProjectModel()
                 {   
@@ -150,6 +151,11 @@ namespace GD_StampingMachine.ViewModels
 
             };
 
+            }
+
+
+
+             );
 
 
 

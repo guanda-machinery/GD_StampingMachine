@@ -91,16 +91,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 選單
         /// </summary>
-        public SettingViewModelBase NumberSetting
+        public SettingViewModelBase SettingVMBase
         {
             get
             {
-                return PartsParameter.NumberSetting;
+                return PartsParameter.SettingVMBase;
              }
             set
             {
-                PartsParameter.NumberSetting = value;
-                OnPropertyChanged(nameof(NumberSetting));
+                PartsParameter.SettingVMBase = value;
+                OnPropertyChanged(nameof(SettingVMBase));
             }
         }
 
@@ -140,10 +140,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                             {
+
+
                                 var MessageBoxReturn = WinUIMessageBox.Show(null,
                                     (string)Application.Current.TryFindResource("Text_AskDelProject") +
                                     "\r\n" +
-                                    $"{this.NumberSetting}" +
+                                    $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
                                     "?"
                                     ,
                                     (string)Application.Current.TryFindResource("Text_notify"),

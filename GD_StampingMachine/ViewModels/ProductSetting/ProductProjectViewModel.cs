@@ -27,20 +27,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     {
         public ProductProjectViewModel(ProductProjectModel _productProject)
         {
-
+            ProductProject = _productProject;
+            ProductProject.PartsParameterObservableCollection.ForEach(obj =>
+            {
+                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
+            });
+            RefreshNumberSettingSavedCollection();
 
             Task.Run(() =>
             {
                 try
                 {
-                    RefreshNumberSettingSavedCollection();
-
-                    ProductProject = _productProject;
-                    ProductProject.PartsParameterObservableCollection.ForEach(obj =>
-                    {
-                        PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
-                    });
-
                     while (true)
                     {
 
@@ -220,53 +217,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         private bool _isInParameterPage;
         public bool IsInParameterPage { get => _isInParameterPage; set { _isInParameterPage = value; OnPropertyChanged(); } }
         public PartsParameterViewModel AddNewPartsParameterVM { get; set; } = new PartsParameterViewModel();
+        public SettingViewModelBase SelectedSettingVMBase
+        {
+            get => AddNewPartsParameterVM.SettingVMBase;
+            set { AddNewPartsParameterVM.SettingVMBase = value;OnPropertyChanged(); }
+        }
+ 
 
-        /*  public NumberSettingModelBase NumberSettingModelSavedComboSelected
-        {
-            get => AddNewPartsParameterVM.NumberSettingVM.NumberSetting;
-            set
-            {
-                AddNewPartsParameterVM.NumberSettingVM.NumberSetting = value;
-                OnPropertyChanged();
-            }
-        }*/
-        /*  private ObservableCollection<NumberSettingModelBase> _numberSettingModelSavedCollection;*/
-        /// <summary>
-        /// 建立零件POPUP-加工型態combobox用
-        /// </summary>
-        /*public ObservableCollection<NumberSettingModelBase> NumberSettingModelSavedCollection
-        {
-            get
-            {
-                if (_numberSettingModelSavedCollection == null)
-                {
-                    _numberSettingModelSavedCollection = new ObservableCollection<NumberSettingModelBase>();
-                    var CsvHM = new GD_CsvHelperMethod();
-                    if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
-                    {
-                        CsvHM.ReadNumberSetting(out var SavedCollection);
-                        foreach (var asd in SavedCollection)
-                        {
-                            _numberSettingModelSavedCollection.Add(asd);
-                        }
-                    }
-                    if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                    {
-                        CsvHM.ReadQRNumberSetting(out var QRSavedCollection);
-                        foreach (var asd in QRSavedCollection)
-                        {
-                            _numberSettingModelSavedCollection.Add(asd);
-                        }
-                    }
-                }
-                return _numberSettingModelSavedCollection;
-            }
-            set
-            {
-                _numberSettingModelSavedCollection = value;
-                OnPropertyChanged();
-            }
-        }*/
+
         private ObservableCollection<SettingViewModelBase> _numberSettingSavedCollection;
         /// <summary>
         /// 建立零件POPUP-加工型態combobox用
@@ -316,8 +274,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
             }
 
-            if (!NumberSettingSavedCollection.Equals(newSavedCollection))
+            // if (!NumberSettingSavedCollection.Equals(newSavedCollection))
+            //NumberSettingSavedCollection = newSavedCollection;
+            if (!NumberSettingSavedCollection.SequenceEqual(newSavedCollection))
+            {
+                SelectedSettingVMBase = null;
                 NumberSettingSavedCollection = newSavedCollection;
+            }
+
         }
 
 
@@ -348,7 +312,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (_partsParameterViewModelSelectItem != null)
                 {
-                    SettingVM = _partsParameterViewModelSelectItem.NumberSetting.DeepCloneByJson();
+                    SettingVM = _partsParameterViewModelSelectItem.SettingVMBase.DeepCloneByJson();
                 }
                 return _partsParameterViewModelSelectItem;
             }

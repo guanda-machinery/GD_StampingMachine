@@ -209,11 +209,11 @@
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
                     <dxg:GridControl  Background="Transparent"  
-                                Name="ProjectGridControl" 
                     Style="{StaticResource ProjectGridControl}" 
                     AutoGenerateColumns="None"
                     SelectionMode="Row"
-                    ItemsSource="{Binding ProductProjectVMObservableCollection , UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding ProductProjectVMObservableCollection}"
+                                      MinHeight="100"
                     MaxHeight="2000">
                         <dxg:GridControl.View >
                             <dxg:TableView   
@@ -440,24 +440,32 @@
                                 </Style>
                             </StackPanel.Resources>
 
-                            <ToggleButton IsThreeState="False" 
+                        <ToggleButton IsThreeState="False" 
                                               IsChecked="{Binding IsInParameterPage, Converter={dx:BoolInverseConverter}}"
                                               Width="auto"
                                               Height="auto" Padding="20,10" Margin="10,0"
                                               HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Content="{DynamicResource btnExit}" />
 
-                            <ToggleButton IsThreeState="False" 
+
+                        <ToggleButton IsThreeState="False" 
                                             IsChecked="{Binding ElementName=AddParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
                                                       Height="auto" Padding="20,10" Margin="10,0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                      Content="{DynamicResource btnAdd}" />
-                            <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddParameterDarggablePopup" IsOpen="{Binding AddParameterDarggableIsPopup}">
+                                                      Content="{DynamicResource btnAdd}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding RefreshSavedCollectionCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton>
+
+                        <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddParameterDarggablePopup" IsOpen="{Binding AddParameterDarggableIsPopup}">
                             <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                <Grid MinWidth="200" MinHeight="100" Margin="10">
+                                <Grid MinWidth="100" MinHeight="100" Margin="10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition Width="auto"/>
@@ -504,30 +512,30 @@
                                               SelectedValue="{Binding AddNewPartsParameterVM.NumberSetting}">
                                     </ComboBox>-->
 
-                                    <ComboBox Style="{StaticResource MaterialDesignFilledComboBox}" Margin="10,0" Padding="0"
+                                    <dxe:ComboBoxEdit  Margin="10,0" Padding="0" Width="200" 
                                             Grid.Column="3" Grid.Row="5" 
                                               ItemsSource="{Binding NumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding AddNewPartsParameterVM.NumberSetting}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                <i:InvokeCommandAction Command="{Binding RefreshSavedCollectionCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Margin="5,0">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="auto"/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Text="{Binding NumberSetting.NumberSettingMode}"/>
-                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="-10,-10,0,0">
-                                                        <Grid 
-                                                            RenderTransformOrigin="0.0,0.0" Margin="0,0,-700,-280">
-                                                                <Grid.RenderTransform>
-                                                                    <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
-                                                                </Grid.RenderTransform>
-                                                            <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,0,0,30"
+                                              EditValue="{Binding SelectedSettingVMBase}">
+                                        <dxe:ComboBoxEdit.Style>
+                                            <Style TargetType="{x:Type dxe:ComboBoxEdit}">
+                                                <Setter Property="ApplyItemTemplateToSelectedItem" Value="True"/>
+                                                <Setter Property="IsTextEditable" Value="False"/>
+                                                <Setter Property="ItemTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <Grid Margin="5,0,5,15">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="auto"/>
+                                                                    <RowDefinition/>
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock Text="{Binding NumberSetting.NumberSettingMode}"/>
+                                                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="-10,-10,0,00">
+                                                                    <Grid 
+                                                            RenderTransformOrigin="0.0,0.0" Margin="0,0,-700,-295">
+                                                                        <Grid.RenderTransform>
+                                                                            <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
+                                                                        </Grid.RenderTransform>
+                                                                        <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,0,0,20"
                                                                 Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                   PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
@@ -536,7 +544,7 @@
                                 PlateNumberList="{Binding PlateNumberList}"
                         RedMeasurementLineVisibility="Collapsed"
                         />
-                                                            <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
+                                                                        <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
                                          Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
@@ -545,12 +553,15 @@
                                 PlateNumberList="{Binding PlateNumberList}"            
                         RedMeasurementLineVisibility="Collapsed"
                                 />
+                                                                    </Grid>
+                                                                </StackPanel>
                                                             </Grid>
-                                                        </StackPanel>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </dxe:ComboBoxEdit.Style>
+                                    </dxe:ComboBoxEdit>
                                     <StackPanel  Grid.Row="6" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
                                             <Button   
                                                                     Content="{DynamicResource btnCancel}"
@@ -562,7 +573,7 @@
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                         <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                         <Binding Path="AddNewPartsParameterVM.ParameterC"/>
-                                                    <Binding Path="AddNewPartsParameterVM.NumberSetting" />
+                                                    <Binding Path="AddNewPartsParameterVM.SettingVMBase" />
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
                                             </Button>
@@ -885,7 +896,7 @@
                             </dxg:GridColumn>
 
 
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="NumberSettingVM.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>

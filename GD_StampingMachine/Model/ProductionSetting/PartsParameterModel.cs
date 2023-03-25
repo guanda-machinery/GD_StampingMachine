@@ -15,7 +15,7 @@ namespace GD_StampingMachine.Model.ProductionSetting
 
         public double FinishProgress { get; set; }
 
-        public SettingViewModelBase NumberSetting {get; set; }
+        public SettingViewModelBase SettingVMBase { get; set; }
 
 
 
