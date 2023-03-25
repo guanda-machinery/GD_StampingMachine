@@ -204,6 +204,7 @@
     <sys:String x:Key="Text_ProjectName">專案名稱</sys:String>
     <sys:String x:Key="Text_ConstructionNumber">工程案號</sys:String>
     <sys:String x:Key="Text_MachiningForm">加工型態</sys:String>
+    <sys:String x:Key="Text_SelectedMachiningForm">選擇加工型態</sys:String>
 
     <sys:String x:Key="Text_AddNewProject">新增專案</sys:String>
 

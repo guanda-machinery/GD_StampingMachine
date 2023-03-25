@@ -276,11 +276,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             // if (!NumberSettingSavedCollection.Equals(newSavedCollection))
             //NumberSettingSavedCollection = newSavedCollection;
-            if (!NumberSettingSavedCollection.SequenceEqual(newSavedCollection))
-            {
-                SelectedSettingVMBase = null;
-                NumberSettingSavedCollection = newSavedCollection;
-            }
+            // if (!NumberSettingSavedCollection.ToList().SequenceEqual(newSavedCollection.ToList()))
+            // {
+            SelectedSettingVMBase = null;
+            NumberSettingSavedCollection = newSavedCollection;
+            //  }
 
         }
 
