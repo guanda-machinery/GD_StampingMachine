@@ -5,7 +5,7 @@ using GD_StampingMachine.Extensions;
 using GD_StampingMachine.Method;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
-using JetBrains.Annotations;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
