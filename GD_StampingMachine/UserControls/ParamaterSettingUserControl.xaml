@@ -875,10 +875,11 @@
                                                                 <TextBlock  Text="{Binding BoxNumber}" VerticalAlignment="Center" FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="White"/>
                                                                 </StackPanel>
                                                             </CheckBox>
+                                                            <Grid Grid.Column="1" IsEnabled="{Binding BoxIsEnabled}">
                                                             <GD_UserControls:TriggerSliderUserControl 
                                                                 IsEnabled="{Binding BoxSliderIsEnabled}"
-                                                                Grid.Column="1" MainSilderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
-
+                                                             MainSilderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
+                                                            </Grid>
                                                         </Grid>
                                                     </ControlTemplate>
                                                 </Setter.Value>
