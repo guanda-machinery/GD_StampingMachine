@@ -170,6 +170,8 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+            //ParameterSettingVM.NumberSettingVM.NumberSettingModelSavedCollection
+
 
         }
 
@@ -232,6 +234,8 @@ namespace GD_StampingMachine.ViewModels
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; } = new StampingFontChangedViewModel();
         public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
         public ProductSettingViewModel ProductSettingVM { get; set; } = new ProductSettingViewModel();
+
+
         #endregion
 
 

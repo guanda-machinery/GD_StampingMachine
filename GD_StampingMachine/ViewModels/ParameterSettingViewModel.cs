@@ -9,10 +9,25 @@ namespace GD_StampingMachine.ViewModels
 {
     public class ParameterSettingViewModel : ViewModelBase
     {
+        /// <summary>
+        /// 號碼設定
+        /// </summary>
         public NumberSettingViewModel NumberSettingVM { get; set; } = new NumberSettingViewModel();
+        /// <summary>
+        /// QR設定
+        /// </summary>
         public QRSettingViewModel QRSettingVM { get; set; } = new QRSettingViewModel();
+        /// <summary>
+        /// 軸向設定
+        /// </summary>
         public AxisSettingViewModel AxisSettingVM { get; set; } = new AxisSettingViewModel();
+        /// <summary>
+        /// 計時設定
+        /// </summary>
         public TimingSettingViewModel TimingSettingVM { get; set; } = new TimingSettingViewModel();
+        /// <summary>
+        /// 分料設定
+        /// </summary>
         public SeparateSettingViewModel SeparateSettingVM { get; set; } = new SeparateSettingViewModel();
     }
 }
