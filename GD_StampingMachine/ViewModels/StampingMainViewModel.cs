@@ -30,8 +30,10 @@ namespace GD_StampingMachine.ViewModels
                      Thread.Sleep(100);
                  }
              });
-            MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
 
+            Task.Run(() =>
+            {
+                MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
             StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =1 , StampingTypeString = "1" , StampingTypeUseCount=25} ,
@@ -108,66 +110,52 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
                     new StampingTypeViewModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0},
             };
-
-            ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
+                ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
             {
-                new ProductProjectViewModel()
-                {
-                    ProductProject = new ProductProjectModel() {
-                        Name="創典科技總公司基地",
-                        Number = "AS001",
-                        SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
-                        CreateTime= new DateTime(2022,10,27, 14,02,00),
-                        EditTime = DateTime.Now,
-                        FinishProgress = 10
-                        
-                    }
-                }       
+                new ProductProjectViewModel(new ProductProjectModel()
+                {   
+                    Name="創典科技總公司基地",
+                    Number = "AS001",
+                    SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
+                    CreateTime= new DateTime(2022,10,27, 14,02,00),
+                    EditTime = DateTime.Now,
+                    FinishProgress = 10
+                })
                 ,         
-                new ProductProjectViewModel()
+                new ProductProjectViewModel(new ProductProjectModel()
                 {
-                    ProductProject = new ProductProjectModel() {
                         Name="創典科技總公司基地-1",
                         Number = "AS002",
                         SheetStampingTypeForm =GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 26
-                    }
-                }          ,
-                new ProductProjectViewModel()
+                })
+                ,
+                new ProductProjectViewModel(new ProductProjectModel() 
                 {
-                    ProductProject = new ProductProjectModel() {
                         Name="創典科技總公司基地-2",
                         Number = "AS003",
                         SheetStampingTypeForm =GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 51
-                    }
-                }    ,
-                new ProductProjectViewModel()
-                {
-                    ProductProject = new ProductProjectModel() {
+                })
+                ,
+                new ProductProjectViewModel( new ProductProjectModel() {
                         Name="創典科技總公司基地-2",
                         Number = "AS003",
                         SheetStampingTypeForm =GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 76
-                    }
-                },                
-                new ProductProjectViewModel()
-                {
-                    ProductProject = new ProductProjectModel() {
-                        Name="創典科技總公司基地-2",
-                        Number = "AS003",
-                        SheetStampingTypeForm=GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
-                        CreateTime= new DateTime(2022,10,27, 14,02,00),
-                        FinishProgress = 100
-                    }
-                },
+                })  
 
 
             };
 
+            }
+
+
+
+             );
 
 
             //ParameterSettingVM.NumberSettingVM.NumberSettingModelSavedCollection

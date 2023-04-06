@@ -1,4 +1,5 @@
 ﻿using DevExpress.CodeParser;
+using DevExpress.DataAccess.DataFederation;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -27,18 +28,28 @@ namespace GD_StampingMachine.ValueConverters
                 }
             }
 
-            if(IsTypeJudge)
-            { 
-                if(value.GetType() == parameter as Type)
+
+            if (IsTypeJudge)
+            {
+                if (value != null)
                 {
-                    return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
-                }
-                else
-                {
-                    return (Invert) ? Visibility.Visible : Visibility.Collapsed;
+                    if (Object.ReferenceEquals(value, parameter))
+                    {
+                        return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
+                    }
+
+
+                    if (value.GetType() == parameter as Type)
+                    {
+                        return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        return (Invert) ? Visibility.Visible : Visibility.Collapsed;
+                    }
                 }
             }
-
+          
 
             if (object.Equals(value, parameter))
             {

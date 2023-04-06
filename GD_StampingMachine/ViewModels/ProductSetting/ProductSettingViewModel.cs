@@ -1,6 +1,7 @@
 ﻿
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.WindowsUI;
+using GD_StampingMachine.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -87,10 +88,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => new RelayCommand(() =>
             {
                 //若不clone會導致資料互相繫結
-                ProductProjectVMObservableCollection.Add(new ProductProjectViewModel()
-                {
-                    ProductProject = (ProductProjectModel)CreatedProjectModel.Clone()
-                });
+                ProductProjectVMObservableCollection.Add(
+                    new ProductProjectViewModel(CreatedProjectModel.DeepCloneByJson()));
             });
         }
 
@@ -128,15 +127,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ProductProjectViewModel _selectProductProjectVM = new ProductProjectViewModel();
+        private ProductProjectViewModel _selectProductProjectVM = new ProductProjectViewModel(new ProductProjectModel());
         /// <summary>
         /// 新增零件的vm
         /// </summary>
-        public ProductProjectViewModel SelectProductProjectVM
+        public ProductProjectViewModel SelectProductProjectVM 
         {
             get => _selectProductProjectVM;
-            set { _selectProductProjectVM = value;
-                OnPropertyChanged(nameof(SelectProductProjectVM)); }
+            set 
+            { 
+                _selectProductProjectVM = value;
+                OnPropertyChanged(nameof(SelectProductProjectVM)); 
+            }
         } 
 
 

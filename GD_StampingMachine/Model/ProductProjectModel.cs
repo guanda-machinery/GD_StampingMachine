@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class ProductProjectModel :CloneableBase
+    public class ProductProjectModel 
     {
         public string ProjectPath { get; set; }
         /// <summary>

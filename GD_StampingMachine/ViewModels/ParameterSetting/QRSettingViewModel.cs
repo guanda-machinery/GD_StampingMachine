@@ -1,6 +1,6 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
- 
+using GD_StampingMachine.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -22,8 +22,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public class QRSettingViewModel : SettingViewModelBase
     {
-        private QRSettingModel _qrSetting = new QRSettingModel();
-        public QRSettingModel QRSetting
+        public QRSettingViewModel(NumberSettingModelBase _numberSettingModel)
+        {
+            NumberSetting = _numberSettingModel as QRSettingModel;
+        }
+
+
+        private QRSettingModel _qrSetting;
+        public new QRSettingModel NumberSetting
         {
             get 
             {
@@ -105,7 +111,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _qrSettingModelCollectionSelected = value;
                 if (_qrSettingModelCollectionSelected != null)
-                    QRSetting = _qrSettingModelCollectionSelected.Clone() as QRSettingModel;
+                    NumberSetting = _qrSettingModelCollectionSelected.DeepCloneByJson();
                 OnPropertyChanged();
             }
         }
@@ -190,6 +196,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private double _margin_I;
 
 
+
         public double Margin_F { get => _margin_F; set { _margin_F = value; OnPropertyChanged(); } }
         public double Margin_G { get => _margin_G; set { _margin_G = value; OnPropertyChanged(); } }
         public double Margin_H { get => _margin_H; set { _margin_H = value; OnPropertyChanged(); } }
@@ -202,14 +209,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => new RelayCommand(() =>
             {
                 if (QRSettingModelCollectionSelected != null)
-                    QRSetting = QRSettingModelCollectionSelected.Clone() as QRSettingModel;
+                    NumberSetting = (QRSettingModel)QRSettingModelCollectionSelected.DeepCloneByJson();
             });
         }
         public override ICommand RecoverSettingCommand
         {
             get => new RelayCommand(() =>
             {
-                QRSetting = new QRSettingModel();
+                NumberSetting = new QRSettingModel();
             });
         }
 
@@ -219,12 +226,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 
                 
-                var FIndex = QRSettingModelCollection.FindIndex(x => x.NumberSettingMode == QRSetting.NumberSettingMode);
+                var FIndex = QRSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSetting.NumberSettingMode);
                 if (FIndex != -1)
                 {
                     if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                     {
-                        QRSettingModelCollection[FIndex] = QRSetting.Clone() as QRSettingModel;
+                        QRSettingModelCollection[FIndex] = NumberSetting.DeepCloneByJson();
                     }
                     else
                     {
@@ -233,7 +240,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    QRSettingModelCollection.Add(QRSetting.Clone() as QRSettingModel);
+                    QRSettingModelCollection.Add(NumberSetting.DeepCloneByJson() as QRSettingModel);
                 }
 
                 if (this.CsvHM.WriteQRNumberSetting(QRSettingModelCollection.ToList()))

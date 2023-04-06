@@ -243,7 +243,6 @@
     <Compile Include="GD_Enum\SpindleToolHolderEnum.cs" />
     <Compile Include="Extensions\GetEnumData.cs" />
     <Compile Include="GD_Behavior\ProgresBarAnimateBehavior.cs" />
-    <Compile Include="Method\CloneableBase.cs" />
     <Compile Include="Method\CsvHelperMethod.cs" />
     <Compile Include="Method\ShowWinUIMessageBox.cs" />
     <Compile Include="Method\StampingTypeDropTarget.cs" />

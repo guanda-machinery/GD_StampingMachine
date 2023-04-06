@@ -2,6 +2,7 @@
 using DevExpress.Mvvm.Native;
 using DevExpress.Pdf.Native;
 using DevExpress.Utils.Extensions;
+using GD_StampingMachine.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -20,18 +21,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class NumberSettingViewModel : SettingViewModelBase
     {
-        public NumberSettingViewModel()
+        public NumberSettingViewModel(NumberSettingModelBase _numberSettingModel) 
         {
-
-        }
-        public NumberSettingViewModel(NumberSettingModelBase NumberS)
-        {
-            NumberSetting = NumberS;
+            NumberSetting = _numberSettingModel as NumberSettingModel;
         }
 
-
-        private NumberSettingModelBase _numberSetting;
-        public NumberSettingModelBase NumberSetting
+        private NumberSettingModel _numberSetting;
+        public new NumberSettingModel NumberSetting
         {
             get
             {
@@ -94,12 +90,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _numberSettingModelCollectionSelected = value;
                 if (_numberSettingModelCollectionSelected != null)
-                    NumberSetting = _numberSettingModelCollectionSelected.Clone() as NumberSettingModel;
+                    NumberSetting = _numberSettingModelCollectionSelected.DeepCloneByJson();
                 OnPropertyChanged();
             }
         }
 
         private ObservableCollection<NumberSettingModel> _numberSettingModelSavedCollection;
+
+
+
         public ObservableCollection<NumberSettingModel> NumberSettingModelSavedCollection
         {
             get
@@ -126,7 +125,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => new RelayCommand(() =>
             {
                 if(NumberSettingModelCollectionSelected != null)
-                    NumberSetting = NumberSettingModelCollectionSelected.Clone() as NumberSettingModel;
+                    NumberSetting = NumberSettingModelCollectionSelected.DeepCloneByJson();
             });
         }
         public override ICommand RecoverSettingCommand
@@ -145,7 +144,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                     {
-                        NumberSettingModelSavedCollection[FIndex] = NumberSetting.Clone() as NumberSettingModel;
+                        NumberSettingModelSavedCollection[FIndex] = (NumberSettingModel)NumberSetting.DeepCloneByJson();
                     }
                     else
                     {
@@ -154,7 +153,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    NumberSettingModelSavedCollection.Add(NumberSetting.Clone() as NumberSettingModel);
+                    NumberSettingModelSavedCollection.Add((NumberSettingModel)NumberSetting.DeepCloneByJson());
                 }
 
                 //var CsvHM = new GD_RWCsvFile();

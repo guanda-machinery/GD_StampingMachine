@@ -1,11 +1,11 @@
 ﻿using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
- 
+using GD_StampingMachine.Extensions;
 using GD_StampingMachine.Method;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
-using JetBrains.Annotations;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -155,7 +155,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                var FirstFont = NewUnusedStampingFont.FirstOrDefault().Clone() as StampingTypeViewModel;
+                var FirstFont = NewUnusedStampingFont.FirstOrDefault().DeepCloneByJson();
                 FirstFont.IsNewAddStamping = false;
                 UnusedStampingTypeVMObservableCollection.Add(FirstFont);
                 /*

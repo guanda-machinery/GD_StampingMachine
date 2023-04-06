@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GD_StampingMachine.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,9 @@ namespace GD_StampingMachine.Model.ProductionSetting
 
         public double FinishProgress { get; set; }
 
+        public SettingViewModelBase SettingVMBase { get; set; }
 
-        public NumberSettingModelBase NumberSetting{get; set; }
+
 
 
     }

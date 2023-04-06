@@ -26,15 +26,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     {
         public PartsParameterViewModel()
         {
-
+            PartsParameter = new PartsParameterModel();
         }
         public PartsParameterViewModel(PartsParameterModel PParameter)
         {
             PartsParameter = PParameter;
         }
-
-        public PartsParameterModel PartsParameter { get; } = new PartsParameterModel();
-
+        private PartsParameterModel PartsParameter { get; set; } 
         public double FinishProgress
         {
             get => PartsParameter.FinishProgress;
@@ -78,7 +76,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 第一種選單
         /// </summary>
-        public NumberSettingModelBase NumberSetting
+        /*public NumberSettingModelBase NumberSetting
         {
             get =>PartsParameter.NumberSetting;
             set 
@@ -86,27 +84,27 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.NumberSetting = value;
                 OnPropertyChanged(nameof(NumberSetting));
             }
-        }
+        }*/
 
 
-        private NumberSettingViewModel _numberSettingVM = new NumberSettingViewModel();
+        //private NumberSettingModelBase _numberSetting;// = new NumberSettingViewModel();
         /// <summary>
-        /// 第二種選單
+        /// 選單
         /// </summary>
-        public NumberSettingViewModel NumberSettingVM
+        public SettingViewModelBase SettingVMBase
         {
             get
             {
-                PartsParameter.NumberSetting = _numberSettingVM.NumberSetting;
-                return _numberSettingVM;
-            }
+                return PartsParameter.SettingVMBase;
+             }
             set
             {
-                _numberSettingVM = value;
-                OnPropertyChanged(nameof(NumberSetting));
+                PartsParameter.SettingVMBase = value;
+                OnPropertyChanged(nameof(SettingVMBase));
             }
         }
 
+    
 
         private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
@@ -142,10 +140,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                             {
+
+
                                 var MessageBoxReturn = WinUIMessageBox.Show(null,
                                     (string)Application.Current.TryFindResource("Text_AskDelProject") +
                                     "\r\n" +
-                                    $"{this.NumberSetting.NumberSettingMode}" +
+                                    $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
                                     "?"
                                     ,
                                     (string)Application.Current.TryFindResource("Text_notify"),
