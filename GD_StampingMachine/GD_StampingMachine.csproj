@@ -331,6 +331,7 @@
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="ViewModels\StampingMainViewModel.cs" />
     <Compile Include="ViewModels\StampingTypeViewModel.cs" />
+    <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\RadialPanel.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">

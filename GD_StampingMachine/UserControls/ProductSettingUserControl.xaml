@@ -9,7 +9,8 @@
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"
              xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup"
-              xmlns:dd="urn:gong-wpf-dragdrop" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
@@ -538,7 +539,7 @@
                                                                         <Grid.RenderTransform>
                                                                             <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
                                                                         </Grid.RenderTransform>
-                                                                        <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,0,0,20"
+                                                                        <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,15,0,15"
                                                                 Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                   PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"

@@ -24,7 +24,7 @@ namespace GD_StampingMachine.ViewModels
         {
             Task.Run(() =>
              {
-                 while(true)
+                 while (true)
                  {
                      DateTimeNow = DateTime.Now;
                      Thread.Sleep(100);
@@ -34,7 +34,7 @@ namespace GD_StampingMachine.ViewModels
             Task.Run(() =>
             {
                 MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
-            StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+                StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =1 , StampingTypeString = "1" , StampingTypeUseCount=25} ,
                     new StampingTypeViewModel(){ StampingTypeNumber =2 , StampingTypeString = "2" , StampingTypeUseCount=180},
@@ -44,67 +44,67 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(){ StampingTypeNumber =6, StampingTypeString = "6" , StampingTypeUseCount=25},
                     new StampingTypeViewModel(){ StampingTypeNumber =7, StampingTypeString = "7" , StampingTypeUseCount=25},
                     new StampingTypeViewModel(){ StampingTypeNumber =8, StampingTypeString = "8" , StampingTypeUseCount=25},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =9, StampingTypeString = "9" , StampingTypeUseCount=25},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =10, StampingTypeString = "0" , StampingTypeUseCount=25},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =11, StampingTypeString = "A" , StampingTypeUseCount=2025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =12, StampingTypeString = "B" , StampingTypeUseCount=8677},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =13, StampingTypeString = "C" , StampingTypeUseCount=7025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =14, StampingTypeString = "D" , StampingTypeUseCount=3015},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =15, StampingTypeString = "E" , StampingTypeUseCount=2025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =16, StampingTypeString = "F" , StampingTypeUseCount=2025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =17, StampingTypeString = "G" , StampingTypeUseCount=2025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =18, StampingTypeString = "H" , StampingTypeUseCount=2025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =19, StampingTypeString = "I" , StampingTypeUseCount=2025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =20, StampingTypeString = "J" , StampingTypeUseCount=2025},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =21, StampingTypeString = "K" , StampingTypeUseCount=5071 },
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =22, StampingTypeString = "L" , StampingTypeUseCount=1562},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =23, StampingTypeString = "M" , StampingTypeUseCount=71},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =24, StampingTypeString = "N" , StampingTypeUseCount=9071},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =25, StampingTypeString = "O" , StampingTypeUseCount=5071},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =26, StampingTypeString = "P" , StampingTypeUseCount=5071},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =27, StampingTypeString = "Q" , StampingTypeUseCount=5071},
-                      
+
                     new StampingTypeViewModel(){ StampingTypeNumber =28, StampingTypeString = "R" , StampingTypeUseCount=5071},
-                        
+
                     new StampingTypeViewModel(){ StampingTypeNumber =29, StampingTypeString = "S" , StampingTypeUseCount=5071},
-                        
+
                     new StampingTypeViewModel(){ StampingTypeNumber =30, StampingTypeString = "T" , StampingTypeUseCount=5071},
-                        
+
                     new StampingTypeViewModel(){ StampingTypeNumber =31, StampingTypeString = "U" , StampingTypeUseCount=50},
-                        
+
                     new StampingTypeViewModel(){ StampingTypeNumber =32, StampingTypeString = "V" , StampingTypeUseCount=110},
-                        
+
                     new StampingTypeViewModel(){ StampingTypeNumber =33, StampingTypeString = "W" , StampingTypeUseCount=550},
-                        
+
                     new StampingTypeViewModel(){ StampingTypeNumber =34, StampingTypeString = "X" , StampingTypeUseCount=24},
-                        
-                    new StampingTypeViewModel(){ StampingTypeNumber =35, StampingTypeString = "Y" , StampingTypeUseCount=5}, 
-                    new StampingTypeViewModel(){ StampingTypeNumber =36, StampingTypeString = "Z" , StampingTypeUseCount=5},                    
-                    new StampingTypeViewModel(){ StampingTypeNumber =37, StampingTypeString = "a" , StampingTypeUseCount=450},               
-                    new StampingTypeViewModel(){ StampingTypeNumber =38, StampingTypeString = "b" , StampingTypeUseCount=677},  
+
+                    new StampingTypeViewModel(){ StampingTypeNumber =35, StampingTypeString = "Y" , StampingTypeUseCount=5},
+                    new StampingTypeViewModel(){ StampingTypeNumber =36, StampingTypeString = "Z" , StampingTypeUseCount=5},
+                    new StampingTypeViewModel(){ StampingTypeNumber =37, StampingTypeString = "a" , StampingTypeUseCount=450},
+                    new StampingTypeViewModel(){ StampingTypeNumber =38, StampingTypeString = "b" , StampingTypeUseCount=677},
                     new StampingTypeViewModel(){ StampingTypeNumber =39, StampingTypeString = "g" , StampingTypeUseCount=150},
                     new StampingTypeViewModel(){ StampingTypeNumber =40, StampingTypeString = "-" , StampingTypeUseCount=2550}
              };
-            StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0} ,
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
@@ -113,7 +113,7 @@ namespace GD_StampingMachine.ViewModels
                 ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
             {
                 new ProductProjectViewModel(new ProductProjectModel()
-                {   
+                {
                     Name="創典科技總公司基地",
                     Number = "AS001",
                     SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
@@ -121,7 +121,7 @@ namespace GD_StampingMachine.ViewModels
                     EditTime = DateTime.Now,
                     FinishProgress = 10
                 })
-                ,         
+                ,
                 new ProductProjectViewModel(new ProductProjectModel()
                 {
                         Name="創典科技總公司基地-1",
@@ -131,7 +131,7 @@ namespace GD_StampingMachine.ViewModels
                         FinishProgress = 26
                 })
                 ,
-                new ProductProjectViewModel(new ProductProjectModel() 
+                new ProductProjectViewModel(new ProductProjectModel()
                 {
                         Name="創典科技總公司基地-2",
                         Number = "AS003",
@@ -146,20 +146,17 @@ namespace GD_StampingMachine.ViewModels
                         SheetStampingTypeForm =GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime= new DateTime(2022,10,27, 14,02,00),
                         FinishProgress = 76
-                })  
+                })
 
 
             };
 
             }
-
-
-
              );
 
 
-            //ParameterSettingVM.NumberSettingVM.NumberSettingModelSavedCollection
 
+            TypeSettingSettingVM.ProductProjectVMObservableCollection= ProductSettingVM.ProductProjectVMObservableCollection;
 
         }
 
@@ -222,6 +219,8 @@ namespace GD_StampingMachine.ViewModels
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; } = new StampingFontChangedViewModel();
         public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
         public ProductSettingViewModel ProductSettingVM { get; set; } = new ProductSettingViewModel();
+
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; } = new TypeSettingSettingViewModel();
 
 
         #endregion

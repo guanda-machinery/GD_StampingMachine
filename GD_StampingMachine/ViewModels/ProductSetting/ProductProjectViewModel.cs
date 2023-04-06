@@ -262,7 +262,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 CsvHM.ReadNumberSetting(out var SavedCollection);
                 foreach (var asd in SavedCollection)
                 {
-                    NumberSettingSavedCollection.Add(new NumberSettingViewModel(asd));
+                    newSavedCollection.Add(new NumberSettingViewModel(asd));
                 }
             }
             if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)

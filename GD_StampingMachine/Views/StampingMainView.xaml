@@ -7,13 +7,14 @@
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:dxg="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v21.1"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
+                       xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:dd="urn:gong-wpf-dragdrop"
@@ -427,6 +428,149 @@
                                             <GD_Behavior:ProgresBarAnimateBehavior />
                                         </i:Interaction.Behaviors>
                                     </ProgressBar>
+
+
+                                    <Border  Grid.Column="1" Grid.Row="1" Margin="0,10"
+                                             Background="Transparent" 
+                 BorderThickness="0" 
+                 BorderBrush="#595E60" >
+                                        <dxg:GridControl  Background="Transparent"  
+                    Style="{StaticResource ProjectGridControl}" 
+                    AutoGenerateColumns="None"
+                    SelectionMode="Row"
+                    ItemsSource="{Binding ProductProjectVMObservableCollection}"
+                                      MinHeight="100"
+                    MaxHeight="2000">
+                                            <dxg:GridControl.View >
+                                                <dxg:TableView   
+                                SearchString="{Binding ElementName=SearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsColumnMenuEnabled ="False"
+                                RowDoubleClickCommand="{Binding RowDoubleClickCommand}"                  
+                                AllowMergedGrouping="True"
+                                AllowMoveColumnToDropArea="False"
+                                AllowColumnFiltering="False"
+                                AllowSorting="True"
+                                AllowColumnMoving="True"
+                                AllowEditing="False"
+                                ShowColumnHeaders="True"
+                                HeaderHorizontalAlignment="Center"
+                                VerticalScrollbarVisibility="Auto"
+                                HorizontalScrollbarVisibility="Auto"
+                                ShowHorizontalLines="False"
+                                ShowVerticalLines="False"
+                                ShowGroupPanel="True"
+                                ShowSearchPanelMode="Never"
+                                SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                SearchPanelFindMode="Always"
+                                ShowIndicator="False"
+                                SearchDelay="0"
+                                    />
+                                            </dxg:GridControl.View>
+
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProjectNumber" Width="auto"   IsSmart="True" >
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto"   IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+
+                                            <dxg:GridColumn  Header="{DynamicResource Text_Form}" 
+                                             Binding="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_ValueConverters:EnumGetNameConverter}}" 
+                                 Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_SavePath}"
+                                             FieldName="ProductProjectPath" Width="auto"   IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+
+
+
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProductProjectCreateTime" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="ProductProjectEditTime" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+
+                                            <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
+                                 Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
+                                                <dxg:GridColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Height="auto" Margin="2,5">
+                                                            <!--  <ProgressBar Value="{Binding Row.ProductProject.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  -->
+                                                            <ProgressBar Value="{Binding Row.ProductProjectFinishProcessing,UpdateSourceTrigger=PropertyChanged}"  
+                                             BorderThickness="0" 
+                                             Height="auto" Minimum="0" Maximum="100" Background="White" >
+                                                                <ProgressBar.Foreground>
+                                                                    <Binding Path="Row.ProductProjectFinishProcessing" Converter="{GD_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                                </ProgressBar.Foreground>
+                                                            </ProgressBar>
+
+                                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
+                                                                <TextBlock Foreground="Black"
+                                        Text="{CalcB:Binding Row.ProductProjectFinishProcessing/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </dxg:GridColumn.CellTemplate>
+                                            </dxg:GridColumn>
+
+                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false" IsSmart="True">
+                                                <dxg:GridColumn.HeaderStyle>
+                                                    <Style TargetType="dxg:BaseGridHeader">
+                                                        <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                                        <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                                    </Style>
+                                                </dxg:GridColumn.HeaderStyle>
+                                                <dxg:GridColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" Height="30"/>
+                                                    </DataTemplate>
+                                                </dxg:GridColumn.CellTemplate>
+                                            </dxg:GridColumn>
+
+                                            <!--https://www.grapecity.com/blogs/using-mvvm-to-remove-rows-from-wpf-datagrid-->
+                                            <!--刪除指令-->
+                                            <dxg:GridColumn Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.HeaderStyle>
+                                                    <Style TargetType="dxg:BaseGridHeader">
+                                                        <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                                        <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                                    </Style>
+                                                </dxg:GridColumn.HeaderStyle>
+                                                <dxg:GridColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Height="30" Content="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
+                                                    </DataTemplate>
+                                                </dxg:GridColumn.CellTemplate>
+                                            </dxg:GridColumn>
+
+
+
+
+
+                                        </dxg:GridControl>
+
+                                    </Border>
+
+
                                 </StackPanel>
                             </TabItem>
                         </TabControl>
