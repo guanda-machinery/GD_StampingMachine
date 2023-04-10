@@ -15,6 +15,10 @@ namespace GD_StampingMachine.Model.ProductionSetting
 
         public double FinishProgress { get; set; }
 
+        /// <summary>
+        /// 分料盒
+        /// </summary>
+        public int? BoxNumber { get; set; }
         public SettingViewModelBase SettingVMBase { get; set; }
 
 

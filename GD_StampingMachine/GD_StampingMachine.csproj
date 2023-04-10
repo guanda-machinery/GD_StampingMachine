@@ -246,6 +246,7 @@
     <Compile Include="Method\CsvHelperMethod.cs" />
     <Compile Include="Method\ShowWinUIMessageBox.cs" />
     <Compile Include="Method\StampingTypeDropTarget.cs" />
+    <Compile Include="Model\MachiningProjectModel.cs" />
     <Compile Include="Model\NumberSettingModelBase.cs" />
     <Compile Include="Model\ParameterSetting\SeparateBoxModel.cs" />
     <Compile Include="Model\ParameterSetting\SeparateSettingModel.cs" />
@@ -316,6 +317,7 @@
     <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
     <Compile Include="ViewModels\CultureViewModel.cs" />
+    <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateBoxViewModel.cs" />

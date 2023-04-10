@@ -19,8 +19,9 @@
             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:GD_Models="clr-namespace:GD_StampingMachine.Model"
-              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting"
-               xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             
+               xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
 
     <Grid>
@@ -540,7 +541,7 @@
                                                                             <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
                                                                         </Grid.RenderTransform>
                                                                         <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,15,0,15"
-                                                                Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
+                                                                Visibility="{Binding ConverterParameter={x:Type GD_ViewModels:ParameterSetting.NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                   PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -549,7 +550,7 @@
                         RedMeasurementLineVisibility="Collapsed"
                         />
                                                                         <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
-                                         Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
+                                         Visibility="{Binding ConverterParameter={x:Type GD_ViewModels:ParameterSetting.NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"

@@ -72,6 +72,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        public int? BoxNumber
+        {
+            get => PartsParameter.BoxNumber;
+            set
+            {
+                PartsParameter.BoxNumber = value;
+                OnPropertyChanged(nameof(ParameterC));
+            }
+        }
+
+
+
 
         /// <summary>
         /// 第一種選單

@@ -52,7 +52,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             });
 
                             ProductProjectFinishProcessing = AverageProgress;
-
                         }
                         //OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
                     }
@@ -64,8 +63,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        private ProductProjectModel ProductProject { get; set; } = new ProductProjectModel();
-
+        private ProductProjectModel ProductProject = new ProductProjectModel();
 
 
 
@@ -227,7 +225,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private ObservableCollection<SettingViewModelBase> _numberSettingSavedCollection;
         /// <summary>
-        /// 建立零件POPUP-加工型態combobox用
+        /// 建立零件POPUP-加工型態combobox
         /// </summary>
         public ObservableCollection<SettingViewModelBase> NumberSettingSavedCollection
         {
@@ -243,7 +241,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
-
 
         public ICommand RefreshSavedCollectionCommand
         {
@@ -284,10 +281,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         }
 
-
-     
-
-
         
         private SettingViewModelBase _settingVM;
         /// <summary>
@@ -325,7 +318,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private ObservableCollection<PartsParameterViewModel> _partsParameterVMObservableCollection;
         /// <summary>
-        /// GridControl
+        /// GridControl ABC參數
         /// </summary>
         public ObservableCollection<PartsParameterViewModel> PartsParameterVMObservableCollection
         {
@@ -365,12 +358,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 if (string.IsNullOrWhiteSpace(ProductProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(ProductProject.ProjectPath)))
                 {
                     //跳出彈跳式視窗
-                    using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
-                    {
-                        System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                        if (result == System.Windows.Forms.DialogResult.OK)
-                            ProductProject.ProjectPath = dialog.SelectedPath;
-                    }
+                    using var dialog = new System.Windows.Forms.FolderBrowserDialog();
+                    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                    if (result == System.Windows.Forms.DialogResult.OK)
+                        ProductProject.ProjectPath = dialog.SelectedPath;
                 }
 
                 SaveProductProject();

@@ -23,10 +23,5 @@ namespace GD_StampingMachine.Views
         {
             InitializeComponent();
         }
-
-        private void TableView_DragRecordOver(object sender, DevExpress.Xpf.Core.DragRecordOverEventArgs e)
-        {
-            e.Effects = DragDropEffects.Copy;
-        }
     }
 }

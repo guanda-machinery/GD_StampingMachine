@@ -31,10 +31,9 @@ namespace GD_StampingMachine.ViewModels
                  }
              });
 
-            Task.Run(() =>
-            {
-                MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
-                StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+
+            MechanicalSpecificationVM = new MechanicalSpecificationViewModel();
+            StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =1 , StampingTypeString = "1" , StampingTypeUseCount=25} ,
                     new StampingTypeViewModel(){ StampingTypeNumber =2 , StampingTypeString = "2" , StampingTypeUseCount=180},
@@ -104,13 +103,13 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(){ StampingTypeNumber =39, StampingTypeString = "g" , StampingTypeUseCount=150},
                     new StampingTypeViewModel(){ StampingTypeNumber =40, StampingTypeString = "-" , StampingTypeUseCount=2550}
              };
-                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+            StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0} ,
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
                     new StampingTypeViewModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0},
             };
-                ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
+            ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
             {
                 new ProductProjectViewModel(new ProductProjectModel()
                 {
@@ -151,13 +150,10 @@ namespace GD_StampingMachine.ViewModels
 
             };
 
-            }
-             );
 
+            TypeSettingSettingVM.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
 
-
-            TypeSettingSettingVM.ProductProjectVMObservableCollection= ProductSettingVM.ProductProjectVMObservableCollection;
-
+            TypeSettingSettingVM.SeparateBoxVMObservableCollection= ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel;
         }
 
         private DateTime _dateTimeNow = new DateTime();
@@ -220,19 +216,23 @@ namespace GD_StampingMachine.ViewModels
         public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
         public ProductSettingViewModel ProductSettingVM { get; set; } = new ProductSettingViewModel();
 
+
         public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; } = new TypeSettingSettingViewModel();
+
 
 
         #endregion
 
 
-
-
-
-
-
-
-
-
+    public ICommand ReloadTypeSettingSettingsCommand
+        {
+        get => new RelayCommand(() =>
+        {
+            TypeSettingSettingVM.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
+        });
     }
+
+
+
+}
 }
