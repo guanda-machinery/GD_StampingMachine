@@ -24,15 +24,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// </summary>
     public class PartsParameterViewModel : ViewModelBase
     {
-        public PartsParameterViewModel()
-        {
-            PartsParameter = new PartsParameterModel();
-        }
         public PartsParameterViewModel(PartsParameterModel PParameter)
         {
             PartsParameter = PParameter;
         }
-        private PartsParameterModel PartsParameter { get; set; } 
+        public PartsParameterModel PartsParameter = new();
         public double FinishProgress
         {
             get => PartsParameter.FinishProgress;
@@ -43,6 +39,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        public string ProjectName
+        {
+            get => PartsParameter.ProjectName;
+            set
+            {
+                PartsParameter.ProjectName = value;
+                OnPropertyChanged(nameof(ProjectName));
+            }
+        }
 
         public string ParameterA
         {
@@ -127,7 +132,29 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _projectEditCommand = new RelayParameterizedCommand(obj =>
                     {
+                        if (obj is GridControl ObjGridControl)
+                        {
+                            if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
+                            {
 
+
+                                var MessageBoxReturn = WinUIMessageBox.Show(null,
+                                    (string)Application.Current.TryFindResource("Text_AskDelProject") +
+                                    "\r\n" +
+                                    $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
+                                    "?"
+                                    ,
+                                    (string)Application.Current.TryFindResource("Text_notify"),
+                                    MessageBoxButton.YesNo,
+                                    MessageBoxImage.Exclamation,
+                                    MessageBoxResult.None,
+                                    MessageBoxOptions.None,
+                                    DevExpress.Xpf.Core.FloatingMode.Window);
+
+                                if (MessageBoxReturn == MessageBoxResult.Yes)
+                                    GridItemSource.Remove(this);
+                            }
+                        }
                     });
                 }
                 return _projectEditCommand;

@@ -7,9 +7,9 @@
                     xmlns:internal="clr-namespace:MaterialDesignThemes.Wpf.Internal;assembly=MaterialDesignThemes.Wpf"
                     >
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton" BasedOn="{StaticResource MaterialDesignFlatLightBgButton}">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
-
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Cursor"  Value="Hand"/>
         <Setter Property="Width" Value="auto"/>

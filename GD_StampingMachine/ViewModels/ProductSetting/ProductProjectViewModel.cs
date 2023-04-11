@@ -214,11 +214,30 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private bool _isInParameterPage;
         public bool IsInParameterPage { get => _isInParameterPage; set { _isInParameterPage = value; OnPropertyChanged(); } }
-        public PartsParameterViewModel AddNewPartsParameterVM { get; set; } = new PartsParameterViewModel();
+
+        private PartsParameterViewModel _addNewPartsParameterVM;
+        public PartsParameterViewModel AddNewPartsParameterVM
+        {
+            get
+            {
+                if(_addNewPartsParameterVM == null)
+                    _addNewPartsParameterVM = new PartsParameterViewModel(new Model.ProductionSetting.PartsParameterModel() { ProjectName = ProductProjectName });
+                return _addNewPartsParameterVM;
+            }
+            set
+            {
+                _addNewPartsParameterVM = value; 
+                OnPropertyChanged();
+            }
+        } 
         public SettingViewModelBase SelectedSettingVMBase
         {
             get => AddNewPartsParameterVM.SettingVMBase;
-            set { AddNewPartsParameterVM.SettingVMBase = value;OnPropertyChanged(); }
+            set 
+            {
+                AddNewPartsParameterVM.SettingVMBase = value;
+                OnPropertyChanged();
+            }
         }
  
 
@@ -429,9 +448,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
+        private bool _projectIsClosed = false;
+        public bool ProjectIsClosed { get=> _projectIsClosed; set { _projectIsClosed = value; OnPropertyChanged(); } }
 
-
-
+        /// <summary>
+        /// 關閉製品專案
+        /// </summary>
+        public ICommand ProjectCloseCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                this.ProjectIsClosed = !this.ProjectIsClosed;
+            });
+        }
 
 
 

@@ -9,6 +9,8 @@ namespace GD_StampingMachine.Model.ProductionSetting
 {
     public class PartsParameterModel////:CloneableBase
     {
+
+        public string ProjectName { get; set; }
         public string Parametert_A { get; set; }
         public string Parametert_B{ get; set; }
         public string Parametert_C { get; set; }

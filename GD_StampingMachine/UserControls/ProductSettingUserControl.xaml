@@ -19,8 +19,8 @@
             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:GD_Models="clr-namespace:GD_StampingMachine.Model"
-             
-               xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
+
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
 
@@ -449,7 +449,7 @@
                                               Content="{DynamicResource btnExit}" />
 
 
-                        <ToggleButton IsThreeState="False" 
+                        <ToggleButton IsThreeState="False"     
                                             IsChecked="{Binding ElementName=AddParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
                                                       Height="auto" Padding="20,10" Margin="10,0"
@@ -550,7 +550,7 @@
                         RedMeasurementLineVisibility="Collapsed"
                         />
                                                                         <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
-                                         Visibility="{Binding ConverterParameter={x:Type GD_ViewModels:ParameterSetting.NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
+                                         Visibility="{Binding ConverterParameter={x:Type GD_ViewModels:ParameterSetting.QRSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -945,10 +945,10 @@
                                     </Style>
                                 </dxg:GridColumn.HeaderStyle>
                                 <dxg:GridColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" Height="30"/>
-                                    </DataTemplate>
-                                </dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" Height="30"/>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
                             </dxg:GridColumn>
 
                             <!--https://www.grapecity.com/blogs/using-mvvm-to-remove-rows-from-wpf-datagrid-->
