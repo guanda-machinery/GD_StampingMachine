@@ -31,12 +31,15 @@ namespace GD_StampingMachine.ViewModels
                   new ProjectDistributeModel()
                   {
                       ProjectDistributeName="Test1",
+                      CreatedDate = DateTime.Now,
+                      
                       ProductProjectVMObservableCollection = _typeSettingSetting.ProductProjectVMObservableCollection,
                       SeparateBoxVMObservableCollection = _typeSettingSetting.SeparateBoxVMObservableCollection
                   },                  
                   new ProjectDistributeModel()
                   {
                       ProjectDistributeName="Test2",
+                      CreatedDate = DateTime.Now,
                       ProductProjectVMObservableCollection = _typeSettingSetting.ProductProjectVMObservableCollection,
                       SeparateBoxVMObservableCollection = _typeSettingSetting.SeparateBoxVMObservableCollection
                   },

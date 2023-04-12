@@ -44,7 +44,7 @@
                                             </Style>
                                         </StackPanel.Style>
                                         <Border BorderThickness="1" BorderBrush="White"
-                                                                                    CornerRadius="7.5" Padding="0" Margin="5"
+                                                                                    CornerRadius="7.5" Padding="0" Margin="10,5"
                                                                                     Width="auto"
                                                                                     Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
                                             <Border.Style>

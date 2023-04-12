@@ -419,13 +419,21 @@
                             <TabItem IsSelected="{Binding ElementName=TBtn_TypeSettingSettings, Path=IsChecked}">
                                 <GD_UserControls:TypeSettingSettingUserControl DataContext="{Binding TypeSettingSettingVM}"/>
                             </TabItem>
+                            <TabItem IsSelected="{Binding ElementName=TBtn_MachiningSettings, Path=IsChecked}">
+                                <Grid>
+                                    <GD_UserControls:StampingBoxPartsUserControl Grid.Row="2" DataContext="{Binding StampingBoxPartsVM}"/>
+                                </Grid>
+                            </TabItem>
                         </TabControl>
                 </Grid>
                 <!--彈出式按鈕-->
                 <materialDesign:DrawerHost  Opacity="0.9"
-                        IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}">
+                        IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}"
+                                            IsRightDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}"
+                                            IsBottomDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}"
+                                            >
                     <materialDesign:DrawerHost.LeftDrawerContent>
-                        <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Stretch" Margin="0" >
+                            <materialDesign:ColorZone Mode="PrimaryDark"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0" >
                             <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left" >
                                 <StackPanel.Resources>
                                     <Style TargetType="StackPanel">
@@ -460,7 +468,18 @@
                             </StackPanel>
                         </materialDesign:ColorZone>
                     </materialDesign:DrawerHost.LeftDrawerContent>
-                </materialDesign:DrawerHost>
+
+                        <materialDesign:DrawerHost.RightDrawerContent>
+                            <materialDesign:ColorZone Mode="PrimaryDark"   HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0" >
+                                <TextBlock Text="123eeeeeeeeeeeeeeeeeeeeeee"/>
+                            </materialDesign:ColorZone>
+                        </materialDesign:DrawerHost.RightDrawerContent>
+                        <materialDesign:DrawerHost.BottomDrawerContent>
+                            <materialDesign:ColorZone Mode="PrimaryDark"    HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0" >
+                                <TextBlock Text="123eeeeeeeeeeeeeeeeeeeeeee"/>
+                            </materialDesign:ColorZone>
+                        </materialDesign:DrawerHost.BottomDrawerContent>
+                    </materialDesign:DrawerHost>
 
 
             </Grid>
@@ -494,7 +513,7 @@
                             <TextBlock Text="{DynamicResource btnDescription_LayoutSettings}"  />
                     </StackPanel>
                     <StackPanel>
-                        <ToggleButton Content="Logo">
+                                <ToggleButton Content="Logo" Name="TBtn_MachiningSettings">
                         </ToggleButton>
                             <TextBlock Text="{DynamicResource btnDescription_MachiningSettings}"  />
                     </StackPanel>

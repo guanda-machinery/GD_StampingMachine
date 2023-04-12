@@ -1,4 +1,6 @@
 ﻿
+using DevExpress.Utils.Extensions;
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.WindowsUI.Internal;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using System;
@@ -13,12 +15,11 @@ namespace GD_StampingMachine.ViewModels
 {
     public class StampingBoxPartModel
     {
+        public string ProjectDistributeName { get; set; }
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
-        public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand { get; set; }
-        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection { get; set; } = new();
-        public ICommand Box_OnDragRecordOverCommand { get; set; }
         public ICommand Box_OnDropRecordCommand { get; set; }
+        public ICommand Box_OnDragRecordOverCommand { get; set; }
     }
 
 
@@ -28,10 +29,18 @@ namespace GD_StampingMachine.ViewModels
         {
             StampingBoxPart = _stampingBoxPart;
         }
+
         public StampingBoxPartModel StampingBoxPart = new();
 
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
-        public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
+        /// <summary>
+        /// 選擇的盒子
+        /// </summary>
+        public ParameterSetting.SeparateBoxViewModel SelectedSeparateBoxVM { get; set; }
+        /// <summary>
+        /// 盒子
+        /// </summary>
+        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get => StampingBoxPart.SeparateBoxVMObservableCollection; }
+        public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get => StampingBoxPart.ProductProjectVMObservableCollection; }
         public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
             get => new RelayParameterizedCommand(obj =>
@@ -48,7 +57,7 @@ namespace GD_StampingMachine.ViewModels
                                 productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
                                 {
                                     if (productProjectPartViewModel.BoxNumber.HasValue)
-                                        if (NewSeparateBoxVM.BoxNumber == productProjectPartViewModel.BoxNumber.Value && productProjectPartViewModel.DistributeName == this.ProjectDistributeName)
+                                        if (NewSeparateBoxVM.BoxNumber == productProjectPartViewModel.BoxNumber.Value && productProjectPartViewModel.DistributeName == StampingBoxPart.ProjectDistributeName)
                                             if (!BoxPartsParameterVMObservableCollection.Contains(productProjectPartViewModel))
                                                 BoxPartsParameterVMObservableCollection.Add(productProjectPartViewModel);
                                 });
@@ -59,9 +68,29 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
         }
+        /// <summary>
+        /// 盒子內的專案
+        /// </summary>
+        private ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection;
+        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection
+        {
+            get
+            {
+                if (_boxPartsParameterVMObservableCollection == null)
+                    _boxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+                return _boxPartsParameterVMObservableCollection;
+            }
+            set
+            {
+                _boxPartsParameterVMObservableCollection = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection { get; set; } = new();
-        public ICommand Box_OnDragRecordOverCommand { get; set; }
-        public ICommand Box_OnDropRecordCommand { get; set; }
+
+        public ICommand Box_OnDropRecordCommand { get => StampingBoxPart.Box_OnDropRecordCommand; }
+        public ICommand Box_OnDragRecordOverCommand { get => StampingBoxPart.Box_OnDragRecordOverCommand; }
+
+
     }
 }

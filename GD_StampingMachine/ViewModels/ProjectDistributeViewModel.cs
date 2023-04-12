@@ -18,7 +18,18 @@ namespace GD_StampingMachine.ViewModels
 
     public class ProjectDistributeModel
     {
+        /// <summary>
+        /// 製品專案名稱
+        /// </summary>
         public string ProjectDistributeName { get; set; }
+        /// <summary>
+        /// 製品專案建立時間
+        /// </summary>
+        public DateTime CreatedDate { get; set; }
+        /// <summary>
+        /// 製品編輯時間
+        /// </summary>
+        public DateTime? EditDate { get; set; }
         /// <summary>
         /// 製品清單
         /// </summary>
@@ -35,14 +46,28 @@ namespace GD_StampingMachine.ViewModels
         public ProjectDistributeViewModel(ProjectDistributeModel _projectDistribute)
         {
             ProjectDistribute = _projectDistribute;
+            StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel
+            {
+                ProjectDistributeName = ProjectDistribute.ProjectDistributeName,
+                SeparateBoxVMObservableCollection = _projectDistribute.SeparateBoxVMObservableCollection,
+                ProductProjectVMObservableCollection = _projectDistribute.ProductProjectVMObservableCollection,
+                Box_OnDropRecordCommand = this.Box_OnDropRecordCommand,
+                Box_OnDragRecordOverCommand = this.Box_OnDragRecordOverCommand,
+            }); 
         }
-        protected ProjectDistributeModel ProjectDistribute = new ProjectDistributeModel();
+
+        public ProjectDistributeModel ProjectDistribute { get; } = new ProjectDistributeModel();
+
+        public StampingBoxPartsViewModel StampingBoxPartsVM { get; set; }
+
 
         private bool _IsInDistributePage = false;
         public bool IsInDistributePage { get => _IsInDistributePage; set { _IsInDistributePage = value; OnPropertyChanged(); } }
 
 
-        public string ProjectDistributeName { get => ProjectDistribute.ProjectDistributeName; }
+      //  public string ProjectDistributeName { get => ProjectDistribute.ProjectDistributeName; }
+
+
 
         // private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
         private ProductProjectViewModel _selectedProductProjectVM;
@@ -101,24 +126,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        /// <summary>
-        /// 盒子內的專案
-        /// </summary>
-        private ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection;
-        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection
-        {
-            get
-            {
-                if (_boxPartsParameterVMObservableCollection == null)
-                    _boxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-                return _boxPartsParameterVMObservableCollection;
-            }
-            set
-            {
-                _boxPartsParameterVMObservableCollection = value;
-                OnPropertyChanged();
-            }
-        }
+
 
         /// <summary>
         /// 盒子列表
@@ -134,16 +142,9 @@ namespace GD_StampingMachine.ViewModels
         }
 
         /// <summary>
-        /// 選擇的盒子
-        /// </summary>
-        public ParameterSetting.SeparateBoxViewModel SelectedSeparateBoxVM{get;set;}
-
-
-
-        /// <summary>
         /// 選擇盒子觸發的行為
         /// </summary>
-        public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
+        /*public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
             get => new RelayParameterizedCommand(obj =>
             {
@@ -169,61 +170,14 @@ namespace GD_StampingMachine.ViewModels
                     
                 }
              });
-        }
+        }*/
         
 
 
 
 
 
-        public ICommand NoneBox_OnDragRecordOverCommand
-        {
-            get => new RelayParameterizedCommand(obj =>
-                {
-                    if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
-                    {
-                        e.Effects = System.Windows.DragDropEffects.None;
-                        var DragDropData = e.Data.GetData(typeof(RecordDragDropData)) as DevExpress.Xpf.Core.RecordDragDropData;
-                        foreach (var _record in DragDropData.Records)
-                        {
-                            if (_record is PartsParameterViewModel PartsParameterVM)
-                            {
-                                if (SelectedProductProjectVM != null)
-                                {
-                                    if (PartsParameterVM.ProjectName != SelectedProductProjectVM.ProductProjectName)
-                                    {
-                                        return;
-                                    }
-                                }
-                                else
-                                {
-                                    return;
-                                }
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        }
-                        e.Effects = System.Windows.DragDropEffects.Move;
-                    }
-                });
-        }
 
-        public ICommand Box_OnDragRecordOverCommand
-        {
-            get
-            {
-                return new RelayParameterizedCommand(obj =>
-                {
-                    if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
-                    {
-                        if(SelectedSeparateBoxVM != null)
-                            e.Effects = System.Windows.DragDropEffects.Move;
-                    }
-                });
-            }
-        }
 
 
         /// <summary>
@@ -253,6 +207,41 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+        public ICommand NoneBox_OnDragRecordOverCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
+                {
+                    e.Effects = System.Windows.DragDropEffects.None;
+                    var DragDropData = e.Data.GetData(typeof(RecordDragDropData)) as DevExpress.Xpf.Core.RecordDragDropData;
+                    foreach (var _record in DragDropData.Records)
+                    {
+                        if (_record is PartsParameterViewModel PartsParameterVM)
+                        {
+                            if (SelectedProductProjectVM != null)
+                            {
+                                if (PartsParameterVM.ProjectName != SelectedProductProjectVM.ProductProjectName)
+                                {
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    e.Effects = System.Windows.DragDropEffects.Move;
+                }
+            });
+        }
+
+
         /// <summary>
         /// 丟入盒子內
         /// </summary>
@@ -271,10 +260,10 @@ namespace GD_StampingMachine.ViewModels
                             if (_record is PartsParameterViewModel PartsParameterVM)
                             {
                                 //看目前選擇哪一個盒子
-                                if (SelectedSeparateBoxVM != null)
+                                if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                                 {
-                                    PartsParameterVM.DistributeName = this.ProjectDistributeName;
-                                    PartsParameterVM.BoxNumber = SelectedSeparateBoxVM.BoxNumber;
+                                    PartsParameterVM.DistributeName = ProjectDistribute.ProjectDistributeName;
+                                    PartsParameterVM.BoxNumber = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxNumber;
                                     e.Effects = System.Windows.DragDropEffects.Move;
                                 }
                             }
@@ -286,7 +275,20 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-
+        public ICommand Box_OnDragRecordOverCommand
+        {
+            get
+            {
+                return new RelayParameterizedCommand(obj =>
+                {
+                    if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
+                    {
+                        if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                            e.Effects = System.Windows.DragDropEffects.Move;
+                    }
+                });
+            }
+        }
 
 
 
