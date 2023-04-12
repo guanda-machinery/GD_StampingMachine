@@ -290,6 +290,9 @@
     <Compile Include="UserControls\SoftwareUpdateUserControl.xaml.cs">
       <DependentUpon>SoftwareUpdateUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\StampingBoxPartsUserControl.xaml.cs">
+      <DependentUpon>StampingBoxPartsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\StampingFontChangedUserControl.xaml.cs">
       <DependentUpon>StampingFontChangedUserControl.xaml</DependentUpon>
     </Compile>
@@ -298,6 +301,9 @@
     </Compile>
     <Compile Include="UserControls\TriggerSliderUserControl.xaml.cs">
       <DependentUpon>TriggerSliderUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TypeSettingSettingUserControl.xaml.cs">
+      <DependentUpon>TypeSettingSettingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\CheckIPAddressPortStringRule.cs" />
     <Compile Include="ValidationRules\CheckNumberArrayRule.cs" />
@@ -330,9 +336,11 @@
     <Compile Include="ViewModels\ProductSetting\ProductSettingViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\ProductProjectViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModelBase.cs" />
+    <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="ViewModels\StampingMainViewModel.cs" />
     <Compile Include="ViewModels\StampingTypeViewModel.cs" />
+    <Compile Include="ViewModels\ProjectDistributeViewModel.cs" />
     <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\RadialPanel.cs" />
@@ -416,6 +424,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\StampingBoxPartsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\StampingFontChangedUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -425,6 +437,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TriggerSliderUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TypeSettingSettingUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

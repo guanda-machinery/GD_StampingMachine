@@ -12,6 +12,5 @@ namespace GD_StampingMachine.Views
             InitializeComponent();
         }
 
-
     }
 }

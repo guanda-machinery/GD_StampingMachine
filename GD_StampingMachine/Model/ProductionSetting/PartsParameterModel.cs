@@ -1,4 +1,5 @@
 ﻿using GD_StampingMachine.ViewModels;
+using GD_StampingMachine.ViewModels.ProductSetting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,15 @@ namespace GD_StampingMachine.Model.ProductionSetting
 {
     public class PartsParameterModel////:CloneableBase
     {
-
+        /// <summary>
+        /// 分配加工名稱
+        /// </summary>
+        public string DistributeName { get; set; }
+        /// <summary>
+        /// 加工專案名稱
+        /// </summary>
         public string ProjectName { get; set; }
+
         public string Parametert_A { get; set; }
         public string Parametert_B{ get; set; }
         public string Parametert_C { get; set; }
@@ -27,4 +35,7 @@ namespace GD_StampingMachine.Model.ProductionSetting
 
 
     }
+
+
+
 }

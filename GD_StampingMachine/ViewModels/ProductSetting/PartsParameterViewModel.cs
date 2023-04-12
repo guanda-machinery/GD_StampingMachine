@@ -2,6 +2,7 @@
 using DevExpress.Office.Forms;
 using DevExpress.Utils.StructuredStorage.Internal;
 using DevExpress.Xpf.Core.Native;
+using DevExpress.Xpf.Editors.Themes;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
 using GD_StampingMachine.Model;
@@ -32,22 +33,30 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public double FinishProgress
         {
             get => PartsParameter.FinishProgress;
-            set 
-            { 
-                PartsParameter.FinishProgress = value; 
-                OnPropertyChanged(nameof(FinishProgress)); 
+            set
+            {
+                PartsParameter.FinishProgress = value;
+                OnPropertyChanged(nameof(FinishProgress));
             }
         }
 
+        public string DistributeName 
+        {
+            get => PartsParameter.DistributeName;
+            set 
+            { 
+                PartsParameter.DistributeName = value; OnPropertyChanged();
+            }
+        }
         public string ProjectName
         {
             get => PartsParameter.ProjectName;
             set
             {
-                PartsParameter.ProjectName = value;
-                OnPropertyChanged(nameof(ProjectName));
+                PartsParameter.ProjectName = value; OnPropertyChanged();
             }
         }
+
 
         public string ParameterA
         {
@@ -166,47 +175,36 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private RelayParameterizedCommand _projectDeleteCommand;
+        //private RelayParameterizedCommand _projectDeleteCommand;
         public RelayParameterizedCommand ProjectDeleteCommand
         {
             get
             {
-                if (_projectDeleteCommand == null)
-                {
-                    _projectDeleteCommand = new RelayParameterizedCommand(obj =>
-                    {
-                        if (obj is GridControl ObjGridControl)
-                        {
-                            if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
-                            {
+                return new RelayParameterizedCommand(obj =>
+                       {
+                           if (obj is GridControl ObjGridControl)
+                           {
+                               if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
+                               {
+                                   var MessageBoxReturn = WinUIMessageBox.Show(null,
+                                       (string)Application.Current.TryFindResource("Text_AskDelProject") +
+                                       "\r\n" +
+                                       $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
+                                       "?"
+                                       ,
+                                       (string)Application.Current.TryFindResource("Text_notify"),
+                                       MessageBoxButton.YesNo,
+                                       MessageBoxImage.Exclamation,
+                                       MessageBoxResult.None,
+                                       MessageBoxOptions.None,
+                                       DevExpress.Xpf.Core.FloatingMode.Window);
 
-
-                                var MessageBoxReturn = WinUIMessageBox.Show(null,
-                                    (string)Application.Current.TryFindResource("Text_AskDelProject") +
-                                    "\r\n" +
-                                    $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
-                                    "?"
-                                    ,
-                                    (string)Application.Current.TryFindResource("Text_notify"),
-                                    MessageBoxButton.YesNo,
-                                    MessageBoxImage.Exclamation,
-                                    MessageBoxResult.None,
-                                    MessageBoxOptions.None,
-                                    DevExpress.Xpf.Core.FloatingMode.Window);
-
-                                if (MessageBoxReturn == MessageBoxResult.Yes)
-                                    GridItemSource.Remove(this);
-                            }
-                        }
-                    });
-                }
-                return _projectDeleteCommand;
+                                   if (MessageBoxReturn == MessageBoxResult.Yes)
+                                       GridItemSource.Remove(this);
+                               }
+                           }
+                       });
             }
-          /*  set
-            {
-                _projectDeleteCommand = value;
-                OnPropertyChanged(nameof(ProjectDeleteCommand));
-            }*/
         }
 
 
@@ -218,4 +216,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
     }
+
+  
+
+
+
+
+
 }

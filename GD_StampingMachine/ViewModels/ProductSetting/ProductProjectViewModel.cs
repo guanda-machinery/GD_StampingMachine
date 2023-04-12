@@ -367,6 +367,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
                 //儲存 ProductProject
+                ProductProjectEditTime = DateTime.Now;
                 SaveProductProject();
             });
         }

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"
+
              xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup"
               xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
@@ -22,7 +22,7 @@
 
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:ProductSetting.ProductSettingViewModel}">
 
     <Grid>
         <Grid Visibility="{Binding SelectProductProjectVM.IsInParameterPage, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
@@ -850,12 +850,12 @@
                  Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
-                        <dxg:GridControl  Background="Transparent"  MinHeight="200"
+                        <dxg:GridControl  Background="Transparent"  VerticalAlignment="Top"
                                           Style="{StaticResource ProjectGridControl}"
                                           AutoGenerateColumns="None"
                                           SelectedItem="{Binding PartsParameterViewModelSelectItem}"
                                           ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MaxHeight="2000"    >
+                                          MaxHeight="1000"    >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

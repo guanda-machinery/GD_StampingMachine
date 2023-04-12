@@ -150,10 +150,14 @@ namespace GD_StampingMachine.ViewModels
 
             };
 
-
-            TypeSettingSettingVM.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
-
-            TypeSettingSettingVM.SeparateBoxVMObservableCollection= ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel;
+            TypeSettingSettingVM = new TypeSettingSettingViewModel(new TypeSettingSettingModel()
+            {
+                ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
+                SeparateBoxVMObservableCollection =  ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel
+            });
+                 
+            //TypeSettingSettingVM.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
+            //TypeSettingSettingVM.SeparateBoxVMObservableCollection= ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel;
         }
 
         private DateTime _dateTimeNow = new DateTime();
@@ -209,18 +213,14 @@ namespace GD_StampingMachine.ViewModels
 
             }
         }
-        #region VM
 
+
+        #region VM
         public MechanicalSpecificationViewModel MechanicalSpecificationVM { get; set; } = new MechanicalSpecificationViewModel();
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; } = new StampingFontChangedViewModel();
         public ParameterSettingViewModel ParameterSettingVM { get; set; } = new ParameterSettingViewModel();
         public ProductSettingViewModel ProductSettingVM { get; set; } = new ProductSettingViewModel();
-
-
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; } = new TypeSettingSettingViewModel();
-
-
-
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
         #endregion
 
 
@@ -228,7 +228,7 @@ namespace GD_StampingMachine.ViewModels
         {
         get => new RelayCommand(() =>
         {
-            TypeSettingSettingVM.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
+           // TypeSettingSettingVM.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
         });
     }
 
