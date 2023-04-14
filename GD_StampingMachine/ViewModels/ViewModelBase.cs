@@ -11,16 +11,23 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class ViewModelBase : INotifyPropertyChanged
-    {
-        
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
+
+
+    public class ViewModelBase : INotifyPropertyChanged
+    { 
+        /// <summary>
+        /// 訊息紀錄
+        /// </summary>
+       // public SyncObservableCollection<OperatingLogViewModel> LogDataObservableCollection { get; set; } = new SyncObservableCollection<OperatingLogViewModel>();
+
+        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
         /// <summary>
         /// 屬性變更事件
         /// </summary>
@@ -38,11 +45,5 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-
-
-
-
-
     }
-
 }

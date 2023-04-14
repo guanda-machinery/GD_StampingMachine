@@ -25,6 +25,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        /// <summary>
+        /// 箱子內容物的值
+        /// </summary>
+        public double BoxPieceValue { get; set; }
+
         public double BoxSliderValue
         {
             get => SeparateBox.BoxSliderValue;

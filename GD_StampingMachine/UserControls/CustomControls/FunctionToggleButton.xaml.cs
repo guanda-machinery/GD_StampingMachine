@@ -1,5 +1,4 @@
-﻿using GD_StampingMachine.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
+namespace GD_StampingMachine.UserControls.CustomControls
 {
     /// <summary>
-    /// NumberSettingSchematicDiagramUserControl.xaml 的互動邏輯
+    /// FunctionToggleButton.xaml 的互動邏輯
     /// </summary>
-    public partial class TopRowDiagramUserControl : UserControl
+    public partial class FunctionToggleButton : UserControl
     {
-        public TopRowDiagramUserControl()
+        public FunctionToggleButton()
         {
             InitializeComponent();
         }

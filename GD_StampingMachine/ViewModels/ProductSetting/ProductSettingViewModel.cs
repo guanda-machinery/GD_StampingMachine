@@ -1,4 +1,5 @@
 ﻿
+using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.WindowsUI;
 using GD_StampingMachine.Extensions;
@@ -118,9 +119,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if(SelectProductProjectVM != ProjectItem)
                         SelectProductProjectVM = ProjectItem;
                     SelectProductProjectVM.IsInParameterPage = true;
-                    //PartsParameterSheetStampingTypeFormEnum = ProjectItem.ProductProject.SheetStampingTypeForm;
-                    //PartsParameterVMObservableCollection = ProjectItem.PProjectPartsParameterVMObservableCollection;//會直接繫結
-                    //初始化
+
                 }
             });
         }

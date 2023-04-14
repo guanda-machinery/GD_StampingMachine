@@ -7,9 +7,10 @@
              mc:Ignorable="d" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"
+
              xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup"
-              xmlns:dd="urn:gong-wpf-dragdrop" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
@@ -18,9 +19,11 @@
             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:GD_Models="clr-namespace:GD_StampingMachine.Model"
-              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting"
-               xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
+
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
+             xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:ProductSetting.ProductSettingViewModel}">
 
     <Grid>
         <Grid Visibility="{Binding SelectProductProjectVM.IsInParameterPage, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
@@ -449,7 +452,7 @@
                                               Content="{DynamicResource btnExit}" />
 
 
-                        <ToggleButton IsThreeState="False" 
+                        <ToggleButton IsThreeState="False"     
                                             IsChecked="{Binding ElementName=AddParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
                                                       Height="auto" Padding="20,10" Margin="10,0"
@@ -540,7 +543,7 @@
                                                                         <Grid.RenderTransform>
                                                                             <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
                                                                         </Grid.RenderTransform>
-                                                                        <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,0,0,20"
+                                                                        <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,15,0,15"
                                                                 Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                   PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
@@ -585,10 +588,15 @@
                                             </Button>
                                         </StackPanel>
 
-                                    <GroupBox Header="測試用拉桿" Grid.Row="6" Width="100" Grid.ColumnSpan="3" Foreground="Red" Style="{StaticResource ParameterBaseStyleGroupBox}">
+                                    <GroupBox Header="測試用" Grid.Row="6" Width="100" Grid.ColumnSpan="3" Foreground="Red" Style="{StaticResource ParameterBaseStyleGroupBox}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding AddNewPartsParameterVM.FinishProgress}" Foreground="Red"/>
                                             <Slider Value="{Binding AddNewPartsParameterVM.FinishProgress}" Maximum="100" Minimum="0"/>
+                                            <dxe:ComboBoxEdit EditValue="{Binding AddNewPartsParameterVM.MachiningStatus, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" Margin="0,10">
+                                                <dxmvvm:Interaction.Behaviors>
+                                                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:MachiningStatusEnum}" ImageSize="40,40" AllowImages="False" />
+                                                </dxmvvm:Interaction.Behaviors>
+                                            </dxe:ComboBoxEdit>
                                         </StackPanel>
                                     </GroupBox>
 
@@ -850,12 +858,12 @@
                  Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
-                        <dxg:GridControl  Background="Transparent"  MinHeight="200"
+                        <dxg:GridControl  Background="Transparent"  VerticalAlignment="Top"
                                           Style="{StaticResource ProjectGridControl}"
                                           AutoGenerateColumns="None"
                                           SelectedItem="{Binding PartsParameterViewModelSelectItem}"
                                           ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MaxHeight="2000"    >
+                                          MaxHeight="1000"    >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -945,10 +953,10 @@
                                     </Style>
                                 </dxg:GridColumn.HeaderStyle>
                                 <dxg:GridColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" Height="30"/>
-                                    </DataTemplate>
-                                </dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" Height="30"/>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
                             </dxg:GridColumn>
 
                             <!--https://www.grapecity.com/blogs/using-mvvm-to-remove-rows-from-wpf-datagrid-->

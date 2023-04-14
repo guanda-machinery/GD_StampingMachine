@@ -16,7 +16,6 @@ namespace GD_StampingMachine.ViewModels
             StampingType = new StampingTypeModel();
         }
 
-
         /// <summary>
         /// 鋼印文字
         /// </summary>

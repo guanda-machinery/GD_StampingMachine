@@ -10,53 +10,11 @@ namespace GD_StampingMachine.Model
 {
     public class MechanicalSpecificationModel
     {
-        public MechanicalSpecificationModel()
-        {
-            AllowMachiningSize = new AllowMachiningSizeModel()
-            {
-                WebHeightLowerLimited = 75,
-                WebHeightUpperLimited = 500,
-                FlangeWidthLowerLimited = 150,
-                FlangeWidthUpperLimited = 1050,
-                MachiningMinLength = 2400,
-                MachiningMaxLength = 99999
-            };
+        public AllowMachiningSizeModel AllowMachiningSize { get; set; } = new();
 
-            MachiningProperty = new MachiningPropertyModel()
-            {
-                HorizontalDrillCount = 1,
-                VerticalDrillCount = 2,
-                Each_HorizontalDrill_SpindleCount = 1,
-                Each_VerticalDrill_SpindleCount = 1,
-                AuxiliaryAxisEffectiveTravelMax = 300,
-                MaxDrillDiameter = 40,
-                MaxDrillThickness = 80,
-                SpindleMaxPower = 15,
-                SpindleToolHolder = SpindleToolHolderEnum.BT40,
-                SpindleRotationalFrequencyMin = 180,
-                SpindleRotationalFrequencyMax = 400,
-                SpindleFeedSpeedMin = 40,
-                SpindleFeedSpeedMax = 1000,
-                SpindleMoveSpeed = 24
-            };
+        public MachiningPropertyModel MachiningProperty { get; set; } = new();
 
-            MachineSize = new MachineSizeModel()
-            {
-                Length = 5450,
-                Width = 2000,
-                Height = 2000,
-                Weight = 14.5
-            };
-
-
-        }
-
-
-        public AllowMachiningSizeModel AllowMachiningSize { get; set; }
-
-        public MachiningPropertyModel MachiningProperty { get; set; }
-
-        public MachineSizeModel MachineSize { get; set; }
+        public MachineSizeModel MachineSize { get; set; } = new();
 
     }
 

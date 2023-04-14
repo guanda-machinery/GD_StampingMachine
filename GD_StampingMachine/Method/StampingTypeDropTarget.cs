@@ -186,18 +186,8 @@ namespace GD_StampingMachine.Method
                     }
                     else
                     {
-                        if (SourceData is ICloneableDragItem cloneableItem)
-                        {
-                            SourceData = cloneableItem.CloneItem(dropInfo);
-                        }
-                        else if (SourceData is ICloneable cloneable)
-                        {
-                            SourceData = cloneable.Clone();
-                        }
-                        else
-                        {
-                            SourceData = SourceData.DeepCloneByJson();
-                        }
+                       SourceData = (SourceData as StampingTypeViewModel).DeepCloneByJson();
+                        
                         (SourceData as StampingTypeViewModel).IsNewAddStamping = false;
                         DDMethodType = DragDropMethod.Copy;
                     }

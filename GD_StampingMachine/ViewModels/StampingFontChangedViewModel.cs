@@ -138,6 +138,7 @@ namespace GD_StampingMachine.ViewModels
                         StampingTypeUseCount = 0,
                         StampingTypeString = null,
                         IsNewAddStamping = true,
+                        //LogDataObservableCollection = this.LogDataObservableCollection
                     });
                 };
 
@@ -158,16 +159,6 @@ namespace GD_StampingMachine.ViewModels
                 var FirstFont = NewUnusedStampingFont.FirstOrDefault().DeepCloneByJson();
                 FirstFont.IsNewAddStamping = false;
                 UnusedStampingTypeVMObservableCollection.Add(FirstFont);
-                /*
-                if (!string.IsNullOrEmpty(NewUnnsedStampingFontString))
-                {
-                    UnusedStampingTypeVMObservableCollection.Add(new StampingTypeModel()
-                    {
-                        StampingTypeNumber = 0,
-                        StampingTypeString = NewUnnsedStampingFontString,
-                        StampingTypeUseCount = 0
-                    });
-                }*/
             });
         }
 

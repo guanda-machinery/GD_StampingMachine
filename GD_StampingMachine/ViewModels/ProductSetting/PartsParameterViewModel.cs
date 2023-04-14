@@ -2,8 +2,10 @@
 using DevExpress.Office.Forms;
 using DevExpress.Utils.StructuredStorage.Internal;
 using DevExpress.Xpf.Core.Native;
+using DevExpress.Xpf.Editors.Themes;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.Properties;
@@ -24,22 +26,41 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// </summary>
     public class PartsParameterViewModel : ViewModelBase
     {
-        public PartsParameterViewModel()
-        {
-            PartsParameter = new PartsParameterModel();
-        }
         public PartsParameterViewModel(PartsParameterModel PParameter)
         {
             PartsParameter = PParameter;
         }
-        private PartsParameterModel PartsParameter { get; set; } 
+        public PartsParameterModel PartsParameter = new();
         public double FinishProgress
         {
             get => PartsParameter.FinishProgress;
-            set 
-            { 
-                PartsParameter.FinishProgress = value; 
-                OnPropertyChanged(nameof(FinishProgress)); 
+            set
+            {
+                PartsParameter.FinishProgress = value;
+                OnPropertyChanged(nameof(FinishProgress));
+            }
+        }
+
+        /// <summary>
+        /// 加工專案名
+        /// </summary>
+        public string DistributeName
+        {
+            get => PartsParameter.DistributeName;
+            set
+            {
+                PartsParameter.DistributeName = value; OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 專案名
+        /// </summary>
+        public string ProjectName
+        {
+            get => PartsParameter.ProjectName;
+            set
+            {
+                PartsParameter.ProjectName = value; OnPropertyChanged();
             }
         }
 
@@ -72,20 +93,33 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        public int BoxNumber
+        public MachiningStatusEnum MachiningStatus
+        {
+            get => PartsParameter.MachiningStatus;
+            set
+            {
+                PartsParameter.MachiningStatus =value; 
+                OnPropertyChanged(nameof(MachiningStatus));
+            }
+        }
+   
+
+        /// <summary>
+        /// (加工)盒子編號
+        /// </summary>
+        public int? BoxNumber
         {
             get => PartsParameter.BoxNumber;
             set
             {
                 PartsParameter.BoxNumber = value;
-                OnPropertyChanged(nameof(BoxNumber));
+                OnPropertyChanged(nameof(ParameterC));
             }
         }
 
 
-
         /// <summary>
-        /// 選單
+        /// 金屬牌樣式
         /// </summary>
         public SettingViewModelBase SettingVMBase
         {
@@ -100,8 +134,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-    
-
         private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
         {
@@ -110,27 +142,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 if (_projectEditCommand == null)
                 {
                     _projectEditCommand = new RelayParameterizedCommand(obj =>
-                    {
-
-                    });
-                }
-                return _projectEditCommand;
-            }
-            set
-            {
-                _projectEditCommand = value;
-                OnPropertyChanged(nameof(ProjectEditCommand));
-            }
-        }
-
-        private RelayParameterizedCommand _projectDeleteCommand;
-        public RelayParameterizedCommand ProjectDeleteCommand
-        {
-            get
-            {
-                if (_projectDeleteCommand == null)
-                {
-                    _projectDeleteCommand = new RelayParameterizedCommand(obj =>
                     {
                         if (obj is GridControl ObjGridControl)
                         {
@@ -157,13 +168,45 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         }
                     });
                 }
-                return _projectDeleteCommand;
+                return _projectEditCommand;
             }
-          /*  set
+            set
             {
-                _projectDeleteCommand = value;
-                OnPropertyChanged(nameof(ProjectDeleteCommand));
-            }*/
+                _projectEditCommand = value;
+                OnPropertyChanged(nameof(ProjectEditCommand));
+            }
+        }
+
+        //private RelayParameterizedCommand _projectDeleteCommand;
+        public RelayParameterizedCommand ProjectDeleteCommand
+        {
+            get
+            {
+                return new RelayParameterizedCommand(obj =>
+                       {
+                           if (obj is GridControl ObjGridControl)
+                           {
+                               if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
+                               {
+                                   var MessageBoxReturn = WinUIMessageBox.Show(null,
+                                       (string)Application.Current.TryFindResource("Text_AskDelProject") +
+                                       "\r\n" +
+                                       $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
+                                       "?"
+                                       ,
+                                       (string)Application.Current.TryFindResource("Text_notify"),
+                                       MessageBoxButton.YesNo,
+                                       MessageBoxImage.Exclamation,
+                                       MessageBoxResult.None,
+                                       MessageBoxOptions.None,
+                                       DevExpress.Xpf.Core.FloatingMode.Window);
+
+                                   if (MessageBoxReturn == MessageBoxResult.Yes)
+                                       GridItemSource.Remove(this);
+                               }
+                           }
+                       });
+            }
         }
 
 
@@ -175,4 +218,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
     }
+
+  
+
+
+
+
+
 }

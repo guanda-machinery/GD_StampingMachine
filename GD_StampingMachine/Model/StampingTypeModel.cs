@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class StampingTypeModel : ViewModelBase
+    public class StampingTypeModel
     {
         /// <summary>
         /// 鋼印文字
@@ -25,10 +25,5 @@ namespace GD_StampingMachine.Model
         public int StampingTypeUseCount { get; set; }
 
         public bool IsNewAddStamping { get; set; }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
     }
 }

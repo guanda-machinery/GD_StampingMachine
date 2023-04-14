@@ -9,9 +9,13 @@ namespace GD_StampingMachine.ViewModels
 {
     public class MechanicalSpecificationViewModel : ViewModelBase
     {
-        public MechanicalSpecificationModel MechanicalSpecification { get; set; } = new MechanicalSpecificationModel();
+        public MechanicalSpecificationViewModel(MechanicalSpecificationModel _mechanicalSpecification)
+        {
+            this.MechanicalSpecification = _mechanicalSpecification;
+        }
 
 
+        public MechanicalSpecificationModel MechanicalSpecification { get; set; } = new ();
 
     }
 }
