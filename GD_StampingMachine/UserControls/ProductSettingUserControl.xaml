@@ -47,9 +47,11 @@
                         <ToggleButton Foreground="Black" FontSize="14"
                                 IsThreeState="False" Style="{StaticResource GD_ToggleButton}" 
                                             IsChecked="{Binding ElementName=AddProjectDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
-                                                  Width="auto"
+
+                                      Width="auto"
                                                       Height="auto" Padding="10,0" Margin="6"
                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                      materialDesign:ButtonAssist.CornerRadius="5"
                                                       Content="{DynamicResource Text_AddNewProject}" >
                         </ToggleButton>
                     </StackPanel>

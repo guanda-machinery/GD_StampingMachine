@@ -72,22 +72,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-
-        /// <summary>
-        /// 第一種選單
-        /// </summary>
-        /*public NumberSettingModelBase NumberSetting
+        public int BoxNumber
         {
-            get =>PartsParameter.NumberSetting;
-            set 
+            get => PartsParameter.BoxNumber;
+            set
             {
-                PartsParameter.NumberSetting = value;
-                OnPropertyChanged(nameof(NumberSetting));
+                PartsParameter.BoxNumber = value;
+                OnPropertyChanged(nameof(BoxNumber));
             }
-        }*/
+        }
 
 
-        //private NumberSettingModelBase _numberSetting;// = new NumberSettingViewModel();
+
         /// <summary>
         /// 選單
         /// </summary>

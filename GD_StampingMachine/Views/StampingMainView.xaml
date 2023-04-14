@@ -419,14 +419,7 @@
                             <TabItem IsSelected="{Binding ElementName=TBtn_LayoutSettings, Path=IsChecked}" 
                                  DataContext="{Binding ProductSettingVM}">
                                 <StackPanel>
-                                    <Slider Name="testslider" Minimum="0" Maximum="100"/>
-                                    <TextBlock Text="{Binding ElementName=testslider, Path=Value}"></TextBlock>
-                                    <ProgressBar          Style="{ StaticResource MaterialDesignLinearProgressBar }"
-                                        Value="{Binding ElementName=testslider, Path=Value}" IsIndeterminate="False">
-                                        <i:Interaction.Behaviors>
-                                            <GD_Behavior:ProgresBarAnimateBehavior />
-                                        </i:Interaction.Behaviors>
-                                    </ProgressBar>
+
                                 </StackPanel>
                             </TabItem>
                         </TabControl>

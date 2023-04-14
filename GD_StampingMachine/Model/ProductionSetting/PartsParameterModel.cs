@@ -9,6 +9,9 @@ namespace GD_StampingMachine.Model.ProductionSetting
 {
     public class PartsParameterModel////:CloneableBase
     {
+        //箱子種類/箱子編號
+       
+        public int BoxNumber { get; set; }
         public string Parametert_A { get; set; }
         public string Parametert_B{ get; set; }
         public string Parametert_C { get; set; }
