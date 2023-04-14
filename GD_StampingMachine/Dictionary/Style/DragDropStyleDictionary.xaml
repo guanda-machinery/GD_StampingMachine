@@ -184,6 +184,14 @@
                             <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="1x">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
+                            
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                                               To="1" Duration="0:0:0.1"
+                                               />
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                                                 To="1" Duration="0:0:0.1"
+                                               />
+
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -198,6 +206,11 @@
                             <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="1x">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                                               To="1" Duration="0:0:0.1"
+                                               />
+                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                                                 To="1" Duration="0:0:0.1"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>

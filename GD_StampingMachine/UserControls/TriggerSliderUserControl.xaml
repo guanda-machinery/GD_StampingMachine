@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d"  >
+             mc:Ignorable="d"  Foreground="#E82127" >
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -22,7 +22,7 @@
         </RepeatButton>
         <Slider Grid.Column="1"  VerticalAlignment="Center" x:Name="MainSlider" MinWidth="50"  Height="20" FontSize="12"
                 Margin="5,0" Style="{StaticResource CustomSlider}"  Value="{Binding MainSilderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Foreground="#E82127" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
+                           Foreground="{Binding Foreground}" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
                             Minimum="0"
                             Maximum="100"
                             TickFrequency="1" >

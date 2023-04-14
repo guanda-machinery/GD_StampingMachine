@@ -11,22 +11,22 @@ using System.Windows.Controls.Primitives;
 namespace GD_StampingMachine.ViewModels
 {
     public class TypeSettingSettingModel
-    {    
+    {
         /// <summary>
         /// 製品清單
         /// </summary>
-        public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
+        public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; } 
         /// <summary>
         /// 盒子列表
         /// </summary>
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
+        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
     }
 
     public class TypeSettingSettingViewModel : ViewModelBase
     {
         public TypeSettingSettingViewModel(TypeSettingSettingModel _typeSettingSetting )
         {
-              var ProjectDistributeModelList = new List<ProjectDistributeModel>() 
+            var ProjectDistributeModelList = new List<ProjectDistributeModel>() 
               {
                   new ProjectDistributeModel()
                   {
@@ -44,16 +44,14 @@ namespace GD_StampingMachine.ViewModels
                       SeparateBoxVMObservableCollection = _typeSettingSetting.SeparateBoxVMObservableCollection
                   },
               };
-
             ProjectDistributeModelList.ForEach(projectDistribute =>
             {
                 ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(projectDistribute));
             });
-            ProjectDistributeVM = ProjectDistributeVMObservableCollection.First();
+            ProjectDistributeVM = ProjectDistributeVMObservableCollection.FirstOrDefault();
         }
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }= new();
-
 
         public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand
         {
@@ -64,10 +62,10 @@ namespace GD_StampingMachine.ViewModels
                     if (ProjectDistributeVM != ProjectItem)
                         ProjectDistributeVM = ProjectItem;
                     ProjectDistributeVM.IsInDistributePage = true;
+                    ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
                 }
             });
         }
-
         private ProjectDistributeViewModel _projectDistributeVM;
         public ProjectDistributeViewModel ProjectDistributeVM { get=> _projectDistributeVM; set { _projectDistributeVM = value; OnPropertyChanged(); } }
 

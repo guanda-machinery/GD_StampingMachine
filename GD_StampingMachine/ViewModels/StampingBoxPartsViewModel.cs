@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
@@ -20,6 +21,7 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
         public ICommand Box_OnDropRecordCommand { get; set; }
         public ICommand Box_OnDragRecordOverCommand { get; set; }
+        public bool GridControl_MachiningStatusColumnVisible { get; set; } = true;
     }
 
 
@@ -30,12 +32,35 @@ namespace GD_StampingMachine.ViewModels
             StampingBoxPart = _stampingBoxPart;
         }
 
+        public bool MachiningStatusIsVisible
+        { 
+            get => StampingBoxPart.GridControl_MachiningStatusColumnVisible; 
+            set => StampingBoxPart.GridControl_MachiningStatusColumnVisible = value; 
+        }
+
         public StampingBoxPartModel StampingBoxPart = new();
 
+
+
+        private ParameterSetting.SeparateBoxViewModel _selectedSeparateBoxVM;
         /// <summary>
         /// 選擇的盒子
         /// </summary>
-        public ParameterSetting.SeparateBoxViewModel SelectedSeparateBoxVM { get; set; }
+        public ParameterSetting.SeparateBoxViewModel SelectedSeparateBoxVM 
+        {
+            get 
+            {
+                if (_selectedSeparateBoxVM == null)
+                    _selectedSeparateBoxVM = SeparateBoxVMObservableCollection.FirstOrDefault();
+                return _selectedSeparateBoxVM;
+            }
+            set => _selectedSeparateBoxVM = value;
+        }
+       
+
+
+
+
         /// <summary>
         /// 盒子
         /// </summary>
@@ -51,23 +76,46 @@ namespace GD_StampingMachine.ViewModels
                     {
                         if (e.AddedItems[0] is GD_StampingMachine.ViewModels.ParameterSetting.SeparateBoxViewModel NewSeparateBoxVM)
                         {
-                            BoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-                            ProductProjectVMObservableCollection.ForEach(productProject =>
-                            {
-                                productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
-                                {
-                                    if (productProjectPartViewModel.BoxNumber.HasValue)
-                                        if (NewSeparateBoxVM.BoxNumber == productProjectPartViewModel.BoxNumber.Value && productProjectPartViewModel.DistributeName == StampingBoxPart.ProjectDistributeName)
-                                            if (!BoxPartsParameterVMObservableCollection.Contains(productProjectPartViewModel))
-                                                BoxPartsParameterVMObservableCollection.Add(productProjectPartViewModel);
-                                });
-                            });
+                            BoxPartsParameterVMObservableCollectionRefresh(NewSeparateBoxVM.BoxNumber);
                         }
                     }
-
                 }
             });
         }
+
+        public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                if (SelectedSeparateBoxVM != null)
+                {
+                    BoxPartsParameterVMObservableCollectionRefresh(SelectedSeparateBoxVM.BoxNumber);
+                }
+            });
+        }
+
+        private void BoxPartsParameterVMObservableCollectionRefresh(int _boxNumber)
+        {
+            BoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+            ProductProjectVMObservableCollection.ForEach(productProject =>
+            {
+                productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
+                {
+                    if (productProjectPartViewModel.BoxNumber.HasValue)
+                        if (_boxNumber == productProjectPartViewModel.BoxNumber.Value && productProjectPartViewModel.DistributeName == StampingBoxPart.ProjectDistributeName)
+                            if (!BoxPartsParameterVMObservableCollection.Contains(productProjectPartViewModel))
+                                BoxPartsParameterVMObservableCollection.Add(productProjectPartViewModel);
+                });
+            });
+        }
+
+
+
+
+
+
+
+
         /// <summary>
         /// 盒子內的專案
         /// </summary>

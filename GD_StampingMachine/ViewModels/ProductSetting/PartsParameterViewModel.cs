@@ -5,6 +5,7 @@ using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Editors.Themes;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.Properties;
@@ -40,14 +41,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        public string DistributeName 
+        /// <summary>
+        /// 加工專案名
+        /// </summary>
+        public string DistributeName
         {
             get => PartsParameter.DistributeName;
-            set 
-            { 
+            set
+            {
                 PartsParameter.DistributeName = value; OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// 專案名
+        /// </summary>
         public string ProjectName
         {
             get => PartsParameter.ProjectName;
@@ -86,6 +93,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        public MachiningStatusEnum MachiningStatus
+        {
+            get => PartsParameter.MachiningStatus;
+            set
+            {
+                PartsParameter.MachiningStatus =value; 
+                OnPropertyChanged(nameof(MachiningStatus));
+            }
+        }
+   
+
+        /// <summary>
+        /// (加工)盒子編號
+        /// </summary>
         public int? BoxNumber
         {
             get => PartsParameter.BoxNumber;
@@ -97,25 +118,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-
-
         /// <summary>
-        /// 第一種選單
-        /// </summary>
-        /*public NumberSettingModelBase NumberSetting
-        {
-            get =>PartsParameter.NumberSetting;
-            set 
-            {
-                PartsParameter.NumberSetting = value;
-                OnPropertyChanged(nameof(NumberSetting));
-            }
-        }*/
-
-
-        //private NumberSettingModelBase _numberSetting;// = new NumberSettingViewModel();
-        /// <summary>
-        /// 選單
+        /// 金屬牌樣式
         /// </summary>
         public SettingViewModelBase SettingVMBase
         {
@@ -129,8 +133,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(SettingVMBase));
             }
         }
-
-    
 
         private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand

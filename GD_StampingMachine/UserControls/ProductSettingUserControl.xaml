@@ -21,6 +21,7 @@
              xmlns:GD_Models="clr-namespace:GD_StampingMachine.Model"
 
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
+             xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ProductSetting.ProductSettingViewModel}">
 
@@ -541,7 +542,7 @@
                                                                             <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
                                                                         </Grid.RenderTransform>
                                                                         <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,15,0,15"
-                                                                Visibility="{Binding ConverterParameter={x:Type GD_ViewModels:ParameterSetting.NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
+                                                                Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                   PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -550,7 +551,7 @@
                         RedMeasurementLineVisibility="Collapsed"
                         />
                                                                         <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
-                                         Visibility="{Binding ConverterParameter={x:Type GD_ViewModels:ParameterSetting.QRSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
+                                         Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}, Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -585,10 +586,15 @@
                                             </Button>
                                         </StackPanel>
 
-                                    <GroupBox Header="測試用拉桿" Grid.Row="6" Width="100" Grid.ColumnSpan="3" Foreground="Red" Style="{StaticResource ParameterBaseStyleGroupBox}">
+                                    <GroupBox Header="測試用" Grid.Row="6" Width="100" Grid.ColumnSpan="3" Foreground="Red" Style="{StaticResource ParameterBaseStyleGroupBox}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding AddNewPartsParameterVM.FinishProgress}" Foreground="Red"/>
                                             <Slider Value="{Binding AddNewPartsParameterVM.FinishProgress}" Maximum="100" Minimum="0"/>
+                                            <dxe:ComboBoxEdit EditValue="{Binding AddNewPartsParameterVM.MachiningStatus, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" Margin="0,10">
+                                                <dxmvvm:Interaction.Behaviors>
+                                                    <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:MachiningStatusEnum}" ImageSize="40,40" AllowImages="False" />
+                                                </dxmvvm:Interaction.Behaviors>
+                                            </dxe:ComboBoxEdit>
                                         </StackPanel>
                                     </GroupBox>
 

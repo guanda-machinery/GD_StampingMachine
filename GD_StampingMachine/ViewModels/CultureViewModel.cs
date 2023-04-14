@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
         private CultureInfo _selectedCulture;
+
         public CultureInfo SelectedCultures
         {
             get

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DevExpress.Utils;
+using System.Windows;
 using System.Windows.Controls;
 namespace GD_StampingMachine.Views
 {
@@ -11,6 +12,5 @@ namespace GD_StampingMachine.Views
         {
             InitializeComponent();
         }
-
     }
 }

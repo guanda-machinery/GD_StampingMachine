@@ -53,6 +53,7 @@ namespace GD_StampingMachine.ViewModels
                 ProductProjectVMObservableCollection = _projectDistribute.ProductProjectVMObservableCollection,
                 Box_OnDropRecordCommand = this.Box_OnDropRecordCommand,
                 Box_OnDragRecordOverCommand = this.Box_OnDragRecordOverCommand,
+                GridControl_MachiningStatusColumnVisible = false
             }); 
         }
 
@@ -77,17 +78,26 @@ namespace GD_StampingMachine.ViewModels
             set
             {
                 _selectedProductProjectVM = value;
-                if (_selectedProductProjectVM != null)
-                {
-                    PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-                    _selectedProductProjectVM.PartsParameterVMObservableCollection.Where(x => x.BoxNumber == null && x.DistributeName  == null).ForEach(obj =>
-                    {
-                        PartsParameterVMObservableCollection.Add(obj);
-                    });
-                }
                 OnPropertyChanged(nameof(SelectedProductProjectVM));
+                PartsParameterVMObservableCollectionRefresh();
             }
         }
+
+        public void PartsParameterVMObservableCollectionRefresh()
+        {
+            if (SelectedProductProjectVM != null)
+            {
+                PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+                SelectedProductProjectVM.PartsParameterVMObservableCollection.Where(x => x.BoxNumber == null && x.DistributeName == null).ForEach(obj =>
+                {
+                    PartsParameterVMObservableCollection.Add(obj);
+                });
+            }
+
+        }
+
+
+
 
         /// <summary>
         /// 製品

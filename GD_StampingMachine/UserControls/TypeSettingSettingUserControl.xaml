@@ -104,28 +104,28 @@
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition MinHeight="50" Height="*"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" MinWidth="100"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition MinWidth="100"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Button Content="{StaticResource btnAddProject}" Width="auto" Margin="10,5" HorizontalAlignment="Left"/>
-                                <dxg:GridControl  Grid.Row="1"
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" MinWidth="100"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition MinWidth="100"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button Content="{StaticResource btnAddProject}" Width="auto" Margin="10,5" HorizontalAlignment="Left"/>
+                            <dxg:GridControl  Grid.Row="1"
                                     Background="Transparent" Margin="10,0" 
                                                                  Style="{StaticResource ProjectGridControl}"
                                                                  AutoGenerateColumns="None"
                                                                  SelectedItem="{Binding SelectedProductProjectVM}"
                                                                  ItemsSource="{Binding ProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  MaxHeight="2000"    >
-                                    <dxg:GridControl.View >
-                                        <dxg:TableView   
+                                <dxg:GridControl.View >
+                                    <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
@@ -147,73 +147,74 @@
                                                         ShowDragDropHint="False"
                                                         >
 
-                                            <dxg:TableView.DragDropHintTemplate>
-                                                <DataTemplate>
-                                                    <Border Background="White" Padding="10">
-                                                        <StackPanel>
-                                                            <TextBlock Text="{Binding BoxNumber}"/>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </dxg:TableView.DragDropHintTemplate>
-                                        </dxg:TableView>
-                                    </dxg:GridControl.View>
-
-
-
-                                    <dxg:GridColumn HorizontalHeaderContentAlignment="Left" Header="null" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
-
-                                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                        <dxg:GridColumn.CellTemplate>
+                                        <dxg:TableView.DragDropHintTemplate>
                                             <DataTemplate>
-                                                <Border Background="White" Margin="5" Width="2"/>
+                                                <Border Background="White" Padding="10">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding BoxNumber}"/>
+                                                    </StackPanel>
+                                                </Border>
                                             </DataTemplate>
-                                        </dxg:GridColumn.CellTemplate>
-                                    </dxg:GridColumn>
+                                        </dxg:TableView.DragDropHintTemplate>
+                                    </dxg:TableView>
+                                </dxg:GridControl.View>
 
-                                    <dxg:GridColumn HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                        <dxg:GridColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="0" VerticalAlignment="Center"/>
-                                                    <TextBlock Text="/" VerticalAlignment="Center"/>
-                                                    <TextBlock Text="0" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </dxg:GridColumn.CellTemplate>
-                                    </dxg:GridColumn>
-                                    <dxg:GridColumn Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
-                                        <dxg:GridColumn.HeaderStyle>
-                                            <Style TargetType="dxg:BaseGridHeader">
-                                                <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
-                                                <Setter Property="BorderBrush" Value="Transparent" />
-                                                <Setter Property="BorderThickness" Value="0,0,0,0" />
-                                            </Style>
-                                        </dxg:GridColumn.HeaderStyle>
-                                        <dxg:GridColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Button Height="30" Width="auto" Padding="10,0"
+
+
+                                <dxg:GridColumn HorizontalHeaderContentAlignment="Left" Header="null" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border Background="White" Margin="5" Width="2"/>
+                                        </DataTemplate>
+                                    </dxg:GridColumn.CellTemplate>
+                                </dxg:GridColumn>
+
+                                <dxg:GridColumn HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="/" VerticalAlignment="Center"/>
+                                                <TextBlock Text="0" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </dxg:GridColumn.CellTemplate>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.HeaderStyle>
+                                        <Style TargetType="dxg:BaseGridHeader">
+                                            <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                            <Setter Property="BorderBrush" Value="Transparent" />
+                                            <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                        </Style>
+                                    </dxg:GridColumn.HeaderStyle>
+                                    <dxg:GridColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Height="30" Width="auto" Padding="10,0"
                                                                         Content="{DynamicResource btnClose}" Command="{Binding Row.ProjectIsClosed}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
-                                            </DataTemplate>
-                                        </dxg:GridColumn.CellTemplate>
-                                    </dxg:GridColumn>
+                                        </DataTemplate>
+                                    </dxg:GridColumn.CellTemplate>
+                                </dxg:GridColumn>
 
-                                </dxg:GridControl>
-                            </Grid>
-                            <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="200" Margin="10,0"
+                            </dxg:GridControl>
+                        </Grid>
+                        <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="200" Margin="10,0"
                                                                  Style="{StaticResource ProjectGridControl}"
                                                                  AutoGenerateColumns="None"
                                                                  ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  MaxHeight="2000"    >
-                                    <dxg:GridControl.View >
-                                        <dxg:TableView   
+                            <dxg:GridControl.View >
+                                <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="True"
+                                                        AllowMoveColumnToDropArea="False"
                                                         AllowColumnFiltering="False"
                                                         AllowColumnMoving="False"
                                                         AllowEditing="False"
@@ -233,93 +234,95 @@
                                                         AllowDrop="True"           
                                                         ShowDragDropHint="False"
                                                    
+
+
+                                            
+                                            
+                                            
                                                         >
-                                            <dxmvvm:Interaction.Behaviors>
-                                                <dxmvvm:EventToCommand EventName="DragRecordOver" Command="{Binding NoneBox_OnDragRecordOverCommand}" PassEventArgsToCommand="True"/>
-                                                <dxmvvm:EventToCommand EventName="DropRecord" Command="{Binding NoneBox_OnDropRecordCommand}" PassEventArgsToCommand="True"/>
-                                            </dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:Interaction.Behaviors>
+                                        <dxmvvm:EventToCommand EventName="DragRecordOver" Command="{Binding NoneBox_OnDragRecordOverCommand}" PassEventArgsToCommand="True"/>
+                                        <dxmvvm:EventToCommand EventName="DropRecord" Command="{Binding NoneBox_OnDropRecordCommand}" PassEventArgsToCommand="True"/>
+                                    </dxmvvm:Interaction.Behaviors>
 
-                                            <dxg:TableView.DragDropHintTemplate>
-                                                <DataTemplate>
-                                                    <Border Background="White" Padding="10">
-                                                        <StackPanel>
-                                                            <TextBlock Text="{Binding BoxNumber}"/>
-                                                            <TextBlock Text="123"/>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </dxg:TableView.DragDropHintTemplate>
-
-
-                                        </dxg:TableView>
-                                    </dxg:GridControl.View>
-
-                                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectName" Width="auto" AllowMoving="true"   IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
-
-                                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="true"  IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
-
-                                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="true"  IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
-
-                                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="true" IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
+                                    <dxg:TableView.DragDropHintTemplate>
+                                        <DataTemplate>
+                                            <Border Background="White" Padding="10">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding BoxNumber}"/>
+                                                    <TextBlock Text="123"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </dxg:TableView.DragDropHintTemplate>
 
 
-                                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="true"  IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
+                                </dxg:TableView>
+                            </dxg:GridControl.View>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectName" Width="auto" AllowMoving="true"   IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="true"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="true"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="true" IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
 
 
-                                    <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="true"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+
+                            <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
                                  Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
-                                        <dxg:GridColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Grid Height="auto" Margin="2,5">
-                                                    <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
+                                <dxg:GridColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Height="auto" Margin="2,5">
+                                            <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
-                                                        <ProgressBar.Foreground>
-                                                            <Binding Path="Row.FinishProgress" Converter="{GD_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
-                                                        </ProgressBar.Foreground>
-                                                    </ProgressBar>
+                                                <ProgressBar.Foreground>
+                                                    <Binding Path="Row.FinishProgress" Converter="{GD_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                </ProgressBar.Foreground>
+                                            </ProgressBar>
 
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
-                                                        <TextBlock Foreground="Black"
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
+                                                <TextBlock Foreground="Black"
                                         Text="{CalcB:Binding Row.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
-                                                    </StackPanel>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </dxg:GridColumn.CellTemplate>
-                                    </dxg:GridColumn>
-                                </dxg:GridControl>
-                                <GridSplitter Style="{StaticResource MaterialDesignGridSplitter}"  Grid.Column="1" Grid.Row="0"  
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </dxg:GridColumn.CellTemplate>
+                            </dxg:GridColumn>
+                        </dxg:GridControl>
+                        <GridSplitter Style="{StaticResource MaterialDesignGridSplitter}"  Grid.Column="1" Grid.Row="0"  
                                                                       Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="5"  />
-                                <Border Grid.Column="3" Width="5" Margin="5,5,10,5" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" CornerRadius="2.5"/>
-                            </Grid>
-                            
-                            <local:StampingBoxPartsUserControl Grid.Row="2" DataContext="{Binding StampingBoxPartsVM}"/>
-
-
-                    <GridSplitter  
-                                                            Grid.Row="1"   
-                                                            Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" 
-                                                            HorizontalAlignment="Stretch" Margin="0,10" Height="10"  />
+                        <Border Grid.Column="3" Width="5" Margin="5,5,10,5" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" CornerRadius="2.5"/>
+                    </Grid>
+                    <local:StampingBoxPartsUserControl Grid.Row="2" DataContext="{Binding StampingBoxPartsVM}"/>
+                    <GridSplitter 
+                                  Grid.Row="1"   
+                                  Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" 
+                                  HorizontalAlignment="Stretch" Margin="0,10" Height="10"  />
                         </Grid>
                     </Grid>
                 </Border>

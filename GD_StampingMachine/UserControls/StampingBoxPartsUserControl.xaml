@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
              mc:Ignorable="d" 
+             
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
+             xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
             xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
@@ -13,8 +15,9 @@
              
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingBoxPartsViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,7 +25,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer>
+        <ScrollViewer Grid.Row="3">
             <ListBox ItemsSource="{Binding SeparateBoxVMObservableCollection}"  SelectedItem="{Binding SelectedSeparateBoxVM}">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
@@ -33,7 +36,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <StackPanel Margin="2.5" Orientation="Vertical"  d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSetting.SeparateBoxViewModel}" IsEnabled="{Binding BoxIsEnabled, UpdateSourceTrigger=PropertyChanged}">
+                                    <StackPanel Margin="2.5" Orientation="Vertical"  d:DataContext="{d:DesignInstance Type=GD_ParameterSettingViewModels:SeparateBoxViewModel}" IsEnabled="{Binding BoxIsEnabled, UpdateSourceTrigger=PropertyChanged}">
                                         <StackPanel.Style>
                                             <Style TargetType="StackPanel">
                                                 <Style.Triggers>
@@ -119,6 +122,7 @@
             </ListBox>
         </ScrollViewer>
         <dxg:GridControl 
+            Grid.Row="3" Margin="10,0"
                                     Grid.Column="1"
                                     Background="Transparent"  MinHeight="200"
                                     Style="{StaticResource ProjectGridControl}"
@@ -156,39 +160,31 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
 
-
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-
-
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-
-
             <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
                                  Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
                 <dxg:GridColumn.CellTemplate>
@@ -210,9 +206,17 @@
                     </DataTemplate>
                 </dxg:GridColumn.CellTemplate>
             </dxg:GridColumn>
-
-
-
+            <dxg:GridColumn Visible="{Binding MachiningStatusIsVisible}"
+                HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border Background="{Binding Row.MachiningStatus, Converter={GD_ValueConverters:EnumToBrushesConverter}}"  
+                                Width="20" 
+                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                                CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>
+                    </DataTemplate>
+                </dxg:GridColumn.CellTemplate>
+            </dxg:GridColumn>
 
         </dxg:GridControl>
     </Grid>

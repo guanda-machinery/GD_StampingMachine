@@ -227,11 +227,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Cultures\CulturesHelper.cs" />
+    <Compile Include="Cultures\EnumResources.Designer.cs">
+      <DependentUpon>EnumResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Extensions\DeepCloneByJson.cs" />
+    <Compile Include="GD_Enum\MachiningStatusEnum.cs" />
     <Compile Include="GD_Enum\Method\EnumDescriptionTypeConverter.cs" />
     <Compile Include="GD_Enum\HorizontalAlignEnum.cs" />
     <Compile Include="GD_Enum\Method\LocalizedDescriptionAttribute.cs" />
     <Compile Include="GD_Enum\SheetStampingTypeFormEnum.cs" />
+    <Compile Include="GD_Enum\SteelBeltStampingStatusEnum.cs" />
     <Compile Include="GD_Enum\VerticalAlignEnum.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Method\BaseDropTarget.cs" />
@@ -244,10 +251,14 @@
     <Compile Include="Extensions\GetEnumData.cs" />
     <Compile Include="GD_Behavior\ProgresBarAnimateBehavior.cs" />
     <Compile Include="Method\CsvHelperMethod.cs" />
+    <Compile Include="Extensions\ScrollViewerExtension.cs" />
     <Compile Include="Method\ShowWinUIMessageBox.cs" />
     <Compile Include="Method\StampingTypeDropTarget.cs" />
+    <Compile Include="Model\ProductionSetting\StampingSteelBeltModel.cs" />
+    <Compile Include="Model\SyncObservableCollection.cs" />
     <Compile Include="Model\MachiningProjectModel.cs" />
     <Compile Include="Model\NumberSettingModelBase.cs" />
+    <Compile Include="Model\OperatingLogModel.cs" />
     <Compile Include="Model\ParameterSetting\SeparateBoxModel.cs" />
     <Compile Include="Model\ParameterSetting\SeparateSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\TimingSettingModel.cs" />
@@ -259,11 +270,6 @@
     <Compile Include="Model\ProductProjectModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
     <Compile Include="Method\DraggablePopup.cs" />
-    <Compile Include="Cultures\EnumResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EnumResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="SplashScreenWindow\ProcessingScreenWindow.xaml.cs">
       <DependentUpon>ProcessingScreenWindow.xaml</DependentUpon>
     </Compile>
@@ -271,6 +277,9 @@
     <Compile Include="Method\RelayParameterizedCommand.cs" />
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\FunctionToggleButton.xaml.cs">
+      <DependentUpon>FunctionToggleButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRUserControl.xaml.cs">
       <DependentUpon>PlateRowDiagramWithQRUserControl.xaml</DependentUpon>
@@ -309,7 +318,9 @@
     <Compile Include="ValidationRules\CheckNumberArrayRule.cs" />
     <Compile Include="ValidationRules\CheckNumberRule.cs" />
     <Compile Include="ValidationRules\CheckStringEmptyRule.cs" />
+    <Compile Include="ValueConverters\BooleanToBrushesConverter.cs" />
     <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
+    <Compile Include="ValueConverters\EnumToBrushesConverter.cs" />
     <Compile Include="ValueConverters\EnumToPackIconKindConverter.cs" />
     <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
@@ -324,7 +335,9 @@
     <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
     <Compile Include="ViewModels\CultureViewModel.cs" />
     <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
+    <Compile Include="ViewModels\MachiningSettingViewModel.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
+    <Compile Include="ViewModels\OperatingLogViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateBoxViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateSettingViewModel.cs" />
@@ -335,6 +348,7 @@
     <Compile Include="ViewModels\ProductSetting\PartsParameterViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\ProductSettingViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\ProductProjectViewModel.cs" />
+    <Compile Include="ViewModels\ProductSetting\StampingSteelBeltViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModelBase.cs" />
     <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
@@ -347,6 +361,9 @@
     <Compile Include="Views\StampingMainView.xaml.cs">
       <DependentUpon>StampingMainView.xaml</DependentUpon>
     </Compile>
+    <Resource Include="Image\stamp1.png" />
+    <Resource Include="Image\stamp2.png" />
+    <Resource Include="Image\stamp3.png" />
     <Resource Include="Image\擷取3.PNG" />
     <Resource Include="Image\擷取1.PNG" />
     <Resource Include="Image\擷取2.PNG" />
@@ -376,6 +393,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Content Include="Cultures\EnumResources.zh-TW.resx">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Cultures\StringResources.zh-TW.xaml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -397,6 +417,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StampingMachineWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CustomControls\FunctionToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -463,10 +487,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Content Include="Cultures\EnumResources.zh-TW.resx">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="Cultures\EnumResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EnumResources.Designer.cs</LastGenOutput>

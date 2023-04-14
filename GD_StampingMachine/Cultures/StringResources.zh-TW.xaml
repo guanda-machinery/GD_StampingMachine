@@ -206,6 +206,8 @@
     <sys:String x:Key="Text_ConstructionNumber">工程案號</sys:String>
     <sys:String x:Key="Text_MachiningForm">加工型態</sys:String>
     <sys:String x:Key="Text_SelectedMachiningForm">選擇加工型態</sys:String>
+    
+    <sys:String x:Key="Text_ProcessingData">進行中的資料</sys:String>
 
     <sys:String x:Key="Text_AddNewProject">新增專案</sys:String>
 
@@ -223,7 +225,7 @@
     <sys:String x:Key="Text_Parameter_C_DataMartix">C參數(Data-Martix)</sys:String>
     <sys:String x:Key="Text_Parameter_C">C參數</sys:String>
 
-
+    <sys:String x:Key="Text_MachiningStatus">加工狀態</sys:String>
 
 
 
@@ -250,7 +252,7 @@
     
     
     <!--enum-->
-    <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
+    <!--<sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
     <sys:String x:Key="Enum_Center">置中</sys:String>
     <sys:String x:Key="Enum_Left">靠左對齊</sys:String>
     <sys:String x:Key="Enum_Right">靠右對齊</sys:String>
@@ -260,7 +262,7 @@
     <sys:String x:Key="Enum_OneRow">單排</sys:String>
     <sys:String x:Key="Enum_TwoRow">雙排</sys:String>
     <sys:String x:Key="Enum_NormalSheetStamping">一般加工</sys:String>
-    <sys:String x:Key="Enum_QRSheetStamping">QR加工</sys:String>
+    <sys:String x:Key="Enum_QRSheetStamping">QR加工</sys:String>-->
 
 
 </ResourceDictionary>
