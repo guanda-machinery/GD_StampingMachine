@@ -20,7 +20,7 @@
              xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup" 
-             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
+             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method"
              d:DesignHeight="800" d:DesignWidth="900"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}">
     <UserControl.DataContext>
@@ -34,6 +34,15 @@
             <Setter Property="Padding" Value="0"/>
         </Style>
         
+        <Style TargetType="GD_Customcontrols:FunctionToggleButton" >
+            <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
+            <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
+            <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
+            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="True"/>
+            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="True"/>
+            <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
+            <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
+        </Style>
         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
             
         </Style>
@@ -444,25 +453,25 @@
                                         x:Name="TBtn_MachineInfo" 
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnDescription_MachineInfo}"                                    
-                                        StackPanelOrientation="Horizontal"/>
+                                        Orientation="Horizontal"/>
 
                                     <GD_Customcontrols:FunctionToggleButton Margin="0,5"
                                         x:Name="TBtn_PunchedFontSetting" 
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnDescription_PunchedFontSetting}"                                    
-                                        StackPanelOrientation="Horizontal"/>
+                                        Orientation="Horizontal"/>
 
                                     <GD_Customcontrols:FunctionToggleButton Margin="0,5"
                                         x:Name="TBtn_ParameterSetting" 
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnDescription_ParameterSetting}"                                    
-                                        StackPanelOrientation="Horizontal"/>
+                                        Orientation="Horizontal"/>
 
                                     <GD_Customcontrols:FunctionToggleButton Margin="0,5"
                                         x:Name="TBtn_SoftwareUpdate" 
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnDescription_SoftwareUpdate}"                                    
-                                        StackPanelOrientation="Horizontal"/>
+                                        Orientation="Horizontal"/>
                                 </StackPanel>
                         </materialDesign:ColorZone>
                     </materialDesign:DrawerHost.LeftDrawerContent>
@@ -593,12 +602,10 @@
                             <GD_Customcontrols:FunctionToggleButton 
                                 dd:DragDrop.IsDropTarget="True"
                                 ButtonContentText="C1"
-                                       dd:DragDrop.DropHandler="{Binding FunctionToggleButtonDropTarget}"
                                 ButtonTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
                             <GD_Customcontrols:FunctionToggleButton 
                                 dd:DragDrop.IsDropTarget="True"
-                                       dd:DragDrop.DropHandler="{Binding FunctionToggleButtonDropTarget}"
                                 ButtonContentText="C2"
                                 ButtonTitleText="{DynamicResource btnDescription_UsualKey2}" 
                                 />

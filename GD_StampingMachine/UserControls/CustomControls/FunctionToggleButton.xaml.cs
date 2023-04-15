@@ -27,13 +27,72 @@ namespace GD_StampingMachine.UserControls.CustomControls
     /// <summary>
     /// FunctionToggleButton.xaml 的互動邏輯
     /// </summary>
-    public partial class FunctionToggleButton : UserControl
+    public partial class FunctionToggleButton : UserControl, ICloneable
     {
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+
+
         public FunctionToggleButton()
         {
             InitializeComponent();
         }
 
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+        public static readonly DependencyProperty CommandProperty =
+        DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleButton), new PropertyMetadata());
+
+
+        public string ButtonContentText
+        {
+            get { return (string)GetValue(ButtonContentTextProperty); }
+            set { SetValue(ButtonContentTextProperty, value); }
+        }
+
+        public static readonly DependencyProperty ButtonContentTextProperty =
+            DependencyProperty.Register(nameof(ButtonContentText), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata());
+
+        /// <summary>
+        /// 按鈕勾選
+        /// </summary>
+        public bool IsChecked
+        {
+            get { return (bool)GetValue(IsCheckedProperty); }
+            set { SetValue(IsCheckedProperty, value); }
+        }
+        /// <summary>
+        /// <see cref=""/> 註冊為依賴屬性
+        /// </summary>
+        public static readonly DependencyProperty IsCheckedProperty =
+            DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleButton), new PropertyMetadata());
+
+
+        public string ButtonTitleText
+        {
+            get { return (string)GetValue(ButtonTitleTextProperty); }
+            set { SetValue(ButtonTitleTextProperty, value); }
+        }
+        public static readonly DependencyProperty ButtonTitleTextProperty =
+    DependencyProperty.Register(nameof(ButtonTitleText), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata());
+
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+        public static readonly DependencyProperty OrientationProperty =
+    DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleButton), new PropertyMetadata());
+
+
+
+        /*
         /// <summary>
         /// 按鈕命令
         /// </summary>
@@ -161,7 +220,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
         {
             FunctionToggleButton menuControl = (d as FunctionToggleButton);
             menuControl.MainStackPanel.Orientation = (Orientation)e.NewValue;
-        }
+        }*/
 
 
 
@@ -169,7 +228,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
 
 
 
-
+    /*
     public class FunctionToggleButtonModel
     {
         public FunctionToggleButtonModel()
@@ -205,7 +264,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public FunctionToggleButtonControlBaseDropTarget FunctionToggleButtonDropTarget { get; set; } = new FunctionToggleButtonControlBaseDropTarget();
     }
 
-
+    */
 
 
 
