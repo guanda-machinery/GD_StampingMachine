@@ -14,13 +14,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace GD_StampingMachine.ViewModels
 {
 
 
 
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : MarkupExtension , INotifyPropertyChanged
     { 
         /// <summary>
         /// 訊息紀錄
@@ -28,14 +29,20 @@ namespace GD_StampingMachine.ViewModels
        // public SyncObservableCollection<OperatingLogViewModel> LogDataObservableCollection { get; set; } = new SyncObservableCollection<OperatingLogViewModel>();
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+
         /// <summary>
         /// 屬性變更事件
         /// </summary>
         /// <param name="propertyName">屬性名稱</param>
-      /*  public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }*/
+        /*  public void OnPropertyChanged(string propertyName)
+          {
+              PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+          }*/
 
         protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
         {

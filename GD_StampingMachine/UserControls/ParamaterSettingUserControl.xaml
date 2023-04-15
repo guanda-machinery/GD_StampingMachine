@@ -11,7 +11,7 @@
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
              mc:Ignorable="d" >
     <Grid  Margin="150,0,0,0">
         <Grid.Resources>
@@ -40,44 +40,40 @@
                 <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}">
                 </Style>
             </Border.Resources>
+            
+            
             <StackPanel Orientation="Horizontal">
-                <StackPanel Margin="15">
-                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnNumberSetting" >
-                    </ToggleButton>
-                    <TextBlock Text="{DynamicResource btnNumberSetting}" Margin="0,5"/>
-                </StackPanel>
-                <StackPanel Margin="15">
-                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnQRSetting" >
-                    </ToggleButton>
-                    <TextBlock Text="{DynamicResource btnQRSetting}" Margin="0,5"/>
-                </StackPanel>
-                <StackPanel  Margin="15">
-                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnAxisSetting" >
-                    </ToggleButton>
-                    <TextBlock Text="{DynamicResource btnAxisSetting}" Margin="0,5"/>
-                </StackPanel>
-                <StackPanel  Margin="15">
-                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnTimimgSetting" >
-                    </ToggleButton>
-                    <TextBlock Text="{DynamicResource btnTimimgSetting}" Margin="0,5"/>
-                </StackPanel>
-                <StackPanel  Margin="15">
-                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnSegregationSetting" >
-                    </ToggleButton>
-                    <TextBlock Text="{DynamicResource btnSeparateSetting}" Margin="0,5"/>
-                </StackPanel>
-                <StackPanel  Margin="15">
-                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnInputOutput" >
-                    </ToggleButton>
-                    <TextBlock Text="{DynamicResource btnInput}" HorizontalAlignment="Left" Margin="0,5,0,0"/>
-                    <TextBlock Text="{DynamicResource btnOutput}" HorizontalAlignment="Left"/>
 
-                </StackPanel>
-                <StackPanel  Margin="15">
-                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TbtnSeEngineeringMode" >
-                    </ToggleButton>
-                    <TextBlock Text="{DynamicResource btnSeEngineeringMode}" Margin="0,5"/>
-                </StackPanel>
+                <GD_Customcontrols:FunctionToggleButton Margin="5,15"
+                                        x:Name="TbtnNumberSetting" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnNumberSetting}"  />
+
+                <GD_Customcontrols:FunctionToggleButton Margin="5,15"
+                                        x:Name="TbtnQRSetting" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnQRSetting}"  />
+                <GD_Customcontrols:FunctionToggleButton Margin="5,15"
+                                        x:Name="TbtnAxisSetting" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnAxisSetting}"  />
+                <GD_Customcontrols:FunctionToggleButton Margin="5,15"
+                                        x:Name="TbtnTimimgSetting" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnTimimgSetting}"  />
+                <GD_Customcontrols:FunctionToggleButton Margin="5,15"
+                                        x:Name="TbtnSegregationSetting" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnSeparateSetting}"  />
+                <GD_Customcontrols:FunctionToggleButton Margin="5,15"
+                                        x:Name="TbtnInputOutput" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnInputOutput}"  />
+                <GD_Customcontrols:FunctionToggleButton Margin="5,15"
+                                        x:Name="TbtnSeEngineeringMode" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnSeEngineeringMode}"  />
+
             </StackPanel>
         </Border>
         <ScrollViewer VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">

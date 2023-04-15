@@ -133,6 +133,9 @@
     <Reference Include="DevExpress.Xpf.RichEdit.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.RichEdit.21.1.4\lib\net452\DevExpress.Xpf.RichEdit.v21.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Xpf.Scheduling.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Wpf.Scheduling.21.1.4\lib\net452\DevExpress.Xpf.Scheduling.v21.1.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Xpf.Themes.Office2019Colorful.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.Themes.Office2019Colorful.21.1.4\lib\net452\DevExpress.Xpf.Themes.Office2019Colorful.v21.1.dll</HintPath>
     </Reference>
@@ -157,7 +160,15 @@
     <Reference Include="DevExpress.XtraPrinting.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Win.Printing.21.1.4\lib\net452\DevExpress.XtraPrinting.v21.1.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraScheduler.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Win.Scheduler.21.1.4\lib\net452\DevExpress.XtraScheduler.v21.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraScheduler.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Scheduler.Core.21.1.4\lib\net452\DevExpress.XtraScheduler.v21.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraScheduler.v21.1.Core.Desktop, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Scheduler.CoreDesktop.21.1.4\lib\net452\DevExpress.XtraScheduler.v21.1.Core.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.XtraTreeList.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Win.TreeList.21.1.4\lib\net452\DevExpress.XtraTreeList.v21.1.dll</HintPath>
     </Reference>
@@ -241,7 +252,7 @@
     <Compile Include="GD_Enum\SteelBeltStampingStatusEnum.cs" />
     <Compile Include="GD_Enum\VerticalAlignEnum.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
-    <Compile Include="Method\BaseDropTarget.cs" />
+    <Compile Include="Method\DropHandler\BaseDropTarget.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
     <Compile Include="GD_Enum\CharactersFormEnum.cs" />
@@ -252,8 +263,9 @@
     <Compile Include="GD_Behavior\ProgresBarAnimateBehavior.cs" />
     <Compile Include="Method\CsvHelperMethod.cs" />
     <Compile Include="Extensions\ScrollViewerExtension.cs" />
+    <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\ShowWinUIMessageBox.cs" />
-    <Compile Include="Method\StampingTypeDropTarget.cs" />
+    <Compile Include="Method\DropHandler\StampingTypeDropTarget.cs" />
     <Compile Include="Model\ProductionSetting\StampingSteelBeltModel.cs" />
     <Compile Include="Model\SyncObservableCollection.cs" />
     <Compile Include="Model\MachiningProjectModel.cs" />
@@ -280,6 +292,9 @@
     </Compile>
     <Compile Include="UserControls\CustomControls\FunctionToggleButton.xaml.cs">
       <DependentUpon>FunctionToggleButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MachiningSettingUserControl.xaml.cs">
+      <DependentUpon>MachiningSettingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRUserControl.xaml.cs">
       <DependentUpon>PlateRowDiagramWithQRUserControl.xaml</DependentUpon>
@@ -421,6 +436,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CustomControls\FunctionToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MachiningSettingUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

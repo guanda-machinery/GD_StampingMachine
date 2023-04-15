@@ -4,9 +4,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             mc:Ignorable="d"
+             Name="MainUserControl"
+             d:DataContext="{d:DesignInstance local:FunctionToggleButtonViewModel}"
+             DataContext="{local:FunctionToggleButtonViewModel}" 
+             Foreground="White"           
+             xmlns:dd="urn:gong-wpf-dragdrop" 
+             dd:DragDrop.DropTargetAdornerBrush="Coral"
+             dd:DragDrop.IsDragSource="True"
+             dd:DragDrop.IsDropTarget="False"
+             dd:DragDrop.UseDefaultEffectDataTemplate="True"
+             dd:DragDrop.UseDefaultDragAdorner="True" 
+             dd:DragDrop.DefaultDragAdornerOpacity="1"
+             dd:DragDrop.DropHandler="{Binding FunctionToggleButtonDropTarget}"
+             >
+    <UserControl.Resources>
+        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Name="MainStackPanel" Margin="10,0">
+        <ToggleButton Name="TButton" IsChecked="{Binding ToggleButtonIsChecked}" Command="{Binding ToggleButtonICommand}"
+                      IsThreeState="False"
+                      Checked="TButton_Checked" Unchecked="TButton_Checked">
+            <TextBlock Name="ButtonContentTextBlock" Text="{Binding ButtonContent,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" />
+        </ToggleButton>
+        <TextBlock Name="ButtonTitleTextBlock" Text="{Binding ButtonTitle,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
+    </StackPanel>
 </UserControl>

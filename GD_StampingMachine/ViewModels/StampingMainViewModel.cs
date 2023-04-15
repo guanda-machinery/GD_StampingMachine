@@ -68,7 +68,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 Task.Run(async () =>
                 {
-                    for (int i = 0; i < 10000; i++)
+                    for (int i = 0; i < 100; i++)
                     {
                         LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, $"TestMessage-{i}")));
                     }
@@ -356,31 +356,9 @@ namespace GD_StampingMachine.ViewModels
             get => MachiningSettingVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
         }
 
-
-        public ToggleButtonControlBaseDropTarget TestBaseDropTarget { get; set; } = new ToggleButtonControlBaseDropTarget();
+       // public FunctionToggleButtonControlBaseDropTarget FunctionToggleButtonDropTarget { get; set; } = new FunctionToggleButtonControlBaseDropTarget();
     }
 
-    public class ToggleButtonControlBaseDropTarget : BaseDropTarget
-    {
-        public override void DragEnter(IDropInfo dropInfo)
-        {
-            base.DragEnter(dropInfo);
-        }
-        public override void DragLeave(IDropInfo dropInfo)
-        {
-            base.DragEnter(dropInfo);
-        }
-        public override void DragOver(IDropInfo dropInfo)
-        {
-            dropInfo.NotHandled = true;
-            dropInfo.Effects = System.Windows.DragDropEffects.Link;
-        }
-        public override void Drop(IDropInfo dropInfo)
-        {
-            var SourceData = dropInfo.Data;
-            var TargetData = dropInfo.TargetItem;
-        }
-    }
 
 
 

@@ -113,7 +113,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 PartsParameter.BoxNumber = value;
-                OnPropertyChanged(nameof(ParameterC));
+                OnPropertyChanged(nameof(BoxNumber));
             }
         }
 

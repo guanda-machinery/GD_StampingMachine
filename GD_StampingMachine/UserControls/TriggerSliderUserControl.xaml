@@ -25,7 +25,9 @@
                            Foreground="{Binding Foreground}" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
                             Minimum="0"
                             Maximum="100"
-                            TickFrequency="1" >
+                            TickFrequency="1" 
+                IsMoveToPointEnabled="False"   LargeChange="5" SmallChange="1"
+                >
         </Slider>
         <TextBlock FontSize="12"  Foreground="Black"
             Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=MainSlider, Path=Value}"></TextBlock>

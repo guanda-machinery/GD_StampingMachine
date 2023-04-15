@@ -79,6 +79,7 @@
     <sys:String x:Key="btnSeparateSetting">分料設定</sys:String>
     <sys:String x:Key="btnInput">In Put</sys:String>
     <sys:String x:Key="btnOutput">Out Put</sys:String>
+    <sys:String x:Key="btnInputOutput">In-OutPut</sys:String>
     <sys:String x:Key="btnSeEngineeringMode">工程模式</sys:String>
     <!--#region號碼設定 -->
 

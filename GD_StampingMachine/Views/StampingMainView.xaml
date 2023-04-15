@@ -9,15 +9,18 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
+             xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:GD_Extensions="clr-namespace:GD_StampingMachine.Extensions" 
-             xmlns:dd="urn:gong-wpf-dragdrop" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup"
+             xmlns:dd="urn:gong-wpf-dragdrop" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup" 
+             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
              d:DesignHeight="800" d:DesignWidth="900"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}">
     <UserControl.DataContext>
@@ -29,18 +32,8 @@
             <Setter Property="Height" Value="45"/>
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Padding" Value="0"/>
-
-            <Setter Property="dd:DragDrop.CanDragWithMouseRightButton" Value="True"></Setter>
-            <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
-            <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
-            <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
-            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="True"/>
-            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="True" />
-            <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
-
-            <Setter Property="dd:DragDrop.DropHandler" Value="{Binding TestBaseDropTarget}"/>
-
         </Style>
+        
         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
             
         </Style>
@@ -421,180 +414,10 @@
                                 <GD_UserControls:TypeSettingSettingUserControl DataContext="{Binding TypeSettingSettingVM}"/>
                             </TabItem>
                             <TabItem IsSelected="{Binding ElementName=TBtn_MachiningSettings, Path=IsChecked}">
-                                <Grid DataContext="{Binding MachiningSettingVM}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto" MinHeight="100"/>
-                                        <RowDefinition MaxHeight="70" MinHeight="20"/>
-                                        <RowDefinition Height="auto" />
-                                        <RowDefinition Height="*" MinHeight="100"/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Grid.ColumnSpan="2"  HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
-                                                <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
-                                            </Border>
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <StackPanel.Resources>
-                                                    <Style TargetType="materialDesign:PackIcon">
-                                                        <Setter Property="Foreground" Value="#e82127"/>
-                                                        <Setter Property="Margin" Value="5"/>
-                                                    </Style>
-                                                </StackPanel.Resources>
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                            </StackPanel>
-                                            <Border  BorderBrush="#ff9900" BorderThickness="5" CornerRadius="10"  Width="150" >
-                                                <Image Source="pack://application:,,,/image/stamp2.PNG"  Margin="5"/>
-                                            </Border>
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <StackPanel.Resources>
-                                                    <Style TargetType="materialDesign:PackIcon">
-                                                        <Setter Property="Foreground" Value="#ff9900"/>
-                                                        <Setter Property="Margin" Value="5"/>
-                                                    </Style>
-                                                </StackPanel.Resources>
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                            </StackPanel>
-                                            <Border  BorderBrush="#25cb55" BorderThickness="5" CornerRadius="10"  Width="150">
-                                                <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
-                                            </Border>
-                                        </StackPanel>
-                                        <Grid Margin="10">
-                                            <Border Background="White" Margin="0,0,115,0"/>
-                                            <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-                                                <ListBox.ItemContainerStyle>
-                                                    <Style TargetType="ListBoxItem" >
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="ListBoxItem">
-                                                                    <Border  Margin="0,6"
-                                                                    CornerRadius="8" Background="{Binding MachiningStatus, Converter={GD_ValueConverters:EnumToBrushesConverter}}"  d:DataContext="{d:DesignInstance Type=GD_ViewModels:ProductSetting.StampingSteelBeltViewModel}">
-                                                                        <Border BorderThickness="1" CornerRadius="8" BorderBrush="Black">
-                                                                            <Grid  >
-                                                                                <Grid.ColumnDefinitions>
-                                                                                    <ColumnDefinition Width="*"/>
-                                                                                    <ColumnDefinition Width="auto"/>
-                                                                                </Grid.ColumnDefinitions>
-                                                                                <Grid.RowDefinitions>
-                                                                                    <RowDefinition/>
-                                                                                    <RowDefinition/>
-                                                                                </Grid.RowDefinitions>
-                                                                                <TextBlock Text="{Binding BeltString}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" Foreground="White"/>
-                                                                                <TextBlock Text="{Binding BeltNumberString}" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5,0,0,5" Foreground="White"/>
-                                                                                <materialDesign:PackIcon
-                                                                                Width="40" Height="40"
-                                                                                Kind="Qrcode" Foreground="White" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                                                            </Grid>
-                                                                        </Border>
-                                                                    </Border>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </ListBox.ItemContainerStyle>
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel RenderTransformOrigin="0.5,0.5" >
-                                                            <StackPanel.LayoutTransform>
-                                                                <RotateTransform Angle="90"/>
-                                                            </StackPanel.LayoutTransform>
-                                                        </StackPanel>
-
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                            </ListBox>
-                                        </Grid>
-                                    </StackPanel>
-                                    <dxg:GridControl  HorizontalAlignment="Center"     Grid.ColumnSpan="2"
-                                        Grid.Row="1" 
-                                    Grid.Column="0" Margin="10,0"
-                                    Background="Transparent"  MinHeight="50" 
-                                    Style="{StaticResource ProjectGridControl}"
-                                    AutoGenerateColumns="None"
-                                    ItemsSource="{Binding MachiningPartsVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    MaxHeight="2000"    >
-                                            <dxg:GridControl.View >
-                                                <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                        IsColumnMenuEnabled ="False"
-                                                        AllowSorting="false"
-                                                        AllowColumnFiltering="False"
-                                                        AllowColumnMoving="False"
-                                                        AllowEditing="False"
-                                                        ShowColumnHeaders="True"
-                                                        HeaderHorizontalAlignment="Center"
-                                                        VerticalScrollbarVisibility="Auto"
-                                                        HorizontalScrollbarVisibility="Auto"
-                                                        ShowHorizontalLines="False"     
-                                                        ShowVerticalLines="False"
-                                                        ShowGroupPanel="False"
-                                                        ShowSearchPanelMode="Never"
-                                                        SearchPanelNullText="Search Tasks(Ctrl + F)" 
-                                                        SearchPanelFindMode="Always"
-                                                        ShowIndicator="False"
-                                                        SearchDelay="0"                            
-                                                        AllowDragDrop="True"
-                                                        AllowDrop="True"
-                                                        ShowDragDropHint="False"
-                                                    >
-                                                    <dxmvvm:Interaction.Behaviors>
-                                                        <dxmvvm:EventToCommand EventName="DragRecordOver" Command="{Binding Box_OnDragRecordOverCommand}" PassEventArgsToCommand="True"/>
-                                                        <dxmvvm:EventToCommand EventName="DropRecord" Command="{Binding Box_OnDropRecordCommand}" PassEventArgsToCommand="True"/>
-                                                    </dxmvvm:Interaction.Behaviors>
-                                                </dxg:TableView>
-                                            </dxg:GridControl.View>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                <dxg:GridColumn.EditSettings>
-                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                </dxg:GridColumn.EditSettings>
-                                            </dxg:GridColumn>
-                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                <dxg:GridColumn.EditSettings>
-                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                </dxg:GridColumn.EditSettings>
-                                            </dxg:GridColumn>
-                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                <dxg:GridColumn.EditSettings>
-                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                </dxg:GridColumn.EditSettings>
-                                            </dxg:GridColumn>
-                                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                <dxg:GridColumn.EditSettings>
-                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                </dxg:GridColumn.EditSettings>
-                                            </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-
-                                    </dxg:GridControl>
-                      
-                                    <GD_UserControls:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}"
-                                        Grid.Row="3"/>
-                                    <GridSplitter  
-            Grid.Row="2"   
-            Grid.ColumnSpan="2"
-            Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" 
-            HorizontalAlignment="Stretch" Margin="0,10" Height="10"  />
-                                </Grid>
+                                <GD_UserControls:MachiningSettingUserControl DataContext="{Binding MachiningSettingVM}"/>
+                            </TabItem>
+                            <TabItem  IsSelected="{Binding ElementName=TBtn_Calendar, Path=IsChecked}">
+                                <dxsch:SchedulerControl  />
                             </TabItem>
                         </TabControl>
                 </Grid>
@@ -616,27 +439,31 @@
                                         <Setter Property="Margin" Value="5"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <StackPanel>
-                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_MachineInfo">
-                                    </ToggleButton>
-                                    <TextBlock Text="{DynamicResource btnDescription_MachineInfo}"/>
+
+                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+                                        x:Name="TBtn_MachineInfo" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnDescription_MachineInfo}"                                    
+                                        StackPanelOrientation="Horizontal"/>
+
+                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+                                        x:Name="TBtn_PunchedFontSetting" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnDescription_PunchedFontSetting}"                                    
+                                        StackPanelOrientation="Horizontal"/>
+
+                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+                                        x:Name="TBtn_ParameterSetting" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnDescription_ParameterSetting}"                                    
+                                        StackPanelOrientation="Horizontal"/>
+
+                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+                                        x:Name="TBtn_SoftwareUpdate" 
+                                        ButtonContentText="logo"
+                                        ButtonTitleText="{DynamicResource btnDescription_SoftwareUpdate}"                                    
+                                        StackPanelOrientation="Horizontal"/>
                                 </StackPanel>
-                                <StackPanel>
-                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_PunchedFontSetting">
-                                    </ToggleButton>
-                                    <TextBlock Text="{DynamicResource btnDescription_PunchedFontSetting}"/>
-                                </StackPanel>
-                                <StackPanel>
-                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_ParameterSetting">
-                                    </ToggleButton>
-                                    <TextBlock Text="{DynamicResource btnDescription_ParameterSetting}"/>
-                                </StackPanel>
-                                <StackPanel>
-                                    <ToggleButton Content="Logo" HorizontalAlignment="Center" Name="TBtn_SoftwareUpdate">
-                                    </ToggleButton>
-                                    <TextBlock Text="{DynamicResource btnDescription_SoftwareUpdate}"/>
-                                </StackPanel>
-                            </StackPanel>
                         </materialDesign:ColorZone>
                     </materialDesign:DrawerHost.LeftDrawerContent>
 
@@ -709,73 +536,86 @@
             <materialDesign:ColorZone Grid.Row="2" Padding="5"  Mode="PrimaryLight" VerticalAlignment="Bottom" Grid.ColumnSpan="2" >
             <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Horizontal" Margin="5,10,5,0">
+               
+                    
+                    
+                    <StackPanel Orientation="Horizontal" Margin="5,10,5,0">
                         <StackPanel.Resources>
                             <Style TargetType="StackPanel">
                                 <Setter Property="Margin" Value="10,0"/>
                             </Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
                         </StackPanel.Resources>
-                        <StackPanel>
-                        <ToggleButton Content="Logo" Name="TBtn_MainSysyem">
-                        </ToggleButton>
-                            <TextBlock Text="{DynamicResource btnDescription_MainSystem}"  />
-                    </StackPanel>
+                            <GD_Customcontrols:FunctionToggleButton 
+                                x:Name="TBtn_MainSysyem"
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_MainSystem}"
+                                />
+                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+
+                            <GD_Customcontrols:FunctionToggleButton 
+                                x:Name="TBtn_ProductSettings"
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_ProductSettings}" 
+                                />
+                        
+                        
+                            <GD_Customcontrols:FunctionToggleButton
+                                x:Name="TBtn_TypeSettingSettings" Command="{Binding ReloadTypeSettingSettingsCommand}"
+                                ButtonContentText="Logo1"
+                                ButtonTitleText="{DynamicResource btnDescription_LayoutSettings}" 
+                                />
+
+                            <GD_Customcontrols:FunctionToggleButton
+                                x:Name="TBtn_MachiningSettings"
+                                ButtonContentText="Logo2"
+                                ButtonTitleText="{DynamicResource btnDescription_MachiningSettings}" 
+                                />
+
+                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+
+
+                            <GD_Customcontrols:FunctionToggleButton
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_MachineFunction}" 
+                                />
+                            <GD_Customcontrols:FunctionToggleButton
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_OneKeyReturn}" 
+                                />
+                            <GD_Customcontrols:FunctionToggleButton
+                                ButtonContentText="Light"
+                                ButtonTitleText="{DynamicResource btnDescription_LightUpSwitch}" 
+                                />
+
+                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+
+                            <GD_Customcontrols:FunctionToggleButton 
+                                dd:DragDrop.IsDropTarget="True"
+                                ButtonContentText="C1"
+                                       dd:DragDrop.DropHandler="{Binding FunctionToggleButtonDropTarget}"
+                                ButtonTitleText="{DynamicResource btnDescription_UsualKey1}" 
+                                />
+                            <GD_Customcontrols:FunctionToggleButton 
+                                dd:DragDrop.IsDropTarget="True"
+                                       dd:DragDrop.DropHandler="{Binding FunctionToggleButtonDropTarget}"
+                                ButtonContentText="C2"
+                                ButtonTitleText="{DynamicResource btnDescription_UsualKey2}" 
+                                />
+
                     <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
-                    <StackPanel>
-                            <ToggleButton Content="Logo" Name="TBtn_ProductSettings">
-                            </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_ProductSettings}"  />
-                    </StackPanel>
-                    <StackPanel>
-                                <ToggleButton Content="Logo" Name="TBtn_TypeSettingSettings" Command="{Binding ReloadTypeSettingSettingsCommand}">
-                                    
-                                </ToggleButton>
-                            <TextBlock Text="{DynamicResource btnDescription_LayoutSettings}"  />
-                    </StackPanel>
-                    <StackPanel>
-                                <ToggleButton Content="Logo" Name="TBtn_MachiningSettings" Command="{Binding ReloadMachiningSettingsCommand}">
-                        </ToggleButton>
-                            <TextBlock Text="{DynamicResource btnDescription_MachiningSettings}"  />
-                    </StackPanel>
-                    <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
-                    <StackPanel>
-                        <ToggleButton Content="Logo">
-                        </ToggleButton>
-                            <TextBlock Text="{DynamicResource btnDescription_MachineFunction}"  />
-                    </StackPanel>
-                    <StackPanel>
-                        <ToggleButton Content="Logo">
-                        </ToggleButton>
-                            <TextBlock Text="{DynamicResource btnDescription_OneKeyReturn}"  />
-                    </StackPanel>
-                    <StackPanel>
-                        <ToggleButton Content="Light">
-                        </ToggleButton>
-                            <TextBlock Text="{DynamicResource btnDescription_LightUpSwitch}"  />
-                    </StackPanel>
-                    <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
-                    <StackPanel>
-                                <ToggleButton Content="Logo" dd:DragDrop.IsDropTarget="True">
-                                </ToggleButton>
-                            <TextBlock Text="{DynamicResource btnDescription_UsualKey1}"  />
-                    </StackPanel>
-                    <StackPanel>
-                                <ToggleButton Content="Logo" dd:DragDrop.IsDropTarget="True">
-                        </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_UsualKey2}"  />
-                    </StackPanel>
-                    <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
-                    <StackPanel>
-                        <ToggleButton Content="Logo">
-                        </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_Calendar}"  />
-                    </StackPanel>
-                    <StackPanel>
-                                <ToggleButton Content="Logo"  Name="TBtn_Speed">
-                        </ToggleButton>
-                                <TextBlock Text="{DynamicResource btnDescription_Speed}"  />
-                                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddParameterDarggablePopup" IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}">
+
+                            <GD_Customcontrols:FunctionToggleButton 
+                                x:Name="TBtn_Calendar"
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_Calendar}" 
+                                />
+                            <GD_Customcontrols:FunctionToggleButton 
+                                x:Name="TBtn_Speed"
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_Speed}" 
+                                />
+                            <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddParameterDarggablePopup" IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}">
                                     <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10" Padding="10">
                                         <StackPanel Margin="5" Orientation="Vertical">
                                             <TextBlock Text="{StaticResource btnDescription_Speed}" FontSize="20" />
@@ -785,12 +625,12 @@
                                     </materialDesign:ColorZone>
                                 </GD_Popup:DraggablePopup>
 
-                            </StackPanel>
-                    <StackPanel>
-                                <ToggleButton Content="Logo" Name="TBtn_Alarm">
-                        </ToggleButton>
-                        <TextBlock Text="{DynamicResource btnDescription_Alarm}"  />
-                    </StackPanel>
+                            <GD_Customcontrols:FunctionToggleButton 
+                                x:Name="TBtn_Alarm"
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_Alarm}" 
+                                />
+
                             <StackPanel Visibility="Collapsed">
                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="100"
                                     ItemsSource="{Binding SupportedCultures}" 

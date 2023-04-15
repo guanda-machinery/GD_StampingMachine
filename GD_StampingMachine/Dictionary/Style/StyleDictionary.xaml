@@ -4,7 +4,7 @@
                     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
                     xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    xmlns:internal="clr-namespace:MaterialDesignThemes.Wpf.Internal;assembly=MaterialDesignThemes.Wpf"                    >
+                    xmlns:internal="clr-namespace:MaterialDesignThemes.Wpf.Internal;assembly=MaterialDesignThemes.Wpf">
 
     <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton" BasedOn="{StaticResource MaterialDesignFlatLightBgButton}">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
@@ -525,6 +525,7 @@
             </Border>
                 <Track Grid.Row="1"
            x:Name="PART_Track">
+
                     <Track.DecreaseRepeatButton>
                         <RepeatButton Style="{StaticResource SliderButtonStyle}" Background="{TemplateBinding Foreground}"
                       Command="Slider.DecreaseLarge" />
