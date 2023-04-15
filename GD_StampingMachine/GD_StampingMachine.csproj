@@ -342,6 +342,7 @@
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\ToggleButtonMultiBooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToAutoOrNaNValueConverter.cs" />
     <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />

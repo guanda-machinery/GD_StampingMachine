@@ -28,16 +28,10 @@ namespace GD_StampingMachine.Method
         }
         public override void Drop(IDropInfo dropInfo)
         {
-            var SourceData = dropInfo.Data;
-            var TargetData = dropInfo.DropTargetAdorner;
-            if (dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource)
-            {
-            }
-
-            var a = (dropInfo.VisualTarget as FunctionToggleButton);
-            (dropInfo.VisualTarget as FunctionToggleButton).MainStackPanel.DataContext = (SourceData as FunctionToggleButton).MainStackPanel.DataContext ;
-            //(dropInfo.VisualTarget as FunctionToggleButton).Content = (dropInfo.DragInfo.VisualSource as FunctionToggleButton).Content;
+            (dropInfo.VisualTarget as FunctionToggleButton).MainStackPanel.DataContext = (dropInfo.Data as FunctionToggleButton).MainStackPanel.DataContext ;
         }
+
+
     }
 
 

@@ -463,9 +463,28 @@
 
                                     <GD_Customcontrols:FunctionToggleButton Margin="0,5"
                                         x:Name="TBtn_ParameterSetting" 
-                                        ButtonContentText="logo"
+                                        ButtonContentText="logo" 
                                         ButtonTitleText="{DynamicResource btnDescription_ParameterSetting}"                                    
-                                        Orientation="Horizontal"/>
+                                        Orientation="Horizontal">
+                                        <GD_Customcontrols:FunctionToggleButton.IsChecked>
+                                            <MultiBinding Converter="{GD_ValueConverters:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                <MultiBinding.Bindings>
+                                                    <Binding Path="ParameterSettingVM.TbtnNumberSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                    <Binding Path="ParameterSettingVM.TbtnQRSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                    <Binding Path="ParameterSettingVM.TbtnAxisSettingSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                    <Binding Path="ParameterSettingVM.TbtnTimimgSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                    <Binding Path="ParameterSettingVM.TbtnSegregationSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                    <Binding Path="ParameterSettingVM.TbtnInputOutputIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                    <Binding Path="ParameterSettingVM.TbtnSeEngineeringModeIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                </MultiBinding.Bindings>
+                                            </MultiBinding>
+                                        </GD_Customcontrols:FunctionToggleButton.IsChecked>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                    </GD_Customcontrols:FunctionToggleButton>
 
                                     <GD_Customcontrols:FunctionToggleButton Margin="0,5"
                                         x:Name="TBtn_SoftwareUpdate" 

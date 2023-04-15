@@ -8,7 +8,6 @@
            
              Foreground="White"           
              xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method"
-             
              >
     <!--d:DataContext="{d:DesignInstance local:FunctionToggleButtonViewModel}"-->
     <UserControl.Resources>

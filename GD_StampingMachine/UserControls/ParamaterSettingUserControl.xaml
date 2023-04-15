@@ -46,31 +46,38 @@
 
                 <GD_Customcontrols:FunctionToggleButton Margin="5,15"
                                         x:Name="TbtnNumberSetting" 
+                                        IsChecked="{Binding TbtnNumberSettingIsChecked , Mode=TwoWay}"
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnNumberSetting}"  />
 
                 <GD_Customcontrols:FunctionToggleButton Margin="5,15"
                                         x:Name="TbtnQRSetting" 
+                                        IsChecked="{Binding TbtnQRSettingIsChecked, Mode=TwoWay}"
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnQRSetting}"  />
                 <GD_Customcontrols:FunctionToggleButton Margin="5,15"
                                         x:Name="TbtnAxisSetting" 
+                                                        IsChecked="{Binding TbtnAxisSettingSettingIsChecked, Mode=TwoWay}"
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnAxisSetting}"  />
                 <GD_Customcontrols:FunctionToggleButton Margin="5,15"
                                         x:Name="TbtnTimimgSetting" 
+                                        IsChecked="{Binding TbtnTimimgSettingIsChecked , Mode=TwoWay}"
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnTimimgSetting}"  />
                 <GD_Customcontrols:FunctionToggleButton Margin="5,15"
                                         x:Name="TbtnSegregationSetting" 
+                                        IsChecked="{Binding TbtnSegregationSettingIsChecked, Mode=TwoWay}"
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnSeparateSetting}"  />
                 <GD_Customcontrols:FunctionToggleButton Margin="5,15"
                                         x:Name="TbtnInputOutput" 
+                                        IsChecked="{Binding  TbtnInputOutputIsChecked, Mode=TwoWay}"
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnInputOutput}"  />
                 <GD_Customcontrols:FunctionToggleButton Margin="5,15"
                                         x:Name="TbtnSeEngineeringMode" 
+                                        IsChecked="{Binding TbtnSeEngineeringModeIsChecked, Mode=TwoWay}"
                                         ButtonContentText="logo"
                                         ButtonTitleText="{DynamicResource btnSeEngineeringMode}"  />
 
