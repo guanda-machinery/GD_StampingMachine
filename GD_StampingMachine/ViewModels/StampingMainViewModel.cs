@@ -356,7 +356,7 @@ namespace GD_StampingMachine.ViewModels
             get => MachiningSettingVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
         }
 
-       // public FunctionToggleButtonControlBaseDropTarget FunctionToggleButtonDropTarget { get; set; } = new FunctionToggleButtonControlBaseDropTarget();
+       
     }
 
 

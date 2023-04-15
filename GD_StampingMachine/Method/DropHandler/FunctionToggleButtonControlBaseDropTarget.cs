@@ -13,18 +13,21 @@ namespace GD_StampingMachine.Method
 {
     public class FunctionToggleButtonControlBaseDropTarget : BaseDropTarget
     {
-        public override void DragEnter(IDropInfo dropInfo)
-        {
-            base.DragEnter(dropInfo);
-        }
-        public override void DragLeave(IDropInfo dropInfo)
-        {
-            base.DragEnter(dropInfo);
-        }
+
         public override void DragOver(IDropInfo dropInfo)
         {
-            dropInfo.NotHandled = true;
-            dropInfo.Effects = System.Windows.DragDropEffects.Copy;
+
+            if (dropInfo.DragInfo.SourceItem.GetType() == dropInfo.VisualTarget.GetType())
+            {
+                dropInfo.DropTargetAdorner = typeof(DropTargetHighlightAdorner);
+                dropInfo.NotHandled = true;
+                dropInfo.Effects = System.Windows.DragDropEffects.Copy;
+            }
+            else
+            {
+                dropInfo.NotHandled = false;
+                dropInfo.Effects = System.Windows.DragDropEffects.None;
+            }
         }
         public override void Drop(IDropInfo dropInfo)
         {

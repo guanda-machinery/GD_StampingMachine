@@ -97,6 +97,10 @@ namespace GD_StampingMachine.Method
                     }
 
                 }
+                else
+                {
+                    return;
+                }
             }
 
             dropInfo.DropTargetAdorner = typeof(DropTargetHighlightAdorner);

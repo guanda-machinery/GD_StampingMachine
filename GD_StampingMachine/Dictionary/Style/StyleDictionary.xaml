@@ -22,8 +22,26 @@
                 <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>
             </Trigger>
         </Style.Triggers>
-
     </Style>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_MainToggleButton">
+        <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Height" Value="auto"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource solidclr_SilverGray}"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 
 
     <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}" x:Key="ToggleButtonTitleWhite">

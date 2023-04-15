@@ -91,7 +91,7 @@
 
     <Style TargetType="Border" x:Key="SelectedListBoxItemBackground" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-        <Setter Property="RenderTransform">
+        <Setter Property="LayoutTransform">
             <Setter.Value>
                 <TransformGroup>
                     <TranslateTransform X="0" Y="0" x:Name="AnimatedTranslateTransform"/>
@@ -140,10 +140,10 @@
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-4"/>
                             </DoubleAnimationUsingKeyFrames>-->
 
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
                                                To="1.2" Duration="0:0:0.1"
                                                />
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
                                                  To="1.2" Duration="0:0:0.1"
                                                />
 
@@ -159,14 +159,14 @@
                             <!--離開-->
                             <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.500" To="Transparent" />
-                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="1x">
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
                                                To="1" Duration="0:0:0.1"
                                                />
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
                                                  To="1" Duration="0:0:0.1"
                                                />
 
@@ -181,14 +181,14 @@
                             <!--離開-->
                             <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.500" To="Transparent" />
-                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="1x">
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
-                            
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
                                                To="1" Duration="0:0:0.1"
                                                />
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
                                                  To="1" Duration="0:0:0.1"
                                                />
 
@@ -203,13 +203,13 @@
                         <Storyboard Duration="00:00:01">
                             <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.500" To="Transparent" />
-                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="1x">
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
                                                To="1" Duration="0:0:0.1"
                                                />
-                            <DoubleAnimation   Storyboard.TargetProperty="RenderTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
                                                  To="1" Duration="0:0:0.1"/>
                         </Storyboard>
                     </BeginStoryboard>

@@ -33,15 +33,27 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Padding" Value="0"/>
         </Style>
-        
+
         <Style TargetType="GD_Customcontrols:FunctionToggleButton" >
+            <Setter Property="ProgressBarCollapsed" Value="Collapsed"/>
             <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
             <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
             <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
-            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="True"/>
-            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="True"/>
+            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="False"/>
+            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="False"/>
             <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
             <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
+            <Setter Property="dd:DragDrop.DragAdornerTemplate" >
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border DataContext="{Binding}">
+                            <ToggleButton Style="{StaticResource GD_ToggleButton}" Width="45" Height="45" Padding="0" IsChecked="{Binding IsChecked}">
+                                <TextBlock Text="{Binding ButtonContentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </ToggleButton>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
             
@@ -594,7 +606,7 @@
                                 ButtonTitleText="{DynamicResource btnDescription_LayoutSettings}" 
                                 />
 
-                            <GD_Customcontrols:FunctionToggleButton
+                            <GD_Customcontrols:FunctionToggleButton 
                                 x:Name="TBtn_MachiningSettings"
                                 ButtonContentText="Logo2"
                                 ButtonTitleText="{DynamicResource btnDescription_MachiningSettings}" 
@@ -603,7 +615,7 @@
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
 
-                            <GD_Customcontrols:FunctionToggleButton
+                            <GD_Customcontrols:FunctionToggleButton 
                                 ButtonContentText="Logo"
                                 ButtonTitleText="{DynamicResource btnDescription_MachineFunction}" 
                                 />
@@ -611,25 +623,31 @@
                                 ButtonContentText="Logo"
                                 ButtonTitleText="{DynamicResource btnDescription_OneKeyReturn}" 
                                 />
-                            <GD_Customcontrols:FunctionToggleButton
+                        
+                            <GD_Customcontrols:FunctionToggleButton 
                                 ButtonContentText="Light"
                                 ButtonTitleText="{DynamicResource btnDescription_LightUpSwitch}" 
                                 />
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                            <GD_Customcontrols:FunctionToggleButton 
+                            <GD_Customcontrols:FunctionToggleButton  
+                                dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True"
                                 ButtonContentText="C1"
                                 ButtonTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
+                            <Grid>
                             <GD_Customcontrols:FunctionToggleButton 
+                                dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True"
                                 ButtonContentText="C2"
                                 ButtonTitleText="{DynamicResource btnDescription_UsualKey2}" 
                                 />
 
-                    <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+                            </Grid>
+
+                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
                             <GD_Customcontrols:FunctionToggleButton 
                                 x:Name="TBtn_Calendar"

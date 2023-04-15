@@ -33,12 +33,12 @@
             </Grid.RowDefinitions>
             <ProgressBar BorderThickness="0" Grid.Row="0" Padding="0"  Margin="10" Grid.RowSpan="2"
                          Foreground="{StaticResource SecondaryHueLightBrush}"
-                     Value="{Binding Progress}"
-                     Maximum="100" 
-                     Width="60" Height="60"
-                     Background="LightGray"
-                     IsIndeterminate="{Binding IsIndeterminate}"
-                     Style="{ StaticResource MaterialDesignCircularProgressBar }"
+                         Value="{Binding Progress}"
+                         Maximum="100" 
+                         Width="60" Height="60"
+                         Background="LightGray"
+                         IsIndeterminate="{Binding IsIndeterminate}"
+                         Style="{ StaticResource MaterialDesignCircularProgressBar }"
                      >
                 <i:Interaction.Behaviors>
                     <GD_Behavior:ProgresBarAnimateBehavior />

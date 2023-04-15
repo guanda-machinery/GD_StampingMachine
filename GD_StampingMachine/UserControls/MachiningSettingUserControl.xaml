@@ -67,7 +67,8 @@
             </StackPanel>
             <Grid Margin="10">
                 <Border Background="White" Margin="0,0,115,0"/>
-                <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+
+                    <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem" >
                             <Setter Property="Template">
@@ -108,7 +109,8 @@
 
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                </ListBox>
+                    </ListBox>
+       
             </Grid>
         </StackPanel>
         <dxg:GridControl  HorizontalAlignment="Center"     Grid.ColumnSpan="2"

@@ -27,15 +27,8 @@ namespace GD_StampingMachine.UserControls.CustomControls
     /// <summary>
     /// FunctionToggleButton.xaml 的互動邏輯
     /// </summary>
-    public partial class FunctionToggleButton : UserControl, ICloneable
+    public partial class FunctionToggleButton : UserControl
     {
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
-
-
-
         public FunctionToggleButton()
         {
             InitializeComponent();
@@ -57,7 +50,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
         }
 
         public static readonly DependencyProperty ButtonContentTextProperty =
-            DependencyProperty.Register(nameof(ButtonContentText), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata());
+            DependencyProperty.Register(nameof(ButtonContentText), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata("Logo"));
 
         /// <summary>
         /// 按鈕勾選
@@ -88,185 +81,70 @@ namespace GD_StampingMachine.UserControls.CustomControls
             set { SetValue(OrientationProperty, value); }
         }
         public static readonly DependencyProperty OrientationProperty =
-    DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleButton), new PropertyMetadata());
+    DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleButton), new PropertyMetadata(Orientation.Vertical));
 
 
 
-        /*
-        /// <summary>
-        /// 按鈕命令
-        /// </summary>
-        public ICommand Command
+        public Visibility ProgressBarCollapsed
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get { return (Visibility)GetValue(ProgressBarCollapsedProperty); }
+            set { SetValue(ProgressBarCollapsedProperty, value); }
         }
-        /// <summary>
-        /// <see cref="ButtonCommand"/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleButton), new PropertyMetadata(CommandPropertyChanged));
-        /// <summary>
-        /// <see cref="ButtonCommand"/> 變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void CommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty ProgressBarCollapsedProperty =
+    DependencyProperty.Register(nameof(ProgressBarCollapsed), typeof(Visibility), typeof(FunctionToggleButton), new PropertyMetadata());
+
+
+        public bool ProgressIsIndeterminate
         {
-            FunctionToggleButton menuControl = (d as FunctionToggleButton);
-            menuControl.TButton.Command = (ICommand)e.NewValue;
+            get { return (bool)GetValue(ProgressIsIndeterminateProperty); }
+            set { SetValue(ProgressIsIndeterminateProperty, value); }
         }
+        public static readonly DependencyProperty ProgressIsIndeterminateProperty =
+    DependencyProperty.Register(nameof(ProgressIsIndeterminate), typeof(bool), typeof(FunctionToggleButton), new PropertyMetadata(true));
 
-        /// <summary>
-        /// 按鈕勾選
-        /// </summary>
-        public bool IsChecked
+        public double ProgressBarValue
         {
-            get { return (bool)GetValue(IsCheckedProperty); }
-            set { SetValue(IsCheckedProperty, value); }
+            get { return (double)GetValue(ProgressBarValueProperty); }
+            set { SetValue(ProgressBarValueProperty, value); }
         }
-        /// <summary>
-        /// <see cref=""/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty IsCheckedProperty =
-            DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleButton), new PropertyMetadata(IsCheckedPropertyChanged));
-        /// <summary>
-        /// <see cref=""/> 變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void IsCheckedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty ProgressBarValueProperty =
+    DependencyProperty.Register(nameof(ProgressBarValue), typeof(double), typeof(FunctionToggleButton), new PropertyMetadata(50.0));
+
+        public double ProgressBarMaximum
         {
-            FunctionToggleButton menuControl = (d as FunctionToggleButton);
-            menuControl.TButton.IsChecked = (bool)e.NewValue;
+            get { return (double)GetValue(ProgressBarMaximumProperty); }
+            set { SetValue(ProgressBarMaximumProperty, value); }
         }
+        public static readonly DependencyProperty ProgressBarMaximumProperty =
+    DependencyProperty.Register(nameof(ProgressBarMaximum), typeof(double), typeof(FunctionToggleButton), new PropertyMetadata(100.0));
 
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string ButtonTitleText
+        public double ProgressBarMinimum
         {
-            get { return (string)GetValue(ButtonTitleTextProperty); }
-            set { SetValue(ButtonTitleTextProperty, value); }
+            get { return (double)GetValue(ProgressBarMinimumProperty); }
+            set { SetValue(ProgressBarMinimumProperty, value); }
         }
-        /// <summary>
-        /// <see cref=""/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty ButtonTitleTextProperty =
-            DependencyProperty.Register(nameof(ButtonTitleText), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata(ButtonTitleTextPropertyChanged));
-        /// <summary>
-        /// <see cref=""/> 變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void ButtonTitleTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty ProgressBarMinimumProperty =
+    DependencyProperty.Register(nameof(ProgressBarMinimum), typeof(double), typeof(FunctionToggleButton), new PropertyMetadata(0.0));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            FunctionToggleButton menuControl = (d as FunctionToggleButton);
-            menuControl.ButtonTitleTextBlock.Text = (string)e.NewValue;
+            TButton.IsChecked = !TButton.IsChecked;
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string ButtonContentText
-        {
-            get { return (string)GetValue(ButtonContentTextProperty); }
-            set { SetValue(ButtonContentTextProperty, value); }
-        }
-        /// <summary>
-        /// <see cref=""/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty ButtonContentTextProperty =
-            DependencyProperty.Register(nameof(ButtonContentText), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata(ButtonContentTextPropertyChanged));
-        /// <summary>
-        /// <see cref=""/> 變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void ButtonContentTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            FunctionToggleButton menuControl = (d as FunctionToggleButton);
-            menuControl.ButtonContentTextBlock.Text = (string)e.NewValue;
-        }
-
-        private void TButton_Checked(object sender, RoutedEventArgs e)
-        {
-            if ((e.Source as ToggleButton).IsChecked.HasValue)
-                this.IsChecked = (e.Source as ToggleButton).IsChecked.Value;
-            else
-                this.IsChecked = false;
-        }
-
-
-        public Orientation StackPanelOrientation
-        {
-            get { return (Orientation)GetValue(StackPanelOrientationProperty); }
-            set { SetValue(StackPanelOrientationProperty, value); }
-        }
-        /// <summary>
-        /// <see cref=""/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty StackPanelOrientationProperty =
-            DependencyProperty.Register(nameof(StackPanelOrientation), typeof(Orientation), typeof(FunctionToggleButton), new PropertyMetadata(StackPanelOrientationPropertyChanged));
-        /// <summary>
-        /// <see cref=""/> 變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void StackPanelOrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            FunctionToggleButton menuControl = (d as FunctionToggleButton);
-            menuControl.MainStackPanel.Orientation = (Orientation)e.NewValue;
-        }*/
-
-
-
     }
-
-
-
-    /*
-    public class FunctionToggleButtonModel
-    {
-        public FunctionToggleButtonModel()
-        {
-            Orientation = Orientation.Vertical;
-            ButtonContent = "Logo";
-            ButtonTitle  = "test";
-        }
-        public Orientation Orientation { get; set; }
-        public string ButtonContent { get; set; }
-        public string ButtonTitle { get; set; }
-        public bool ToggleButtonIsChecked { get; set; }
-        public ICommand ToggleButtonICommand { get; set; }
-    }
-
-    public class FunctionToggleButtonViewModel: ViewModelBase
-    {
-        public FunctionToggleButtonViewModel()
-        {
-
-        }
-        public FunctionToggleButtonViewModel(FunctionToggleButtonModel _functionToggleButton)
-        {
-            FunctionToggleButton = _functionToggleButton;
-        }
-        public FunctionToggleButtonModel FunctionToggleButton = new();
-
-
-        public string ButtonContent { get => FunctionToggleButton.ButtonContent; set { FunctionToggleButton.ButtonContent = value; OnPropertyChanged(); } }
-        public string ButtonTitle { get => FunctionToggleButton.ButtonTitle; set { FunctionToggleButton.ButtonTitle = value; OnPropertyChanged(); } }
-        public bool ToggleButtonIsChecked { get => FunctionToggleButton.ToggleButtonIsChecked; set { FunctionToggleButton.ToggleButtonIsChecked = value; OnPropertyChanged(); } }
-        public ICommand ToggleButtonICommand { get => FunctionToggleButton.ToggleButtonICommand; set { FunctionToggleButton.ToggleButtonICommand = value; OnPropertyChanged(); } }
-        public FunctionToggleButtonControlBaseDropTarget FunctionToggleButtonDropTarget { get; set; } = new FunctionToggleButtonControlBaseDropTarget();
-    }
-
-    */
-
-
-
 
 }
