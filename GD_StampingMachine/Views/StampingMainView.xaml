@@ -590,7 +590,8 @@
                                 x:Name="TBtn_MainSysyem"
                                 ButtonContentText="Logo"
                                 ButtonTitleText="{DynamicResource btnDescription_MainSystem}"
-                                />
+                                >
+                            </GD_Customcontrols:FunctionToggleButton>
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
                             <GD_Customcontrols:FunctionToggleButton 

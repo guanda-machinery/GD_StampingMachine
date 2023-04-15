@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
              mc:Ignorable="d" 
+               xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              Foreground="White"          
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
              Padding="5" Background="Transparent" Cursor="Hand" 
@@ -12,17 +13,18 @@
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
         <StackPanel Name="MainStackPanel" Margin="0">
-            <ToggleButton Margin="8,0" 
+            <ToggleButton Margin="8,0"  Width="45" Height="45"
                               Style="{StaticResource GD_ToggleButton}"   BorderThickness="0" Padding="-1"  
             Name="TButton" IsChecked="{Binding IsChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Command,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       IsThreeState="False">
                 <ToggleButton.Template>
                     <ControlTemplate>
-                        <Border BorderThickness="0" Margin="0" Background="{TemplateBinding Background}">
-                            <Border  BorderThickness="0" Margin="0" Width="45" Height="45" Opacity="0.9"
-                    Background="{Binding ElementName=MainBorder, Path=Background}">
-                        <Grid>
-                            <ProgressBar Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        <Border BorderThickness="0" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Grid>
+                                <Border BorderThickness="0" Opacity="0.3" 
+                                        Background="{Binding ElementName=MainBorder, Path=Background}"/>
+                                <Grid>
+                                    <ProgressBar Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Visibility="{Binding ProgressBarCollapsed}"
                                     Style="{StaticResource MaterialDesignCircularProgressBar}" 
                                     Foreground="{ StaticResource solidclr_ButtonBlue }"
@@ -30,15 +32,14 @@
                                  Maximum="{Binding ProgressBarMaximum}"
                                  Minimum="{Binding ProgressBarMinimum}"
                                     IsIndeterminate="{Binding ProgressIsIndeterminate}">
-                                <i:Interaction.Behaviors>
-                                    <GD_Behavior:ProgresBarAnimateBehavior />
-                                </i:Interaction.Behaviors>
-                            </ProgressBar>
-                            <TextBlock Name="ButtonContentTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
-                               Text="{Binding ButtonContentText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" />
-                        </Grid>
-                            </Border>
-                            
+                                        <i:Interaction.Behaviors>
+                                            <GD_Behavior:ProgresBarAnimateBehavior />
+                                        </i:Interaction.Behaviors>
+                                    </ProgressBar>
+                                    <TextBlock Name="ButtonContentTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Text="{Binding ButtonContentText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" />
+                                </Grid>
+                            </Grid>
                         </Border>
                     </ControlTemplate>
                 </ToggleButton.Template>
@@ -47,14 +48,14 @@
                 <TextBlock Name="ButtonTitleTextBlock" Text="{Binding ButtonTitleText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
             </StackPanel>
         <Border Name="MainBorder"
-            PreviewMouseUp="Border_PreviewMouseUp" Background="#FFD3D3D3" Opacity="0.0">
+                MouseUp="MainBorder_MouseUp" Background="#FFD3D3D3" Opacity="0.0">
             <Border.Triggers>
                 <EventTrigger RoutedEvent="Border.MouseEnter">
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.200" To="Orange" />
+                                                        Duration="0:0:0.200" To="DimGray" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
