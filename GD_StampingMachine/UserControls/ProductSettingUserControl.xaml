@@ -21,9 +21,10 @@
              xmlns:GD_Models="clr-namespace:GD_StampingMachine.Model"
 
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
+             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DataContext="{d:DesignInstance Type=GD_ViewModels:ProductSetting.ProductSettingViewModel}">
+             d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
 
     <Grid>
         <Grid Visibility="{Binding SelectProductProjectVM.IsInParameterPage, Converter={dx:BooleanToVisibilityConverter Invert=True}}">

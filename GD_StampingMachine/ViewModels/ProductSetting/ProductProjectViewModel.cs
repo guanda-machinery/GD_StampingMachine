@@ -2,6 +2,7 @@
 using DevExpress.DataAccess.Json;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
@@ -175,21 +176,24 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
                             {
-                                var MessageBoxReturn = WinUIMessageBox.Show(null,
-                                    (string)Application.Current.TryFindResource("Text_AskDelProject") +
-                                    "\r\n" +
-                                    $"{this.ProductProject.Number} - {this.ProductProject.Name}" +
-                                    "?"
-                                    ,
-                                    (string)Application.Current.TryFindResource("Text_notify"),
-                                    MessageBoxButton.YesNo,
-                                    MessageBoxImage.Exclamation,
-                                    MessageBoxResult.None,
-                                    MessageBoxOptions.None,
-                                    DevExpress.Xpf.Core.FloatingMode.Window);
+                                if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
+                                {
+                                    var MessageBoxReturn = WinUIMessageBox.Show(null,
+                                        (string)Application.Current.TryFindResource("Text_AskDelProject") +
+                                        "\r\n" +
+                                        $"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}" +
+                                        "?"
+                                        ,
+                                        (string)Application.Current.TryFindResource("Text_notify"),
+                                        MessageBoxButton.YesNo,
+                                        MessageBoxImage.Exclamation,
+                                        MessageBoxResult.None,
+                                        MessageBoxOptions.None,
+                                        DevExpress.Xpf.Core.FloatingMode.Window);
 
-                                if (MessageBoxReturn == MessageBoxResult.Yes)
-                                    GridItemSource.Remove(this);
+                                    if (MessageBoxReturn == MessageBoxResult.Yes)
+                                        GridItemSource.Remove(CurrentItem);
+                                }
                             }
                         }
                     });
@@ -260,6 +264,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
+
 
         public ICommand RefreshSavedCollectionCommand
         {
@@ -448,20 +453,37 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-
-        private bool _projectIsClosed = false;
-        public bool ProjectIsClosed { get=> _projectIsClosed; set { _projectIsClosed = value; OnPropertyChanged(); } }
-
-        /// <summary>
-        /// 關閉製品專案
-        /// </summary>
-        public ICommand ProjectCloseCommand
+        public ICommand MoveItemBetweenGridControlCommand
         {
-            get => new RelayCommand(() =>
+            get => new RelayParameterizedCommand(obj =>
             {
-                this.ProjectIsClosed = !this.ProjectIsClosed;
+                if(obj == null)
+                {
+                    throw new Exception();
+                }
+
+                if(obj is object[] objectArray)
+                {
+                    if (objectArray.Count() == 2)
+                    {
+                        DevExpress.Xpf.Grid.GridControl GridControlSource = objectArray[0] as DevExpress.Xpf.Grid.GridControl;
+                        DevExpress.Xpf.Grid.GridControl GridControlTarget = objectArray[1] as DevExpress.Xpf.Grid.GridControl ;
+                        if(GridControlSource != null && GridControlTarget != null)
+                        {
+                            if(GridControlSource.CurrentItem is ProductProjectViewModel _currentItem &&
+                            GridControlSource.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> SourceItemS &&
+                            GridControlTarget.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> TargetItemS)
+                            {
+                                TargetItemS.Add(_currentItem);
+                                SourceItemS.Remove(_currentItem);
+                            }
+                        }
+                    }
+                }
             });
         }
+
+
 
 
 

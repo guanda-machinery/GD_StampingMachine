@@ -27,8 +27,16 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" MinHeight="100"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.ColumnSpan="2"  HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <Grid Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center">
                 <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
                     <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
                 </Border>
@@ -65,10 +73,10 @@
                     <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
                 </Border>
             </StackPanel>
-            <Grid Margin="10">
+            <Border Grid.Row="1" Margin="10" Background="White"/>
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" Margin="10" HorizontalAlignment="Center">
                 <Border Background="White" Margin="0,0,115,0"/>
-
-                    <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
+                <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem" >
                             <Setter Property="Template">
@@ -109,10 +117,9 @@
 
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                    </ListBox>
-       
+                </ListBox>
             </Grid>
-        </StackPanel>
+        </Grid>
         <dxg:GridControl  HorizontalAlignment="Center"     Grid.ColumnSpan="2"
                                         Grid.Row="1" 
                                     Grid.Column="0" Margin="10,0"

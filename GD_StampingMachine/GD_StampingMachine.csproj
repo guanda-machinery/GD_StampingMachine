@@ -338,7 +338,9 @@
     <Compile Include="ValueConverters\EnumToBrushesConverter.cs" />
     <Compile Include="ValueConverters\EnumToPackIconKindConverter.cs" />
     <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
+    <Compile Include="ValueConverters\ItemSourceCountIsZeroToVisibility.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\MultiBindingToArrayValueConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />

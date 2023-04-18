@@ -1,4 +1,6 @@
-﻿using DevExpress.Mvvm.DataAnnotations;
+﻿using DevExpress.CodeParser;
+using DevExpress.Mvvm.DataAnnotations;
+using GD_StampingMachine.Extensions;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -24,24 +27,25 @@ namespace GD_StampingMachine.ViewModels
 
     public class TypeSettingSettingViewModel : ViewModelBase
     {
-        public TypeSettingSettingViewModel(TypeSettingSettingModel _typeSettingSetting )
+        public TypeSettingSettingViewModel(TypeSettingSettingModel _typeSettingSetting)
         {
-            var ProjectDistributeModelList = new List<ProjectDistributeModel>() 
+            TypeSettingSetting = _typeSettingSetting;
+            var ProjectDistributeModelList = new List<ProjectDistributeModel>()
               {
                   new ProjectDistributeModel()
                   {
                       ProjectDistributeName="Test1",
                       CreatedDate = DateTime.Now,
-                      
-                      ProductProjectVMObservableCollection = _typeSettingSetting.ProductProjectVMObservableCollection,
-                      SeparateBoxVMObservableCollection = _typeSettingSetting.SeparateBoxVMObservableCollection
-                  },                  
+
+                      ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection,
+                      SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection
+                  },
                   new ProjectDistributeModel()
                   {
                       ProjectDistributeName="Test2",
                       CreatedDate = DateTime.Now,
-                      ProductProjectVMObservableCollection = _typeSettingSetting.ProductProjectVMObservableCollection,
-                      SeparateBoxVMObservableCollection = _typeSettingSetting.SeparateBoxVMObservableCollection
+                      ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection,
+                      SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection
                   },
               };
             ProjectDistributeModelList.ForEach(projectDistribute =>
@@ -50,6 +54,41 @@ namespace GD_StampingMachine.ViewModels
             });
             ProjectDistributeVM = ProjectDistributeVMObservableCollection.FirstOrDefault();
         }
+
+        public TypeSettingSettingModel TypeSettingSetting { get; }
+
+        /// <summary>
+        /// 建立用的model
+        /// </summary>
+        public ProjectDistributeModel NewProjectDistribute
+        {
+            get; set;
+        } = new();
+
+
+
+        public ICommand CreateProjectDistributeCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    NewProjectDistribute.CreatedDate = DateTime.Now;
+                    var Clone = NewProjectDistribute.DeepCloneByJson();
+                    Clone.ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection;
+                    Clone.SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection;
+                    ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
+                });
+            }
+        }
+
+        private bool _addProjectDistributeDarggableIsPopup;
+        public bool AddProjectDistributeDarggableIsPopup { get=> _addProjectDistributeDarggableIsPopup; set { _addProjectDistributeDarggableIsPopup = value;OnPropertyChanged(); } }
+
+
+
+
+
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }= new();
 
@@ -63,9 +102,11 @@ namespace GD_StampingMachine.ViewModels
                         ProjectDistributeVM = ProjectItem;
                     ProjectDistributeVM.IsInDistributePage = true;
                     ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
+                    //ProjectDistributeVM.RefreshCommand();
                 }
             });
         }
+
         private ProjectDistributeViewModel _projectDistributeVM;
         public ProjectDistributeViewModel ProjectDistributeVM { get=> _projectDistributeVM; set { _projectDistributeVM = value; OnPropertyChanged(); } }
 

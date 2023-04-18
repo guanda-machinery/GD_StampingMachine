@@ -15,7 +15,7 @@
         <StackPanel Name="MainStackPanel" Margin="0">
             <ToggleButton Margin="8,0"  Width="45" Height="45"
                               Style="{StaticResource GD_ToggleButton}"   BorderThickness="0" Padding="-1"  
-            Name="TButton" IsChecked="{Binding IsChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Command,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Name="TButton" IsChecked="{Binding IsChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                       IsThreeState="False">
                 <ToggleButton.Template>
                     <ControlTemplate>
@@ -73,5 +73,14 @@
                 </EventTrigger>
             </Border.Triggers>
         </Border>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                
+            </i:EventTrigger>
+            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                <i:InvokeCommandAction  Command="{Binding Command}"
+                                                    CommandParameter="{Binding CommandParameter}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
     </Grid >
 </UserControl>

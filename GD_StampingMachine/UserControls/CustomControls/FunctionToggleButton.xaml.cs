@@ -42,6 +42,15 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleButton), new PropertyMetadata());
 
+       public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+        public static readonly DependencyProperty CommandParameterProperty =
+        DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(FunctionToggleButton), new PropertyMetadata());
+
+
 
         public string ButtonContentText
         {

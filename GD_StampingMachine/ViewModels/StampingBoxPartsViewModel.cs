@@ -51,7 +51,8 @@ namespace GD_StampingMachine.ViewModels
             get 
             {
                 if (_selectedSeparateBoxVM == null)
-                    _selectedSeparateBoxVM = SeparateBoxVMObservableCollection.FirstOrDefault();
+                    if(SeparateBoxVMObservableCollection!=null)
+                        _selectedSeparateBoxVM = SeparateBoxVMObservableCollection.FirstOrDefault();
                 return _selectedSeparateBoxVM;
             }
             set => _selectedSeparateBoxVM = value;

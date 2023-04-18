@@ -176,6 +176,7 @@
 
     <sys:String x:Key="btnAdd">新增</sys:String>
     <sys:String x:Key="btnAddProject">新增專案</sys:String>
+    <sys:String x:Key="btnAddTypeSettingProject">新增排版專案</sys:String>
     <sys:String x:Key="btnExit">離開</sys:String>
     <sys:String x:Key="btnDelete">刪除</sys:String>
     <sys:String x:Key="btnReplace">替換</sys:String>
@@ -200,6 +201,7 @@
     <!--#region 製品設定 -->
     <sys:String x:Key="Text_Search">搜尋</sys:String>
 
+    <sys:String x:Key="Text_NoneUsableData">無可用之資料</sys:String>
 
     <sys:String x:Key="Text_CreateOrEditProject">建立/編輯專案</sys:String>
     <sys:String x:Key="Text_SavePath">儲存路徑</sys:String>

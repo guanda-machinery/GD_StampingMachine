@@ -69,7 +69,9 @@
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.SelectProductProjectVM.ExportParameterDarggableIsPopup"/>
+                    <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>
+                    <Binding Path="TypeSettingSettingVM.ProjectDistributeVM.AddTypeSettingProjectDarggableIsPopUp"/>
+                    <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
                     <Binding ElementName="TBtn_Speed" Path="IsChecked"/>
                     <!--<Binding Path="rbtn_DrillingFace_Tube" ConverterParameter="{x:Static GD_STD_Enum:TubeFace.TOP}"  Converter="{STD105:ObjectEqualToBooleanConverter}"/>-->
                 </MultiBinding.Bindings>
@@ -608,7 +610,7 @@
                                 />
 
                             <GD_Customcontrols:FunctionToggleButton 
-                                x:Name="TBtn_MachiningSettings"
+                                x:Name="TBtn_MachiningSettings" Command="{Binding ReloadMachiningSettingsCommand}"
                                 ButtonContentText="Logo2"
                                 ButtonTitleText="{DynamicResource btnDescription_MachiningSettings}" 
                                 />
