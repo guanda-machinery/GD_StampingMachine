@@ -634,14 +634,14 @@
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                            <GD_Customcontrols:FunctionToggleButton  
+                            <GD_Customcontrols:FunctionToggleButton 
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True"
                                 ButtonContentText="C1"
                                 ButtonTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
                             <Grid>
-                            <GD_Customcontrols:FunctionToggleButton 
+                                <GD_Customcontrols:FunctionToggleButton   
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True"
                                 ButtonContentText="C2"

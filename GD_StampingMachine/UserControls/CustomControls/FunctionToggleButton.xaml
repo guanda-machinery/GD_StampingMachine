@@ -10,8 +10,17 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
              Padding="5" Background="Transparent" Cursor="Hand" 
              >
-
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Opacity" Value="1.0"/>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.3"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <StackPanel Name="MainStackPanel" Margin="0">
             <ToggleButton Margin="8,0"  Width="45" Height="45"
                               Style="{StaticResource GD_ToggleButton}"   BorderThickness="0" Padding="-1"  

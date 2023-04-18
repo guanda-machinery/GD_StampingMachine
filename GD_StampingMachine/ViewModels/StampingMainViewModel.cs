@@ -342,9 +342,9 @@ namespace GD_StampingMachine.ViewModels
         public MachiningSettingViewModel MachiningSettingVM { get; set; }
 
         #endregion
-
-
         public ICommand ReloadTypeSettingSettingsCommand
+
+
         {
             get => new RelayCommand(() =>
             {
