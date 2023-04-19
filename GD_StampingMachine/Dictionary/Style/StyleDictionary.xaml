@@ -169,8 +169,43 @@
     <Style TargetType="GroupBox" BasedOn="{StaticResource UnderLineStyleGroupBox}">
         <Setter Property="Padding" Value="50,20"/>
     </Style>
-    
-    
+
+
+    <Style x:Key="FloatingGroupBox" TargetType="{x:Type GroupBox}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="UIElement.SnapsToDevicePixels" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Border CornerRadius="20"
+                            Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{Binding Path=Background, ElementName=PART_ColorZone}" />
+                        <DockPanel Background="{TemplateBinding Background}">
+                            <materialDesign:ColorZone Name="PART_ColorZone"  
+                                                      Padding="9" DockPanel.Dock="Top" 
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                      UseLayoutRounding="True" Background="Gray" 
+                                                      Foreground="White" >
+                                <ContentPresenter ContentSource="Header" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </materialDesign:ColorZone>
+                            <ContentPresenter Margin="{TemplateBinding Padding}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </DockPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid" />
+        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp5" />
+    </Style>
+
+
+
+
+
+
     <Style x:Key="VerticalScrollBar_STD" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
@@ -553,7 +588,7 @@
                       Command="Slider.IncreaseLarge" />
                     </Track.IncreaseRepeatButton>
                     <Track.Thumb>
-                        <Thumb  Margin="-10,0"  />
+                        <Thumb  Margin="-20,0"  />
                     </Track.Thumb>
                 </Track>
 

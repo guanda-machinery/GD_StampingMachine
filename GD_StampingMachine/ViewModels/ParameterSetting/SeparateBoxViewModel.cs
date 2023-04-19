@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class SeparateBoxViewModel : ViewModelBase
+    public class SeparateBoxViewModel : BaseViewModelWithLog
     {
         private SeparateBoxModel SeparateBox;
         public SeparateBoxViewModel()

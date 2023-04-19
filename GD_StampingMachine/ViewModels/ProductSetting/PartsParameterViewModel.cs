@@ -6,6 +6,7 @@ using DevExpress.Xpf.Editors.Themes;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.Properties;
@@ -22,9 +23,9 @@ using System.Xml.Linq;
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
     /// <summary>
-    /// GridcontrolVM
+    /// ABC參數加工型
     /// </summary>
-    public class PartsParameterViewModel : ViewModelBase
+    public class PartsParameterViewModel : BaseViewModelWithLog
     {
         public PartsParameterViewModel(PartsParameterModel PParameter)
         {
@@ -147,22 +148,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                             {
-
-
-                                var MessageBoxReturn = WinUIMessageBox.Show(null,
-                                    (string)Application.Current.TryFindResource("Text_AskDelProject") +
-                                    "\r\n" +
-                                    $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
-                                    "?"
-                                    ,
-                                    (string)Application.Current.TryFindResource("Text_notify"),
-                                    MessageBoxButton.YesNo,
-                                    MessageBoxImage.Exclamation,
-                                    MessageBoxResult.None,
-                                    MessageBoxOptions.None,
-                                    DevExpress.Xpf.Core.FloatingMode.Window);
-
-                                if (MessageBoxReturn == MessageBoxResult.Yes)
+                                if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
                                     GridItemSource.Remove(this);
                             }
                         }
@@ -188,20 +174,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                            {
                                if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                                {
-                                   var MessageBoxReturn = WinUIMessageBox.Show(null,
-                                       (string)Application.Current.TryFindResource("Text_AskDelProject") +
-                                       "\r\n" +
-                                       $"{this.SettingVMBase.NumberSetting.NumberSettingMode}" +
-                                       "?"
-                                       ,
-                                       (string)Application.Current.TryFindResource("Text_notify"),
-                                       MessageBoxButton.YesNo,
-                                       MessageBoxImage.Exclamation,
-                                       MessageBoxResult.None,
-                                       MessageBoxOptions.None,
-                                       DevExpress.Xpf.Core.FloatingMode.Window);
-
-                                   if (MessageBoxReturn == MessageBoxResult.Yes)
+                                   if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
                                        GridItemSource.Remove(this);
                                }
                            }

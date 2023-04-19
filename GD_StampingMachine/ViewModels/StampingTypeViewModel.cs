@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-   public class StampingTypeViewModel:ViewModelBase
+    public class StampingTypeViewModel : BaseViewModelWithLog
     {
         private StampingTypeModel StampingType;
 

@@ -15,6 +15,8 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup"
+           
+              xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:TypeSettingSettingViewModel}">
@@ -179,17 +181,19 @@
                 </dxg:GridControl>
             </Grid>
         </Border>
-        <Border DataContext="{Binding ProjectDistributeVM}" Visibility="{Binding IsInDistributePage, Converter={dx:BooleanToVisibilityConverter}}"
+        <Border Name="ProjectDistributeMainBorder" DataContext="{Binding ProjectDistributeVM}" Visibility="{Binding IsInDistributePage, Converter={dx:BooleanToVisibilityConverter}}"
                     Margin="0,10" 
                                              Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
-            <Grid >
+
+
+                    <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding ProjectDistribute.ProjectDistributeName}" HorizontalAlignment="Left" Margin="10,0" FontSize="30"/>
+                <TextBlock Text="{Binding ProjectDistributeName}" Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Margin="10,0" FontSize="30"/>
                 <ToggleButton IsThreeState = "False"
                                               IsChecked="{Binding IsInDistributePage, Converter={dx:BoolInverseConverter}}"
                                               Width="auto"
@@ -198,7 +202,7 @@
                                               Content="{DynamicResource btnExit}" />
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="50"/>
+                        <RowDefinition Height="auto" MinHeight="50"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition MinHeight="50" Height="*"/>
                     </Grid.RowDefinitions>
@@ -219,67 +223,54 @@
                                           Margin="10,5" HorizontalAlignment="Left" IsChecked="{Binding AddTypeSettingProjectDarggableIsPopUp}"/>
                             <GD_Popup:DraggablePopup 
                                 AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddTypeSettingProjectDarggableIsPopUp}">
-                                <Border 
-                                                CornerRadius="10"
-                                                  Background="#353535" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                    <Border.Resources >
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
-                                            <Setter Property="Foreground" Value="White"/>
-                                        </Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                            <Setter Property="Foreground" Value="Black"/>
-                                            <Setter Property="BorderBrush" Value="Black"/>
-                                            <Setter Property="BorderThickness" Value="0.5"/>
-                                            <Setter Property="Padding" Value="10,0"/>
-                                            <Setter Property="Margin" Value="5,0"/>
-                                        </Style>
-                                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
-                                            <Setter Property="FontSize" Value="16"/>
-                                            <Setter Property="BorderBrush" Value="Black"/>
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                            <Setter Property="Width" Value="200"/>
-                                            <Setter Property="Margin" Value="10,0"/>
-                                            <Setter Property="Padding" Value="10,0,0,2"/>
-                                        </Style>
-                                        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                                            <Setter Property="FontSize" Value="16"/>
-                                            <Setter Property="BorderBrush" Value="Black"/>
-                                            <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                                            <Setter Property="Width" Value="200"/>
-                                            <Setter Property="Margin" Value="10,0"/>
-                                            <Setter Property="Padding" Value="10,0,0,2"/>
-                                            <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                                            <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                                            <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".8"/>
-                                            <Setter Property="IsEditable" Value="False"/>
-                                        </Style>
-                                    </Border.Resources>
-                                    <Grid MinWidth="100" MinHeight="100" Margin="10,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock 
-                                            Grid.Column="0" Grid.Row="0" Text="{DynamicResource btnAddTypeSettingProject}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
-                                        <ScrollViewer Grid.Row="1" MaxHeight="500" VerticalScrollBarVisibility="Auto">
-                                            <dxg:GridControl 
+
+                                    <Grid MinWidth="100" MinHeight="100" Margin="0,0">
+                                        <Grid.Resources >
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="BorderBrush" Value="Black"/>
+                                                <Setter Property="BorderThickness" Value="0.5"/>
+                                                <Setter Property="Padding" Value="10,0"/>
+                                                <Setter Property="Margin" Value="5,0"/>
+                                            </Style>
+                                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
+                                                <Setter Property="FontSize" Value="16"/>
+                                                <Setter Property="BorderBrush" Value="Black"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="Width" Value="200"/>
+                                                <Setter Property="Margin" Value="10,0"/>
+                                                <Setter Property="Padding" Value="10,0,0,2"/>
+                                            </Style>
+                                            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+                                                <Setter Property="FontSize" Value="16"/>
+                                                <Setter Property="BorderBrush" Value="Black"/>
+                                                <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
+                                                <Setter Property="Width" Value="200"/>
+                                                <Setter Property="Margin" Value="10,0"/>
+                                                <Setter Property="Padding" Value="10,0,0,2"/>
+                                                <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
+                                                <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
+                                                <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".8"/>
+                                                <Setter Property="IsEditable" Value="False"/>
+                                            </Style>
+                                        </Grid.Resources>
+                                        <GroupBox  Background="#353535" 
+                                            Header="{DynamicResource btnAddTypeSettingProject}" Style="{StaticResource FloatingGroupBox}" FontSize="20"  >
+                                            <ScrollViewer Grid.Row="1" Height="500" VerticalScrollBarVisibility="Visible"  >
+                                                <dxg:GridControl 
                                                           Name="NotReadyToTypeSettingProductProjectGridControl"
                                                           SelectionMode="Row"
                                                           SelectedItem="{Binding NotReadyToTypeSettingProductProjectVMSelected, Mode=TwoWay}"
-                                                       Background="Transparent" Margin="0,0" 
+                                                       Background="Transparent" Margin="2,0" 
                                                           Style="{StaticResource ProjectGridControl}"
                                                           AutoGenerateColumns="None"
                                                           ItemsSource="{Binding NotReadyToTypeSettingProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                           MaxHeight="10000"    >
-                                                <dxg:GridControl.View >
-                                                    <dxg:TableView   
+                                                    <dxg:GridControl.View >
+                                                        <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
@@ -301,88 +292,79 @@
                                                         ShowDragDropHint="False"
                                                         >
 
-                                                        <dxg:TableView.DragDropHintTemplate>
+                                                            <dxg:TableView.DragDropHintTemplate>
+                                                                <DataTemplate>
+                                                                    <Border Background="White" Padding="10">
+                                                                        <StackPanel>
+                                                                            <TextBlock Text="{Binding BoxNumber}"/>
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </dxg:TableView.DragDropHintTemplate>
+                                                        </dxg:TableView>
+                                                    </dxg:GridControl.View>
+
+
+
+                                                    <dxg:GridColumn HorizontalHeaderContentAlignment="Left" Header="null" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                        <dxg:GridColumn.EditSettings>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                        </dxg:GridColumn.EditSettings>
+                                                    </dxg:GridColumn>
+
+                                                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                        <dxg:GridColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <Border Background="White" Padding="10">
-                                                                    <StackPanel>
-                                                                        <TextBlock Text="{Binding BoxNumber}"/>
-                                                                    </StackPanel>
-                                                                </Border>
+                                                                <Border Background="White" Margin="5" Width="2"/>
                                                             </DataTemplate>
-                                                        </dxg:TableView.DragDropHintTemplate>
-                                                    </dxg:TableView>
-                                                </dxg:GridControl.View>
+                                                        </dxg:GridColumn.CellTemplate>
+                                                    </dxg:GridColumn>
+
+                                                    <dxg:GridColumn HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                        <dxg:GridColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="0" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="/" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="0" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </dxg:GridColumn.CellTemplate>
+                                                    </dxg:GridColumn>
+                                                    <dxg:GridColumn Header=""  Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                                                        <dxg:GridColumn.HeaderStyle>
+                                                            <Style TargetType="dxg:BaseGridHeader">
+                                                                <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                                <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                                            </Style>
+                                                        </dxg:GridColumn.HeaderStyle>
+                                                        <dxg:GridColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button Height="30" Width="auto" Padding="10,0"
+                                                                        Content="{StaticResource btnAdd}" Command="{Binding Row.AddTypeSettingCommand}"  >
+                                                                    <Button.CommandParameter>
+                                                                        <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
+                                                                            <MultiBinding.Bindings>
+                                                                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
+                                                                                <Binding ElementName="ReadyToTypeSettingProductProjectGridControl"/>
+                                                                            </MultiBinding.Bindings>
+                                                                        </MultiBinding>
+                                                                    </Button.CommandParameter>
 
 
 
-                                                <dxg:GridColumn HorizontalHeaderContentAlignment="Left" Header="null" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.EditSettings>
-                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                    </dxg:GridColumn.EditSettings>
-                                                </dxg:GridColumn>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </dxg:GridColumn.CellTemplate>
+                                                    </dxg:GridColumn>
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Border Background="White" Margin="5" Width="2"/>
-                                                        </DataTemplate>
-                                                    </dxg:GridColumn.CellTemplate>
-                                                </dxg:GridColumn>
-
-                                                <dxg:GridColumn HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="0" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="/" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="0" VerticalAlignment="Center"/>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </dxg:GridColumn.CellTemplate>
-                                                </dxg:GridColumn>
-                                                <dxg:GridColumn Header=""  Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.HeaderStyle>
-                                                        <Style TargetType="dxg:BaseGridHeader">
-                                                            <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
-                                                            <Setter Property="BorderBrush" Value="Transparent" />
-                                                            <Setter Property="BorderThickness" Value="0,0,0,0" />
-                                                        </Style>
-                                                    </dxg:GridColumn.HeaderStyle>
-                                                    <dxg:GridColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Button Height="30" Width="auto" Padding="10,0"
-                                                                        Content="{StaticResource btnAdd}" Command="{Binding Row.MoveItemBetweenGridControlCommand}"  >
-                                                                <Button.CommandParameter>
-                                                                    <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
-                                                                        <MultiBinding.Bindings>
-                                                                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
-                                                                            <Binding ElementName="ReadyToTypeSettingProductProjectGridControl"/>
-                                                                        </MultiBinding.Bindings>
-                                                                    </MultiBinding>
-                                                                </Button.CommandParameter>
-
-
-
-                                                            </Button>
-                                                        </DataTemplate>
-                                                    </dxg:GridColumn.CellTemplate>
-                                                </dxg:GridColumn>
-
-                                            </dxg:GridControl>
-                                        </ScrollViewer>
-                                        <StackPanel Visibility="Collapsed" Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                            <Button 
-                                                Content="{DynamicResource btnCancel}"
-                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
-                                            </Button>
-                                            
-                                        </StackPanel>
-
-
+                                                </dxg:GridControl>
+                                            </ScrollViewer>
+                                        </GroupBox>
                                     </Grid>
 
 
-                                </Border>
                             </GD_Popup:DraggablePopup>
 
                             <dxg:GridControl  Grid.Row="1" 
@@ -427,9 +409,6 @@
                                         </dxg:TableView.DragDropHintTemplate>
                                     </dxg:TableView>
                                 </dxg:GridControl.View>
-
-
-
                                 <dxg:GridColumn HorizontalHeaderContentAlignment="Left" Header="null" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.EditSettings>
                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
@@ -455,8 +434,9 @@
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
                                 </dxg:GridColumn>
-                         
-                                <dxg:GridColumn Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+
+                                <dxg:GridColumn Header="" Width="50"  AllowResizing="false"  AllowMoving="false"  IsSmart="True"/>
+                                <dxg:GridColumn Header=""  Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.HeaderStyle>
                                         <Style TargetType="dxg:BaseGridHeader">
                                             <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
@@ -467,17 +447,24 @@
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Height="30" Width="auto" Padding="10,0" 
-                                                                        Content="{DynamicResource btnClose}" Command="{Binding Row.MoveItemBetweenGridControlCommand}" >
-                                                <Button.CommandParameter>
-                                                    <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
-                                                        <MultiBinding.Bindings>
-                                                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
-                                                            <Binding ElementName="NotReadyToTypeSettingProductProjectGridControl"/>
-                                                        </MultiBinding.Bindings>
-                                                    </MultiBinding>
-                                                </Button.CommandParameter>
+                                                                        Content="{DynamicResource btnClose}"  >
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Row.CloseTypeSettingCommand}" >
+                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
+                                                                    <MultiBinding.Bindings>
+                                                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
+                                                                        <Binding ElementName="NotReadyToTypeSettingProductProjectGridControl"/>
+                                                                        <Binding ElementName="ProjectDistributeNameTextBlock"/>
+                                                                    </MultiBinding.Bindings>
+                                                                </MultiBinding>
+                                                            </i:InvokeCommandAction.CommandParameter>
+                                                        </i:InvokeCommandAction>
+                                                        <i:InvokeCommandAction Command="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext.RefreshStampingBoxCommand}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
                                             </Button>
-
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
                                 </dxg:GridColumn>
@@ -514,11 +501,6 @@
                                                         AllowDrop="True"           
                                                         ShowDragDropHint="False"
                                                    
-
-
-                                            
-                                            
-                                            
                                                         >
                                     <dxmvvm:Interaction.Behaviors>
                                         <dxmvvm:EventToCommand EventName="DragRecordOver" Command="{Binding NoneBox_OnDragRecordOverCommand}" PassEventArgsToCommand="True"/>

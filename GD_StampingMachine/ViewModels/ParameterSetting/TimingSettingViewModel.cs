@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class TimingSettingViewModel : ViewModelBase
+    public class TimingSettingViewModel : BaseViewModelWithLog
     {
         private TimingSettingModel _timingSetting = new TimingSettingModel();
 

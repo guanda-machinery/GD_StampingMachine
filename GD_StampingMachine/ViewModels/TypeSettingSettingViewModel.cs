@@ -25,8 +25,11 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
     }
 
-    public class TypeSettingSettingViewModel : ViewModelBase
+    public class TypeSettingSettingViewModel : BaseViewModelWithLog
     {
+
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_LayoutSettings");
+
         public TypeSettingSettingViewModel(TypeSettingSettingModel _typeSettingSetting)
         {
             TypeSettingSetting = _typeSettingSetting;

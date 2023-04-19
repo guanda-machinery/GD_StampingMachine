@@ -172,6 +172,18 @@
 
     <!--#endregion-->
 
+
+
+    <sys:String x:Key="Text_LanguageSetting">語言設定</sys:String>
+    
+
+
+
+
+
+
+
+
     <!--#region通用按鈕 -->
 
     <sys:String x:Key="btnAdd">新增</sys:String>
@@ -241,6 +253,8 @@
     <sys:String x:Key="Text_notify">通知</sys:String>
     <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
+    <sys:String x:Key="Text_CloseTSProject">是否要關閉排版專案</sys:String>
+    <sys:String x:Key="Text_CantCloseTSProject">專案已有加工完成之零件，不可關閉</sys:String>
 
     <sys:String x:Key="Text_SaveSuccessful">儲存成功</sys:String>
     <sys:String x:Key="Text_SaveFail">儲存失敗</sys:String>
@@ -255,7 +269,7 @@
     
     
     <!--enum-->
-    <!--<sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
+    <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
     <sys:String x:Key="Enum_Center">置中</sys:String>
     <sys:String x:Key="Enum_Left">靠左對齊</sys:String>
     <sys:String x:Key="Enum_Right">靠右對齊</sys:String>
@@ -265,7 +279,7 @@
     <sys:String x:Key="Enum_OneRow">單排</sys:String>
     <sys:String x:Key="Enum_TwoRow">雙排</sys:String>
     <sys:String x:Key="Enum_NormalSheetStamping">一般加工</sys:String>
-    <sys:String x:Key="Enum_QRSheetStamping">QR加工</sys:String>-->
+    <sys:String x:Key="Enum_QRSheetStamping">QR加工</sys:String>
 
 
 </ResourceDictionary>

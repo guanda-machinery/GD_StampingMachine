@@ -510,7 +510,7 @@
                     </materialDesign:DrawerHost.LeftDrawerContent>
 
                         <materialDesign:DrawerHost.RightDrawerContent>
-                            <materialDesign:ColorZone Mode="PrimaryDark" Width="200"  HorizontalAlignment="Right"  VerticalAlignment="Stretch" Margin="0" >
+                            <materialDesign:ColorZone Mode="PrimaryDark" Width="auto"  HorizontalAlignment="Right"  VerticalAlignment="Stretch" Margin="0" >
 
                                 <ScrollViewer GD_Extensions:ScrollViewerExtension.AlwaysScrollToEnd="True">
                                 <dxg:GridControl
@@ -548,12 +548,12 @@
                                             <dxe:DateEditSettings Mask="HH:mm"  MaskUseAsDisplayFormat="True"/>
                                         </dxg:GridColumn.EditSettings>
                                     </dxg:GridColumn>
-                                    <dxg:GridColumn  Header="來源" Width="40" AllowMoving="false"  IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
-                                    <dxg:GridColumn FieldName="LogString" Header="系統訊息" Width="*" AllowMoving="false"  IsSmart="True">
+                                        <dxg:GridColumn FieldName="LogSource"  Header="來源" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn FieldName="LogString" Header="系統訊息" Width="auto" AllowMoving="false"  IsSmart="True">
                                         <dxg:GridColumn.EditSettings>
                                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                         </dxg:GridColumn.EditSettings>
@@ -657,20 +657,27 @@
                                 ButtonContentText="Logo"
                                 ButtonTitleText="{DynamicResource btnDescription_Calendar}" 
                                 />
-                            <GD_Customcontrols:FunctionToggleButton 
-                                x:Name="TBtn_Speed"
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_Speed}" 
-                                />
-                            <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddParameterDarggablePopup" IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}">
-                                    <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10" Padding="10">
+
+
+                            <materialDesign:DialogHost  IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}"
+                                DialogTheme="Inherit" DialogBackground="Transparent">
+                                <materialDesign:DialogHost.DialogContent>
+                                    <materialDesign:ColorZone Mode="PrimaryDark" CornerRadius="10" Padding="0" Margin="0" >
                                         <StackPanel Margin="5" Orientation="Vertical">
                                             <TextBlock Text="{StaticResource btnDescription_Speed}" FontSize="20" />
                                             <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding}" Width="300" Margin="10"
                                                                                       Foreground="{Binding RelativeSource={RelativeSource Self}, Path=MainSilderValue, Converter={GD_ValueConverters:HundredDoubleToSolidBrushConverter}}"/>
                                         </StackPanel>
                                     </materialDesign:ColorZone>
-                                </GD_Popup:DraggablePopup>
+                                </materialDesign:DialogHost.DialogContent>
+
+                            <GD_Customcontrols:FunctionToggleButton 
+                                x:Name="TBtn_Speed"
+                                ButtonContentText="Logo"
+                                ButtonTitleText="{DynamicResource btnDescription_Speed}" 
+                                />
+                            </materialDesign:DialogHost>
+
 
                             <GD_Customcontrols:FunctionToggleButton 
                                 x:Name="TBtn_Alarm"

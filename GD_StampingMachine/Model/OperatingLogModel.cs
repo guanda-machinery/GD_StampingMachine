@@ -12,15 +12,16 @@ namespace GD_StampingMachine.Model
         {
 
         }
-        public OperatingLogModel(DateTime _logDatetime, string _logString, bool _isAlert = false)
+        public OperatingLogModel(DateTime _logDatetime, string _logSource, string _logString, bool _isAlert = false)
         {
             LogDatetime = _logDatetime;
+            LogSource = _logSource;
             LogString = _logString;
             IsAlert = _isAlert;
         }
-        //public LogSourceEnum LogSource { get; set; }
         public DateTime LogDatetime { get; set; }
         public string LogString { get; set; }
+        public string LogSource { get; set; }
         public bool IsAlert { get; set; }
     }
 }

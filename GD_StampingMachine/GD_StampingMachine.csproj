@@ -351,6 +351,7 @@
     <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
+    <Compile Include="ViewModels\BaseViewModelWithLog.cs" />
     <Compile Include="ViewModels\CultureViewModel.cs" />
     <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
     <Compile Include="ViewModels\MachiningSettingViewModel.cs" />
@@ -374,7 +375,7 @@
     <Compile Include="ViewModels\StampingTypeViewModel.cs" />
     <Compile Include="ViewModels\ProjectDistributeViewModel.cs" />
     <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Views\RadialPanel.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">
       <DependentUpon>StampingMainView.xaml</DependentUpon>

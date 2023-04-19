@@ -14,7 +14,7 @@
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"                
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachiningSettingViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -190,7 +190,17 @@
             </dxg:GridColumn>
 
         </dxg:GridControl>
-
+        <StackPanel Grid.Row="1" Width="200" HorizontalAlignment="Left" Margin="10,0">
+            <dxe:ComboBoxEdit  
+                  EditValue="{Binding ProjectDistributeVMSelected, UpdateSourceTrigger=PropertyChanged}"  
+                  ItemsSource="{Binding ProjectDistributeVMObservableCollection}" >
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand EventName="EditValueChanged" Command="{Binding ComboBoxEdit_EditValueChanged}" PassEventArgsToCommand="True"/>
+                </dxmvvm:Interaction.Behaviors>
+                
+            </dxe:ComboBoxEdit>
+            <TextBlock Text="{Binding StampingBoxPartsVM.ProjectDistributeName}"   />
+        </StackPanel>
         <local:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}"
                                         Grid.Row="3"/>
         <GridSplitter  

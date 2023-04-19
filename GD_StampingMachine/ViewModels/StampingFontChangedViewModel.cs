@@ -20,7 +20,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class StampingFontChangedViewModel : ViewModelBase
+    public class StampingFontChangedViewModel : BaseViewModelWithLog
     {
 
         private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
@@ -425,7 +425,7 @@ namespace GD_StampingMachine.ViewModels
 
     }
 
-    public class StampingTypeModelMartixClass : ViewModelBase
+    public class StampingTypeModelMartixClass : BaseViewModelWithLog
     {
         private StampingTypeViewModel _bottomStampingTypeModel;
         private StampingTypeViewModel _rightStampingTypeModel;

@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class SeparateSettingViewModel : ViewModelBase
+    public class SeparateSettingViewModel : BaseViewModelWithLog
     {
         public SeparateSettingViewModel()
         {

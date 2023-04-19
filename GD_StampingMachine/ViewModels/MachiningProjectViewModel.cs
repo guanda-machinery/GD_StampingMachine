@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MachiningProjectViewModel:ViewModelBase
+    public class MachiningProjectViewModel : BaseViewModelWithLog
     {
         public MachiningProjectViewModel(MachiningProjectModel _machiningProject)
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class AxisSettingViewModel : ViewModelBase
+    public class AxisSettingViewModel : BaseViewModelWithLog
     {
         private AxisSettingModel _AxisSettingModel = new AxisSettingModel() {XAxisSpeed =50 };
 

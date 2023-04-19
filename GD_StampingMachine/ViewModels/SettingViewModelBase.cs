@@ -11,8 +11,9 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class SettingViewModelBase : ViewModelBase
+    public class SettingViewModelBase : BaseViewModelWithLog
     {
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnNumberSetting");
         public GD_CsvHelperMethod CsvHM { get => new GD_CsvHelperMethod(); }
 
         public virtual NumberSettingModelBase NumberSetting{get;set;}

@@ -8,7 +8,7 @@ using GD_StampingMachine.ViewModels.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class ParameterSettingViewModel : ViewModelBase
+    public class ParameterSettingViewModel : BaseViewModelWithLog
     {
 
         private bool _tbtnNumberSettingIsChecked;

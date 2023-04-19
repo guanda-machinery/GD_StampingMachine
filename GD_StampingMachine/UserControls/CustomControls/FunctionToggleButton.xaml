@@ -7,9 +7,11 @@
              mc:Ignorable="d" 
                xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              Foreground="White"          
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
              Padding="5" Background="Transparent" Cursor="Hand" 
              >
+    
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
         <Grid.Style>
             <Style TargetType="Grid">

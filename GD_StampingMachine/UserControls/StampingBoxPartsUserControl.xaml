@@ -25,7 +25,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Row="3">
+        <ScrollViewer>
             <ListBox ItemsSource="{Binding SeparateBoxVMObservableCollection}"  SelectedItem="{Binding SelectedSeparateBoxVM}">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
@@ -219,5 +219,6 @@
             </dxg:GridColumn>
 
         </dxg:GridControl>
+
     </Grid>
 </UserControl>

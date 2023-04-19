@@ -1,5 +1,6 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.Editors.ExpressionEditor;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
@@ -9,13 +10,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MachiningSettingViewModel:ViewModelBase
+    public class MachiningSettingModel
     {
-        public MachiningSettingViewModel()
+        public ProjectDistributeViewModel ProjectDistributeVMObservableCollectionSelected { get; set; }
+        public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
+    }
+
+
+    public class MachiningSettingViewModel : BaseViewModelWithLog
+    {
+        public MachiningSettingViewModel(MachiningSettingModel _machiningSetting)
         {
+            MachiningSetting = _machiningSetting;
             StampingSteelBeltVMObservableCollection = new();
 
             //由右到左排列 
@@ -75,37 +85,107 @@ namespace GD_StampingMachine.ViewModels
                 MachiningStatus = MachiningStatusEnum.Run
             }));
 
+            if (ProjectDistributeVMObservableCollection  != null)
+                ProjectDistributeVMSelected = ProjectDistributeVMObservableCollection.FirstOrDefault();
+            GridControlRefresh();
+        }
+        public MachiningSettingModel MachiningSetting =new();
+        public ProjectDistributeViewModel ProjectDistributeVMSelected 
+        {
+            get=>MachiningSetting.ProjectDistributeVMObservableCollectionSelected;
+            set 
+            {
+                MachiningSetting.ProjectDistributeVMObservableCollectionSelected = value;
+                OnPropertyChanged();
+            }
         }
 
-        /*private void MachiningPartsVMObservableCollectionRefresh()
-        {
-            if (StampingBoxPartsVM != null)
-            {
-                var SIndex = StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FindIndex(x => x.BoxNumber != 0);
+     
 
-                if (SIndex != -1)
-                    MachiningPartsVMObservableCollection.Add(StampingBoxPartsVM.BoxPartsParameterVMObservableCollection[SIndex]);
-            }
-        }*/
+
+        public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection
+        {
+            get => MachiningSetting.ProjectDistributeVMObservableCollection;
+            private set { MachiningSetting.ProjectDistributeVMObservableCollection = value; OnPropertyChanged(); }
+        }
 
 
         private StampingBoxPartsViewModel _stampingBoxPartsVM;
         /// <summary>
-        /// 選擇盒子VM
+        /// 盒子VM
         /// </summary>
         public StampingBoxPartsViewModel StampingBoxPartsVM
         {
             get => _stampingBoxPartsVM;
-            set
+            private set
             {
                 _stampingBoxPartsVM = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<StampingSteelBeltViewModel> StampingSteelBeltVMObservableCollection { get; set; }
+        /// <summary>
+        /// 鋼帶捲集合
+        /// </summary>
+        private ObservableCollection<StampingSteelBeltViewModel> _stampingSteelBeltVMObservableCollection = new();
+        public ObservableCollection<StampingSteelBeltViewModel> StampingSteelBeltVMObservableCollection { get => _stampingSteelBeltVMObservableCollection; set { _stampingSteelBeltVMObservableCollection = value; OnPropertyChanged(); } }
 
-        public ObservableCollection<PartsParameterViewModel> MachiningPartsVMObservableCollection { get; set; } = new();
+        private ObservableCollection<PartsParameterViewModel> _machiningPartsVMObservableCollection = new();
+        public ObservableCollection<PartsParameterViewModel> MachiningPartsVMObservableCollection { get=> _machiningPartsVMObservableCollection; set { _machiningPartsVMObservableCollection =value;OnPropertyChanged(); } }// = new();
+
+
+        public ICommand ComboBoxEdit_EditValueChanged
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+                {
+                    GridControlRefresh();
+                }
+            });
+        }
+
+
+
+        public ICommand GridControlRefreshCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                GridControlRefresh();
+            });
+        }
+      
+
+        public void GridControlRefresh()
+        {
+            StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
+            {
+                ProjectDistributeName = ProjectDistributeVMSelected.ProjectDistributeName,
+                ProjectDistributeVMObservableCollection = this.ProjectDistributeVMObservableCollection,
+                ProductProjectVMObservableCollection = ProjectDistributeVMSelected.ProductProjectVMObservableCollection,
+                SeparateBoxVMObservableCollection = ProjectDistributeVMSelected.SeparateBoxVMObservableCollection,
+                GridControl_MachiningStatusColumnVisible = true,
+            });
+
+            MachiningPartsVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+
+            StampingBoxPartsVM.ProductProjectVMObservableCollection.ForEach(x =>
+            {
+                x.PartsParameterVMObservableCollection.ForEach(y =>
+                {
+                    if (y.DistributeName == StampingBoxPartsVM.ProjectDistributeName && y.MachiningStatus == MachiningStatusEnum.Run)
+                        MachiningPartsVMObservableCollection.Add(y);
+                });
+            });
+
+            if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefresh();
+        }
+
+
+
+
+
     }
 
 

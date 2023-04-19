@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class OperatingLogViewModel:ViewModelBase
+    public class OperatingLogViewModel : BaseViewModelWithLog
     {
         public OperatingLogViewModel(OperatingLogModel _operatingLog)
         {
@@ -33,7 +33,16 @@ namespace GD_StampingMachine.ViewModels
             { 
                 OperatingLog.LogDatetime = value;
                 OnPropertyChanged();
-            } 
+            }
+        }
+        public string LogSource
+        {
+            get => OperatingLog.LogSource;
+            set
+            {
+                OperatingLog.LogSource = value;
+                OnPropertyChanged();
+            }
         }
 
         public string LogString

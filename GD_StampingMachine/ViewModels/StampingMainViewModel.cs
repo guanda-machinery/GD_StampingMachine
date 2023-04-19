@@ -25,29 +25,10 @@ using System.Windows.Threading;
 namespace GD_StampingMachine.ViewModels
 {
     //[GenerateViewModel]
-    public partial class StampingMainViewModel : ViewModelBase
+    public partial class StampingMainViewModel : BaseViewModelWithLog
     {
 
-        int LogCollectionMax = 100;
-        private DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection;
-        public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection 
-        {
-            get
-            {
-                if (_logDataObservableCollection == null)
-                    _logDataObservableCollection = new DXObservableCollection<OperatingLogViewModel>();
-                if (_logDataObservableCollection.Count > LogCollectionMax)
-                {
-                    _logDataObservableCollection.RemoveRange(0, _logDataObservableCollection.Count- LogCollectionMax);
-                }
-                return _logDataObservableCollection;
-            }
 
-            set
-            {
-                _logDataObservableCollection = value;
-            }
-        } 
 
         public StampingMainViewModel()
         {
@@ -66,21 +47,17 @@ namespace GD_StampingMachine.ViewModels
             //測試模式
             if (Debugger.IsAttached)
             {
-                Task.Run(async () =>
+                Task.Run(() =>
                 {
                     for (int i = 0; i < 100; i++)
                     {
-                        LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, $"TestMessage-{i}")));
+                        AddLogData("Debug", $"TestMessage-{i}");
                     }
 
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
-                       DateTimeNow = DateTime.Now;
-                       await System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                        {
-                            LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0)));
-                        });
-
+                        DateTimeNow = DateTime.Now;
+                        AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
                         Thread.Sleep(1000);
                     }
                 });
@@ -251,7 +228,6 @@ namespace GD_StampingMachine.ViewModels
                         FinishProgress = 76
                     })
                 },
-                //LogDataObservableCollection = this.LogDataObservableCollection,
             };
 
             TypeSettingSettingVM = new(new TypeSettingSettingModel()
@@ -260,15 +236,18 @@ namespace GD_StampingMachine.ViewModels
                 SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel,
             });
 
-            MachiningSettingVM = new MachiningSettingViewModel()
+            MachiningSettingVM = new MachiningSettingViewModel(new MachiningSettingModel()
             {
-                StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
+                ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
+            })
+            {
+                /*StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
                 {
-                    ProjectDistributeName = TypeSettingSettingVM.ProjectDistributeVM.ProjectDistribute.ProjectDistributeName,
+                    ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
                     ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
                     SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel,
                     GridControl_MachiningStatusColumnVisible= true,
-                })
+                })*/
             };
         }
 
@@ -343,8 +322,6 @@ namespace GD_StampingMachine.ViewModels
 
         #endregion
         public ICommand ReloadTypeSettingSettingsCommand
-
-
         {
             get => new RelayCommand(() =>
             {
@@ -353,10 +330,12 @@ namespace GD_StampingMachine.ViewModels
         }
         public ICommand ReloadMachiningSettingsCommand
         {
-            get => MachiningSettingVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
+            get
+            {
+                // return MachiningSettingVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
+                 return MachiningSettingVM.GridControlRefreshCommand;
+            }
         }
-
-       
     }
 
 

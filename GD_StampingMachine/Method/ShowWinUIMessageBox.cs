@@ -13,13 +13,47 @@ namespace GD_StampingMachine.Method
 
         public static bool AskOverwriteOrNot()
         {
-            var MessageBoxReturn = MethodWinUIMessageBox.Show(
+            var MessageBoxReturn = Show(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"),
                 MessageBoxButton.YesNo, MessageBoxImage.Information);
             if (MessageBoxReturn == MessageBoxResult.Yes)
                 return true;
             return false;
+        }
+
+        public static bool AskDelProject(string NumberSetting)
+        {
+            var MessageBoxReturn = Show(
+                (string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_AskDelProject") +
+                "\r\n" +
+                $"{NumberSetting}" +
+                "?"
+                ,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Exclamation);
+
+            return MessageBoxReturn == MessageBoxResult.Yes;
+        }
+        /// <summary>
+        /// 詢問關閉專案
+        /// </summary>
+        /// <param name="NumberSetting"></param>
+        /// <returns></returns>
+        public static bool AskCloseProject(string ProjectName)
+        {
+            var MessageBoxReturn = Show(
+                (string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_CloseTSProject") +
+                "\r\n" +
+                $"{ProjectName}" +
+                "?"
+                ,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Exclamation);
+
+            return MessageBoxReturn == MessageBoxResult.Yes;
         }
 
         public static void SaveSuccessful(bool IsSuccessful)
@@ -33,11 +67,19 @@ namespace GD_StampingMachine.Method
             {
                 _message = (string)Application.Current.TryFindResource("Text_SaveFail");
             }
-            MethodWinUIMessageBox.Show(
+            Show(
                        (string)Application.Current.TryFindResource("Text_notify"),
                        _message,
                        MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        public static void CanNotCloseProject()
+        {
+            Show((string)Application.Current.TryFindResource("Text_notify"), 
+                (string)Application.Current.TryFindResource("Text_CantCloseTSProject")
+                , MessageBoxButton.OK , MessageBoxImage.Warning);
+        }
+
 
 
         public static MessageBoxResult Show(string MessageTitle , string MessageString, MessageBoxButton MB_Button , MessageBoxImage MB_Image)

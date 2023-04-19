@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MechanicalSpecificationViewModel : ViewModelBase
+    public class MechanicalSpecificationViewModel : BaseViewModelWithLog
     {
         public MechanicalSpecificationViewModel(MechanicalSpecificationModel _mechanicalSpecification)
         {

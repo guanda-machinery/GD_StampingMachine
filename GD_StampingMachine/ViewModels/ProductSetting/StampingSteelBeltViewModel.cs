@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
-    public class StampingSteelBeltViewModel : ViewModelBase
+    public class StampingSteelBeltViewModel : BaseViewModelWithLog
     {
         public StampingSteelBeltViewModel(StampingSteelBeltModel _stampingSteelBelt)
         {

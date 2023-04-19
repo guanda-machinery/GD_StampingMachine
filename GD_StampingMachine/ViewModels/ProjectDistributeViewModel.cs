@@ -45,8 +45,10 @@ namespace GD_StampingMachine.ViewModels
     }
 
 
-    public class ProjectDistributeViewModel : ViewModelBase
+    public class ProjectDistributeViewModel : BaseViewModelWithLog
     {
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachiningSettings");
+
         public ProjectDistributeViewModel(ProjectDistributeModel _projectDistribute)
         {
             ProjectDistribute = _projectDistribute;
@@ -77,6 +79,12 @@ namespace GD_StampingMachine.ViewModels
 
 
         public StampingBoxPartsViewModel StampingBoxPartsVM { get; set; }
+
+        public ICommand RefreshStampingBoxCommand
+        {
+            get => StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
+        }
+
 
 
         private bool _IsInDistributePage = false;
@@ -355,7 +363,7 @@ namespace GD_StampingMachine.ViewModels
                                 //看目前選擇哪一個盒子
                                 if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                                 {
-                                    PartsParameterVM.DistributeName = ProjectDistribute.ProjectDistributeName;
+                                    PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
                                     PartsParameterVM.BoxNumber = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxNumber;
                                     e.Effects = System.Windows.DragDropEffects.Move;
                                 }

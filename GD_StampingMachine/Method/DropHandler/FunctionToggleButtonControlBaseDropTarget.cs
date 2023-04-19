@@ -16,6 +16,13 @@ namespace GD_StampingMachine.Method
 
         public override void DragOver(IDropInfo dropInfo)
         {
+            if(dropInfo.DragInfo == null)
+            {
+                dropInfo.NotHandled = false;
+                dropInfo.Effects = System.Windows.DragDropEffects.None;
+                return;
+            }
+
 
             if (dropInfo.DragInfo.SourceItem.GetType() == dropInfo.VisualTarget.GetType())
             {

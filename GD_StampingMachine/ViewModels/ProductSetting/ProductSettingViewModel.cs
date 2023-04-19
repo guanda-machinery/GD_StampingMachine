@@ -17,13 +17,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
-    public class ProductSettingViewModel : ViewModelBase
+    public class ProductSettingViewModel : BaseViewModelWithLog
     {
+        public override string ViewModelName => (string)Application.Current.TryFindResource("btnDescription_ProductSettings");
+
         private bool _addProjectDarggableIsPopup;
         public bool AddProjectDarggableIsPopup
         {
@@ -75,8 +76,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
                 {
-                    DialogResult result = dialog.ShowDialog();
-                    if (result == DialogResult.OK)
+                    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                    if (result == System.Windows.Forms.DialogResult.OK)
                     {
                         ProjectPathText = dialog.SelectedPath;
                     }
@@ -88,6 +89,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
+                AddLogData((string)Application.Current.TryFindResource("btnAddProject"));
                 //若不clone會導致資料互相繫結
                 ProductProjectVMObservableCollection.Add(
                     new ProductProjectViewModel(CreatedProjectModel.DeepCloneByJson()));
@@ -138,16 +140,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 _selectProductProjectVM = value;
                 OnPropertyChanged(nameof(SelectProductProjectVM)); 
             }
-        } 
-
-
-
-
-
-
-
-
-
+        }
 
     }
 }

@@ -18,10 +18,7 @@ using System.Windows.Markup;
 
 namespace GD_StampingMachine.ViewModels
 {
-
-
-
-    public class ViewModelBase : MarkupExtension , INotifyPropertyChanged
+    public class BaseViewModel : MarkupExtension , INotifyPropertyChanged
     { 
         /// <summary>
         /// 訊息紀錄

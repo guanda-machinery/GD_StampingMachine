@@ -4,6 +4,7 @@ using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
 using GD_StampingMachine.Extensions;
@@ -20,11 +21,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
-    public class ProductProjectViewModel : ViewModelBase
+    public class ProductProjectViewModel : BaseViewModelWithLog
     {
         public ProductProjectViewModel(ProductProjectModel _productProject)
         {
@@ -206,8 +208,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ProjectDeleteCommand));
             }*/
         }
-
-
 
 
 
@@ -452,25 +452,28 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ExportParameterDarggableIsPopup));
             }
         }
-
-        public ICommand MoveItemBetweenGridControlCommand
+        
+        /// <summary>
+        /// 新增排版專案
+        /// </summary>
+        public ICommand AddTypeSettingCommand
         {
             get => new RelayParameterizedCommand(obj =>
             {
-                if(obj == null)
+                if (obj == null)
                 {
                     throw new Exception();
                 }
 
-                if(obj is object[] objectArray)
+                if (obj is object[] objectArray)
                 {
                     if (objectArray.Count() == 2)
                     {
                         DevExpress.Xpf.Grid.GridControl GridControlSource = objectArray[0] as DevExpress.Xpf.Grid.GridControl;
-                        DevExpress.Xpf.Grid.GridControl GridControlTarget = objectArray[1] as DevExpress.Xpf.Grid.GridControl ;
-                        if(GridControlSource != null && GridControlTarget != null)
+                        DevExpress.Xpf.Grid.GridControl GridControlTarget = objectArray[1] as DevExpress.Xpf.Grid.GridControl;
+                        if (GridControlSource != null && GridControlTarget != null)
                         {
-                            if(GridControlSource.CurrentItem is ProductProjectViewModel _currentItem &&
+                            if (GridControlSource.CurrentItem is ProductProjectViewModel _currentItem &&
                             GridControlSource.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> SourceItemS &&
                             GridControlTarget.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> TargetItemS)
                             {
@@ -482,6 +485,64 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
             });
         }
+        /// <summary>
+        /// 關閉排版專案
+        /// </summary>
+        public ICommand CloseTypeSettingCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj == null)
+                {
+                    throw new Exception();
+                }
+
+                if (obj is object[] objectArray)
+                {
+                    if (objectArray.Count() == 3)
+                    {
+                        DevExpress.Xpf.Grid.GridControl GridControlSource = objectArray[0] as DevExpress.Xpf.Grid.GridControl;
+                        DevExpress.Xpf.Grid.GridControl GridControlTarget = objectArray[1] as DevExpress.Xpf.Grid.GridControl;
+                        string ProjectDistributeName =( objectArray[2] as TextBlock).Text;
+                        if (GridControlSource != null && GridControlTarget != null)
+                        {
+                            if (GridControlSource.CurrentItem is ProductProjectViewModel _currentItem &&
+                            GridControlSource.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> SourceItemS &&
+                            GridControlTarget.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> TargetItemS)
+                            {
+                              //  PartsParameterVMObservableCollectionRefresh
+                                var CollectionWithThisDistributeName = _currentItem.PartsParameterVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeName);
+                                if(CollectionWithThisDistributeName.Count() >0)
+                                {
+                                    if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
+                                    {
+                                        MethodWinUIMessageBox.CanNotCloseProject();
+                                        return;
+                                    }
+
+                                    if (!MethodWinUIMessageBox.AskCloseProject(_currentItem.ProductProjectName))
+                                        return;
+                                }
+                                CollectionWithThisDistributeName.ForEach(Eobj =>
+                                {
+                                    Eobj.DistributeName = null;
+                                    Eobj.BoxNumber = null;
+                                });
+                                TargetItemS.Add(_currentItem);
+                                SourceItemS.Remove(_currentItem);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+            });
+        }
+
+        public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand { get; set; }
+
 
 
 

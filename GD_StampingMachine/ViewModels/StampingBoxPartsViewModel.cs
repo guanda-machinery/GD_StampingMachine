@@ -19,18 +19,21 @@ namespace GD_StampingMachine.ViewModels
         public string ProjectDistributeName { get; set; }
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
+        public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
         public ICommand Box_OnDropRecordCommand { get; set; }
         public ICommand Box_OnDragRecordOverCommand { get; set; }
         public bool GridControl_MachiningStatusColumnVisible { get; set; } = true;
     }
 
 
-    public class StampingBoxPartsViewModel: ViewModelBase
+    public class StampingBoxPartsViewModel: BaseViewModelWithLog
     {
         public StampingBoxPartsViewModel(StampingBoxPartModel _stampingBoxPart)
         {
             StampingBoxPart = _stampingBoxPart;
         }
+        
+        public string ProjectDistributeName { get => StampingBoxPart.ProjectDistributeName; set =>StampingBoxPart.ProjectDistributeName=value; }
 
         public bool MachiningStatusIsVisible
         { 
@@ -88,11 +91,16 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                if (SelectedSeparateBoxVM != null)
-                {
-                    BoxPartsParameterVMObservableCollectionRefresh(SelectedSeparateBoxVM.BoxNumber);
-                }
+                BoxPartsParameterVMObservableCollectionRefresh();
             });
+        }
+
+        public void BoxPartsParameterVMObservableCollectionRefresh()
+        {
+            if (SelectedSeparateBoxVM != null)
+            {
+                BoxPartsParameterVMObservableCollectionRefresh(SelectedSeparateBoxVM.BoxNumber);
+            }
         }
 
         private void BoxPartsParameterVMObservableCollectionRefresh(int _boxNumber)
