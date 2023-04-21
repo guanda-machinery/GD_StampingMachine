@@ -10,6 +10,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 {
     public class StampingSteelBeltViewModel : BaseViewModelWithLog
     {
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingSteelBeltViewModel");
         public StampingSteelBeltViewModel(StampingSteelBeltModel _stampingSteelBelt)
         {
             StampingSteelBelt = _stampingSteelBelt;

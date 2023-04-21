@@ -27,8 +27,7 @@ namespace GD_StampingMachine.ViewModels
     //[GenerateViewModel]
     public partial class StampingMainViewModel : BaseViewModelWithLog
     {
-
-
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
 
         public StampingMainViewModel()
         {
@@ -65,7 +64,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-            MechanicalSpecificationVM = new MechanicalSpecificationViewModel(new MechanicalSpecificationModel()
+            MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
             {
                 AllowMachiningSize = new AllowMachiningSizeModel()
                 {
@@ -309,7 +308,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         #region VM
-        public MechanicalSpecificationViewModel MechanicalSpecificationVM { get; set; } 
+        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; } 
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; } 
         public ParameterSettingViewModel ParameterSettingVM { get; set; } 
         public ProductSettingViewModel ProductSettingVM { get; set; }
@@ -325,7 +324,8 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                TypeSettingSettingVM.ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
+                if(TypeSettingSettingVM.ProjectDistributeVM!=null)
+                    TypeSettingSettingVM.ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
             });
         }
         public ICommand ReloadMachiningSettingsCommand

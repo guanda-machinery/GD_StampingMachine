@@ -10,6 +10,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class ParameterSettingViewModel : BaseViewModelWithLog
     {
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ParameterSettingViewModel");
 
         private bool _tbtnNumberSettingIsChecked;
         private bool _tbtnQRSettingIsChecked;
@@ -39,7 +40,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 軸向設定
         /// </summary>
-        public AxisSettingViewModel AxisSettingVM { get; set; } = new AxisSettingViewModel();
+        public AxisSettingViewModel AxisSettingVM { get; set; } = new AxisSettingViewModel(new Model.AxisSettingModel() );
         /// <summary>
         /// 計時設定
         /// </summary>

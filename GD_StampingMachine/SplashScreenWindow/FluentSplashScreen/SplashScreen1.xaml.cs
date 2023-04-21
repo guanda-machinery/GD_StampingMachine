@@ -1,11 +1,8 @@
-﻿using DevExpress.Xpf.Core.Native;
-using DevExpress.Xpf.Editors;
-using DevExpress.Xpf.Grid;
+﻿using DevExpress.Xpf.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,21 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GD_StampingMachine.UserControls
+namespace GD_StampingMachine.SplashScreenWindow
 {
     /// <summary>
-    /// TypeSettingSettingUserControl.xaml 的互動邏輯
+    /// Interaction logic for SplashScreen1.xaml
     /// </summary>
-    public partial class TypeSettingSettingUserControl : UserControl
+    public partial class SplashScreen1 : SplashScreenWindow
     {
-        public TypeSettingSettingUserControl()
+        public SplashScreen1()
         {
             InitializeComponent();
         }
-
-
     }
 }

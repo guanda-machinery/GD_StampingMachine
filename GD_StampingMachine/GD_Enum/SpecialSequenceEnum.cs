@@ -1,5 +1,5 @@
 ﻿using DevExpress.Mvvm.DataAnnotations;
-using GD_StampingMachine.Cultures;
+//using GD_StampingMachine.Cultures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,9 +19,9 @@ namespace GD_StampingMachine.GD_Enum
     public enum SpecialSequenceEnum
     {
         //[Image(imageUri: @"pack://application:,,,/GD_STD.Enum;component/ImageSVG/SelectPlate_Front.svg"), Description("前面", Description = "腹板")]
-        [LocalizedDescription("OneRow", typeof(EnumResources))]
+       // [LocalizedDescription("OneRow", typeof(EnumResources))]
         OneRow,
-        [LocalizedDescription("TwoRow", typeof(EnumResources))]
+       // [LocalizedDescription("TwoRow", typeof(EnumResources))]
         TwoRow
     }
 

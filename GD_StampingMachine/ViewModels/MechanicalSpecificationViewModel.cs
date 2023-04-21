@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MechanicalSpecificationViewModel : BaseViewModelWithLog
+    public class MachanicalSpecificationViewModel : BaseViewModelWithLog
     {
-        public MechanicalSpecificationViewModel(MechanicalSpecificationModel _mechanicalSpecification)
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_MachanicalSpecificationViewModel");
+
+        public MachanicalSpecificationViewModel(MachanicalSpecificationModel _machanicalSpecification)
         {
-            this.MechanicalSpecification = _mechanicalSpecification;
+            this.MachanicalSpecification = _machanicalSpecification;
         }
 
 
-        public MechanicalSpecificationModel MechanicalSpecification { get; set; } = new ();
+        public MachanicalSpecificationModel MachanicalSpecification { get; set; } = new ();
 
     }
 }

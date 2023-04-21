@@ -307,9 +307,9 @@
 
 
 
-    <Style x:Key="SiegCustomButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-        <Setter Property="Width"
-                            Value="80" />
+    <Style x:Key="SiegCustomButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="MinWidth"
+                            Value="60" />
         <Setter Property="Opacity"
                             Value="0.9" />
         <Setter Property="BorderThickness"
@@ -326,7 +326,7 @@
                             Value="WhiteSmoke" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="ButtonBase">
                     <Border Background="{TemplateBinding Background}"        
                             Margin="0"
                             CornerRadius="5"

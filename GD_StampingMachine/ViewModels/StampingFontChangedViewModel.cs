@@ -22,6 +22,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class StampingFontChangedViewModel : BaseViewModelWithLog
     {
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingFontChangedViewModel");
 
         private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
         public ObservableCollection<StampingTypeViewModel> StampingTypeVMObservableCollection
@@ -192,9 +193,9 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private StampingTypeModelMartixClass _stampingTypeModelMartix= new StampingTypeModelMartixClass();
+        private StampingTypeModelMartixViewModel _stampingTypeModelMartix= new();
 
-        public StampingTypeModelMartixClass StampingTypeModelMartix
+        public StampingTypeModelMartixViewModel StampingTypeModelMartix
         {
             get => _stampingTypeModelMartix; 
             set
@@ -222,7 +223,7 @@ namespace GD_StampingMachine.ViewModels
                 var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
                 if (FIndex != -1)
                 {
-                    StampingTypeModelMartix = new StampingTypeModelMartixClass();
+                    StampingTypeModelMartix = new ();
 
 
                     //離原點差距的角度-以逆時針計算
@@ -425,8 +426,9 @@ namespace GD_StampingMachine.ViewModels
 
     }
 
-    public class StampingTypeModelMartixClass : BaseViewModelWithLog
+    public class StampingTypeModelMartixViewModel : BaseViewModelWithLog
     {
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingFontChangedViewModel");
         private StampingTypeViewModel _bottomStampingTypeModel;
         private StampingTypeViewModel _rightStampingTypeModel;
         private StampingTypeViewModel _topStampingTypeModel;

@@ -12,10 +12,6 @@ namespace GD_StampingMachine.ViewModels
     {
         public abstract string ViewModelName { get; }
 
-
-
-
-
         public static int LogCollectionMax = 100;
         private static DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection;
         public static DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
@@ -42,7 +38,12 @@ namespace GD_StampingMachine.ViewModels
             {
                 System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                 {
-                    LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, ViewModelName, LogString, IsAlarm)));
+                    var ResourceString = ((string)System.Windows.Application.Current.TryFindResource(LogString));
+                    if(ResourceString != null)
+                        LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, ViewModelName, ResourceString, IsAlarm)));
+                    else
+                        LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, ViewModelName, LogString, IsAlarm)));
+
                 });
             });
         }

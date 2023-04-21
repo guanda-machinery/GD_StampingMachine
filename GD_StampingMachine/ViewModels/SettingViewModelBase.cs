@@ -13,7 +13,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class SettingViewModelBase : BaseViewModelWithLog
     {
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnNumberSetting");
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelBase");
         public GD_CsvHelperMethod CsvHM { get => new GD_CsvHelperMethod(); }
 
         public virtual NumberSettingModelBase NumberSetting{get;set;}

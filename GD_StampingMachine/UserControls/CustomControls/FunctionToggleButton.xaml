@@ -59,7 +59,7 @@
                 <TextBlock Name="ButtonTitleTextBlock" Text="{Binding ButtonTitleText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
             </StackPanel>
         <Border Name="MainBorder"
-                MouseUp="MainBorder_MouseUp" Background="#FFD3D3D3" Opacity="0.0">
+                MouseUp="MainBorder_MouseUp" Background="Transparent" Opacity="0.0">
             <Border.Triggers>
                 <EventTrigger RoutedEvent="Border.MouseEnter">
                     <EventTrigger.Actions>

@@ -20,9 +20,11 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
     }
 
-
     public class MachiningSettingViewModel : BaseViewModelWithLog
     {
+
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_Description_PunchedFontSettingViewModel");
+
         public MachiningSettingViewModel(MachiningSettingModel _machiningSetting)
         {
             MachiningSetting = _machiningSetting;
@@ -89,6 +91,7 @@ namespace GD_StampingMachine.ViewModels
                 ProjectDistributeVMSelected = ProjectDistributeVMObservableCollection.FirstOrDefault();
             GridControlRefresh();
         }
+
         public MachiningSettingModel MachiningSetting =new();
         public ProjectDistributeViewModel ProjectDistributeVMSelected 
         {

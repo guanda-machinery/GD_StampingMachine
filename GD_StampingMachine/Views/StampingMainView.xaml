@@ -210,7 +210,7 @@
                             </Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
                         </TabControl.Resources>
-                        <TabItem IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MechanicalSpecificationVM}">
+                        <TabItem IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MachanicalSpecificationVM}">
                             <ScrollViewer VerticalScrollBarVisibility="auto">
                                 <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
                                     <StackPanel Margin="10" Width="450">
@@ -267,7 +267,7 @@
                                                         <RowDefinition/>
                                                     </Grid.RowDefinitions>
                                                     <Border Background="#a00010" Grid.ColumnSpan="2">
-                                                        <TextBlock Text="{DynamicResource Text_MechanicalSpecification}" Foreground="White"/>
+                                                        <TextBlock Text="{DynamicResource Text_MachanicalSpecification}" Foreground="White"/>
                                                     </Border>
                                                     <Border Background="#1c2c42" Grid.ColumnSpan="2" Grid.Row="1">
                                                         <TextBlock Text="{DynamicResource Text_AllowMachiningSize}" Foreground="White"/>
@@ -278,22 +278,22 @@
                                                     <TextBlock Grid.Row="5" Text="{DynamicResource Text_MachiningMaxLength}"/>
 
                                                     <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}"/>
                                                         <TextBlock Text="～"/>
-                                                        <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}"/>
                                                         <TextBlock Text="mm" VerticalAlignment="Bottom"/>
                                                     </StackPanel>
 
 
                                                     <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.FlangeWidthLowerLimited}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.FlangeWidthLowerLimited}"/>
                                                         <TextBlock Text="～"/>
-                                                        <TextBox Text="{Binding MechanicalSpecification.AllowMachiningSize.FlangeWidthUpperLimited}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.FlangeWidthUpperLimited}"/>
                                                         <TextBlock Text="mm" VerticalAlignment="Bottom"/>
                                                     </StackPanel>
 
-                                                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding MechanicalSpecification.AllowMachiningSize.MachiningMaxLength,StringFormat={}{0:0}}" />
-                                                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding MechanicalSpecification.AllowMachiningSize.MachiningMinLength,StringFormat={}{0:0}}" />
+                                                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding MachanicalSpecification.AllowMachiningSize.MachiningMaxLength,StringFormat={}{0:0}}" />
+                                                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding MachanicalSpecification.AllowMachiningSize.MachiningMinLength,StringFormat={}{0:0}}" />
 
 
 
@@ -315,30 +315,30 @@
                                                     <TextBlock Grid.Row="18" Text="{DynamicResource Text_SpindleMoveSpeed}"/>
 
 
-                                                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.HorizontalDrillCount}"/>
-                                                    <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.VerticalDrillCount}"/>
-                                                    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_HorizontalDrill_SpindleCount}"/>
-                                                    <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding MechanicalSpecification.MachiningProperty.Each_VerticalDrill_SpindleCount}"/>
+                                                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.HorizontalDrillCount}"/>
+                                                    <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.VerticalDrillCount}"/>
+                                                    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.Each_HorizontalDrill_SpindleCount}"/>
+                                                    <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.Each_VerticalDrill_SpindleCount}"/>
                                                     <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.AuxiliaryAxisEffectiveTravelMax}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.AuxiliaryAxisEffectiveTravelMax}"/>
                                                         <TextBlock Text="mm"/>
                                                     </StackPanel>
                                                     <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal">
                                                         <TextBlock Text="Φ"/>
-                                                        <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillDiameter}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.MaxDrillDiameter}"/>
                                                     </StackPanel>
 
                                                     <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.MaxDrillThickness}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.MaxDrillThickness}"/>
                                                         <TextBlock Text="mm"/>
                                                     </StackPanel>
                                                     <StackPanel Grid.Row="14" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMaxPower}"/>
+                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.SpindleMaxPower}"/>
                                                         <TextBlock Text="kw"/>
                                                     </StackPanel>
 
                                                     <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1" FontWeight="Bold"
-                                                              EditValue="{Binding MechanicalSpecification.MachiningProperty.SpindleToolHolder, Mode=TwoWay}" 
+                                                              EditValue="{Binding MachanicalSpecification.MachiningProperty.SpindleToolHolder, Mode=TwoWay}" 
                                                               IsTextEditable="False"         
                                                               ShowBorder="False" ShowEditorButtons="False"
                                                               ApplyItemTemplateToSelectedItem="True" >
@@ -348,20 +348,20 @@
                                                         </dxmvvm:Interaction.Behaviors>
                                                     </dxe:ComboBoxEdit>
                                                     <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMin }"/>
+                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMin }"/>
                                                         <TextBlock  Text="~"/>
-                                                        <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMax }"/>
+                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMax }"/>
                                                         <TextBlock  Text="RPM"/>
                                                     </StackPanel>
 
                                                     <StackPanel Grid.Row="17" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMin }"/>
+                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleFeedSpeedMin }"/>
                                                         <TextBlock  Text="~"/>
-                                                        <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleFeedSpeedMax }"/>
+                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleFeedSpeedMax }"/>
                                                         <TextBlock  Text="mm/min"/>
                                                     </StackPanel>
                                                     <StackPanel Grid.Row="18" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox  Text="{Binding MechanicalSpecification.MachiningProperty.SpindleMoveSpeed }"/>
+                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleMoveSpeed }"/>
                                                         <TextBlock  Text="M/min"/>
                                                     </StackPanel>
 
@@ -376,7 +376,7 @@
 
                                                     <StackPanel Grid.Row="20" Grid.Column="1" Orientation="Horizontal">
 
-                                                        <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Length}"/>
+                                                        <TextBox    Text="{Binding MachanicalSpecification.MachineSize.Length}"/>
                                                         <TextBlock Text="mm"/>
                                                         <TextBlock  Text="(" Padding="0"/>
                                                         <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
@@ -385,7 +385,7 @@
                                                     </StackPanel>
                                                     <StackPanel Grid.Row="21" Grid.Column="1" Orientation="Horizontal">
 
-                                                        <TextBox  Text="{Binding MechanicalSpecification.MachineSize.Width}"/>
+                                                        <TextBox  Text="{Binding MachanicalSpecification.MachineSize.Width}"/>
                                                         <TextBlock Text="mm"/>
                                                         <TextBlock  Text="(" Padding="0"/>
                                                         <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
@@ -394,7 +394,7 @@
                                                     </StackPanel>
                                                     <StackPanel Grid.Row="22" Grid.Column="1" Orientation="Horizontal">
 
-                                                        <TextBlock Text="{Binding MechanicalSpecification.MachineSize.Height}"/>
+                                                        <TextBlock Text="{Binding MachanicalSpecification.MachineSize.Height}"/>
                                                         <TextBlock Text="mm"/>
                                                         <TextBlock  Text="(" Padding="0"/>
                                                         <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
@@ -402,7 +402,7 @@
                                                         <TextBlock  Text=")" Padding="0"/>
                                                     </StackPanel>
                                                     <StackPanel Grid.Row="23" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox    Text="{Binding MechanicalSpecification.MachineSize.Weight}"/>
+                                                        <TextBox    Text="{Binding MachanicalSpecification.MachineSize.Weight}"/>
                                                         <TextBlock Text="Ton"/>
                                                     </StackPanel>
 

@@ -28,10 +28,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 {
     public class ProductProjectViewModel : BaseViewModelWithLog
     {
-        public ProductProjectViewModel(ProductProjectModel _productProject)
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProductProjectViewModel");
+        public ProductProjectViewModel(ProductProjectModel ProductProject)
         {
-            ProductProject = _productProject;
-            ProductProject.PartsParameterObservableCollection.ForEach(obj =>
+            _productProject = ProductProject;
+            _productProject.PartsParameterObservableCollection.ForEach(obj =>
             {
                 PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
             });
@@ -66,65 +67,69 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        private ProductProjectModel ProductProject = new ProductProjectModel();
+        private readonly ProductProjectModel _productProject = new();
 
 
 
         public SheetStampingTypeFormEnum ProductProjectSheetStampingTypeForm
         {
-            get => ProductProject.SheetStampingTypeForm;
+            get => _productProject.SheetStampingTypeForm;
             set
             {
-                ProductProject.SheetStampingTypeForm = value;
+                _productProject.SheetStampingTypeForm = value;
                 OnPropertyChanged(nameof(ProductProjectSheetStampingTypeForm));
             }
         }
         public string ProductProjectName
         {
-            get => ProductProject.Name;
+            get => _productProject.Name;
             set
             {
-                ProductProject.Name = value;
+                _productProject.Name = value;
                 OnPropertyChanged(nameof(ProductProjectName));
             }
         }
         public string ProductProjectNumber
         {
-            get => ProductProject.Number;
+            get => _productProject.Number;
             set
             {
-                ProductProject.Number = value; OnPropertyChanged(nameof(ProductProjectNumber));
+                _productProject.Number = value; OnPropertyChanged(nameof(ProductProjectNumber));
             }
         }
         public string ProductProjectPath
         {
-            get => ProductProject.ProjectPath;
+            get => _productProject.ProjectPath;
             set
             {
-                ProductProject.ProjectPath = value;
+                _productProject.ProjectPath = value;
                 OnPropertyChanged(nameof(ProductProjectPath));
             }
         }
         public DateTime ProductProjectCreateTime
         {
-            get => ProductProject.CreateTime;
+            get => _productProject.CreateTime;
             set
             {
-                ProductProject.CreateTime = value;
+                _productProject.CreateTime = value;
                 OnPropertyChanged(nameof(ProductProjectCreateTime));
             }
         }
         public DateTime? ProductProjectEditTime
         {
-            get => ProductProject.EditTime;
+            get => _productProject.EditTime;
             set
             {
-                ProductProject.EditTime = value;
+                _productProject.EditTime = value;
                 OnPropertyChanged(nameof(ProductProjectEditTime));
             }
         }
 
-
+        private bool _isMarked = false;
+        /// <summary>
+        /// 新增排版專案的打勾符號
+        /// </summary>
+        public bool IsMarked { get=> _isMarked; set { _isMarked = value;OnPropertyChanged(); } }
 
 
         /// <summary>
@@ -134,11 +139,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                return ProductProject.FinishProgress;
+                return _productProject.FinishProgress;
             }
             set
             {
-                ProductProject.FinishProgress = value;
+                _productProject.FinishProgress = value;
                 OnPropertyChanged(nameof(ProductProjectFinishProcessing));
             }
         }
@@ -183,7 +188,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                     var MessageBoxReturn = WinUIMessageBox.Show(null,
                                         (string)Application.Current.TryFindResource("Text_AskDelProject") +
                                         "\r\n" +
-                                        $"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}" +
+                                        $"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}" +
                                         "?"
                                         ,
                                         (string)Application.Current.TryFindResource("Text_notify"),
@@ -278,7 +283,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             var newSavedCollection = new ObservableCollection<SettingViewModelBase>();
             var CsvHM = new GD_CsvHelperMethod();
-            if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
+            if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
             {
                 CsvHM.ReadNumberSetting(out var SavedCollection);
                 foreach (var asd in SavedCollection)
@@ -286,7 +291,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     newSavedCollection.Add(new NumberSettingViewModel(asd));
                 }
             }
-            if (ProductProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+            if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
             {
                 CsvHM.ReadQRNumberSetting(out var QRSavedCollection);
                 foreach (var asd in QRSavedCollection)
@@ -380,13 +385,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                if (string.IsNullOrWhiteSpace(ProductProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(ProductProject.ProjectPath)))
+                if (string.IsNullOrWhiteSpace(_productProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(_productProject.ProjectPath)))
                 {
                     //跳出彈跳式視窗
                     using var dialog = new System.Windows.Forms.FolderBrowserDialog();
                     System.Windows.Forms.DialogResult result = dialog.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)
-                        ProductProject.ProjectPath = dialog.SelectedPath;
+                        _productProject.ProjectPath = dialog.SelectedPath;
                 }
 
                 SaveProductProject();
@@ -395,15 +400,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public bool SaveProductProject()
         {
 
-            if (ProductProject.ProjectPath != null)
+            if (_productProject.ProjectPath != null)
             {
-                if (!Path.HasExtension(ProductProject.ProjectPath))
+                if (!Path.HasExtension(_productProject.ProjectPath))
                 {
-                    ProductProject.ProjectPath = Path.Combine(ProductProject.ProjectPath, ProductProject.Name , ".csv");
-                    ProductProject.EditTime= DateTime.Now;
+                    _productProject.ProjectPath = Path.Combine(_productProject.ProjectPath, _productProject.Name , ".csv");
+                    _productProject.EditTime= DateTime.Now;
                 }
 
-                return new GD_CsvHelperMethod().WriteProductProject(ProductProject.ProjectPath, ProductProject);
+                return new GD_CsvHelperMethod().WriteProductProject(_productProject.ProjectPath, _productProject);
 
 
             }
@@ -477,6 +482,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             GridControlSource.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> SourceItemS &&
                             GridControlTarget.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> TargetItemS)
                             {
+                                _currentItem.IsMarked= true;
                                 TargetItemS.Add(_currentItem);
                                 SourceItemS.Remove(_currentItem);
                             }
@@ -512,22 +518,28 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             {
                               //  PartsParameterVMObservableCollectionRefresh
                                 var CollectionWithThisDistributeName = _currentItem.PartsParameterVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeName);
-                                if(CollectionWithThisDistributeName.Count() >0)
+
+                                //箱子內有專案
+                                if (CollectionWithThisDistributeName.Count() > 0)
                                 {
+                                    //有已完成的 不可關閉
                                     if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
                                     {
                                         MethodWinUIMessageBox.CanNotCloseProject();
                                         return;
                                     }
 
+                                    //詢問是否要關閉
                                     if (!MethodWinUIMessageBox.AskCloseProject(_currentItem.ProductProjectName))
                                         return;
+
+                                    //將資料清除
+                                    CollectionWithThisDistributeName.ForEach(Eobj =>
+                                    {
+                                        Eobj.DistributeName = null;
+                                        Eobj.BoxNumber = null;
+                                    });
                                 }
-                                CollectionWithThisDistributeName.ForEach(Eobj =>
-                                {
-                                    Eobj.DistributeName = null;
-                                    Eobj.BoxNumber = null;
-                                });
                                 TargetItemS.Add(_currentItem);
                                 SourceItemS.Remove(_currentItem);
                             }

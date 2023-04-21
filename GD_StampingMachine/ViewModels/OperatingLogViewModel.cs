@@ -9,57 +9,48 @@ namespace GD_StampingMachine.ViewModels
 {
     public class OperatingLogViewModel : BaseViewModelWithLog
     {
-        public OperatingLogViewModel(OperatingLogModel _operatingLog)
+        public OperatingLogViewModel(OperatingLogModel OperatingLog)
         {
-            OperatingLog = _operatingLog;
+            _operatingLog = OperatingLog;
         }
-        public readonly OperatingLogModel OperatingLog = new();
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_OperatingLogViewModel");
+        private readonly OperatingLogModel _operatingLog = new();
 
-
-        /*public LogSourceEnum LogSource 
-        {
-            get => OperatingLog.LogSource;
-            set 
-            { 
-                OperatingLog.LogSource = value; 
-                OnPropertyChanged(); 
-            } 
-        }*/
 
         public DateTime LogDatetime 
         { 
-            get=> OperatingLog.LogDatetime; 
+            get=> _operatingLog.LogDatetime; 
             set
-            { 
-                OperatingLog.LogDatetime = value;
+            {
+                _operatingLog.LogDatetime = value;
                 OnPropertyChanged();
             }
         }
         public string LogSource
         {
-            get => OperatingLog.LogSource;
+            get => _operatingLog.LogSource;
             set
             {
-                OperatingLog.LogSource = value;
+                _operatingLog.LogSource = value;
                 OnPropertyChanged();
             }
         }
 
         public string LogString
         {
-            get => OperatingLog.LogString;
+            get => _operatingLog.LogString;
             set
             {
-                OperatingLog.LogString = value; 
+                _operatingLog.LogString = value; 
                 OnPropertyChanged();
             }
         }
         public bool IsAlert
         {
-            get => OperatingLog.IsAlert;
+            get => _operatingLog.IsAlert;
             set
             {
-                OperatingLog.IsAlert = value;
+                _operatingLog.IsAlert = value;
                 OnPropertyChanged();
             }
         }

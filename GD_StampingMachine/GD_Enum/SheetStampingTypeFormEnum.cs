@@ -1,5 +1,5 @@
 ﻿using DevExpress.Mvvm.DataAnnotations;
-using GD_StampingMachine.Cultures;
+//using GD_StampingMachine.Cultures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,9 +12,9 @@ namespace GD_StampingMachine.GD_Enum
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum SheetStampingTypeFormEnum
     {
-        [LocalizedDescription("NormalSheetStamping", typeof(EnumResources))]
+       // [LocalizedDescription("NormalSheetStamping", typeof(EnumResources))]
         NormalSheetStamping, 
-        [LocalizedDescription("QRSheetStamping", typeof(EnumResources))]
+       // [LocalizedDescription("QRSheetStamping", typeof(EnumResources))]
         QRSheetStamping,
 
     }

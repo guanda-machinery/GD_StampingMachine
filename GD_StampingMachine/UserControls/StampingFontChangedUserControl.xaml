@@ -8,20 +8,21 @@
              mc:Ignorable="d" 
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
             xmlns:dd="urn:gong-wpf-dragdrop"
-                 xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+            xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
+        Name="MainGridControl"
              >
 
-
-    <Grid VerticalAlignment="Stretch">
+    <ScrollViewer>
+    <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*" MinHeight="50"/>
+            <RowDefinition MaxHeight="420"/>
+            <RowDefinition Height="{CalcB:Binding ElementName=MainGridControl, Path=ActualHeight-420}" />
         </Grid.RowDefinitions>
         <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
         <ComboBox  DisplayMemberPath="StampingTypeString"  Width="50" 
@@ -384,7 +385,7 @@
             <GroupBox 
                    Name="StampingFontGroupBox"  
                     Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                <ListBox  Grid.Row="1" VerticalAlignment="Top"  
+                <ListBox  Grid.Row="1" 
                          SelectedItem="{Binding StampingFontSelected}"  Margin="10,0"  Name="StampingFontListBox" 
                          ItemsSource="{Binding StampingTypeVMObservableCollection}"
                          dd:DragDrop.CanDragWithMouseRightButton="True"
@@ -411,7 +412,8 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}">
-                    <Button  IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
+                        <Button Padding="10,0"
+                        IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
                     Grid.Row="0" Command="{Binding StampingFontReplaceCommand}" Margin="5,10">
 
                         <Button.Style>
@@ -436,7 +438,7 @@
                     </Button>
                 </StackPanel>
 
-                <Button  Grid.Row="1" Margin="5,10" 
+                    <Button  Grid.Row="1" Margin="5,10"  Padding="10,0"
                     IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
                     Command="{Binding UnusedStampingFontDelCommand}"
                          dd:DragDrop.DropTargetAdornerBrush="Red"
@@ -473,7 +475,7 @@
 
             <GroupBox   Width="230"
                 Name="UnusedStampingGroupBox" MinWidth="190" Padding="10" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0">
-                <ListBox Name="UnusedStampingFontListBox" Padding="10"
+                <ListBox Name="UnusedStampingFontListBox" Padding="10" MaxHeight="{Binding ElementName=StampingFontListBox, Path=ActualHeight}"  VerticalAlignment="Top"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
                          SelectedItem="{Binding UnusedStampingFontSelected}" 
                          ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
@@ -574,14 +576,14 @@
                     </Border>
                 </materialDesign:DialogHost.DialogContent>
             </materialDesign:DialogHost>
-            <ToggleButton 
+                <ToggleButton  Style="{StaticResource SiegCustomButton}"
                 IsChecked="{Binding ElementName=AddFontDialogHost, Path=IsOpen}"
-                Height="26" Width="auto" Padding="15,0" Margin="10,0" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                Height="26" Width="auto" Padding="10,0" Margin="10,0" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" 
                              Content="{DynamicResource btnAdd}"/>
 
 
         </Grid>
 
     </Grid>
-
+</ScrollViewer>
 </UserControl>

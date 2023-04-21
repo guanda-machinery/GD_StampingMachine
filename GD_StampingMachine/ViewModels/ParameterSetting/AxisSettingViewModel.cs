@@ -9,8 +9,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class AxisSettingViewModel : BaseViewModelWithLog
     {
-        private AxisSettingModel _AxisSettingModel = new AxisSettingModel() {XAxisSpeed =50 };
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_AxisSettingViewModel");
+        
+        public AxisSettingViewModel(AxisSettingModel AxisSettingModel)
+        {
+            _axisSettingModel = AxisSettingModel;
+        }
 
+        public AxisSettingViewModel()
+        {
+        }
+
+        private AxisSettingModel _axisSettingModel;
 
         public AxisSettingModel AxisSetting
         {
@@ -18,16 +28,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 //存檔
 
-               return _AxisSettingModel;
+               return _axisSettingModel;
             }
             set
             {
-                _AxisSettingModel = value;
+                _axisSettingModel = value;
                 OnPropertyChanged(nameof(AxisSetting));
             }
         }
-
-
-
     }
 }

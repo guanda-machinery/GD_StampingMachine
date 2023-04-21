@@ -47,7 +47,7 @@ namespace GD_StampingMachine.ViewModels
 
     public class ProjectDistributeViewModel : BaseViewModelWithLog
     {
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachiningSettings");
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProjectDistributeViewModel");
 
         public ProjectDistributeViewModel(ProjectDistributeModel _projectDistribute)
         {
@@ -171,7 +171,19 @@ namespace GD_StampingMachine.ViewModels
                 _notReadyToTypeSettingProductProjectVMSelected = value;
                 OnPropertyChanged();
             } 
-        } 
+        }
+
+
+        public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> NotReadyRowDoubleClickCommand
+        {
+            get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
+            {
+                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
+                {
+                    ProjectItem.IsMarked = !ProjectItem.IsMarked;
+                }
+            });
+        }
 
 
         private ObservableCollection<ProductProjectViewModel> _notreadyToTypeSettingProductProjectVMObservableCollection =new();
@@ -201,6 +213,28 @@ namespace GD_StampingMachine.ViewModels
                 _readyToTypeSettingProductProjectVMObservableCollection = value;
                 OnPropertyChanged();
             }
+        }
+
+
+        public ICommand MoveNotReadyToReadyCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                var Index = -1;
+                do
+                {
+                    Index = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x=>x.IsMarked);
+                    if(Index !=-1)
+                    {
+                        ReadyToTypeSettingProductProjectVMObservableCollection.Add(NotReadyToTypeSettingProductProjectVMObservableCollection[Index]);
+                        NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(Index);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                } while (true);
+            });
         }
 
 
@@ -315,14 +349,20 @@ namespace GD_StampingMachine.ViewModels
                 if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
                 {
                     e.Effects = System.Windows.DragDropEffects.None;
-                    var DragDropData = e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) as DevExpress.Xpf.Core.RecordDragDropData;
-                    foreach (var _record in DragDropData.Records)
+                    if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
                     {
-                        if (_record is PartsParameterViewModel PartsParameterVM)
+                        foreach (var _record in DragDropData.Records)
                         {
-                            if (ReadyToTypeSettingProductProjectVMSelected != null)
+                            if (_record is PartsParameterViewModel PartsParameterVM)
                             {
-                                if (PartsParameterVM.ProjectName != ReadyToTypeSettingProductProjectVMSelected.ProductProjectName)
+                                if (ReadyToTypeSettingProductProjectVMSelected != null)
+                                {
+                                    if (PartsParameterVM.ProjectName != ReadyToTypeSettingProductProjectVMSelected.ProductProjectName)
+                                    {
+                                        return;
+                                    }
+                                }
+                                else
                                 {
                                     return;
                                 }
@@ -332,12 +372,8 @@ namespace GD_StampingMachine.ViewModels
                                 return;
                             }
                         }
-                        else
-                        {
-                            return;
-                        }
+                        e.Effects = System.Windows.DragDropEffects.Move;
                     }
-                    e.Effects = System.Windows.DragDropEffects.Move;
                 }
             });
         }
@@ -354,22 +390,22 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                     {
-                        var DragDropData =  e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) as DevExpress.Xpf.Core.RecordDragDropData;
-
-                        foreach (var _record in DragDropData.Records)
+                        if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
                         {
-                            if (_record is PartsParameterViewModel PartsParameterVM)
+                            foreach (var _record in DragDropData.Records)
                             {
-                                //看目前選擇哪一個盒子
-                                if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                                if (_record is PartsParameterViewModel PartsParameterVM)
                                 {
-                                    PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
-                                    PartsParameterVM.BoxNumber = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxNumber;
-                                    e.Effects = System.Windows.DragDropEffects.Move;
+                                    //看目前選擇哪一個盒子
+                                    if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                                    {
+                                        PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
+                                        PartsParameterVM.BoxNumber = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxNumber;
+                                        e.Effects = System.Windows.DragDropEffects.Move;
+                                    }
                                 }
                             }
                         }
-           
                     }
 
                 });
@@ -384,8 +420,14 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
                     {
-                        if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                        e.Effects = System.Windows.DragDropEffects.None;
+                        if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
+                        { 
+                            //if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                             e.Effects = System.Windows.DragDropEffects.Move;
+                        }
+                     
+
                     }
                 });
             }

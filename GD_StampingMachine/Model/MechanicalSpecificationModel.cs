@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class MechanicalSpecificationModel
+    public class MachanicalSpecificationModel
     {
         public AllowMachiningSizeModel AllowMachiningSize { get; set; } = new();
 

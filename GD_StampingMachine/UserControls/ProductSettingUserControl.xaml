@@ -49,7 +49,7 @@
                         <Button Width="auto" Height="auto" Content="{DynamicResource btnSaveChange}" Padding="10,0" Command="{Binding }"
                                 />
                         <ToggleButton Foreground="Black" FontSize="14"
-                                IsThreeState="False" Style="{StaticResource GD_ToggleButton}" 
+                                IsThreeState="False" Style="{StaticResource SiegCustomButton}" 
                                             IsChecked="{Binding ElementName=AddProjectDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
 
                                       Width="auto"
@@ -221,7 +221,7 @@
                                       MinHeight="100"
                     MaxHeight="2000">
                         <dxg:GridControl.View >
-                            <dxg:TableView   
+                        <dxg:TableView   
                                 SearchString="{Binding ElementName=SearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 IsColumnMenuEnabled ="False"
                                 RowDoubleClickCommand="{Binding RowDoubleClickCommand}"                  
@@ -242,9 +242,9 @@
                                 SearchPanelNullText="Search Tasks(Ctrl + F)" 
                                 SearchPanelFindMode="Always"
                                 ShowIndicator="False"
-                                SearchDelay="0"
-                                    />
-                        </dxg:GridControl.View>
+                                SearchDelay="0">
+                        </dxg:TableView>
+                    </dxg:GridControl.View>
 
                         <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProjectNumber" Width="auto"   IsSmart="True" >
                             <dxg:GridColumn.EditSettings>

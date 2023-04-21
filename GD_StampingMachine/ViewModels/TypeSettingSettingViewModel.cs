@@ -28,7 +28,7 @@ namespace GD_StampingMachine.ViewModels
     public class TypeSettingSettingViewModel : BaseViewModelWithLog
     {
 
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_LayoutSettings");
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_TypeSettingSettingViewModel");
 
         public TypeSettingSettingViewModel(TypeSettingSettingModel _typeSettingSetting)
         {
@@ -76,6 +76,8 @@ namespace GD_StampingMachine.ViewModels
             {
                 return new RelayCommand(() =>
                 {
+                    AddLogData("btnAddProject");
+
                     NewProjectDistribute.CreatedDate = DateTime.Now;
                     var Clone = NewProjectDistribute.DeepCloneByJson();
                     Clone.ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection;

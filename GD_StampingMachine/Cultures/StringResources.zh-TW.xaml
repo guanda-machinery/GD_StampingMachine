@@ -5,7 +5,7 @@
     <sys:String x:Key="btnOk">OK</sys:String>
 
     <!--#region主介面 -->
-    <sys:String x:Key="btnDescription_MainSystem">主系統</sys:String>
+    <sys:String x:Key="btnDescription_MainSystem">主系統</sys:String> 
     <sys:String x:Key="btnDescription_ProductSettings">製品設定</sys:String>
     <sys:String x:Key="btnDescription_LayoutSettings">排版設定</sys:String>
     <sys:String x:Key="btnDescription_MachiningSettings">加工設定</sys:String>
@@ -28,7 +28,7 @@
     <!--#endregion-->
 
     <!--#region關於本機-->
-    <sys:String x:Key="Text_MechanicalSpecification">機械規格</sys:String>
+    <sys:String x:Key="Text_MachanicalSpecification">機械規格</sys:String>
     <sys:String x:Key="Text_AllowMachiningSize">允許的工作尺寸</sys:String>
     <sys:String x:Key="Text_WebHeight">腹板高度</sys:String>
     <sys:String x:Key="Text_FlangeWidth">翼板寬度</sys:String>
@@ -174,7 +174,6 @@
 
 
 
-    <sys:String x:Key="Text_LanguageSetting">語言設定</sys:String>
     
 
 
@@ -211,6 +210,8 @@
     <!--#endregion-->
     
     <!--#region 製品設定 -->
+
+
     <sys:String x:Key="Text_Search">搜尋</sys:String>
 
     <sys:String x:Key="Text_NoneUsableData">無可用之資料</sys:String>
@@ -218,6 +219,9 @@
     <sys:String x:Key="Text_CreateOrEditProject">建立/編輯專案</sys:String>
     <sys:String x:Key="Text_SavePath">儲存路徑</sys:String>
     <sys:String x:Key="Text_ProjectName">專案名稱</sys:String>
+
+
+    <sys:String x:Key="Text_TypeSettingProjectName">排版名稱</sys:String>
     <sys:String x:Key="Text_ConstructionNumber">工程案號</sys:String>
     <sys:String x:Key="Text_MachiningForm">加工型態</sys:String>
     <sys:String x:Key="Text_SelectedMachiningForm">選擇加工型態</sys:String>
@@ -234,6 +238,7 @@
     <sys:String x:Key="Text_FinishProgress">完成進度</sys:String>
 
 
+    <sys:String x:Key="Text_PartsParameter">零件參數</sys:String>
     <sys:String x:Key="Text_CreatePart">建立零件</sys:String>
     <sys:String x:Key="Text_Parameter_A">A參數</sys:String>
     <sys:String x:Key="Text_Parameter_B">B參數</sys:String>
@@ -250,6 +255,7 @@
 
 <!--Method-->
 
+    
     <sys:String x:Key="Text_notify">通知</sys:String>
     <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
@@ -282,4 +288,31 @@
     <sys:String x:Key="Enum_QRSheetStamping">QR加工</sys:String>
 
 
+
+    <sys:String x:Key="Name_StampingMainViewModel">主系統</sys:String>
+    <sys:String x:Key="Name_MachanicalSpecificationViewModel">機械規格</sys:String>
+    <sys:String x:Key="Name_Description_PunchedFontSettingViewModel">字模設定</sys:String>
+    <sys:String x:Key="Name_LayoutSettingsViewModel">排版設定</sys:String>
+    <sys:String x:Key="Name_LanguageSettingViewModel">語言設定</sys:String>
+    <sys:String x:Key="Name_AxisSettingViewModel">軸向設定</sys:String>
+    <sys:String x:Key="Name_StampingSteelBeltViewModel">鋼印鐵片</sys:String>
+    <sys:String x:Key="Name_StampingBoxPartsViewModel">加工盒子</sys:String>
+
+    <sys:String x:Key="Name_ProductSettingViewModel">製品設定</sys:String>
+    <sys:String x:Key="Name_StampingTypeViewModel">排版設定</sys:String>
+    <sys:String x:Key="Name_TimingSettingViewModel">計時設定</sys:String>
+
+    <sys:String x:Key="Name_SeparateBoxViewModel">分料箱</sys:String>
+    <sys:String x:Key="Name_SeparateSettingViewModel">分料設定</sys:String>
+    <sys:String x:Key="Name_TypeSettingSettingViewModel">排版設定</sys:String>
+    <sys:String x:Key="Name_ParameterSettingViewModel">參數設定</sys:String>
+
+    <sys:String x:Key="Name_ProjectDistributeViewModel">加工設定</sys:String>
+    <sys:String x:Key="Name_PartsParameterViewModel">零件參數</sys:String>
+    <sys:String x:Key="Name_ProductProjectViewModel">製品專案</sys:String>
+
+    <sys:String x:Key="Name_SettingViewModelBase">號碼設定</sys:String>
+    <sys:String x:Key="Name_StampingFontChangedViewModel">字模設定</sys:String>
+    
+    <sys:String x:Key="Name_OperatingLogViewModel">操作紀錄</sys:String>
 </ResourceDictionary>

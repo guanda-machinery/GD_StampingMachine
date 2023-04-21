@@ -10,7 +10,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class CultureViewModel : BaseViewModelWithLog
     {
-         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Text_LanguageSetting");
+         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LanguageSettingViewModel");
 
         public List<CultureInfo> SupportedCultures
         {

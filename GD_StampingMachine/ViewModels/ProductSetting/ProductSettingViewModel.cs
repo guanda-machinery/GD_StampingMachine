@@ -23,7 +23,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 {
     public class ProductSettingViewModel : BaseViewModelWithLog
     {
-        public override string ViewModelName => (string)Application.Current.TryFindResource("btnDescription_ProductSettings");
+        public override string ViewModelName => (string)Application.Current.TryFindResource("Name_ProductSettingViewModel");
 
         private bool _addProjectDarggableIsPopup;
         public bool AddProjectDarggableIsPopup
