@@ -1,4 +1,5 @@
-﻿using DevExpress.Mvvm;
+﻿using DevExpress.CodeParser.Diagnostics;
+using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace GD_StampingMachine
 {
@@ -31,25 +33,30 @@ namespace GD_StampingMachine
 
 
 
-            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindow.ProcessingScreenWindow(), new DXSplashScreenViewModel { });
+            //SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindows.ProcessingScreenWindow(), new DXSplashScreenViewModel { }); 
 
-            manager.ViewModel.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading");
-           // manager.ViewModel.Status = "讀取中.";
+            var ManagerVM = new DXSplashScreenViewModel
+            {
+                Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
+                Progress = 0,
+                IsIndeterminate = false,
+                Subtitle = "Alpha 23.4.24",
+                Copyright = "Copyright © 2022 GUANDA",
+            };
 
-            manager.ViewModel.Progress = 0;
-            manager.ViewModel.IsIndeterminate = false;
+            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindows.StartSplashScreen(), ManagerVM);
             manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
-
             Task.Run(() =>
             {
                Thread.Sleep(1000);
                 for (int i = 0; i <= 1000; i++)
                 {
-                    manager.ViewModel.Progress = i/10;
-                    Thread.Sleep(1);
+                    ManagerVM.Progress = i/10;
+                    Thread.Sleep(2);
                 }
                 //manager.ViewModel.Status = "正在啟動...";
-                manager.ViewModel.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
+                ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
 
                 Dispatcher.BeginInvoke(new Action(delegate
                 {

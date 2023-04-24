@@ -2,11 +2,12 @@
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.WindowsUI;
+
 using GD_StampingMachine.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
-using GD_StampingMachine.SplashScreenWindow;
+using GD_StampingMachine.SplashScreenWindows;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _addProjectDarggableIsPopup = value;
-                OnPropertyChanged(nameof(AddProjectDarggableIsPopup));
+                OnPropertyChanged();
             }
         }
 
@@ -72,14 +73,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public ICommand SetProjectFolder
         {
-            get => new RelayCommand(() =>
+            get => new RelayParameterizedCommand(obj =>
             {
                 using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
                 {
                     System.Windows.Forms.DialogResult result = dialog.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)
                     {
-                        ProjectPathText = dialog.SelectedPath;
+                        if (obj is System.Windows.Controls.TextBox ObjTB)
+                        {
+                            ObjTB.Text = dialog.SelectedPath;
+                            // ProjectPathText = dialog.SelectedPath;
+                        }
+
                     }
                 }
             });

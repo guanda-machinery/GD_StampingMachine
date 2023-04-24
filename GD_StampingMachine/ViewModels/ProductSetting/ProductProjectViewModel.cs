@@ -1,5 +1,4 @@
 ﻿using DevExpress.Data;
-using DevExpress.DataAccess.Json;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509;
@@ -60,7 +59,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         //OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
@@ -129,7 +128,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 新增排版專案的打勾符號
         /// </summary>
-        public bool IsMarked { get=> _isMarked; set { _isMarked = value;OnPropertyChanged(); } }
+        public bool IsMarked { get => _isMarked; set { _isMarked = value; OnPropertyChanged(); } }
 
 
         /// <summary>
@@ -153,65 +152,30 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
         {
-            get
+            get => new RelayParameterizedCommand(obj =>
             {
-                if (_projectEditCommand == null)
-                {
-                    _projectEditCommand = new RelayParameterizedCommand(obj =>
-                    {
+                EditProjectDarggableIsPopup= true;
 
-                    });
-                }
-                return _projectEditCommand;
-            }
-            set
-            {
-                _projectEditCommand = value;
-                OnPropertyChanged(nameof(ProjectEditCommand));
-            }
+
+            });
         }
-        private RelayParameterizedCommand _projectDeleteCommand;
+        // private RelayParameterizedCommand _projectDeleteCommand;
         public RelayParameterizedCommand ProjectDeleteCommand
         {
-            get
+            get => new RelayParameterizedCommand(obj =>
             {
-                if (_projectDeleteCommand == null)
+                if (obj is GridControl ObjGridControl)
                 {
-                    _projectDeleteCommand = new RelayParameterizedCommand(obj =>
+                    if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
                     {
-                        if (obj is GridControl ObjGridControl)
+                        if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
                         {
-                            if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
-                            {
-                                if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
-                                {
-                                    var MessageBoxReturn = WinUIMessageBox.Show(null,
-                                        (string)Application.Current.TryFindResource("Text_AskDelProject") +
-                                        "\r\n" +
-                                        $"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}" +
-                                        "?"
-                                        ,
-                                        (string)Application.Current.TryFindResource("Text_notify"),
-                                        MessageBoxButton.YesNo,
-                                        MessageBoxImage.Exclamation,
-                                        MessageBoxResult.None,
-                                        MessageBoxOptions.None,
-                                        DevExpress.Xpf.Core.FloatingMode.Window);
-
-                                    if (MessageBoxReturn == MessageBoxResult.Yes)
-                                        GridItemSource.Remove(CurrentItem);
-                                }
-                            }
+                            if (MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
+                                GridItemSource.Remove(CurrentItem);
                         }
-                    });
+                    }
                 }
-                return _projectDeleteCommand;
-            }
-            /*set
-            {
-                _projectDeleteCommand = value;
-                OnPropertyChanged(nameof(ProjectDeleteCommand));
-            }*/
+            });
         }
 
 
@@ -457,7 +421,24 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ExportParameterDarggableIsPopup));
             }
         }
-        
+
+
+        private bool _editProjectDarggableIsPopup;
+        public bool EditProjectDarggableIsPopup
+        {
+            get
+            {
+                return _editProjectDarggableIsPopup;
+            }
+            set
+            {
+                _editProjectDarggableIsPopup = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
         /// <summary>
         /// 新增排版專案
         /// </summary>

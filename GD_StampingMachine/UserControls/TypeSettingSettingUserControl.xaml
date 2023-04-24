@@ -34,7 +34,7 @@
                 <StackPanel HorizontalAlignment="Left">
                     <ToggleButton IsChecked="{Binding AddProjectDistributeDarggableIsPopup}" Style="{StaticResource SiegCustomButton}"
                                   Padding="10,0" Width="auto" Margin="10,5" 
-                                  IsThreeState="False" Content="{StaticResource btnAddProject}"/>
+                                  IsThreeState="False" Content="{StaticResource btnAddTypeSettingProject}"/>
                     <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddProjectDistributeDarggableIsPopup}">
                         <Border
                                                 CornerRadius="10"
@@ -505,6 +505,7 @@
                         </Grid>
                         <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="200" Margin="10,0"
                                                                  Style="{StaticResource ProjectGridControl}"
+                                         SelectionMode="MultipleRow"
                                                                  AutoGenerateColumns="None"
                                                                  ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  MaxHeight="2000"    >

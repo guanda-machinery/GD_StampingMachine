@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DevExpress.Xpf.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GD_StampingMachine.SplashScreenWindow
+namespace GD_StampingMachine.SplashScreenWindows
 {
     /// <summary>
-    /// ProcessingScreenWindow.xaml 的互動邏輯
+    /// Interaction logic for StartSplashScreen.xaml
     /// </summary>
-    public partial class ProcessingScreenWindow 
+    public partial class StartSplashScreen : SplashScreenWindow
     {
-        public ProcessingScreenWindow()
+        public StartSplashScreen()
         {
             InitializeComponent();
         }

@@ -22,10 +22,8 @@
              xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup" 
              xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method"
              d:DesignHeight="800" d:DesignWidth="900"    
-             d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}">
-    <UserControl.DataContext>
-        <GD_ViewModels:StampingMainViewModel/>
-    </UserControl.DataContext>
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
+             DataContext="{GD_ViewModels:StampingMainViewModel}">
     <UserControl.Resources>
         <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
             <Setter Property="Width" Value="45"/>
@@ -67,6 +65,7 @@
             <MultiBinding Converter="{GD_ValueConverters:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/>
                     <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>
@@ -99,9 +98,10 @@
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}"/>
                         </Style>
-                    </StackPanel.Resources>
-                    <TextBlock Text="專案名稱：" VerticalAlignment="Center" Margin="5,0"/>
-                    <Button Command="{Binding OpenProjectFileCommand}"
+                        </StackPanel.Resources>
+                        <TextBlock Text="{DynamicResource Text_TypeSettingProject}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        <TextBlock Text="：" VerticalAlignment="Center" Margin="0,0"/>
+                        <Button Command="{Binding OpenProjectFileCommand}"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Padding="2,0" Height="auto">
                         <Grid>
                             <Border BorderBrush="{StaticResource PrimaryHueDarkBrush}" BorderThickness="0,0,0,1.5"/>

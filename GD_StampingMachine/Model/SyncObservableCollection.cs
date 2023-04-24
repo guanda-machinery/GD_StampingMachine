@@ -21,5 +21,19 @@ namespace GD_StampingMachine.Model
                 base.Add(item);
             });
         }
+        public void SyncRemove(T item)
+        {
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                base.Remove(item);
+            });
+        }
+        public void SyncRemoveItem(int index)
+        {
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                base.RemoveItem(index);
+            });
+        }
     }
 }

@@ -313,7 +313,9 @@
         <Setter Property="Opacity"
                             Value="0.9" />
         <Setter Property="BorderThickness"
-                            Value="1" />
+                            Value="0.2" />
+        <Setter Property="BorderBrush"
+                            Value="Black" />
         <Setter Property="Cursor"
                             Value="Hand" />
         <Setter Property="Margin"

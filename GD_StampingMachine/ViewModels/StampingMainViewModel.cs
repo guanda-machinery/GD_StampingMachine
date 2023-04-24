@@ -213,14 +213,14 @@ namespace GD_StampingMachine.ViewModels
                     }),
                     new(new()
                     {
-                        Name = "創典科技總公司基地-2",
+                        Name = "創典科技總公司基地-3",
                         Number = "AS003",
                         SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime = new DateTime(2022, 10, 27, 14, 02, 00),
                         FinishProgress = 51
                     }),
                     new(new() {
-                        Name = "創典科技總公司基地-2",
+                        Name = "創典科技總公司基地-4",
                         Number = "AS003",
                         SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime = new DateTime(2022, 10, 27, 14, 02, 00),

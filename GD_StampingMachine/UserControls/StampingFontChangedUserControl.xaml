@@ -30,174 +30,7 @@
                 ItemsSource="{Binding StampingTypeVMObservableCollection}" />
         </GroupBox>
         <StackPanel Grid.Row="0" >
-            <StackPanel.Resources>
-                <Style TargetType="ListBoxItem" x:Key="RadiaListBoxItem">
-                    <Setter Property="Height" Value="55"/>
-                    <Setter Property="Width" Value="20"/>
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Background" Value="White"/>
 
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                                <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding StampingIsUsing}" Value="true">
-                                                    <Setter Property="RenderTransform" >
-                                                        <Setter.Value>
-                                                            <TransformGroup>
-                                                                <ScaleTransform ScaleX="1.2" ScaleY="1.2" CenterY="25"/>
-                                                            </TransformGroup>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    
-                                    
-                                    
-                                    <Grid VerticalAlignment="Bottom">
-                                        <Image>
-                                            <Image.Source>
-                                                <DrawingImage>
-                                                    <DrawingImage.Drawing>
-                                                        <DrawingGroup ClipGeometry="M0,0 V25 H20 V0 H0 Z">
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,1,18,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,2,1,5" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}}, Path=Background}"
-                                                                             Geometry="F1 M20,25z M0,0z M2,2L2,7 3,7 3,16 2,16 2,24 18,24 18,16 17,16 17,7 18,7 18,2 2,2z" />
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="18,2,1,5" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,24,18,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,16,1,8" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="3,8,1,7" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16,8,1,7" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17,15,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,15,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,7,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1.5,6.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2.5,7.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17,7,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17.5,6.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16.5,7.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16.5,14.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17.5,15.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2.5,14.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1.5,15.5,1,1" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                            <GeometryDrawing Brush="#FF4D4D4D">
-                                                                <GeometryDrawing.Geometry>
-                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="18,16,1,8" />
-                                                                </GeometryDrawing.Geometry>
-                                                            </GeometryDrawing>
-                                                        </DrawingGroup>
-                                                    </DrawingImage.Drawing>
-                                                </DrawingImage>
-                                            </Image.Source>
-                                        </Image>
-                                        <TextBlock Text="{Binding StampingTypeString}"  
-                                                   FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,2" Foreground="{TemplateBinding Foreground}"/>
-                                    </Grid>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <DataTrigger 
-                            Binding="{Binding StampingIsUsing}" Value="True">
-                            <Setter Property="Background" Value="DarkRed"/>
-                            <Setter Property="Foreground" Value="White"/>
-                        </DataTrigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="Orange"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#00Bfff"/>
-                        </Trigger>
-
-                    </Style.Triggers>
-                    
-                </Style>
-            </StackPanel.Resources>
             <Border  Margin="10"
                 Width="350" Height="350" BorderThickness="1" CornerRadius="200" BorderBrush="DimGray" Background="White" >
                 <Grid>
@@ -208,8 +41,175 @@
                     <Border Margin="0">
                         <ListBox 
                             SelectedItem="{Binding StampingFontSelected, UpdateSourceTrigger=PropertyChanged}"
-                            ItemsSource="{Binding StampingTypeVMObservableCollection}" 
-                            ItemContainerStyle="{StaticResource RadiaListBoxItem}"                            >
+                            ItemsSource="{Binding StampingTypeVMObservableCollection}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Height" Value="55"/>
+                                        <Setter Property="Width" Value="20"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="Background" Value="White"/>
+
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding StampingIsUsing}" Value="true">
+                                                                        <Setter Property="RenderTransform" >
+                                                                            <Setter.Value>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" CenterY="25"/>
+                                                                                </TransformGroup>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+
+
+
+                                                        <Grid VerticalAlignment="Bottom">
+                                                            <Image>
+                                                                <Image.Source>
+                                                                    <DrawingImage>
+                                                                        <DrawingImage.Drawing>
+                                                                            <DrawingGroup ClipGeometry="M0,0 V25 H20 V0 H0 Z">
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,1,18,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,2,1,5" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}}, Path=Background}"
+                                                                             Geometry="F1 M20,25z M0,0z M2,2L2,7 3,7 3,16 2,16 2,24 18,24 18,16 17,16 17,7 18,7 18,2 2,2z" />
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="18,2,1,5" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,24,18,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1,16,1,8" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="3,8,1,7" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16,8,1,7" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17,15,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,15,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,7,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1.5,6.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2.5,7.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17,7,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17.5,6.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16.5,7.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16.5,14.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="17.5,15.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2.5,14.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="1.5,15.5,1,1" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="#FF4D4D4D">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="18,16,1,8" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                            </DrawingGroup>
+                                                                        </DrawingImage.Drawing>
+                                                                    </DrawingImage>
+                                                                </Image.Source>
+                                                            </Image>
+                                                            <TextBlock Text="{Binding StampingTypeString}"  
+                                                   FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,2" Foreground="{TemplateBinding Foreground}"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger 
+                            Binding="{Binding StampingIsUsing}" Value="True">
+                                                <Setter Property="Background" Value="DarkRed"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Orange"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="#00Bfff"/>
+                                            </Trigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <GD_Views:RadialPanel

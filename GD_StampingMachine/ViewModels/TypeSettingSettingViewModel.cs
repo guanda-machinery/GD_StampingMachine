@@ -37,7 +37,7 @@ namespace GD_StampingMachine.ViewModels
               {
                   new ProjectDistributeModel()
                   {
-                      ProjectDistributeName="Test1",
+                      ProjectDistributeName="排版專案一",
                       CreatedDate = DateTime.Now,
 
                       ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection,
@@ -45,7 +45,7 @@ namespace GD_StampingMachine.ViewModels
                   },
                   new ProjectDistributeModel()
                   {
-                      ProjectDistributeName="Test2",
+                      ProjectDistributeName="排版專案二",
                       CreatedDate = DateTime.Now,
                       ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection,
                       SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection

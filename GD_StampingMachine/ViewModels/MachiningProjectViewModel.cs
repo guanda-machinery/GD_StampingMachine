@@ -14,7 +14,7 @@ namespace GD_StampingMachine.ViewModels
         {
             MachiningProject = _machiningProject;
         }
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LayoutSettingsViewModel");
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_MachiningProjectViewModel");
 
         private readonly MachiningProjectModel MachiningProject = new();
         /// <summary>
