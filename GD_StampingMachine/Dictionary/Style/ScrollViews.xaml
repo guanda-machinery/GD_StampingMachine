@@ -112,7 +112,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
-                        <materialDesign:PackIcon Kind="ArrowCollapseUp" Width="13" Height="13" />
+                        <materialDesign:PackIcon Kind="ArrowCollapseUp" Width="13" Height="13" Foreground="Red"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -129,7 +129,7 @@
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
                         <Grid>
-                            <materialDesign:PackIcon Kind="ArrowCollapseUp" Width="13" Height="13" />
+                            <materialDesign:PackIcon Kind="ArrowCollapseUp" Width="13" Height="13"  Foreground="Red"/>
                         </Grid>
                     </Grid>
                 </ControlTemplate>
