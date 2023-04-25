@@ -17,6 +17,7 @@
         <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveBackground, IsThemeIndependent=True}" Color="Gray" />
         <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveHeaderBackground, IsThemeIndependent=True}" Color="#cdcdcd" />
         <system:Double x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveHeaderOpacity, IsThemeIndependent=True}">1</system:Double>
+        <Style TargetType="ScrollViewer" BasedOn="{StaticResource scrollviewer_STD}"/>
     </dx:ThemedWindow.Resources>
     <Grid >
         <Views:StampingMainView/>

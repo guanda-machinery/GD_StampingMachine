@@ -229,6 +229,7 @@
     </ApplicationDefinition>
     <Compile Include="Cultures\CulturesHelper.cs" />
     <Compile Include="Extensions\DeepCloneByJson.cs" />
+    <Compile Include="GD_Enum\ClockWiseDirectionEnum.cs" />
     <Compile Include="GD_Enum\MachiningStatusEnum.cs" />
     <Compile Include="GD_Enum\Method\EnumDescriptionTypeConverter.cs" />
     <Compile Include="GD_Enum\HorizontalAlignEnum.cs" />
@@ -394,6 +395,10 @@
     <Page Include="Dictionary\Style\GridControlStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionary\Style\ScrollViews.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dictionary\Style\SolidColorBrushDictionary.xaml">
       <SubType>Designer</SubType>

@@ -15,7 +15,8 @@
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-        Name="MainGridControl"
+                          xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             Name="MainGridControl"
              >
 
     <ScrollViewer>
@@ -25,10 +26,17 @@
             <RowDefinition Height="{CalcB:Binding ElementName=MainGridControl, Path=ActualHeight-420}" />
         </Grid.RowDefinitions>
         <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
-        <ComboBox  DisplayMemberPath="StampingTypeString"  Width="50" 
+                <StackPanel>
+                    <ComboBox  DisplayMemberPath="StampingTypeString"  Width="50" 
                 Style="{StaticResource WhiteMDComboBox}" SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
                 ItemsSource="{Binding StampingTypeVMObservableCollection}" />
-        </GroupBox>
+                    <dxe:ComboBoxEdit   Width="50"  EditValue="{Binding Direction, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" >
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_enum:ClockWiseDirectionEnum}"/>
+                        </dxmvvm:Interaction.Behaviors>
+                    </dxe:ComboBoxEdit>
+                </StackPanel>
+            </GroupBox>
         <StackPanel Grid.Row="0" >
 
             <Border  Margin="10"
@@ -215,7 +223,10 @@
                                     <GD_Views:RadialPanel
                                         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
                                         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
-                                        StartAngle="90" RotateAngle="{Binding StampingFontTurntable_RorateAngle}"  RoundAngle="360" ItemRotateAngle="-90"  />
+                                        RotationDirection="Clockwise"
+                                        StartAngle="90" RotateAngle="{Binding StampingFontTurntable_RorateAngle}"  RoundAngle="360"
+                                        
+                                        ItemRotateAngle="-90"  />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
@@ -385,7 +396,7 @@
             <GroupBox 
                    Name="StampingFontGroupBox"  
                     Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                <ListBox  Grid.Row="1" 
+                <ListBox  Grid.Row="1"  
                          SelectedItem="{Binding StampingFontSelected}"  Margin="10,0"  Name="StampingFontListBox" 
                          ItemsSource="{Binding StampingTypeVMObservableCollection}"
                          dd:DragDrop.CanDragWithMouseRightButton="True"

@@ -18,7 +18,8 @@
                 <ResourceDictionary Source="Dictionary/Style/DragDropStyleDictionary.xaml" />
                 <ResourceDictionary Source="Dictionary/Style/GridControlStyleDictionary.xaml" />
                 <ResourceDictionary Source="Dictionary/Style/ComboBoxStyleDictionary.xaml" />
-
+                <ResourceDictionary Source="Dictionary/Style/ScrollViews.xaml" />
+                
                 <ResourceDictionary Source="Dictionary/DrawingDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <sys:Int32 x:Key="IntZero">0</sys:Int32>

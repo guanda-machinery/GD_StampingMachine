@@ -15,12 +15,30 @@ namespace GD_StampingMachine.Views
 {
     public class RadialPanel : Panel , INotifyPropertyChanged 
     {
+        public enum RotationDirectionEnum
+        {
+            Clockwise, CounterClockwise
+        }
 
-        public static readonly DependencyProperty StartAngleProperty = DependencyProperty.Register(
-            nameof(StartAngle),
-            typeof(double),
+        /// <summary>
+        /// 起始原點
+        /// </summary>
+        public RotationDirectionEnum RotationDirection
+        {
+            get => (RotationDirectionEnum)GetValue(RotationDirectionProperty);
+            set => SetValue(RotationDirectionProperty, value);
+        }
+
+
+        public static readonly DependencyProperty RotationDirectionProperty = DependencyProperty.Register(
+            nameof(RotationDirection),
+            typeof(RotationDirectionEnum),
             typeof(RadialPanel),
-        new PropertyMetadata(0.0, Angle_PropertyChanged));
+        new PropertyMetadata());
+
+
+
+
 
         /// <summary>
         /// 起始原點
@@ -28,8 +46,17 @@ namespace GD_StampingMachine.Views
         public double StartAngle
         {
             get => (double)GetValue(StartAngleProperty);
-            set=>SetValue(StartAngleProperty, value);
+            set => SetValue(StartAngleProperty, value);
         }
+
+
+        public static readonly DependencyProperty StartAngleProperty = DependencyProperty.Register(
+            nameof(StartAngle),
+            typeof(double),
+            typeof(RadialPanel),
+        new PropertyMetadata(0.0, Angle_PropertyChanged));
+
+
 
         public static readonly DependencyProperty RoundAngleProperty = DependencyProperty.Register(
             nameof(RoundAngle),

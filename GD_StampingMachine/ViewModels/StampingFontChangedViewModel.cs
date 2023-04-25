@@ -2,6 +2,7 @@
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using GD_StampingMachine.Extensions;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
@@ -208,6 +209,21 @@ namespace GD_StampingMachine.ViewModels
 
         private readonly object balanceLock = new object();
         private bool StampingTypeModel_ReadyStamping_IsRotating = false;
+     
+
+
+        private ClockWiseDirectionEnum _direction;
+
+        public ClockWiseDirectionEnum Direction
+        {
+            get=> _direction; 
+            set 
+            { 
+                _direction = value;
+                OnPropertyChanged(); 
+            }
+        }
+
         private StampingTypeViewModel _stampingTypeModel_readyStamping;
         public StampingTypeViewModel StampingTypeModel_ReadyStamping
         {
@@ -224,29 +240,36 @@ namespace GD_StampingMachine.ViewModels
                 if (FIndex != -1)
                 {
                     StampingTypeModelMartix = new ();
-
-
                     //離原點差距的角度-以逆時針計算
-                    double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
 
-                    var AngleGap = Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle);
-                    if (TargetAngle > StampingFontTurntable_RorateAngle)
+                    double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
+                    
+                    int ClockDirection = 1;
+                    if (Direction == ClockWiseDirectionEnum.NULL)
                     {
-                        AngleGap += 360;
+                        int ReverseInt = 1;
+                        if(Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle)>180)
+                        {
+                            ReverseInt = -1;
+                        }
+
+                        if (TargetAngle - StampingFontTurntable_RorateAngle>0)
+                            ClockDirection = 1* ReverseInt;
+                        else
+                            ClockDirection = -1* ReverseInt;
                     }
-                    int SleepTime = 0;
-                    if (AngleGap != 0)
+                    if (Direction == ClockWiseDirectionEnum.Clockwise)
                     {
-                        SleepTime = Convert.ToInt32(360 / AngleGap);
-                        if (SleepTime >= 5)
-                            SleepTime = 5;
+                        ClockDirection = -1;
+                    }
+                    if (Direction == ClockWiseDirectionEnum.CounterClockwise)
+                    {
+                        ClockDirection = 1;
                     }
 
                     //延遲旋轉
                     Task.Run(() =>
                     {
-
-
                         if (StampingTypeModel_ReadyStamping_IsRotating)
                         {
                             StampingTypeModel_ReadyStamping_IsRotating = false;
@@ -290,34 +313,32 @@ namespace GD_StampingMachine.ViewModels
                         //先取得目前角度->方向逆時針
                         lock (balanceLock)
                         {
-
-
-
-
-                            var CurrentAngle = StampingFontTurntable_RorateAngle;
+                            //var CurrentAngle = StampingFontTurntable_RorateAngle;
                             StampingTypeModel_ReadyStamping_IsRotating = true;
+
+                            //StampingFontTurntable_RorateAngle = TargetAngle;
                             while (StampingTypeModel_ReadyStamping_IsRotating)
                             {
-                                if (StampingFontTurntable_RorateAngle < -360)
-                                {
-                                    StampingFontTurntable_RorateAngle += 360;
-                                }
                                 if (StampingFontTurntable_RorateAngle > 360)
                                 {
                                     StampingFontTurntable_RorateAngle -= 360;
                                 }
-                                //以0.1度進行逆時針旋轉  超過360度需要處理?
+                                if (StampingFontTurntable_RorateAngle < -360)
+                                {
+                                    StampingFontTurntable_RorateAngle += 360;
+                                }
 
-                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2)
+
+                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
+                                    Math.Abs(TargetAngle+360 - StampingFontTurntable_RorateAngle) < 1.2)
                                 {
                                     break;
                                 }
-
-                                StampingFontTurntable_RorateAngle -= 0.5;
-                                System.Threading.Thread.Sleep(SleepTime);
+                                StampingFontTurntable_RorateAngle += ClockDirection* 0.5;
+                                System.Threading.Thread.Sleep(2);
                             }
-                            StampingFontTurntable_RorateAngle = TargetAngle;
-
+                           StampingFontTurntable_RorateAngle = TargetAngle;
+                           
 
                             StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
                             StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
