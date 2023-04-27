@@ -1,7 +1,7 @@
 ﻿using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GongSolutions.Wpf.DragDrop;
@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -212,9 +214,9 @@ namespace GD_StampingMachine.ViewModels
      
 
 
-        private ClockWiseDirectionEnum _direction;
+        private SweepDirection? _direction;
 
-        public ClockWiseDirectionEnum Direction
+        public SweepDirection? Direction
         {
             get=> _direction; 
             set 
@@ -245,7 +247,7 @@ namespace GD_StampingMachine.ViewModels
                     double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
                     
                     int ClockDirection = 1;
-                    if (Direction == ClockWiseDirectionEnum.NULL)
+                    if (Direction == null)
                     {
                         int ReverseInt = 1;
                         if(Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle)>180)
@@ -258,11 +260,11 @@ namespace GD_StampingMachine.ViewModels
                         else
                             ClockDirection = -1* ReverseInt;
                     }
-                    if (Direction == ClockWiseDirectionEnum.Clockwise)
+                    if (Direction == SweepDirection.Clockwise)
                     {
                         ClockDirection = -1;
                     }
-                    if (Direction == ClockWiseDirectionEnum.CounterClockwise)
+                    if (Direction == SweepDirection.Counterclockwise)
                     {
                         ClockDirection = 1;
                     }

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace GD_StampingMachine.ValidationRules
+namespace GD_CommonLibrary.ValidationRules
 {
-    internal class CheckStringEmptyRule : ValidationRule
+    public class CheckStringEmptyRule : ValidationRule
     {
         public uint StringLengthMin { get; set; } = 0;
         public uint? StringLengthMax { get; set; }
@@ -18,7 +18,7 @@ namespace GD_StampingMachine.ValidationRules
             if (StringLengthMax is uint)
             {
                 if (StringLengthMax < StringLengthMin)
-                    throw new Exception("驗證值設定錯誤，字串最大長度不可小於字串最小長度");
+                    return new ValidationResult(false, "驗證值設定錯誤，字串最大長度不可小於字串最小長度");
             }
 
             var ValidString = value as string;

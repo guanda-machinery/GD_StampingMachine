@@ -2,6 +2,7 @@
 using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.WindowsUI.Internal;
+using GD_CommonLibrary;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using System;
 using System.Collections.Generic;
@@ -82,7 +83,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         if (e.AddedItems[0] is GD_StampingMachine.ViewModels.ParameterSetting.SeparateBoxViewModel NewSeparateBoxVM)
                         {
-                            BoxPartsParameterVMObservableCollectionRefresh(NewSeparateBoxVM.BoxNumber);
+                            BoxPartsParameterVMObservableCollectionRefresh(NewSeparateBoxVM.BoxIndex);
                         }
                     }
                 }
@@ -101,19 +102,19 @@ namespace GD_StampingMachine.ViewModels
         {
             if (SelectedSeparateBoxVM != null)
             {
-                BoxPartsParameterVMObservableCollectionRefresh(SelectedSeparateBoxVM.BoxNumber);
+                BoxPartsParameterVMObservableCollectionRefresh(SelectedSeparateBoxVM.BoxIndex);
             }
         }
 
-        private void BoxPartsParameterVMObservableCollectionRefresh(int _boxNumber)
+        private void BoxPartsParameterVMObservableCollectionRefresh(int _boxindex)
         {
             BoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
             ProductProjectVMObservableCollection.ForEach(productProject =>
             {
                 productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
                 {
-                    if (productProjectPartViewModel.BoxNumber.HasValue)
-                        if (_boxNumber == productProjectPartViewModel.BoxNumber.Value && productProjectPartViewModel.DistributeName == StampingBoxPart.ProjectDistributeName)
+                    if (productProjectPartViewModel.BoxIndex.HasValue)
+                        if (_boxindex == productProjectPartViewModel.BoxIndex.Value && productProjectPartViewModel.DistributeName == StampingBoxPart.ProjectDistributeName)
                             if (!BoxPartsParameterVMObservableCollection.Contains(productProjectPartViewModel))
                                 BoxPartsParameterVMObservableCollection.Add(productProjectPartViewModel);
                 });

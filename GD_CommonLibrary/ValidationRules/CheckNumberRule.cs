@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace GD_StampingMachine.ValidationRules
+namespace GD_CommonLibrary.ValidationRules
 {
     /// <summary>
     /// 驗證是否為數字

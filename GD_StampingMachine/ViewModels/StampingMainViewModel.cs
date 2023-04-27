@@ -1,5 +1,4 @@
-﻿//using DevExpress.Mvvm.CodeGenerators;
-using DevExpress.Data.Extensions;
+﻿using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using DevExpress.Utils.CommonDialogs;
 using DevExpress.Utils.CommonDialogs.Internal;
@@ -21,6 +20,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -104,9 +104,16 @@ namespace GD_StampingMachine.ViewModels
                 //LogDataObservableCollection = this.LogDataObservableCollection
             };
 
-            StampingFontChangedVM = new StampingFontChangedViewModel
+
+            if (JsonHM.ReadStampingFontChanged(out var SReadSFC))
             {
-                StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+                StampingFontChangedVM = SReadSFC;
+            }
+            else
+            {
+                StampingFontChangedVM = new StampingFontChangedViewModel
+                {
+                    StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =1 , StampingTypeString = "1" , StampingTypeUseCount=25 } ,
                     new StampingTypeViewModel(){ StampingTypeNumber =2 , StampingTypeString = "2" , StampingTypeUseCount=180},
@@ -176,14 +183,15 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(){ StampingTypeNumber =39, StampingTypeString = "g" , StampingTypeUseCount=150},
                     new StampingTypeViewModel(){ StampingTypeNumber =40, StampingTypeString = "-" , StampingTypeUseCount=2550}
              },
-                UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+                    UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
             {
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0} ,
                     new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
                     new StampingTypeViewModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0}
             },
-                //LogDataObservableCollection = this.LogDataObservableCollection
-            };
+                    //LogDataObservableCollection = this.LogDataObservableCollection
+                }; 
+            }
 
             ParameterSettingVM = new()
             {
@@ -197,6 +205,7 @@ namespace GD_StampingMachine.ViewModels
                     new(new()
                     {
                         Name = "創典科技總公司基地",
+                        ProjectPath="C:/",
                         Number = "AS001",
                         SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
                         CreateTime = new DateTime(2022, 10, 27, 14, 02, 00),
@@ -204,7 +213,7 @@ namespace GD_StampingMachine.ViewModels
                         FinishProgress = 10,
                     }),
                     new(new()
-                    {
+                    {                        ProjectPath="C:/",
                         Name = "創典科技總公司基地-1",
                         Number = "AS002",
                         SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
@@ -212,7 +221,7 @@ namespace GD_StampingMachine.ViewModels
                         FinishProgress = 26
                     }),
                     new(new()
-                    {
+                    {                        ProjectPath="C:/",
                         Name = "創典科技總公司基地-3",
                         Number = "AS003",
                         SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
@@ -220,6 +229,7 @@ namespace GD_StampingMachine.ViewModels
                         FinishProgress = 51
                     }),
                     new(new() {
+                                                ProjectPath="C:/",
                         Name = "創典科技總公司基地-4",
                         Number = "AS003",
                         SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,

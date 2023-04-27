@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Media;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ValueConverters
 {

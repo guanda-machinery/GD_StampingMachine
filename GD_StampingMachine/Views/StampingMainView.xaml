@@ -16,10 +16,10 @@
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_Extensions="clr-namespace:GD_StampingMachine.Extensions" 
+             xmlns:GD_Extensions="clr-namespace:GD_CommonLibrary.Extensions;assembly=GD_CommonLibrary" 
              xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
              xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method"
              d:DesignHeight="800" d:DesignWidth="900"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
@@ -68,6 +68,7 @@
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.ExportParameterDarggableIsPopup"/>
                     <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>
                     <Binding Path="TypeSettingSettingVM.ProjectDistributeVM.AddTypeSettingProjectDarggableIsPopUp"/>
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>

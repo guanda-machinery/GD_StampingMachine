@@ -1,6 +1,6 @@
 ﻿using DevExpress.CodeParser;
 using DevExpress.Mvvm.DataAnnotations;
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ViewModels
 {

@@ -78,7 +78,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
-                        <Image Height="13" Source="{StaticResource RightArrow}" />
+                        <materialDesign:PackIcon Kind="ArrowCollapseRight" Width="13" Height="13" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -94,9 +94,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Grid>
-                        <Grid>
-                            <Image Height="13" Source="{StaticResource LeftArrow}" />
-                        </Grid>
+                        <materialDesign:PackIcon Kind="ArrowCollapseLeft" Width="13" Height="13"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -3,7 +3,7 @@ using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.WindowsUI;
 
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -40,18 +41,34 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+
+
+       // private string _projectPathText;
         public string ProjectPathText
         {
-            get
-            {
-                return CreatedProjectModel.ProjectPath;
-            }
+            get => CreatedProjectModel.ProjectPath;
             set
             {
+                value = value.Replace(@"/" , @"\");
+
+                while (value.Contains(@"\\"))
+                {
+                    value = value.Replace(@"\\", @"\");
+                }
+                
+                while (value.Contains(@".."))
+                {
+                    value = value.Replace(@".", @".");
+                }
+
+
                 CreatedProjectModel.ProjectPath = value;
                 OnPropertyChanged(nameof(ProjectPathText));
             }
         }
+
+       
+
 
 
         private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
@@ -83,9 +100,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         if (obj is System.Windows.Controls.TextBox ObjTB)
                         {
                             ObjTB.Text = dialog.SelectedPath;
-                            // ProjectPathText = dialog.SelectedPath;
                         }
-
                     }
                 }
             });
@@ -97,8 +112,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 AddLogData((string)Application.Current.TryFindResource("btnAddProject"));
                 //若不clone會導致資料互相繫結
-                ProductProjectVMObservableCollection.Add(
-                    new ProductProjectViewModel(CreatedProjectModel.DeepCloneByJson()));
+                var CreatedProductProjectVM = new ProductProjectViewModel(CreatedProjectModel.DeepCloneByJson());
+                CreatedProductProjectVM.SaveProductProject();
+                ProductProjectVMObservableCollection.Add(CreatedProductProjectVM);
+
             });
         }
 
@@ -118,7 +135,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand
+        public ICommand RowDoubleClickCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
             {
@@ -132,6 +149,35 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
+
+        
+        public ICommand LoadProductSettingCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                if(new JsonHelperMethod().ManualReadJsonFile(out ProductProjectModel ReadProductProject))
+                {
+                     ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
+                }
+            });
+        }
+
+        public ICommand SaveProductSettingCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                //將所有檔案儲存
+                ProductProjectVMObservableCollection.ForEach(obj =>
+                {
+                    obj.SaveProductProject();
+                });
+
+
+
+
+
+            });
+        }
 
 
         private ProductProjectViewModel _selectProductProjectVM = new ProductProjectViewModel(new ProductProjectModel());

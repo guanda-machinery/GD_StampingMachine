@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.Extensions
+namespace GD_CommonLibrary.Extensions
 {
     public static class EnumExtensions
     {
@@ -18,8 +18,7 @@ namespace GD_StampingMachine.Extensions
             var description = name;
             if (field != null)
             {
-                var a = new MaterialDesignThemes.Wpf.PackIcon() { Kind = MaterialDesignThemes.Wpf.PackIconKind.SwapHorizontal };
-                
+                //var a = new MaterialDesignThemes.Wpf.PackIcon() { Kind = MaterialDesignThemes.Wpf.PackIconKind.SwapHorizontal };
                 var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
                 description = attribute?.Description ?? name;
             }

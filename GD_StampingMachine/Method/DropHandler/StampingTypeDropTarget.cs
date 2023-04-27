@@ -1,5 +1,6 @@
 ﻿
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary.Extensions;
+using GD_CommonLibrary.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels;
 using GongSolutions.Wpf.DragDrop;

@@ -6,7 +6,8 @@
             
              xmlns:calc="clr-namespace:CalcBinding;assembly=CalcBinding"
              xmlns:gd_valueconverters="clr-namespace:GD_StampingMachine.ValueConverters" 
-             xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" >
 
         <Grid  HorizontalAlignment="Left" Margin="20" 
@@ -47,7 +48,7 @@
             </Grid.RowDefinitions>
 
 
-            <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="4" Width="655" Height="250"
+            <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="4" Width="680" Height="250"
             Background="#d6d5ce" CornerRadius="10" 
                                                          HorizontalAlignment="Stretch" />
             <Border Background="White" Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Width="25" HorizontalAlignment="Left" Height="25" CornerRadius="12.5" VerticalAlignment="Top" Margin="7.5,12"/>
@@ -58,9 +59,10 @@
 
 
             <Grid Grid.Column="3"  Grid.Row="5" >
+
                 <ListBox 
-            Margin="-12.5,-15"
-            ItemsSource="{Binding PlateNumberList}" Width="{calc:Binding (50*SequenceCount+25*(SequenceCount))}"  >
+            Margin="-12.5,-15" ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            ItemsSource="{Binding PlateNumberList}" >
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Template">
@@ -80,7 +82,7 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
+                        <WrapPanel Orientation="Horizontal" Width="{calc:Binding (50*SequenceCount+25*(SequenceCount))}"  />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>

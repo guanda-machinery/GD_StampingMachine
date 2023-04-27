@@ -1,19 +1,23 @@
 ﻿using DevExpress.Mvvm.Native;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ViewModels
 {
     public abstract class BaseViewModelWithLog : BaseViewModel
     {
-        public abstract string ViewModelName { get; }
+        protected GD_JsonHelperMethod JsonHM = new GD_JsonHelperMethod();
+
+        public abstract string ViewModelName { get; } 
 
         public static int LogCollectionMax = 100;
-        private static DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection;
+        private static DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection; 
         public static DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
         {
             get

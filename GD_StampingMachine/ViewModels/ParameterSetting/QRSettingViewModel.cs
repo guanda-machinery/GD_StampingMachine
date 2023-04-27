@@ -1,6 +1,6 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using GD_CommonLibrary;
 
 
 
@@ -123,8 +123,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_qrSettingModelModelCollection == null)
                 {
-                    CsvHM.ReadQRNumberSetting(out var SavedCollection);
-                    _qrSettingModelModelCollection = SavedCollection.ToObservableCollection();
+                    if(JsonHM.ReadQRNumberSetting(out var SavedCollection))
+                        _qrSettingModelModelCollection = SavedCollection;                
+                    else
+                        _qrSettingModelModelCollection = new();
                 }
                 return _qrSettingModelModelCollection;
             }
@@ -224,8 +226,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                
-                
                 var FIndex = QRSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSetting.NumberSettingMode);
                 if (FIndex != -1)
                 {
@@ -243,7 +243,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     QRSettingModelCollection.Add(NumberSetting.DeepCloneByJson() as QRSettingModel);
                 }
 
-                if (this.CsvHM.WriteQRNumberSetting(QRSettingModelCollection.ToList()))
+                if (this.JsonHM.WriteQRNumberSetting(QRSettingModelCollection))
                     Method.MethodWinUIMessageBox.SaveSuccessful(true);
                 else
                     Method.MethodWinUIMessageBox.SaveSuccessful(false);
@@ -257,7 +257,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (QRSettingModelCollectionSelected != null)
                 {
                     QRSettingModelCollection.Remove(QRSettingModelCollectionSelected);
-                    CsvHM.WriteQRNumberSetting(QRSettingModelCollection.ToList());
+                    JsonHM.WriteQRNumberSetting(QRSettingModelCollection);
                 }
             });
         }

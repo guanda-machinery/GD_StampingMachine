@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core.Native;
+using GD_CommonLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +21,7 @@ namespace GD_StampingMachine.ValueConverters
 
             if(ValueList.Contains(DependencyProperty.UnsetValue))
             {
-                Debugger.Break();
+                //Debugger.Break();
             }
 
             return ValueList.Contains(true);

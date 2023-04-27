@@ -3,7 +3,7 @@ using DevExpress.Data.Extensions;
 using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.Grid;
 using GD_StampingMachine;
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -126,7 +127,7 @@ namespace GD_StampingMachine.ViewModels
             if (ReadyToTypeSettingProductProjectVMSelected != null)
             {
                 PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-                ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Where(x => x.BoxNumber == null && x.DistributeName == null).ForEach(obj =>
+                ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Where(x => x.BoxIndex == null && x.DistributeName == null).ForEach(obj =>
                 {
                     PartsParameterVMObservableCollection.Add(obj);
                 });
@@ -294,8 +295,8 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
                                 {
-                                    if (productProjectPartViewModel.BoxNumber.HasValue)
-                                        if (NewSeparateBoxVM.BoxNumber == productProjectPartViewModel.BoxNumber.Value && productProjectPartViewModel.DistributeName == this.ProjectDistributeName)
+                                    if (productProjectPartViewModel.BoxIndex.HasValue)
+                                        if (NewSeparateBoxVM.BoxIndex == productProjectPartViewModel.BoxIndex.Value && productProjectPartViewModel.DistributeName == this.ProjectDistributeName)
                                             if (!BoxPartsParameterVMObservableCollection.Contains(productProjectPartViewModel))
                                                 BoxPartsParameterVMObservableCollection.Add(productProjectPartViewModel);
                                 });
@@ -332,7 +333,7 @@ namespace GD_StampingMachine.ViewModels
                             if (_record is PartsParameterViewModel PartsParameterVM)
                             {
                                 PartsParameterVM.DistributeName = null;
-                                PartsParameterVM.BoxNumber = null;
+                                PartsParameterVM.BoxIndex = null;
                                 e.Effects = System.Windows.DragDropEffects.Move;
                             }
                         }
@@ -357,7 +358,7 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 if (ReadyToTypeSettingProductProjectVMSelected != null)
                                 {
-                                    if (PartsParameterVM.ProjectName != ReadyToTypeSettingProductProjectVMSelected.ProductProjectName)
+                                    if (PartsParameterVM.ProjectID != ReadyToTypeSettingProductProjectVMSelected.ProductProjectName)
                                     {
                                         return;
                                     }
@@ -400,7 +401,7 @@ namespace GD_StampingMachine.ViewModels
                                     if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                                     {
                                         PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
-                                        PartsParameterVM.BoxNumber = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxNumber;
+                                        PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
                                         e.Effects = System.Windows.DragDropEffects.Move;
                                     }
                                 }

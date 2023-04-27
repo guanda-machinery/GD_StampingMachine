@@ -1,6 +1,7 @@
 ﻿using DevExpress.Xpf.WindowsUI.Internal;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model.ProductionSetting;
+using GD_StampingMachine.ViewModels.ProductSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,9 @@ namespace GD_StampingMachine.Model
 {
     public class ProductProjectModel 
     {
+        /// <summary>
+        /// 路徑
+        /// </summary>
         public string ProjectPath { get; set; }
         /// <summary>
         /// 工程編號
@@ -48,9 +52,8 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 加工參數
         /// </summary>
-        public ObservableCollection<PartsParameterModel> PartsParameterObservableCollection { get; set; } = new ObservableCollection<PartsParameterModel>();
-        
 
+        public ObservableCollection<PartsParameterModel> PartsParameterObservableCollection { get; set; } = new ObservableCollection<PartsParameterModel>();
 
     }
 }

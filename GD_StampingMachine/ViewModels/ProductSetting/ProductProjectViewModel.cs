@@ -6,7 +6,8 @@ using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -14,6 +15,7 @@ using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,10 +33,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public ProductProjectViewModel(ProductProjectModel ProductProject)
         {
             _productProject = ProductProject;
-            _productProject.PartsParameterObservableCollection.ForEach(obj =>
-            {
-                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
-            });
             RefreshNumberSettingSavedCollection();
 
             Task.Run(() =>
@@ -194,7 +192,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get
             {
                 if(_addNewPartsParameterVM == null)
-                    _addNewPartsParameterVM = new PartsParameterViewModel(new Model.ProductionSetting.PartsParameterModel() { ProjectName = ProductProjectName });
+                    _addNewPartsParameterVM = new PartsParameterViewModel(new Model.ProductionSetting.PartsParameterModel() { ProjectID = ProductProjectName });
                 return _addNewPartsParameterVM;
             }
             set
@@ -246,24 +244,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public void RefreshNumberSettingSavedCollection()
         {
             var newSavedCollection = new ObservableCollection<SettingViewModelBase>();
-            var CsvHM = new GD_CsvHelperMethod();
-            if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
+            if (_productProject != null)
             {
-                CsvHM.ReadNumberSetting(out var SavedCollection);
-                foreach (var asd in SavedCollection)
+                if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                 {
-                    newSavedCollection.Add(new NumberSettingViewModel(asd));
-                }
-            }
-            if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-            {
-                CsvHM.ReadQRNumberSetting(out var QRSavedCollection);
-                foreach (var asd in QRSavedCollection)
-                {
-                    newSavedCollection.Add(new QRSettingViewModel(asd));
-                }
-            }
+                    JsonHM.ReadNumberSetting(out var SavedCollection);
+                    if (SavedCollection != null)
+                        foreach (var asd in SavedCollection)
+                            newSavedCollection.Add(new NumberSettingViewModel(asd));
 
+                }
+                if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                {
+                    JsonHM.ReadQRNumberSetting(out var QRSavedCollection);
+                    if (QRSavedCollection != null)
+                        foreach (var asd in QRSavedCollection)
+                            newSavedCollection.Add(new QRSettingViewModel(asd));
+
+                }
+            }
             // if (!NumberSettingSavedCollection.Equals(newSavedCollection))
             //NumberSettingSavedCollection = newSavedCollection;
             // if (!NumberSettingSavedCollection.ToList().SequenceEqual(newSavedCollection.ToList()))
@@ -317,9 +316,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-               if (_partsParameterVMObservableCollection == null)
-                    _partsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-
+                if (_partsParameterVMObservableCollection == null)
+                    _partsParameterVMObservableCollection = new();
+                _productProject.PartsParameterObservableCollection =  _partsParameterVMObservableCollection.Select(x => x.PartsParameter).ToObservableCollection();
                 return _partsParameterVMObservableCollection;
             }
             set
@@ -363,18 +362,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
         public bool SaveProductProject()
         {
-
             if (_productProject.ProjectPath != null)
             {
-                if (!Path.HasExtension(_productProject.ProjectPath))
-                {
-                    _productProject.ProjectPath = Path.Combine(_productProject.ProjectPath, _productProject.Name , ".csv");
-                    _productProject.EditTime= DateTime.Now;
-                }
-
-                return new GD_CsvHelperMethod().WriteProductProject(_productProject.ProjectPath, _productProject);
-
-
+                JsonHM.WriteProductProject(_productProject);
+            }
+            else
+            {
+                Debugger.Break();
             }
 
             return false;
@@ -518,7 +512,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                     CollectionWithThisDistributeName.ForEach(Eobj =>
                                     {
                                         Eobj.DistributeName = null;
-                                        Eobj.BoxNumber = null;
+                                        Eobj.BoxIndex = null;
                                     });
                                 }
                                 TargetItemS.Add(_currentItem);
@@ -535,7 +529,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand { get; set; }
-
 
 
 

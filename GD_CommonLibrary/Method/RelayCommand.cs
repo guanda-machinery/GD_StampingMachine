@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace GD_StampingMachine
+namespace GD_CommonLibrary
 {
     public class RelayCommand : ICommand
     {

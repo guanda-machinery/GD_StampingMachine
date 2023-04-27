@@ -26,13 +26,13 @@
             <RowDefinition Height="{CalcB:Binding ElementName=MainGridControl, Path=ActualHeight-420}" />
         </Grid.RowDefinitions>
         <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
-                <StackPanel>
-                    <ComboBox  DisplayMemberPath="StampingTypeString"  Width="50" 
+                <StackPanel >
+                    <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
                 Style="{StaticResource WhiteMDComboBox}" SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
                 ItemsSource="{Binding StampingTypeVMObservableCollection}" />
-                    <dxe:ComboBoxEdit   Width="50"  EditValue="{Binding Direction, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" >
+                    <dxe:ComboBoxEdit   Width="150" Foreground="Red" EditValue="{Binding Direction, UpdateSourceTrigger=PropertyChanged}"   >
                         <dxmvvm:Interaction.Behaviors>
-                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_enum:ClockWiseDirectionEnum}"/>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type SweepDirection}"/>
                         </dxmvvm:Interaction.Behaviors>
                     </dxe:ComboBoxEdit>
                 </StackPanel>

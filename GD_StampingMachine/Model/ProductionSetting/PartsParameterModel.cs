@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model.ProductionSetting
 {
+    [Serializable()]
     public class PartsParameterModel////:CloneableBase
     {
         /// <summary>
@@ -18,23 +19,31 @@ namespace GD_StampingMachine.Model.ProductionSetting
         /// <summary>
         /// 加工專案名稱
         /// </summary>
-        public string ProjectName { get; set; }
+        public string ProjectID { get; set; }
+
+
+        /// <summary>
+        /// ID
+        /// </summary>
+        public string ID { get; set; }
+
+
         /// <summary>
         /// 參數A
         /// </summary>
-        public string Parametert_A { get; set; }
+        public string ParamA { get; set; }
         /// <summary>
         /// 參數B
         /// </summary>
-        public string Parametert_B{ get; set; }
+        public string ParamB { get; set; }
         /// <summary>
         /// 參數C
         /// </summary>
-        public string Parametert_C { get; set; }
+        public string ParamC { get; set; }
         /// <summary>
         /// 進度條
         /// </summary>
-        public double FinishProgress { get; set; }
+        public float Processing { get; set; }
         /// <summary>
         /// 加工狀態
         /// </summary>
@@ -44,10 +53,13 @@ namespace GD_StampingMachine.Model.ProductionSetting
         /// <summary>
         /// 分料盒
         /// </summary>
-        public int? BoxNumber { get; set; }
+        public int? BoxIndex { get; set; }
+
+
         /// <summary>
         /// 鐵牌樣式
         /// </summary>
+       [Newtonsoft.Json.JsonIgnore]
         public SettingViewModelBase SettingVMBase { get; set; }
 
 

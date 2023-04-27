@@ -14,7 +14,7 @@ namespace GD_StampingMachine.ViewModels
     public class SettingViewModelBase : BaseViewModelWithLog
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelBase");
-        public GD_CsvHelperMethod CsvHM { get => new GD_CsvHelperMethod(); }
+        public GD_JsonHelperMethod JsonHM { get => new GD_JsonHelperMethod(); }
 
         public virtual NumberSettingModelBase NumberSetting{get;set;}
 
@@ -163,10 +163,13 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
+        [Newtonsoft.Json.JsonIgnore]
         public virtual ICommand LoadModeCommand { get; }
+        [Newtonsoft.Json.JsonIgnore]
         public virtual ICommand RecoverSettingCommand { get; }
+        [Newtonsoft.Json.JsonIgnore]
         public virtual ICommand SaveSettingCommand { get; }
+        [Newtonsoft.Json.JsonIgnore]
         public virtual ICommand DeleteSettingCommand { get; }
 
 

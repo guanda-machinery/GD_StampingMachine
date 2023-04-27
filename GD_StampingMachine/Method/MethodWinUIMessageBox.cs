@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.WindowsUI;
+using GD_CommonLibrary.Method;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Windows;
 
 namespace GD_StampingMachine.Method
 {
-    public static class MethodWinUIMessageBox
+    public class MethodWinUIMessageBox : MessageBoxResultShow
     {
 
         public static bool AskOverwriteOrNot()
@@ -73,6 +74,10 @@ namespace GD_StampingMachine.Method
                        MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+
+
+
+
         public static void CanNotCloseProject()
         {
             Show((string)Application.Current.TryFindResource("Text_notify"), 
@@ -81,19 +86,8 @@ namespace GD_StampingMachine.Method
         }
 
 
+        
 
-        public static MessageBoxResult Show(string MessageTitle , string MessageString, MessageBoxButton MB_Button , MessageBoxImage MB_Image)
-        {
-            var MessageBoxReturn = WinUIMessageBox.Show(null,
-                MessageString, 
-                MessageTitle,
-                MB_Button,
-               MB_Image,
-                MessageBoxResult.None,
-                MessageBoxOptions.None,
-                DevExpress.Xpf.Core.FloatingMode.Window);
-            return MessageBoxReturn;
-        }
 
     }
 }

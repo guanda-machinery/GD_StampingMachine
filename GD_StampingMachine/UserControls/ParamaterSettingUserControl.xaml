@@ -83,7 +83,8 @@
 
             </StackPanel>
         </Border>
-        <ScrollViewer VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Style="{StaticResource scrollviewer_STD}"
+            VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
             <TabControl>
                 <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}" DataContext="{Binding NumberSettingVM}">
                     <StackPanel HorizontalAlignment="Left">
@@ -875,7 +876,7 @@
                                                                       IsChecked="{Binding BoxIsEnabled}">
                                                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-3,0,0" >
                                                                 <TextBlock Text="{DynamicResource Text_Box}" Foreground="White" FontSize="16"/>
-                                                                <TextBlock  Text="{Binding BoxNumber}" VerticalAlignment="Center" FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="White"/>
+                                                                <TextBlock  Text="{Binding BoxIndex}" VerticalAlignment="Center" FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="White"/>
                                                                 </StackPanel>
                                                             </CheckBox>
                                                             <Grid Grid.Column="1" IsEnabled="{Binding BoxIsEnabled}">

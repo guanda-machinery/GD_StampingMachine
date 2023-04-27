@@ -206,6 +206,7 @@
     <sys:String x:Key="btnLoadMode">載入模式</sys:String>
     <sys:String x:Key="btnRecover">還原設定</sys:String>
     <sys:String x:Key="btnSave">儲存</sys:String>
+    <sys:String x:Key="btnLoadProject">載入專案</sys:String>
     <sys:String x:Key="btnSaveChange">儲存變更</sys:String>
     <!--#endregion-->
     

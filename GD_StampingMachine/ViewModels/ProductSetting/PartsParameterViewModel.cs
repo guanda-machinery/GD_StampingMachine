@@ -5,6 +5,7 @@ using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Editors.Themes;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
+using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -18,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Xml.Linq;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
@@ -27,18 +29,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// </summary>
     public class PartsParameterViewModel : BaseViewModelWithLog
     {
+
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_PartsParameterViewModel");
         public PartsParameterViewModel(PartsParameterModel PParameter)
         {
             PartsParameter = PParameter;
-        }
+        }      
+
+
         public PartsParameterModel PartsParameter = new();
-        public double FinishProgress
+        public float FinishProgress
         {
-            get => PartsParameter.FinishProgress;
+            get => PartsParameter.Processing;
             set
             {
-                PartsParameter.FinishProgress = value;
+                PartsParameter.Processing = value;
                 OnPropertyChanged(nameof(FinishProgress));
             }
         }
@@ -57,40 +62,40 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 專案名
         /// </summary>
-        public string ProjectName
+        public string ProjectID
         {
-            get => PartsParameter.ProjectName;
+            get => PartsParameter.ProjectID;
             set
             {
-                PartsParameter.ProjectName = value; OnPropertyChanged();
+                PartsParameter.ProjectID = value; OnPropertyChanged();
             }
         }
 
 
         public string ParameterA
         {
-            get => PartsParameter.Parametert_A;
+            get => PartsParameter.ParamA;
             set
             {
-                PartsParameter.Parametert_A = value;
+                PartsParameter.ParamA = value;
                 OnPropertyChanged(nameof(ParameterA));
             }
         }
         public string ParameterB
         {
-            get => PartsParameter.Parametert_B;
+            get => PartsParameter.ParamB;
             set
             {
-                PartsParameter.Parametert_B = value;
+                PartsParameter.ParamB = value;
                 OnPropertyChanged(nameof(ParameterB));
             }
         }
         public string ParameterC
         {
-            get => PartsParameter.Parametert_C;
+            get => PartsParameter.ParamC;
             set
             {
-                PartsParameter.Parametert_C = value;
+                PartsParameter.ParamC = value;
                 OnPropertyChanged(nameof(ParameterC));
             }
         }
@@ -100,22 +105,22 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.MachiningStatus;
             set
             {
-                PartsParameter.MachiningStatus =value; 
+                PartsParameter.MachiningStatus = value;
                 OnPropertyChanged(nameof(MachiningStatus));
             }
         }
-   
+
 
         /// <summary>
         /// (加工)盒子編號
         /// </summary>
-        public int? BoxNumber
+        public int? BoxIndex
         {
-            get => PartsParameter.BoxNumber;
+            get => PartsParameter.BoxIndex;
             set
             {
-                PartsParameter.BoxNumber = value;
-                OnPropertyChanged(nameof(BoxNumber));
+                PartsParameter.BoxIndex = value;
+                OnPropertyChanged();
             }
         }
 
@@ -123,12 +128,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
+
         public SettingViewModelBase SettingVMBase
         {
             get
             {
                 return PartsParameter.SettingVMBase;
-             }
+            }
             set
             {
                 PartsParameter.SettingVMBase = value;
@@ -136,51 +142,35 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private RelayParameterizedCommand _projectEditCommand;
         public RelayParameterizedCommand ProjectEditCommand
         {
-            get
+            get => new(obj =>
             {
-                if (_projectEditCommand == null)
+                if (obj is GridControl ObjGridControl)
                 {
-                    _projectEditCommand = new RelayParameterizedCommand(obj =>
+                    if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                     {
-                        if (obj is GridControl ObjGridControl)
-                        {
-                            if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
-                            {
-                                if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
-                                    GridItemSource.Remove(this);
-                            }
-                        }
-                    });
+                        if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
+                            GridItemSource.Remove(this);
+                    }
                 }
-                return _projectEditCommand;
-            }
-            set
-            {
-                _projectEditCommand = value;
-                OnPropertyChanged(nameof(ProjectEditCommand));
-            }
+            });
         }
 
-        //private RelayParameterizedCommand _projectDeleteCommand;
         public RelayParameterizedCommand ProjectDeleteCommand
         {
-            get
+            get => new (obj =>
             {
-                return new RelayParameterizedCommand(obj =>
-                       {
-                           if (obj is GridControl ObjGridControl)
-                           {
-                               if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
-                               {
-                                   if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
-                                       GridItemSource.Remove(this);
-                               }
-                           }
-                       });
+                if (obj is GridControl ObjGridControl)
+                {
+                    if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
+                    {
+                        if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
+                            GridItemSource.Remove(this);
+                    }
+                }
             }
+            );
         }
 
 

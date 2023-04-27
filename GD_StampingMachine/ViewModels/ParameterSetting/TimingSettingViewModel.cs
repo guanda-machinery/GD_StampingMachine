@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using GD_CommonLibrary;
 
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting

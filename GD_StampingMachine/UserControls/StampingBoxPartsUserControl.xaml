@@ -102,7 +102,7 @@
                                                                                    FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     <TextBlock  Grid.Column="1"       
                                                                                 FontSize="12" 
-                                                                                                    Text="{Binding BoxNumber}"  Foreground="White" 
+                                                                                                    Text="{Binding BoxIndex}"  Foreground="White" 
                                                                                                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Grid>
                                             </Border>
@@ -161,7 +161,7 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
 
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>

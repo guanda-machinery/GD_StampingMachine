@@ -8,13 +8,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
 
-             xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup"
+             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
               xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
-             xmlns:GD_ValidRule="clr-namespace:GD_StampingMachine.ValidationRules"
+             xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
@@ -27,7 +27,11 @@
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
 
     <Grid>
-        <Grid Visibility="{Binding SelectProductProjectVM.IsInParameterPage, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
+        <Grid.Resources>
+            <Style TargetType="ToggleButton" BasedOn="{StaticResource SiegCustomButton}"/>
+        </Grid.Resources>
+        <Grid Name="MainGrid"
+            Visibility="{Binding SelectProductProjectVM.IsInParameterPage, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
@@ -46,7 +50,9 @@
                                      Foreground="White"/>
                     </StackPanel>
                     <StackPanel  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Width="auto" Height="auto" Content="{DynamicResource btnSaveChange}" Padding="10,0" Command="{Binding }"
+                    <Button Width="auto" Height="auto" Content="{DynamicResource btnLoadProject}" Padding="10,0" Command="{Binding LoadProductSettingCommand}"
+                                />
+                    <Button Width="auto" Height="auto" Content="{DynamicResource btnSaveChange}" Padding="10,0" Command="{Binding SaveProductSettingCommand}"
                                 />
                         <ToggleButton Foreground="Black" FontSize="14"
                                 IsThreeState="False" Style="{StaticResource SiegCustomButton}" 
@@ -132,8 +138,18 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
-                                <TextBox Name="ProjectPathTextBox" Margin="0" Text="{Binding ProjectPathText, UpdateSourceTrigger=PropertyChanged}">
-                                    </TextBox>
+                                <TextBox Name="ProjectPathTextBox" Margin="0">
+                                    <TextBox.Text>
+                                        <Binding Path="ProjectPathText" UpdateSourceTrigger="PropertyChanged" >
+                                            <Binding.ValidationRules>
+                                                <GD_ValidRule:CheckStringIsPathOrFileNameRule PathType="Path"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+
+
+
+                                </TextBox>
                                 <Button Grid.Column="1" Command="{Binding SetProjectFolder}" CommandParameter="{Binding ElementName=ProjectPathTextBox}" Margin="0,0,0,0" Width="25" MinWidth="30" Height="25" Padding="0">
                                         <Button.Style>
                                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}" >
@@ -440,10 +456,9 @@
 
                         <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
                                  Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
-                            <dxg:GridColumn.CellTemplate>
-                                <DataTemplate>
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
                                 <Grid Height="auto" Margin="2,5">
-                                  <!--  <ProgressBar Value="{Binding Row.ProductProject.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  -->
                                     <ProgressBar Value="{Binding Row.ProductProjectFinishProcessing,UpdateSourceTrigger=PropertyChanged}"  
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
@@ -502,7 +517,7 @@
                 </Border>
             </Grid>
             <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              Visibility="{Binding SelectProductProjectVM.IsInParameterPage, Converter={dx:BooleanToVisibilityConverter}}" >
+                              Visibility="{Binding ElementName=MainGrid, Path=Visibility, Converter={dx:VisibilityInverseConverter}}" >
                 <Grid DataContext="{Binding SelectProductProjectVM}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -881,7 +896,7 @@
                                 </Border>
                             </GD_Popup:DraggablePopup>
 
-                            <ToggleButton  IsThreeState="False"
+                            <ToggleButton  IsThreeState="False" 
                                             IsChecked="{Binding ElementName=ExportParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
                                                       Height="auto"  Padding="20,10" Margin="10,0"
@@ -1016,6 +1031,7 @@
                                           AutoGenerateColumns="None"
                                           SelectedItem="{Binding PartsParameterViewModelSelectItem}"
                                           ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          MinHeight="200"
                                           MaxHeight="1000"    >
                             <dxg:GridControl.View >
                                 <dxg:TableView   

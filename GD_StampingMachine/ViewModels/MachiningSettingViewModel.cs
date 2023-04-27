@@ -1,6 +1,7 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Editors.ExpressionEditor;
+using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
@@ -79,11 +80,11 @@ namespace GD_StampingMachine.ViewModels
             MachiningPartsVMObservableCollection = new();
             MachiningPartsVMObservableCollection.Add(new PartsParameterViewModel(new PartsParameterModel()
             {
-                BoxNumber = null,
-                ProjectName="測試專案",
-                Parametert_A = "testA",
-                Parametert_B = "testB",
-                Parametert_C = "testC",
+                BoxIndex = null,
+                ProjectID="測試專案",
+                ParamA = "testA",
+                ParamB = "testB",
+                ParamC = "testC",
                 MachiningStatus = MachiningStatusEnum.Run
             }));
 

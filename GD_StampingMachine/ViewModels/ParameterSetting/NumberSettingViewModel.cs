@@ -2,7 +2,8 @@
 using DevExpress.Mvvm.Native;
 using DevExpress.Pdf.Native;
 using DevExpress.Utils.Extensions;
-using GD_StampingMachine.Extensions;
+using GD_CommonLibrary;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
@@ -105,9 +106,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_numberSettingModelSavedCollection == null)
                 {
-                   // var CsvHM = new GD_RWCsvFile();
-                    CsvHM.ReadNumberSetting(out var SavedCollection);
-                    _numberSettingModelSavedCollection =SavedCollection.ToObservableCollection();
+                 
+                    if (JsonHM.ReadNumberSetting(out var SavedCollection))
+                        _numberSettingModelSavedCollection = SavedCollection;
+                    else
+                        _numberSettingModelSavedCollection = new();
                 }
                 return _numberSettingModelSavedCollection;
             }
@@ -156,8 +159,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     NumberSettingModelSavedCollection.Add((NumberSettingModel)NumberSetting.DeepCloneByJson());
                 }
 
-                //var CsvHM = new GD_RWCsvFile();
-                if (CsvHM.WriteNumberSetting(NumberSettingModelSavedCollection.ToList()))
+                if (JsonHM.WriteNumberSetting(NumberSettingModelSavedCollection))
                     Method.MethodWinUIMessageBox.SaveSuccessful(true);
                 else
                     Method.MethodWinUIMessageBox.SaveSuccessful(false);
@@ -170,7 +172,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (NumberSettingModelCollectionSelected != null)
                 {
                     NumberSettingModelSavedCollection.Remove(NumberSettingModelCollectionSelected);
-                    CsvHM.WriteNumberSetting(NumberSettingModelSavedCollection.ToList());
+                    JsonHM.WriteNumberSetting(NumberSettingModelSavedCollection);
                     }
             });
          }

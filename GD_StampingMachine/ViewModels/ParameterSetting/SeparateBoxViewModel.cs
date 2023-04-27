@@ -17,12 +17,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             SeparateBox = new SeparateBoxModel();
         }
-        public int BoxNumber
+        public int BoxIndex
         {
-            get => SeparateBox.BoxNumber;
+            get => SeparateBox.BoxIndex;
             set
             {
-                SeparateBox.BoxNumber = value;
+                SeparateBox.BoxIndex = value;
                 OnPropertyChanged();
             }
         }

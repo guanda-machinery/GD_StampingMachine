@@ -14,7 +14,7 @@
              
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:GD_Popup="clr-namespace:GD_StampingMachine.GD_Popup"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
            
               xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
@@ -301,7 +301,7 @@
                                                             <DataTemplate>
                                                                 <Border Background="White" Padding="10">
                                                                     <StackPanel>
-                                                                        <TextBlock Text="{Binding BoxNumber}"/>
+                                                                        <TextBlock Text="{Binding BoxIndex}"/>
                                                                     </StackPanel>
                                                                 </Border>
                                                             </DataTemplate>
@@ -435,7 +435,7 @@
                                             <DataTemplate>
                                                 <Border Background="White" Padding="10">
                                                     <StackPanel>
-                                                        <TextBlock Text="{Binding BoxNumber}"/>
+                                                        <TextBlock Text="{Binding BoxIndex}"/>
                                                     </StackPanel>
                                                 </Border>
                                             </DataTemplate>
@@ -544,7 +544,7 @@
                                         <DataTemplate>
                                             <Border Background="White" Padding="10">
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding BoxNumber}"/>
+                                                    <TextBlock Text="{Binding BoxIndex}"/>
                                                     <TextBlock Text="123"/>
                                                 </StackPanel>
                                             </Border>
@@ -555,7 +555,7 @@
                                 </dxg:TableView>
                             </dxg:GridControl.View>
 
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectName" Width="auto" AllowMoving="true"   IsSmart="True">
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="true"   IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>

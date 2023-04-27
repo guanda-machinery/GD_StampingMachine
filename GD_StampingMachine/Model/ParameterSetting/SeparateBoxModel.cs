@@ -9,7 +9,7 @@ namespace GD_StampingMachine.Model.ParameterSetting
     public class SeparateBoxModel
     {
         public bool BoxIsEnabled { get; set; }
-        public int BoxNumber { get; set; }
+        public int BoxIndex { get; set; }
         public double BoxSliderValue { get; set; }
     }
 }

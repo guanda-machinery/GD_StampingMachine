@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ValueConverters
 {

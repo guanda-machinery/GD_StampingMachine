@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm.Native;
 using DevExpress.Utils;
+using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using System;
@@ -143,7 +144,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(new SeparateBoxViewModel()
                     {
-                        BoxNumber = i,
+                        BoxIndex = i,
                         BoxSliderValue = 0,
                         BoxIsEnabled = true,
                     }) ;

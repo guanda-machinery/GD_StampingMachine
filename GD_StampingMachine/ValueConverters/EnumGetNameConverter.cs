@@ -1,4 +1,5 @@
-﻿using GD_StampingMachine.Extensions;
+﻿using GD_CommonLibrary;
+using GD_CommonLibrary.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

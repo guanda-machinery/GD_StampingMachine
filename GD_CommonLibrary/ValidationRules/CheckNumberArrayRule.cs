@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace GD_StampingMachine.ValidationRules
+namespace GD_CommonLibrary.ValidationRules
 {
-    internal class CheckNumberArrayRule : ValidationRule
+    public class CheckNumberArrayRule : ValidationRule
     {
         public bool Nullable { get; set; } = true;
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)

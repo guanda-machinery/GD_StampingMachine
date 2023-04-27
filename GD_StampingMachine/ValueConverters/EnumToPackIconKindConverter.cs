@@ -1,4 +1,5 @@
-﻿using GD_StampingMachine.Extensions;
+﻿using GD_CommonLibrary;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using MaterialDesignThemes.Wpf;
 using System;

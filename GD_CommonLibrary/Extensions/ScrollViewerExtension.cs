@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace GD_StampingMachine.Extensions
+namespace GD_CommonLibrary.Extensions
 {
     public class ScrollViewerExtension
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace GD_StampingMachine
+namespace GD_CommonLibrary
 {
     public abstract class BaseMultiValueConverter : MarkupExtension, IMultiValueConverter
     {
