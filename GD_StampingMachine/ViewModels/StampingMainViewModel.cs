@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GD_CommonLibrary;
+using DevExpress.Xpf.Editors;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -62,7 +63,12 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
 
+            init();
+        }
 
+
+        private async Task init()
+        {
 
             MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
             {
@@ -206,12 +212,12 @@ namespace GD_StampingMachine.ViewModels
                 ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
             };
 
-            if (JsonHM.ReadProjectSettingJson(GD_JsonHelperMethod.ProjectSettingEnum.ProjectPathList, out List<ProjectModel> PathList))
+            if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
             {
                 PathList.ForEach(EPath =>
                 {
-                    if(JsonHM.ReadJsonFile(EPath.ProjectPath, out ProductProjectViewModel PProject))
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(PProject);
+                    if(JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
+                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
                     else
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()));
                 });

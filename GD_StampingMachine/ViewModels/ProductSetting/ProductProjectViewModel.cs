@@ -35,6 +35,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public ProductProjectViewModel(ProductProjectModel ProductProject)
         {
             _productProject = ProductProject;
+            _productProject.PartsParameterObservableCollection.ForEach(obj =>
+            {
+                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
+            });
+
             RefreshNumberSettingSavedCollection();
 
             Task.Run(() =>
@@ -66,12 +71,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        private ProductProjectModel __productProject;
-        public ProductProjectModel _productProject
+        public ProductProjectViewModel()
         {
-            get  =>__productProject ??= new ProductProjectModel();
-            set => __productProject = value; 
+            _productProject = new(); 
+            RefreshNumberSettingSavedCollection();
         }
+
+
+        private ProductProjectModel _productProject;
 
 
 
@@ -258,7 +265,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                 {
-                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<NumberSettingModel> SavedCollection))
+                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<NormalSettingModel> SavedCollection))
                         if (SavedCollection != null)
                             foreach (var asd in SavedCollection)
                                 newSavedCollection.Add(new NumberSettingViewModel(asd));
@@ -303,7 +310,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (_partsParameterViewModelSelectItem != null)
                 {
-                    SettingVM = _partsParameterViewModelSelectItem.SettingVMBase.DeepCloneByJson();
+                    SettingVM = _partsParameterViewModelSelectItem.SettingVMBase;
                 }
                 return _partsParameterViewModelSelectItem;
             }
@@ -387,14 +394,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 //  JsonHM.ManualWriteJsonFile(_productProject);
                 //JsonHM.ManualWriteJsonFile(_productProject);/
-                JsonHM.WriteJsonFile(Path.Combine( _productProject.ProjectPath, _productProject.Name), _productProject);
+
+                return JsonHM.WriteJsonFile(Path.Combine( _productProject.ProjectPath, _productProject.Name), _productProject);
             }
             else
             {
                 Debugger.Break();
+                return false;
             }
-
-            return false;
         }
 
         private bool _addParameterDarggableIsPopup;

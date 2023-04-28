@@ -12,6 +12,7 @@ using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.Properties;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,15 +30,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// </summary>
     public class PartsParameterViewModel : BaseViewModelWithLog
     {
-
+        [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_PartsParameterViewModel");
         public PartsParameterViewModel(PartsParameterModel PParameter)
         {
             PartsParameter = PParameter;
-        }      
+        }
+        public PartsParameterViewModel()
+        {
+            PartsParameter = new();
+        }
 
-
-        public PartsParameterModel PartsParameter = new();
+        [JsonIgnore]
+        public readonly PartsParameterModel PartsParameter = new();
         public float FinishProgress
         {
             get => PartsParameter.Processing;
@@ -128,20 +133,23 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
+        private SettingViewModelBase _settingVMBase;
 
         public SettingViewModelBase SettingVMBase
         {
-            get
-            {
-                return PartsParameter.SettingVMBase;
-            }
+            get=>_settingVMBase??= new SettingViewModelBase(PartsParameter.NormalSetting);
+
             set
             {
-                PartsParameter.SettingVMBase = value;
+                _settingVMBase = value;
+                if(_settingVMBase!= null)
+                    PartsParameter.NormalSetting = _settingVMBase.NumberSetting;
+
                 OnPropertyChanged(nameof(SettingVMBase));
             }
         }
 
+        [JsonIgnore]
         public RelayParameterizedCommand ProjectEditCommand
         {
             get => new(obj =>
@@ -150,13 +158,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                     {
-                        if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
+                        
+                      if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSettingMode))
                             GridItemSource.Remove(this);
                     }
                 }
             });
         }
 
+        [JsonIgnore]
         public RelayParameterizedCommand ProjectDeleteCommand
         {
             get => new (obj =>
@@ -165,7 +175,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                     {
-                        if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSetting.NumberSettingMode))
+                        if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSettingMode))
                             GridItemSource.Remove(this);
                     }
                 }

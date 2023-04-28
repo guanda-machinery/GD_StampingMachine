@@ -12,8 +12,10 @@
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters"
              Padding="5" Background="Transparent" Cursor="Hand" 
              >
-    
-    <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
+    <Grid>
+        <Grid.DataContext>
+            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}"/>
+        </Grid.DataContext>
         <Grid.Style>
             <Style TargetType="Grid">
                 <Setter Property="Opacity" Value="1.0"/>

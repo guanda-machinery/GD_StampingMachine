@@ -60,24 +60,43 @@ namespace GD_StampingMachine.Method
         }
 
 
-        public bool ReadProjectSettingJson<T>(ProjectSettingEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
+        public bool ReadProjectSettingJson(out List<ProjectModel> PathList, bool ShowMessageBox = false)
         {
-            return this.ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
+            return this.ReadJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, out PathList, ShowMessageBox);
         }
-        public bool WriteProjectSettingJson<T>(ProjectSettingEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
+        public bool WriteProjectSettingJson(List<ProjectModel> JsonData, bool ShowMessageBox = false)
         {
-            return this.WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
+            return this.WriteJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, JsonData, ShowMessageBox);
         }
 
 
         private const string ConstSettings = "Settings";
 
-        private const string ConstNumberSetting = "NumberSetting";
+        private const string ConstNumberSetting = "Numbers";
         private const string ConstParameterSetting = "ParameterSetting";
 
         public bool ReadJsonSettingByEnum<T>(Enum ParameterSettingName , out T JsonData, bool ShowMessageBox = false)
         {
-            var FilePath = Path.Combine( Directory.GetCurrentDirectory(), ConstSettings);
+            var FilePath = GetJsonFilePath(ParameterSettingName);
+
+            var Result = this.ReadJsonFile(FilePath, out JsonData);
+            if(ShowMessageBox)
+                MethodWinUIMessageBox.LoadSuccessful(FilePath, Result);
+            return Result;
+        }
+        public bool WriteJsonSettingByEnum<T>(Enum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
+        {
+            var FilePath = GetJsonFilePath(ParameterSettingName);
+
+            var Result = this.WriteJsonFile(FilePath, JsonData); 
+            if (ShowMessageBox)
+                MethodWinUIMessageBox.SaveSuccessful(FilePath , Result);
+            return Result;
+        }
+
+        private string GetJsonFilePath(Enum ParameterSettingName)
+        {
+            var FilePath = Path.Combine(Directory.GetCurrentDirectory(), ConstSettings);
 
             if (ParameterSettingName is ParameterSettingNameEnum)
             {
@@ -88,31 +107,14 @@ namespace GD_StampingMachine.Method
                     FilePath = Path.Combine(FilePath, ConstNumberSetting);
                 }
             }
-            var FileName = Path.ChangeExtension(ParameterSettingName.ToString(), "json");
-            FilePath = Path.Combine(FilePath, FileName);
-
-            var Result = this.ReadJsonFile(FilePath, out JsonData);
-            if(ShowMessageBox)
-                MethodWinUIMessageBox.LoadSuccessful(FilePath, Result);
-            return Result;
-        }
-        public bool WriteJsonSettingByEnum<T>(Enum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
-        {
-            var FilePath = Directory.GetCurrentDirectory();
-            if (ParameterSettingName is ParameterSettingNameEnum.NumberSetting ||
-                ParameterSettingName is ParameterSettingNameEnum.QRSetting)
-            {
-                FilePath = Path.Combine(FilePath, ConstNumberSetting);
-            }
 
             var FileName = Path.ChangeExtension(ParameterSettingName.ToString(), "json");
-            FilePath = Path.Combine(FilePath, FileName);
 
-            var Result = this.WriteJsonFile(FilePath, JsonData); 
-            if (ShowMessageBox)
-                MethodWinUIMessageBox.SaveSuccessful(FilePath , Result);
-            return Result;
+            return _ = Path.Combine(FilePath, FileName);
         }
+
+
+
 
     }
 }

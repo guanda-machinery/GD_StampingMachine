@@ -19,9 +19,14 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelBase");
 
+        public SettingViewModelBase(NormalSettingModel _NumberSetting)
+        {
+            NumberSetting = _NumberSetting;
+        }
+        public virtual NormalSettingModel NumberSetting { get; set; }
 
-        public virtual NumberSettingModelBase NumberSetting{get;set;}
 
+        public virtual string NumberSettingMode { get;set;}
 
         private int? _sequenceCountComboBoxSelectValue = null;
         /// <summary>
@@ -167,40 +172,13 @@ namespace GD_StampingMachine.ViewModels
 
 
         [Newtonsoft.Json.JsonIgnore]
-        public override ICommand LoadSettingCommand 
-        {
-            get => new RelayCommand(() =>
-            {
-                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out NumberSettingModelBase ReadModel, true))
-                {
-                    NumberSetting = ReadModel;
-                }
-            });
-        }
+        public override ICommand LoadSettingCommand { get; }
         [Newtonsoft.Json.JsonIgnore]
-        public override ICommand RecoverSettingCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                NumberSetting = new NumberSettingModelBase();
-            });
-        }
+        public override ICommand RecoverSettingCommand { get; }
         [Newtonsoft.Json.JsonIgnore]
-        public override ICommand SaveSettingCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, NumberSetting, true);
-            });
-        }
+        public override ICommand SaveSettingCommand { get; }
         [Newtonsoft.Json.JsonIgnore]
-        public override ICommand DeleteSettingCommand
-        {
-            get => new RelayCommand(() =>
-            {
-
-            });
-        }
+        public override ICommand DeleteSettingCommand { get; }
 
     }
 }

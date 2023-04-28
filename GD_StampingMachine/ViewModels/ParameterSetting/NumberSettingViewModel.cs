@@ -22,18 +22,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class NumberSettingViewModel : SettingViewModelBase
     {
-        public NumberSettingViewModel(NumberSettingModelBase _numberSettingModel) 
-        {
-            NumberSetting = _numberSettingModel as NumberSettingModel;
+        public NumberSettingViewModel(NormalSettingModel _NumberSetting) : base(_NumberSetting)
+        {        
+            NumberSetting = _NumberSetting;
         }
 
-        private NumberSettingModel _numberSetting;
-        public new NumberSettingModel NumberSetting
+       private NormalSettingModel _numberSetting;
+        public override NormalSettingModel NumberSetting
         {
             get
             {
                 if (_numberSetting == null)
-                    _numberSetting = new NumberSettingModel();
+                    _numberSetting = new QRSettingModel();
                 if (_numberSetting != null)
                 {
                     if (SequenceCountComboBoxSelectValue.HasValue)
@@ -45,7 +45,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
                         _numberSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
 
-                    _numberSetting.IronPlateMargin = new PlateMarginStruct
+                    _numberSetting.IronPlateMargin = new Normal_IronPlateMarginStruct
                     {
                         A_Margin = this.Margin_A,
                         B_Margin = this.Margin_B,
@@ -59,7 +59,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _numberSetting = value;
-                if (_numberSetting == new NumberSettingModel())
+                if (_numberSetting == new QRSettingModel())
                 {
                     SequenceCountComboBoxSelectValue = null;
                     SpecialSequenceComboBoxSelectValue = null;
@@ -83,8 +83,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private NumberSettingModel _numberSettingModelCollectionSelected;
-        public NumberSettingModel NumberSettingModelCollectionSelected
+        public override string NumberSettingMode
+        {
+            get => NumberSetting.NumberSettingMode;
+            set { NumberSetting.NumberSettingMode = value; OnPropertyChanged(); }
+        }
+
+
+
+        private NormalSettingModel _numberSettingModelCollectionSelected;
+        public NormalSettingModel NumberSettingModelCollectionSelected
         {
             get => _numberSettingModelCollectionSelected;
             set
@@ -96,14 +104,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<NumberSettingModel> _numberSettingModelSavedCollection;
-        public ObservableCollection<NumberSettingModel> NumberSettingModelSavedCollection
+        private ObservableCollection<NormalSettingModel> _numberSettingModelSavedCollection;
+
+
+        public ObservableCollection<NormalSettingModel> NumberSettingModelSavedCollection
         {
             get
             {
                 if (_numberSettingModelSavedCollection == null)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NumberSettingModel> SavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NormalSettingModel> SavedCollection))
                         _numberSettingModelSavedCollection = SavedCollection;
                     else
                         _numberSettingModelSavedCollection = new();
@@ -131,7 +141,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                NumberSetting = new NumberSettingModel();
+                NumberSetting = new NormalSettingModel();
             });
         }
         public override ICommand SaveSettingCommand
@@ -143,7 +153,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                     {
-                        NumberSettingModelSavedCollection[FIndex] = (NumberSettingModel)NumberSetting.DeepCloneByJson();
+                        NumberSettingModelSavedCollection[FIndex] = NumberSetting.DeepCloneByJson();
                     }
                     else
                     {
@@ -152,7 +162,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    NumberSettingModelSavedCollection.Add((NumberSettingModel)NumberSetting.DeepCloneByJson());
+                    NumberSettingModelSavedCollection.Add(NumberSetting.DeepCloneByJson());
                 }
 
                 JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection ,true);
@@ -169,7 +179,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
             });
          }
-
     }
 
 }

@@ -59,8 +59,8 @@ namespace GD_StampingMachine.Model.ProductionSetting
         /// <summary>
         /// 鐵牌樣式
         /// </summary>
-       [Newtonsoft.Json.JsonIgnore]
-        public SettingViewModelBase SettingVMBase { get; set; }
+
+        public NormalSettingModel NormalSetting { get; set; }
 
 
 

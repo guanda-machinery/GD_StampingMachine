@@ -10,7 +10,7 @@ namespace GD_StampingMachine.Model
 {
     public class NumberSettingModel : NumberSettingModelBase
     {
-        public override int SequenceCount { get; set; } = 8;
+        public override IronPlateMarginStruct IronPlateMargin { get; set; } = new PlateMarginStruct();
     }
 
 }

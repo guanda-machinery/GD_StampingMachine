@@ -22,11 +22,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public class QRSettingViewModel : SettingViewModelBase
     {
-        public QRSettingViewModel(NumberSettingModelBase _numberSettingModel)
+        public QRSettingViewModel(QRSettingModel _NumberSetting) : base(_NumberSetting)
         {
-            NumberSetting = _numberSettingModel as QRSettingModel;
+            NumberSetting = _NumberSetting;
         }
 
+       // public new QRSettingModel NumberSetting { get; set; }
 
         private QRSettingModel _qrSetting;
         public new QRSettingModel NumberSetting
@@ -35,8 +36,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_qrSetting == null)
                     _qrSetting = new QRSettingModel();
-
-                if (_qrSetting != null)
+                else
                 {
                     if (SequenceCountComboBoxSelectValue.HasValue)
                         _qrSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
@@ -47,7 +47,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
                         _qrSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
 
-                    _qrSetting.IronPlateMargin = new IronPlateMarginStruct
+                    _qrSetting.IronPlateMargin = new QR_IronPlateMarginStruct
                     {
                         A_Margin = this.Margin_A,
                         B_Margin = this.Margin_B,
@@ -98,6 +98,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged();
             }
 
+        }
+
+        public override string NumberSettingMode
+        {
+            get => NumberSetting.NumberSettingMode;
+            set { NumberSetting.NumberSettingMode = value; OnPropertyChanged(); }
         }
 
         /// <summary>
@@ -198,7 +204,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private double _margin_I;
 
-
+ 
 
         public double Margin_F { get => _margin_F; set { _margin_F = value; OnPropertyChanged(); } }
         public double Margin_G { get => _margin_G; set { _margin_G = value; OnPropertyChanged(); } }
@@ -212,7 +218,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => new RelayCommand(() =>
             {
                 if (QRSettingModelCollectionSelected != null)
-                    NumberSetting = (QRSettingModel)QRSettingModelCollectionSelected.DeepCloneByJson();
+                    NumberSetting = QRSettingModelCollectionSelected.DeepCloneByJson();
             });
         }
         public override ICommand RecoverSettingCommand
@@ -241,7 +247,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    QRSettingModelCollection.Add(NumberSetting.DeepCloneByJson() as QRSettingModel);
+                    QRSettingModelCollection.Add(NumberSetting.DeepCloneByJson());
                 }
 
                 this.JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);

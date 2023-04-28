@@ -128,12 +128,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => new RelayCommand(() =>
             {
                 AddLogData((string)Application.Current.TryFindResource("btnAddProject"));
-                //若不clone會導致資料互相繫結
-                var CreatedProductProjectVM = CreatedProjectVM.DeepCloneByJson();
-                CreatedProductProjectVM.SaveProductProject();
-                ProductProjectVMObservableCollection.Add(CreatedProjectVM);
-             
-                });
+
+
+                if (CreatedProjectVM.SaveProductProject())
+                {              
+                    //若不clone會導致資料互相繫結
+                    ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
+                }
+            });
 
         }
 
@@ -192,7 +194,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     PathList.Add(obj);
                 });
 
-                JsonHM.WriteProjectSettingJson(GD_JsonHelperMethod.ProjectSettingEnum.ProjectPathList, PathList);
+                JsonHM.WriteProjectSettingJson(PathList);
             });
         }
 

@@ -249,7 +249,6 @@
     <Compile Include="Model\ProjectModel.cs" />
     <Compile Include="Model\SyncObservableCollection.cs" />
     <Compile Include="Model\MachiningProjectModel.cs" />
-    <Compile Include="Model\NumberSettingModelBase.cs" />
     <Compile Include="Model\OperatingLogModel.cs" />
     <Compile Include="Model\ParameterSetting\SeparateBoxModel.cs" />
     <Compile Include="Model\ParameterSetting\SeparateSettingModel.cs" />
@@ -257,7 +256,6 @@
     <Compile Include="Model\ParameterSetting\AxisSettingModel.cs" />
     <Compile Include="Model\MechanicalSpecificationModel.cs" />
     <Compile Include="Model\ParameterSetting\QRSettingModel.cs" />
-    <Compile Include="Model\ParameterSetting\NumberSettingModel.cs" />
     <Compile Include="Model\ProductionSetting\PartsParameterModel.cs" />
     <Compile Include="Model\ProductProjectModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />

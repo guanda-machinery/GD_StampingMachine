@@ -1,4 +1,5 @@
-﻿using GD_StampingMachine.GD_Enum;
+﻿using DevExpress.XtraSplashScreen;
+using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,32 +8,10 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    /// <summary>
-    /// 直接繼承NumberSettingModel
-    /// </summary>
-    public class QRSettingModel : NumberSettingModelBase
-    {
-        /// <summary>
-        /// 目前模式
-        /// </summary>
-        //public string NumberSettingMode { get; set; }
-        /// <summary>
-        /// 單排數量
-        /// </summary>
-        public override int SequenceCount { get; set; } = 6;
 
-        /// <summary>
-        /// 特殊排序
-        /// </summary>
-        //public SpecialSequenceEnum SpecialSequence { get; set; }
-        /// <summary>
-        /// 水平對齊
-        /// </summary>
-        //public HorizontalAlignEnum HorizontalAlign { get; set; }
-        /// <summary>
-        /// 垂直對齊
-        /// </summary>
-        //public VerticalAlignEnum VerticalAlign { get; set; }
+    public class QRSettingModel: NormalSettingModel
+    {
+        public new QR_IronPlateMarginStruct IronPlateMargin { get; set; } = new QR_IronPlateMarginStruct();
 
         /// <summary>
         /// Code設定 字元數量
@@ -45,12 +24,56 @@ namespace GD_StampingMachine.Model
 
         public string ModelSize { get; set; }
 
-        public new IronPlateMarginStruct IronPlateMargin { get; set; } =new IronPlateMarginStruct();
+    }
+
+    /// <summary>
+    /// 直接繼承NumberSettingModel
+    /// </summary>
+    public class NormalSettingModel
+    {
+        // public string NumberSettingName { get; set; }
+        /// <summary>
+        /// 目前模式
+        /// </summary>
+        public string NumberSettingMode { get; set; }
+        /// <summary>
+        /// 單排數量
+        /// </summary>
+        public int SequenceCount { get; set; } = 6;
+
+        /// <summary>
+        /// 特殊排序
+        /// </summary>
+        public SpecialSequenceEnum SpecialSequence { get; set; }
+        /// <summary>
+        /// 水平對齊
+        /// </summary>
+        public HorizontalAlignEnum HorizontalAlign { get; set; }
+        /// <summary>
+        /// 垂直對齊
+        /// </summary>
+        public VerticalAlignEnum VerticalAlign { get; set; }
+        public virtual Normal_IronPlateMarginStruct IronPlateMargin { get; set; } = new Normal_IronPlateMarginStruct();
     }
 
 
 
+    public class Normal_IronPlateMarginStruct 
+    {
+        public double A_Margin { get; set; }
+        public double B_Margin { get; set; }
+        public double C_Margin { get; set; }
+        public double D_Margin { get; set; }
+        public double E_Margin { get; set; }
+    }
 
+    public class QR_IronPlateMarginStruct: Normal_IronPlateMarginStruct
+    {
+        public double F_Margin { get; set; }
+        public double G_Margin { get; set; }
+        public double H_Margin { get; set; }
+        public double I_Margin { get; set; }
+    }
 
 
 
