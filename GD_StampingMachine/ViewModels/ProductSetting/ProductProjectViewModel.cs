@@ -1,6 +1,7 @@
 ﻿using DevExpress.Data;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Office.Utils;
 using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors.Helpers;
@@ -12,6 +13,7 @@ using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -64,7 +66,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        private readonly ProductProjectModel _productProject = new();
+        private ProductProjectModel __productProject;
+        public ProductProjectModel _productProject
+        {
+            get  =>__productProject ??= new ProductProjectModel();
+            set => __productProject = value; 
+        }
 
 
 
@@ -153,8 +160,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => new RelayParameterizedCommand(obj =>
             {
                 EditProjectDarggableIsPopup= true;
-
-
             });
         }
         // private RelayParameterizedCommand _projectDeleteCommand;
@@ -232,13 +237,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-
+        private ICommand _refreshSavedCollectionCommand;
+        [JsonIgnore]
         public ICommand RefreshSavedCollectionCommand
         {
-            get => new RelayCommand(() =>
+            get =>_refreshSavedCollectionCommand ??= new RelayCommand(() =>
             {
                 RefreshNumberSettingSavedCollection();
             });
+            set
+            {
+                _refreshSavedCollectionCommand = value;
+            }
         }
 
         public void RefreshNumberSettingSavedCollection()
@@ -248,29 +258,23 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                 {
-                    JsonHM.ReadNumberSetting(out var SavedCollection);
-                    if (SavedCollection != null)
-                        foreach (var asd in SavedCollection)
-                            newSavedCollection.Add(new NumberSettingViewModel(asd));
+                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<NumberSettingModel> SavedCollection))
+                        if (SavedCollection != null)
+                            foreach (var asd in SavedCollection)
+                                newSavedCollection.Add(new NumberSettingViewModel(asd));
 
                 }
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                 {
-                    JsonHM.ReadQRNumberSetting(out var QRSavedCollection);
-                    if (QRSavedCollection != null)
-                        foreach (var asd in QRSavedCollection)
-                            newSavedCollection.Add(new QRSettingViewModel(asd));
-
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingModel> QRSavedCollection))
+                        if (QRSavedCollection != null)
+                            foreach (var asd in QRSavedCollection)
+                                newSavedCollection.Add(new QRSettingViewModel(asd));
                 }
             }
-            // if (!NumberSettingSavedCollection.Equals(newSavedCollection))
-            //NumberSettingSavedCollection = newSavedCollection;
-            // if (!NumberSettingSavedCollection.ToList().SequenceEqual(newSavedCollection.ToList()))
-            // {
+
             SelectedSettingVMBase = null;
             NumberSettingSavedCollection = newSavedCollection;
-            //  }
-
         }
 
         
@@ -278,6 +282,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 上方的排列示意圖(純顯示)
         /// </summary>
+        [JsonIgnore]
         public SettingViewModelBase SettingVM
         {
             get => _settingVM;
@@ -291,6 +296,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 參數gridcontrol選擇
         /// </summary>
+        
         public PartsParameterViewModel PartsParameterViewModelSelectItem
         {
             get
@@ -330,23 +336,34 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
+      
 
+        private ICommand _createPartCommand;
         /// <summary>
         /// 建立零件
         /// </summary>
+        [JsonIgnore]
         public ICommand CreatePartCommand
         {
-            get => new RelayCommand(() =>
+            get =>_createPartCommand ??= new RelayCommand(() =>
             {
                 PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
                 //儲存 ProductProject
                 ProductProjectEditTime = DateTime.Now;
                 SaveProductProject();
             });
+            set
+            { 
+                _createPartCommand = value;
+                OnPropertyChanged(nameof(CreatePartCommand)); 
+            }
         }
-        public ICommand SaveProductProjectCommand 
+
+        private ICommand _saveProductProjectCommand;
+        [JsonIgnore]
+        public ICommand SaveProductProjectCommand
         {
-            get => new RelayCommand(() =>
+            get => _saveProductProjectCommand ??= new RelayCommand(() =>
             {
                 if (string.IsNullOrWhiteSpace(_productProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(_productProject.ProjectPath)))
                 {
@@ -356,15 +373,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (result == System.Windows.Forms.DialogResult.OK)
                         _productProject.ProjectPath = dialog.SelectedPath;
                 }
-
                 SaveProductProject();
             });
+            set
+            {
+                _saveProductProjectCommand = value;
+                OnPropertyChanged(nameof(SaveProductProjectCommand));
+            }
         }
         public bool SaveProductProject()
         {
             if (_productProject.ProjectPath != null)
             {
-                JsonHM.WriteProductProject(_productProject);
+                //  JsonHM.ManualWriteJsonFile(_productProject);
+                //JsonHM.ManualWriteJsonFile(_productProject);/
+                JsonHM.WriteJsonFile(Path.Combine( _productProject.ProjectPath, _productProject.Name), _productProject);
             }
             else
             {
@@ -433,12 +456,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
+        private ICommand _addTypeSettingCommand;
         /// <summary>
         /// 新增排版專案
         /// </summary>
+        [JsonIgnore]
         public ICommand AddTypeSettingCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => _addTypeSettingCommand??= new RelayParameterizedCommand(obj =>
             {
                 if (obj == null)
                 {
@@ -465,13 +490,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     }
                 }
             });
+            set => _addTypeSettingCommand = value;
         }
+
+
+
+        private ICommand _closeTypeSettingCommand;
         /// <summary>
         /// 關閉排版專案
         /// </summary>
+        [JsonIgnore]
         public ICommand CloseTypeSettingCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => _closeTypeSettingCommand??= new RelayParameterizedCommand(obj =>
             {
                 if (obj == null)
                 {
@@ -526,8 +557,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     }
                 }
             });
+            set => _closeTypeSettingCommand= value;
         }
 
+        [JsonIgnore]
         public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand { get; set; }
 
 

@@ -1,16 +1,15 @@
-﻿using Microsoft.Xaml.Behaviors;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
 
-namespace GD_StampingMachine.GD_Behavior
+namespace GD_CommonLibrary.GD_Behavior
 {
     /// <summary>
     /// 使ProgressBar 轉為動態 
     /// </summary>
-    public class ProgresBarAnimateBehavior : Behavior<ProgressBar>
+    public class ProgresBarAnimateBehavior : Microsoft.Xaml.Behaviors.Behavior<ProgressBar>
     {
        //使用方式
        //<ProgressBar Height="7"

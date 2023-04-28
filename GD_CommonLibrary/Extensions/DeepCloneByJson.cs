@@ -19,12 +19,29 @@ namespace GD_CommonLibrary.Extensions
         /// <returns>複製出的物件</returns>
         public static T DeepCloneByJson<T>(this T source)
         {
-            if (Object.ReferenceEquals(source, null))
+            if (source != null)
+            {
+                // avoid self reference loop issue
+                // track object references when serializing and deserializing JSON
+                var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    TypeNameHandling = TypeNameHandling.Auto
+                };
+
+                var serializedObj = JsonConvert.SerializeObject(source, Formatting.Indented, jsonSerializerSettings);
+                return JsonConvert.DeserializeObject<T>(serializedObj, jsonSerializerSettings);
+            }
+            else
+            { return default(T); }
+
+
+            /*if (Object.ReferenceEquals(source, null))
             {
                 return default(T);
             }
             var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
-            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(source), deserializeSettings);
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(source), deserializeSettings);*/
         }
     }
 }

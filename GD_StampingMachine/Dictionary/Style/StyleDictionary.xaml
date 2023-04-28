@@ -412,7 +412,60 @@
 
 
 
+    <Style x:Key="SiegToggleButton_UnderLine" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
+        <Setter Property="Opacity"
+                            Value="0.9" />
+        <Setter Property="BorderThickness"
+                            Value="0" />
+        <Setter Property="Cursor"
+                            Value="Hand" />
+        <Setter Property="Margin"
+                            Value="2" />
+        <Setter Property="Padding"
+                            Value="5" />
+        <Setter Property="Background"
+                            Value="Transparent" />
+        <Setter Property="Foreground"
+                            Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
 
+                        <Border  Background="{TemplateBinding Background}"    
+                                 BorderThickness="0,0,0,2" BorderBrush="{TemplateBinding Foreground}" Margin="0,0" Name="TheBottomLine"/>
+                        <Border   
+                            Margin="10,0"
+                            CornerRadius="5"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="LightSkyBlue"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="Orange"/>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.3"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="False" >
+                            <Setter Property="Visibility" Value="Collapsed"  TargetName="TheBottomLine"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 

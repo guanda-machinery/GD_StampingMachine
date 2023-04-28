@@ -17,7 +17,7 @@ namespace GD_StampingMachine.ViewModels
         public abstract string ViewModelName { get; } 
 
         public static int LogCollectionMax = 100;
-        private static DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection; 
+        private static DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection;
         public static DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
         {
             get
@@ -51,7 +51,6 @@ namespace GD_StampingMachine.ViewModels
                 });
             });
         }
-
 
         public async void AddLogData(string LogSource , string LogString, bool IsAlarm = false)
         {

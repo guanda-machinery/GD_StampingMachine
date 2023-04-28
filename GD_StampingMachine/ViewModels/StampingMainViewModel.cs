@@ -105,7 +105,7 @@ namespace GD_StampingMachine.ViewModels
             };
 
 
-            if (JsonHM.ReadStampingFontChanged(out var SReadSFC))
+            if (JsonHM.ReadMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont , out StampingFontChangedViewModel SReadSFC))
             {
                 StampingFontChangedVM = SReadSFC;
             }
@@ -198,9 +198,27 @@ namespace GD_StampingMachine.ViewModels
                 //LogDataObservableCollection = this.LogDataObservableCollection
             };
 
+
+
+
             ProductSettingVM = new()
             {
                 ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
+            };
+
+            if (JsonHM.ReadProjectSettingJson(GD_JsonHelperMethod.ProjectSettingEnum.ProjectPathList, out List<ProjectModel> PathList))
+            {
+                PathList.ForEach(EPath =>
+                {
+                    if(JsonHM.ReadJsonFile(EPath.ProjectPath, out ProductProjectViewModel PProject))
+                        ProductSettingVM.ProductProjectVMObservableCollection.Add(PProject);
+                    else
+                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()));
+                });
+            }
+            //讀取後找尋.json)
+            /*
+            ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
                 {
                     new(new()
                     {
@@ -237,7 +255,8 @@ namespace GD_StampingMachine.ViewModels
                         FinishProgress = 76
                     })
                 },
-            };
+            */
+
 
             TypeSettingSettingVM = new(new TypeSettingSettingModel()
             {

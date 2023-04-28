@@ -238,13 +238,15 @@
     <Compile Include="GD_Enum\SettingTypeEnum.cs" />
     <Compile Include="GD_Enum\SpecialSequenceEnum.cs" />
     <Compile Include="GD_Enum\SpindleToolHolderEnum.cs" />
-    <Compile Include="GD_Behavior\ProgresBarAnimateBehavior.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\GD_JsonHelperMethod.cs" />
-    <Compile Include="Method\JsonHelperMethod.cs" />
     <Compile Include="Method\MethodWinUIMessageBox.cs" />
     <Compile Include="Method\DropHandler\StampingTypeDropTarget.cs" />
+    <Compile Include="Model\ParameterSetting\EngineerSettingModel.cs" />
+    <Compile Include="Model\ParameterSetting\InputOutputModel.cs" />
+    <Compile Include="Interfaces\SettingCommandInterface.cs" />
     <Compile Include="Model\ProductionSetting\StampingSteelBeltModel.cs" />
+    <Compile Include="Model\ProjectModel.cs" />
     <Compile Include="Model\SyncObservableCollection.cs" />
     <Compile Include="Model\MachiningProjectModel.cs" />
     <Compile Include="Model\NumberSettingModelBase.cs" />
@@ -259,20 +261,11 @@
     <Compile Include="Model\ProductionSetting\PartsParameterModel.cs" />
     <Compile Include="Model\ProductProjectModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
-    <Compile Include="SplashScreenWindows\StartSplashScreen.xaml.cs">
-      <DependentUpon>StartSplashScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SplashScreenWindows\ProcessingScreenWindow.xaml.cs">
-      <DependentUpon>ProcessingScreenWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomControls\FunctionToggleButton.xaml.cs">
       <DependentUpon>FunctionToggleButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
-      <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MachiningSettingUserControl.xaml.cs">
       <DependentUpon>MachiningSettingUserControl.xaml</DependentUpon>
@@ -323,6 +316,7 @@
     <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\ToggleButtonMultiBooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToAutoOrNaNValueConverter.cs" />
+    <Compile Include="ValueConverters\ObjectIsNullToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
@@ -335,6 +329,9 @@
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
     <Compile Include="ViewModels\OperatingLogViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\InputOutputViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\EngineerSettingViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\ParameterSettingBaseViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateBoxViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\SeparateSettingViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\TimingSettingViewModel.cs" />
@@ -410,23 +407,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SplashScreenWindows\StartSplashScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SplashScreenWindows\ProcessingScreenWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="StampingMachineWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CustomControls\FunctionToggleButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\CustomControls\FunctionToggleUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -514,9 +499,7 @@
   <ItemGroup>
     <Analyzer Include="..\packages\DevExpress.Mvvm.CodeGenerators.22.1.1\analyzers\dotnet\cs\DevExpress.Mvvm.CodeGenerators.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

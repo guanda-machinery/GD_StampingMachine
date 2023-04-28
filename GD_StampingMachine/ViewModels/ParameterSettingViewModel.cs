@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.UserControls.CustomControls;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 
@@ -29,6 +30,10 @@ namespace GD_StampingMachine.ViewModels
         public bool TbtnInputOutputIsChecked { get => _tbtnInputOutputIsChecked; set { _tbtnInputOutputIsChecked = value; OnPropertyChanged(); } }
         public bool TbtnSeEngineeringModeIsChecked { get => _tbtnSeEngineeringModeIsChecked; set { _tbtnSeEngineeringModeIsChecked = value; OnPropertyChanged(); } }
 
+        public ParameterSettingViewModel()
+        {
+
+        }
         /// <summary>
         /// 號碼設定
         /// </summary>
@@ -44,10 +49,18 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 計時設定
         /// </summary>
-        public TimingSettingViewModel TimingSettingVM { get; set; } = new TimingSettingViewModel();
+        public TimingSettingViewModel TimingSettingVM { get; set; } = new TimingSettingViewModel(new Model.TimingSettingModel());
         /// <summary>
         /// 分料設定
         /// </summary>
-        public SeparateSettingViewModel SeparateSettingVM { get; set; } = new SeparateSettingViewModel();
+        public SeparateSettingViewModel SeparateSettingVM { get; set; } = new SeparateSettingViewModel(new Model.SeparateSettingModel());
+        /// <summary>
+        /// Inputoutput
+        /// </summary>
+        public InputOutputViewModel InputOutputVM { get; set; } = new InputOutputViewModel(new Model.InputOutputModel());
+        /// <summary>
+        /// 工程模式
+        /// </summary>
+        public EngineerSettingViewModel EngineerSettingVM { get; set; } = new EngineerSettingViewModel(new Model.EngineerSettingModel());
     }
 }

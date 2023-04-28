@@ -140,7 +140,7 @@
                                     </Grid.ColumnDefinitions>
                                 <TextBox Name="ProjectPathTextBox" Margin="0">
                                     <TextBox.Text>
-                                        <Binding Path="ProjectPathText" UpdateSourceTrigger="PropertyChanged" >
+                                        <Binding Path="CreatedProjectVM.ProductProjectPath" UpdateSourceTrigger="PropertyChanged" >
                                             <Binding.ValidationRules>
                                                 <GD_ValidRule:CheckStringIsPathOrFileNameRule PathType="Path"/>
                                             </Binding.ValidationRules>
@@ -180,15 +180,15 @@
                                         </Button.Style>
                                     </Button>
                                 </Grid>
-                                <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding CreatedProjectModel.Name,UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding CreatedProjectVM.ProductProjectName,UpdateSourceTrigger=PropertyChanged}">
 
                                 </TextBox>
-                                <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding CreatedProjectModel.Number,UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding CreatedProjectVM.ProductProjectNumber,UpdateSourceTrigger=PropertyChanged}">
 
                                 </TextBox>
                                 <ComboBox Grid.Column="3" Grid.Row="4" 
                                               ItemsSource="{Binding SheetStampingTypeEnumCollection}"
-                                              SelectedValue="{Binding CreatedProjectModel.SheetStampingTypeForm}">
+                                              SelectedValue="{Binding CreatedProjectVM.ProductProjectSheetStampingTypeForm}">
 
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
@@ -203,10 +203,10 @@
                                     </Button>
                                     <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
                                         <Button.IsEnabled>
-                                            <MultiBinding Converter="{GD_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
-                                                <Binding Path="ProjectPathText"/>
-                                                <Binding Path="CreatedProjectModel.Name"/>
-                                                <Binding Path="CreatedProjectModel.Number"/>
+                                        <MultiBinding Converter="{GD_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
+                                            <Binding Path="CreatedProjectVM.ProductProjectPath"/>
+                                            <Binding Path="CreatedProjectVM.ProductProjectName"/>
+                                            <Binding Path="CreatedProjectVM.ProductProjectNumber"/>
                                             </MultiBinding>
                                         </Button.IsEnabled>
                                     </Button>
@@ -215,8 +215,8 @@
                                 <GroupBox  Grid.Row="6" Header="test" Grid.ColumnSpan="4" Margin="0,5" Visibility="Collapsed" >
                                     <StackPanel >
                                         <TextBlock Text="完成進度(測試用)"/>
-                                        <Slider Value="{Binding CreatedProjectModel.FinishProgress}" Foreground="Black" Maximum="100" Interval="1" />
-                                        <TextBlock Text="{Binding CreatedProjectModel.FinishProgress}"/>
+                                    <Slider Value="{Binding CreatedProjectVM.ProductProjectFinishProcessing}" Foreground="Black" Maximum="100" Interval="1" />
+                                    <TextBlock Text="{Binding CreatedProjectVM.ProductProjectFinishProcessing}"/>
                                     </StackPanel>
                                 </GroupBox>
 

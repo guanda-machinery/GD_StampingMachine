@@ -57,16 +57,20 @@ namespace GD_StampingMachine.Method
             return MessageBoxReturn == MessageBoxResult.Yes;
         }
 
-        public static void SaveSuccessful(bool IsSuccessful)
+        /// <summary>
+        /// 儲存成功
+        /// </summary>
+        /// <param name="IsSuccessful"></param>
+        public static void SaveSuccessful(string Path  ,bool IsSuccessful)
         {
-            string _message;
+            string _message = Path;
             if (IsSuccessful)
             {
-                _message = (string)Application.Current.TryFindResource("Text_SaveSuccessful");
+                _message +=  "\r\n" +(string)Application.Current.TryFindResource("Text_SaveSuccessful");
             }
             else
             {
-                _message = (string)Application.Current.TryFindResource("Text_SaveFail");
+                _message +=  "\r\n" + (string)Application.Current.TryFindResource("Text_SaveFail");
             }
             Show(
                        (string)Application.Current.TryFindResource("Text_notify"),
@@ -74,7 +78,22 @@ namespace GD_StampingMachine.Method
                        MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-
+        public static void LoadSuccessful(string Path , bool IsSuccessful)
+        {
+            string _message = Path;
+            if (IsSuccessful)
+            {
+                _message += "\r\n" + (string)Application.Current.TryFindResource("Text_LoadSuccessful");
+            }
+            else
+            {
+                _message += "\r\n" + (string)Application.Current.TryFindResource("Text_LoadFail");
+            }
+            Show(
+                       (string)Application.Current.TryFindResource("Text_notify"),
+                       _message,
+                       MessageBoxButton.OK, MessageBoxImage.Information);
+        }
 
 
 

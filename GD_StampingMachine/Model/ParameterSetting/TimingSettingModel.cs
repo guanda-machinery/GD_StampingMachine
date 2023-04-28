@@ -30,14 +30,6 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public int RepeatCount { get; set; }
 
-        /// <summary>
-        /// 循環時間
-        /// </summary>
-        public TimeSpan CycleTime { get; set; }
-        /// <summary>
-        /// 間隔時間
-        /// </summary>
-        public TimeSpan Intervals { get; set; }
 
 
 

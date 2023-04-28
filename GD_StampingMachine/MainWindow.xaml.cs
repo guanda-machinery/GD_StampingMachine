@@ -45,7 +45,7 @@ namespace GD_StampingMachine
                 Copyright = "Copyright © 2022 GUANDA",
             };
 
-            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new SplashScreenWindows.StartSplashScreen(), ManagerVM);
+            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
             manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
             Task.Run(() =>
             {

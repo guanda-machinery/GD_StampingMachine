@@ -255,7 +255,7 @@
                                 Value="{TemplateBinding VerticalOffset}" />
                             <ScrollBar
                                 x:Name="PART_HorizontalScrollBar"
-                                Margin="0,0,0,-7"
+                                Margin="0,0,0,0"
                                 VerticalAlignment="Bottom"
                                 Maximum="{TemplateBinding ScrollableWidth}"
                                 Orientation="Horizontal"

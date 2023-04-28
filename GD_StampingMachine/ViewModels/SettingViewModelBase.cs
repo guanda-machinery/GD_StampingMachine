@@ -1,6 +1,10 @@
-﻿using GD_StampingMachine.GD_Enum;
+﻿using GD_CommonLibrary;
+using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
+using GD_StampingMachine.Model.ParameterSetting;
+using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,10 +15,10 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class SettingViewModelBase : BaseViewModelWithLog
+    public class SettingViewModelBase : ParameterSettingBaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelBase");
-        public GD_JsonHelperMethod JsonHM { get => new GD_JsonHelperMethod(); }
+
 
         public virtual NumberSettingModelBase NumberSetting{get;set;}
 
@@ -162,16 +166,41 @@ namespace GD_StampingMachine.ViewModels
         public double Margin_E { get => _margin_E; set { _margin_E = value; OnPropertyChanged(); } }
 
 
+        [Newtonsoft.Json.JsonIgnore]
+        public override ICommand LoadSettingCommand 
+        {
+            get => new RelayCommand(() =>
+            {
+                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out NumberSettingModelBase ReadModel, true))
+                {
+                    NumberSetting = ReadModel;
+                }
+            });
+        }
+        [Newtonsoft.Json.JsonIgnore]
+        public override ICommand RecoverSettingCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                NumberSetting = new NumberSettingModelBase();
+            });
+        }
+        [Newtonsoft.Json.JsonIgnore]
+        public override ICommand SaveSettingCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, NumberSetting, true);
+            });
+        }
+        [Newtonsoft.Json.JsonIgnore]
+        public override ICommand DeleteSettingCommand
+        {
+            get => new RelayCommand(() =>
+            {
 
-        [Newtonsoft.Json.JsonIgnore]
-        public virtual ICommand LoadModeCommand { get; }
-        [Newtonsoft.Json.JsonIgnore]
-        public virtual ICommand RecoverSettingCommand { get; }
-        [Newtonsoft.Json.JsonIgnore]
-        public virtual ICommand SaveSettingCommand { get; }
-        [Newtonsoft.Json.JsonIgnore]
-        public virtual ICommand DeleteSettingCommand { get; }
-
+            });
+        }
 
     }
 }

@@ -16,101 +16,103 @@ using System.Windows;
 
 namespace GD_StampingMachine.Method
 {
-    public class GD_JsonHelperMethod: JsonHelperMethod
+    public class GD_JsonHelperMethod : GD_CommonLibrary.Method.JsonHelperMethod
     {
-        public virtual string NumberSettingFilePath
+        public enum ParameterSettingNameEnum
         {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "NumberSetting", "Normal.json");
+            AxisSetting,
+            EngineerSetting,
+            InputOutput,
+            NumberSetting,
+            QRSetting,
+            SeparateBox,
+            SeparateSetting,
+            TimingSetting
         }
-        public virtual string QRNumberSettingFilePath
+        public enum MachineSettingNameEnum
         {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "NumberSetting", "QR.json");
+            StampingFont
         }
-        public virtual string MachiningSettingFilePath
+        public enum ProjectSettingEnum
         {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "MachiningSettingFilePath");
-        }
-
-        public virtual string StampingFontChangedFilePath
-        {
-            get => Path.Combine(MachiningSettingFilePath, "StampingFontChanged.json");
-        }
-
-        public bool ReadStampingFontChanged(out StampingFontChangedViewModel StampingFontChangedVM)
-        {
-            return this.ReadJsonFile(StampingFontChangedFilePath, out StampingFontChangedVM);
-        }
-        public bool WriteStampingFontChanged(StampingFontChangedViewModel StampingFontChangedVM)
-        {
-            return this.WriteJsonFile(StampingFontChangedFilePath, StampingFontChangedVM);
+            ProjectPathList
         }
 
 
 
-
-
-        /// <summary>
-        /// 存取一般號碼牌設定
-        /// </summary>
-        /// <param name="NumberSettingModelSavedList"></param>
-        /// <returns></returns>
-        public bool ReadNumberSetting(out ObservableCollection<NumberSettingModel> NumberSetting)
+        public bool ReadParameterSettingJsonSetting<T>(ParameterSettingNameEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
         {
-            return this.ReadJsonFile(QRNumberSettingFilePath, out NumberSetting);
+            return this.ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
         }
-        public bool WriteNumberSetting(ObservableCollection<NumberSettingModel> NumberSetting)
+        public bool WriteParameterSettingJsonSetting<T>(ParameterSettingNameEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
         {
-            return this.WriteJsonFile(QRNumberSettingFilePath, NumberSetting);
+           return this.WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
         }
 
-        /// <summary>
-        /// 取得QR號碼牌設定
-        /// </summary>
-        /// <param name="SavedCollection"></param>
-        /// <returns></returns>
-        public bool ReadQRNumberSetting(out ObservableCollection<QRSettingModel> QRNumberSetting)
+
+        public bool ReadMachineSettingJson<T>(MachineSettingNameEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
         {
-            return this.ReadJsonFile(QRNumberSettingFilePath, out QRNumberSetting);
+            return this.ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
         }
-        public bool WriteQRNumberSetting(ObservableCollection<QRSettingModel> QRSettingModelCollection)
+        public bool WriteMachineSettingJson<T>(MachineSettingNameEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
         {
-            return this.WriteJsonFile(QRNumberSettingFilePath, QRSettingModelCollection);
+            return this.WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
         }
 
-        public bool WriteProductProject(ProductProjectModel ProductProject)
-        {
-            var ProjectPath = Path.Combine(ProductProject.ProjectPath, ProductProject.Name);
 
-            if (!Path.HasExtension(ProjectPath))
+        public bool ReadProjectSettingJson<T>(ProjectSettingEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
+        {
+            return this.ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
+        }
+        public bool WriteProjectSettingJson<T>(ProjectSettingEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
+        {
+            return this.WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
+        }
+
+
+        private const string ConstSettings = "Settings";
+
+        private const string ConstNumberSetting = "NumberSetting";
+        private const string ConstParameterSetting = "ParameterSetting";
+
+        public bool ReadJsonSettingByEnum<T>(Enum ParameterSettingName , out T JsonData, bool ShowMessageBox = false)
+        {
+            var FilePath = Path.Combine( Directory.GetCurrentDirectory(), ConstSettings);
+
+            if (ParameterSettingName is ParameterSettingNameEnum)
             {
-                ProjectPath = Path.ChangeExtension(ProjectPath, "csv");
+                FilePath = Path.Combine(FilePath, ConstParameterSetting);
+                if (ParameterSettingName is ParameterSettingNameEnum.NumberSetting ||
+                    ParameterSettingName is ParameterSettingNameEnum.QRSetting)
+                {
+                    FilePath = Path.Combine(FilePath, ConstNumberSetting);
+                }
+            }
+            var FileName = Path.ChangeExtension(ParameterSettingName.ToString(), "json");
+            FilePath = Path.Combine(FilePath, FileName);
+
+            var Result = this.ReadJsonFile(FilePath, out JsonData);
+            if(ShowMessageBox)
+                MethodWinUIMessageBox.LoadSuccessful(FilePath, Result);
+            return Result;
+        }
+        public bool WriteJsonSettingByEnum<T>(Enum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
+        {
+            var FilePath = Directory.GetCurrentDirectory();
+            if (ParameterSettingName is ParameterSettingNameEnum.NumberSetting ||
+                ParameterSettingName is ParameterSettingNameEnum.QRSetting)
+            {
+                FilePath = Path.Combine(FilePath, ConstNumberSetting);
             }
 
-            return this.WriteJsonFile(ProjectPath, ProductProject);
+            var FileName = Path.ChangeExtension(ParameterSettingName.ToString(), "json");
+            FilePath = Path.Combine(FilePath, FileName);
+
+            var Result = this.WriteJsonFile(FilePath, JsonData); 
+            if (ShowMessageBox)
+                MethodWinUIMessageBox.SaveSuccessful(FilePath , Result);
+            return Result;
         }
-        public bool ReadProductProject(string FilePath ,out ProductProjectModel ProductProject)
-        {
-            return this.ReadJsonFile(FilePath,out ProductProject);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

@@ -97,17 +97,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         private ObservableCollection<NumberSettingModel> _numberSettingModelSavedCollection;
-
-
-
         public ObservableCollection<NumberSettingModel> NumberSettingModelSavedCollection
         {
             get
             {
                 if (_numberSettingModelSavedCollection == null)
                 {
-                 
-                    if (JsonHM.ReadNumberSetting(out var SavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NumberSettingModel> SavedCollection))
                         _numberSettingModelSavedCollection = SavedCollection;
                     else
                         _numberSettingModelSavedCollection = new();
@@ -123,7 +119,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override int PlateNumberListMax => 8;
 
-        public override ICommand LoadModeCommand
+        public override ICommand LoadSettingCommand 
         {
             get => new RelayCommand(() =>
             {
@@ -159,10 +155,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     NumberSettingModelSavedCollection.Add((NumberSettingModel)NumberSetting.DeepCloneByJson());
                 }
 
-                if (JsonHM.WriteNumberSetting(NumberSettingModelSavedCollection))
-                    Method.MethodWinUIMessageBox.SaveSuccessful(true);
-                else
-                    Method.MethodWinUIMessageBox.SaveSuccessful(false);
+                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection ,true);
             });
         }
         public override ICommand DeleteSettingCommand
@@ -172,8 +165,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (NumberSettingModelCollectionSelected != null)
                 {
                     NumberSettingModelSavedCollection.Remove(NumberSettingModelCollectionSelected);
-                    JsonHM.WriteNumberSetting(NumberSettingModelSavedCollection);
-                    }
+                    JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection);
+                }
             });
          }
 

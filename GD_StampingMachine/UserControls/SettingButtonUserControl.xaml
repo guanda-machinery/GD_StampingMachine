@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
              mc:Ignorable="d" >
     <StackPanel DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <Button Name="LoadModeButton" Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadModeCommand}"/>
+        <Button Name="LoadModeButton" Content="{DynamicResource btnLoadMode}" Margin="10" Command="{Binding LoadSettingCommand}"/>
         <Button Name="RecoverSettingButton" Content="{DynamicResource btnRecover}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
         <Button Name="SaveSettingModeButton" Content="{DynamicResource btnSave}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
     </StackPanel>

@@ -8,7 +8,8 @@
                xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              Foreground="White"          
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:GD_Behavior="clr-namespace:GD_StampingMachine.GD_Behavior"
+             xmlns:GD_Behavior="clr-namespace:GD_CommonLibrary.GD_Behavior;assembly=GD_CommonLibrary"
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters"
              Padding="5" Background="Transparent" Cursor="Hand" 
              >
     
@@ -55,9 +56,13 @@
                     </ControlTemplate>
                 </ToggleButton.Template>
 
-                </ToggleButton>
-                <TextBlock Name="ButtonTitleTextBlock" Text="{Binding ButtonTitleText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
-            </StackPanel>
+            </ToggleButton>
+            <TextBlock Name="ButtonTitleTextBlock" TextWrapping="Wrap" 
+                           Text="{Binding ButtonTitleText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Name="ButtonTitleTextBlock2" TextWrapping="Wrap" 
+                       Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={GD_ValueConverters:ObjectIsNullToVisibilityConverter}}"
+                           Text="{Binding ButtonTitleText2,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
         <Border Name="MainBorder"
                 MouseUp="MainBorder_MouseUp" Background="Transparent" Opacity="0.0">
             <Border.Triggers>

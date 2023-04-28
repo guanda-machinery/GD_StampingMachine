@@ -1,8 +1,10 @@
 ﻿using DevExpress.Mvvm.Native;
 using DevExpress.Utils;
 using GD_CommonLibrary;
+using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
+using GD_StampingMachine.Model.ParameterSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,38 +15,27 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class SeparateSettingViewModel : BaseViewModelWithLog
+    public class SeparateSettingViewModel : ParameterSettingBaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateSettingViewModel");
-        public SeparateSettingViewModel()
+        public SeparateSettingViewModel(SeparateSettingModel SeparateSetting)
         {
+            _separateSetting= SeparateSetting;
             initSeparateSetting();
         }
 
-        private SeparateSettingModel _separateSetting = new SeparateSettingModel();
-        public SeparateSettingModel SeparateSetting
-        {
-            get
-            {
-              return _separateSetting;
-            }
-            set
-            {
-                _separateSetting = value;   
-                OnPropertyChanged(nameof(SeparateSetting));
-            }
-        }
+        private SeparateSettingModel _separateSetting = new();
 
 
         public ObservableCollection<SeparateBoxViewModel> UnifiedSetting_SeparateBoxModel
         {
             get
             {
-                return SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection;
+                return _separateSetting.UnifiedSetting_SeparateBoxObservableCollection;
             }
             set
             {
-                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection = value;
+                _separateSetting.UnifiedSetting_SeparateBoxObservableCollection = value;
                 OnPropertyChanged();
             }
         }
@@ -53,11 +44,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                return SeparateSetting.SingleSetting_SeparateBox;
+                return _separateSetting.SingleSetting_SeparateBox;
             }
             set
             {
-                SeparateSetting.SingleSetting_SeparateBox = value;
+                _separateSetting.SingleSetting_SeparateBox = value;
                 OnPropertyChanged();
             }
         }
@@ -67,82 +58,88 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x => x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue);
-                return SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
+                if(SettingType == SettingTypeEnum.UnifiedSetting)
+                {
+                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x => x.BoxSliderValue = _separateSetting.SingleSetting_SeparateBox.BoxSliderValue);
+                }
+                return _separateSetting.SingleSetting_SeparateBox.BoxSliderValue;
             }
             set
             {
-                SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
+                _separateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
                 OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
             }
         }
 
-
-        public bool SingleSettingBoolean
+        public SettingTypeEnum SettingType
         {
-            get
-            {
-                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
-                {
-                    x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
-                    x.BoxSliderIsEnabled = SeparateSetting.SettingType == SettingTypeEnum.SingleSetting;
-                });
-                return SeparateSetting.SettingType == SettingTypeEnum.SingleSetting;
-            }
+            get => _separateSetting.SettingType;
             set
             {
-                if(value)
+                _separateSetting.SettingType = value;
+                if (_separateSetting.SettingType == SettingTypeEnum.SingleSetting)
                 {
-                    SeparateSetting.SettingType = SettingTypeEnum.SingleSetting;
+                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                    {
+                        x.BoxSliderIsEnabled = true;
+                    });
                 }
+                if (_separateSetting.SettingType == SettingTypeEnum.UnifiedSetting)
+                {
+                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                    {
+                        x.BoxSliderIsEnabled = false;
+                    });
+                }
+
+
                 OnPropertyChanged();
             }
         }
-        public bool UnifiedSettingBoolean
-        {
-            get
-            {
-                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
-                {
-                    x.BoxSliderIsEnabled = SeparateSetting.SettingType == SettingTypeEnum.SingleSetting;
-                });
-                return SeparateSetting.SettingType == SettingTypeEnum.UnifiedSetting;
-            }
-            set
-            {
-                if (value)
-                {
-                    SeparateSetting.SettingType = SettingTypeEnum.UnifiedSetting;
-                }
-                OnPropertyChanged(nameof(UnifiedSettingBoolean));
-            }
-        }
 
-        public ICommand RecoverSettingCommand
+
+
+        public override ICommand RecoverSettingCommand
         {
             get => new RelayCommand(() =>
             {
-                SeparateSetting = new SeparateSettingModel();
+                _separateSetting = new SeparateSettingModel();
                 initSeparateSetting();
             });
         }
 
-        public ICommand SaveSettingCommand
+        public override ICommand SaveSettingCommand
         {
             get => new RelayCommand(() =>
             {
-
+                JsonHM.WriteParameterSettingJsonSetting(Method.GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, _separateSetting, true);       
             });
         }
+        public override ICommand LoadSettingCommand
+        {
+            get => new RelayCommand(() =>
+            {
+               
+                if (JsonHM.ReadParameterSettingJsonSetting(Method.GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel SSetting, true))
+                {
+                    _separateSetting = SSetting;
+                    OnPropertyChanged(nameof(SettingType));
+                    OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
+                    OnPropertyChanged(nameof(UnifiedSetting_SeparateBoxModel));
+                }
+            });
+        }
+
+        public override ICommand DeleteSettingCommand => throw new NotImplementedException();
 
         private void initSeparateSetting()
         {
             SingleSetting_SeparateBoxValue = 0;
-            if (SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Count == 0)
+            if (_separateSetting.UnifiedSetting_SeparateBoxObservableCollection.Count == 0)
             {
                 for (int i = 1; i <= 10; i++)
                 {
-                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(new SeparateBoxViewModel()
+                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(new SeparateBoxViewModel()
                     {
                         BoxIndex = i,
                         BoxSliderValue = 0,

@@ -123,7 +123,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_qrSettingModelModelCollection == null)
                 {
-                    if(JsonHM.ReadQRNumberSetting(out var SavedCollection))
+
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingModel> SavedCollection,false))
                         _qrSettingModelModelCollection = SavedCollection;                
                     else
                         _qrSettingModelModelCollection = new();
@@ -206,7 +207,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        public override ICommand LoadModeCommand
+        public override ICommand LoadSettingCommand 
         {
             get => new RelayCommand(() =>
             {
@@ -243,10 +244,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     QRSettingModelCollection.Add(NumberSetting.DeepCloneByJson() as QRSettingModel);
                 }
 
-                if (this.JsonHM.WriteQRNumberSetting(QRSettingModelCollection))
-                    Method.MethodWinUIMessageBox.SaveSuccessful(true);
-                else
-                    Method.MethodWinUIMessageBox.SaveSuccessful(false);
+                this.JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
             });
         }
 
@@ -257,7 +255,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (QRSettingModelCollectionSelected != null)
                 {
                     QRSettingModelCollection.Remove(QRSettingModelCollectionSelected);
-                    JsonHM.WriteQRNumberSetting(QRSettingModelCollection);
+                    JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection);
                 }
             });
         }

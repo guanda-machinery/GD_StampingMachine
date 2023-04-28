@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public class ProductProjectModel 
-    {
-        /// <summary>
-        /// 路徑
-        /// </summary>
+    public class ProductProjectModel
+    { 
+         /// <summary>
+         /// 路徑
+         /// </summary
         public string ProjectPath { get; set; }
         /// <summary>
         /// 工程編號

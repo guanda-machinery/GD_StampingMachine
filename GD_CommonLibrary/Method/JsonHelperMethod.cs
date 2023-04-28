@@ -9,13 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using DevExpress.XtraSpreadsheet.Model;
 using Newtonsoft.Json;
 
 namespace GD_CommonLibrary.Method
 {
     public class JsonHelperMethod
     {
-        protected bool WriteJsonFile<T>(string fileName, T JsonData)
+        public bool WriteJsonFile<T>(string fileName, T JsonData)
         {
             try
             {
@@ -24,9 +25,19 @@ namespace GD_CommonLibrary.Method
                 {
                     fileName = Path.ChangeExtension(fileName, "json");
                 }
+
+                if (string.IsNullOrEmpty(Path.GetDirectoryName(fileName)))
+                {
+                    //如果檔案名不包含根目錄 幫他建在工作目錄下
+                    fileName =Path.Combine( Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
+                }
+
                 //建立資料夾
                 if (!Directory.Exists(fileName))
                     Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
+                if (JsonData == null)
+                    throw new ArgumentNullException();
 
                 string output = JsonConvert.SerializeObject(JsonData);
                 File.WriteAllText(fileName, output);
@@ -34,13 +45,25 @@ namespace GD_CommonLibrary.Method
             }
             catch (Exception ex)
             {
+                MessageBoxResultShow.ShowException(ex);
                 Debugger.Break();
                 return false;
             }
         }
-        protected bool ReadJsonFile<T>(string fileName, out T JsonData)
+        public bool ReadJsonFile<T>(string fileName, out T JsonData)
         {
             JsonData = default(T);
+            if (!Path.HasExtension(fileName) || Path.GetExtension(fileName).ToLower() != "json")
+            {
+                fileName = Path.ChangeExtension(fileName, "json");
+            }
+
+            if (string.IsNullOrEmpty(Path.GetDirectoryName(fileName)))
+            {
+                //如果檔案名不包含根目錄 幫他建在工作目錄下
+                fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
+            }
+
             if (!Directory.Exists(Path.GetDirectoryName(fileName)))
                 return false;
             
@@ -52,7 +75,8 @@ namespace GD_CommonLibrary.Method
                 StreamReader r = new StreamReader(fileName);
                 string jsonString = r.ReadToEnd();
                 JsonData = JsonConvert.DeserializeObject<T>(jsonString);
-                return true;
+
+                return JsonData != null;
             }
             catch (Exception ex)
             {
@@ -62,14 +86,17 @@ namespace GD_CommonLibrary.Method
         }
 
 
-        private static readonly OpenFileDialog sfd = new()
-        {
-            Filter = "Json files (*.json)|*.json"
-        };
+
 
         public bool ManualReadJsonFile<T>(out T JsonData)
         {
-            JsonData=default;
+            JsonData=default;   
+           
+            OpenFileDialog sfd = new()
+            {
+                Filter = "Json files (*.json)|*.json"
+            }; 
+
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -88,7 +115,11 @@ namespace GD_CommonLibrary.Method
 
         public bool ManualWriteJsonFile<T>(T JsonData)
         {
-            JsonData = default;
+            SaveFileDialog sfd = new SaveFileDialog()
+            { 
+                Filter = "Json files (*.json)|*.json"
+            };
+
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try

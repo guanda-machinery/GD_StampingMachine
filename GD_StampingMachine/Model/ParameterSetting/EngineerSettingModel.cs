@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.GD_Enum
+namespace GD_StampingMachine.Model
 {
-    /// <summary>
-    /// 箱子設定
-    /// </summary>
-    public enum SettingTypeEnum
+    public class EngineerSettingModel
     {
         /// <summary>
-        /// 個別設定
+        /// 循環時間
         /// </summary>
-        SingleSetting,
+        public TimeSpan CycleTime { get; set; }
         /// <summary>
-        /// 統一設定
+        /// 間隔時間
         /// </summary>
-        UnifiedSetting
+        public TimeSpan Intervals { get; set; }
+
+
     }
 }

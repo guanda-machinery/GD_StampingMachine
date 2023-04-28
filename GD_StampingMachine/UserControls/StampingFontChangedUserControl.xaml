@@ -39,7 +39,7 @@
             </GroupBox>
         <StackPanel Grid.Row="0" >
 
-            <Border  Margin="10"
+            <Border  Margin="5"
                 Width="350" Height="350" BorderThickness="1" CornerRadius="200" BorderBrush="DimGray" Background="White" >
                 <Grid>
                     <Line X1="0" X2="350" Y1="0" Y2="0" StrokeThickness="1" Stroke="DimGray" VerticalAlignment="Center"/>
@@ -411,7 +411,7 @@
                           >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Margin="8"/>
+                            <WrapPanel Margin="0"/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
@@ -487,7 +487,7 @@
             <GroupBox   Width="230"
                 Name="UnusedStampingGroupBox" MinWidth="190" Padding="10" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0">
                 <ListBox Name="UnusedStampingFontListBox" Padding="10" MaxHeight="{Binding ElementName=StampingFontListBox, Path=ActualHeight}"  VerticalAlignment="Top"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,10,0,0"  ClipToBounds="True"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,0,0,0"  ClipToBounds="True"
                          SelectedItem="{Binding UnusedStampingFontSelected}" 
                          ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
                          ItemContainerStyle="{StaticResource UnusedStampingTypeDataStyle}"

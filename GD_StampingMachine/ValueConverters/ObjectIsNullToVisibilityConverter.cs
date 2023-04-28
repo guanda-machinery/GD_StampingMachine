@@ -11,45 +11,36 @@ using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    public class ObjectIsNullToVisibilityConverter : BaseValueConverter
+    public class ObjectIsNullToBooleanConverter : BaseValueConverter
     {
         public bool Invert { get; set; }
-
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Visibility _visibility = Visibility.Collapsed;
-            if (value == null)
+            if(value == null)
             {
-                return (Invert)? Visibility.Visible : _visibility;
+                return (!Invert);
             }
 
             if (value is string)
             {
                 if (string.IsNullOrEmpty(value as string))
                 {
-                    return (Invert)? Visibility.Visible : _visibility;
+                    return (!Invert);
                 }
                 else
                 {
-                    return (!Invert) ? Visibility.Visible : _visibility;
+                    return (Invert);
                 }
             }
 
-            return (!Invert) ? Visibility.Visible : _visibility;
+            return (Invert);
 
         }
 
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is Visibility ValueVisibility)
-            {
-                if (ValueVisibility is Visibility.Visible)
-                    return (Invert);
-                else 
-                    return (!Invert);
-            }
-            throw new Exception();
+            return parameter;
         }
 
        

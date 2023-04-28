@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,14 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GD_StampingMachine.SplashScreenWindows
+namespace GD_CommonLibrary.SplashScreenWindows
 {
     /// <summary>
-    /// Interaction logic for StartSplashScreen.xaml
+    /// ProcessingScreenWindow.xaml 的互動邏輯
     /// </summary>
-    public partial class StartSplashScreen : SplashScreenWindow
+    public partial class ProcessingScreenWindow : SplashScreenWindow
     {
-        public StartSplashScreen()
+        public ProcessingScreenWindow()
         {
             InitializeComponent();
         }

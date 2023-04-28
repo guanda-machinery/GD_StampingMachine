@@ -7,7 +7,7 @@ using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
-using GD_StampingMachine.SplashScreenWindows;
+using GD_CommonLibrary.SplashScreenWindows;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using GD_CommonLibrary;
+using GD_CommonLibrary.Method;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -46,7 +47,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
        // private string _projectPathText;
         public string ProjectPathText
         {
-            get => CreatedProjectModel.ProjectPath;
+            get => CreatedProjectVM.ProductProjectPath;
             set
             {
                 value = value.Replace(@"/" , @"\");
@@ -62,7 +63,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
 
 
-                CreatedProjectModel.ProjectPath = value;
+                CreatedProjectVM.ProductProjectPath = value;
                 OnPropertyChanged(nameof(ProjectPathText));
             }
         }
@@ -92,7 +93,23 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayParameterizedCommand(obj =>
             {
-                using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+                var sfd = new System.Windows.Forms.SaveFileDialog()
+                {
+                    Filter = "Json files (*.json)|*.json"
+                };
+
+                if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    CreatedProjectVM.ProductProjectName = Path.GetFileNameWithoutExtension(sfd.FileName);
+                    CreatedProjectVM.ProductProjectPath = Path.GetDirectoryName(sfd.FileName);
+                    /*   if (obj is System.Windows.Controls.TextBox ObjTB)
+                       {
+                           sfd.FileName
+                           ObjTB.Text = dialog.SelectedPath;
+                       }*/
+                }
+
+                /*using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
                 {
                     System.Windows.Forms.DialogResult result = dialog.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)
@@ -102,7 +119,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             ObjTB.Text = dialog.SelectedPath;
                         }
                     }
-                }
+                }*/
             });
         }
 
@@ -112,20 +129,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 AddLogData((string)Application.Current.TryFindResource("btnAddProject"));
                 //若不clone會導致資料互相繫結
-                var CreatedProductProjectVM = new ProductProjectViewModel(CreatedProjectModel.DeepCloneByJson());
+                var CreatedProductProjectVM = CreatedProjectVM.DeepCloneByJson();
                 CreatedProductProjectVM.SaveProductProject();
-                ProductProjectVMObservableCollection.Add(CreatedProductProjectVM);
+                ProductProjectVMObservableCollection.Add(CreatedProjectVM);
+             
+                });
 
-            });
         }
 
-        //   public ProductProjectModel CreatedProjectModel { get; set;} = new ProductProjectModel();
-        public ProductProjectModel CreatedProjectModel { get; set; } = new ProductProjectModel()
+        public ProductProjectViewModel CreatedProjectVM { get; set; } = new ProductProjectViewModel(new ProductProjectModel()
         {
             Name = "NewProject",
             Number = "newAS001",
             CreateTime = DateTime.Now
-        };
+        });
 
         public Array SheetStampingTypeEnumCollection
         {
@@ -155,7 +172,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                if(new JsonHelperMethod().ManualReadJsonFile(out ProductProjectModel ReadProductProject))
+                if(new GD_CommonLibrary.Method.JsonHelperMethod().ManualReadJsonFile(out ProductProjectModel ReadProductProject))
                 {
                      ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
                 }
@@ -166,16 +183,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
+                //儲存一份路徑清單
+                List<ProjectModel> PathList = new List<ProjectModel>();
                 //將所有檔案儲存
                 ProductProjectVMObservableCollection.ForEach(obj =>
                 {
                     obj.SaveProductProject();
+                    PathList.Add(obj);
                 });
 
-
-
-
-
+                JsonHM.WriteProjectSettingJson(GD_JsonHelperMethod.ProjectSettingEnum.ProjectPathList, PathList);
             });
         }
 
@@ -184,6 +201,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 新增零件的vm
         /// </summary>
+        
         public ProductProjectViewModel SelectProductProjectVM 
         {
             get => _selectProductProjectVM;

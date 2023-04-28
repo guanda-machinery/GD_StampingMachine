@@ -84,6 +84,15 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty ButtonTitleTextProperty =
     DependencyProperty.Register(nameof(ButtonTitleText), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata());
 
+        public string ButtonTitleText2
+        {
+            get { return (string)GetValue(ButtonTitleText2Property); }
+            set { SetValue(ButtonTitleText2Property, value); }
+        }
+        public static readonly DependencyProperty ButtonTitleText2Property =
+    DependencyProperty.Register(nameof(ButtonTitleText2), typeof(string), typeof(FunctionToggleButton), new PropertyMetadata());
+
+
         public Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
@@ -134,25 +143,6 @@ namespace GD_StampingMachine.UserControls.CustomControls
         }
         public static readonly DependencyProperty ProgressBarMinimumProperty =
     DependencyProperty.Register(nameof(ProgressBarMinimum), typeof(double), typeof(FunctionToggleButton), new PropertyMetadata(0.0));
-
-      /*
-        public Control Control
-        {
-            get { return (Control)GetValue(ControlProperty); }
-            set { SetValue(ControlProperty, value); }
-        }
-        public static readonly DependencyProperty ControlProperty =
-    DependencyProperty.Register(nameof(Control), typeof(Control), typeof(FunctionToggleButton), new PropertyMetadata());
-        */
-
-
-
-
-
-
-
-
-
 
 
 

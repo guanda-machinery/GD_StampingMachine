@@ -20,10 +20,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class BaseViewModel : MarkupExtension , INotifyPropertyChanged
     { 
-        /// <summary>
-        /// 訊息紀錄
-        /// </summary>
-       // public SyncObservableCollection<OperatingLogViewModel> LogDataObservableCollection { get; set; } = new SyncObservableCollection<OperatingLogViewModel>();
+
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
