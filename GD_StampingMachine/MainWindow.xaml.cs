@@ -45,39 +45,46 @@ namespace GD_StampingMachine
                 Copyright = "Copyright © 2022 GUANDA",
             };
 
-            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-            manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
-            Task.Run(() =>
-            {
-               Thread.Sleep(1000);
-                for (int i = 0; i <= 1000; i++)
-                {
-                    ManagerVM.Progress = i/10;
-                    Thread.Sleep(2);
-                }
-                //manager.ViewModel.Status = "正在啟動...";
-                ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
-
-                Dispatcher.BeginInvoke(new Action(delegate
-                {
-                    var MachineWindow = new StampingMachineWindow();
-                    MachineWindow.Show();
-                }));
-                manager.Close();
-            });
-
-
             LoadLanguage();
-
             //靜態調用. 當資源字典變更成其他語系後, Title並不會隨著變化
             //lblTitle.Content = FindResource(“lblTitle”).ToString();
             //動態調用, Title會隨著字典而變化.
             // lblTitle.SetResourceReference(Label.ContentProperty, “lblTitle”);
-
             //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
+    
+            Task.Run(() =>
+            {
+               StampingMachineWindow MachineWindow;
+               var ThreadOper = Dispatcher.BeginInvoke(new Action(delegate
+               {
+                   Thread.Sleep(100);
+                   MachineWindow = new StampingMachineWindow();
+                    MachineWindow.Show();
+                }));
 
-        }
+                Thread.Sleep(100);
+                SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
+                manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
+                ManagerVM.IsIndeterminate = true;
+                /*for (int i = 0; i <= 1000; i++)
+                {
+                    ManagerVM.Progress = i/10;
+                    Thread.Sleep(2);
+
+                    if (ThreadOper.Result != null)
+                        break;
+                }*/
+                ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
+                Thread.Sleep(500);
+                
+                ThreadOper.Wait();
+                manager.Close();
+            });
+
+
+
+         }
 
 
         private void LoadLanguage()

@@ -819,7 +819,7 @@
                                 </Grid>
                                 <ListBox Grid.Row="1" Grid.ColumnSpan="2"  SelectionMode="Multiple" 
                                      ScrollViewer.VerticalScrollBarVisibility="Auto"  ClipToBounds="True" 
-                                     ItemsSource="{Binding UnifiedSetting_SeparateBoxModel ,UpdateSourceTrigger=PropertyChanged}"
+                                     ItemsSource="{Binding SeparateBoxVMObservableCollection ,UpdateSourceTrigger=PropertyChanged}"
                                      >
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">

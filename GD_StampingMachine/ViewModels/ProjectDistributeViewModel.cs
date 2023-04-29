@@ -36,13 +36,19 @@ namespace GD_StampingMachine.ViewModels
         /// 製品編輯時間
         /// </summary>
         public DateTime? EditDate { get; set; }
+
+
+        //ReadyToTypeSettingProductProjectVMObservableCollection
+
         /// <summary>
         /// 製品清單
         /// </summary>
+
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
         /// <summary>
         /// 盒子
         /// </summary>
+
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
     }
 
@@ -66,11 +72,12 @@ namespace GD_StampingMachine.ViewModels
                 GridControl_MachiningStatusColumnVisible = false
             });
 
-            NotReadyToTypeSettingProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>();
+            //NotReadyToTypeSettingProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>();
             ProductProjectVMObservableCollection.ForEach(obj =>
             {
-                if (ReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x == obj) == -1)
-                    NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
+                var Index = obj.PartsParameterVMObservableCollection.FindIndex(x => x.DistributeName == this.ProjectDistributeName);
+               if(Index !=-1)
+                    ReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
             });
         }
 
@@ -92,6 +99,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         private bool _IsInDistributePage = false;
+        [JsonIgnore]
         public bool IsInDistributePage { get => _IsInDistributePage; set { _IsInDistributePage = value; OnPropertyChanged(); } }
 
         private bool _addTypeSettingProjectDarggableIsPopUp;
@@ -191,6 +199,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         private ObservableCollection<ProductProjectViewModel> _notreadyToTypeSettingProductProjectVMObservableCollection =new();
+
         public ObservableCollection<ProductProjectViewModel> NotReadyToTypeSettingProductProjectVMObservableCollection
         {
             get
@@ -209,6 +218,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 篩選後的專案
         /// </summary>
+        [JsonIgnore]
         public ObservableCollection<ProductProjectViewModel> ReadyToTypeSettingProductProjectVMObservableCollection
         {
             get => _readyToTypeSettingProductProjectVMObservableCollection;
@@ -250,6 +260,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// GridControl ABC參數 沒放進箱子內的
         /// </summary>
+        [JsonIgnore]
         public ObservableCollection<PartsParameterViewModel> PartsParameterVMObservableCollection
         {
             get

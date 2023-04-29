@@ -71,7 +71,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 StampingMain = JsonStampingMain;
                 TypeSettingSettingVM.TypeSettingSetting.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
-                TypeSettingSettingVM.TypeSettingSetting.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel;
+                TypeSettingSettingVM.TypeSettingSetting.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
                 MachiningSettingVM.MachiningSetting.ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection;
             }
             else*/
@@ -115,6 +115,7 @@ namespace GD_StampingMachine.ViewModels
                 {
 
                 };
+
                 if (JsonHM.ReadMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont, out StampingFontChangedViewModel SReadSFC))
                 {
                     StampingFontChangedVM = SReadSFC;
@@ -150,17 +151,40 @@ namespace GD_StampingMachine.ViewModels
                 {
                     PathList.ForEach(EPath =>
                     {
+                        //加工專案為到處放的形式 沒有固定位置
                         if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
+                        {
                             ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
+                        }
                         else
+                        {
+                            //需註解找不到檔案!
                             ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()));
+                        }
                     });
                 }
+          
                 TypeSettingSettingVM = new(new TypeSettingSettingModel()
                 {
                     ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
-                    SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel,
+                    SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection,
                 });
+
+                if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
+                {
+                    RPDList.ForEach(PDistribute =>
+                    {
+                        PDistribute.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
+                        PDistribute.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
+                    TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute)
+                    { 
+                        IsInDistributePage = false
+                        //重新繫結
+                    });
+                });
+                }
+
+
                 MachiningSettingVM = new MachiningSettingViewModel(new MachiningSettingModel()
                 {
                     ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
@@ -180,6 +204,7 @@ namespace GD_StampingMachine.ViewModels
 
             Task.Run(() =>
             {
+                Thread.Sleep(5000);
                 while (true)
                 {
                     //定期存檔
@@ -192,10 +217,10 @@ namespace GD_StampingMachine.ViewModels
                     }*/
                     try
                     {
-                       /* if (StampingMain != null)
-                        {
-                            var a = JsonHM.WriteStampingAllData(StampingMain);
-                        }*/
+                        var Model_IEnumerable = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                        //定期存檔
+
+                        JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
                     }
                     catch(Exception ex)
                     {

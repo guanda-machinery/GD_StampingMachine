@@ -35,7 +35,14 @@ namespace GD_StampingMachine.Method
         }
         public enum ProjectSettingEnum
         {
-            ProjectPathList
+            /// <summary>
+            /// 專案檔案路徑清單
+            /// </summary>
+            ProjectPathList,
+            /// <summary>
+            /// 加工專案清單
+            /// </summary>
+            ProjectDistributeList
         }
 
        /* private string MainSetting
@@ -80,6 +87,30 @@ namespace GD_StampingMachine.Method
         {
             return this.WriteJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, JsonData, ShowMessageBox);
         }
+
+        /// <summary>
+        /// 加工專案讀取
+        /// </summary>
+        /// <param name="PathList"></param>
+        /// <param name="ShowMessageBox"></param>
+        /// <returns></returns>
+        public bool ReadProjectDistributeListJson(out List<ProjectDistributeModel> PathList, bool ShowMessageBox = false)
+        {
+            return this.ReadJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, out PathList, ShowMessageBox);
+        }
+        /// <summary>
+        /// 加工專案寫入
+        /// </summary>
+        /// <param name="JsonData"></param>
+        /// <param name="ShowMessageBox"></param>
+        /// <returns></returns>
+        public bool WriteProjectDistributeListJson(List<ProjectDistributeModel> JsonData, bool ShowMessageBox = false)
+        {
+            return this.WriteJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, JsonData, ShowMessageBox);
+        }
+
+
+
 
 
         private const string ConstSettings = "Settings";

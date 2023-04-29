@@ -20,7 +20,10 @@ namespace GD_StampingMachine.ViewModels
     {
         public string ProjectDistributeName { get; set; }
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
+       
+        [JsonIgnore]
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
+        [JsonIgnore]
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
 
         [JsonIgnore]
@@ -114,6 +117,7 @@ namespace GD_StampingMachine.ViewModels
         private void BoxPartsParameterVMObservableCollectionRefresh(int _boxindex)
         {
             BoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+            if(ProductProjectVMObservableCollection!= null)
             ProductProjectVMObservableCollection.ForEach(productProject =>
             {
                 productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
@@ -137,6 +141,7 @@ namespace GD_StampingMachine.ViewModels
         /// 盒子內的專案
         /// </summary>
         private ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection;
+        [JsonIgnore]
         public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection
         {
             get

@@ -161,7 +161,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private RelayParameterizedCommand _projectEditCommand;
+        //private RelayParameterizedCommand _projectEditCommand;
+        [JsonIgnore]
         public RelayParameterizedCommand ProjectEditCommand
         {
             get => new RelayParameterizedCommand(obj =>

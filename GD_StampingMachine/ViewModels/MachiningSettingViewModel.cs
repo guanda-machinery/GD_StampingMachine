@@ -18,8 +18,10 @@ namespace GD_StampingMachine.ViewModels
 {
     public class MachiningSettingModel
     {
-        public ProjectDistributeViewModel ProjectDistributeVMObservableCollectionSelected { get; set; }
+        public ProjectDistributeViewModel ProjectDistributeVM { get; set; }
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
+  
+    
     }
 
     public class MachiningSettingViewModel : BaseViewModelWithLog
@@ -99,10 +101,10 @@ namespace GD_StampingMachine.ViewModels
         public MachiningSettingModel MachiningSetting { get => _machiningSetting ??= new MachiningSettingModel(); set => _machiningSetting = value; }
         public ProjectDistributeViewModel ProjectDistributeVMSelected 
         {
-            get=>MachiningSetting.ProjectDistributeVMObservableCollectionSelected;
+            get=>MachiningSetting.ProjectDistributeVM;
             set 
             {
-                MachiningSetting.ProjectDistributeVMObservableCollectionSelected = value;
+                MachiningSetting.ProjectDistributeVM = value;
                 OnPropertyChanged();
             }
         }
@@ -171,6 +173,7 @@ namespace GD_StampingMachine.ViewModels
                     StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
                     {
                         ProjectDistributeName = ProjectDistributeVMSelected.ProjectDistributeName,
+
                         ProjectDistributeVMObservableCollection = this.ProjectDistributeVMObservableCollection,
                         ProductProjectVMObservableCollection = ProjectDistributeVMSelected.ProductProjectVMObservableCollection,
                         SeparateBoxVMObservableCollection = ProjectDistributeVMSelected.SeparateBoxVMObservableCollection,

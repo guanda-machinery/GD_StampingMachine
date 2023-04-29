@@ -27,7 +27,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private SeparateSettingModel _separateSetting = new();
 
 
-        public ObservableCollection<SeparateBoxViewModel> UnifiedSetting_SeparateBoxModel
+        public ObservableCollection<SeparateBoxViewModel> SeparateBoxVMObservableCollection
         {
             get
             {
@@ -125,7 +125,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     _separateSetting = SSetting;
                     OnPropertyChanged(nameof(SettingType));
                     OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
-                    OnPropertyChanged(nameof(UnifiedSetting_SeparateBoxModel));
+                    OnPropertyChanged(nameof(SeparateBoxVMObservableCollection));
                 }
             });
         }

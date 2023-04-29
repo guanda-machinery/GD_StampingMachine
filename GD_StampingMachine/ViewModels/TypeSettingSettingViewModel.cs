@@ -12,11 +12,13 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using GD_CommonLibrary;
 using Newtonsoft.Json;
+using DevExpress.Mvvm.Native;
 
 namespace GD_StampingMachine.ViewModels
 {
     public class TypeSettingSettingModel
     {
+
         /// <summary>
         /// 製品清單
         /// </summary>
@@ -36,29 +38,10 @@ namespace GD_StampingMachine.ViewModels
         {
             if (_typeSettingSetting == null)
                 _typeSettingSetting = new TypeSettingSettingModel();
-            TypeSettingSetting = _typeSettingSetting;
-            var ProjectDistributeModelList = new List<ProjectDistributeModel>()
-              {
-                  new ProjectDistributeModel()
-                  {
-                      ProjectDistributeName="排版專案一",
-                      CreatedDate = DateTime.Now,
 
-                      ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection,
-                      SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection
-                  },
-                  new ProjectDistributeModel()
-                  {
-                      ProjectDistributeName="排版專案二",
-                      CreatedDate = DateTime.Now,
-                      ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection,
-                      SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection
-                  },
-              };
-            ProjectDistributeModelList.ForEach(projectDistribute =>
-            {
-                ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(projectDistribute));
-            });
+            TypeSettingSetting = _typeSettingSetting;
+
+
             ProjectDistributeVM = ProjectDistributeVMObservableCollection.FirstOrDefault();
         }
 
@@ -87,6 +70,12 @@ namespace GD_StampingMachine.ViewModels
                     Clone.ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection;
                     Clone.SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection;
                     ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
+
+
+                    var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                    //存檔
+                    JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+
                 });
             }
         }
