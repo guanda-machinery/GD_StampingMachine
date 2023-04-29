@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Input;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Method;
+using Newtonsoft.Json;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -50,16 +51,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => CreatedProjectVM.ProductProjectPath;
             set
             {
-                value = value.Replace(@"/" , @"\");
+                if (value != null)
+                {
+                    value = value.Replace(@"/", @"\");
+                    while (value.Contains(@"\\"))
+                    {
+                        value = value.Replace(@"\\", @"\");
+                    }
 
-                while (value.Contains(@"\\"))
-                {
-                    value = value.Replace(@"\\", @"\");
-                }
-                
-                while (value.Contains(@".."))
-                {
-                    value = value.Replace(@".", @".");
+                    while (value.Contains(@".."))
+                    {
+                        value = value.Replace(@".", @".");
+                    }
                 }
 
 
@@ -88,7 +91,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-
+        [JsonIgnore]
         public ICommand SetProjectFolder
         {
             get => new RelayParameterizedCommand(obj =>
@@ -122,7 +125,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }*/
             });
         }
-
+        [JsonIgnore]
         public ICommand CreateProjectCommand
         {
             get => new RelayCommand(() =>
@@ -146,6 +149,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             CreateTime = DateTime.Now
         });
 
+        [JsonIgnore]
         public Array SheetStampingTypeEnumCollection
         {
             get
@@ -154,6 +158,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        [JsonIgnore]
         public ICommand RowDoubleClickCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
@@ -169,7 +174,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        
+        [JsonIgnore]
         public ICommand LoadProductSettingCommand
         {
             get => new RelayCommand(() =>
@@ -180,7 +185,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
             });
         }
-
+        [JsonIgnore]
         public ICommand SaveProductSettingCommand
         {
             get => new RelayCommand(() =>

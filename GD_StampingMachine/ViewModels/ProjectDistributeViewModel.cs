@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 using GD_CommonLibrary;
+using Newtonsoft.Json;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -52,6 +53,8 @@ namespace GD_StampingMachine.ViewModels
 
         public ProjectDistributeViewModel(ProjectDistributeModel _projectDistribute)
         {
+            if (_projectDistribute == null)
+                _projectDistribute = new ProjectDistributeModel();
             ProjectDistribute = _projectDistribute;
             StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel
             {
@@ -69,10 +72,9 @@ namespace GD_StampingMachine.ViewModels
                 if (ReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x == obj) == -1)
                     NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
             });
-
         }
 
-        public ProjectDistributeModel ProjectDistribute { get; } = new ProjectDistributeModel();
+        public ProjectDistributeModel ProjectDistribute { get; set; } = new ProjectDistributeModel();
 
         public string ProjectDistributeName { get => ProjectDistribute.ProjectDistributeName; set { ProjectDistribute.ProjectDistributeName = value; OnPropertyChanged(); } }
         public DateTime CreatedDate { get => ProjectDistribute.CreatedDate; set { ProjectDistribute.CreatedDate = value; OnPropertyChanged(); } }
@@ -80,7 +82,8 @@ namespace GD_StampingMachine.ViewModels
 
 
         public StampingBoxPartsViewModel StampingBoxPartsVM { get; set; }
-
+       
+        [JsonIgnore]
         public ICommand RefreshStampingBoxCommand
         {
             get => StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
@@ -174,7 +177,7 @@ namespace GD_StampingMachine.ViewModels
             } 
         }
 
-
+        [JsonIgnore]
         public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> NotReadyRowDoubleClickCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
@@ -216,7 +219,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-
+        [JsonIgnore]
         public ICommand MoveNotReadyToReadyCommand
         {
             get => new RelayCommand(() =>
@@ -307,7 +310,7 @@ namespace GD_StampingMachine.ViewModels
                 }
              });
         }*/
-        
+
 
 
 
@@ -319,6 +322,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 從箱子拿出來  
         /// </summary>
+        [JsonIgnore]
         public ICommand NoneBox_OnDropRecordCommand
         {
             get
@@ -342,7 +346,7 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
         }
-
+        [JsonIgnore]
         public ICommand NoneBox_OnDragRecordOverCommand
         {
             get => new RelayParameterizedCommand(obj =>
@@ -382,7 +386,8 @@ namespace GD_StampingMachine.ViewModels
 
         /// <summary>
         /// 丟入盒子內
-        /// </summary>
+        /// </summary> 
+        [JsonIgnore]
         public ICommand Box_OnDropRecordCommand
         {
             get
@@ -412,7 +417,8 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
         }
-
+       
+        [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand
         {
             get

@@ -411,7 +411,7 @@
                           >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Margin="0"/>
+                            <WrapPanel Margin="5,0"/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
@@ -523,7 +523,7 @@
                     <Border>
                         <StackPanel Margin="8">
                             <StackPanel  HorizontalAlignment="Center">
-                                <ListBox ItemsSource="{Binding NewUnusedStampingFont}"  Margin="5"
+                                    <ListBox ItemsSource="{Binding NewUnusedStampingFont}"  Margin="5"
                                          dd:DragDrop.CanDragWithMouseRightButton="True"
                                          dd:DragDrop.DropTargetAdornerBrush="Transparent"
                                          dd:DragDrop.IsDragSource="True"
@@ -532,29 +532,30 @@
                                          dd:DragDrop.UseDefaultDragAdorner ="True" 
                                          dd:DragDrop.DefaultDragAdornerOpacity="1"
                                          dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}">
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="ListBoxItem">
-                                                        <Border Background="Black" CornerRadius="5">
-                                                            <StackPanel Margin="5">
-                                                                <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" Foreground="White" HorizontalAlignment="Center"/>
-                                                                <Border  Background="Gray"  Margin="10">
-                                                                    <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
-                                                                        <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                            <Border Background="Black" CornerRadius="5">
+                                                                <StackPanel Margin="5">
+                                                                    <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
+
+                                                                    <Border  Background="Gray"  Margin="10">
+                                                                        <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
+                                                                            <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"
                                                                         Text="{Binding StampingTypeString, UpdateSourceTrigger=PropertyChanged}"  FontSize="30"  Foreground="White"/>
+                                                                        </Border>
                                                                     </Border>
-                                                                </Border>
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ListBox.ItemContainerStyle>
-                                </ListBox>
-                            </StackPanel>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </StackPanel>
 
                             <StackPanel
                                                                 Orientation="Horizontal"

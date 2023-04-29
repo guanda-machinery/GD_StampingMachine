@@ -4,6 +4,7 @@ using DevExpress.Xpf.Core;
 using DevExpress.Xpf.WindowsUI.Internal;
 using GD_CommonLibrary;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,10 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
+
+        [JsonIgnore]
         public ICommand Box_OnDropRecordCommand { get; set; }
+        [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand { get; set; }
         public bool GridControl_MachiningStatusColumnVisible { get; set; } = true;
     }
@@ -73,6 +77,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get => StampingBoxPart.SeparateBoxVMObservableCollection; }
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get => StampingBoxPart.ProductProjectVMObservableCollection; }
+        [JsonIgnore]
         public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
             get => new RelayParameterizedCommand(obj =>
@@ -89,7 +94,7 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
         }
-
+        [JsonIgnore]
         public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand
         {
             get => new RelayCommand(() =>
@@ -147,8 +152,9 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-
+        [JsonIgnore]
         public ICommand Box_OnDropRecordCommand { get => StampingBoxPart.Box_OnDropRecordCommand; }
+        [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand { get => StampingBoxPart.Box_OnDragRecordOverCommand; }
 
 

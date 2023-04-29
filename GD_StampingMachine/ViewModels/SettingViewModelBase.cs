@@ -5,6 +5,7 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ParameterSetting;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -98,6 +99,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(VerticalAlignEnumComboBoxSelectValue));
             }
         }
+        [JsonIgnore]
         public Array HorizontalAlignmentCollection
         {
             get
@@ -105,6 +107,7 @@ namespace GD_StampingMachine.ViewModels
                 return System.Enum.GetValues(typeof(HorizontalAlignEnum));
             }
         }
+        [JsonIgnore]
         public Array VerticalAlignmentCollection
         {
             get

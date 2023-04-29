@@ -22,25 +22,29 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using GD_CommonLibrary;
 using DevExpress.Xpf.Editors;
+using Newtonsoft.Json;
 
 namespace GD_StampingMachine.ViewModels
 {
-    //[GenerateViewModel]
+    public class StampingMainModel
+    {
+        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; } 
+        public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
+        public ParameterSettingViewModel ParameterSettingVM { get; set; }
+        public ProductSettingViewModel ProductSettingVM { get; set; }
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
+        public MachiningSettingViewModel MachiningSettingVM { get; set; }
+    }
+
     public partial class StampingMainViewModel : BaseViewModelWithLog
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
 
+        private StampingMainModel StampingMain = new();
+
         public StampingMainViewModel()
         {
-            Task.Run(() =>
-             {
-                 while (true)
-                 {
-                     DateTimeNow = DateTime.Now;
-                     Thread.Sleep(100);
-                 }
-             });
-
+            StampingMain = new StampingMainModel();
 
             //SynchronizationContext _SynchronizationContext = SynchronizationContext.Current;
 
@@ -63,226 +67,145 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
 
-            init();
-        }
-
-
-        private async Task init()
-        {
-
-            MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
+            /*if (JsonHM.ReadStampingAllData(out var JsonStampingMain))
             {
-                AllowMachiningSize = new AllowMachiningSizeModel()
-                {
-                    WebHeightLowerLimited = 75,
-                    WebHeightUpperLimited = 500,
-                    FlangeWidthLowerLimited = 150,
-                    FlangeWidthUpperLimited = 1050,
-                    MachiningMinLength = 2400,
-                    MachiningMaxLength = 99999
-                },
-                MachiningProperty = new MachiningPropertyModel()
-                {
-                    HorizontalDrillCount = 1,
-                    VerticalDrillCount = 2,
-                    Each_HorizontalDrill_SpindleCount = 1,
-                    Each_VerticalDrill_SpindleCount = 1,
-                    AuxiliaryAxisEffectiveTravelMax = 300,
-                    MaxDrillDiameter = 40,
-                    MaxDrillThickness = 80,
-                    SpindleMaxPower = 15,
-                    SpindleToolHolder = SpindleToolHolderEnum.BT40,
-                    SpindleRotationalFrequencyMin = 180,
-                    SpindleRotationalFrequencyMax = 400,
-                    SpindleFeedSpeedMin = 40,
-                    SpindleFeedSpeedMax = 1000,
-                    SpindleMoveSpeed = 24
-                },
-                MachineSize = new MachineSizeModel()
-                {
-                    Length = 5450,
-                    Width = 2000,
-                    Height = 2000,
-                    Weight = 14.5
-                },
-            })
-            {
-                //LogDataObservableCollection = this.LogDataObservableCollection
-            };
-
-
-            if (JsonHM.ReadMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont , out StampingFontChangedViewModel SReadSFC))
-            {
-                StampingFontChangedVM = SReadSFC;
+                StampingMain = JsonStampingMain;
+                TypeSettingSettingVM.TypeSettingSetting.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
+                TypeSettingSettingVM.TypeSettingSetting.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel;
+                MachiningSettingVM.MachiningSetting.ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection;
             }
-            else
+            else*/
             {
-                StampingFontChangedVM = new StampingFontChangedViewModel
+                MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
                 {
-                    StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
-            {
-                    new StampingTypeViewModel(){ StampingTypeNumber =1 , StampingTypeString = "1" , StampingTypeUseCount=25 } ,
-                    new StampingTypeViewModel(){ StampingTypeNumber =2 , StampingTypeString = "2" , StampingTypeUseCount=180},
-                    new StampingTypeViewModel(){ StampingTypeNumber =3, StampingTypeString = "3" , StampingTypeUseCount=25},
-                    new StampingTypeViewModel(){ StampingTypeNumber =4, StampingTypeString = "4" , StampingTypeUseCount=25},
-                    new StampingTypeViewModel(){ StampingTypeNumber =5, StampingTypeString = "5" , StampingTypeUseCount=25},
-                    new StampingTypeViewModel(){ StampingTypeNumber =6, StampingTypeString = "6" , StampingTypeUseCount=25},
-                    new StampingTypeViewModel(){ StampingTypeNumber =7, StampingTypeString = "7" , StampingTypeUseCount=25},
-                    new StampingTypeViewModel(){ StampingTypeNumber =8, StampingTypeString = "8" , StampingTypeUseCount=25},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =9, StampingTypeString = "9" , StampingTypeUseCount=25},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =10, StampingTypeString = "0" , StampingTypeUseCount=25},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =11, StampingTypeString = "A" , StampingTypeUseCount=2025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =12, StampingTypeString = "B" , StampingTypeUseCount=8677},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =13, StampingTypeString = "C" , StampingTypeUseCount=7025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =14, StampingTypeString = "D" , StampingTypeUseCount=3015},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =15, StampingTypeString = "E" , StampingTypeUseCount=2025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =16, StampingTypeString = "F" , StampingTypeUseCount=2025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =17, StampingTypeString = "G" , StampingTypeUseCount=2025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =18, StampingTypeString = "H" , StampingTypeUseCount=2025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =19, StampingTypeString = "I" , StampingTypeUseCount=2025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =20, StampingTypeString = "J" , StampingTypeUseCount=2025},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =21, StampingTypeString = "K" , StampingTypeUseCount=5071 },
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =22, StampingTypeString = "L" , StampingTypeUseCount=1562},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =23, StampingTypeString = "M" , StampingTypeUseCount=71},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =24, StampingTypeString = "N" , StampingTypeUseCount=9071},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =25, StampingTypeString = "O" , StampingTypeUseCount=5071},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =26, StampingTypeString = "P" , StampingTypeUseCount=5071},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =27, StampingTypeString = "Q" , StampingTypeUseCount=5071},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =28, StampingTypeString = "R" , StampingTypeUseCount=5071},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =29, StampingTypeString = "S" , StampingTypeUseCount=5071},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =30, StampingTypeString = "T" , StampingTypeUseCount=5071},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =31, StampingTypeString = "U" , StampingTypeUseCount=50},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =32, StampingTypeString = "V" , StampingTypeUseCount=110},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =33, StampingTypeString = "W" , StampingTypeUseCount=550},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =34, StampingTypeString = "X" , StampingTypeUseCount=24},
-
-                    new StampingTypeViewModel(){ StampingTypeNumber =35, StampingTypeString = "Y" , StampingTypeUseCount=5},
-                    new StampingTypeViewModel(){ StampingTypeNumber =36, StampingTypeString = "Z" , StampingTypeUseCount=5},
-                    new StampingTypeViewModel(){ StampingTypeNumber =37, StampingTypeString = "a" , StampingTypeUseCount=450},
-                    new StampingTypeViewModel(){ StampingTypeNumber =38, StampingTypeString = "b" , StampingTypeUseCount=677},
-                    new StampingTypeViewModel(){ StampingTypeNumber =39, StampingTypeString = "g" , StampingTypeUseCount=150},
-                    new StampingTypeViewModel(){ StampingTypeNumber =40, StampingTypeString = "-" , StampingTypeUseCount=2550}
-             },
-                    UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
-            {
-                    new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0} ,
-                    new StampingTypeViewModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0},
-                    new StampingTypeViewModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0}
-            },
-                    //LogDataObservableCollection = this.LogDataObservableCollection
-                }; 
-            }
-
-            ParameterSettingVM = new()
-            {
-                //LogDataObservableCollection = this.LogDataObservableCollection
-            };
-
-
-
-
-            ProductSettingVM = new()
-            {
-                ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
-            };
-
-            if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
-            {
-                PathList.ForEach(EPath =>
-                {
-                    if(JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
-                    else
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()));
-                });
-            }
-            //讀取後找尋.json)
-            /*
-            ProductSettingVM.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
-                {
-                    new(new()
+                    AllowMachiningSize = new AllowMachiningSizeModel()
                     {
-                        Name = "創典科技總公司基地",
-                        ProjectPath="C:/",
-                        Number = "AS001",
-                        SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
-                        CreateTime = new DateTime(2022, 10, 27, 14, 02, 00),
-                        EditTime = DateTime.Now,
-                        FinishProgress = 10,
-                    }),
-                    new(new()
-                    {                        ProjectPath="C:/",
-                        Name = "創典科技總公司基地-1",
-                        Number = "AS002",
-                        SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
-                        CreateTime = new DateTime(2022, 10, 27, 14, 02, 00),
-                        FinishProgress = 26
-                    }),
-                    new(new()
-                    {                        ProjectPath="C:/",
-                        Name = "創典科技總公司基地-3",
-                        Number = "AS003",
-                        SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
-                        CreateTime = new DateTime(2022, 10, 27, 14, 02, 00),
-                        FinishProgress = 51
-                    }),
-                    new(new() {
-                                                ProjectPath="C:/",
-                        Name = "創典科技總公司基地-4",
-                        Number = "AS003",
-                        SheetStampingTypeForm = GD_Enum.SheetStampingTypeFormEnum.QRSheetStamping,
-                        CreateTime = new DateTime(2022, 10, 27, 14, 02, 00),
-                        FinishProgress = 76
-                    })
-                },
-            */
-
-
-            TypeSettingSettingVM = new(new TypeSettingSettingModel()
-            {
-                ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
-                SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel,
-            });
-
-            MachiningSettingVM = new MachiningSettingViewModel(new MachiningSettingModel()
-            {
-                ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
-            })
-            {
-                /*StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
+                        WebHeightLowerLimited = 75,
+                        WebHeightUpperLimited = 500,
+                        FlangeWidthLowerLimited = 150,
+                        FlangeWidthUpperLimited = 1050,
+                        MachiningMinLength = 2400,
+                        MachiningMaxLength = 99999
+                    },
+                    MachiningProperty = new MachiningPropertyModel()
+                    {
+                        HorizontalDrillCount = 1,
+                        VerticalDrillCount = 2,
+                        Each_HorizontalDrill_SpindleCount = 1,
+                        Each_VerticalDrill_SpindleCount = 1,
+                        AuxiliaryAxisEffectiveTravelMax = 300,
+                        MaxDrillDiameter = 40,
+                        MaxDrillThickness = 80,
+                        SpindleMaxPower = 15,
+                        SpindleToolHolder = SpindleToolHolderEnum.BT40,
+                        SpindleRotationalFrequencyMin = 180,
+                        SpindleRotationalFrequencyMax = 400,
+                        SpindleFeedSpeedMin = 40,
+                        SpindleFeedSpeedMax = 1000,
+                        SpindleMoveSpeed = 24
+                    },
+                    MachineSize = new MachineSizeModel()
+                    {
+                        Length = 5450,
+                        Width = 2000,
+                        Height = 2000,
+                        Weight = 14.5
+                    },
+                })
                 {
-                    ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
+
+                };
+                if (JsonHM.ReadMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont, out StampingFontChangedViewModel SReadSFC))
+                {
+                    StampingFontChangedVM = SReadSFC;
+                }
+                else
+                {
+                    StampingFontChangedVM = new StampingFontChangedViewModel
+                    {
+                        StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+                    };
+                    for (int i = 1; i <= 40; i++)
+                    {
+                        StampingFontChangedVM.StampingTypeVMObservableCollection.Add(new StampingTypeViewModel(new StampingTypeModel() { StampingTypeNumber = i, StampingTypeString = "1", StampingTypeUseCount = 0 }));
+                    }
+                    StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+                {
+                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0}) ,
+                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0}),
+                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
+                };
+
+                    //LogDataObservableCollection = this.LogDataObservableCollection
+                }
+                ParameterSettingVM = new()
+                {
+                    //LogDataObservableCollection = this.LogDataObservableCollection
+                };
+                ProductSettingVM = new()
+                {
+                    ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
+                };
+                if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
+                {
+                    PathList.ForEach(EPath =>
+                    {
+                        if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
+                            ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
+                        else
+                            ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()));
+                    });
+                }
+                TypeSettingSettingVM = new(new TypeSettingSettingModel()
+                {
                     ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
                     SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.UnifiedSetting_SeparateBoxModel,
-                    GridControl_MachiningStatusColumnVisible= true,
-                })*/
-            };
+                });
+                MachiningSettingVM = new MachiningSettingViewModel(new MachiningSettingModel()
+                {
+                    ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
+                });
+            }
+
+
+
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    DateTimeNow = DateTime.Now;
+                    Thread.Sleep(100);
+                }
+            });
+
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    //定期存檔
+                    /*if (StampingFontChangedVM != null)
+                    {
+                        if (JsonHM.WriteMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont, StampingFontChangedVM))
+                        {
+
+                        }
+                    }*/
+                    try
+                    {
+                       /* if (StampingMain != null)
+                        {
+                            var a = JsonHM.WriteStampingAllData(StampingMain);
+                        }*/
+                    }
+                    catch(Exception ex)
+                    {
+                        Debugger.Break();
+                    }
+                    Thread.Sleep(3000);
+                }
+            });
+
+
         }
 
         private DateTime _dateTimeNow = new DateTime();
@@ -298,8 +221,6 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(DateTimeNow));
             }
         }
-
-
 
         public RelayCommand OpenProjectFileCommand
         {
@@ -340,21 +261,20 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-
-
         #region VM
-        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; } 
-        public StampingFontChangedViewModel StampingFontChangedVM { get; set; } 
-        public ParameterSettingViewModel ParameterSettingVM { get; set; } 
-        public ProductSettingViewModel ProductSettingVM { get; set; }
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
+        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => StampingMain.MachanicalSpecificationVM; set => StampingMain.MachanicalSpecificationVM = value; }
+        public StampingFontChangedViewModel StampingFontChangedVM { get => StampingMain.StampingFontChangedVM; set => StampingMain.StampingFontChangedVM = value; }
+        public ParameterSettingViewModel ParameterSettingVM { get => StampingMain.ParameterSettingVM; set => StampingMain.ParameterSettingVM = value; }
+        public ProductSettingViewModel ProductSettingVM { get => StampingMain.ProductSettingVM; set => StampingMain.ProductSettingVM = value; }
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get => StampingMain.TypeSettingSettingVM; set => StampingMain.TypeSettingSettingVM = value; }
 
         /// <summary>
         /// 加工設定
         /// </summary>
-        public MachiningSettingViewModel MachiningSettingVM { get; set; }
+        public MachiningSettingViewModel MachiningSettingVM { get => StampingMain.MachiningSettingVM; set => StampingMain.MachiningSettingVM = value; }
 
         #endregion
+        [JsonIgnore]
         public ICommand ReloadTypeSettingSettingsCommand
         {
             get => new RelayCommand(() =>
@@ -363,11 +283,11 @@ namespace GD_StampingMachine.ViewModels
                     TypeSettingSettingVM.ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
             });
         }
+        [JsonIgnore]
         public ICommand ReloadMachiningSettingsCommand
         {
             get
             {
-                // return MachiningSettingVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
                  return MachiningSettingVM.GridControlRefreshCommand;
             }
         }

@@ -47,11 +47,11 @@ namespace GD_StampingMachine.Method
                         }
 
                         //當鋼印機是目標是阻擋拖曳
-                     /*   if (SourceData.IsNewAddStamping == true && TargetData.StampingTypeNumber > 0)
-                        {
-                            dropInfo.NotHandled = false;
-                            return;
-                        }*/
+                        /*   if (SourceData.IsNewAddStamping == true && TargetData.StampingTypeNumber > 0)
+                           {
+                               dropInfo.NotHandled = false;
+                               return;
+                           }*/
 
                         //目標是新增字模不可以放上去
                         if (TargetData.IsNewAddStamping)
@@ -88,8 +88,6 @@ namespace GD_StampingMachine.Method
                         }
                     }
 
-
-
                     if (dropInfo.TargetItem is null)
                     {
                         dropInfo.DropTargetAdorner = typeof(DropTargetInsertionAdorner);
@@ -97,6 +95,12 @@ namespace GD_StampingMachine.Method
                         return;
                     }
 
+                }
+                else if (dropInfo.DragInfo.Data is StampingFontChangedViewModel ChangedSourceData)
+                {
+                    dropInfo.DropTargetAdorner = typeof(DropTargetHighlightAdorner);
+                    dropInfo.NotHandled = true;
+                    dropInfo.Effects = System.Windows.DragDropEffects.Move;
                 }
                 else
                 {

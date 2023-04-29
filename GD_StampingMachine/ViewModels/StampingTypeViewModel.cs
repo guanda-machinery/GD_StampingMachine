@@ -11,11 +11,12 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingTypeViewModel");
 
-        private StampingTypeModel StampingType;
+        
+        public StampingTypeModel StampingType;
 
-        public StampingTypeViewModel()
+        public StampingTypeViewModel(StampingTypeModel _StampingType)
         {
-            StampingType = new StampingTypeModel();
+            StampingType = _StampingType;
         }
 
         /// <summary>

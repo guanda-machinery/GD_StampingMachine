@@ -38,6 +38,18 @@ namespace GD_StampingMachine.Method
             ProjectPathList
         }
 
+       /* private string MainSetting
+        {
+            get =>Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, "MainSetting.json");
+        }*/
+       /* public bool ReadStampingAllData(out StampingMainModel StampingMain)
+        {
+            return this.ReadJsonFile(MainSetting ,out StampingMain);
+        }
+        public bool WriteStampingAllData(StampingMainModel StampingMain)
+        {
+            return this.WriteJsonFile(MainSetting, StampingMain);
+        }*/
 
 
         public bool ReadParameterSettingJsonSetting<T>(ParameterSettingNameEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
@@ -96,7 +108,7 @@ namespace GD_StampingMachine.Method
 
         private string GetJsonFilePath(Enum ParameterSettingName)
         {
-            var FilePath = Path.Combine(Directory.GetCurrentDirectory(), ConstSettings);
+            var FilePath = "";// Path.Combine();
 
             if (ParameterSettingName is ParameterSettingNameEnum)
             {
@@ -110,7 +122,7 @@ namespace GD_StampingMachine.Method
 
             var FileName = Path.ChangeExtension(ParameterSettingName.ToString(), "json");
 
-            return _ = Path.Combine(FilePath, FileName);
+            return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings ,FilePath, FileName);
         }
 
 

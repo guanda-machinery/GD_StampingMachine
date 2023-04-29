@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using GD_CommonLibrary;
+using Newtonsoft.Json;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -33,6 +34,8 @@ namespace GD_StampingMachine.ViewModels
 
         public TypeSettingSettingViewModel(TypeSettingSettingModel _typeSettingSetting)
         {
+            if (_typeSettingSetting == null)
+                _typeSettingSetting = new TypeSettingSettingModel();
             TypeSettingSetting = _typeSettingSetting;
             var ProjectDistributeModelList = new List<ProjectDistributeModel>()
               {
@@ -70,7 +73,7 @@ namespace GD_StampingMachine.ViewModels
         } = new();
 
 
-
+        [JsonIgnore]
         public ICommand CreateProjectDistributeCommand
         {
             get
@@ -97,7 +100,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }= new();
-
+        [JsonIgnore]
         public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>

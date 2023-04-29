@@ -5,6 +5,7 @@ using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -93,7 +94,9 @@ namespace GD_StampingMachine.ViewModels
             GridControlRefresh();
         }
 
-        public MachiningSettingModel MachiningSetting =new();
+
+        private MachiningSettingModel _machiningSetting;
+        public MachiningSettingModel MachiningSetting { get => _machiningSetting ??= new MachiningSettingModel(); set => _machiningSetting = value; }
         public ProjectDistributeViewModel ProjectDistributeVMSelected 
         {
             get=>MachiningSetting.ProjectDistributeVMObservableCollectionSelected;
@@ -137,7 +140,7 @@ namespace GD_StampingMachine.ViewModels
         private ObservableCollection<PartsParameterViewModel> _machiningPartsVMObservableCollection = new();
         public ObservableCollection<PartsParameterViewModel> MachiningPartsVMObservableCollection { get=> _machiningPartsVMObservableCollection; set { _machiningPartsVMObservableCollection =value;OnPropertyChanged(); } }// = new();
 
-
+        [JsonIgnore]
         public ICommand ComboBoxEdit_EditValueChanged
         {
             get => new RelayParameterizedCommand(obj =>
@@ -150,7 +153,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-
+        [JsonIgnore]
         public ICommand GridControlRefreshCommand
         {
             get => new RelayCommand(() =>
@@ -158,32 +161,41 @@ namespace GD_StampingMachine.ViewModels
                 GridControlRefresh();
             });
         }
-      
 
         public void GridControlRefresh()
         {
-            StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
+            try
             {
-                ProjectDistributeName = ProjectDistributeVMSelected.ProjectDistributeName,
-                ProjectDistributeVMObservableCollection = this.ProjectDistributeVMObservableCollection,
-                ProductProjectVMObservableCollection = ProjectDistributeVMSelected.ProductProjectVMObservableCollection,
-                SeparateBoxVMObservableCollection = ProjectDistributeVMSelected.SeparateBoxVMObservableCollection,
-                GridControl_MachiningStatusColumnVisible = true,
-            });
-
-            MachiningPartsVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-
-            StampingBoxPartsVM.ProductProjectVMObservableCollection.ForEach(x =>
-            {
-                x.PartsParameterVMObservableCollection.ForEach(y =>
+                if (ProjectDistributeVMSelected != null)
                 {
-                    if (y.DistributeName == StampingBoxPartsVM.ProjectDistributeName && y.MachiningStatus == MachiningStatusEnum.Run)
-                        MachiningPartsVMObservableCollection.Add(y);
-                });
-            });
+                    StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
+                    {
+                        ProjectDistributeName = ProjectDistributeVMSelected.ProjectDistributeName,
+                        ProjectDistributeVMObservableCollection = this.ProjectDistributeVMObservableCollection,
+                        ProductProjectVMObservableCollection = ProjectDistributeVMSelected.ProductProjectVMObservableCollection,
+                        SeparateBoxVMObservableCollection = ProjectDistributeVMSelected.SeparateBoxVMObservableCollection,
+                        GridControl_MachiningStatusColumnVisible = true,
+                    });
 
-            if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
-                StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefresh();
+                    MachiningPartsVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+
+                    StampingBoxPartsVM.ProductProjectVMObservableCollection.ForEach(x =>
+                    {
+                        x.PartsParameterVMObservableCollection.ForEach(y =>
+                        {
+                            if (y.DistributeName == StampingBoxPartsVM.ProjectDistributeName && y.MachiningStatus == MachiningStatusEnum.Run)
+                                MachiningPartsVMObservableCollection.Add(y);
+                        });
+                    });
+
+                    if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                        StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefresh();
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
 

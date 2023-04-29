@@ -20,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using GD_CommonLibrary;
+using Newtonsoft.Json;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -106,60 +107,77 @@ namespace GD_StampingMachine.ViewModels
             var ST_index = StampingTypeVMObservableCollection.FindIndex(x => x == StampingFontSelected);
             var UST_index = UnusedStampingTypeVMObservableCollection.FindIndex(x => x == UnusedStampingFontSelected);
 
-            StampingTypeVMObservableCollection[ST_index] = new StampingTypeViewModel()
-            {
-                StampingTypeNumber = FontStringNumber,
-                StampingTypeString = UnusedFontString,
-                StampingTypeUseCount = UnusedFontStringUseCount
-            };  
+            var UsedS  = StampingTypeVMObservableCollection[ST_index].StampingType.DeepCloneByJson();
+            var UnusedS = UnusedStampingTypeVMObservableCollection[UST_index].StampingType.DeepCloneByJson();
 
-            UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeViewModel()
-            {
-                StampingTypeNumber = UnusedFontStringNumber,
-                StampingTypeString = FontString,
-                StampingTypeUseCount = FontStringUseCount
-            };
+            StampingTypeVMObservableCollection[ST_index] = new StampingTypeViewModel(UnusedS);
+            UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeViewModel(UsedS);
+
         }
 
-        private ObservableCollection<StampingTypeViewModel> _newUnusedStampingFont;
+        //private StampingTypeViewModel _newUnusedStampingFont;
         /// <summary>
         /// 新增字模
         /// </summary>
-        public ObservableCollection<StampingTypeViewModel> NewUnusedStampingFont
+        /*[JsonIgnore]
+        public StampingTypeViewModel NewUnusedStampingFont
         {
-            get
-            {
-                if (_newUnusedStampingFont == null)
-                {
-                    _newUnusedStampingFont = new ObservableCollection<StampingTypeViewModel>();
-                }
-
-                if (_newUnusedStampingFont.Count == 0)
-                {
-                    _newUnusedStampingFont.Add(new StampingTypeViewModel()
-                    {
-                        StampingTypeNumber = 0,
-                        StampingTypeUseCount = 0,
-                        StampingTypeString = null,
-                        IsNewAddStamping = true,
-                        //LogDataObservableCollection = this.LogDataObservableCollection
-                    });
-                };
-
-                return _newUnusedStampingFont;
-            }
+            get => _newUnusedStampingFont ??= new StampingTypeViewModel(
+                   new Model.StampingTypeModel
+                   {
+                       StampingTypeNumber = 0,
+                       StampingTypeUseCount = 0,
+                       StampingTypeString = null,
+                       IsNewAddStamping = true,
+                   });
             set
             {
                 _newUnusedStampingFont = value;
                 OnPropertyChanged(nameof(NewUnusedStampingFont));
             }
-        }
+        }*/
+
+        public ObservableCollection<StampingTypeViewModel> _newUnusedStampingFont;
+        [JsonIgnore]
+        public ObservableCollection<StampingTypeViewModel> NewUnusedStampingFont
+          {
+              get
+              {
+                  if (_newUnusedStampingFont == null)
+                  {
+                      _newUnusedStampingFont = new ObservableCollection<StampingTypeViewModel>();
+                  }
+
+                  if (_newUnusedStampingFont.Count == 0)
+                  {
+                      _newUnusedStampingFont.Add(new StampingTypeViewModel(new Model.StampingTypeModel
+                      {
+                          StampingTypeNumber = 0,
+                          StampingTypeUseCount = 0,
+                          StampingTypeString = null,
+                          IsNewAddStamping = true,
+                      }));
+                  };
+                /*if (_newUnusedStampingFont.Count > 1)
+                {
+                    _newUnusedStampingFont.remove
+                }*/
+
+                return _newUnusedStampingFont;
+              }
+              set
+              {
+                  _newUnusedStampingFont = value;
+                  OnPropertyChanged(nameof(NewUnusedStampingFont));
+              }
+          }
 
 
         public ICommand UnusedStampingFontAddCommand
         {
             get => new RelayCommand(() =>
             {
+                
                 var FirstFont = NewUnusedStampingFont.FirstOrDefault().DeepCloneByJson();
                 FirstFont.IsNewAddStamping = false;
                 UnusedStampingTypeVMObservableCollection.Add(FirstFont);

@@ -11,11 +11,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     public class StampingSteelBeltViewModel : BaseViewModelWithLog
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingSteelBeltViewModel");
-        public StampingSteelBeltViewModel(StampingSteelBeltModel _stampingSteelBelt)
+        public StampingSteelBeltViewModel(StampingSteelBeltModel _StampingSteelBelt)
         {
-            StampingSteelBelt = _stampingSteelBelt;
+            StampingSteelBelt = _StampingSteelBelt;
         }
-        public StampingSteelBeltModel StampingSteelBelt { get; } =default;
+
+        private StampingSteelBeltModel _stampingSteelBelt;
+        public StampingSteelBeltModel StampingSteelBelt { get => _stampingSteelBelt ??= new StampingSteelBeltModel(); set => _stampingSteelBelt = value; }
 
         public string BeltString
         {
