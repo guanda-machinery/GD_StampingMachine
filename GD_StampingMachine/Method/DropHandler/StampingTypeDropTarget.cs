@@ -263,7 +263,7 @@ namespace GD_StampingMachine.Method
                     if (SourceData is StampingTypeViewModel)
                         targetList.Insert(dropInfo.UnfilteredInsertIndex, SourceData);
                 }
-                catch (Exception e)
+                catch 
                 {
 
                 }

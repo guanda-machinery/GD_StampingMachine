@@ -10,8 +10,8 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:GD_Behavior="clr-namespace:GD_CommonLibrary.GD_Behavior;assembly=GD_CommonLibrary"
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters"
-             Padding="5" Background="Transparent" Cursor="Hand" 
-             >
+             Padding="5" Background="Transparent" Cursor="Hand">
+    
     <Grid>
         <Grid.DataContext>
             <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}"/>
@@ -100,5 +100,5 @@
                                                     CommandParameter="{Binding CommandParameter}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
-    </Grid >
+    </Grid>
 </UserControl>
