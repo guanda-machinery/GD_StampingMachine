@@ -160,7 +160,7 @@
                                         <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding NumberSettingMode}">
+                                    <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
                                     <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
@@ -266,8 +266,9 @@
                                     <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                     <Button HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                    <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
-                                </StackPanel>
+                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding NumberSettingMode, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                        Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
+                            </StackPanel>
 
                         </Grid>
                     </StackPanel>
@@ -817,6 +818,11 @@
                                     Grid.Row="0" Grid.Column="1" 
                                     MainSilderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>
+                                <CheckBox Margin="0,5" VerticalAlignment="Center"
+                                                                Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" IsChecked="True"
+                                                                      Foreground="LightGray" Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Content="Test">
+                                    
+                                </CheckBox>
                                 <ListBox Grid.Row="1" Grid.ColumnSpan="2"  SelectionMode="Multiple" 
                                      ScrollViewer.VerticalScrollBarVisibility="Auto"  ClipToBounds="True" 
                                      ItemsSource="{Binding SeparateBoxVMObservableCollection ,UpdateSourceTrigger=PropertyChanged}"

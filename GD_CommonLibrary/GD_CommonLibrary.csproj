@@ -295,6 +295,7 @@
   <ItemGroup>
     <Compile Include="Extensions\DeepCloneByJson.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
+    <Compile Include="Extensions\ExpandCharIntConverter.cs" />
     <Compile Include="Extensions\ExpandIEnumerableToString.cs" />
     <Compile Include="Extensions\GetEnumData.cs" />
     <Compile Include="Extensions\PathCheckMethod.cs" />

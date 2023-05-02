@@ -23,6 +23,12 @@ using System.Windows.Threading;
 using GD_CommonLibrary;
 using DevExpress.Xpf.Editors;
 using Newtonsoft.Json;
+using GD_CommonLibrary.Extensions;
+using GD_CommonLibrary.SplashScreenWindows;
+using DevExpress.Xpf.Core;
+using System.Windows;
+using DevExpress.Mvvm;
+using System.Windows.Controls;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -45,9 +51,6 @@ namespace GD_StampingMachine.ViewModels
         public StampingMainViewModel()
         {
             StampingMain = new StampingMainModel();
-
-            //SynchronizationContext _SynchronizationContext = SynchronizationContext.Current;
-
             //測試模式
             if (Debugger.IsAttached)
             {
@@ -60,12 +63,14 @@ namespace GD_StampingMachine.ViewModels
 
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
-                        DateTimeNow = DateTime.Now;
                         AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
                         Thread.Sleep(1000);
                     }
                 });
             }
+
+
+
 
             /*if (JsonHM.ReadStampingAllData(out var JsonStampingMain))
             {
@@ -128,7 +133,17 @@ namespace GD_StampingMachine.ViewModels
                     };
                     for (int i = 1; i <= 40; i++)
                     {
-                        StampingFontChangedVM.StampingTypeVMObservableCollection.Add(new StampingTypeViewModel(new StampingTypeModel() { StampingTypeNumber = i, StampingTypeString = "1", StampingTypeUseCount = 0 }));
+                       // char
+
+                        StampingFontChangedVM.StampingTypeVMObservableCollection.Add(
+                            new StampingTypeViewModel(
+                                new StampingTypeModel() 
+                                { 
+                                    StampingTypeNumber = i, 
+                                    StampingTypeString = (64+i).ToChar().ToString(), 
+                                    StampingTypeUseCount = 0 
+                                })
+                            );
                     }
                     StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
                 {
@@ -197,7 +212,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 while (true)
                 {
-                    DateTimeNow = DateTime.Now;
+                    OnPropertyChanged(nameof(DateTimeNow));
                     Thread.Sleep(100);
                 }
             });
@@ -221,11 +236,27 @@ namespace GD_StampingMachine.ViewModels
                         //定期存檔
 
                         JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
+                        Console.WriteLine(ex);
                         Debugger.Break();
                     }
+
+                    try
+                    {
+                        if (JsonHM.WriteMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont, StampingFontChangedVM))
+                        {
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        Debugger.Break();
+                    }
+
                     Thread.Sleep(3000);
                 }
             });
@@ -233,18 +264,11 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-        private DateTime _dateTimeNow = new DateTime();
+        //private DateTime _dateTimeNow = new DateTime();
+       [JsonIgnore]
         public DateTime DateTimeNow 
         { 
-            get 
-            {
-                return _dateTimeNow;
-            }
-            set
-            {
-                _dateTimeNow = value;
-                OnPropertyChanged(nameof(DateTimeNow));
-            }
+            get => DateTime.Now;
         }
 
         public RelayCommand OpenProjectFileCommand
@@ -316,6 +340,70 @@ namespace GD_StampingMachine.ViewModels
                  return MachiningSettingVM.GridControlRefreshCommand;
             }
         }
+
+        [JsonIgnore]
+        public ICommand DownloadAndUpdatedCommand
+        {
+            get => new RelayParameterizedCommand(Parameter =>
+            {
+                if (Parameter is Button)
+                {
+                    (Parameter as Button).IsEnabled= false;
+                }
+
+
+                var ManagerVM = new DXSplashScreenViewModel
+                {
+                    Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                    Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
+                    Progress = 0,
+                    IsIndeterminate = false,
+                    Subtitle = "Alpha 23.4.24",
+                    Copyright = "Copyright © 2022 GUANDA",
+                };
+
+                SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+                manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
+                ManagerVM.IsIndeterminate = false;
+
+                //等待結束 
+                Task.Run(() =>
+                {
+                    try
+                    {
+                       for(double i=10000;i<0;i--)
+                        {
+                            ManagerVM.Progress= i/10000;
+                        }
+                        Thread.Sleep(1);
+
+
+
+
+                        System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                        {
+                            manager.Close();
+                            if (Parameter is Button)
+                            {
+                                (Parameter as Button).IsEnabled = true;
+                            }
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                });
+
+
+
+
+            });
+        }
+
+
+
+
     }
 
 

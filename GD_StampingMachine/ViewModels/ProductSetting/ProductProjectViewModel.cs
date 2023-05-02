@@ -78,7 +78,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private ProductProjectModel _productProject;
+        public readonly ProductProjectModel _productProject;
 
 
 
@@ -100,6 +100,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ProductProjectName));
             }
         }
+        /// <summary>
+        /// 工程編號
+        /// </summary>
         public string ProductProjectNumber
         {
             get => _productProject.Number;
@@ -393,9 +396,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             if (_productProject.ProjectPath != null)
             {
-                //  JsonHM.ManualWriteJsonFile(_productProject);
-                //JsonHM.ManualWriteJsonFile(_productProject);/
-
                 return JsonHM.WriteJsonFile(Path.Combine( _productProject.ProjectPath, _productProject.Name), _productProject);
             }
             else

@@ -59,6 +59,10 @@ namespace GD_StampingMachine.Method
         }*/
 
 
+
+
+
+
         public bool ReadParameterSettingJsonSetting<T>(ParameterSettingNameEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
         {
             return this.ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
@@ -109,6 +113,23 @@ namespace GD_StampingMachine.Method
             return this.WriteJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, JsonData, ShowMessageBox);
         }
 
+        /// <summary>
+        /// 取得加工專案 並將更改路徑和檔名對應到正確的位置
+        /// </summary>
+        /// <param name="ProductProject"></param>
+        /// <returns></returns>
+        public bool ManualReadProductProject(out ProductProjectModel ProductProject)
+        {
+            var Result = this.ManualReadJsonFile(out ProductProject, out string FilePath);
+            if (Result)
+            {
+                ProductProject.Name = Path.GetFileNameWithoutExtension(FilePath);
+                ProductProject.ProjectPath = Path.GetDirectoryName(FilePath);
+            }
+            return Result;
+        }
+
+
 
 
 
@@ -155,6 +176,8 @@ namespace GD_StampingMachine.Method
 
             return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings ,FilePath, FileName);
         }
+
+
 
 
 

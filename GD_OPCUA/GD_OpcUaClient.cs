@@ -27,6 +27,8 @@ namespace GD_OPCUA
         public string ServerUrlString
         {
             get
+
+
             {
                 var BaseUrl = new Uri ($"opc.tcp://{IP}:{Port}");
                 var CombineUrl = new Uri(BaseUrl , Path);

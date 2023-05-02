@@ -23,7 +23,7 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public string Name { get; set; }
 
-        public static implicit operator ProjectModel(ProductProjectViewModel v)
+       /* public static implicit operator ProjectModel(ProductProjectViewModel v)
         {
             return new ProjectModel
             {
@@ -31,6 +31,6 @@ namespace GD_StampingMachine.Model
                 ProjectPath = v.ProductProjectPath,
                 Number = v.ProductProjectNumber,
             };
-        }
+        }*/
     }
 }

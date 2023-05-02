@@ -22,6 +22,10 @@ using System.Windows.Input;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Method;
 using Newtonsoft.Json;
+using DevExpress.Data.Extensions;
+using DevExpress.XtraScheduler;
+using GD_StampingMachine.Properties;
+using static DevExpress.XtraEditors.Mask.MaskSettings;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -131,12 +135,29 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => new RelayCommand(() =>
             {
                 AddLogData((string)Application.Current.TryFindResource("btnAddProject"));
-
+                var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
+                //檔案已存在 詢問是否要覆蓋
+                if (ExistedIndex != -1)
+                {
+                    if (!MethodWinUIMessageBox.AskOverwriteOrNot())
+                        return;
+                }
 
                 if (CreatedProjectVM.SaveProductProject())
-                {              
+                {
                     //若不clone會導致資料互相繫結
-                    ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
+                    if (ExistedIndex != -1)
+                    {
+                        //ProductProjectVMObservableCollection.RemoveAt(ExistedIndex);
+                        ProductProjectVMObservableCollection[ExistedIndex] = CreatedProjectVM.DeepCloneByJson();
+                    }
+                    else
+                    {
+                        ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
+                    }
+
+                    SaveProductListSetting();
+
                 }
             });
 
@@ -179,9 +200,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                if(new GD_CommonLibrary.Method.JsonHelperMethod().ManualReadJsonFile(out ProductProjectModel ReadProductProject))
+           
+                if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
                 {
-                     ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
+                    var ExisedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
+                    if(ExisedIndex != -1)
+                    {
+                        if(ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
+                            MethodWinUIMessageBox.ProjectIsLoaded();
+                        else
+                            MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
+                        return;
+                    }
+
+                    ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
+                    SaveProductListSetting();
                 }
             });
         }
@@ -190,18 +223,34 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                //儲存一份路徑清單
-                List<ProjectModel> PathList = new List<ProjectModel>();
-                //將所有檔案儲存
                 ProductProjectVMObservableCollection.ForEach(obj =>
                 {
                     obj.SaveProductProject();
-                    PathList.Add(obj);
                 });
-
-                JsonHM.WriteProjectSettingJson(PathList);
+                SaveProductListSetting();
             });
         }
+
+        private bool SaveProductListSetting()
+        {
+            //儲存一份路徑清單
+            List<ProjectModel> PathList = new List<ProjectModel>();
+            //將所有檔案儲存
+            ProductProjectVMObservableCollection.ForEach(obj =>
+            {
+                PathList.Add(new ProjectModel
+                {
+                    Name = obj.ProductProjectName,
+                    Number = obj.ProductProjectNumber,
+                    ProjectPath = obj.ProductProjectPath
+                });
+            });
+
+            return JsonHM.WriteProjectSettingJson(PathList);
+        }
+
+
+
 
 
         private ProductProjectViewModel _selectProductProjectVM = new ProductProjectViewModel(new ProductProjectModel());

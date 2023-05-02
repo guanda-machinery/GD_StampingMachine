@@ -163,8 +163,8 @@
     
     <!--#region軟體更新 -->
 
-    <sys:String x:Key="Text_ThisVersionIntroduce">此版本介紹</sys:String>
-    <sys:String x:Key="Text_UpdateVersionContent">更新版本內容</sys:String>
+    <sys:String x:Key="Text_CurrentVersion">現有版本</sys:String>
+    <sys:String x:Key="Text_NewVersion">新版本</sys:String>
     <sys:String x:Key="Text_DownloadAndInstall">下載並安裝</sys:String>
     <sys:String x:Key="Text_AnyQuestion">有任何問題嗎</sys:String>
     <sys:String x:Key="Text_PleaseContactUs">請聯繫我們</sys:String>
@@ -269,6 +269,8 @@
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
     <sys:String x:Key="Text_CloseTSProject">是否要關閉排版專案</sys:String>
     <sys:String x:Key="Text_CantCloseTSProject">專案已有加工完成之零件，不可關閉</sys:String>
+    <sys:String x:Key="Text_ProjectIsExistedCantOpenProject">專案名稱已存在，不可載入相同名稱的專案</sys:String>
+    <sys:String x:Key="Text_ProjectIsLoaded">專案已載入</sys:String>
 
     <sys:String x:Key="Text_SaveSuccessful">儲存成功</sys:String>
     <sys:String x:Key="Text_SaveFail">儲存失敗</sys:String>

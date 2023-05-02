@@ -1,4 +1,5 @@
-﻿using DevExpress.Mvvm.Native;
+﻿using DevExpress.CodeParser;
+using DevExpress.Mvvm.Native;
 using DevExpress.Utils;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Method;
@@ -132,6 +133,23 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand DeleteSettingCommand => throw new NotImplementedException();
 
+        public ICommand SetAllSeparateBoxIsEnabled
+        {
+            get => new RelayParameterizedCommand(Parameter =>
+            {
+                if(Parameter is bool ParameterBoolean)
+                {
+                    SeparateBoxVMObservableCollection.ForEach(obj =>
+                    {
+                        obj.BoxIsEnabled = ParameterBoolean;
+                    });
+                }
+
+            });
+        }
+
+
+
         private void initSeparateSetting()
         {
             SingleSetting_SeparateBoxValue = 0;
@@ -139,7 +157,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 for (int i = 1; i <= 10; i++)
                 {
-                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(new SeparateBoxViewModel()
+                    SeparateBoxVMObservableCollection.Add(new SeparateBoxViewModel()
                     {
                         BoxIndex = i,
                         BoxSliderValue = 0,
@@ -148,6 +166,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
             }
         }
+
+
+
 
 
     }

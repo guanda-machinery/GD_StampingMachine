@@ -104,8 +104,19 @@ namespace GD_StampingMachine.Method
                 , MessageBoxButton.OK , MessageBoxImage.Warning);
         }
 
+        public static void ProjectIsExisted_CantOpenProject()
+        {
+            Show((string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
+                , MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        public static void ProjectIsLoaded()
+        {
+            Show((string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_ProjectIsLoaded")
+                , MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
 
-        
 
 
     }

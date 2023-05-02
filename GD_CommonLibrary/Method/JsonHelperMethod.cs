@@ -80,6 +80,7 @@ namespace GD_CommonLibrary.Method
             }
             catch (Exception ex)
             {
+                MessageBoxResultShow.ShowException(ex);
                 Debugger.Break();
                 return false;
             }
@@ -90,21 +91,30 @@ namespace GD_CommonLibrary.Method
 
         public bool ManualReadJsonFile<T>(out T JsonData)
         {
-            JsonData=default;   
-           
+            return ManualReadJsonFile(out JsonData, out _);
+        }
+
+        public bool ManualReadJsonFile<T>(out T JsonData , out string FilePath)
+        {
+            FilePath = null;
+            JsonData = default;
+
             OpenFileDialog sfd = new()
             {
                 Filter = "Json files (*.json)|*.json"
-            }; 
+            };
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    ReadJsonFile(sfd.FileName, out JsonData);
-                    return true;
+                    if(ReadJsonFile(sfd.FileName, out JsonData))
+                    {
+                        FilePath = sfd.FileName;
+                        return true;
+                    }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBoxResultShow.ShowException(ex);
                 }
@@ -112,6 +122,8 @@ namespace GD_CommonLibrary.Method
             }
             return false;
         }
+
+
 
         public bool ManualWriteJsonFile<T>(T JsonData)
         {

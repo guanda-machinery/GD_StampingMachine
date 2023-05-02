@@ -15,7 +15,7 @@
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-                          xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                          xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
              Name="MainGridControl"
              >
 
@@ -543,8 +543,15 @@
 
                                                                     <Border  Background="Gray"  Margin="10">
                                                                         <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
-                                                                            <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"
-                                                                        Text="{Binding StampingTypeString, UpdateSourceTrigger=PropertyChanged}"  FontSize="30"  Foreground="White"/>
+                                                                            <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  FontSize="30"  Foreground="White">
+                                                                                <TextBox.Text>
+                                                                                    <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
+                                                                                        <Binding.ValidationRules>
+                                                                                            <GD_ValidRule:CheckStringEmptyRule StringLengthMax="1"/>
+                                                                                        </Binding.ValidationRules>
+                                                                                    </Binding>
+                                                                                </TextBox.Text>
+                                                                            </TextBox>
                                                                         </Border>
                                                                     </Border>
                                                                 </StackPanel>
