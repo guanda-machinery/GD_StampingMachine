@@ -283,9 +283,11 @@
     <sys:String x:Key="Text_Loading">讀取中...</sys:String>
 
 
-    
-    
-    
+    <sys:String x:Key="Text_JsonError">Json檔案讀取錯誤</sys:String>
+
+
+
+
     <!--enum-->
     <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
     <sys:String x:Key="Enum_Center">置中</sys:String>

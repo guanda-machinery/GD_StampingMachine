@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_StampingMachine", "GD_St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_CommonLibrary", "GD_CommonLibrary\GD_CommonLibrary.csproj", "{0911BDE5-D35B-409B-8C14-8D93F4A52CAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_OPCUA", "GD_OPCUA\GD_OPCUA.csproj", "{C674560B-50F8-4D1F-8531-A02D1FE69120}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_StampingMachineConnect", "GD_OPCUA\GD_StampingMachineConnect.csproj", "{C674560B-50F8-4D1F-8531-A02D1FE69120}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

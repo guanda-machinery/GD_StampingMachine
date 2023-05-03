@@ -13,13 +13,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     public abstract class ParameterSettingBaseViewModel : BaseViewModelWithLog
     {
         [JsonIgnore]
-        public virtual ICommand RecoverSettingCommand { get; }
+        public abstract ICommand RecoverSettingCommand { get; }
         [JsonIgnore]
-        public virtual ICommand SaveSettingCommand { get; }
+        public abstract ICommand SaveSettingCommand { get; }
         [JsonIgnore]
-        public virtual ICommand LoadSettingCommand { get; }
+        public abstract ICommand LoadSettingCommand { get; }
         [JsonIgnore]
-        public virtual ICommand DeleteSettingCommand { get; }
+        public abstract ICommand DeleteSettingCommand { get; }
 
     }
 }

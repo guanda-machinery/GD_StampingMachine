@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Forms;
 using DevExpress.XtraSpreadsheet.Model;
 using Newtonsoft.Json;
+using Application = System.Windows.Application;
 
 namespace GD_CommonLibrary.Method
 {
@@ -78,12 +79,18 @@ namespace GD_CommonLibrary.Method
 
                 return JsonData != null;
             }
+            catch (JsonException JEX) 
+            {
+                MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_JsonError"));
+                Debugger.Break();
+            }
             catch (Exception ex)
             {
+
                 MessageBoxResultShow.ShowException(ex);
                 Debugger.Break();
-                return false;
             }
+            return false;
         }
 
 

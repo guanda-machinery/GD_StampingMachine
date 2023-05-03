@@ -12,12 +12,12 @@ namespace GD_StampingMachine.Method
     public class MethodWinUIMessageBox : MessageBoxResultShow
     {
 
+
         public static bool AskOverwriteOrNot()
         {
-            var MessageBoxReturn = Show(
+            var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
-                (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"),
-                MessageBoxButton.YesNo, MessageBoxImage.Information);
+                (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"));
             if (MessageBoxReturn == MessageBoxResult.Yes)
                 return true;
             return false;
@@ -25,15 +25,12 @@ namespace GD_StampingMachine.Method
 
         public static bool AskDelProject(string NumberSetting)
         {
-            var MessageBoxReturn = Show(
+            var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_AskDelProject") +
                 "\r\n" +
                 $"{NumberSetting}" +
-                "?"
-                ,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Exclamation);
+                "?");
 
             return MessageBoxReturn == MessageBoxResult.Yes;
         }
@@ -44,15 +41,12 @@ namespace GD_StampingMachine.Method
         /// <returns></returns>
         public static bool AskCloseProject(string ProjectName)
         {
-            var MessageBoxReturn = Show(
+            var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_CloseTSProject") +
                 "\r\n" +
                 $"{ProjectName}" +
-                "?"
-                ,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Exclamation);
+                "?");
 
             return MessageBoxReturn == MessageBoxResult.Yes;
         }
@@ -72,10 +66,9 @@ namespace GD_StampingMachine.Method
             {
                 _message +=  "\r\n" + (string)Application.Current.TryFindResource("Text_SaveFail");
             }
-            Show(
+            ShowOK(
                        (string)Application.Current.TryFindResource("Text_notify"),
-                       _message,
-                       MessageBoxButton.OK, MessageBoxImage.Information);
+                       _message);
         }
 
         public static void LoadSuccessful(string Path , bool IsSuccessful)
@@ -89,33 +82,32 @@ namespace GD_StampingMachine.Method
             {
                 _message += "\r\n" + (string)Application.Current.TryFindResource("Text_LoadFail");
             }
-            Show(
+            ShowOK(
                        (string)Application.Current.TryFindResource("Text_notify"),
-                       _message,
-                       MessageBoxButton.OK, MessageBoxImage.Information);
+                       _message);
         }
 
 
 
         public static void CanNotCloseProject()
         {
-            Show((string)Application.Current.TryFindResource("Text_notify"), 
-                (string)Application.Current.TryFindResource("Text_CantCloseTSProject")
-                , MessageBoxButton.OK , MessageBoxImage.Warning);
+            ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
         }
 
         public static void ProjectIsExisted_CantOpenProject()
         {
-            Show((string)Application.Current.TryFindResource("Text_notify"),
+            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
-                , MessageBoxButton.OK, MessageBoxImage.Warning);
+                , MessageBoxImage.Warning);
         }
         public static void ProjectIsLoaded()
         {
-            Show((string)Application.Current.TryFindResource("Text_notify"),
+            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsLoaded")
-                , MessageBoxButton.OK, MessageBoxImage.Warning);
+                , MessageBoxImage.Warning);
         }
+
+
 
 
 
