@@ -387,7 +387,7 @@
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
                     <dxg:GridControl  Background="Transparent"  
-                    CustomRowFilterCommand="{Binding ProductProjectRowFilterCommand }"
+                    CustomRowFilterCommand="{Binding ProductProjectRowFilterCommand}"
                     Style="{StaticResource ProjectGridControl}" 
                     AutoGenerateColumns="None"
                     SelectionMode="Row"
@@ -460,7 +460,7 @@
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
 
-                        <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
+                    <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProjectFinishProcessing"
                                  Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
