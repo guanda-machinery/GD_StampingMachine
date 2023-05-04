@@ -137,14 +137,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public SettingViewModelBase SettingVMBase
         {
-            get=>_settingVMBase??= new SettingViewModelBase(PartsParameter.NormalSetting);
-
+            // get=>_settingVMBase??= new SettingViewModelBase(PartsParameter.NormalSetting);
+            get => _settingVMBase;
             set
             {
                 _settingVMBase = value;
-                if(_settingVMBase!= null)
+               /* if(_settingVMBase!= null)
                     PartsParameter.NormalSetting = _settingVMBase.NumberSetting;
-
+                */
                 OnPropertyChanged(nameof(SettingVMBase));
             }
         }

@@ -147,9 +147,51 @@ namespace GD_StampingMachine.ViewModels
             ProductProjectVMObservableCollection.ForEach(obj =>
             {
                 if (!ReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
+                {
                     if (!NotReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
-                        NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
+                    {
+                        //被設為完成的不可加入
+                        if (obj.IsFinish)
+                        {
+
+                        }
+                        else
+                        {
+                            NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
+                        }
+                    }
+                }
+                
+
             });
+
+            //將被刪除的專案清除
+            var DelReadyList = ReadyToTypeSettingProductProjectVMObservableCollection.Except(ProductProjectVMObservableCollection).ToList();
+            var DelNotReadyList = NotReadyToTypeSettingProductProjectVMObservableCollection.Except(ProductProjectVMObservableCollection).ToList();
+
+            DelReadyList.ForEach(del =>
+            {
+                ReadyToTypeSettingProductProjectVMObservableCollection.Remove(del);
+            });
+            DelNotReadyList.ForEach(del =>
+            {
+                NotReadyToTypeSettingProductProjectVMObservableCollection.Remove(del);
+            });
+
+
+
+            int BFinishindex = 0;
+            while ((BFinishindex = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.IsFinish))!=-1)
+            {
+                NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(BFinishindex);
+            }
+
+            //把已完成的從移除未準備中移除
+
+
+
+
+
         }
 
 
@@ -212,6 +254,8 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
 
 
        private ObservableCollection<ProductProjectViewModel> _readyToTypeSettingProductProjectVMObservableCollection = new();

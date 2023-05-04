@@ -193,6 +193,8 @@
     <sys:String x:Key="btnDelete">刪除</sys:String>
     <sys:String x:Key="btnReplace">替換</sys:String>
     <sys:String x:Key="btnEdit">編輯</sys:String>
+    <sys:String x:Key="btnFinish">完成專案</sys:String>
+    <sys:String x:Key="btnCancelFinish">取消完成</sys:String>
     <sys:String x:Key="btnImport">匯入</sys:String>
     <sys:String x:Key="btnExport">匯出</sys:String>
 
@@ -203,6 +205,7 @@
 
     <sys:String x:Key="Text_Count">次數</sys:String>
     <sys:String x:Key="Text_Count2">次</sys:String>
+    <sys:String x:Key="Text_FinishedProject">已完成專案</sys:String>
 
     <sys:String x:Key="btnLoadMode">載入模式</sys:String>
     <sys:String x:Key="btnLoadSetting">載入設定</sys:String>
@@ -212,6 +215,8 @@
     <sys:String x:Key="btnSave">儲存</sys:String>
     <sys:String x:Key="btnLoadProject">載入專案</sys:String>
     <sys:String x:Key="btnSaveChange">儲存變更</sys:String>
+    <sys:String x:Key="btnShowHistory">歷史紀錄</sys:String>
+    <sys:String x:Key="btnShowAll">全部顯示</sys:String>
     <!--#endregion-->
     
     <!--#region 製品設定 -->
@@ -269,7 +274,9 @@
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
     <sys:String x:Key="Text_CloseTSProject">是否要關閉排版專案</sys:String>
     <sys:String x:Key="Text_CantCloseTSProject">專案已有加工完成之零件，不可關閉</sys:String>
+    <sys:String x:Key="Text_ProjectNameCantBeEmpty">專案名稱不可為空白</sys:String>
     <sys:String x:Key="Text_ProjectIsExistedCantOpenProject">專案名稱已存在，不可載入相同名稱的專案</sys:String>
+    <sys:String x:Key="Text_ProjectIsExistedCantCreateProject">專案名稱已存在，不可建立相同名稱的專案</sys:String>
     <sys:String x:Key="Text_ProjectIsLoaded">專案已載入</sys:String>
 
     <sys:String x:Key="Text_SaveSuccessful">儲存成功</sys:String>

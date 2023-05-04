@@ -145,6 +145,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public bool IsMarked { get => _isMarked; set { _isMarked = value; OnPropertyChanged(); } }
 
+        /// <summary>
+        /// 新增排版專案的打勾符號
+        /// </summary>
+        public bool IsFinish { get => _productProject.IsFinish; set { _productProject.IsFinish = value; OnPropertyChanged(); } }
+
 
         /// <summary>
         /// 進度條 會以專案內的資料為準
@@ -191,10 +196,26 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
             });
         }
-
-
-
-
+        /// <summary>
+        /// 專案完成
+        /// </summary>
+        public ICommand ProjectFinishCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                IsFinish = true;
+            });
+        }
+        /// <summary>
+        /// 完成取消
+        /// </summary>
+        public ICommand ProjectFinishCancelCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                IsFinish = false;
+            });
+        }
 
 
 
@@ -570,6 +591,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         [JsonIgnore]
         public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand { get; set; }
+
+
+
+
+
 
 
 

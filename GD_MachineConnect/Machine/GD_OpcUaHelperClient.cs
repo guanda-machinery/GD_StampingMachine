@@ -7,22 +7,21 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Linq;
 using Opc.Ua;
 using OpcUaHelper;
 
-namespace GD_StampingMachineConnect
+namespace GD_MachineConnect.Machine
 {
 
     //https://www.cnblogs.com/daji2020/p/16627627.html
 
-    public class GD_StampingMachineConnectHelperClient : StampingMachineConnectInterface
+    public class GD_OpcUaHelperClient
     {
         readonly OpcUaClient  m_OpcUaClient;
-        public GD_StampingMachineConnectHelperClient()
+        public GD_OpcUaHelperClient()
         {
-            m_OpcUaClient = new();
+            m_OpcUaClient = new OpcUaClient();
         }
         //X509憑證 X509Certificate2 Certificate
         //m_OpcUaClient.UserIdentity ??= new UserIdentity(Certificate);
@@ -32,7 +31,7 @@ namespace GD_StampingMachineConnect
             set => m_OpcUaClient.UserIdentity = value;
         }
         
-        public async Task<bool> ConnectAsync(string HostPath, int Port, string DataPath = null)
+        public async Task<bool> OpcuaConnectAsync(string HostPath, int Port, string DataPath = null)
         {
             var BaseUrl = new Uri($"opc.tcp://{HostPath}:{Port}");
             var CombineUrl = new Uri(BaseUrl, DataPath);
@@ -91,6 +90,7 @@ namespace GD_StampingMachineConnect
 
         public void ReadAllReference(string NodeTreeString = "ns=2;s=Devices")
         {
+            //取得所有節點
             List<ReferenceDescription> referencesList = new List<ReferenceDescription>();
             var NodeIDStringList = new List<string>() { NodeTreeString }; 
             var ExistedNodeIDStringList = new List<string>() ;
@@ -115,23 +115,37 @@ namespace GD_StampingMachineConnect
                     break;
             }
 
-
+            //展開所有節點
             List<NodeTypeValue> GetNodeValue = new List<NodeTypeValue>();
             referencesList.ForEach(reference =>
             {
-                if (reference.NodeClass == NodeClass.Variable)
-                {
-                    ReadNoteAttributes(reference.NodeId.ToString());
-                    ReadNode(reference.NodeId.ToString(), out double NValue);
-                    GetNodeValue.Add(new NodeTypeValue()
-                    {
-                        NodeID = reference.NodeId,
-                        NodeDisplayName = reference.DisplayName,
-                        NodeType = typeof(string),
-                        NodeValue = NValue
-                    });
-                }
+                //ReadNoteAttributes(reference.NodeId.ToString());
+                ReadNode(reference.NodeId.ToString(), out object NValue);
 
+                GetNodeValue.Add(new NodeTypeValue()
+                {
+                    NodeID = reference.NodeId,
+                    NodeDisplayName = reference.DisplayName,
+                    NodeValue = NValue
+                });
+
+            });
+            //印出節點資料
+            GetNodeValue.ForEach(NValue =>
+            {
+                Type NodeType = null;
+                if(NValue.NodeValue!= null)
+                    NodeType = NValue.NodeValue.GetType();
+
+                Console.Write(string.Format("{0,-20}", nameof(NValue.NodeID)));
+                Console.WriteLine(string.Format("{0,0}", NValue.NodeID));
+                Console.Write(string.Format("{0,-20}", nameof(NValue.NodeDisplayName)));
+                Console.WriteLine(string.Format("{0,0}", NValue.NodeDisplayName));
+                Console.Write(string.Format("{0,-20}", nameof(Type)));
+                Console.WriteLine(string.Format("{0,0}", NodeType));
+                Console.Write(string.Format("{0,-20}", nameof(NValue.NodeValue)));
+                Console.WriteLine(string.Format("{0,0}", NValue.NodeValue));
+                Console.WriteLine("".PadLeft(50,'-'));
             });
         }
 
@@ -139,21 +153,12 @@ namespace GD_StampingMachineConnect
         {
             public ExpandedNodeId NodeID { get; set; }
             public LocalizedText NodeDisplayName { get; set; }
-            public Type NodeType { get; set; }
             public object NodeValue { get; set; }
         }
-
-
-
-
         public void Disconnect()
         {
             m_OpcUaClient.Disconnect();
         }
 
-        public bool GetMachineStatus(out string Status)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

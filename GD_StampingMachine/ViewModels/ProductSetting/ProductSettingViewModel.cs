@@ -18,7 +18,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Method;
 using Newtonsoft.Json;
@@ -26,6 +25,9 @@ using DevExpress.Data.Extensions;
 using DevExpress.XtraScheduler;
 using GD_StampingMachine.Properties;
 using static DevExpress.XtraEditors.Mask.MaskSettings;
+using DevExpress.Mvvm.Xpf;
+using DevExpress.XtraScheduler.Commands;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -266,6 +268,46 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 _selectProductProjectVM = value;
                 OnPropertyChanged(nameof(SelectProductProjectVM)); 
             }
+        }
+
+
+        public bool ShowHiddenProject { get; set; }
+        public bool ShowAllProject { get; set; }
+
+        public ICommand UpdateFiltrationLogicCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                UpdateFiltrationLogic();
+            });
+        }
+
+        void UpdateFiltrationLogic()
+        {
+            OnPropertyChanged(nameof(ProductProjectRowFilterCommand));
+        }
+
+        //篩選器
+        [JsonIgnore]
+        public DevExpress.Mvvm.ICommand<RowFilterArgs> ProductProjectRowFilterCommand
+        {
+            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args=>
+            {
+                if(args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel PProject)
+                {
+                    if (ShowAllProject)
+                    {
+                        args.Visible = true;
+                    }
+                    else
+                    {
+                        if (ShowHiddenProject)
+                            args.Visible = PProject.IsFinish;
+                        else
+                            args.Visible = !PProject.IsFinish;
+                    }
+                }
+            });
         }
 
     }

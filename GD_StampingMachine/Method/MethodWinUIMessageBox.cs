@@ -70,7 +70,11 @@ namespace GD_StampingMachine.Method
                        (string)Application.Current.TryFindResource("Text_notify"),
                        _message);
         }
-
+        /// <summary>
+        /// 讀取成功
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="IsSuccessful"></param>
         public static void LoadSuccessful(string Path , bool IsSuccessful)
         {
             string _message = Path;
@@ -94,12 +98,42 @@ namespace GD_StampingMachine.Method
             ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
         }
 
+        
+
         public static void ProjectIsExisted_CantOpenProject()
         {
             ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
                 , MessageBoxImage.Warning);
         }
+
+
+        /// <summary>
+        /// 無法建立專案
+        /// </summary>
+        public static void CanNotCreateProjectFileNameIsEmpty()
+        {
+            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty") 
+                , MessageBoxImage.Warning);
+        }
+
+        /// <summary>
+        /// 無法建立專案
+        /// </summary>
+        public static void CanNotCreateProject(string ProjectName =null)
+        {
+            string AddMessage = "";
+            if (ProjectName != null)
+                AddMessage = "\r\n" + ProjectName;
+
+            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantCreateProject")+ AddMessage
+                , MessageBoxImage.Warning);
+        }
+
+
+
         public static void ProjectIsLoaded()
         {
             ShowOK((string)Application.Current.TryFindResource("Text_notify"),

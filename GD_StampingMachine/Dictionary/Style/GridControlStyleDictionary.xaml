@@ -6,30 +6,77 @@
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                     xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters">
 
+        <Style  x:Key="ProjectGridControlCellStyle" TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
+            <Setter Property="TextBlock.FontSize" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Opacity" Value="1"/>
+        <Style.Triggers>
+            <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True" >
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.7"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
+    <Style  x:Key="ProjectGridControlGroupRowControlStyle" TargetType="dxg:GroupRowControl">
+        <Setter Property="Background" Value="DimGray" />
+        <Style.Triggers>
+
+            <DataTrigger Binding="{Binding GroupLevel}" Value="1">
+                <Setter Property="Background" Value="Gray" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GroupLevel}" Value="2">
+                <Setter Property="Background" Value="DarkGray" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GroupLevel}" Value="3">
+                <Setter Property="Background" Value="LightSlateGray" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                <Setter Property="Background" Value="OrangeRed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=IsFocused}" Value="True">
+                <Setter Property="Background" Value="OrangeRed"/>
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Orange"/>
+            </Trigger>
+            <!--      <DataTrigger Value="Selected"
+                         Binding="{Binding SelectionState}">
+                                    <Setter Property="Background" Value="#FFFFDC00" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                </DataTrigger>-->
+
+
+        </Style.Triggers>
+    </Style>
+
 
     <Style x:Key="ProjectGridControl" TargetType="dxg:GridControl">
         <Setter Property="ShowBorder" Value="False"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.8"/>
+            </Trigger>
+        </Style.Triggers>
         <Style.Resources>
             <Style TargetType="dxg:TableView">
                 <Setter Property="FadeSelectionOnLostFocus" Value="False"/>
-                <Setter Property="CellStyle">
-                    <Setter.Value>
-                        <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
-                            <Setter Property="TextBlock.FontSize" Value="16"/>
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Style.Triggers>
-                                <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True" >
-                                    <Setter Property="Foreground" Value="White"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="CellStyle" Value="{StaticResource ProjectGridControlCellStyle}"/>
                 <Setter Property="RowStyle">
                     <Setter.Value>
-                        <Style TargetType="{x:Type dxg:RowControl}">
+                        <Style TargetType="{x:Type dxg:RowControl}" >
                             <Setter Property="Height" Value="40"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Background" Value="Transparent" />
@@ -41,49 +88,31 @@
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="DodgerBlue"/>
                                 </Trigger>
-
-                            </Style.Triggers>
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="GroupRowStyle">
-                    <Setter.Value>
-                        <Style TargetType="dxg:GroupRowControl">
-                            <Setter Property="Background" Value="DimGray" />
-                            <Style.Triggers>
-                                
-                                <DataTrigger Binding="{Binding GroupLevel}" Value="1">
-                                    <Setter Property="Background" Value="Gray" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding GroupLevel}" Value="2">
-                                    <Setter Property="Background" Value="DarkGray" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding GroupLevel}" Value="3">
-                                    <Setter Property="Background" Value="LightSlateGray" />
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                    <Setter Property="Background" Value="OrangeRed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=IsFocused}" Value="True">
-                                    <Setter Property="Background" Value="OrangeRed"/>
+                                <DataTrigger Binding="{Binding Row.IsFinish}" Value="True">
+                                    
                                 </DataTrigger>
                                 
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="Orange"/>
-                                </Trigger>
-                          <!--      <DataTrigger Value="Selected"
-                         Binding="{Binding SelectionState}">
-                                    <Setter Property="Background" Value="#FFFFDC00" />
-                                    <Setter Property="Foreground" Value="Black" />
-                                    <Setter Property="FontWeight" Value="SemiBold" />
-                                </DataTrigger>-->
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=IsSelected}" Value="True" />
+                                        <Condition Binding="{Binding Row.IsFinish}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="DarkGreen" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                                        <Condition Binding="{Binding Row.IsFinish}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="ForestGreen" />
+                                </MultiDataTrigger>
 
 
                             </Style.Triggers>
                         </Style>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="GroupRowStyle" Value="{StaticResource ProjectGridControlGroupRowControlStyle}"/>
                 <Setter Property="RuntimeLocalizationStrings">
                     <Setter.Value>
                         <dxg:GridRuntimeStringCollection>
@@ -141,7 +170,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                 </Style>
                                             </dxg:GroupPanelContainer.Resources>
-                                            
+
                                         </dxg:GroupPanelContainer>
                                     </Grid>
                                 </Border>
@@ -153,9 +182,9 @@
             <Style TargetType="dxe:PagerControl">
                 <Setter Property="ShowFirstPageButton" Value="False"/>
                 <Setter Property="ShowLastPageButton" Value="False"/>
-                
+
                 <Setter Property="HorizontalAlignment" Value="Right" />
-                
+
             </Style>
         </Style.Resources>
     </Style>

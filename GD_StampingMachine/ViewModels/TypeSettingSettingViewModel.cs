@@ -13,6 +13,9 @@ using System.Windows.Input;
 using GD_CommonLibrary;
 using Newtonsoft.Json;
 using DevExpress.Mvvm.Native;
+using DevExpress.Data.Extensions;
+using GD_CommonLibrary.Method;
+using GD_StampingMachine.Method;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -65,13 +68,22 @@ namespace GD_StampingMachine.ViewModels
                 {
                     AddLogData("btnAddProject");
 
+                    if(NewProjectDistribute.ProjectDistributeName == null)
+                    {
+                        MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmpty();
+                        return;
+                    }
+               
+                    if(ProjectDistributeVMObservableCollection.FindIndex(x=>x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) !=-1)
+                    {
+                        MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName);
+                    }
+
                     NewProjectDistribute.CreatedDate = DateTime.Now;
                     var Clone = NewProjectDistribute.DeepCloneByJson();
                     Clone.ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection;
                     Clone.SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection;
                     ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
-
-
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                     //存檔
                     JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);

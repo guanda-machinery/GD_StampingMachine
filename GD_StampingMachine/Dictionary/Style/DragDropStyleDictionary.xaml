@@ -79,6 +79,7 @@
     <Style TargetType="Border" x:Key="SelectedBorder">
         <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>
+
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                             AncestorType={x:Type ListBoxItem}},
                                                             Path=IsSelected}" Value="True">
@@ -108,7 +109,7 @@
                                                             Path=IsSelected}" Value="True">
                 <Setter Property="Background" Value="Gray"/>
             </DataTrigger>
-
+            
             <EventTrigger RoutedEvent="DragEnter">
             <EventTrigger.Actions>
                 <BeginStoryboard>
@@ -174,6 +175,17 @@
                     </BeginStoryboard>
                 </EventTrigger.Actions>
             </EventTrigger>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <!--離開-->
+                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.500" To="Gray" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
             <EventTrigger RoutedEvent="MouseLeave">
                 <EventTrigger.Actions>
                     <BeginStoryboard>
@@ -227,7 +239,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
                     <Border Padding="5,5,5,0" Style="{StaticResource SelectedListBoxItemBackground }">
-                        <Grid  >
+                        <Grid  HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -259,13 +271,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem" >
-                    <Border Style="{StaticResource SelectedListBoxItemBackground }" Padding="5" Margin="10,0">
+                    <Border Style="{StaticResource SelectedListBoxItemBackground }" Padding="5" Margin="10,0" >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder">
+                            <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder" >
                                 <Border  Style="{StaticResource SelectedBorder}" CornerRadius="{Binding ElementName=MainBorder, Path=CornerRadius}">
                                     <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                                 </Border>

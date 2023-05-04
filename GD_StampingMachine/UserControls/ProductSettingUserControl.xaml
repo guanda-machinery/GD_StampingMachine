@@ -50,6 +50,12 @@
                                      Foreground="White"/>
                     </StackPanel>
                     <StackPanel  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <ToggleButton Name="btnShowAll" Style="{StaticResource GD_ToggleButton}" Content="{DynamicResource btnShowAll}" Width="auto" Height="auto" Padding="10,0" Margin="5" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowAllProject}"/>
+
+                    <ToggleButton Style="{StaticResource GD_ToggleButton}" Content="{DynamicResource btnShowHistory}" IsEnabled="{Binding ElementName=btnShowAll, Path=IsChecked,UpdateSourceTrigger=PropertyChanged, Converter={dx:BoolInverseConverter}}" Width="auto" Height="auto" Padding="10,0" Margin="5" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowHiddenProject}"/>
+
+
                     <Button Width="auto" Height="auto" Content="{DynamicResource btnLoadProject}" Padding="10,0" Command="{Binding LoadProductSettingCommand}"
                                 />
                     <Button Width="auto" Height="auto" Content="{DynamicResource btnSaveChange}" Padding="10,0" Command="{Binding SaveProductSettingCommand}"
@@ -381,6 +387,7 @@
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
                     <dxg:GridControl  Background="Transparent"  
+                    CustomRowFilterCommand="{Binding ProductProjectRowFilterCommand }"
                     Style="{StaticResource ProjectGridControl}" 
                     AutoGenerateColumns="None"
                     SelectionMode="Row"
@@ -410,8 +417,7 @@
                                 SearchPanelNullText="Search Tasks(Ctrl + F)" 
                                 SearchPanelFindMode="Always"
                                 ShowIndicator="False"
-                                SearchDelay="0">
-                        </dxg:TableView>
+                                SearchDelay="0"/>
                     </dxg:GridControl.View>
 
                         <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProjectNumber" Width="auto"   IsSmart="True" >
@@ -486,8 +492,27 @@
                             </dxg:GridColumn.HeaderStyle>
                             <dxg:GridColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" Height="30"/>
-                                </DataTemplate>
+                                <Button Command="{Binding Row.ProjectEditCommand}" Height="30">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnEdit}" Foreground="Black"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <materialDesign:PackIcon Kind="Edit" Width="20" Height="20"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
                             </dxg:GridColumn.CellTemplate>
                         </dxg:GridColumn>
 
@@ -503,16 +528,67 @@
                             </dxg:GridColumn.HeaderStyle>
                             <dxg:GridColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Height="30" Content="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
-                                </DataTemplate>
+                                <Button Height="30" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" >
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnDelete}" Foreground="Black"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <materialDesign:PackIcon Kind="Delete" Width="20" Height="20"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
                             </dxg:GridColumn.CellTemplate>
                         </dxg:GridColumn>
+                        
+                    <dxg:GridColumn Header=""  Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn.HeaderStyle>
+                            <Style TargetType="dxg:BaseGridHeader">
+                                <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="BorderThickness" Value="0,0,0,0" />
+                            </Style>
+                        </dxg:GridColumn.HeaderStyle>
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnFinish}" IsEnabled="{Binding Row.IsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Row.ProjectFinishCommand}" />
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl},Path=DataContext.UpdateFiltrationLogicCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnCancelFinish}" Style="{StaticResource SiegCustomButton_Dark}"
+                                            IsEnabled="{Binding Row.IsFinish}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Row.ProjectFinishCancelCommand}" />
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl},Path=DataContext.UpdateFiltrationLogicCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </dxg:GridColumn.CellTemplate>
+                    </dxg:GridColumn>
 
 
 
 
-
-                    </dxg:GridControl>
+                </dxg:GridControl>
 
                 </Border>
             </Grid>
@@ -529,6 +605,13 @@
                     <TextBlock Text="{Binding  ProductProjectNumber}" HorizontalAlignment="Center" FontSize="20"/>
                     <TextBlock Text="{Binding ProductProjectName}" HorizontalAlignment="Center" FontSize="20" Margin="15,0"/>
                     <TextBlock Text="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_ValueConverters:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
+              
+                    <StackPanel Orientation="Horizontal" Margin="15,0"  Visibility="{Binding IsFinish, Converter={dx:BooleanToVisibilityConverter}}">
+                        <TextBlock Text="[" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
+                        <TextBlock Text="{DynamicResource Text_FinishedProject}" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
+                        <TextBlock Text="]" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
+                    </StackPanel>
+                    
                 </StackPanel>
                 <Expander Grid.Row="1"
                     Background="Transparent" Foreground="Transparent" Margin="-10,-60,0,-120"
@@ -619,7 +702,7 @@
                                               HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Content="{DynamicResource btnExit}" />
 
-
+                        <StackPanel IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" Orientation="Horizontal">
                         <ToggleButton IsThreeState="False"     
                                             IsChecked="{Binding ElementName=AddParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
@@ -632,7 +715,19 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ToggleButton>
-
+                        <ToggleButton IsThreeState="False"
+                                            IsChecked="{Binding ElementName=ImportParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
+                                                  Width="auto"
+                                                      Height="auto" Padding="20,10" Margin="10,0"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                      Content="{DynamicResource btnImport}" />
+                        <ToggleButton  IsThreeState="False" 
+                                            IsChecked="{Binding ElementName=ExportParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
+                                                  Width="auto"
+                                                      Height="auto"  Padding="20,10" Margin="10,0"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                      Content="{DynamicResource btnExport}" />
+                        </StackPanel>
                         <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddParameterDarggablePopup" IsOpen="{Binding AddParameterDarggableIsPopup}">
                             <Border
                                                 CornerRadius="10"
@@ -748,8 +843,8 @@
                                                 <Button.IsEnabled>
                                                     <MultiBinding Converter="{GD_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
-                                                        <Binding Path="AddNewPartsParameterVM.ParameterB"/>
-                                                        <Binding Path="AddNewPartsParameterVM.ParameterC"/>
+                                                    <Binding Path="AddNewPartsParameterVM.ParameterB"/>
+                                                    <Binding Path="AddNewPartsParameterVM.ParameterC"/>
                                                     <Binding Path="AddNewPartsParameterVM.SettingVMBase" />
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
@@ -772,13 +867,7 @@
                                 </Border>
                             </GD_Popup:DraggablePopup>
 
-                            <ToggleButton IsThreeState="False"
-                                            IsChecked="{Binding ElementName=ImportParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
-                                                  Width="auto"
-                                                      Height="auto" Padding="20,10" Margin="10,0"
-                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                      Content="{DynamicResource btnImport}" />
-                            <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
+                        <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
                                 <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -896,12 +985,6 @@
                                 </Border>
                             </GD_Popup:DraggablePopup>
 
-                            <ToggleButton  IsThreeState="False" 
-                                            IsChecked="{Binding ElementName=ExportParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
-                                                  Width="auto"
-                                                      Height="auto"  Padding="20,10" Margin="10,0"
-                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                      Content="{DynamicResource btnExport}" />
                             <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="ExportParameterDarggablePopup" IsOpen="{Binding ExportParameterDarggableIsPopup}">
                                 <Border
                                                 CornerRadius="10"

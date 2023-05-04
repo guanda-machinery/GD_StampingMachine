@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_OPCUA
+namespace GD_MachineConnect.Enums
 {
-    internal class GD_OpcUaHelper
+    public enum MachineStatus
     {
+        Disconnect,
+        Run,
+        Stop, 
+        EmergencyStop
     }
 }

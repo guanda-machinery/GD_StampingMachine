@@ -39,8 +39,15 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public DateTime? EditTime { get; set; }
 
+        /// <summary>
+        /// 完成進度
+        /// </summary>
         public double FinishProgress { get; set; }
 
+        /// <summary>
+        /// 是否為已完成專案
+        /// </summary>
+       public bool IsFinish { get; set; }
 
         /// <summary>
         /// 參數設定表
