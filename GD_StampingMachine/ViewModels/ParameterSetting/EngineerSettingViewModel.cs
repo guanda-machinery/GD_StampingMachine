@@ -12,11 +12,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     public class EngineerSettingViewModel : ParameterSettingBaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_EngineerSettingViewModel");
-        public EngineerSettingViewModel(EngineerSettingModel EngineerSetting)
+        public EngineerSettingViewModel(EngineerSettingModel _EngineerSetting)
         {
-            _engineerSetting = EngineerSetting;
+            EngineerSetting = _EngineerSetting;
         }
-        private EngineerSettingModel _engineerSetting;
+        public EngineerSettingModel EngineerSetting;
 
         private DateTime? _cycleTimeTimePicker = null;
         public DateTime? CycleTimeTimePicker
@@ -29,9 +29,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _cycleTimeTimePicker = value;
                 if (value.HasValue)
-                    _engineerSetting.CycleTime = _cycleTimeTimePicker.Value.TimeOfDay;
+                    EngineerSetting.CycleTime = _cycleTimeTimePicker.Value.TimeOfDay;
                 else
-                    _engineerSetting.CycleTime = new TimeSpan();
+                    EngineerSetting.CycleTime = new TimeSpan();
                 OnPropertyChanged(nameof(CycleTimeTimePicker));
             }
         }
@@ -48,9 +48,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _intervalsTimePicker = value;
                 if (value.HasValue)
-                    _engineerSetting.Intervals = _intervalsTimePicker.Value.TimeOfDay;
+                    EngineerSetting.Intervals = _intervalsTimePicker.Value.TimeOfDay;
                 else
-                    _engineerSetting.Intervals = new TimeSpan();
+                    EngineerSetting.Intervals = new TimeSpan();
                 OnPropertyChanged(nameof(IntervalsTimePicker));
             }
         }

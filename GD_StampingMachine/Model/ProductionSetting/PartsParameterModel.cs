@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model.ProductionSetting
 {
-    public abstract class PartsParameterModel
+    public class PartsParameterModel
     {
-        public abstract SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
+        public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
         /// <summary>
         /// 分配加工專案
         /// </summary>
@@ -54,10 +54,10 @@ namespace GD_StampingMachine.Model.ProductionSetting
         /// </summary>
         public int? BoxIndex { get; set; }
 
-        public abstract IStampingPlateSettingModel StampingPlate { get; set; }
+        public StampingPlateSettingModel StampingPlate { get; set; } = new StampingPlateSettingModel();
     }
 
-    public class NormalPartsParameterModel : PartsParameterModel
+   /* public class NormalPartsParameterModel : PartsParameterModel
     {
         public override SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; } = SheetStampingTypeFormEnum.NormalSheetStamping;
         public override IStampingPlateSettingModel StampingPlate { get; set; } = new NormalStampingPlateSettingModel();
@@ -66,7 +66,7 @@ namespace GD_StampingMachine.Model.ProductionSetting
     {
         public override SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; } = SheetStampingTypeFormEnum.QRSheetStamping;
         public override IStampingPlateSettingModel StampingPlate { get; set; } = new QRStampingPlateSettingModel();
-}
+}*/
 
 
 

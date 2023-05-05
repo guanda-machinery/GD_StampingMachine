@@ -44,6 +44,27 @@ namespace GD_StampingMachine.ViewModels
 
     public partial class StampingMainViewModel : BaseViewModelWithLog
     {
+        /// <summary>
+        /// 解構
+        /// </summary>
+        ~StampingMainViewModel()
+        {
+            AxisSettingModel AxisSetting = new();
+            if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
+
+            if (ParameterSettingVM.TimingSettingVM.TimingSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.TimingSetting, ParameterSettingVM.TimingSettingVM.TimingSetting);
+
+            if (ParameterSettingVM.EngineerSettingVM.EngineerSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.EngineerSetting, ParameterSettingVM.EngineerSettingVM.EngineerSetting);
+
+            if (ParameterSettingVM.SeparateSettingVM.SeparateSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, ParameterSettingVM.SeparateSettingVM.SeparateSetting);
+        }
+
+
+
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
 
         private StampingMainModel StampingMain = new();
@@ -71,16 +92,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
-            /*if (JsonHM.ReadStampingAllData(out var JsonStampingMain))
-            {
-                StampingMain = JsonStampingMain;
-                TypeSettingSettingVM.TypeSettingSetting.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
-                TypeSettingSettingVM.TypeSettingSetting.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
-                MachiningSettingVM.MachiningSetting.ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection;
-            }
-            else*/
-            {
+            
                 MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
                 {
                     AllowMachiningSize = new AllowMachiningSizeModel()
@@ -151,13 +163,41 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0}),
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
                 };
-
-                    //LogDataObservableCollection = this.LogDataObservableCollection
                 }
+
+
+                AxisSettingModel AxisSetting = new();
+               if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
+                {
+                    AxisSetting = JsonAxisSetting;
+                }
+
+                TimingSettingModel TimingSetting= new();
+                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel JsonTimingSetting))
+                {
+                    TimingSetting = JsonTimingSetting;
+                }
+
+                EngineerSettingModel EngineerSetting = new();
+                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.EngineerSetting, out EngineerSettingModel JsonEngineerSetting))
+                {
+                    EngineerSetting = JsonEngineerSetting;
+                }
+
+                SeparateSettingModel SeparateSetting = new();
+                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel JsonSeparateSetting))
+                {
+                    SeparateSetting = JsonSeparateSetting;
+                }
+
                 ParameterSettingVM = new()
                 {
-                    //LogDataObservableCollection = this.LogDataObservableCollection
+                    AxisSettingVM = new(AxisSetting),
+                    TimingSettingVM = new (TimingSetting),
+                    SeparateSettingVM = new(SeparateSetting),
+                    EngineerSettingVM = new(EngineerSetting),
                 };
+
                 ProductSettingVM = new()
                 {
                     ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
@@ -183,6 +223,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
                     SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection,
+                    
                 });
 
                 if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
@@ -204,7 +245,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
                 });
-            }
+            
 
 
 

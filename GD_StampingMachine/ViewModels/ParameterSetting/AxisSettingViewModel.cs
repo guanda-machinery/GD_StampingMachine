@@ -15,28 +15,56 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         
         public AxisSettingViewModel(AxisSettingModel AxisSettingModel)
         {
-            _axisSettingModel = AxisSettingModel;
+            AxisSetting = AxisSettingModel;
         }
+        public AxisSettingModel AxisSetting { get; } = new();
 
-        public AxisSettingViewModel()
+        public double XAxisSpeed 
         {
+            get => AxisSetting.XAxisSpeed;
+            set{ AxisSetting.XAxisSpeed = value; OnPropertyChanged(); }
         }
-
-        private AxisSettingModel _axisSettingModel;
-
-        public AxisSettingModel AxisSetting
+        public double YAxisSpeed
         {
-            get
-            {
-                //存檔
-               return _axisSettingModel;
-            }
-            set
-            {
-                _axisSettingModel = value;
-                OnPropertyChanged(nameof(AxisSetting));
-            }
+            get => AxisSetting.YAxisSpeed;
+            set{ AxisSetting.YAxisSpeed = value; OnPropertyChanged(); }
         }
+        public double FontDepth
+        {
+            get => AxisSetting.FontDepth;
+            set{ AxisSetting.FontDepth = value; OnPropertyChanged(); }
+        }
+        public double RouletteSpeed
+        {
+            get => AxisSetting.RouletteSpeed;
+            set{ AxisSetting.RouletteSpeed = value; OnPropertyChanged(); }
+        }
+
+
+        public double ZAxisPressure
+        {
+            get => AxisSetting.ZAxisPressure;
+            set{ AxisSetting.ZAxisPressure = value; OnPropertyChanged(); }
+        }
+        public double ZAxisOrigin
+        {
+            get => AxisSetting.ZAxisOrigin;
+            set{ AxisSetting.ZAxisOrigin = value; OnPropertyChanged(); }
+        }
+        public double ZAxisPreparationPoint
+        {
+            get => AxisSetting.ZAxisPreparationPoint;
+            set{ AxisSetting.ZAxisPreparationPoint = value; OnPropertyChanged(); }
+        }
+
+        public double FeedDistance
+        {
+            get => AxisSetting.FeedDistance;
+            set { AxisSetting.FeedDistance = value; OnPropertyChanged(); }
+        }
+
+
+
 
         public override ICommand RecoverSettingCommand => throw new NotImplementedException();
 

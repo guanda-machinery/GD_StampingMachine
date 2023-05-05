@@ -37,11 +37,11 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 號碼設定
         /// </summary>
-        public NumberSettingViewModel NumberSettingVM { get; set; } = new NumberSettingViewModel(new Model.NormalStampingPlateSettingModel());
+        public NumberSettingViewModel NumberSettingVM { get; set; } = new NumberSettingViewModel(new Model.StampingPlateSettingModel());
         /// <summary>
         /// QR設定
         /// </summary>
-        public QRSettingViewModel QRSettingVM { get; set; } = new QRSettingViewModel(new Model.QRStampingPlateSettingModel());        
+        public QRSettingViewModel QRSettingVM { get; set; } = new QRSettingViewModel(new Model.StampingPlateSettingModel());        
         /// <summary>
         /// 軸向設定
         /// </summary>

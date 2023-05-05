@@ -1,5 +1,6 @@
 ﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model.ParameterSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace GD_StampingMachine.Interfaces
         /// </summary>
         public VerticalAlignEnum VerticalAlign { get; set; }
 
-        public Model.PlateMarginStruct IronPlateMargin { get; set; }
+        //public Model.PlateMarginStruct IronPlateMargin { get; set; }
 
     }
 }

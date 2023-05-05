@@ -25,33 +25,34 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
       
 
-        public QRSettingViewModel(QRStampingPlateSettingModel _QRSetting) : base(_QRSetting)
+        public QRSettingViewModel(StampingPlateSettingModel _QRSetting) : base(_QRSetting)
         {
             NumberSetting = _QRSetting;
+            QRSettingModelCollectionSelected = QRSettingModelCollection.FirstOrDefault();
         }
 
 
-        // public new QRSettingModel NumberSetting { get; set; }
-
-        private QRStampingPlateSettingModel _numberSetting;
-        public new QRStampingPlateSettingModel NumberSetting
+        private StampingPlateSettingModel _qrSetting;
+        public override StampingPlateSettingModel NumberSetting
         {
             get 
             {
-                if (_numberSetting == null)
-                    _numberSetting = new QRStampingPlateSettingModel();
+                
+                if (_qrSetting == null)
+                    _qrSetting = new StampingPlateSettingModel();
                 else
                 {
+                    _qrSetting.NumberSettingMode = NumberSettingMode;
                     if (SequenceCountComboBoxSelectValue.HasValue)
-                        _numberSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
+                        _qrSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
                     if (SpecialSequenceComboBoxSelectValue.HasValue)
-                        _numberSetting.SpecialSequence = SpecialSequenceComboBoxSelectValue.Value;
+                        _qrSetting.SpecialSequence = SpecialSequenceComboBoxSelectValue.Value;
                     if (VerticalAlignEnumComboBoxSelectValue.HasValue)
-                        _numberSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
+                        _qrSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
                     if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
-                        _numberSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
+                        _qrSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
 
-                    _numberSetting.IronPlateMargin = new QRIronPlateMarginStruct
+                    _qrSetting.IronPlateMargin = new PlateMarginStruct
                     {
                         A_Margin = this.Margin_A,
                         B_Margin = this.Margin_B,
@@ -64,51 +65,52 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         I_Margin = this.Margin_I,
                     };
                 }
-                return _numberSetting;
+                return _qrSetting;
             } 
             set 
             {
-                _numberSetting = value;
-                if (_numberSetting == new QRStampingPlateSettingModel ())
+                _qrSetting = value;
+                if (_qrSetting == new StampingPlateSettingModel ())
                 {
                     SequenceCountComboBoxSelectValue = null;
                     SpecialSequenceComboBoxSelectValue = null;
                     VerticalAlignEnumComboBoxSelectValue = null;
                     HorizontalAlignEnumComboBoxSelectValue = null;
                 }
-                else if (_numberSetting != null)
+                else if (_qrSetting != null)
                 {
-                    SequenceCountComboBoxSelectValue = _numberSetting.SequenceCount;
-                    SpecialSequenceComboBoxSelectValue = _numberSetting.SpecialSequence;
-                    VerticalAlignEnumComboBoxSelectValue = _numberSetting.VerticalAlign;
-                    HorizontalAlignEnumComboBoxSelectValue = _numberSetting.HorizontalAlign;
+                    NumberSettingMode = _qrSetting.NumberSettingMode;
+                    SequenceCountComboBoxSelectValue = _qrSetting.SequenceCount;
+                    SpecialSequenceComboBoxSelectValue = _qrSetting.SpecialSequence;
+                    VerticalAlignEnumComboBoxSelectValue = _qrSetting.VerticalAlign;
+                    HorizontalAlignEnumComboBoxSelectValue = _qrSetting.HorizontalAlign;
 
-                    this.Margin_A = _numberSetting.IronPlateMargin.A_Margin;
-                    this.Margin_B = _numberSetting.IronPlateMargin.B_Margin;
-                    this.Margin_C = _numberSetting.IronPlateMargin.C_Margin;
-                    this.Margin_D = _numberSetting.IronPlateMargin.D_Margin;
-                    this.Margin_E = _numberSetting.IronPlateMargin.E_Margin;
-                    this.Margin_F = _numberSetting.IronPlateMargin.F_Margin;
-                    this.Margin_G = _numberSetting.IronPlateMargin.G_Margin;
-                    this.Margin_H = _numberSetting.IronPlateMargin.H_Margin;
-                    this.Margin_I = _numberSetting.IronPlateMargin.I_Margin;
+                    this.Margin_A = _qrSetting.IronPlateMargin.A_Margin;
+                    this.Margin_B = _qrSetting.IronPlateMargin.B_Margin;
+                    this.Margin_C = _qrSetting.IronPlateMargin.C_Margin;
+                    this.Margin_D = _qrSetting.IronPlateMargin.D_Margin;
+                    this.Margin_E = _qrSetting.IronPlateMargin.E_Margin;
+                    this.Margin_F = _qrSetting.IronPlateMargin.F_Margin;
+                    this.Margin_G = _qrSetting.IronPlateMargin.G_Margin;
+                    this.Margin_H = _qrSetting.IronPlateMargin.H_Margin;
+                    this.Margin_I = _qrSetting.IronPlateMargin.I_Margin;
                 }
                 OnPropertyChanged();
             }
 
         }
-
+        private string _numberSettingMode;
         public override string NumberSettingMode
         {
-            get => NumberSetting.NumberSettingMode;
-            set { NumberSetting.NumberSettingMode = value; OnPropertyChanged(); }
+            get => _numberSettingMode;
+            set { _numberSettingMode = value; OnPropertyChanged(); }
         }
 
         /// <summary>
         /// 選擇
         /// </summary>
-        private QRStampingPlateSettingModel _qrSettingModelCollectionSelected;
-        public QRStampingPlateSettingModel QRSettingModelCollectionSelected
+        private StampingPlateSettingModel _qrSettingModelCollectionSelected;
+        public StampingPlateSettingModel QRSettingModelCollectionSelected
         {
             get => _qrSettingModelCollectionSelected;
             set
@@ -120,14 +122,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<QRStampingPlateSettingModel> _qrSettingModelModelCollection;
-        public ObservableCollection<QRStampingPlateSettingModel> QRSettingModelCollection
+        private ObservableCollection<StampingPlateSettingModel> _qrSettingModelModelCollection;
+        public ObservableCollection<StampingPlateSettingModel> QRSettingModelCollection
         {
             get
             {
                 if (_qrSettingModelModelCollection == null)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRStampingPlateSettingModel> SavedCollection,false))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampingPlateSettingModel> SavedCollection,false))
                         _qrSettingModelModelCollection = SavedCollection;                
                     else
                         _qrSettingModelModelCollection = new();
@@ -220,7 +222,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                NumberSetting = new QRStampingPlateSettingModel();
+                NumberSetting = new StampingPlateSettingModel();
             });
         }
 
@@ -228,7 +230,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                var FIndex = QRSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSetting.NumberSettingMode);
+                var FIndex = QRSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingMode);
                 if (FIndex != -1)
                 {
                     if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())

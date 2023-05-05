@@ -176,7 +176,7 @@
                                     <ComboBox  Name="SpecialSequenceComboBox" Style="{StaticResource WhiteMDComboBox_WithIconPack}"
                                         Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
                                                                        ItemsSource="{Binding SpecialSequenceCollection}"
-                                                                       SelectedValue="{Binding SpecialSequenceComboBoxSelectValue}">
+                                                                       SelectedValue="{Binding SpecialSequenceComboBoxSelectValue, UpdateSourceTrigger=PropertyChanged}">
 
                                     </ComboBox>
                                     <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
@@ -340,7 +340,7 @@
                                             <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox   Grid.Column="1" Text="{Binding NumberSettingMode}">
+                                        <TextBox   Grid.Column="1" Text="{Binding NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
                                         </TextBox>
                                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
@@ -610,7 +610,7 @@
                                     <TextBlock Text="{DynamicResource Text_XAxisSpeed}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.XAxisSpeed, Mode=TwoWay}" />
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding XAxisSpeed, Mode=TwoWay}" />
                             </Grid>
                         </GroupBox>
                         <GroupBox Grid.Column="0" Grid.Row="1" Header="{DynamicResource Text_RouletteAxisSetting}" Margin="10" >
@@ -628,19 +628,19 @@
                                     <TextBlock Text="{DynamicResource Text_YAxisSpeed}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.YAxisSpeed, Mode=TwoWay}" Margin="0,0,0,10" />
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding YAxisSpeed, Mode=TwoWay}" Margin="0,0,0,10" />
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Margin="0,10">
                                     <TextBlock Text="{DynamicResource Text_FontDepth}" />
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.FontDepth , Mode=TwoWay}" Grid.Row="1" Margin="0,10"/>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding FontDepth , Mode=TwoWay}" Grid.Row="1" Margin="0,10"/>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Margin="0,10">
                                     <TextBlock Text="{DynamicResource Text_RouletteSpeed}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.RouletteSpeed , Mode=TwoWay}" Grid.Row="2" Margin="0,10"/>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding RouletteSpeed , Mode=TwoWay}" Grid.Row="2" Margin="0,10"/>
 
                             </Grid>
                         </GroupBox>
@@ -659,21 +659,21 @@
                                     <TextBlock Text="{DynamicResource Text_ZAxisPressure}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding AxisSetting.ZAxisPressure, Mode=TwoWay}" Margin="0,0,0,10" />
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding ZAxisPressure, Mode=TwoWay}" Margin="0,0,0,10" />
 
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Margin="0,10" >
                                     <TextBlock Text="{DynamicResource Text_ZAxisOrigin}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <TextBox Grid.Column="1" Text="{Binding AxisSetting.ZAxisOrigin}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Grid.Row="1" Margin="0,10"/>
+                                <TextBox Grid.Column="1" Text="{Binding ZAxisOrigin}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Grid.Row="1" Margin="0,10"/>
                                 <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10" />
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" >
                                     <TextBlock Text="{DynamicResource Text_ZAxisPreparationPoint}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding AxisSetting.ZAxisPreparationPoint}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Margin="0,10"/>
+                                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ZAxisPreparationPoint}" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Margin="0,10"/>
                                 <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10"/>
 
 
@@ -691,7 +691,7 @@
                                     <TextBlock Text="{DynamicResource Text_FeedDistance}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Text="{Binding AxisSetting.FeedDistance}"/>
+                                <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterDistance}" Text="{Binding FeedDistance}"/>
                                 <TextBlock  Grid.Column="1" Text="mm"  HorizontalAlignment="Right" Margin="10,0" />
                             </Grid>
                         </GroupBox>

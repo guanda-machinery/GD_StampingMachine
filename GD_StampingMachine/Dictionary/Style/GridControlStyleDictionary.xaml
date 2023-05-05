@@ -98,7 +98,6 @@
                                         <Condition Binding="{Binding Row.IsFinish}" Value="True" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="DarkGreen" />
-                                    <Setter Property="Opacity" Value="0.8" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>

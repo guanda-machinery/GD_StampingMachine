@@ -25,27 +25,26 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class NumberSettingViewModel : ParameterSettingBaseViewModel, IStampingPlateVM
     {
+        [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelNormalViewModel");
 
-        public NumberSettingViewModel(NormalStampingPlateSettingModel _NumberSetting) 
+        public NumberSettingViewModel(StampingPlateSettingModel _NumberSetting) 
         {        
             NumberSetting = _NumberSetting;
-        }
 
-        public NumberSettingViewModel(QRStampingPlateSettingModel qRSetting)
-        {
-            this.qRSetting = qRSetting;
-        }
+            NumberSettingModelCollectionSelected = NumberSettingModelSavedCollection.FirstOrDefault();
 
-        private NormalStampingPlateSettingModel _numberSetting;
-        public NormalStampingPlateSettingModel NumberSetting
+        }
+        private StampingPlateSettingModel _numberSetting;
+        public virtual StampingPlateSettingModel NumberSetting
         {
             get
             {
                 if (_numberSetting == null)
-                    _numberSetting = new NormalStampingPlateSettingModel();
+                    _numberSetting = new StampingPlateSettingModel();
                 if (_numberSetting != null)
                 {
+                    _numberSetting.NumberSettingMode = NumberSettingMode;
                     if (SequenceCountComboBoxSelectValue.HasValue)
                         _numberSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
                     if (SpecialSequenceComboBoxSelectValue.HasValue)
@@ -55,7 +54,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
                         _numberSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
 
-                    _numberSetting.IronPlateMargin = new NormalIronPlateMarginStruct
+                    _numberSetting.IronPlateMargin = new PlateMarginStruct
                     {
                         A_Margin = this.Margin_A,
                         B_Margin = this.Margin_B,
@@ -69,7 +68,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _numberSetting = value;
-                if (_numberSetting is null || _numberSetting is default(NormalStampingPlateSettingModel))
+                if (_numberSetting == new StampingPlateSettingModel())
                 {
                     SequenceCountComboBoxSelectValue = null;
                     SpecialSequenceComboBoxSelectValue = null;
@@ -83,23 +82,28 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     SpecialSequenceComboBoxSelectValue = _numberSetting.SpecialSequence;
                     VerticalAlignEnumComboBoxSelectValue = _numberSetting.VerticalAlign;
                     HorizontalAlignEnumComboBoxSelectValue = _numberSetting.HorizontalAlign;
-                    IronPlateMargin = _numberSetting.IronPlateMargin;
 
+                    this.Margin_A = _numberSetting.IronPlateMargin.A_Margin;
+                    this.Margin_B = _numberSetting.IronPlateMargin.B_Margin;
+                    this.Margin_C = _numberSetting.IronPlateMargin.C_Margin;
+                    this.Margin_D = _numberSetting.IronPlateMargin.D_Margin;
+                    this.Margin_E = _numberSetting.IronPlateMargin.E_Margin;
                 }
                 OnPropertyChanged();
             }
         }
 
+        private string _numberSettingMode;
         public virtual string NumberSettingMode
         {
-            get => NumberSetting.NumberSettingMode;
-            set { NumberSetting.NumberSettingMode = value; OnPropertyChanged(); }
+            get => _numberSettingMode;
+            set { _numberSettingMode = value; OnPropertyChanged(); }
         }
 
 
-
-        private NormalStampingPlateSettingModel _numberSettingModelCollectionSelected;
-        public NormalStampingPlateSettingModel NumberSettingModelCollectionSelected
+        private StampingPlateSettingModel _numberSettingModelCollectionSelected;
+        [JsonIgnore]
+        public StampingPlateSettingModel NumberSettingModelCollectionSelected
         {
             get => _numberSettingModelCollectionSelected;
             set
@@ -111,16 +115,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<NormalStampingPlateSettingModel> _numberSettingModelSavedCollection;
+        private ObservableCollection<StampingPlateSettingModel> _numberSettingModelSavedCollection;
 
 
-        public ObservableCollection<NormalStampingPlateSettingModel> NumberSettingModelSavedCollection
+        public ObservableCollection<StampingPlateSettingModel> NumberSettingModelSavedCollection
         {
             get
             {
                 if (_numberSettingModelSavedCollection == null)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NormalStampingPlateSettingModel> SavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<StampingPlateSettingModel> SavedCollection))
                         _numberSettingModelSavedCollection = SavedCollection;
                     else
                         _numberSettingModelSavedCollection = new();
@@ -148,14 +152,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                NumberSetting = new NormalStampingPlateSettingModel();
+                NumberSetting = new StampingPlateSettingModel();
             });
         }
         public override ICommand SaveSettingCommand
         {
             get => new RelayCommand(() =>
             {
-                var FIndex = NumberSettingModelSavedCollection.FindIndex(x => x.NumberSettingMode == NumberSetting.NumberSettingMode);
+                var FIndex = NumberSettingModelSavedCollection.FindIndex(x => x.NumberSettingMode == NumberSettingMode);
                 if (FIndex != -1)
                 {
                     if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
@@ -197,17 +201,24 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private VerticalAlignEnum _verticalAlign;
         private PlateMarginStruct _ironPlateMargin = new PlateMarginStruct();
 
-        public int SequenceCount { get => NumberSetting.SequenceCount; set { NumberSetting.SequenceCount = value; OnPropertyChanged(); } }
-        public SpecialSequenceEnum SpecialSequence { get => NumberSetting.SpecialSequence; set { NumberSetting.SpecialSequence = value; OnPropertyChanged(); } }
-        public HorizontalAlignEnum HorizontalAlign { get => NumberSetting.HorizontalAlign; set { NumberSetting.HorizontalAlign = value; OnPropertyChanged(); } }
-        public VerticalAlignEnum VerticalAlign { get => NumberSetting.VerticalAlign; set { NumberSetting.VerticalAlign = value; OnPropertyChanged(); } }
-        public virtual PlateMarginStruct IronPlateMargin { get => NumberSetting.IronPlateMargin; set { NumberSetting.IronPlateMargin = value;  OnPropertyChanged(); } }
+        public int SequenceCount { get => _sequenceCount; set { _sequenceCount = value; OnPropertyChanged(); } }
+        public SpecialSequenceEnum SpecialSequence { get => _specialSequence; set { _specialSequence = value; OnPropertyChanged(); } }
+        public HorizontalAlignEnum HorizontalAlign { get => _horizontalAlign; set { _horizontalAlign = value; OnPropertyChanged(); } }
+        public VerticalAlignEnum VerticalAlign { get => _verticalAlign; set { _verticalAlign = value; OnPropertyChanged(); } }
+        //public virtual PlateMarginStruct IronPlateMargin { get => NumberSetting.IronPlateMargin; set { NumberSetting.IronPlateMargin = value;  OnPropertyChanged(); } }
 
-        public double Margin_A { get => _ironPlateMargin.A_Margin; set { _ironPlateMargin.A_Margin = value; OnPropertyChanged(); } }
-        public double Margin_B { get => _ironPlateMargin.B_Margin; set { _ironPlateMargin.B_Margin = value; OnPropertyChanged(); } }
-        public double Margin_C { get => _ironPlateMargin.C_Margin; set { _ironPlateMargin.C_Margin = value; OnPropertyChanged(); } }
-        public double Margin_D { get => _ironPlateMargin.D_Margin; set { _ironPlateMargin.D_Margin = value; OnPropertyChanged(); } }
-        public double Margin_E { get => _ironPlateMargin.E_Margin; set { _ironPlateMargin.E_Margin = value; OnPropertyChanged(); } }
+        private double _margin_A;
+        private double _margin_B;
+        private double _margin_C;
+        private double _margin_D;
+        private double _margin_E;
+
+
+        public double Margin_A { get => _margin_A; set { _margin_A = value; OnPropertyChanged(); } }
+        public double Margin_B { get => _margin_B; set { _margin_B = value; OnPropertyChanged(); } }
+        public double Margin_C { get => _margin_C; set { _margin_C = value; OnPropertyChanged(); } }
+        public double Margin_D { get => _margin_D; set { _margin_D = value; OnPropertyChanged(); } }
+        public double Margin_E { get => _margin_E; set { _margin_E = value; OnPropertyChanged(); } }
 
 
 
@@ -232,6 +243,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 這是鐵牌上要打的位置
         /// </summary>
+
+        [JsonIgnore]
         public ObservableCollection<int> PlateNumberList
         {
             get
@@ -263,6 +276,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
         private HorizontalAlignEnum? _horizontalAlignEnumComboBoxSelectValue;
         private VerticalAlignEnum? _verticalAlignEnumComboBoxSelectValue;
+
+        [JsonIgnore]
         public HorizontalAlignEnum? HorizontalAlignEnumComboBoxSelectValue
         {
             get => _horizontalAlignEnumComboBoxSelectValue;
@@ -272,6 +287,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged(nameof(HorizontalAlignEnumComboBoxSelectValue));
             }
         }
+        [JsonIgnore]
         public VerticalAlignEnum? VerticalAlignEnumComboBoxSelectValue
         {
             get => _verticalAlignEnumComboBoxSelectValue;
@@ -299,11 +315,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         private SpecialSequenceEnum? _specialSequenceComboBoxSelectValue = null;
-        private QRStampingPlateSettingModel qRSetting;
 
         /// <summary>
         /// 特殊排序
         /// </summary>
+
+        [JsonIgnore]
         public SpecialSequenceEnum? SpecialSequenceComboBoxSelectValue
         {
             get
@@ -318,6 +335,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        [JsonIgnore]
         public ObservableCollection<int> SequenceCountCollection
         {
             get
@@ -331,6 +349,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        [JsonIgnore]
         public ObservableCollection<SpecialSequenceEnum> SpecialSequenceCollection
         {
             get

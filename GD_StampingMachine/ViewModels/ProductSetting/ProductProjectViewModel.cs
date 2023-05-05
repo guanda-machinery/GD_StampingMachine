@@ -297,7 +297,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                 {
-                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<NormalStampingPlateSettingModel> SavedCollection))
+                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<StampingPlateSettingModel> SavedCollection))
                         if (SavedCollection != null)
                             foreach (var asd in SavedCollection)
                                 newSavedCollection.Add(new NumberSettingViewModel(asd));
@@ -305,7 +305,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRStampingPlateSettingModel> QRSavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampingPlateSettingModel> QRSavedCollection))
                         if (QRSavedCollection != null)
                             foreach (var asd in QRSavedCollection)
                                 newSavedCollection.Add(new QRSettingViewModel(asd));

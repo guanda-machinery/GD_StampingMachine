@@ -18,25 +18,25 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class SeparateSettingViewModel : ParameterSettingBaseViewModel
     {
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateSettingViewModel");
-        public SeparateSettingViewModel(SeparateSettingModel SeparateSetting)
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("NameSeparateSettingViewModel");
+        public SeparateSettingViewModel(SeparateSettingModel _SeparateSetting)
         {
-            _separateSetting= SeparateSetting;
+            SeparateSetting= _SeparateSetting;
             initSeparateSetting();
         }
 
-        private SeparateSettingModel _separateSetting = new();
+        public SeparateSettingModel SeparateSetting = new();
 
 
         public ObservableCollection<SeparateBoxViewModel> SeparateBoxVMObservableCollection
         {
             get
             {
-                return _separateSetting.UnifiedSetting_SeparateBoxObservableCollection;
+                return SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection;
             }
             set
             {
-                _separateSetting.UnifiedSetting_SeparateBoxObservableCollection = value;
+                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection = value;
                 OnPropertyChanged();
             }
         }
@@ -45,11 +45,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                return _separateSetting.SingleSetting_SeparateBox;
+                return SeparateSetting.SingleSetting_SeparateBox;
             }
             set
             {
-                _separateSetting.SingleSetting_SeparateBox = value;
+                SeparateSetting.SingleSetting_SeparateBox = value;
                 OnPropertyChanged();
             }
         }
@@ -61,33 +61,33 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if(SettingType == SettingTypeEnum.UnifiedSetting)
                 {
-                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x => x.BoxSliderValue = _separateSetting.SingleSetting_SeparateBox.BoxSliderValue);
+                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x => x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue);
                 }
-                return _separateSetting.SingleSetting_SeparateBox.BoxSliderValue;
+                return SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
             }
             set
             {
-                _separateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
+                SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
                 OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
             }
         }
 
         public SettingTypeEnum SettingType
         {
-            get => _separateSetting.SettingType;
+            get => SeparateSetting.SettingType;
             set
             {
-                _separateSetting.SettingType = value;
-                if (_separateSetting.SettingType == SettingTypeEnum.SingleSetting)
+                SeparateSetting.SettingType = value;
+                if (SeparateSetting.SettingType == SettingTypeEnum.SingleSetting)
                 {
-                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
                     {
                         x.BoxSliderIsEnabled = true;
                     });
                 }
-                if (_separateSetting.SettingType == SettingTypeEnum.UnifiedSetting)
+                if (SeparateSetting.SettingType == SettingTypeEnum.UnifiedSetting)
                 {
-                    _separateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
                     {
                         x.BoxSliderIsEnabled = false;
                     });
@@ -104,7 +104,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                _separateSetting = new SeparateSettingModel();
+                SeparateSetting = new SeparateSettingModel();
                 initSeparateSetting();
             });
         }
@@ -113,17 +113,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                JsonHM.WriteParameterSettingJsonSetting(Method.GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, _separateSetting, true);       
+                JsonHM.WriteParameterSettingJsonSetting(Method.GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);       
             });
         }
         public override ICommand LoadSettingCommand
         {
             get => new RelayCommand(() =>
             {
-               
                 if (JsonHM.ReadParameterSettingJsonSetting(Method.GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel SSetting, true))
                 {
-                    _separateSetting = SSetting;
+                    SeparateSetting = SSetting;
                     OnPropertyChanged(nameof(SettingType));
                     OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
                     OnPropertyChanged(nameof(SeparateBoxVMObservableCollection));
@@ -153,7 +152,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private void initSeparateSetting()
         {
             SingleSetting_SeparateBoxValue = 0;
-            if (_separateSetting.UnifiedSetting_SeparateBoxObservableCollection.Count == 0)
+            if (SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Count == 0)
             {
                 for (int i = 1; i <= 10; i++)
                 {

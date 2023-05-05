@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
-    public abstract class IStampingPlateSettingModel
+    public class StampingPlateSettingModel
     {     
         /// <summary>
         /// 目前模式
@@ -16,7 +16,7 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 單排數量
         /// </summary>
-        public abstract int SequenceCount { get; set; }
+        public int SequenceCount { get; set; }
 
         /// <summary>
         /// 特殊排序
@@ -31,10 +31,21 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public VerticalAlignEnum VerticalAlign { get; set; }
 
+
+        /// <summary>
+        /// Code設定 字元數量
+        /// </summary>
+        public int CharactersCount { get; set; }
+        /// <summary>
+        /// Code設定 字元型態
+        /// </summary>
+        public CharactersFormEnum CharactersForm { get; set; }
+        public string ModelSize { get; set; }
+
         public PlateMarginStruct IronPlateMargin { get; set; } = new PlateMarginStruct();
     }
 
-    public class NormalStampingPlateSettingModel: IStampingPlateSettingModel
+   /* public class NormalStampingPlateSettingModel: IStampingPlateSettingModel
     {     
         /// <summary>
         /// 單排數量
@@ -48,16 +59,8 @@ namespace GD_StampingMachine.Model
         /// 單排數量
         /// </summary>
         public override int SequenceCount { get; set; } = 6;
-        /// <summary>
-        /// Code設定 字元數量
-        /// </summary>
-        public int CharactersCount { get; set; }
-        /// <summary>
-        /// Code設定 字元型態
-        /// </summary>
-        public CharactersFormEnum CharactersForm { get; set; }
-        public string ModelSize { get; set; }
-    }
+
+    }*/
 
     public class PlateMarginStruct
     {

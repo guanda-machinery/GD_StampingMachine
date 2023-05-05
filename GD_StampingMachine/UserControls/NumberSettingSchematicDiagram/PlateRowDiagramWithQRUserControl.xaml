@@ -136,7 +136,7 @@
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="1" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
         <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-90,0,0" HorizontalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="4" Grid.RowSpan="3" Height="50" Margin="-100,-90,0,0" Grid.ColumnSpan="2" Visibility="{Binding RedMeasurementLineVisibility}" />
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3" Height="50" Margin="-100,-90,0,0" Grid.ColumnSpan="1" Visibility="{Binding RedMeasurementLineVisibility}" />
 
 
 

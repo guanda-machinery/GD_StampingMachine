@@ -38,17 +38,15 @@ namespace GD_StampingMachine.ViewModels
         public DateTime? EditDate { get; set; }
 
 
-        //ReadyToTypeSettingProductProjectVMObservableCollection
-
         /// <summary>
         /// 製品清單
         /// </summary>
-
+        [JsonIgnore]
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
         /// <summary>
         /// 盒子
         /// </summary>
-
+        [JsonIgnore]
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
     }
 

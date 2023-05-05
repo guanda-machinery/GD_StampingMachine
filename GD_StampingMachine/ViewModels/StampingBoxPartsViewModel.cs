@@ -158,6 +158,42 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
+        [JsonIgnore]
+        public ICommand Box_OnDragRecordOverCommand
+        {
+            get => Commands.GD_Command.Box_OnDragRecordOverCommand;
+        }
+
+        [JsonIgnore]
+        public ICommand Box_OnDropRecordCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
+                {
+                    if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
+                    {
+                        foreach (var _record in DragDropData.Records)
+                        {
+                            if (_record is PartsParameterViewModel PartsParameterVM)
+                            {
+                                //看目前選擇哪一個盒子
+                                if (SelectedSeparateBoxVM != null)
+                                {
+                                    PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
+                                    PartsParameterVM.BoxIndex = SelectedSeparateBoxVM.BoxIndex;
+                                    e.Effects = System.Windows.DragDropEffects.Move;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+
 
     }
 }

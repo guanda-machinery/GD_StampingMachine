@@ -31,7 +31,9 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
     }
-
+    /// <summary>
+    /// 排版設定
+    /// </summary>
     public class TypeSettingSettingViewModel : BaseViewModelWithLog
     {
 
@@ -76,7 +78,8 @@ namespace GD_StampingMachine.ViewModels
                
                     if(ProjectDistributeVMObservableCollection.FindIndex(x=>x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) !=-1)
                     {
-                        MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName);
+                        MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName); 
+                        return;
                     }
 
                     NewProjectDistribute.CreatedDate = DateTime.Now;

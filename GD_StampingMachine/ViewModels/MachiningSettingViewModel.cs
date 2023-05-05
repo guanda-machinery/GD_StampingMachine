@@ -3,6 +3,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Editors.ExpressionEditor;
 using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
@@ -81,7 +82,7 @@ namespace GD_StampingMachine.ViewModels
             }
 
             MachiningPartsVMObservableCollection = new();
-            MachiningPartsVMObservableCollection.Add(new PartsParameterViewModel(new QRPartsParameterModel()
+            MachiningPartsVMObservableCollection.Add(new PartsParameterViewModel(new PartsParameterModel()
             {
                 BoxIndex = null,
                 ProjectID="測試專案",

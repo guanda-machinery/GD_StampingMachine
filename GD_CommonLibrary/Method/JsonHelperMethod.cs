@@ -86,7 +86,6 @@ namespace GD_CommonLibrary.Method
             }
             catch (Exception ex)
             {
-
                 MessageBoxResultShow.ShowException(ex);
                 Debugger.Break();
             }
