@@ -49,7 +49,6 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         ~StampingMainViewModel()
         {
-            AxisSettingModel AxisSetting = new();
             if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
                 JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
 
