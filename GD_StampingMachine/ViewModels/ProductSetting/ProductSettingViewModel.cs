@@ -229,7 +229,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     obj.SaveProductProject();
                 });
-                SaveProductListSetting();
+                var Result = SaveProductListSetting();
+                MethodWinUIMessageBox.SaveSuccessful(null, Result);
             });
         }
 

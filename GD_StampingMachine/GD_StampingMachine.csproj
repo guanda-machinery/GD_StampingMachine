@@ -238,6 +238,7 @@
     <Compile Include="GD_Enum\SettingTypeEnum.cs" />
     <Compile Include="GD_Enum\SpecialSequenceEnum.cs" />
     <Compile Include="GD_Enum\SpindleToolHolderEnum.cs" />
+    <Compile Include="Commands\BoxDrapDragRecordCommand.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\GD_JsonHelperMethod.cs" />
     <Compile Include="Method\MethodWinUIMessageBox.cs" />

@@ -67,8 +67,8 @@ namespace GD_StampingMachine.ViewModels
                 ProjectDistributeName = ProjectDistribute.ProjectDistributeName,
                 SeparateBoxVMObservableCollection = _projectDistribute.SeparateBoxVMObservableCollection,
                 ProductProjectVMObservableCollection = _projectDistribute.ProductProjectVMObservableCollection,
-                Box_OnDropRecordCommand = this.Box_OnDropRecordCommand,
-                Box_OnDragRecordOverCommand = this.Box_OnDragRecordOverCommand,
+                //Box_OnDropRecordCommand = this.Box_OnDropRecordCommand,
+                //Box_OnDragRecordOverCommand = this.Box_OnDragRecordOverCommand,
                 GridControl_MachiningStatusColumnVisible = false
             });
 
@@ -445,54 +445,34 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand Box_OnDropRecordCommand
         {
-            get
+            get => new RelayParameterizedCommand(obj =>
             {
-                return new RelayParameterizedCommand(obj =>
+                if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                 {
-                    if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
+                    if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
                     {
-                        if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
+                        foreach (var _record in DragDropData.Records)
                         {
-                            foreach (var _record in DragDropData.Records)
+                            if (_record is PartsParameterViewModel PartsParameterVM)
                             {
-                                if (_record is PartsParameterViewModel PartsParameterVM)
+                                //看目前選擇哪一個盒子
+                                if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                                 {
-                                    //看目前選擇哪一個盒子
-                                    if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
-                                    {
-                                        PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
-                                        PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                                        e.Effects = System.Windows.DragDropEffects.Move;
-                                    }
+                                    PartsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
+                                    PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                                    e.Effects = System.Windows.DragDropEffects.Move;
                                 }
                             }
                         }
                     }
-
-                });
-            }
+                }
+            });
         }
        
         [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand
         {
-            get
-            {
-                return new RelayParameterizedCommand(obj =>
-                {
-                    if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
-                    {
-                        e.Effects = System.Windows.DragDropEffects.None;
-                        if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
-                        { 
-                            //if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
-                            e.Effects = System.Windows.DragDropEffects.Move;
-                        }
-                     
-
-                    }
-                });
-            }
+            get => Commands.GD_Command.Box_OnDragRecordOverCommand;
         }
 
 

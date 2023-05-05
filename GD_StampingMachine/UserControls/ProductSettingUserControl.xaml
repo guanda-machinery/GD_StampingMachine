@@ -538,11 +538,18 @@
                                             </Setter>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Content">
-                                                    <Setter.Value>
-                                                        <materialDesign:PackIcon Kind="Delete" Width="20" Height="20"/>
-                                                    </Setter.Value>
-                                                </Setter>
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <materialDesign:PackIcon Kind="Delete" Width="20" Height="20"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed"  Value="True">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <materialDesign:PackIcon Kind="Dad"  Width="20" Height="20"/>
+                                                        </Setter.Value>
+                                                    </Setter>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>

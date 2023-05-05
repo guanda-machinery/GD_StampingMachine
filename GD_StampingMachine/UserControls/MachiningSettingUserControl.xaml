@@ -151,11 +151,9 @@
                                                         AllowDragDrop="True"
                                                         AllowDrop="True"
                                                         ShowDragDropHint="False"
+
                                                     >
-                    <dxmvvm:Interaction.Behaviors>
-                        <dxmvvm:EventToCommand EventName="DragRecordOver" Command="{Binding Box_OnDragRecordOverCommand}" PassEventArgsToCommand="True"/>
-                        <dxmvvm:EventToCommand EventName="DropRecord" Command="{Binding Box_OnDropRecordCommand}" PassEventArgsToCommand="True"/>
-                    </dxmvvm:Interaction.Behaviors>
+
                 </dxg:TableView>
             </dxg:GridControl.View>
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">

@@ -26,10 +26,10 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
 
-        [JsonIgnore]
-        public ICommand Box_OnDropRecordCommand { get; set; }
-        [JsonIgnore]
-        public ICommand Box_OnDragRecordOverCommand { get; set; }
+       //[JsonIgnore]
+       // public ICommand Box_OnDropRecordCommand { get; set; }
+        //[JsonIgnore]
+        //public ICommand Box_OnDragRecordOverCommand { get; set; }
         public bool GridControl_MachiningStatusColumnVisible { get; set; } = true;
     }
 
@@ -157,10 +157,6 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        [JsonIgnore]
-        public ICommand Box_OnDropRecordCommand { get => StampingBoxPart.Box_OnDropRecordCommand; }
-        [JsonIgnore]
-        public ICommand Box_OnDragRecordOverCommand { get => StampingBoxPart.Box_OnDragRecordOverCommand; }
 
 
     }

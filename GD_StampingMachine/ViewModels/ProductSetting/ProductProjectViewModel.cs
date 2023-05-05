@@ -310,7 +310,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         
-        private SettingViewModelBase _settingVM;
+        private SettingViewModelBase _settingVM = new(new NormalSettingModel());
         /// <summary>
         /// 上方的排列示意圖(純顯示)
         /// </summary>

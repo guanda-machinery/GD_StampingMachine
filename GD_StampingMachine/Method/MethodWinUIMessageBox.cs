@@ -57,14 +57,19 @@ namespace GD_StampingMachine.Method
         /// <param name="IsSuccessful"></param>
         public static void SaveSuccessful(string Path  ,bool IsSuccessful)
         {
-            string _message = Path;
+            string _message = string.Empty;
+            if (!string.IsNullOrEmpty(Path))
+            {
+                _message += Path + "\r\n";
+            }
+
             if (IsSuccessful)
             {
-                _message +=  "\r\n" +(string)Application.Current.TryFindResource("Text_SaveSuccessful");
+                _message += (string)Application.Current.TryFindResource("Text_SaveSuccessful");
             }
             else
             {
-                _message +=  "\r\n" + (string)Application.Current.TryFindResource("Text_SaveFail");
+                _message +=  (string)Application.Current.TryFindResource("Text_SaveFail");
             }
             ShowOK(
                        (string)Application.Current.TryFindResource("Text_notify"),
