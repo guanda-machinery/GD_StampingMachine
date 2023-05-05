@@ -239,13 +239,15 @@
     <Compile Include="GD_Enum\SpecialSequenceEnum.cs" />
     <Compile Include="GD_Enum\SpindleToolHolderEnum.cs" />
     <Compile Include="Commands\BoxDrapDragRecordCommand.cs" />
+    <Compile Include="Interfaces\IStampingPlateVM.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\GD_JsonHelperMethod.cs" />
     <Compile Include="Method\MethodWinUIMessageBox.cs" />
     <Compile Include="Method\DropHandler\StampingTypeDropTarget.cs" />
     <Compile Include="Model\ParameterSetting\EngineerSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\InputOutputModel.cs" />
-    <Compile Include="Interfaces\SettingCommandInterface.cs" />
+    <Compile Include="Interfaces\ISettingCommandInterface.cs" />
+    <Compile Include="Model\ParameterSetting\StampingPlateSettingModel.cs" />
     <Compile Include="Model\ProductionSetting\StampingSteelBeltModel.cs" />
     <Compile Include="Model\ProjectModel.cs" />
     <Compile Include="Model\SyncObservableCollection.cs" />
@@ -256,7 +258,6 @@
     <Compile Include="Model\ParameterSetting\TimingSettingModel.cs" />
     <Compile Include="Model\ParameterSetting\AxisSettingModel.cs" />
     <Compile Include="Model\MechanicalSpecificationModel.cs" />
-    <Compile Include="Model\ParameterSetting\QRSettingModel.cs" />
     <Compile Include="Model\ProductionSetting\PartsParameterModel.cs" />
     <Compile Include="Model\ProductProjectModel.cs" />
     <Compile Include="Model\StampingTypeModel.cs" />
@@ -341,7 +342,6 @@
     <Compile Include="ViewModels\ProductSetting\ProductSettingViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\ProductProjectViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\StampingSteelBeltViewModel.cs" />
-    <Compile Include="ViewModels\SettingViewModelBase.cs" />
     <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="ViewModels\StampingMainViewModel.cs" />

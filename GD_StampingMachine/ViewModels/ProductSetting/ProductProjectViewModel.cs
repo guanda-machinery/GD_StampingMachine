@@ -10,6 +10,7 @@ using DevExpress.Xpf.WindowsUI;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
@@ -73,7 +74,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public ProductProjectViewModel()
         {
-            _productProject = new(); 
+            _productProject = new();
+            _productProject.PartsParameterObservableCollection.ForEach(obj =>
+            {
+                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
+            });
             RefreshNumberSettingSavedCollection();
         }
 
@@ -228,8 +233,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                if(_addNewPartsParameterVM == null)
+                if (_addNewPartsParameterVM == null)
+                {
                     _addNewPartsParameterVM = new PartsParameterViewModel(new Model.ProductionSetting.PartsParameterModel() { ProjectID = ProductProjectName });
+                }
                 return _addNewPartsParameterVM;
             }
             set
@@ -238,7 +245,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         } 
-        public SettingViewModelBase SelectedSettingVMBase
+        public IStampingPlateVM SelectedSettingVMBase
         {
             get => AddNewPartsParameterVM.SettingVMBase;
             set 
@@ -250,16 +257,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
  
 
 
-        private ObservableCollection<SettingViewModelBase> _numberSettingSavedCollection;
+        private ObservableCollection<IStampingPlateVM> _numberSettingSavedCollection;
         /// <summary>
         /// 建立零件POPUP-加工型態combobox
         /// </summary>
-        public ObservableCollection<SettingViewModelBase> NumberSettingSavedCollection
+        public ObservableCollection<IStampingPlateVM> NumberSettingSavedCollection
         {
             get 
             {
                 if (_numberSettingSavedCollection == null)
-                    _numberSettingSavedCollection = new ObservableCollection<SettingViewModelBase>();
+                    _numberSettingSavedCollection = new ObservableCollection<IStampingPlateVM>();
                 return _numberSettingSavedCollection;
              }
             set
@@ -285,12 +292,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public void RefreshNumberSettingSavedCollection()
         {
-            var newSavedCollection = new ObservableCollection<SettingViewModelBase>();
+            var newSavedCollection = new ObservableCollection<IStampingPlateVM>();
             if (_productProject != null)
             {
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                 {
-                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<NormalSettingModel> SavedCollection))
+                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<NormalStampingPlateSettingModel> SavedCollection))
                         if (SavedCollection != null)
                             foreach (var asd in SavedCollection)
                                 newSavedCollection.Add(new NumberSettingViewModel(asd));
@@ -298,7 +305,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingModel> QRSavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRStampingPlateSettingModel> QRSavedCollection))
                         if (QRSavedCollection != null)
                             foreach (var asd in QRSavedCollection)
                                 newSavedCollection.Add(new QRSettingViewModel(asd));
@@ -309,13 +316,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             NumberSettingSavedCollection = newSavedCollection;
         }
 
-        
-        private SettingViewModelBase _settingVM = new(new NormalSettingModel());
+
+        private IStampingPlateVM _settingVM;
         /// <summary>
         /// 上方的排列示意圖(純顯示)
         /// </summary>
         [JsonIgnore]
-        public SettingViewModelBase SettingVM
+        public IStampingPlateVM SettingVM
         {
             get => _settingVM;
             set

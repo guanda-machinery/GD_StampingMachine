@@ -335,6 +335,8 @@
     <sys:String x:Key="Name_ProductProjectViewModel">製品專案</sys:String>
 
     <sys:String x:Key="Name_SettingViewModelBase">號碼設定</sys:String>
+    <sys:String x:Key="Name_SettingViewModelNormalViewModel">一般號碼設定</sys:String>
+    <sys:String x:Key="Name_SettingViewModelQRViewModel">QR號碼設定</sys:String>
     <sys:String x:Key="Name_StampingFontChangedViewModel">字模設定</sys:String>
     
     <sys:String x:Key="Name_OperatingLogViewModel">操作紀錄</sys:String>

@@ -12,42 +12,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GD_CommonLibrary;
-
-
+using GD_StampingMachine.Interfaces;
+using GD_StampingMachine.Model.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     /// <summary>
     /// 繼承
     /// </summary>
-    public class QRSettingViewModel : SettingViewModelBase
+    public class QRSettingViewModel : NumberSettingViewModel
     {
-        public QRSettingViewModel(QRSettingModel _NumberSetting) : base(_NumberSetting)
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
+      
+
+        public QRSettingViewModel(QRStampingPlateSettingModel _QRSetting) : base(_QRSetting)
         {
-            NumberSetting = _NumberSetting;
+            NumberSetting = _QRSetting;
         }
 
-       // public new QRSettingModel NumberSetting { get; set; }
 
-        private QRSettingModel _qrSetting;
-        public new QRSettingModel NumberSetting
+        // public new QRSettingModel NumberSetting { get; set; }
+
+        private QRStampingPlateSettingModel _numberSetting;
+        public new QRStampingPlateSettingModel NumberSetting
         {
             get 
             {
-                if (_qrSetting == null)
-                    _qrSetting = new QRSettingModel();
+                if (_numberSetting == null)
+                    _numberSetting = new QRStampingPlateSettingModel();
                 else
                 {
                     if (SequenceCountComboBoxSelectValue.HasValue)
-                        _qrSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
+                        _numberSetting.SequenceCount = SequenceCountComboBoxSelectValue.Value;
                     if (SpecialSequenceComboBoxSelectValue.HasValue)
-                        _qrSetting.SpecialSequence = SpecialSequenceComboBoxSelectValue.Value;
+                        _numberSetting.SpecialSequence = SpecialSequenceComboBoxSelectValue.Value;
                     if (VerticalAlignEnumComboBoxSelectValue.HasValue)
-                        _qrSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
+                        _numberSetting.VerticalAlign = VerticalAlignEnumComboBoxSelectValue.Value;
                     if (HorizontalAlignEnumComboBoxSelectValue.HasValue)
-                        _qrSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
+                        _numberSetting.HorizontalAlign = HorizontalAlignEnumComboBoxSelectValue.Value;
 
-                    _qrSetting.IronPlateMargin = new QR_IronPlateMarginStruct
+                    _numberSetting.IronPlateMargin = new QRIronPlateMarginStruct
                     {
                         A_Margin = this.Margin_A,
                         B_Margin = this.Margin_B,
@@ -59,41 +63,35 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         H_Margin = this.Margin_H,
                         I_Margin = this.Margin_I,
                     };
-                        
-
-
-
                 }
-                return _qrSetting;
+                return _numberSetting;
             } 
             set 
             {
-                _qrSetting = value;
-                if (_qrSetting == new QRSettingModel ())
+                _numberSetting = value;
+                if (_numberSetting == new QRStampingPlateSettingModel ())
                 {
                     SequenceCountComboBoxSelectValue = null;
                     SpecialSequenceComboBoxSelectValue = null;
                     VerticalAlignEnumComboBoxSelectValue = null;
                     HorizontalAlignEnumComboBoxSelectValue = null;
                 }
-                else if (_qrSetting != null)
+                else if (_numberSetting != null)
                 {
-                    SequenceCountComboBoxSelectValue = _qrSetting.SequenceCount;
-                    SpecialSequenceComboBoxSelectValue = _qrSetting.SpecialSequence;
-                    VerticalAlignEnumComboBoxSelectValue = _qrSetting.VerticalAlign;
-                    HorizontalAlignEnumComboBoxSelectValue = _qrSetting.HorizontalAlign;
+                    SequenceCountComboBoxSelectValue = _numberSetting.SequenceCount;
+                    SpecialSequenceComboBoxSelectValue = _numberSetting.SpecialSequence;
+                    VerticalAlignEnumComboBoxSelectValue = _numberSetting.VerticalAlign;
+                    HorizontalAlignEnumComboBoxSelectValue = _numberSetting.HorizontalAlign;
 
-                    this.Margin_A = _qrSetting.IronPlateMargin.A_Margin;
-                    this.Margin_B = _qrSetting.IronPlateMargin.B_Margin;
-                    this.Margin_C = _qrSetting.IronPlateMargin.C_Margin;
-                    this.Margin_D = _qrSetting.IronPlateMargin.D_Margin;
-                    this.Margin_E = _qrSetting.IronPlateMargin.E_Margin;
-                    this.Margin_F = _qrSetting.IronPlateMargin.F_Margin;
-                    this.Margin_G = _qrSetting.IronPlateMargin.G_Margin;
-                    this.Margin_H = _qrSetting.IronPlateMargin.H_Margin;
-                    this.Margin_I = _qrSetting.IronPlateMargin.I_Margin;
-
-
+                    this.Margin_A = _numberSetting.IronPlateMargin.A_Margin;
+                    this.Margin_B = _numberSetting.IronPlateMargin.B_Margin;
+                    this.Margin_C = _numberSetting.IronPlateMargin.C_Margin;
+                    this.Margin_D = _numberSetting.IronPlateMargin.D_Margin;
+                    this.Margin_E = _numberSetting.IronPlateMargin.E_Margin;
+                    this.Margin_F = _numberSetting.IronPlateMargin.F_Margin;
+                    this.Margin_G = _numberSetting.IronPlateMargin.G_Margin;
+                    this.Margin_H = _numberSetting.IronPlateMargin.H_Margin;
+                    this.Margin_I = _numberSetting.IronPlateMargin.I_Margin;
                 }
                 OnPropertyChanged();
             }
@@ -109,8 +107,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 選擇
         /// </summary>
-        private QRSettingModel _qrSettingModelCollectionSelected;
-        public QRSettingModel QRSettingModelCollectionSelected
+        private QRStampingPlateSettingModel _qrSettingModelCollectionSelected;
+        public QRStampingPlateSettingModel QRSettingModelCollectionSelected
         {
             get => _qrSettingModelCollectionSelected;
             set
@@ -122,15 +120,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<QRSettingModel> _qrSettingModelModelCollection;
-        public ObservableCollection<QRSettingModel> QRSettingModelCollection
+        private ObservableCollection<QRStampingPlateSettingModel> _qrSettingModelModelCollection;
+        public ObservableCollection<QRStampingPlateSettingModel> QRSettingModelCollection
         {
             get
             {
                 if (_qrSettingModelModelCollection == null)
                 {
-
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingModel> SavedCollection,false))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRStampingPlateSettingModel> SavedCollection,false))
                         _qrSettingModelModelCollection = SavedCollection;                
                     else
                         _qrSettingModelModelCollection = new();
@@ -204,8 +201,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private double _margin_I;
 
- 
-
         public double Margin_F { get => _margin_F; set { _margin_F = value; OnPropertyChanged(); } }
         public double Margin_G { get => _margin_G; set { _margin_G = value; OnPropertyChanged(); } }
         public double Margin_H { get => _margin_H; set { _margin_H = value; OnPropertyChanged(); } }
@@ -225,7 +220,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                NumberSetting = new QRSettingModel();
+                NumberSetting = new QRStampingPlateSettingModel();
             });
         }
 
@@ -265,6 +260,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
             });
         }
+       // public PlateMarginStruct IronPlateMargin { get => NumberSetting.IronPlateMargin; set { NumberSetting.IronPlateMargin = value; OnPropertyChanged(); } }
     }
 
 

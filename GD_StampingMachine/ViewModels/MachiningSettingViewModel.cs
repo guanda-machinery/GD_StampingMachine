@@ -81,7 +81,7 @@ namespace GD_StampingMachine.ViewModels
             }
 
             MachiningPartsVMObservableCollection = new();
-            MachiningPartsVMObservableCollection.Add(new PartsParameterViewModel(new PartsParameterModel()
+            MachiningPartsVMObservableCollection.Add(new PartsParameterViewModel(new QRPartsParameterModel()
             {
                 BoxIndex = null,
                 ProjectID="測試專案",

@@ -7,6 +7,7 @@ using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.WindowsUI;
 using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
@@ -36,13 +37,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             PartsParameter = PParameter;
         }
-        public PartsParameterViewModel()
-        {
-            PartsParameter = new();
-        }
 
-        [JsonIgnore]
-        public readonly PartsParameterModel PartsParameter = new();
+        public readonly PartsParameterModel PartsParameter;
         public float FinishProgress
         {
             get => PartsParameter.Processing;
@@ -133,18 +129,22 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
-        private SettingViewModelBase _settingVMBase;
+        private IStampingPlateVM _settingVMBase;
 
-        public SettingViewModelBase SettingVMBase
+        public IStampingPlateVM SettingVMBase
         {
             // get=>_settingVMBase??= new SettingViewModelBase(PartsParameter.NormalSetting);
-            get => _settingVMBase;
+            get 
+            {
+                if(PartsParameter.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                    _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
+                else
+                    _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
+                return _settingVMBase;
+            }
             set
             {
                 _settingVMBase = value;
-               /* if(_settingVMBase!= null)
-                    PartsParameter.NormalSetting = _settingVMBase.NumberSetting;
-                */
                 OnPropertyChanged(nameof(SettingVMBase));
             }
         }
@@ -175,8 +175,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                     {
-                        if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSettingMode))
+                        if (SettingVMBase != null)
+                        {
+                            if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSettingMode))
+                            {
+                                GridItemSource.Remove(this);
+                            }
+                        }
+                        else
                             GridItemSource.Remove(this);
+
                     }
                 }
             }

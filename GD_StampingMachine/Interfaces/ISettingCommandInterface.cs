@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.Interfaces
 {
-    public interface SettingCommandInterface
+    public interface ISettingCommandInterface
     {
         public ICommand RecoverSettingCommand { get; }
         public ICommand SaveSettingCommand { get; }

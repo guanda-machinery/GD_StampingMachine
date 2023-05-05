@@ -1,4 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Model.ParameterSetting;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using System;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model.ProductionSetting
 {
-    [Serializable()]
-    public class PartsParameterModel////:CloneableBase
+    public abstract class PartsParameterModel
     {
+        public abstract SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
         /// <summary>
         /// 分配加工專案
         /// </summary>
@@ -47,25 +48,28 @@ namespace GD_StampingMachine.Model.ProductionSetting
         /// <summary>
         /// 加工狀態
         /// </summary>
-        public MachiningStatusEnum MachiningStatus{ get; set; }
-
-
+        public MachiningStatusEnum MachiningStatus { get; set; }
         /// <summary>
         /// 分料盒
         /// </summary>
         public int? BoxIndex { get; set; }
 
-
-        /// <summary>
-        /// 鐵牌樣式
-        /// </summary>
-
-        public NormalSettingModel NormalSetting { get; set; }
-
-
-
-
+        public abstract IStampingPlateSettingModel StampingPlate { get; set; }
     }
+
+    public class NormalPartsParameterModel : PartsParameterModel
+    {
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; } = SheetStampingTypeFormEnum.NormalSheetStamping;
+        public override IStampingPlateSettingModel StampingPlate { get; set; } = new NormalStampingPlateSettingModel();
+    }
+    public class QRPartsParameterModel : PartsParameterModel
+    {
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; } = SheetStampingTypeFormEnum.QRSheetStamping;
+        public override IStampingPlateSettingModel StampingPlate { get; set; } = new QRStampingPlateSettingModel();
+}
+
+
+
 
 
 
