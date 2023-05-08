@@ -265,6 +265,7 @@
                                         <ScrollViewer Grid.Row="1" MaxHeight="500" MinHeight="200" VerticalScrollBarVisibility="Visible"  >
                                             <dxg:GridControl 
                                                 Name="NotReadyToTypeSettingProductProjectGridControl"
+                                                CurrentItem="{Binding NotReadyToTypeSettingProductProjectVMCurrentItem}"
                                                 SelectedItem="{Binding NotReadyToTypeSettingProductProjectVMSelected, Mode=TwoWay}"
                                                 SelectionMode="Row"
                                                 Background="Transparent" Margin="2,0" 
@@ -336,15 +337,15 @@
                                                     <dxg:GridColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Button Height="30" Width="auto" Padding="10,0" 
-                                                                        Content="{StaticResource btnAdd}" Command="{Binding Row.AddTypeSettingCommand}"  >
-                                                                <Button.CommandParameter>
+                                                                        Content="{StaticResource btnAdd}" Command="{Binding Row.AddTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}" >
+                                                             <!--   <Button.CommandParameter>
                                                                     <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
                                                                         <MultiBinding.Bindings>
                                                                             <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
                                                                             <Binding ElementName="ReadyToTypeSettingProductProjectGridControl"/>
                                                                         </MultiBinding.Bindings>
                                                                     </MultiBinding>
-                                                                </Button.CommandParameter>
+                                                                </Button.CommandParameter>-->
 
 
 
@@ -404,6 +405,7 @@
                                                                  Style="{StaticResource ProjectGridControl}"
                                                                  AutoGenerateColumns="None"
                                               Name="ReadyToTypeSettingProductProjectGridControl"
+                                              CurrentItem="{Binding ReadyToTypeSettingProductProjectVMCurrentItem}"
                                                                  SelectedItem="{Binding ReadyToTypeSettingProductProjectVMSelected}"
                                                                  ItemsSource="{Binding ReadyToTypeSettingProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  MaxHeight="2000"    >
@@ -481,8 +483,8 @@
                                                                         Content="{DynamicResource btnClose}"  >
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Row.CloseTypeSettingCommand}" >
-                                                            <i:InvokeCommandAction.CommandParameter>
+                                                        <i:InvokeCommandAction Command="{Binding Row.CloseTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}">
+                                                          <!--  <i:InvokeCommandAction.CommandParameter>
                                                                 <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
                                                                     <MultiBinding.Bindings>
                                                                         <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
@@ -490,7 +492,7 @@
                                                                         <Binding ElementName="ProjectDistributeNameTextBlock"/>
                                                                     </MultiBinding.Bindings>
                                                                 </MultiBinding>
-                                                            </i:InvokeCommandAction.CommandParameter>
+                                                            </i:InvokeCommandAction.CommandParameter>-->
                                                         </i:InvokeCommandAction>
                                                         <i:InvokeCommandAction Command="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext.RefreshStampingBoxCommand}"/>
                                                     </i:EventTrigger>

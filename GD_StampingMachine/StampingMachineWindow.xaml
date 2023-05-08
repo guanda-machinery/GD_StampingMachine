@@ -10,7 +10,7 @@
                   mc:Ignorable="d" BorderThickness="0" BorderBrush="Transparent"
                   Closing="ThemedWindow_Closing"
           Closed="ThemedWindow_Closed" ResizeBorderThickness="5" Padding="1"
-        Title="StampingMachineWindow" Height="800" Width="1000" MinWidth="850" MinHeight="750">
+        Title="StampingMachineWindow" Height="800" Width="1000" MinWidth="850" MinHeight="750" >
     <dx:ThemedWindow.Resources>
         <!--外框線-->
         <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowActiveBackground, IsThemeIndependent=True}" Color="Gray" />
@@ -19,7 +19,7 @@
         <system:Double x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveHeaderOpacity, IsThemeIndependent=True}">1</system:Double>
 
     </dx:ThemedWindow.Resources>
-    <Grid >
+    <Grid>
         <Views:StampingMainView/>
     </Grid>
 </dx:ThemedWindow>

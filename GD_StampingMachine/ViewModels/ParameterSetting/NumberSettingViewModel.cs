@@ -109,8 +109,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _numberSettingModelCollectionSelected = value;
-                if (_numberSettingModelCollectionSelected != null)
-                    NumberSetting = _numberSettingModelCollectionSelected.DeepCloneByJson();
+              // if (_numberSettingModelCollectionSelected != null)
+                   // NumberSetting = _numberSettingModelCollectionSelected.DeepCloneByJson();
                 OnPropertyChanged();
             }
         }

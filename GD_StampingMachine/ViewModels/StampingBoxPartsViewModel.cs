@@ -177,6 +177,7 @@ namespace GD_StampingMachine.ViewModels
                         {
                             if (_record is PartsParameterViewModel PartsParameterVM)
                             {
+                      
                                 //看目前選擇哪一個盒子
                                 if (SelectedSeparateBoxVM != null)
                                 {

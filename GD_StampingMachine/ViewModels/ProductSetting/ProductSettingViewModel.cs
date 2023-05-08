@@ -234,6 +234,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
+        [JsonIgnore]
+        public ICommand SaveProductListSettingCommand
+        {
+            get => new RelayCommand(() => { SaveProductListSetting(); });
+        }
+
         private bool SaveProductListSetting()
         {
             //儲存一份路徑清單
@@ -310,6 +316,62 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
             });
         }
+
+
+
+
+
+
+        
+
+        /*
+
+        [JsonIgnore]
+        public ICommand DragDropCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is DragEventArgs e)
+                {
+                    e.Effects = System.Windows.DragDropEffects.Copy;
+                }
+            });
+        }
+
+
+
+
+        [JsonIgnore]
+        public ICommand PreviewDragOverCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is DragEventArgs e)
+                {
+                    e.Effects = System.Windows.DragDropEffects.Copy;
+                }
+            });
+        }
+
+
+
+        [JsonIgnore]
+        public ICommand PreviewDragEnterCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is DragEventArgs e)
+                {
+                    e.Effects = System.Windows.DragDropEffects.Copy;
+                }
+            });
+        }
+
+        */
+
+
+
+
 
     }
 }

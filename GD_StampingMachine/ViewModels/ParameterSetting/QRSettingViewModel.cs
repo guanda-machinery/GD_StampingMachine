@@ -116,8 +116,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _qrSettingModelCollectionSelected = value;
-                if (_qrSettingModelCollectionSelected != null)
-                    NumberSetting = _qrSettingModelCollectionSelected.DeepCloneByJson();
+                /*if (_qrSettingModelCollectionSelected != null)
+                    NumberSetting = _qrSettingModelCollectionSelected.DeepCloneByJson();*/
                 OnPropertyChanged();
             }
         }

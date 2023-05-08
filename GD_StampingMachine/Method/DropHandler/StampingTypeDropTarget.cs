@@ -17,6 +17,9 @@ using System.Windows.Controls;
 
 namespace GD_StampingMachine.Method
 {
+    /// <summary>
+    /// 鋼印字模拖曳
+    /// </summary>
     public class StampingTypeDropTarget: BaseDropTarget
     {
         public override void DragOver(IDropInfo dropInfo)

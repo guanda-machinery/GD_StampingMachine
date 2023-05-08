@@ -17,7 +17,7 @@
                 <Setter Property="Background" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.7"/>
+                <Setter Property="Opacity" Value="0.9"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -67,7 +67,7 @@
                 <Setter Property="Opacity" Value="1"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.8"/>
+                <Setter Property="Opacity" Value="0.9"/>
             </Trigger>
         </Style.Triggers>
         <Style.Resources>

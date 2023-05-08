@@ -103,7 +103,12 @@ namespace GD_StampingMachine.Method
             ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
         }
 
-        
+        public static void CanNotDeleteProject()
+        {
+            ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"));
+        }
+
+
 
         public static void ProjectIsExisted_CantOpenProject()
         {

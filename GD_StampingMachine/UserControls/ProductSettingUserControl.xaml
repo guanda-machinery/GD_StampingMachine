@@ -24,9 +24,18 @@
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+              xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method"
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
 
-    <Grid>
+    <Grid AllowDrop="True">
+
+        <!--<dxmvvm:Interaction.Behaviors>
+            <dxmvvm:EventToCommand EventName="PreviewDrop" Command="{Binding DragDropCommand}" PassEventArgsToCommand="True" />
+            <dxmvvm:EventToCommand  EventName="PreviewDragOver" Command="{Binding PreviewDragOverCommand}" PassEventArgsToCommand="True" />
+            <dxmvvm:EventToCommand EventName="PreviewDragEnter" Command="{Binding PreviewDragEnterCommand}" PassEventArgsToCommand="True" />
+        </dxmvvm:Interaction.Behaviors>-->
+
+
         <Grid.Resources>
             <Style TargetType="ToggleButton" BasedOn="{StaticResource SiegCustomButton}"/>
         </Grid.Resources>
@@ -528,7 +537,15 @@
                             </dxg:GridColumn.HeaderStyle>
                             <dxg:GridColumn.CellTemplate>
                                 <DataTemplate>
-                                <Button Height="30" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" >
+                                <Button Height="30" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
+                                            <i:InvokeCommandAction Command="{Binding ElementName=MainGrid ,Path=DataContext.SaveProductListSettingCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    
+
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
                                             <Setter Property="Content">
@@ -1116,7 +1133,8 @@
                  Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
-                        <dxg:GridControl  Background="Transparent"  VerticalAlignment="Top"
+                    <dxg:GridControl  IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}"
+                                      Background="Transparent"  VerticalAlignment="Top"
                                           Style="{StaticResource ProjectGridControl}"
                                           AutoGenerateColumns="None"
                                           SelectedItem="{Binding PartsParameterViewModelSelectItem}"

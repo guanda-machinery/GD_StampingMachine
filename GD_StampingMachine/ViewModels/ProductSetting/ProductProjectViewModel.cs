@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data;
+using DevExpress.Data.Extensions;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using DevExpress.Office.Utils;
@@ -194,8 +195,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
                         {
-                            if (MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
-                                GridItemSource.Remove(CurrentItem);
+                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x=>!string.IsNullOrEmpty(x.DistributeName)) !=-1)
+                                MethodWinUIMessageBox.CanNotCloseProject();
+                            else
+                            {
+                                if (MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
+                                    GridItemSource.Remove(CurrentItem);
+                            }
+
                         }
                     }
                 }
@@ -265,8 +272,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get 
             {
-                if (_numberSettingSavedCollection == null)
-                    _numberSettingSavedCollection = new ObservableCollection<IStampingPlateVM>();
+                _numberSettingSavedCollection ??= new ObservableCollection<IStampingPlateVM>();
                 return _numberSettingSavedCollection;
              }
             set
@@ -417,7 +423,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _saveProductProjectCommand = value;
-                OnPropertyChanged(nameof(SaveProductProjectCommand));
+                OnPropertyChanged();
             }
         }
         public bool SaveProductProject()
@@ -443,7 +449,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _addParameterDarggableIsPopup = value;
-                OnPropertyChanged(nameof(AddParameterDarggableIsPopup));
+                OnPropertyChanged();
             }
         }
 
@@ -458,7 +464,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _importParameterDarggableIsPopup = value;
-                OnPropertyChanged(nameof(ImportParameterDarggableIsPopup));
+                OnPropertyChanged();
             }
         }
         private bool _exportParameterDarggableIsPopup;
@@ -471,7 +477,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _exportParameterDarggableIsPopup = value;
-                OnPropertyChanged(nameof(ExportParameterDarggableIsPopup));
+                OnPropertyChanged();
             }
         }
 
@@ -506,6 +512,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     throw new Exception();
                 }
 
+                //新寫法
+                if (obj is GD_StampingMachine.ViewModels.ProjectDistributeViewModel ProjectDistributeVM)
+                {
+                    if (ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem != null)
+                    {
+                        ProjectDistributeVM. NotReadyToTypeSettingProductProjectVMCurrentItem.IsMarked = true;
+                        ProjectDistributeVM.ProjectDistribute.ProductProjectNameList.Add(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
+                        ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Add(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem);
+                        ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem);
+                    }
+                }
+
+                //舊寫法
                 if (obj is object[] objectArray)
                 {
                     if (objectArray.Count() == 2)
@@ -545,6 +564,41 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     throw new Exception();
                 }
 
+                //新寫法
+                if (obj is GD_StampingMachine.ViewModels.ProjectDistributeViewModel ProjectDistributeVM)
+                {
+                    if (ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem != null)
+                    {
+                        var CollectionWithThisDistributeName = ProjectDistributeVM.PartsParameterVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                        //箱子內有專案
+                        if (CollectionWithThisDistributeName.Count() > 0)
+                        {
+                            //有已完成的 不可關閉
+                            if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
+                            {
+                                MethodWinUIMessageBox.CanNotCloseProject();
+                                return;
+                            }
+
+                            //詢問是否要關閉
+                            if (!MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))
+                                return;
+
+                            //將資料清除
+                            CollectionWithThisDistributeName.ForEach(Eobj =>
+                            {
+                                Eobj.DistributeName = null;
+                                Eobj.BoxIndex = null;
+                            });
+                        }
+
+                        ProjectDistributeVM.ProjectDistribute.ProductProjectNameList.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
+                        ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMObservableCollection.Add(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
+                        ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
+                    }
+                }
+
+                //舊式寫法
                 if (obj is object[] objectArray)
                 {
                     if (objectArray.Count() == 3)
@@ -585,6 +639,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 TargetItemS.Add(_currentItem);
                                 SourceItemS.Remove(_currentItem);
                             }
+                          //  this.ProjectDistribute.ProductProjectNameList.Remove
                         }
                     }
                     else
@@ -592,6 +647,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         throw new Exception();
                     }
                 }
+
+
+
+
+
             });
             set => _closeTypeSettingCommand= value;
         }

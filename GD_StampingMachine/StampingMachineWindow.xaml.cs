@@ -47,5 +47,6 @@ namespace GD_StampingMachine
                 e.Cancel = true;
             //呼叫各儲存命令
         }
+
     }
 }
