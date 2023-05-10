@@ -1,29 +1,29 @@
-﻿using GD_StampingMachine.Model;
-using GD_StampingMachine.Model.ParameterSetting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using GD_StampingMachine.GD_Model;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public class SeparateBoxViewModel : BaseViewModelWithLog
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateBoxViewModel");
-        
-        private SeparateBoxModel SeparateBox;
+
+
+        public SeparateBoxViewModel(SeparateBoxModel SeparateBox)
+        {
+            _separateBox= SeparateBox  ;
+        }
+
+        public SeparateBoxModel _separateBox;
+
         public SeparateBoxViewModel()
         {
-            SeparateBox = new SeparateBoxModel();
+            _separateBox = new SeparateBoxModel();
         }
         public int BoxIndex
         {
-            get => SeparateBox.BoxIndex;
+            get => _separateBox.BoxIndex;
             set
             {
-                SeparateBox.BoxIndex = value;
+                _separateBox.BoxIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -35,10 +35,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public double BoxSliderValue
         {
-            get => SeparateBox.BoxSliderValue;
+            get => _separateBox.BoxSliderValue;
             set
             {
-                SeparateBox.BoxSliderValue = value;
+                _separateBox.BoxSliderValue = value;
                 OnPropertyChanged();
             }
         }
@@ -48,10 +48,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// </summary>
         public bool BoxIsEnabled
         {
-            get => SeparateBox.BoxIsEnabled;
+            get => _separateBox.BoxIsEnabled;
             set
             {
-                SeparateBox.BoxIsEnabled = value;
+                _separateBox.BoxIsEnabled = value;
                 OnPropertyChanged();
             }
         }

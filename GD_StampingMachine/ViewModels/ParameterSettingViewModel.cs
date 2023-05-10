@@ -9,6 +9,36 @@ using GD_StampingMachine.ViewModels.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels
 {
+
+    public class ParameterSettingModel
+    {
+        public GD_Model.StampingPlateSettingModel NumberSetting { get; set; } = new();
+        /// <summary>
+        /// QR設定
+        /// </summary>
+        public GD_Model.StampingPlateSettingModel QRSetting { get; set; } = new();
+        /// <summary>
+        /// 軸向設定
+        /// </summary>
+        public GD_Model.AxisSettingModel AxisSetting { get; set; } = new();
+        /// <summary>
+        /// 計時設定
+        /// </summary>
+        public GD_Model.TimingSettingModel TimingSetting { get; set; } = new();
+        /// <summary>
+        /// 分料設定
+        /// </summary>
+        public GD_Model.SeparateSettingModel SeparateSetting { get; set; } = new();
+        /// <summary>
+        /// Inputoutput
+        /// </summary>
+        public GD_Model.InputOutputModel InputOutput { get; set; } = new();
+        /// <summary>
+        /// 工程模式
+        /// </summary>
+        public GD_Model.EngineerSettingModel EngineerSetting { get; set; } = new();
+    }
+
     public class ParameterSettingViewModel : BaseViewModelWithLog
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ParameterSettingViewModel");
@@ -30,37 +60,49 @@ namespace GD_StampingMachine.ViewModels
         public bool TbtnInputOutputIsChecked { get => _tbtnInputOutputIsChecked; set { _tbtnInputOutputIsChecked = value; OnPropertyChanged(); } }
         public bool TbtnSeEngineeringModeIsChecked { get => _tbtnSeEngineeringModeIsChecked; set { _tbtnSeEngineeringModeIsChecked = value; OnPropertyChanged(); } }
 
-        public ParameterSettingViewModel()
-        {
 
+
+        public ParameterSettingViewModel(ParameterSettingModel ParameterSetting)
+        {
+            _parameterSetting = ParameterSetting;
+            NumberSettingVM= new NumberSettingViewModel(_parameterSetting.NumberSetting);
+            QRSettingVM = new QRSettingViewModel(_parameterSetting.QRSetting);
+            AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
+            TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);
+            SeparateSettingVM = new SeparateSettingViewModel(_parameterSetting.SeparateSetting);
+            InputOutputVM = new InputOutputViewModel(_parameterSetting.InputOutput);
+            EngineerSettingVM = new EngineerSettingViewModel(_parameterSetting.EngineerSetting);
         }
+
+        private ParameterSettingModel _parameterSetting;
+
         /// <summary>
         /// 號碼設定
         /// </summary>
-        public NumberSettingViewModel NumberSettingVM { get; set; } = new NumberSettingViewModel(new Model.StampingPlateSettingModel());
+        public NumberSettingViewModel NumberSettingVM { get; set; }
         /// <summary>
         /// QR設定
         /// </summary>
-        public QRSettingViewModel QRSettingVM { get; set; } = new QRSettingViewModel(new Model.StampingPlateSettingModel());        
+        public QRSettingViewModel QRSettingVM { get; set; } 
         /// <summary>
         /// 軸向設定
         /// </summary>
-        public AxisSettingViewModel AxisSettingVM { get; set; } = new AxisSettingViewModel(new Model.AxisSettingModel() );
+        public AxisSettingViewModel AxisSettingVM { get; set; } 
         /// <summary>
         /// 計時設定
         /// </summary>
-        public TimingSettingViewModel TimingSettingVM { get; set; } = new TimingSettingViewModel(new Model.TimingSettingModel());
+        public TimingSettingViewModel TimingSettingVM { get; set; } 
         /// <summary>
         /// 分料設定
         /// </summary>
-        public SeparateSettingViewModel SeparateSettingVM { get; set; } = new SeparateSettingViewModel(new Model.SeparateSettingModel());
+        public SeparateSettingViewModel SeparateSettingVM { get; set; } 
         /// <summary>
         /// Inputoutput
         /// </summary>
-        public InputOutputViewModel InputOutputVM { get; set; } = new InputOutputViewModel(new Model.InputOutputModel());
+        public InputOutputViewModel InputOutputVM { get; set; } 
         /// <summary>
         /// 工程模式
         /// </summary>
-        public EngineerSettingViewModel EngineerSettingVM { get; set; } = new EngineerSettingViewModel(new Model.EngineerSettingModel());
+        public EngineerSettingViewModel EngineerSettingVM { get; set; } 
     }
 }

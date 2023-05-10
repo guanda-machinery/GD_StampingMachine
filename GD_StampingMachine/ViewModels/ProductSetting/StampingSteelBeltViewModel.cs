@@ -1,5 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Model.ProductionSetting;
+using GD_StampingMachine.GD_Model.ProductionSetting;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -40,7 +40,7 @@ namespace GD_MachineConnect.Machine
                 await m_OpcUaClient.ConnectServer(CombineUrl.ToString());
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -61,13 +61,13 @@ namespace GD_MachineConnect.Machine
 
         public bool ReadNode<T>(string NodeID ,out T NodeValue)
         {
-            NodeValue = default(T);
+            NodeValue = default;
             try
             {
                 NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -88,7 +88,7 @@ namespace GD_MachineConnect.Machine
             Console.WriteLine("-------------------------------------");
         }
 
-        public void ReadAllReference(string NodeTreeString = "ns=2;s=Devices")
+        public List<NodeTypeValue> ReadAllReference(string NodeTreeString = "ns=2;s=Devices" )
         {
             //取得所有節點
             List<ReferenceDescription> referencesList = new List<ReferenceDescription>();
@@ -147,6 +147,7 @@ namespace GD_MachineConnect.Machine
                 Console.WriteLine(string.Format("{0,0}", NValue.NodeValue));
                 Console.WriteLine("".PadLeft(50,'-'));
             });
+            return GetNodeValue;
         }
 
         public class NodeTypeValue

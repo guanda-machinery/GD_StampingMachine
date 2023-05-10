@@ -3,6 +3,21 @@
     <LangVersion>9</LangVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,6 +52,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CalcBinding, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -228,16 +246,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Cultures\CulturesHelper.cs" />
-    <Compile Include="GD_Enum\MachiningStatusEnum.cs" />
-    <Compile Include="GD_Enum\Method\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="GD_Enum\HorizontalAlignEnum.cs" />
-    <Compile Include="GD_Enum\SheetStampingTypeFormEnum.cs" />
-    <Compile Include="GD_Enum\SteelBeltStampingStatusEnum.cs" />
-    <Compile Include="GD_Enum\VerticalAlignEnum.cs" />
-    <Compile Include="GD_Enum\CharactersFormEnum.cs" />
-    <Compile Include="GD_Enum\SettingTypeEnum.cs" />
-    <Compile Include="GD_Enum\SpecialSequenceEnum.cs" />
-    <Compile Include="GD_Enum\SpindleToolHolderEnum.cs" />
     <Compile Include="Commands\BoxDrapDragRecordCommand.cs" />
     <Compile Include="Interfaces\IStampingPlateVM.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
@@ -245,23 +253,7 @@
     <Compile Include="Method\GD_JsonHelperMethod.cs" />
     <Compile Include="Method\MethodWinUIMessageBox.cs" />
     <Compile Include="Method\DropHandler\StampingTypeDropTarget.cs" />
-    <Compile Include="Model\ParameterSetting\EngineerSettingModel.cs" />
-    <Compile Include="Model\ParameterSetting\InputOutputModel.cs" />
     <Compile Include="Interfaces\ISettingCommandInterface.cs" />
-    <Compile Include="Model\ParameterSetting\StampingPlateSettingModel.cs" />
-    <Compile Include="Model\ProductionSetting\StampingSteelBeltModel.cs" />
-    <Compile Include="Model\ProjectModel.cs" />
-    <Compile Include="Model\SyncObservableCollection.cs" />
-    <Compile Include="Model\MachiningProjectModel.cs" />
-    <Compile Include="Model\OperatingLogModel.cs" />
-    <Compile Include="Model\ParameterSetting\SeparateBoxModel.cs" />
-    <Compile Include="Model\ParameterSetting\SeparateSettingModel.cs" />
-    <Compile Include="Model\ParameterSetting\TimingSettingModel.cs" />
-    <Compile Include="Model\ParameterSetting\AxisSettingModel.cs" />
-    <Compile Include="Model\MechanicalSpecificationModel.cs" />
-    <Compile Include="Model\ProductionSetting\PartsParameterModel.cs" />
-    <Compile Include="Model\ProductProjectModel.cs" />
-    <Compile Include="Model\StampingTypeModel.cs" />
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
@@ -354,6 +346,7 @@
     <Compile Include="Views\StampingMainView.xaml.cs">
       <DependentUpon>StampingMainView.xaml</DependentUpon>
     </Compile>
+    <Resource Include="Resources\Logo.ico" />
     <Resource Include="Image\svg\NewLogo_1-2.svg" />
     <Resource Include="Image\stamp1.png" />
     <Resource Include="Image\stamp2.png" />
@@ -361,8 +354,6 @@
     <Resource Include="Image\擷取3.PNG" />
     <Resource Include="Image\擷取1.PNG" />
     <Resource Include="Image\擷取2.PNG" />
-    <None Include="Resources\Image1.bmp" />
-    <None Include="Resources\Icon_AlignHorizontalLeft.ico" />
     <Page Include="Dictionary\DrawingDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -499,7 +490,18 @@
   <ItemGroup>
     <Analyzer Include="..\packages\DevExpress.Mvvm.CodeGenerators.22.1.1\analyzers\dotnet\cs\DevExpress.Mvvm.CodeGenerators.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
@@ -507,6 +509,18 @@
     <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj">
       <Project>{0911bde5-d35b-409b-8c14-8d93f4a52cac}</Project>
       <Name>GD_CommonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GD_MachineConnect\GD_MachineConnect.csproj">
+      <Project>{f76dd2a1-5bf2-488b-b481-274da19e51e6}</Project>
+      <Name>GD_MachineConnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj">
+      <Project>{1b72928b-a32a-440a-854b-2ec435881875}</Project>
+      <Name>GD_StampingMachine.GD_Enum</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj">
+      <Project>{12b3b748-7a04-4621-955c-463f2eca94b7}</Project>
+      <Name>GD_StampingMachine.GD_Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

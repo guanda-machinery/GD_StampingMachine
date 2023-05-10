@@ -1,6 +1,6 @@
 ﻿using DevExpress.Mvvm.Native;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

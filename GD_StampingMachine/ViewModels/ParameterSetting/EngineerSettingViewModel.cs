@@ -1,5 +1,4 @@
-﻿using GD_StampingMachine.Model;
-using GD_StampingMachine.Model.ParameterSetting;
+﻿using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

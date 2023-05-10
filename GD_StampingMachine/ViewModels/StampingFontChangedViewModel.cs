@@ -150,7 +150,7 @@ namespace GD_StampingMachine.ViewModels
 
                   if (_newUnusedStampingFont.Count == 0)
                   {
-                      _newUnusedStampingFont.Add(new StampingTypeViewModel(new Model.StampingTypeModel
+                      _newUnusedStampingFont.Add(new StampingTypeViewModel(new GD_Model.StampingTypeModel
                       {
                           StampingTypeNumber = 0,
                           StampingTypeUseCount = 0,

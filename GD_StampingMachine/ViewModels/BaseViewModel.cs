@@ -1,6 +1,6 @@
 ﻿using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Core.Native;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using System;

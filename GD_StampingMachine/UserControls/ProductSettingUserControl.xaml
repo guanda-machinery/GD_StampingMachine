@@ -16,9 +16,8 @@
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
-            xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum" 
+            xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-             xmlns:GD_Models="clr-namespace:GD_StampingMachine.Model"
 
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting" 
@@ -57,7 +56,8 @@
                                      materialDesign:HintAssist.Foreground="Blue"                   
                                      Margin="5,0" Name="SearchTextBox" 
                                      Foreground="White"/>
-                    </StackPanel>
+
+                </StackPanel>
                     <StackPanel  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
 
                     <ToggleButton Name="btnShowAll" Style="{StaticResource GD_ToggleButton}" Content="{DynamicResource btnShowAll}" Width="auto" Height="auto" Padding="10,0" Margin="5" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowAllProject}"/>
@@ -1139,8 +1139,8 @@
                                           AutoGenerateColumns="None"
                                           SelectedItem="{Binding PartsParameterViewModelSelectItem}"
                                           ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MinHeight="200"
-                                          MaxHeight="1000"    >
+                                          MinHeight="300"
+                                          MaxHeight="100000"    >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

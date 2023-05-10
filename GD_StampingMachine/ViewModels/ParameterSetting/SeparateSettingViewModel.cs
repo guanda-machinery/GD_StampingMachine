@@ -1,21 +1,17 @@
-﻿using DevExpress.CodeParser;
-using DevExpress.Mvvm.Native;
-using DevExpress.Utils;
+﻿using DevExpress.Mvvm.Native;
 using GD_CommonLibrary;
-using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Model;
-using GD_StampingMachine.Model.ParameterSetting;
+using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.GD_Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
+
+
+
     public class SeparateSettingViewModel : ParameterSettingBaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("NameSeparateSettingViewModel");
@@ -27,29 +23,49 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public SeparateSettingModel SeparateSetting = new();
 
-
+        private ObservableCollection<SeparateBoxViewModel> _separateBoxVMObservableCollection;
         public ObservableCollection<SeparateBoxViewModel> SeparateBoxVMObservableCollection
         {
             get
             {
-                return SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection;
+                if (_separateBoxVMObservableCollection == null)
+                {
+                    _separateBoxVMObservableCollection = new ObservableCollection<SeparateBoxViewModel>();
+                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(obj =>
+                    {
+                        _separateBoxVMObservableCollection.Add(new SeparateBoxViewModel(obj));
+                    });
+                }
+                return _separateBoxVMObservableCollection;
             }
             set
             {
-                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection = value;
+                _separateBoxVMObservableCollection = value;
+                SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection = new ObservableCollection<SeparateBoxModel>();
+                if (_separateBoxVMObservableCollection != null)
+                {
+                    _separateBoxVMObservableCollection.ForEach(obj =>
+                    {
+                        SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(obj._separateBox);
+                    });
+                }
                 OnPropertyChanged();
             }
         }
 
+        private SeparateBoxViewModel _singleSetting_SeparateBoxModel;
         public SeparateBoxViewModel SingleSetting_SeparateBoxModel
         {
-            get
-            {
-                return SeparateSetting.SingleSetting_SeparateBox;
-            }
+            get=> _singleSetting_SeparateBoxModel??=new SeparateBoxViewModel(SeparateSetting.SingleSetting_SeparateBox);
+
             set
             {
-                SeparateSetting.SingleSetting_SeparateBox = value;
+                _singleSetting_SeparateBoxModel = value;
+                SeparateSetting.SingleSetting_SeparateBox = null;
+                if (_singleSetting_SeparateBoxModel != null)
+                {
+                    SeparateSetting.SingleSetting_SeparateBox = _singleSetting_SeparateBoxModel._separateBox;
+                }
                 OnPropertyChanged();
             }
         }
@@ -61,7 +77,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if(SettingType == SettingTypeEnum.UnifiedSetting)
                 {
-                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x => x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue);
+                    SeparateBoxVMObservableCollection.ForEach(x => x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue);
                 }
                 return SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
             }
@@ -80,14 +96,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 SeparateSetting.SettingType = value;
                 if (SeparateSetting.SettingType == SettingTypeEnum.SingleSetting)
                 {
-                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                    SeparateBoxVMObservableCollection.ForEach(x =>
                     {
                         x.BoxSliderIsEnabled = true;
                     });
                 }
                 if (SeparateSetting.SettingType == SettingTypeEnum.UnifiedSetting)
                 {
-                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.ForEach(x =>
+                    SeparateBoxVMObservableCollection.ForEach(x =>
                     {
                         x.BoxSliderIsEnabled = false;
                     });

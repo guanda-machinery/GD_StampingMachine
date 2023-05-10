@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GD_StampingMachine.Model
+namespace GD_StampingMachine.Method
 {
     public class SyncObservableCollection<T> : ObservableCollection<T>
     {

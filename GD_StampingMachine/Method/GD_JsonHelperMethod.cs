@@ -2,7 +2,7 @@
 using CsvHelper;
 using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.WindowsUI;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels;
 using System;
 using System.Collections.Generic;

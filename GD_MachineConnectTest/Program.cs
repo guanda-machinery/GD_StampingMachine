@@ -26,24 +26,30 @@ namespace GD_MachineConnectTest
 
             Task.Run(async () =>
             {
-                var Opcua = new GD_OpcUaHelperClient();
-                if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
+                try
                 {
-                    //Opcua.WriteNode();
-                    //Opcua.ReadNode_TEST();
-                   // Opcua.ReadReference_Test();
-                   Opcua.ReadAllReference();
-                    Opcua.Disconnect();
-                }
+                    var Opcua = new GD_OpcUaHelperClient();
+                    if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
+                    {
+                        //Opcua.WriteNode();
+                        //Opcua.ReadNode_TEST();
+                        // Opcua.ReadReference_Test();
+                        Opcua.ReadAllReference();
+                        Opcua.Disconnect();
+                    }
 
-                IStampingMachineConnect SMachine = new GD_StampingMachineConnectHelper();
-                if (SMachine.Connect(HostString, Port, ServerDataPath))
+                    IStampingMachineConnect SMachine = new GD_Stamping_Opcua();
+                    if (SMachine.Connect(HostString, Port, ServerDataPath))
+                    {
+
+                        SMachine.GetMachineStatus(out var status);
+                        SMachine.Disconnect();
+                    }
+                }
+                catch (Exception ex)
                 {
-             
-                    SMachine.GetMachineStatus(out var status);
-                    SMachine.Disconnect();
-                }
 
+                }
 
 
 

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
-             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum"
+             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 

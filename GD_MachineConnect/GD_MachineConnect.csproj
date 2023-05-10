@@ -218,7 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\MachineStatus.cs" />
-    <Compile Include="GD_StampingMachineConnectHelper.cs" />
+    <Compile Include="GD_Stamping_Opcua.cs" />
     <Compile Include="Machine\GD_OpcUaHelperClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Machine\Interfaces\IStampingMachineConnect.cs" />
@@ -226,6 +226,16 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj">
+      <Project>{0911bde5-d35b-409b-8c14-8d93f4a52cac}</Project>
+      <Name>GD_CommonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj">
+      <Project>{12b3b748-7a04-4621-955c-463f2eca94b7}</Project>
+      <Name>GD_StampingMachine.GD_Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

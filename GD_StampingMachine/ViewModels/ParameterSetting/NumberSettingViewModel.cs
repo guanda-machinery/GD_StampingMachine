@@ -7,8 +7,7 @@ using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
-using GD_StampingMachine.Model.ParameterSetting;
+using GD_StampingMachine.GD_Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -31,10 +30,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public NumberSettingViewModel(StampingPlateSettingModel _NumberSetting) 
         {        
             NumberSetting = _NumberSetting;
-
-            NumberSettingModelCollectionSelected = NumberSettingModelSavedCollection.FirstOrDefault();
-
         }
+
         private StampingPlateSettingModel _numberSetting;
         public virtual StampingPlateSettingModel NumberSetting
         {
@@ -109,15 +106,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _numberSettingModelCollectionSelected = value;
-              // if (_numberSettingModelCollectionSelected != null)
-                   // NumberSetting = _numberSettingModelCollectionSelected.DeepCloneByJson();
+               if (_numberSettingModelCollectionSelected != null)
+                    NumberSetting = _numberSettingModelCollectionSelected.DeepCloneByJson();
                 OnPropertyChanged();
             }
         }
 
         private ObservableCollection<StampingPlateSettingModel> _numberSettingModelSavedCollection;
-
-
         public ObservableCollection<StampingPlateSettingModel> NumberSettingModelSavedCollection
         {
             get
@@ -138,8 +133,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
-
         public override ICommand LoadSettingCommand 
         {
             get => new RelayCommand(() =>
@@ -148,6 +141,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     NumberSetting = NumberSettingModelCollectionSelected.DeepCloneByJson();
             });
         }
+
         public override ICommand RecoverSettingCommand
         {
             get => new RelayCommand(() =>
@@ -155,6 +149,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 NumberSetting = new StampingPlateSettingModel();
             });
         }
+
         public override ICommand SaveSettingCommand
         {
             get => new RelayCommand(() =>
@@ -190,10 +185,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
             });
          }
-
-
-
-
 
         private int _sequenceCount = 0;
         private SpecialSequenceEnum _specialSequence;
@@ -252,7 +243,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 int ColumnCount = PlateNumberListMax;
                 if (SequenceCountComboBoxSelectValue.HasValue)
                 {
-                    if (SequenceCountComboBoxSelectValue.Value <= PlateNumberListMax)
+                    if (SequenceCountComboBoxSelectValue.Value <= PlateNumberListMax && SequenceCountComboBoxSelectValue.Value >0)
                         ColumnCount = SequenceCountComboBoxSelectValue.Value;
                 }
 

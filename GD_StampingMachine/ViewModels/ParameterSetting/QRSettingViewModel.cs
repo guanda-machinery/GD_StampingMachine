@@ -3,7 +3,7 @@ using DevExpress.Mvvm.Native;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GD_CommonLibrary;
 using GD_StampingMachine.Interfaces;
-using GD_StampingMachine.Model.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -28,7 +27,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public QRSettingViewModel(StampingPlateSettingModel _QRSetting) : base(_QRSetting)
         {
             NumberSetting = _QRSetting;
-            QRSettingModelCollectionSelected = QRSettingModelCollection.FirstOrDefault();
+            //QRSettingModelCollectionSelected = QRSettingModelCollection.FirstOrDefault();
         }
 
 
@@ -116,8 +115,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _qrSettingModelCollectionSelected = value;
-                /*if (_qrSettingModelCollectionSelected != null)
-                    NumberSetting = _qrSettingModelCollectionSelected.DeepCloneByJson();*/
+                if (_qrSettingModelCollectionSelected != null)
+                    NumberSetting = _qrSettingModelCollectionSelected.DeepCloneByJson();
                 OnPropertyChanged();
             }
         }

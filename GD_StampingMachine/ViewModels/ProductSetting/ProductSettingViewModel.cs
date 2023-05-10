@@ -6,7 +6,7 @@ using DevExpress.Xpf.WindowsUI;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using GD_CommonLibrary.SplashScreenWindows;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;

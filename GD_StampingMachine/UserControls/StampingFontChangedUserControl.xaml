@@ -15,7 +15,7 @@
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-                          xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
+                          xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
              Name="MainGridControl"
              >
 

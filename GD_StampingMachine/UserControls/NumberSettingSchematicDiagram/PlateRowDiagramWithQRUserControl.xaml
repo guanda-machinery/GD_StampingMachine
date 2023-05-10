@@ -6,7 +6,7 @@
             
              xmlns:calc="clr-namespace:CalcBinding;assembly=CalcBinding"
              xmlns:gd_valueconverters="clr-namespace:GD_StampingMachine.ValueConverters" 
-             xmlns:GD_enum="clr-namespace:GD_StampingMachine.GD_Enum" 
+             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" >
 
@@ -27,9 +27,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_enum:HorizontalAlignEnum.Left},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
+            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Left},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_enum:HorizontalAlignEnum.Right},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
+            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Right},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="20"/>
@@ -39,10 +39,10 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_enum:VerticalAlignEnum.Top},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
+            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_Enum:VerticalAlignEnum.Top},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
                 <!--B30-->
                 <RowDefinition Height="auto" d:Height="70"/>
-                <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_enum:VerticalAlignEnum.Bottom},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
+            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_Enum:VerticalAlignEnum.Bottom},  Converter={gd_valueconverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
                 <!--底-->
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
@@ -105,7 +105,7 @@
 
 
         <Grid Grid.Row="5" Visibility="{Binding RedMeasurementLineVisibility}">
-            <TextBlock Text="D" Foreground="Red" FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
+            <TextBlock Text="D" Foreground="Red" FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
         </Grid>
         <TextBlock Text="E" Foreground="Red" Grid.Column="5" HorizontalAlignment="Right" Width="15" FontSize="20" Grid.Row="0" Visibility="{Binding RedMeasurementLineVisibility}"/>
         <TextBlock Text="F" Foreground="Red" Grid.Column="1" Grid.ColumnSpan="3" FontSize="20" Grid.Row="0" Visibility="{Binding RedMeasurementLineVisibility}"/>
@@ -116,10 +116,10 @@
         <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
         <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,-10,0" Visibility="{Binding RedMeasurementLineVisibility}"/>
         <Grid Grid.Column="1" Grid.Row="5" Visibility="{Binding RedMeasurementLineVisibility}">
-            <Border BorderThickness="1,0,0,0" BorderBrush="Red"  HorizontalAlignment="Center" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+            <Border BorderThickness="1,0,0,0" BorderBrush="Red"  HorizontalAlignment="Center" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
           </Grid>
         <Grid Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Margin="-10,0" Visibility="{Binding RedMeasurementLineVisibility}">
-            <Border BorderThickness="0,1" BorderBrush="Red" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+            <Border BorderThickness="0,1" BorderBrush="Red" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={gd_valueconverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
    </Grid>
 
         <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Height="90" Visibility="{Binding RedMeasurementLineVisibility}" />

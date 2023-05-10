@@ -10,8 +10,9 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
+             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
              mc:Ignorable="d" >
     <Grid  Margin="150,0,0,0">
         <Grid.Resources>
@@ -820,7 +821,8 @@
                                 </Grid>
                                 <CheckBox Margin="0,5" VerticalAlignment="Center"
                                                                 Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" IsChecked="True"
-                                                                      Foreground="LightGray" Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Content="Test">
+                                                                      Foreground="LightGray" Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" 
+                                          Content="{DynamicResource Text_Box_AllSetting}">
                                     
                                 </CheckBox>
                                 <ListBox Grid.Row="1" Grid.ColumnSpan="2"  SelectionMode="Multiple" 

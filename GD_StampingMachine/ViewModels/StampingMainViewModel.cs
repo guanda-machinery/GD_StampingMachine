@@ -4,7 +4,7 @@ using DevExpress.Utils.CommonDialogs;
 using DevExpress.Utils.CommonDialogs.Internal;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using GongSolutions.Wpf.DragDrop;
 using Microsoft.Win32;
@@ -29,6 +29,7 @@ using DevExpress.Xpf.Core;
 using System.Windows;
 using DevExpress.Mvvm;
 using System.Windows.Controls;
+using GD_StampingMachine.ViewModels.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -189,13 +190,16 @@ namespace GD_StampingMachine.ViewModels
                     SeparateSetting = JsonSeparateSetting;
                 }
 
-                ParameterSettingVM = new()
-                {
-                    AxisSettingVM = new(AxisSetting),
-                    TimingSettingVM = new (TimingSetting),
-                    SeparateSettingVM = new(SeparateSetting),
-                    EngineerSettingVM = new(EngineerSetting),
-                };
+            ParameterSettingModel ParameterSetting = new()
+            {
+                AxisSetting = AxisSetting,
+                TimingSetting = TimingSetting,
+                SeparateSetting = SeparateSetting,
+                InputOutput = new(),
+                EngineerSetting = EngineerSetting
+            };
+
+            ParameterSettingVM = new(ParameterSetting);
 
                 ProductSettingVM = new()
                 {
@@ -357,10 +361,25 @@ namespace GD_StampingMachine.ViewModels
 
 
         #region VM
+        /// <summary>
+        /// 關於本機
+        /// </summary>
         public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => StampingMain.MachanicalSpecificationVM; set => StampingMain.MachanicalSpecificationVM = value; }
+        /// <summary>
+        /// 字模設定
+        /// </summary>
         public StampingFontChangedViewModel StampingFontChangedVM { get => StampingMain.StampingFontChangedVM; set => StampingMain.StampingFontChangedVM = value; }
+    /// <summary>
+    /// 參數設定
+    /// </summary>
         public ParameterSettingViewModel ParameterSettingVM { get => StampingMain.ParameterSettingVM; set => StampingMain.ParameterSettingVM = value; }
+   /// <summary>
+   /// 製品設定
+   /// </summary>
         public ProductSettingViewModel ProductSettingVM { get => StampingMain.ProductSettingVM; set => StampingMain.ProductSettingVM = value; }
+        /// <summary>
+        /// 排版設定
+        /// </summary>
         public TypeSettingSettingViewModel TypeSettingSettingVM { get => StampingMain.TypeSettingSettingVM; set => StampingMain.TypeSettingSettingVM = value; }
 
         /// <summary>

@@ -13,7 +13,7 @@ using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using Newtonsoft.Json;
 using System;
@@ -242,7 +242,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (_addNewPartsParameterVM == null)
                 {
-                    _addNewPartsParameterVM = new PartsParameterViewModel(new Model.ProductionSetting.PartsParameterModel() { ProjectID = ProductProjectName });
+                    _addNewPartsParameterVM = new PartsParameterViewModel(new GD_Model.ProductionSetting.PartsParameterModel() { ProjectID = ProductProjectName });
                 }
                 return _addNewPartsParameterVM;
             }

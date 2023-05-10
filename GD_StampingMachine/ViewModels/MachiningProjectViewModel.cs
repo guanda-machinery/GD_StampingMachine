@@ -1,5 +1,5 @@
 ﻿using DevExpress.Utils.Drawing;
-using GD_StampingMachine.Model;
+using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

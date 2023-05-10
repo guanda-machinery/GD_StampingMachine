@@ -1,5 +1,4 @@
-﻿using DevExpress.Text.Interop;
-using GD_StampingMachine.GD_Enum;
+﻿using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +9,11 @@ namespace GD_StampingMachine.Model
 {
     public class MachanicalSpecificationModel
     {
-        public AllowMachiningSizeModel AllowMachiningSize { get; set; } = new();
+        public AllowMachiningSizeModel AllowMachiningSize { get; set; } = new AllowMachiningSizeModel();
 
-        public MachiningPropertyModel MachiningProperty { get; set; } = new();
+        public MachiningPropertyModel MachiningProperty { get; set; } = new MachiningPropertyModel();
 
-        public MachineSizeModel MachineSize { get; set; } = new();
+        public MachineSizeModel MachineSize { get; set; } = new MachineSizeModel();
 
     }
 

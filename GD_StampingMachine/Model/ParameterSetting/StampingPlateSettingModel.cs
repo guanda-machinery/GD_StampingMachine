@@ -21,15 +21,15 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 特殊排序
         /// </summary>
-        public SpecialSequenceEnum SpecialSequence { get; set; }
+        public SpecialSequenceEnum SpecialSequence { get; set; } = SpecialSequenceEnum.TwoRow;
         /// <summary>
         /// 水平對齊
         /// </summary>
-        public HorizontalAlignEnum HorizontalAlign { get; set; }
+        public HorizontalAlignEnum HorizontalAlign { get; set; } = HorizontalAlignEnum.Center;
         /// <summary>
         /// 垂直對齊
         /// </summary>
-        public VerticalAlignEnum VerticalAlign { get; set; }
+        public VerticalAlignEnum VerticalAlign { get; set; } = VerticalAlignEnum.Center;
 
 
         /// <summary>
