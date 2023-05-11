@@ -1,6 +1,6 @@
 ﻿using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Core.Native;
-using GD_StampingMachine.GD_Model;
+using GD_CommonLibrary;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using System;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace GD_StampingMachine.ViewModels
+namespace GD_CommonLibrary
 {
     public class BaseViewModel : MarkupExtension , INotifyPropertyChanged
     { 

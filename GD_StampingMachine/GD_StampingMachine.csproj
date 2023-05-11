@@ -341,7 +341,6 @@
     <Compile Include="ViewModels\StampingTypeViewModel.cs" />
     <Compile Include="ViewModels\ProjectDistributeViewModel.cs" />
     <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Views\RadialPanel.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">
       <DependentUpon>StampingMainView.xaml</DependentUpon>
