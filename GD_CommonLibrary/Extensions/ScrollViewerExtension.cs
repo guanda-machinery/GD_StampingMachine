@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public class ScrollViewerExtension
+    public partial class ScrollViewerExtension
     {
         public static readonly DependencyProperty AlwaysScrollToEndProperty = DependencyProperty.RegisterAttached("AlwaysScrollToEnd", typeof(bool), typeof(ScrollViewerExtension), new PropertyMetadata(false, AlwaysScrollToEndChanged));
         private static bool _autoScroll;

@@ -165,7 +165,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         }
 
-        public ProductProjectViewModel CreatedProjectVM { get; set; } = new ProductProjectViewModel(new ProductProjectModel()
+        /// <summary>
+        /// 新建專案
+        /// </summary>
+        [JsonIgnore]
+        public ProductProjectViewModel CreatedProjectVM { get; } = new ProductProjectViewModel(new ProductProjectModel()
         {
             Name = "NewProject",
             Number = "newAS001",

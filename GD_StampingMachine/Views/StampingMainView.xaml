@@ -154,16 +154,16 @@
                               Margin="10"
                               Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
                                         <StackPanel>
-                                            <ListBox  SelectionMode="Multiple" 
+                                            <ItemsControl 
                                         Grid.Row="1" ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection, UpdateSourceTrigger=PropertyChanged}">
-                                                <ListBox.ItemsPanel>
+                                                <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <WrapPanel Orientation="Horizontal"/>
                                                     </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                                <ListBox.ItemTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid>
+                                                        <Grid Margin="5">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="auto"/>
                                                                 <ColumnDefinition Width="auto"/>
@@ -192,8 +192,8 @@
 
                                                         </Grid>
                                                     </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                            </ListBox>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
 
 
                                         </StackPanel>

@@ -50,32 +50,26 @@
         <Border Background="White" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Width="25" HorizontalAlignment="Left" Height="25" CornerRadius="12.5" VerticalAlignment="Top" Margin="7.5,12"/>
 
             <Grid Grid.Column="3"  Grid.Row="3" >
-            <ListBox  ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            <ItemsControl  ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
             Margin="-12.5,-15"
             ItemsSource="{Binding PlateNumberList}"   >
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border Background="#55534d" 
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#55534d" 
                                         Width="50" Height="70" Margin="12.5,15">
-                                            <TextBlock Text="{Binding .}" Foreground="White"  
+                            <TextBlock Text="{Binding .}" Foreground="White"  
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="24"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
+                        </Border>
+                    </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" Width="{calc:Binding (50*SequenceCount+25*(SequenceCount))}" />
                         </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </Grid>
         <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="20" VerticalAlignment="Top" Visibility="{Binding RedMeasurementLineVisibility}" />
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>

@@ -28,14 +28,14 @@ namespace GD_CommonLibrary.ValidationRules
                     return new ValidationResult(false, "檔案路徑不可為空白");
                 }
 
-                if (!ValueString.IsPathRooted())
-                {
-                    return new ValidationResult(false, "路徑須包含根目錄");
-                }
-
                 if (PathType == PathTypeEnum.Path)
                 {
-                   if(ValueString.IsContain_illegalPathChars(out var illegal)) 
+                    if (!ValueString.IsPathRooted())
+                    {
+                        return new ValidationResult(false, "路徑須包含根目錄");
+                    }
+
+                    if (ValueString.IsContain_illegalPathChars(out var illegal)) 
                     {
                         return new ValidationResult(false, $"路徑包含不合法的字元[{illegal.ExpandToString()}]");
                     }

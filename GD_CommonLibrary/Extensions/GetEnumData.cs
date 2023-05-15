@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public static class EnumExtensions
+    public static partial class CommonExtensions
     {
         public static string GetDescription(this System.Enum enumValue)
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public static class ExpandIEnumerableToString
+    public static partial class CommonExtensions
     {
         public static string ExpandToString<T>(this IEnumerable<T> IEnumerableValue)
         {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public static class PathCheckMethod
+    public static partial class CommonExtensions
     {
         /// <summary>
         /// 是否包含檔案路徑中不允許的字元

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public static class CommonExtensions
+    public static partial class CommonExtensions
     {
-
-
         /// <summary>
         /// 深層複製
         /// </summary>

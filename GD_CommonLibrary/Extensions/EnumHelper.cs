@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public static class EnumHelper
+    public static partial class CommonExtensions
     {
         public static List<T> ToList<T>()
         {

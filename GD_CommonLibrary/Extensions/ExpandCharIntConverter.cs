@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public static class ExpandCharIntConverter
+    public static partial class CommonExtensions
     {
         public static char ToChar(this int Num)
         {

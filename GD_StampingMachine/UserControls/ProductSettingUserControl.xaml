@@ -346,11 +346,23 @@
                                     </Button.Style>
                                 </Button>
                             </Grid>
-                            <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding SelectProductProjectVM.ProductProjectName,UpdateSourceTrigger=PropertyChanged}">
-
+                            <TextBox Grid.Column="3" Grid.Row="2">
+                                <TextBox.Text>
+                                    <Binding Path="SelectProductProjectVM.ProductProjectName" UpdateSourceTrigger="PropertyChanged" >
+                                        <Binding.ValidationRules>
+                                            <GD_ValidRule:CheckStringIsPathOrFileNameRule PathType="FileName"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
                             </TextBox>
-                            <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding SelectProductProjectVM.ProductProjectNumber,UpdateSourceTrigger=PropertyChanged}">
-
+                            <TextBox Grid.Column="3" Grid.Row="3">
+                                <TextBox.Text>
+                                    <Binding Path=" SelectProductProjectVM.ProductProjectNumber" UpdateSourceTrigger="PropertyChanged" >
+                                        <Binding.ValidationRules>
+                                            <GD_ValidRule:CheckStringEmptyRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
                             </TextBox>
                             <ComboBox Grid.Column="3" Grid.Row="4" 
                                               ItemsSource="{Binding SheetStampingTypeEnumCollection}"
