@@ -212,6 +212,7 @@ namespace GD_StampingMachine.ViewModels
                         //加工專案為到處放的形式 沒有固定位置
                         if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
                         {
+                            var a = PProject.PartsParameterObservableCollection;
                             ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
                         }
                         else

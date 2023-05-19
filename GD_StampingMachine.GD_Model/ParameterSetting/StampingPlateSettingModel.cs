@@ -45,22 +45,6 @@ namespace GD_StampingMachine.GD_Model
         public PlateMarginStruct IronPlateMargin { get; set; } = new PlateMarginStruct();
     }
 
-   /* public class NormalStampingPlateSettingModel: IStampingPlateSettingModel
-    {     
-        /// <summary>
-        /// 單排數量
-        /// </summary>
-        public override int SequenceCount { get; set; } = 8;
-    }
-
-    public class QRStampingPlateSettingModel : IStampingPlateSettingModel
-    {
-        /// <summary>
-        /// 單排數量
-        /// </summary>
-        public override int SequenceCount { get; set; } = 6;
-
-    }*/
 
     public class PlateMarginStruct
     {

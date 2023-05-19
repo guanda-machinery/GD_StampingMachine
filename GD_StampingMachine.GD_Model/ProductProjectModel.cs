@@ -53,7 +53,7 @@ namespace GD_StampingMachine.GD_Model
         /// </summary>
         //public ObservableCollection
 
-        public SheetStampingTypeFormEnum SheetStampingType { get; set; }
+       // public SheetStampingTypeFormEnum SheetStampingType { get; set; }
 
         /// <summary>
         /// 加工參數

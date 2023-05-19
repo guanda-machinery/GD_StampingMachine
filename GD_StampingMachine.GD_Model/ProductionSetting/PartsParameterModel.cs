@@ -9,7 +9,6 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
 {
     public class PartsParameterModel
     {
-        public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
         /// <summary>
         /// 分配加工專案
         /// </summary>
@@ -51,19 +50,10 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public int? BoxIndex { get; set; }
 
-        public StampingPlateSettingModel StampingPlate { get; set; } = new StampingPlateSettingModel();
-    }
+        
 
-   /* public class NormalPartsParameterModel : PartsParameterModel
-    {
-        public override SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; } = SheetStampingTypeFormEnum.NormalSheetStamping;
-        public override IStampingPlateSettingModel StampingPlate { get; set; } = new NormalStampingPlateSettingModel();
+        public StampingPlateSettingModel StampingPlate { get; set; } 
     }
-    public class QRPartsParameterModel : PartsParameterModel
-    {
-        public override SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; } = SheetStampingTypeFormEnum.QRSheetStamping;
-        public override IStampingPlateSettingModel StampingPlate { get; set; } = new QRStampingPlateSettingModel();
-}*/
 
 
 

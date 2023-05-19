@@ -127,6 +127,29 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
+      //  private SheetStampingTypeFormEnum _sheetStampingTypeForm;
+        /// <summary>
+        /// 型態
+        /// </summary>
+        [JsonIgnore]
+        public SheetStampingTypeFormEnum SheetStampingTypeForm
+        {
+            get 
+            { 
+                if(_settingVMBase is QRSettingViewModel)
+                {
+                    return SheetStampingTypeFormEnum.QRSheetStamping;
+                }
+                if (_settingVMBase is NumberSettingViewModel)
+                {
+                    return SheetStampingTypeFormEnum.NormalSheetStamping;
+                }
+                return SheetStampingTypeFormEnum.NormalSheetStamping;
+            }
+        }
+
+
+
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
@@ -135,9 +158,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public IStampingPlateVM SettingVMBase
         {
             // get=>_settingVMBase??= new SettingViewModelBase(PartsParameter.NormalSetting);
-            get 
+            get
             {
-                if(PartsParameter.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                     _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
                 else
                     _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
@@ -146,6 +169,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _settingVMBase = value;
+                if (_settingVMBase is QRSettingViewModel QrSetting)
+                {
+                    PartsParameter.StampingPlate = QrSetting.NumberSetting;
+                }
+                if (_settingVMBase is NumberSettingViewModel NumberSetting)
+                {
+                    PartsParameter.StampingPlate = NumberSetting.NumberSetting;
+                }
                 OnPropertyChanged(nameof(SettingVMBase));
             }
         }

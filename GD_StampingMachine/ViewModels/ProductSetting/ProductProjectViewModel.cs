@@ -144,6 +144,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ProductProjectEditTime));
             }
         }
+        public SheetStampingTypeFormEnum SheetStampingTypeForm
+        {
+            get => _productProject.SheetStampingTypeForm;
+            set{ _productProject.SheetStampingTypeForm = value; OnPropertyChanged(); }
+        }
+
+
 
         private bool _isMarked = false;
         /// <summary>
