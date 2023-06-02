@@ -53,9 +53,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-            
-        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
+
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource Combobox_Dark}"/>
+
+
     </UserControl.Resources>
 
     

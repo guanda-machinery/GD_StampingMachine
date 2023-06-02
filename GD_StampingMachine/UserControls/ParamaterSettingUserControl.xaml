@@ -122,7 +122,7 @@
                                         <TextBlock Text="："/>
                                     </StackPanel>
 
-                                    <ComboBox  Name="NumberSettingModeComboBox"
+                                    <ComboBox  Name="NumberSettingModeComboBox" 
                                         Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  
                                               DisplayMemberPath="NumberSettingMode"
                                               ItemsSource="{Binding NumberSettingModelSavedCollection}" 

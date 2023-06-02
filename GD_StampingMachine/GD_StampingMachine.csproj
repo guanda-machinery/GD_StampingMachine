@@ -275,9 +275,6 @@
     <Compile Include="UserControls\ProductSettingUserControl.xaml.cs">
       <DependentUpon>ProductSettingUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SettingButtonUserControl.xaml.cs">
-      <DependentUpon>SettingButtonUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\SoftwareUpdateUserControl.xaml.cs">
       <DependentUpon>SoftwareUpdateUserControl.xaml</DependentUpon>
     </Compile>
@@ -422,10 +419,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ProductSettingUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SettingButtonUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

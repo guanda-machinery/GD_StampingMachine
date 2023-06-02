@@ -52,18 +52,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
 
                         Thread.Sleep(1000);
-                        ProductProjectFinishProcessing = 0;
-                        if (PartsParameterVMObservableCollection.Count > 0)
+                        double AverageProgress = 0;
+                        PartsParameterVMObservableCollection.ForEach(p =>
                         {
-                            double AverageProgress = 0;
-                            PartsParameterVMObservableCollection.ForEach(p =>
-                            {
-                                AverageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
-                            });
-
-                            ProductProjectFinishProcessing = AverageProgress;
-                        }
-                        //OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
+                            AverageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
+                        });
+                        ProductProjectFinishProcessing = AverageProgress;
                     }
                 }
                 catch (Exception ex)
