@@ -441,7 +441,7 @@ namespace GD_StampingMachine.ViewModels
                         {
                             ManagerVM.Progress= i/10000;
                         }
-                        Thread.Sleep(1);
+                        Thread.Sleep(100);
 
 
 

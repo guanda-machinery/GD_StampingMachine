@@ -504,12 +504,13 @@
 
                             </dxg:GridControl>
                         </Grid>
-                        <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="200" Margin="10,0" IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.IsFinish, Converter={dx:BoolInverseConverter}}"
+                        <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="500" Margin="10,0" IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.IsFinish, Converter={dx:BoolInverseConverter}}"
                                                                  Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="MultipleRow"
                                                                  AutoGenerateColumns="None"
                                                                  ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                 MaxHeight="2000"    >
+
+                                         MaxHeight="2000"    >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
