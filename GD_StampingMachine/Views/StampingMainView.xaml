@@ -56,7 +56,7 @@
         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
 
 
-        <Style TargetType="ComboBox" BasedOn="{StaticResource Combobox_Dark}"/>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource GD_White_ComboBox}"/>
 
 
     </UserControl.Resources>

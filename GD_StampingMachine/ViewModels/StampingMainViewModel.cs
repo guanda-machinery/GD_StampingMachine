@@ -244,9 +244,6 @@ namespace GD_StampingMachine.ViewModels
                             //重新繫結
                         });
 
-
-
-
                     });
                 }
 
@@ -255,7 +252,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
                 });
-            
+            MachiningSettingVM.ProjectDistributeVMSelected = TypeSettingSettingVM.ProjectDistributeCurrentItem;
 
 
 

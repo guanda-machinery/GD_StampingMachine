@@ -95,13 +95,22 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+        [JsonIgnore]
+        public ICommand ChangeProjectDistributeCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                ProjectDistributeVM = ProjectDistributeCurrentItem;
+            });
+        }
+
+
         private bool _addProjectDistributeDarggableIsPopup;
         public bool AddProjectDistributeDarggableIsPopup { get=> _addProjectDistributeDarggableIsPopup; set { _addProjectDistributeDarggableIsPopup = value;OnPropertyChanged(); } }
 
 
-
-
-
+    
+        public ProjectDistributeViewModel ProjectDistributeCurrentItem { get; set; } 
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }= new();
         [JsonIgnore]
@@ -121,6 +130,9 @@ namespace GD_StampingMachine.ViewModels
         }
 
         private ProjectDistributeViewModel _projectDistributeVM;
+        /// <summary>
+        /// 準備加工的排版專案
+        /// </summary>
         public ProjectDistributeViewModel ProjectDistributeVM { get=> _projectDistributeVM; set { _projectDistributeVM = value; OnPropertyChanged(); } }
 
 

@@ -95,8 +95,8 @@
         <Setter Property="LayoutTransform">
             <Setter.Value>
                 <TransformGroup>
-                    <TranslateTransform X="0" Y="0" x:Name="AnimatedTranslateTransform"/>
-                    <RotateTransform Angle="0" x:Name="AnimatedRotateTransform"/>
+                    <TranslateTransform X="0" Y="0"/>
+                    <RotateTransform Angle="0"/>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
                 </TransformGroup>
             </Setter.Value>

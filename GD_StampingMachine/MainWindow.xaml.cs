@@ -41,8 +41,8 @@ namespace GD_StampingMachine
                 Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
                 Progress = 0,
                 IsIndeterminate = false,
-                Subtitle = "Alpha 23.4.24",
-                Copyright = "Copyright © 2022 GUANDA",
+                Subtitle = "Alpha 23.7.4",
+                Copyright = "Copyright © 2023 GUANDA",
             };
 
             LoadLanguage();
@@ -61,15 +61,37 @@ namespace GD_StampingMachine
                 SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
                 manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                 ManagerVM.IsIndeterminate = true;
+               
+                var StartD = DateTime.Now;
+                while (manager.State == SplashScreenState.Shown)
+                {
+                    Thread.Sleep(100);
+                    if (Math.Abs((DateTime.Now - StartD).TotalSeconds) > 5)
+                    {
+                        //如果五秒內都沒有出現彈窗 則不再等待
+                        break;
+                    }
+                }
+                if (manager.State == SplashScreenState.Showing)
+                {
+                    Thread.Sleep(1000);
+                }
+
+                StartD = DateTime.Now;
+
+
+                Thread.Sleep(10);
+
+
 
                 StampingMachineWindow MachineWindow;
                 var ThreadOper = Dispatcher.BeginInvoke(new Action(delegate
                 {
-                    Thread.Sleep(1000);
                     MachineWindow = new StampingMachineWindow();
                     MachineWindow.Show();
                 }));
 
+                Thread.Sleep(1000);
                 for (int i = 0; i <= 1000; i++)
                 {
                     ManagerVM.IsIndeterminate = false;
@@ -82,8 +104,14 @@ namespace GD_StampingMachine
                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
               
 
-
                 ThreadOper.Wait();
+
+                //當等待最少三秒後才關閉視窗
+                while (Math.Abs((DateTime.Now - StartD).TotalSeconds) < 5)
+                {
+                    Task.Delay(100);
+                }
+
                 manager.Close();
             });
 

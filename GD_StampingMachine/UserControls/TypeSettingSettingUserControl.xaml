@@ -120,11 +120,18 @@
                                       Style="{StaticResource ProjectGridControl}" 
                                       AutoGenerateColumns="None"
                                       SelectionMode="Row" 
+                              CurrentItem="{Binding ProjectDistributeCurrentItem}"
                                       ItemsSource="{Binding ProjectDistributeVMObservableCollection}"
                                       MinHeight="100"
                                       MaxHeight="2000">
-                <dxg:GridControl.View >
-                    <dxg:TableView     
+                    <dxg:GridControl.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding ChangeProjectDistributeCommand}" 
+                                                Header="{DynamicResource Text_ChangeConstructionNumber}"/>
+                        </ContextMenu>
+                    </dxg:GridControl.ContextMenu>
+                    <dxg:GridControl.View >
+                        <dxg:TableView     
                                 RowDoubleClickCommand="{Binding RowDoubleClickCommand}"          
                                                             SearchString="{Binding ElementName=SearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                             IsColumnMenuEnabled ="False"
@@ -147,7 +154,7 @@
                                                             ShowIndicator="False"
                                                             SearchDelay="0"
                                                             />
-                </dxg:GridControl.View>
+                    </dxg:GridControl.View>
 
 
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_TypeSettingProjectName}" FieldName="ProjectDistribute.ProjectDistributeName" Width="auto"   IsSmart="True">
