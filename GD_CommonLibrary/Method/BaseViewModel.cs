@@ -20,8 +20,6 @@ namespace GD_CommonLibrary
 {
     public class BaseViewModel : MarkupExtension , INotifyPropertyChanged
     { 
-
-
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
         public override object ProvideValue(IServiceProvider serviceProvider)

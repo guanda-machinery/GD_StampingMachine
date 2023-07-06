@@ -570,9 +570,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem != null)
                     {
-                        var CollectionWithThisDistributeName = ProjectDistributeVM.PartsParameterVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                        var CollectionWithThisDistributeName = ProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                        
+                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
                         //箱子內有專案
-                        if (CollectionWithThisDistributeName.Count() > 0)
+                        if (CollectionWithThisDistributeName.Count > 0)
                         {
                             //有已完成的 不可關閉
                             if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
@@ -598,60 +600,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
                     }
                 }
-
-                //舊式寫法
-                if (obj is object[] objectArray)
-                {
-                    if (objectArray.Count() == 3)
-                    {
-                        DevExpress.Xpf.Grid.GridControl GridControlSource = objectArray[0] as DevExpress.Xpf.Grid.GridControl;
-                        DevExpress.Xpf.Grid.GridControl GridControlTarget = objectArray[1] as DevExpress.Xpf.Grid.GridControl;
-                        string ProjectDistributeName =( objectArray[2] as TextBlock).Text;
-                        if (GridControlSource != null && GridControlTarget != null)
-                        {
-                            if (GridControlSource.CurrentItem is ProductProjectViewModel _currentItem &&
-                            GridControlSource.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> SourceItemS &&
-                            GridControlTarget.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> TargetItemS)
-                            {
-                              //  PartsParameterVMObservableCollectionRefresh
-                                var CollectionWithThisDistributeName = _currentItem.PartsParameterVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeName);
-
-                                //箱子內有專案
-                                if (CollectionWithThisDistributeName.Count() > 0)
-                                {
-                                    //有已完成的 不可關閉
-                                    if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
-                                    {
-                                        MethodWinUIMessageBox.CanNotCloseProject();
-                                        return;
-                                    }
-
-                                    //詢問是否要關閉
-                                    if (!MethodWinUIMessageBox.AskCloseProject(_currentItem.ProductProjectName))
-                                        return;
-
-                                    //將資料清除
-                                    CollectionWithThisDistributeName.ForEach(Eobj =>
-                                    {
-                                        Eobj.DistributeName = null;
-                                        Eobj.BoxIndex = null;
-                                    });
-                                }
-                                TargetItemS.Add(_currentItem);
-                                SourceItemS.Remove(_currentItem);
-                            }
-                          //  this.ProjectDistribute.ProductProjectNameList.Remove
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception();
-                    }
-                }
-
-
-
-
 
             });
             set => _closeTypeSettingCommand= value;

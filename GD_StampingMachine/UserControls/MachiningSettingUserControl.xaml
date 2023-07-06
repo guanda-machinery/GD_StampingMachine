@@ -16,6 +16,11 @@
              xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachiningSettingViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding GridControlRefreshCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -35,8 +40,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/> 
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center">
                 <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
                     <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
                 </Border>
@@ -73,8 +80,8 @@
                     <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
                 </Border>
             </StackPanel>
-            <Border Grid.Row="1" Margin="10" Background="White"/>
-            <Grid Grid.ColumnSpan="2" Grid.Row="1" Margin="10" HorizontalAlignment="Center">
+            <Border Grid.Row="2" Margin="10" Background="White"/>
+            <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
                 <Border Background="White" Margin="0,0,115,0"/>
                 <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
                     <ListBox.ItemContainerStyle>
@@ -188,6 +195,7 @@
             </dxg:GridColumn>
 
         </dxg:GridControl>
+        <!-- 
         <StackPanel Grid.Row="1" Width="200" HorizontalAlignment="Left" Margin="10,0">
             <dxe:ComboBoxEdit  
                   EditValue="{Binding ProjectDistributeVMSelected, UpdateSourceTrigger=PropertyChanged}"  
@@ -198,7 +206,8 @@
                 
             </dxe:ComboBoxEdit>
             <TextBlock Text="{Binding StampingBoxPartsVM.ProjectDistributeName}"   />
-        </StackPanel>
+        </StackPanel>        -->
+
         <local:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}"
                                         Grid.Row="3"/>
         <GridSplitter  

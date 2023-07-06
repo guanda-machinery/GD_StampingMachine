@@ -43,6 +43,8 @@ namespace GD_StampingMachine.Method
         {
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_TSProjectExistedInBox") + 
+                "\r\n"+
                 (string)Application.Current.TryFindResource("Text_CloseTSProject") +
                 "\r\n" +
                 $"{ProjectName}" +

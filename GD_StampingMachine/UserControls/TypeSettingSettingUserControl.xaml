@@ -115,18 +115,19 @@
                         </Border>
                     </GD_Popup:DraggablePopup>
                 </StackPanel>
-            <dxg:GridControl  Grid.Row="1"
+                <dxg:GridControl  Grid.Row="1"
                 Background="Transparent"  Margin="5"
                                       Style="{StaticResource ProjectGridControl}" 
                                       AutoGenerateColumns="None"
                                       SelectionMode="Row" 
-                              CurrentItem="{Binding ProjectDistributeCurrentItem}"
+                              SelectedItems="{Binding ProjectDistributeSelectedItems ,UpdateSourceTrigger=PropertyChanged}"
                                       ItemsSource="{Binding ProjectDistributeVMObservableCollection}"
                                       MinHeight="100"
                                       MaxHeight="2000">
                     <dxg:GridControl.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="{Binding ChangeProjectDistributeCommand}" 
+                            <MenuItem Command="{Binding ChangeProjectDistributeCommand}"
+                                      CommandParameter="{Binding ProjectDistributeSelectedItems}"
                                                 Header="{DynamicResource Text_ChangeConstructionNumber}"/>
                         </ContextMenu>
                     </dxg:GridControl.ContextMenu>

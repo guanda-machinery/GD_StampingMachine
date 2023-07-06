@@ -23,7 +23,7 @@
              xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method"
              d:DesignHeight="800" d:DesignWidth="900"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
-             DataContext="{GD_ViewModels:StampingMainViewModel}">
+             DataContext="{GD_ViewModels:StampingMainViewModel}" >
     <UserControl.Resources>
         <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
             <Setter Property="Width" Value="45"/>
@@ -31,7 +31,6 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Padding" Value="0"/>
         </Style>
-
         <Style TargetType="GD_Customcontrols:FunctionToggleButton" >
             <Setter Property="ProgressBarCollapsed" Value="Collapsed"/>
             <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
@@ -61,7 +60,7 @@
 
     </UserControl.Resources>
 
-    
+
 
     <materialDesign:DialogHost CloseOnClickAway="True">
         <materialDesign:DialogHost.IsOpen>
@@ -443,6 +442,11 @@
                             <TabItem IsSelected="{Binding ElementName=TBtn_MachiningSettings, Path=IsChecked}">
                                 <GD_UserControls:MachiningSettingUserControl DataContext="{Binding MachiningSettingVM}"/>
                             </TabItem>
+                            <TabItem IsSelected="{Binding ElementName=TBtn_MachineFunction, Path=IsChecked}">
+                                
+                            </TabItem>
+
+                            
                             <TabItem  IsSelected="{Binding ElementName=TBtn_Calendar, Path=IsChecked}">
                                 <dxsch:SchedulerControl  />
                             </TabItem>
@@ -614,15 +618,15 @@
                                 />
 
                             <GD_Customcontrols:FunctionToggleButton 
-                                x:Name="TBtn_MachiningSettings" Command="{Binding ReloadMachiningSettingsCommand}"
+                                IsEnabled="{Binding MachiningSettingVM.ProjectDistributeVMSelected, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}}"
+                                x:Name="TBtn_MachiningSettings" 
                                 ButtonContentText="Logo2"
-                                ButtonTitleText="{DynamicResource btnDescription_MachiningSettings}" 
-                                />
+                                ButtonTitleText="{DynamicResource btnDescription_MachiningSettings}"/>
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-
                             <GD_Customcontrols:FunctionToggleButton 
+                                     x:Name="TBtn_MachineFunction" 
                                 ButtonContentText="Logo"
                                 ButtonTitleText="{DynamicResource btnDescription_MachineFunction}" 
                                 />

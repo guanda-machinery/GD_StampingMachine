@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GD_CommonLibrary;
+using System.Diagnostics;
+using DevExpress.CodeParser;
 
 namespace GD_StampingMachine.ViewModels
 {
     public abstract class BaseViewModelWithLog : BaseViewModel
     {
         protected GD_JsonHelperMethod JsonHM = new GD_JsonHelperMethod();
-
         public abstract string ViewModelName { get; } 
 
         public static int LogCollectionMax = 100;
@@ -22,15 +23,14 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                if (_logDataObservableCollection == null)
-                    _logDataObservableCollection = new DXObservableCollection<OperatingLogViewModel>();
+                _logDataObservableCollection ??= new DXObservableCollection<OperatingLogViewModel>();
+
                 if (_logDataObservableCollection.Count > LogCollectionMax)
                 {
                     _logDataObservableCollection.RemoveRange(0, _logDataObservableCollection.Count - LogCollectionMax);
                 }
                 return _logDataObservableCollection;
             }
-
             set
             {
                 _logDataObservableCollection = value;
@@ -56,10 +56,17 @@ namespace GD_StampingMachine.ViewModels
         {
             await Task.Run(() =>
             {
-                System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                try
                 {
-                    LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, LogSource, LogString, IsAlarm)));
-                });
+                    System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        LogDataObservableCollection.Add(new OperatingLogViewModel(new OperatingLogModel(DateTime.Now, LogSource, LogString, IsAlarm)));
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Debugger.Break();
+                }
             });
         }
 

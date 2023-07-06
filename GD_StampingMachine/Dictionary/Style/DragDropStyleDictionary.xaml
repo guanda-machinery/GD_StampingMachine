@@ -158,16 +158,15 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <!--離開-->
-                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.500" To="Transparent" />
-                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x">
+                            <ColorAnimation Storyboard.TargetProperty="Background.Color" Duration="0:0:0.500" To="Transparent" />
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x" >
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x" BeginTime="0:0:0.3"
                                                To="1" Duration="0:0:0.1"
                                                />
-                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                            <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x" BeginTime="0:0:0.3"
                                                  To="1" Duration="0:0:0.1"
                                                />
 

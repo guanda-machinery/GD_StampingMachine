@@ -96,21 +96,15 @@ namespace GD_StampingMachine.ViewModels
         }
 
         [JsonIgnore]
-        public ICommand ChangeProjectDistributeCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                ProjectDistributeVM = ProjectDistributeCurrentItem;
-            });
-        }
+        public ICommand ChangeProjectDistributeCommand{get;set;}
 
 
         private bool _addProjectDistributeDarggableIsPopup;
         public bool AddProjectDistributeDarggableIsPopup { get=> _addProjectDistributeDarggableIsPopup; set { _addProjectDistributeDarggableIsPopup = value;OnPropertyChanged(); } }
 
 
-    
-        public ProjectDistributeViewModel ProjectDistributeCurrentItem { get; set; } 
+
+        public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeSelectedItems { get; set; } = new();
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }= new();
         [JsonIgnore]

@@ -180,10 +180,10 @@ namespace GD_StampingMachine.ViewModels
 
         public void PartsParameterVMObservableCollectionRefresh()
         {
+            PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
             if (ReadyToTypeSettingProductProjectVMSelected != null)
             {
-                PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-                var NotInBoxList = ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Where(x => x.BoxIndex == null && x.DistributeName == null);
+                var NotInBoxList = ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == null && x.DistributeName == null);
                     
                 foreach(var obj in NotInBoxList)
                 {
@@ -394,44 +394,6 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        /// <summary>
-        /// 選擇盒子觸發的行為
-        /// </summary>
-        /*public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
-        {
-            get => new RelayParameterizedCommand(obj =>
-            {
-                if (obj is System.Windows.Controls.SelectionChangedEventArgs e)
-                {
-                    if (e.AddedItems.Count > 0)
-                    {
-                        if (e.AddedItems[0] is GD_StampingMachine.ViewModels.ParameterSetting.SeparateBoxViewModel NewSeparateBoxVM)
-                        {
-                            BoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-                            ProductProjectVMObservableCollection.ForEach(productProject =>
-                            {
-                                productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
-                                {
-                                    if (productProjectPartViewModel.BoxIndex.HasValue)
-                                        if (NewSeparateBoxVM.BoxIndex == productProjectPartViewModel.BoxIndex.Value && productProjectPartViewModel.DistributeName == this.ProjectDistributeName)
-                                            if (!BoxPartsParameterVMObservableCollection.Contains(productProjectPartViewModel))
-                                                BoxPartsParameterVMObservableCollection.Add(productProjectPartViewModel);
-                                });
-                            });
-                        }
-                    }
-                    
-                }
-             });
-        }*/
-
-
-
-
-
-
-
 
 
         /// <summary>

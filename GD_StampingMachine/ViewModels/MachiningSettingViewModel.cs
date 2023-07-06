@@ -107,10 +107,26 @@ namespace GD_StampingMachine.ViewModels
             {
                 MachiningSetting.ProjectDistributeVM = value;
                 OnPropertyChanged();
+                GridControlRefresh();
             }
         }
 
-     
+
+     public ICommand ProjectDistributeVMChangeCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if(obj is ObservableCollection<ProjectDistributeViewModel> NewProjectDistributeVMObser)
+                {
+                    ProjectDistributeVMSelected = NewProjectDistributeVMObser.FirstOrDefault(); ;
+                }
+                if(obj is ProjectDistributeViewModel NewProjectDistributeVM)
+                {
+                    ProjectDistributeVMSelected = NewProjectDistributeVM;
+                }
+            });
+        }
+
 
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection
@@ -174,7 +190,6 @@ namespace GD_StampingMachine.ViewModels
                     StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
                     {
                         ProjectDistributeName = ProjectDistributeVMSelected.ProjectDistributeName,
-
                         ProjectDistributeVMObservableCollection = this.ProjectDistributeVMObservableCollection,
                         ProductProjectVMObservableCollection = ProjectDistributeVMSelected.ProductProjectVMObservableCollection,
                         SeparateBoxVMObservableCollection = ProjectDistributeVMSelected.SeparateBoxVMObservableCollection,
