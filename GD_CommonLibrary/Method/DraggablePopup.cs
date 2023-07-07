@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
+using MaterialDesignThemes.Wpf;
 
 namespace GD_CommonLibrary.GD_Popup
 {
@@ -56,7 +57,7 @@ namespace GD_CommonLibrary.GD_Popup
         }
     }
 
-    public class NonTopmostPopup : Popup
+    public class NonTopmostPopup : PopupEx
     {
         /// <summary>
         /// Is Topmost dependency property

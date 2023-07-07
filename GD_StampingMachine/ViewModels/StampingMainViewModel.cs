@@ -87,7 +87,8 @@ namespace GD_StampingMachine.ViewModels
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
                         AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
-                        Task.Delay(1000);
+                       Thread.Sleep(1000);
+
                     }
                 });
             }

@@ -221,11 +221,11 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <ToggleButton Style="{StaticResource SiegCustomButton}" 
+                            <ToggleButton Style="{StaticResource SiegCustomButton}" x:Name="btnAddProjectToggleButton"
                                 Content="{StaticResource btnAddProject}" Width="auto" Height="35" IsThreeState="False"
                                           Padding="5,0"
                                           Margin="10,5" HorizontalAlignment="Left" IsChecked="{Binding AddTypeSettingProjectDarggableIsPopUp}"/>
-                            <GD_Popup:DraggablePopup 
+                            <GD_Popup:DraggablePopup Placement="Relative" PlacementTarget="{Binding ElementName=btnAddProjectToggleButton}" PopupAnimation="Fade"
                                 AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddTypeSettingProjectDarggableIsPopUp}">
                                 <Border   Background="White" CornerRadius="10" >
                                     <Grid MinWidth="100" MinHeight="100" Margin="0,0">
@@ -270,7 +270,7 @@
                                         <Border   Background="White" CornerRadius="10,10,0,0">
                                             <TextBlock Text="{DynamicResource btnAddTypeSettingProject}" FontSize="16" Margin="10,10"/>
                                         </Border>
-                                        <ScrollViewer Grid.Row="1" MaxHeight="500" MinHeight="200" VerticalScrollBarVisibility="Visible"  >
+                                        <ScrollViewer Grid.Row="1" MaxHeight="500" MinHeight="200" MinWidth="300" VerticalScrollBarVisibility="Visible"  >
                                             <dxg:GridControl 
                                                 Name="NotReadyToTypeSettingProductProjectGridControl"
                                                 CurrentItem="{Binding NotReadyToTypeSettingProductProjectVMCurrentItem}"

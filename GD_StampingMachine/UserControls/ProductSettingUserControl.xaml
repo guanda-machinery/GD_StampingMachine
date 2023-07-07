@@ -69,10 +69,10 @@
                                 />
                     <Button Width="auto" Height="auto" Content="{DynamicResource btnSaveChange}" Padding="10,0" Command="{Binding SaveProductSettingCommand}"
                                 />
-                        <ToggleButton Foreground="Black" FontSize="14"
+                    <ToggleButton x:Name="AddProjectToggleButton"
+                            Foreground="Black" FontSize="14"
                                 IsThreeState="False" Style="{StaticResource SiegCustomButton}" 
                                             IsChecked="{Binding AddProjectDarggableIsPopup}" 
-
                                       Width="auto"
                                                       Height="auto" Padding="10,0" Margin="6"
                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -80,7 +80,8 @@
                                                       Content="{DynamicResource Text_AddNewProject}" >
                         </ToggleButton>
                     </StackPanel>
-                    <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddProjectDarggablePopup" IsOpen="{Binding AddProjectDarggableIsPopup}">
+                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" Placement="Relative" PlacementTarget="{Binding ElementName=AddProjectToggleButton}"
+                                             x:Name="AddProjectDarggablePopup" IsOpen="{Binding AddProjectDarggableIsPopup}">
                         <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
