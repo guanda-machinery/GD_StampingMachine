@@ -22,14 +22,14 @@ namespace GD_StampingMachine.GD_Model
         /// </summary>
         public string Name { get; set; }
 
-       /* public static implicit operator ProjectModel(ProductProjectViewModel v)
-        {
-            return new ProjectModel
-            {
-                Name = v.ProductProjectName,
-                ProjectPath = v.ProductProjectPath,
-                Number = v.ProductProjectNumber,
-            };
-        }*/
+        /* public static implicit operator ProjectModel(ProductProjectViewModel v)
+         {
+             return new ProjectModel
+             {
+                 Name = v.ProductProjectName,
+                 ProjectPath = v.ProductProjectPath,
+                 Number = v.ProductProjectNumber,
+             };
+         }*/
     }
 }

@@ -32,10 +32,15 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel HorizontalAlignment="Left">
-                    <ToggleButton IsChecked="{Binding AddProjectDistributeDarggableIsPopup}" Style="{StaticResource SiegCustomButton}"
+                    <ToggleButton Name="AddProjectDistributeToggleButton"
+                        IsChecked="{Binding AddProjectDistributeDarggableIsPopup}" Style="{StaticResource SiegCustomButton}"
                                   Padding="10,0" Width="auto" Margin="10,5" 
                                   IsThreeState="False" Content="{StaticResource btnAddTypeSettingProject}"/>
-                    <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddProjectDistributeDarggableIsPopup}">
+                    <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16"   
+                                             PlacementRectangle="0,40,0,0"
+                                             Placement="RelativePoint"
+                                             PlacementTarget="{Binding ElementName=AddProjectDistributeToggleButton}"
+                                             IsOpen="{Binding AddProjectDistributeDarggableIsPopup}">
                         <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -129,6 +134,9 @@
                             <MenuItem Command="{Binding ChangeProjectDistributeCommand}"
                                       CommandParameter="{Binding ProjectDistributeSelectedItems}"
                                                 Header="{DynamicResource Text_ChangeConstructionNumber}"/>
+                            <MenuItem Command="{Binding DeleteProjectDistributeCommand}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}"
+                                                Header="{DynamicResource btnDelete}"/>
                         </ContextMenu>
                     </dxg:GridControl.ContextMenu>
                     <dxg:GridControl.View >
@@ -512,13 +520,13 @@
 
                             </dxg:GridControl>
                         </Grid>
-                        <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="500" Margin="10,0" IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.IsFinish, Converter={dx:BoolInverseConverter}}"
-                                                                 Style="{StaticResource ProjectGridControl}"
+                        <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="500" Margin="10,0" 
+                                         IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.IsFinish, Converter={dx:BoolInverseConverter}}"    
+                                         Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="MultipleRow"
-                                                                 AutoGenerateColumns="None"
-                                                                 ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-
-                                         MaxHeight="2000"    >
+                                         AutoGenerateColumns="None"
+                                         ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         MaxHeight="10000"    >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

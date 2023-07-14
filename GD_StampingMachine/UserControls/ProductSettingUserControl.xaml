@@ -80,7 +80,11 @@
                                                       Content="{DynamicResource Text_AddNewProject}" >
                         </ToggleButton>
                     </StackPanel>
-                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" Placement="Relative" PlacementTarget="{Binding ElementName=AddProjectToggleButton}"
+                    <!--新增專案-->
+                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16"
+                                         PlacementRectangle="-260,50,0,0"
+                                         Placement="Bottom"
+                                         PlacementTarget="{Binding ElementName=AddProjectToggleButton}"
                                              x:Name="AddProjectDarggablePopup" IsOpen="{Binding AddProjectDarggableIsPopup}">
                         <Border
                                                 CornerRadius="10"
@@ -241,7 +245,8 @@
                     </GD_Popup:DraggablePopup>
 
                 <!--編輯-->
-                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="EditProjectDarggablePopup"
+                <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="EditProjectDarggablePopup"  
+                                         Placement="MousePoint" 
                                          IsOpen="{Binding SelectProductProjectVM.EditProjectDarggableIsPopup}">
                     <Border
                                                 CornerRadius="10"
@@ -376,7 +381,7 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <StackPanel  Grid.Row="5" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                <ToggleButton    Style="{StaticResource SiegCustomButton}" IsChecked="{Binding SelectProductProjectVM.EditProjectDarggableIsPopup}"
+                                <ToggleButton Name="EditProjectToggleButton"   Style="{StaticResource SiegCustomButton}" IsChecked="{Binding SelectProductProjectVM.EditProjectDarggableIsPopup}"
                                                                     Content="{DynamicResource btnClose}">
                                 </ToggleButton>
                                 <Button Visibility="Collapsed"
@@ -468,9 +473,6 @@
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
-
-
-
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProductProjectCreateTime" Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
@@ -481,7 +483,6 @@
                                 <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
-
                         <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
                                  Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
                         <dxg:GridColumn.CellTemplate>
@@ -740,7 +741,8 @@
                                               Content="{DynamicResource btnExit}" />
 
                         <StackPanel IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" Orientation="Horizontal">
-                        <ToggleButton IsThreeState="False"     
+                            <ToggleButton  Name="AddParameterToggleButton"
+                            IsThreeState="False"     
                                             IsChecked="{Binding ElementName=AddParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
                                                       Height="auto" Padding="20,10" Margin="10,0"
@@ -752,20 +754,26 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ToggleButton>
-                        <ToggleButton IsThreeState="False"
+                            <ToggleButton Name="ImportParameterToggleButton"
+                            IsThreeState="False"
                                             IsChecked="{Binding ElementName=ImportParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
                                                       Height="auto" Padding="20,10" Margin="10,0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                                       Content="{DynamicResource btnImport}" />
-                        <ToggleButton  IsThreeState="False" 
+                            <ToggleButton  Name="ExportParameterToggleButton"
+                            IsThreeState="False" 
                                             IsChecked="{Binding ElementName=ExportParameterDarggablePopup, Path=IsOpen, UpdateSourceTrigger=PropertyChanged}" 
                                                   Width="auto"
                                                       Height="auto"  Padding="20,10" Margin="10,0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                                       Content="{DynamicResource btnExport}" />
                         </StackPanel>
-                        <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="AddParameterDarggablePopup" IsOpen="{Binding AddParameterDarggableIsPopup}">
+                        <GD_Popup:DraggablePopup 
+                            PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
+                            PlacementRectangle="-90,50,0,0"
+                            AllowsTransparency="True" Margin="16" 
+                            x:Name="AddParameterDarggablePopup" IsOpen="{Binding AddParameterDarggableIsPopup}">
                             <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -817,7 +825,8 @@
                                               SelectedValue="{Binding AddNewPartsParameterVM.NumberSetting}">
                                     </ComboBox>-->
 
-                                    <dxe:ComboBoxEdit  Margin="10,0" Padding="0" Width="200" Text="123"
+                                    <dxe:ComboBoxEdit 
+                                        Margin="10,0" Padding="0" Width="200" Text="123"
                                             Grid.Column="3" Grid.Row="4" 
                                               ItemsSource="{Binding NumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
                                               EditValue="{Binding SelectedSettingVMBase ,UpdateSourceTrigger=PropertyChanged}">
@@ -882,7 +891,7 @@
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterC"/>
-                                                    <Binding Path="AddNewPartsParameterVM.SettingVMBase" />
+                                                    <Binding Path="SelectedSettingVMBase" />
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
                                             </Button>
@@ -904,7 +913,10 @@
                                 </Border>
                             </GD_Popup:DraggablePopup>
 
-                        <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
+                        <GD_Popup:DraggablePopup 
+                               PlacementRectangle="-175,50,0,0"
+                              PlacementTarget="{Binding ElementName=ImportParameterToggleButton}" Placement="Relative"
+                            AllowsTransparency="True" Margin="16" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
                                 <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -1022,7 +1034,10 @@
                                 </Border>
                             </GD_Popup:DraggablePopup>
 
-                            <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16" x:Name="ExportParameterDarggablePopup" IsOpen="{Binding ExportParameterDarggableIsPopup}">
+                            <GD_Popup:DraggablePopup
+                                   PlacementRectangle="-265,50,0,0"
+                                  PlacementTarget="{Binding ElementName=ExportParameterToggleButton}" Placement="Relative"
+                                AllowsTransparency="True" Margin="16" x:Name="ExportParameterDarggablePopup" IsOpen="{Binding ExportParameterDarggableIsPopup}">
                                 <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

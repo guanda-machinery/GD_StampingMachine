@@ -163,8 +163,7 @@
                                         </TextBlock>
 
                                         <dxg:GroupPanelContainer VerticalAlignment="Stretch"
-                                            View="{Binding Path=View, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              >
+                                            View="{Binding Path=View, RelativeSource={RelativeSource TemplatedParent}}">
                                             <dxg:GroupPanelContainer.Resources>
                                                 <Style TargetType="dx:DXBorder" x:Name="PART_BorderSeparator">
                                                     <Setter Property="Visibility" Value="Collapsed"/>

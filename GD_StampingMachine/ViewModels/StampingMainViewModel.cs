@@ -87,7 +87,7 @@ namespace GD_StampingMachine.ViewModels
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
                         AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
-                       Thread.Sleep(1000);
+                        Thread.Sleep(1000);
 
                     }
                 });
@@ -215,13 +215,18 @@ namespace GD_StampingMachine.ViewModels
                     //加工專案為到處放的形式 沒有固定位置
                     if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
                     {
-                        var a = PProject.PartsParameterObservableCollection;
+                        //var a = PProject.PartsParameterObservableCollection;
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
                     }
                     else
                     {
                         //需註解找不到檔案!
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()));
+                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
+                        {
+                            ProjectPath = EPath.ProjectPath,
+                            Name = EPath.Name,
+                            FileIsNotExisted = true
+                        })); ;
                     }
                 });
             }
@@ -254,7 +259,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
             });
-            //MachiningSettingVM.ProjectDistributeVMSelected = TypeSettingSettingVM.ProjectDistributeCurrentItem;
+
             TypeSettingSettingVM.ChangeProjectDistributeCommand = MachiningSettingVM.ProjectDistributeVMChangeCommand;
 
 
@@ -287,6 +292,7 @@ namespace GD_StampingMachine.ViewModels
 
                         JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
 
+                        AddLogData("SaveProjectDistributeListFile");
                     }
                     catch (Exception ex)
                     {
@@ -315,9 +321,9 @@ namespace GD_StampingMachine.ViewModels
         }
 
         //private DateTime _dateTimeNow = new DateTime();
-       [JsonIgnore]
-        public DateTime DateTimeNow 
-        { 
+        [JsonIgnore]
+        public DateTime DateTimeNow
+        {
             get => DateTime.Now;
         }
 
@@ -325,18 +331,18 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                return new RelayCommand(()=> 
+                return new RelayCommand(() =>
                 {
                     var fileContent = string.Empty;
                     var filePath = string.Empty;
-                   
+
                     using (var openFileDialog = new System.Windows.Forms.OpenFileDialog())
                     {
                         openFileDialog.InitialDirectory = "c:\\";
                         openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
                         openFileDialog.FilterIndex = 2;
                         openFileDialog.RestoreDirectory = true;
-                        
+
                         if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             //Get the path of specified file
@@ -351,13 +357,11 @@ namespace GD_StampingMachine.ViewModels
                             }
                         }
                     }
-
-
-
                 });
-
             }
         }
+
+
 
 
         #region VM
@@ -369,13 +373,13 @@ namespace GD_StampingMachine.ViewModels
         /// 字模設定
         /// </summary>
         public StampingFontChangedViewModel StampingFontChangedVM { get => StampingMain.StampingFontChangedVM; set => StampingMain.StampingFontChangedVM = value; }
-    /// <summary>
-    /// 參數設定
-    /// </summary>
+        /// <summary>
+        /// 參數設定
+        /// </summary>
         public ParameterSettingViewModel ParameterSettingVM { get => StampingMain.ParameterSettingVM; set => StampingMain.ParameterSettingVM = value; }
-   /// <summary>
-   /// 製品設定
-   /// </summary>
+        /// <summary>
+        /// 製品設定
+        /// </summary>
         public ProductSettingViewModel ProductSettingVM { get => StampingMain.ProductSettingVM; set => StampingMain.ProductSettingVM = value; }
         /// <summary>
         /// 排版設定
@@ -386,6 +390,10 @@ namespace GD_StampingMachine.ViewModels
         /// 加工設定
         /// </summary>
         public MachiningSettingViewModel MachiningSettingVM { get => StampingMain.MachiningSettingVM; set => StampingMain.MachiningSettingVM = value; }
+
+
+
+
 
         #endregion
         [JsonIgnore]

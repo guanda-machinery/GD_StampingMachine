@@ -21,12 +21,14 @@ namespace GD_CommonLibrary.GD_Popup
 
         protected override void OnInitialized(EventArgs e)
         {
+            this.AllowsTransparency = true;
             var contents = Child as FrameworkElement;
             Debug.Assert(contents != null, "DraggablePopup either has no content if content that " +
              "does not derive from FrameworkElement. Must be fixed for dragging to work.");
             contents.MouseLeftButtonDown += Child_MouseLeftButtonDown;
             contents.MouseLeftButtonUp += Child_MouseLeftButtonUp;
             contents.MouseMove += Child_MouseMove;
+
         }
         private void Child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

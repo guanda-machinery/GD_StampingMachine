@@ -16,6 +16,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Data.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
+using DevExpress.Xpf.Grid;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -95,8 +96,65 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+        /// <summary>
+        /// 切換工程號
+        /// </summary>
         [JsonIgnore]
         public ICommand ChangeProjectDistributeCommand{get;set;}
+
+        /// <summary>
+        /// 刪除排版專案 並將盒子內的所有東西釋放回專案
+        /// </summary>
+        [JsonIgnore]
+        public ICommand DeleteProjectDistributeCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is GridControl ObjGridControl)
+                {
+                    if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
+                    {
+                        if (ObjGridControl.CurrentItem is ProjectDistributeViewModel SelectedProjectDistributeVM)
+                        {
+
+                                SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ForEach(obj =>
+                                {
+                                    if (SelectedProjectDistributeVM.ProjectDistributeName == SelectedProjectDistributeVM.StampingBoxPartsVM.ProjectDistributeName)
+                                    {
+                                        obj.DistributeName = null;
+                                        obj.BoxIndex = null;
+                                    }
+
+                                });
+                                SelectedProjectDistributeVM.SaveProductProjectVMObservableCollection();
+
+                                ProjectDistributeVMObservableCollection.Remove(SelectedProjectDistributeVM);
+                                var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                                JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+                            
+                        }
+                    }
+                }
+                /*if (obj is GridControl ObjGridControl)
+                {
+                    if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
+                    {
+                        if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
+                        {
+                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
+                                MethodWinUIMessageBox.CanNotCloseProject();
+                            else
+                            {
+                                if (MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
+                                    GridItemSource.Remove(CurrentItem);
+                            }
+
+                        }
+                    }
+                }*/
+            });
+        }
+
 
 
         private bool _addProjectDistributeDarggableIsPopup;
@@ -118,7 +176,7 @@ namespace GD_StampingMachine.ViewModels
                         ProjectDistributeVM = ProjectItem;
                     ProjectDistributeVM.IsInDistributePage = true;
                     ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
-                    //ProjectDistributeVM.RefreshCommand();
+                   
                 }
             });
         }

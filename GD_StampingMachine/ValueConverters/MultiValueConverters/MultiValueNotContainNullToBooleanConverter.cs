@@ -30,9 +30,13 @@ namespace GD_StampingMachine.ValueConverters
                 if (EachValue is string)
                 {
                     if (string.IsNullOrEmpty(EachValue as string) || (string.IsNullOrWhiteSpace(EachValue as string)))
-                    {
                         return false;
-                    }
+                } 
+                
+                if(EachValue is GD_StampingMachine.ViewModels.ParameterSetting.NumberSettingViewModel NumberSettingVM)
+                {
+                    if(string.IsNullOrEmpty( NumberSettingVM.NumberSettingMode))
+                        return false;
                 }
             }
             return true;

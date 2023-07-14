@@ -49,9 +49,22 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        private bool _openProjectFileDarggableIsPopup;
+        public bool OpenProjectFileDarggableIsPopup
+        {
+            get
+            {
+                return _openProjectFileDarggableIsPopup;
+            }
+            set
+            {
+                _openProjectFileDarggableIsPopup = value;
+                OnPropertyChanged();
+            }
+        }
 
 
-       // private string _projectPathText;
+        // private string _projectPathText;
         public string ProjectPathText
         {
             get => CreatedProjectVM.ProductProjectPath;

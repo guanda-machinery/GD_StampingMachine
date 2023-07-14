@@ -233,6 +233,7 @@
     <sys:String x:Key="Text_ProjectName">專案名稱</sys:String>
 
 
+
     <sys:String x:Key="Text_TypeSettingProject">排版專案</sys:String>
     <sys:String x:Key="Text_TypeSettingProjectName">排版名稱</sys:String>
     <sys:String x:Key="Text_ConstructionNumber">工程案號</sys:String>

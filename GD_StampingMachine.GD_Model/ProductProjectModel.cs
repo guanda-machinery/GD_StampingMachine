@@ -49,11 +49,15 @@ namespace GD_StampingMachine.GD_Model
        public bool IsFinish { get; set; }
 
         /// <summary>
+        /// 專案不存在
+        /// </summary>
+        public bool FileIsNotExisted { get; set; }
+        /// <summary>
         /// 參數設定表
         /// </summary>
         //public ObservableCollection
 
-       // public SheetStampingTypeFormEnum SheetStampingType { get; set; }
+        // public SheetStampingTypeFormEnum SheetStampingType { get; set; }
 
         /// <summary>
         /// 加工參數

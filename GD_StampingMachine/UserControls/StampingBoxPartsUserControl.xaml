@@ -121,10 +121,13 @@
 
             </ListBox>
         </ScrollViewer>
+        
         <dxg:GridControl 
-            Grid.Row="3" Margin="10,0"
+            Margin="10,0"
                                     Grid.Column="1"
              SelectionMode="MultipleRow"
+            
+                     CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"
                                     Background="Transparent"  MinHeight="200"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"
@@ -166,6 +169,13 @@
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
+
+            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left" Visible="False" Header="{DynamicResource Text_Box}" FieldName="BoxIndex" Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>

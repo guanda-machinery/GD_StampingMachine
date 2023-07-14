@@ -15,11 +15,11 @@
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-                          xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
+                          xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
              Name="MainGridControl"
              >
 
-    <ScrollViewer>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="420"/>
@@ -486,8 +486,7 @@
 
             <GroupBox  
                 Name="UnusedStampingGroupBox" MinWidth="190" Padding="10" Grid.Column="2" Grid.Row="0"   Header="{DynamicResource Text_RecorderCount}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0">
-                <ListBox Name="UnusedStampingFontListBox" Padding="10" MinHeight="{Binding ElementName=StampingFontListBox, Path=ActualHeight}"  VerticalAlignment="Top"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,0,0,0"  ClipToBounds="True"
+                <ListBox Name="UnusedStampingFontListBox" Padding="10"    Margin="0,0,0,0"  ClipToBounds="True"
                          SelectedItem="{Binding UnusedStampingFontSelected}" 
                          ItemsSource="{Binding UnusedStampingTypeVMObservableCollection}"
                          ItemContainerStyle="{StaticResource UnusedStampingTypeDataStyle}"
@@ -502,7 +501,7 @@
                         >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" Margin="8"/>
+                            <WrapPanel Orientation="Vertical" Margin="8,0"/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                     <ListBox.Template>
@@ -517,13 +516,15 @@
 
                 </ListBox>
             </GroupBox>
-            <materialDesign:DialogHost  Name="AddFontDialogHost" 
-                                            DialogTheme="Dark"  DialogMargin="20" VerticalAlignment="Top" HorizontalAlignment="Right" >
-                <materialDesign:DialogHost.DialogContent>
-                    <Border>
+
+                <GD_Popup:DraggablePopup  Name="AddFontDraggablePopup" AllowsTransparency="True" 
+                                        Placement="Relative" PlacementRectangle="-100,-180,0,0" PlacementTarget="{Binding ElementName=AddFontToggleButton}"  >
+                    <materialDesign:ColorZone Background="#303030" CornerRadius="10" 
+                                              materialDesign:ShadowAssist.Darken="True" 
+                                              materialDesign:ShadowAssist.ShadowEdges="All">
                         <StackPanel Margin="8">
                             <StackPanel  HorizontalAlignment="Center">
-                                    <ListBox ItemsSource="{Binding NewUnusedStampingFont}"  Margin="5"
+                                <ListBox ItemsSource="{Binding NewUnusedStampingFont}"  Margin="5"
                                          dd:DragDrop.CanDragWithMouseRightButton="True"
                                          dd:DragDrop.DropTargetAdornerBrush="Transparent"
                                          dd:DragDrop.IsDragSource="True"
@@ -532,38 +533,37 @@
                                          dd:DragDrop.UseDefaultDragAdorner ="True" 
                                          dd:DragDrop.DefaultDragAdornerOpacity="1"
                                          dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}">
-                                        <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ListBoxItem">
-                                                            <Border Background="Black" CornerRadius="5">
-                                                                <StackPanel Margin="5">
-                                                                    <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border Background="Black" CornerRadius="5">
+                                                            <StackPanel Margin="5">
+                                                                <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
 
-                                                                    <Border  Background="Gray"  Margin="10">
-                                                                        <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
-                                                                            <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  FontSize="30"  Foreground="White">
-                                                                                <TextBox.Text>
-                                                                                    <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
-                                                                                        <Binding.ValidationRules>
-                                                                                            <GD_ValidRule:CheckStringEmptyRule StringLengthMax="1"/>
-                                                                                        </Binding.ValidationRules>
-                                                                                    </Binding>
-                                                                                </TextBox.Text>
-                                                                            </TextBox>
-                                                                        </Border>
+                                                                <Border  Background="Gray"  Margin="10">
+                                                                    <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
+                                                                        <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  FontSize="30"  Foreground="White">
+                                                                            <TextBox.Text>
+                                                                                <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
+                                                                                    <Binding.ValidationRules>
+                                                                                        <GD_ValidRule:CheckStringEmptyRule StringLengthMax="1"/>
+                                                                                    </Binding.ValidationRules>
+                                                                                </Binding>
+                                                                            </TextBox.Text>
+                                                                        </TextBox>
                                                                     </Border>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </ListBox.ItemContainerStyle>
-                                    </ListBox>
-                                </StackPanel>
-
+                                                                </Border>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </StackPanel>
                             <StackPanel
                                                                 Orientation="Horizontal"
                                                                 HorizontalAlignment="Right">
@@ -574,29 +574,21 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding UnusedStampingFontAddCommand}" />
-                                            <!--
-                                            <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                             -->
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-
-
-
-
                                 </Button>
-                                <Button Margin="8" 
-                                                                
-                                                                    Content="{DynamicResource btnClose}"
-                                            IsCancel="True"
-                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
-                                </Button>
+                                <ToggleButton      Style="{StaticResource SiegCustomButton}"
+                                    Margin="8"  IsChecked="{Binding ElementName=AddFontDraggablePopup, Path=IsOpen}"
+                                        Content="{DynamicResource btnClose}">
+                                </ToggleButton>
                             </StackPanel>
                         </StackPanel>
-                    </Border>
-                </materialDesign:DialogHost.DialogContent>
-            </materialDesign:DialogHost>
-                <ToggleButton  Style="{StaticResource SiegCustomButton}"
-                IsChecked="{Binding ElementName=AddFontDialogHost, Path=IsOpen}"
+                            </materialDesign:ColorZone>
+                </GD_Popup:DraggablePopup>
+
+                <ToggleButton  Name="AddFontToggleButton"
+                    Style="{StaticResource SiegCustomButton}"
+                IsChecked="{Binding ElementName=AddFontDraggablePopup, Path=IsOpen}"
                 Height="26" Width="auto" Padding="10,0" Margin="10,0" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" 
                              Content="{DynamicResource btnAdd}"/>
 

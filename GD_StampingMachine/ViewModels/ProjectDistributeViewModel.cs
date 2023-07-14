@@ -67,8 +67,6 @@ namespace GD_StampingMachine.ViewModels
                 ProjectDistributeName = ProjectDistribute.ProjectDistributeName,
                 SeparateBoxVMObservableCollection = _projectDistribute.SeparateBoxVMObservableCollection,
                 ProductProjectVMObservableCollection = _projectDistribute.ProductProjectVMObservableCollection,
-                //Box_OnDropRecordCommand = this.Box_OnDropRecordCommand,
-                //Box_OnDragRecordOverCommand = this.Box_OnDragRecordOverCommand,
                 GridControl_MachiningStatusColumnVisible = false
             });
 
@@ -101,18 +99,30 @@ namespace GD_StampingMachine.ViewModels
                     if (!NotReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
                         NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
             }
-
-
-
         }
 
         public ProjectDistributeModel ProjectDistribute { get; set; } = new ProjectDistributeModel();
+
+
+
+        internal void SaveProductProjectVMObservableCollection()
+        {
+            ProductProjectVMObservableCollection.ForEach(obj =>
+            {
+                obj.SaveProductProject();
+            });
+        }
+
+
+
 
         public string ProjectDistributeName { get => ProjectDistribute.ProjectDistributeName; set { ProjectDistribute.ProjectDistributeName = value; OnPropertyChanged(); } }
         public DateTime CreatedDate { get => ProjectDistribute.CreatedDate; set { ProjectDistribute.CreatedDate = value; OnPropertyChanged(); } }
         public DateTime? EditDate { get => ProjectDistribute.EditDate; set { ProjectDistribute.EditDate = value; OnPropertyChanged(); } }
 
-
+        /// <summary>
+        /// 盒子與專案
+        /// </summary>
         public StampingBoxPartsViewModel StampingBoxPartsVM { get; set; }
        
         [JsonIgnore]
@@ -397,7 +407,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         /// <summary>
-        /// 從箱子拿出來  
+        /// 從箱子拿出來  放回去專案
         /// </summary>
         [JsonIgnore]
         public ICommand NoneBox_OnDropRecordCommand
@@ -416,6 +426,8 @@ namespace GD_StampingMachine.ViewModels
                                 PartsParameterVM.DistributeName = null;
                                 PartsParameterVM.BoxIndex = null;
                                 e.Effects = System.Windows.DragDropEffects.Move;
+                                
+                                SaveProductProjectVMObservableCollection();
                             }
                         }
 
@@ -423,6 +435,9 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
         }
+        /// <summary>
+        /// 檢驗 不可把不同名稱的專案丟回去
+        /// </summary>
         [JsonIgnore]
         public ICommand NoneBox_OnDragRecordOverCommand
         {
@@ -483,6 +498,8 @@ namespace GD_StampingMachine.ViewModels
                                     PartsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
                                     PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
                                     e.Effects = System.Windows.DragDropEffects.Move;
+
+                                    SaveProductProjectVMObservableCollection();
                                 }
                             }
                         }
