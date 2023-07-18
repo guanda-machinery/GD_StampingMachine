@@ -791,25 +791,15 @@
                                         </Style>
                                     </StackPanel.Resources>
                                         <ToggleButton  Content="{DynamicResource Text_SingleSetting}"
-                                                     IsChecked="{Binding SettingType, 
-                                            Mode=TwoWay, 
-                                            Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter},
-                                            ConverterParameter={x:Static GD_Enum:SettingTypeEnum.SingleSetting},
-                                            UpdateSourceTrigger=PropertyChanged}"/>
+                                                     IsChecked="{Binding IsSingleSetting}"/>
                                         <ToggleButton  Content="{DynamicResource Text_UnifiedSetting}"
-                                                     IsChecked="{Binding SettingType, 
-                                            Mode=TwoWay, 
-                                            Converter={GD_ValueConverters:ObjectIsEqualToBooleanConverter},
-                                            ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting},
-                                            UpdateSourceTrigger=PropertyChanged}"
+                                                     IsChecked="{Binding IsUnifiedSetting}"
                                                      />
                                 </StackPanel>
                             </StackPanel>
 
                                 <Grid Grid.Row="1"  Margin="0,8,0,7" 
-                                      Visibility="{Binding SettingType, 
-                                    ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}, 
-                                    Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}">
+                                      Visibility="{Binding IsUnifiedSetting, Converter={dx:BooleanToVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="150"/>
                                         <ColumnDefinition Width="*"/>
@@ -821,8 +811,8 @@
                                 </Grid>
                                 <CheckBox Margin="0,5" VerticalAlignment="Center"
                                                                 Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" IsChecked="True"
-                                                                      Foreground="LightGray" Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" 
-                                          Content="{DynamicResource Text_Box_AllSetting}">
+                                                                      Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" 
+                                          Content="{DynamicResource Text_Box_AllSetting}" Foreground="White" FontSize="16" >
                                     
                                 </CheckBox>
                                 <ListBox Grid.Row="1" Grid.ColumnSpan="2"  SelectionMode="Multiple" 

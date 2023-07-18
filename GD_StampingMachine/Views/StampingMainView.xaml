@@ -110,23 +110,24 @@
                         </StackPanel.Resources>
                         <TextBlock Text="{DynamicResource Text_TypeSettingProject}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                         <TextBlock Text="：" VerticalAlignment="Center" Margin="0,0"/>
-                        <ToggleButton Name="OpenProjectFileToggleButton" IsChecked="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
-                            Command="{Binding OpenProjectFileCommand}"
-                        Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Padding="2,0" Height="auto">
-                        <Grid>
-                            <Border BorderBrush="{StaticResource PrimaryHueDarkBrush}" BorderThickness="0,0,0,1.5"/>
-                                <TextBlock Text="{Binding MachiningSettingVM.ProjectDistributeVMSelected.ProjectDistributeName}" Margin="2"/>
-                        </Grid>
-                    </ToggleButton>
+                        <ToggleButton Name="OpenProjectFileToggleButton"  Width="150"
+                                      IsChecked="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Height="auto">
+                            <!--                            Command="{Binding OpenProjectFileCommand}"-->
+                            <Border BorderBrush="{StaticResource PrimaryHueDarkBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
+                                    BorderThickness="0,0,0,1.5">
+                                <TextBlock Text="{Binding MachiningSettingVM.ProjectDistributeVMSelected.ProjectDistributeName}" Margin="4,1"/>
+                            </Border>
+                        </ToggleButton>
 
                         <GD_Popup:DraggablePopup 
                             Name="OpenProjectFileDraggablePopup"
-                            AllowsTransparency="True" 
-                                         PlacementRectangle="-95,50,0,0"
-                                         Placement="Bottom"
-                                         PlacementTarget="{Binding ElementName=OpenProjectFileToggleButton}"
-                                           IsOpen="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}">
-                            <Border BorderBrush="Black" BorderThickness="1" Margin="16"
+                            AllowsTransparency="True"
+                            IsOpen="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
+                            Placement="Bottom"
+                            PlacementTarget="{Binding ElementName=OpenProjectFileToggleButton}"
+                            PopupAnimation="Slide">
+                            <Border BorderBrush="Black" BorderThickness="1" 
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Border.Resources >
@@ -163,9 +164,9 @@
                                 </Border.Resources>
 
                                 <Grid MinWidth="100" MinHeight="50" Margin="10">
-                                    <ComboBox Grid.Column="3" Grid.Row="4" 
+                                    <ComboBox 
                                               ItemsSource="{Binding MachiningSettingVM.ProjectDistributeVMObservableCollection}"
-                                              SelectedValue="{Binding MachiningSettingVM.ProjectDistributeVMSelected.ProjectDistributeName}">
+                                              SelectedValue="{Binding MachiningSettingVM.ProjectDistributeVMSelected}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ProjectDistributeName}"></TextBlock>
@@ -588,7 +589,7 @@
                                                                               IsTabStop="{TemplateBinding IsTabStop}"
                                                                               Style="{StaticResource GD_ToggleButton}"
                                                                               TabIndex="{TemplateBinding TabIndex}" />
-                                                                <materialDesign:PopupEx x:Name="PART_Popup" 
+                                                                <materialDesign:PopupEx
                                                                                         AllowsTransparency="True"
                                                                                         CustomPopupPlacementCallback="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopupPlacementMethod}"
                                                                                         IsOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPopupOpen, Mode=TwoWay}"

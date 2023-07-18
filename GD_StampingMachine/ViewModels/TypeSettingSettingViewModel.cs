@@ -16,7 +16,6 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Data.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
-using DevExpress.Xpf.Grid;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -108,50 +107,33 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand DeleteProjectDistributeCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand(() =>
             {
-                if (obj is GridControl ObjGridControl)
+                var Removed_List = new List<int>();
+                foreach(var _selectItem in ProjectDistributeSelectedItems)
                 {
-                    if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
+                    _selectItem.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ForEach(obj =>
                     {
-                        if (ObjGridControl.CurrentItem is ProjectDistributeViewModel SelectedProjectDistributeVM)
+                        if (_selectItem.ProjectDistributeName == _selectItem.StampingBoxPartsVM.ProjectDistributeName)
                         {
-
-                                SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ForEach(obj =>
-                                {
-                                    if (SelectedProjectDistributeVM.ProjectDistributeName == SelectedProjectDistributeVM.StampingBoxPartsVM.ProjectDistributeName)
-                                    {
-                                        obj.DistributeName = null;
-                                        obj.BoxIndex = null;
-                                    }
-
-                                });
-                                SelectedProjectDistributeVM.SaveProductProjectVMObservableCollection();
-
-                                ProjectDistributeVMObservableCollection.Remove(SelectedProjectDistributeVM);
-                                var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-                                JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
-                            
+                            obj.DistributeName = null;
+                            obj.BoxIndex = null;
                         }
-                    }
+                    });
+                    _selectItem.SaveProductProjectVMObservableCollection();
+
+                    var F_Index = ProjectDistributeVMObservableCollection.FindIndex(x => x == _selectItem);
+                    Removed_List.Add(F_Index);
                 }
-                /*if (obj is GridControl ObjGridControl)
-                {
-                    if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
-                    {
-                        if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
-                        {
-                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
-                                MethodWinUIMessageBox.CanNotCloseProject();
-                            else
-                            {
-                                if (MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
-                                    GridItemSource.Remove(CurrentItem);
-                            }
 
-                        }
-                    }
-                }*/
+                var DescendingRemoved_List = Removed_List.OrderByDescending(x => x);
+                foreach(var DescendingRemovedIndex in DescendingRemoved_List)
+                {
+                    if(DescendingRemovedIndex != -1)
+                        ProjectDistributeVMObservableCollection.RemoveAt(DescendingRemovedIndex);
+                }
+
+
             });
         }
 

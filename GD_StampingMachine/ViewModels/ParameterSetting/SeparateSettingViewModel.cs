@@ -77,7 +77,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if(SettingType == SettingTypeEnum.UnifiedSetting)
                 {
-                    SeparateBoxVMObservableCollection.ForEach(x => x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue);
+                    SeparateBoxVMObservableCollection.ForEach(x =>
+                    { 
+                        x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
+                    });
                 }
                 return SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
             }
@@ -87,13 +90,44 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
             }
         }
+        /// <summary>
+        /// 個別設定
+        /// </summary>
+        public bool IsSingleSetting
+        {
+            get
+            {
+                return SettingType == SettingTypeEnum.SingleSetting;
+            }
+            set
+            {
+                SettingType = SettingTypeEnum.SingleSetting;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 統一設定
+        /// </summary>
+        public bool IsUnifiedSetting
+        {
+            get
+            {
+               return SettingType == SettingTypeEnum.UnifiedSetting;
+            }
+            set
+            {
+                SettingType = SettingTypeEnum.UnifiedSetting;
+                OnPropertyChanged();
+            }
+        }
+
+
 
         public SettingTypeEnum SettingType
         {
-            get => SeparateSetting.SettingType;
-            set
+            get
             {
-                SeparateSetting.SettingType = value;
                 if (SeparateSetting.SettingType == SettingTypeEnum.SingleSetting)
                 {
                     SeparateBoxVMObservableCollection.ForEach(x =>
@@ -108,9 +142,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         x.BoxSliderIsEnabled = false;
                     });
                 }
-
-
+                return SeparateSetting.SettingType;
+            }
+            set
+            {
+                SeparateSetting.SettingType = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsUnifiedSetting));
+                OnPropertyChanged(nameof(IsSingleSetting));
             }
         }
 

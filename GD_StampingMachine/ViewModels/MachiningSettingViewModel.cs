@@ -85,14 +85,14 @@ namespace GD_StampingMachine.ViewModels
             MachiningPartsVMObservableCollection.Add(new PartsParameterViewModel(new PartsParameterModel()
             {
                 BoxIndex = null,
-                ProjectID="測試專案",
+                ProjectID = "測試專案",
                 ParamA = "testA",
                 ParamB = "testB",
                 ParamC = "testC",
                 MachiningStatus = MachiningStatusEnum.Run
             }));
 
-            if (ProjectDistributeVMObservableCollection  != null)
+            if (ProjectDistributeVMObservableCollection != null)
                 ProjectDistributeVMSelected = ProjectDistributeVMObservableCollection.FirstOrDefault();
             GridControlRefresh();
         }
@@ -100,10 +100,10 @@ namespace GD_StampingMachine.ViewModels
 
         private MachiningSettingModel _machiningSetting;
         public MachiningSettingModel MachiningSetting { get => _machiningSetting ??= new MachiningSettingModel(); set => _machiningSetting = value; }
-        public ProjectDistributeViewModel ProjectDistributeVMSelected 
+        public ProjectDistributeViewModel ProjectDistributeVMSelected
         {
-            get=>MachiningSetting.ProjectDistributeVM;
-            set 
+            get => MachiningSetting.ProjectDistributeVM;
+            set
             {
                 MachiningSetting.ProjectDistributeVM = value;
                 OnPropertyChanged();
@@ -112,15 +112,15 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-     public ICommand ProjectDistributeVMChangeCommand
+        public ICommand ProjectDistributeVMChangeCommand
         {
             get => new RelayParameterizedCommand(obj =>
             {
-                if(obj is ObservableCollection<ProjectDistributeViewModel> NewProjectDistributeVMObser)
+                if (obj is ObservableCollection<ProjectDistributeViewModel> NewProjectDistributeVMObser)
                 {
                     ProjectDistributeVMSelected = NewProjectDistributeVMObser.FirstOrDefault(); ;
                 }
-                if(obj is ProjectDistributeViewModel NewProjectDistributeVM)
+                if (obj is ProjectDistributeViewModel NewProjectDistributeVM)
                 {
                     ProjectDistributeVMSelected = NewProjectDistributeVM;
                 }
@@ -157,7 +157,7 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<StampingSteelBeltViewModel> StampingSteelBeltVMObservableCollection { get => _stampingSteelBeltVMObservableCollection; set { _stampingSteelBeltVMObservableCollection = value; OnPropertyChanged(); } }
 
         private ObservableCollection<PartsParameterViewModel> _machiningPartsVMObservableCollection = new();
-        public ObservableCollection<PartsParameterViewModel> MachiningPartsVMObservableCollection { get=> _machiningPartsVMObservableCollection; set { _machiningPartsVMObservableCollection =value;OnPropertyChanged(); } }// = new();
+        public ObservableCollection<PartsParameterViewModel> MachiningPartsVMObservableCollection { get => _machiningPartsVMObservableCollection; set { _machiningPartsVMObservableCollection = value; OnPropertyChanged(); } }// = new();
 
         [JsonIgnore]
         public ICommand ComboBoxEdit_EditValueChanged
@@ -211,7 +211,7 @@ namespace GD_StampingMachine.ViewModels
                         StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefresh();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -240,7 +240,7 @@ namespace GD_StampingMachine.ViewModels
                                     if (ProjectDistributeVMSelected != null)
                                     {
                                         PartsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
-                                        PartsParameterVM.BoxIndex =  StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                                        PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
                                         e.Effects = System.Windows.DragDropEffects.Move;
                                     }
                                 }
@@ -253,9 +253,5 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
     }
-
-
-
 }

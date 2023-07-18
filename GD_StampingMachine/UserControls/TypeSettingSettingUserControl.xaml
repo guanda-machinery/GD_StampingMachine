@@ -135,7 +135,6 @@
                                       CommandParameter="{Binding ProjectDistributeSelectedItems}"
                                                 Header="{DynamicResource Text_ChangeConstructionNumber}"/>
                             <MenuItem Command="{Binding DeleteProjectDistributeCommand}"
-                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}"
                                                 Header="{DynamicResource btnDelete}"/>
                         </ContextMenu>
                     </dxg:GridControl.ContextMenu>
