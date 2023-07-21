@@ -181,7 +181,7 @@
             <Style TargetType="dxe:PagerControl">
                 <Style.Resources>
                     <Style TargetType="TextBlock">
-                        <Setter Property="Foreground" Value="Gray"/>
+                        <Setter Property="Foreground" Value="Black"/>
                     </Style>
                 </Style.Resources>
                 <Setter Property="ShowFirstPageButton" Value="False"/>
