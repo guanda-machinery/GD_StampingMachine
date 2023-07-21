@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    internal class EnumGetNameConverter : BaseValueConverter
+    public class EnumGetNameConverter : BaseValueConverter
     {
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

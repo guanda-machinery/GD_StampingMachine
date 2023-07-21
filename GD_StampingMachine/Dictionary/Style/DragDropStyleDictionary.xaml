@@ -257,7 +257,7 @@
                 <TextBlock Text="NO." FontSize="10" Foreground="White"/>
                 <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10" Foreground="White"/>
 
-                <!-- <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Converter={gd_valueconverters:ContainerToIndexConverter}, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="White"/>-->
+                <!-- <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Converter={GD_ValueConverters:ContainerToIndexConverter}, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="White"/>-->
             </StackPanel>
                         </Grid>
                     </Border>

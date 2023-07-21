@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    internal class EnumToPackIconKindConverter : BaseValueConverter
+    public class EnumToPackIconKindConverter : BaseValueConverter
     {
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -54,7 +54,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CalcBinding, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -293,25 +294,6 @@
     <Compile Include="UserControls\TypeSettingSettingUserControl.xaml.cs">
       <DependentUpon>TypeSettingSettingUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueConverters\BooleanToBrushesConverter.cs" />
-    <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
-    <Compile Include="ValueConverters\EnumToBrushesConverter.cs" />
-    <Compile Include="ValueConverters\EnumToPackIconKindConverter.cs" />
-    <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
-    <Compile Include="ValueConverters\ItemSourceCountIsZeroToVisibility.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiBindingToArrayValueConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\ToggleButtonMultiBooleanToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsEqualToAutoOrNaNValueConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsNullToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
     <Compile Include="ViewModels\BaseViewModelWithLog.cs" />
     <Compile Include="ViewModels\CultureViewModel.cs" />
     <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
@@ -513,6 +495,10 @@
     <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj">
       <Project>{12b3b748-7a04-4621-955c-463f2eca94b7}</Project>
       <Name>GD_StampingMachine.GD_Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GD_StampingMachine.ValueConverters\GD_StampingMachine.ValueConverters.csproj">
+      <Project>{b1a464fc-2bcd-4529-8f57-ba75f3b2d133}</Project>
+      <Name>GD_StampingMachine.ValueConverters</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

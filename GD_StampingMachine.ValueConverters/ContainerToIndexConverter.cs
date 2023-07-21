@@ -13,7 +13,7 @@ using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    internal class ContainerToIndexConverter : BaseValueConverter
+    public class ContainerToIndexConverter : BaseValueConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

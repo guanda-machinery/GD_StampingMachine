@@ -6,7 +6,7 @@
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 

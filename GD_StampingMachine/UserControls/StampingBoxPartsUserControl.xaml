@@ -11,7 +11,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
             xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
              
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 

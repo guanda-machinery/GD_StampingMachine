@@ -1,5 +1,4 @@
-﻿using DevExpress.Mvvm.Native;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -13,7 +12,7 @@ using GD_CommonLibrary;
 
 namespace GD_StampingMachine.ValueConverters
 {
-    internal class ObservableCollectionToOneObjectConverter : BaseValueConverter
+    public class ObservableCollectionToOneObjectConverter : BaseValueConverter
     {
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

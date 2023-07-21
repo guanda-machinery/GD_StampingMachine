@@ -11,7 +11,7 @@
             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 

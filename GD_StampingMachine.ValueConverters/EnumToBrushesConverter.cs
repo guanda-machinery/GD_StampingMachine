@@ -1,6 +1,4 @@
-﻿using CsvHelper.Configuration.Attributes;
-using DevExpress.CodeParser;
-using GD_StampingMachine.GD_Enum;
+﻿using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

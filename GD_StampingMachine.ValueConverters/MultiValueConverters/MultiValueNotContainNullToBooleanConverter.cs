@@ -1,7 +1,8 @@
-﻿using DevExpress.Xpf.Core;
-using GD_CommonLibrary;
+﻿using GD_CommonLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace GD_StampingMachine.ValueConverters
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+           
             foreach (var EachValue in values)
             {
                 if (EachValue is null)
@@ -33,11 +35,6 @@ namespace GD_StampingMachine.ValueConverters
                         return false;
                 } 
                 
-                if(EachValue is GD_StampingMachine.ViewModels.ParameterSetting.NumberSettingViewModel NumberSettingVM)
-                {
-                    if(string.IsNullOrEmpty( NumberSettingVM.NumberSettingMode))
-                        return false;
-                }
             }
             return true;
         }

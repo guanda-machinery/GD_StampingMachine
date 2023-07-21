@@ -13,8 +13,9 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
              xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters" 
-             xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
+            
+            xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
             xmlns:GD_Behavior="clr-namespace:GD_CommonLibrary.GD_Behavior;assembly=GD_CommonLibrary"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
@@ -22,7 +23,9 @@
              xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
-             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
+             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
+    xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
+           
     d:DesignHeight="800" d:DesignWidth="900"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
              DataContext="{GD_ViewModels:StampingMainViewModel}" >
@@ -925,7 +928,7 @@
 
                             <GD_Customcontrols:FunctionToggleButton 
                                 dd:DragDrop.IsDragSource="False"
-                                dd:DragDrop.IsDropTarget="True"
+                                dd:DragDrop.IsDropTarget="True" 
                                 ButtonContentText="C1"
                                 ButtonTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />

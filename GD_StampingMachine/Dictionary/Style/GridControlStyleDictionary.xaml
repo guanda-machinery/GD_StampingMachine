@@ -4,7 +4,7 @@
                     xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-                    xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters">
+                    xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" >
 
         <Style  x:Key="ProjectGridControlCellStyle" TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
             <Setter Property="TextBlock.FontSize" Value="16"/>
@@ -179,11 +179,14 @@
                 </Setter>
             </Style>
             <Style TargetType="dxe:PagerControl">
+                <Style.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="Gray"/>
+                    </Style>
+                </Style.Resources>
                 <Setter Property="ShowFirstPageButton" Value="False"/>
                 <Setter Property="ShowLastPageButton" Value="False"/>
-
                 <Setter Property="HorizontalAlignment" Value="Right" />
-
             </Style>
         </Style.Resources>
     </Style>
