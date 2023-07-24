@@ -13,8 +13,8 @@
              
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"                
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachiningSettingViewModel}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

@@ -9,7 +9,7 @@
              Foreground="White"          
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:GD_Behavior="clr-namespace:GD_CommonLibrary.GD_Behavior;assembly=GD_CommonLibrary"
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters"
+             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary" 
              Padding="5" Background="Transparent" Cursor="Hand">
     
     <Grid>
@@ -62,7 +62,7 @@
             <TextBlock Name="ButtonTitleTextBlock" TextWrapping="Wrap" 
                            Text="{Binding ButtonTitleText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Name="ButtonTitleTextBlock2" TextWrapping="Wrap" 
-                       Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={GD_ValueConverters:ObjectIsNullToVisibilityConverter}}"
+                       Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={GD_C_ValueConverters:ObjectIsNullToVisibilityConverter}}"
                            Text="{Binding ButtonTitleText2,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <Border Name="MainBorder"

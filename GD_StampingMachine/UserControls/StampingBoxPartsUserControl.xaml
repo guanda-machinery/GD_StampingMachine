@@ -11,13 +11,14 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
             xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
+             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
              
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingBoxPartsViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -205,7 +206,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                 <ProgressBar.Foreground>
-                                    <Binding Path="Row.FinishProgress" Converter="{GD_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                    <Binding Path="Row.FinishProgress" Converter="{GD_C_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                 </ProgressBar.Foreground>
                             </ProgressBar>
 

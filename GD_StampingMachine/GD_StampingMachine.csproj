@@ -294,6 +294,8 @@
     <Compile Include="UserControls\TypeSettingSettingUserControl.xaml.cs">
       <DependentUpon>TypeSettingSettingUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValueConverters\EnumToBrushesConverter.cs" />
+    <Compile Include="ValueConverters\EnumToPackIconKindConverter.cs" />
     <Compile Include="ViewModels\BaseViewModelWithLog.cs" />
     <Compile Include="ViewModels\CultureViewModel.cs" />
     <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
@@ -495,10 +497,6 @@
     <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj">
       <Project>{12b3b748-7a04-4621-955c-463f2eca94b7}</Project>
       <Name>GD_StampingMachine.GD_Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GD_StampingMachine.ValueConverters\GD_StampingMachine.ValueConverters.csproj">
-      <Project>{b1a464fc-2bcd-4529-8f57-ba75f3b2d133}</Project>
-      <Name>GD_StampingMachine.ValueConverters</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

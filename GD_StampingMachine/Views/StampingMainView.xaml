@@ -13,7 +13,7 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
              xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
+             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
             
             xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
@@ -72,7 +72,7 @@
 
     <materialDesign:DialogHost CloseOnClickAway="True">
         <materialDesign:DialogHost.IsOpen>
-            <MultiBinding Converter="{GD_ValueConverters:DialogHostMultiBooleanToBooleanConverter}" >
+            <MultiBinding Converter="{GD_C_ValueConverters:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
@@ -218,7 +218,7 @@
                     <Grid>
                         <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" 
                            VerticalScrollBarVisibility="Auto"
-                        Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_ValueConverters:ObjectIsEqualToVisibilityConverter}}">
+                        Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter}}">
 
                             <Border  Background="White">
                                 <StackPanel >
@@ -767,7 +767,7 @@
                                         ButtonTitleText="{DynamicResource btnDescription_ParameterSetting}"                                    
                                         Orientation="Horizontal">
                                         <GD_Customcontrols:FunctionToggleButton.IsChecked>
-                                            <MultiBinding Converter="{GD_ValueConverters:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                            <MultiBinding Converter="{GD_C_ValueConverters:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                 <MultiBinding.Bindings>
                                                     <Binding Path="ParameterSettingVM.TbtnNumberSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                                     <Binding Path="ParameterSettingVM.TbtnQRSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
@@ -902,7 +902,7 @@
                                 />
 
                             <GD_Customcontrols:FunctionToggleButton 
-                                IsEnabled="{Binding MachiningSettingVM.ProjectDistributeVMSelected, Converter={GD_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}}"
+                                IsEnabled="{Binding MachiningSettingVM.ProjectDistributeVMSelected, Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}}"
                                 x:Name="TBtn_MachiningSettings" 
                                 ButtonContentText="Logo2"
                                 ButtonTitleText="{DynamicResource btnDescription_MachiningSettings}"/>
@@ -957,7 +957,7 @@
                                     <StackPanel Margin="5" Orientation="Vertical">
                                         <TextBlock Text="{StaticResource btnDescription_Speed}" FontSize="20" />
                                         <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding}" Width="300" Margin="10"
-                                                                                      Foreground="{Binding RelativeSource={RelativeSource Self}, Path=MainSilderValue, Converter={GD_ValueConverters:HundredDoubleToSolidBrushConverter}}"/>
+                                                                                      Foreground="{Binding RelativeSource={RelativeSource Self}, Path=MainSilderValue, Converter={GD_C_ValueConverters:HundredDoubleToSolidBrushConverter}}"/>
                                     </StackPanel>
 
                                 </Border>

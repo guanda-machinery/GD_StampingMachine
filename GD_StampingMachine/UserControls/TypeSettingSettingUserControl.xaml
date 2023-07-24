@@ -8,7 +8,7 @@
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" 
+             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
              
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              
@@ -107,7 +107,7 @@
                                     </Button>
                                     <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectDistributeCommand}">
                                         <Button.IsEnabled>
-                                            <MultiBinding Converter="{GD_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
+                                            <MultiBinding Converter="{GD_C_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
                                                 <Binding Path="NewProjectDistribute.ProjectDistributeName"/>
                                             </MultiBinding>
                                         </Button.IsEnabled>
@@ -354,7 +354,7 @@
                                                             <Button Height="30" Width="auto" Padding="10,0" 
                                                                         Content="{StaticResource btnAdd}" Command="{Binding Row.AddTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}" >
                                                              <!--   <Button.CommandParameter>
-                                                                    <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
+                                                                    <MultiBinding Converter="{GD_C_ValueConverters:MultiBindingToArrayValueConverter}">
                                                                         <MultiBinding.Bindings>
                                                                             <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
                                                                             <Binding ElementName="ReadyToTypeSettingProductProjectGridControl"/>
@@ -500,7 +500,7 @@
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding Row.CloseTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}">
                                                           <!--  <i:InvokeCommandAction.CommandParameter>
-                                                                <MultiBinding Converter="{GD_ValueConverters:MultiBindingToArrayValueConverter}">
+                                                                <MultiBinding Converter="{GD_C_ValueConverters:MultiBindingToArrayValueConverter}">
                                                                     <MultiBinding.Bindings>
                                                                         <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
                                                                         <Binding ElementName="NotReadyToTypeSettingProductProjectGridControl"/>
@@ -613,7 +613,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                                 <ProgressBar.Foreground>
-                                                    <Binding Path="Row.FinishProgress" Converter="{GD_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                    <Binding Path="Row.FinishProgress" Converter="{GD_C_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                                 </ProgressBar.Foreground>
                                             </ProgressBar>
 

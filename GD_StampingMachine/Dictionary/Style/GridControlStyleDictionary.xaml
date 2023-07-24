@@ -3,8 +3,7 @@
                     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"      
                     xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-                    xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters;assembly=GD_StampingMachine.ValueConverters" >
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary">
 
         <Style  x:Key="ProjectGridControlCellStyle" TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
             <Setter Property="TextBlock.FontSize" Value="16"/>
@@ -285,7 +284,7 @@
                                 <Style.Triggers>
                                     <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True" >
                                         <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}"/>
+                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_C_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -294,15 +293,15 @@
                     <Setter Property="RowStyle">
                         <Setter.Value>
                             <Style TargetType="{x:Type dxg:RowControl}">
-                                <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}"/>
+                                <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_C_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                                         <Setter Property="Background" Value="DimGray" />
-                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}" />
+                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_C_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}" />
                                     </DataTrigger>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="#67b32c" />
-                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}" />
+                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_C_ValueConverters:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}" />
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>

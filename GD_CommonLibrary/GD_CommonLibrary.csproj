@@ -329,6 +329,23 @@
     <Compile Include="ValidationRules\CheckNumberRule.cs" />
     <Compile Include="ValidationRules\CheckStringEmptyRule.cs" />
     <Compile Include="ValidationRules\CheckStringIsPathOrFileNameRule.cs" />
+    <Compile Include="ValueConverters\BooleanToBrushesConverter.cs" />
+    <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
+    <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
+    <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
+    <Compile Include="ValueConverters\ItemSourceCountIsZeroToVisibility.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\MultiBindingToArrayValueConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\ToggleButtonMultiBooleanToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\ObjectIsEqualToAutoOrNaNValueConverter.cs" />
+    <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\ObjectIsNullToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
+    <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
