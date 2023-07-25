@@ -310,7 +310,7 @@
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
     <Compile Include="Method\BaseViewModel.cs" />
-    <Compile Include="Method\DraggablePopup.cs" />
+    <Compile Include="CustomControl\DraggablePopup.cs" />
     <Compile Include="Method\DropHandler\BaseDropTarget.cs" />
     <Compile Include="Method\JsonHelperMethod.cs" />
     <Compile Include="Method\MessageBoxResultShow.cs" />

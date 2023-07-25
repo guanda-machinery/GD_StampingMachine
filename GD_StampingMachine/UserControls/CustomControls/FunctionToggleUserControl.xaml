@@ -3,35 +3,185 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
-             mc:Ignorable="d" 
-             Foreground="White"          
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:GD_Behavior="clr-namespace:GD_CommonLibrary.GD_Behavior;assembly=GD_CommonLibrary"
-             Padding="5" Background="Transparent" Cursor="Hand" 
-             x:Name="MainUserControl">
-    <Border Background="Transparent">
-        <Grid >
-         <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Opacity" Value="1.0"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3"/>
-                        </Trigger>
-                    </Style.Triggers>
+             mc:Ignorable="d" Foreground="White" FontSize="14" MinWidth="60" 
+             x:Name="MainFunctionToggleUserControl">
+    <Grid  
+        DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
+        <!--<Border BorderBrush="Red" BorderThickness="1" Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter}}"/-->
+        <ToggleButton IsChecked="{Binding IsChecked}" Name="Toggle" >
+            <ToggleButton.Style>
+                <Style TargetType="ToggleButton" >
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
+                    <Setter Property="FontSize" Value="{Binding Path=FontSize}"/>
+                    <Setter Property="FontWeight" Value="{Binding Path=FontWeight}"/>
+                    <Setter Property="FontFamily" Value="{Binding Path=FontFamily}"/>
+                    <Setter Property="FontStretch" Value="{Binding Path=FontStretch}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border Name="MainBorder">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                            <Setter Property="CornerRadius" Value="{Binding CornerRadius}"/>
+                                            <Setter Property="LayoutTransform">
+                                                <Setter.Value>
+                                                    <TransformGroup>
+                                                        <TranslateTransform X="0" Y="0"/>
+                                                        <RotateTransform Angle="0"/>
+                                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                    </TransformGroup>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.3"/>
+                                                </Trigger>
+                                                <EventTrigger RoutedEvent="DragEnter">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.200" To="LightBlue" />
+                                                                <!--
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Children[0].X" RepeatBehavior="5x">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Children[0].Y" RepeatBehavior="5x">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-2"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>-->
+                                                                <!--RepeatBehavior="Forever"-->
+                                                                <!--
+                            <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="RenderTransform.Children[1].Angle"  RepeatBehavior="2x">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="4"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-4"/>
+                            </DoubleAnimationUsingKeyFrames>-->
+                                                                <!--
+                                        <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                                               To="1.2" Duration="0:0:0.1"
+                                               />
+                                        <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                                                 To="1.2" Duration="0:0:0.1"
+                                               />-->
+
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="DragLeave">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.200" To="Transparent" />
+                                                                <!--離開-->
+                                                                <!--
+                                        <DoubleAnimationUsingKeyFrames  Storyboard.TargetName="MainBorder"
+                                    Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x" >
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x" BeginTime="0:0:0.3"
+                                               To="1" Duration="0:0:0.1"
+                                               />
+                                        <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x" BeginTime="0:0:0.3"
+                                                 To="1" Duration="0:0:0.1"
+                                               />-->
+
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <!--離開-->
+                                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.2" From="Transparent" To="#575757" />
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                    <EventTrigger.Actions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <!--離開-->
+                                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.0" To="Transparent" />
+                                                                <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x">
+                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+
+                                                                <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
+                                               To="1" Duration="0:0:0.1"
+                                               />
+                                                                <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
+                                                 To="1" Duration="0:0:0.1"
+                                               />
+
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger.Actions>
+                                                </EventTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Border Name="SecondBorder" >
+
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                                <Setter Property="BorderThickness" Value="0"/>
+                                                <Setter Property="CornerRadius" Value="{Binding CornerRadius}"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=IsChecked}" Value="True">
+                                                        <Setter Property="BorderBrush" Value="#cccccc" />
+                                                        <Setter Property="Background" Value="#575757" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=IsChecked}" Value="False">
+                                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                                        <Setter Property="Background" Value="Transparent" />
+                                                    </DataTrigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <StackPanel Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
+                                            <Image  Margin="5"
+                                                    Source="{Binding ImageSource}" Width="{Binding ImageWidth, FallbackValue=40.0}" Height="{Binding ImageHeight, FallbackValue=40.0}"/>
+                                            <TextBlock Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}"
+                                                Grid.Row="1" Text="{Binding TitleText , FallbackValue=Text}"  
+                                                       HorizontalAlignment="Center"  VerticalAlignment="Center"
+                                                       FontSize="{Binding FontSize}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
-            </Grid.Style>
-        <StackPanel Margin="0">
-            <ToggleButton Margin="8,0"  Width="45" Height="45" IsChecked="{Binding ElementName=MainUserControl, Path=IsChecked, Mode=TwoWay}"
-                          Command="{Binding ElementName=MainUserControl, Path=Command, Mode=TwoWay}"
-                          CommandParameter="{Binding ElementName=MainUserControl, Path=CommandParameter, Mode=TwoWay}"
-                              Style="{StaticResource GD_ToggleButton}"   BorderThickness="0" Padding="-1"  
-                          Name="TButton" 
-                      IsThreeState="False">
-            </ToggleButton>
-            <TextBlock Name="TitleTextBlock" Text="TestText" Margin="2"/>
-        </StackPanel>
-    </Grid >
-    </Border>
+            </ToggleButton.Style>
+        </ToggleButton>
+    </Grid>
 </UserControl>

@@ -261,6 +261,9 @@
     <Compile Include="UserControls\CustomControls\FunctionToggleButton.xaml.cs">
       <DependentUpon>FunctionToggleButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
+      <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MachiningSettingUserControl.xaml.cs">
       <DependentUpon>MachiningSettingUserControl.xaml</DependentUpon>
     </Compile>
@@ -338,27 +341,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dictionary\Style\ComboBoxStyleDictionary.xaml">
+    <Page Include="Dictionary\IconDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dictionary\Style\DragDropStyleDictionary.xaml">
+    <Page Include="Styles\ComboBoxStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dictionary\Style\GridControlStyleDictionary.xaml">
+    <Page Include="Styles\DragDropStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dictionary\Style\ScrollViews.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dictionary\Style\SolidColorBrushDictionary.xaml">
+    <Page Include="Styles\GridControlStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dictionary\Style\StyleDictionary.xaml">
+    <Page Include="Styles\ScrollViews.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dictionary\SolidColorBrushDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\StyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -383,6 +390,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CustomControls\FunctionToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CustomControls\FunctionToggleUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,6 +9,7 @@
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
@@ -24,9 +25,10 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
              xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
-    xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
-           
-    d:DesignHeight="800" d:DesignWidth="900"    
+    xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
+    xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
+    xmlns:GD__Commonlibrary="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+    d:DesignHeight="800" d:DesignWidth="1000"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
              DataContext="{GD_ViewModels:StampingMainViewModel}" >
     <UserControl.Resources>
@@ -57,9 +59,37 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="ImageWidth" Value="40"/>
+            <Setter Property="ImageHeight" Value="40"/>
+            <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Transparent"/>
+            <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
+            <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
+            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="False"/>
+            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="False"/>
+            <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
+            <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
+            <Setter Property="dd:DragDrop.DragAdornerTemplate" >
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border  Background="#383838" CornerRadius="{Binding CornerRadius}" >
+                            <GD_Customcontrols:FunctionToggleUserControl  
+                                ImageSource="{Binding ImageSource}"
+                                TitleText="{Binding TitleText}"
+                                ImageWidth="{Binding ImageWidth}"
+                                ImageHeight="{Binding ImageHeight}"
+                                />
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
+
         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
-
-
         <Style TargetType="ComboBox" BasedOn="{StaticResource GD_White_ComboBox}"/>
         <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
             <Setter Property="Placement" Value="MousePoint"/>
@@ -117,7 +147,7 @@
                                       IsChecked="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Height="auto">
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
-                            <Border BorderBrush="{StaticResource PrimaryHueDarkBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
+                            <Border BorderBrush="{StaticResource PrimaryHueLightForegroundBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
                                     BorderThickness="0,0,0,1.5">
                                 <TextBlock Text="{Binding MachiningSettingVM.ProjectDistributeVMSelected.ProjectDistributeName}" Margin="4,1"/>
                             </Border>
@@ -130,9 +160,9 @@
                             Placement="Bottom"
                             PlacementTarget="{Binding ElementName=OpenProjectFileToggleButton}"
                             PopupAnimation="Slide">
-                            <Border BorderBrush="Black" BorderThickness="1" 
+                            <Border BorderThickness="0"  
                                                 CornerRadius="10"
-                                               Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                               Background="{StaticResource PrimaryHueLightBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Border.Resources >
                                     <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
                                         <Setter Property="Foreground" Value="Black"/>
@@ -167,12 +197,12 @@
                                 </Border.Resources>
 
                                 <Grid MinWidth="100" MinHeight="50" Margin="10">
-                                    <ComboBox 
+                                    <ComboBox  
                                               ItemsSource="{Binding MachiningSettingVM.ProjectDistributeVMObservableCollection}"
                                               SelectedValue="{Binding MachiningSettingVM.ProjectDistributeVMSelected}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding ProjectDistributeName}"></TextBlock>
+                                                <TextBlock Text="{Binding ProjectDistributeName}" Foreground="White"></TextBlock>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
@@ -189,16 +219,14 @@
                     <Image Source="{StaticResource Logo}" Height="40" Margin="10,0"/>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <TextBlock Text="GUANDA" Foreground="White" FontWeight="UltraBold" FontFamily="{StaticResource MaterialDesignFont}"  FontSize="16" Margin="0,-3"/>
-                        <TextBlock Text="Machinery" Foreground="{StaticResource SecondaryAccentBrush}"  FontFamily="{StaticResource MaterialDesignFont}"  FontWeight="Bold" FontSize="10"/>
+                            <TextBlock Text="Machinery" Foreground="White"  FontFamily="{StaticResource MaterialDesignFont}"  FontWeight="Bold" FontSize="10"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0">
                     <StackPanel.Resources>
                         <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
-                            <Setter Property="FontWeight" Value="Bold"/>
-                            <!--Setter Property="FontFamily" Value="Impact" /-->
-                            <!--Setter Property="TextDecorations" Value="Underline" /-->
-                        </Style>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
                     </StackPanel.Resources>
                     <materialDesign:PackIcon Kind="InformationOutline" Width="30" Height="{Binding}" Foreground="{StaticResource SecondaryAccentBrush}"/>
                     <StackPanel Margin="20,0" Orientation="Horizontal">
@@ -213,375 +241,377 @@
         </materialDesign:ColorZone>
        <!-- <Grid  Grid.Row="1"  Background="{StaticResource solidclr_CreamyWhite}">-->
             <materialDesign:ColorZone Mode="PrimaryDark"   Grid.Row="1"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid>
-                <!--首頁-->
-                    <Grid>
-                        <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" 
+                <Grid>
+                        <!--首頁-->
+                        <Grid>
+                            <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" 
                            VerticalScrollBarVisibility="Auto"
                         Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter}}">
 
-                            <Border  Background="White">
-                                <StackPanel >
-                                    <Grid  Width="600"  >
-                                        <Image Source="pack://application:,,,/image/擷取1.PNG" />
-                                    </Grid>
-                                    <GroupBox Header="鋼印字模設定" 
+                                <Border  Background="White">
+                                    <StackPanel >
+                                        <Grid  Width="600"  >
+                                            <materialDesign:Card   materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
+                                                <Image Source="pack://application:,,,/image/擷取1.PNG" />
+                                            </materialDesign:Card>
+                                        </Grid>
+                                        <GroupBox Header="鋼印字模設定" 
                               Margin="10"
                               Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
-                                        <StackPanel>
-                                            <ItemsControl 
+                                            <StackPanel>
+                                                <ItemsControl 
                                         Grid.Row="1" ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection, UpdateSourceTrigger=PropertyChanged}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Margin="5">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="auto"/>
-                                                                <ColumnDefinition Width="auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <Border BorderThickness="0.5" BorderBrush="Black" 
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel Orientation="Horizontal"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Margin="5">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition/>
+                                                                </Grid.RowDefinitions>
+                                                                <Border BorderThickness="0.5" BorderBrush="Black" 
                                                             CornerRadius="3"
                                                             Width="45"
                                                             Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                                                <TextBlock Text="{Binding StampingTypeString}" FontSize="30"
+                                                                    <TextBlock Text="{Binding StampingTypeString}" FontSize="30"
                                                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                            </Border>
-                                                            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
-                                                                <TextBlock Text="NO." FontSize="10"/>
-                                                                <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
-                                                            </StackPanel>
-                                                            <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" 
+                                                                </Border>
+                                                                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
+                                                                    <TextBlock Text="NO." FontSize="10"/>
+                                                                    <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
+                                                                </StackPanel>
+                                                                <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" 
                                                             CornerRadius="3">
-                                                                <TextBlock Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
-                                                            </Border>
-                                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
+                                                                    <TextBlock Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
 
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-
-
-                                        </StackPanel>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
 
 
-                                    </GroupBox>
-                                </StackPanel>
-                            </Border>
-
-                        </ScrollViewer>
-                        <TabControl Name="MainTabControl">
-                            <TabControl.Resources>
-                                <Style TargetType="TabItem" >
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Style>
-                                <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
-                            </TabControl.Resources>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MachanicalSpecificationVM}">
-                                <ScrollViewer VerticalScrollBarVisibility="auto">
-                                    <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
-                                        <StackPanel Margin="10" Width="450">
-                                            <TextBlock Text="{DynamicResource btnDescription_MachineInfo}" HorizontalAlignment="Left" Margin="5,0,0,20" Foreground="#d8d8d8"/>
-                                            <Border Background="White" Margin="5">
-                                                <Grid Margin="1">
-                                                    <Grid.Resources>
-                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
-                                                            <Setter Property="Padding" Value="1"/>
-                                                            <Setter Property="FontWeight" Value="Bold"/>
-                                                        </Style>
-                                                        <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
-                                                            <Setter Property="CornerRadius" Value="0"/>
-                                                            <Setter Property="Margin" Value="0"/>
-                                                            <Setter Property="Padding" Value="0,2"/>
-                                                        </Style>
-                                                        <Style TargetType="TextBox">
-                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                                            <Setter Property="MinWidth" Value="5"/>
-                                                            <Setter Property="Margin" Value="0"/>
-                                                            <Setter Property="Padding" Value="0"/>
-                                                            <Setter Property="BorderThickness" Value="0"/>
-                                                            <Setter Property="FontWeight" Value="Bold"/>
-                                                        </Style>
-                                                    </Grid.Resources>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-                                                    <Border Background="#a00010" Grid.ColumnSpan="2">
-                                                        <TextBlock Text="{DynamicResource Text_MachanicalSpecification}" Foreground="White"/>
-                                                    </Border>
-                                                    <Border Background="#1c2c42" Grid.ColumnSpan="2" Grid.Row="1">
-                                                        <TextBlock Text="{DynamicResource Text_AllowMachiningSize}" Foreground="White"/>
-                                                    </Border>
-                                                    <TextBlock Grid.Row="2" Text="{DynamicResource Text_WebHeight}"/>
-                                                    <TextBlock Grid.Row="3" Text="{DynamicResource Text_FlangeWidth}"/>
-                                                    <TextBlock Grid.Row="4" Text="{DynamicResource Text_MachiningMinLength}"/>
-                                                    <TextBlock Grid.Row="5" Text="{DynamicResource Text_MachiningMaxLength}"/>
-
-                                                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}"/>
-                                                        <TextBlock Text="～"/>
-                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}"/>
-                                                        <TextBlock Text="mm" VerticalAlignment="Bottom"/>
-                                                    </StackPanel>
+                                            </StackPanel>
 
 
-                                                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.FlangeWidthLowerLimited}"/>
-                                                        <TextBlock Text="～"/>
-                                                        <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.FlangeWidthUpperLimited}"/>
-                                                        <TextBlock Text="mm" VerticalAlignment="Bottom"/>
-                                                    </StackPanel>
+                                        </GroupBox>
+                                    </StackPanel>
+                                </Border>
 
-                                                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding MachanicalSpecification.AllowMachiningSize.MachiningMaxLength,StringFormat={}{0:0}}" />
-                                                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding MachanicalSpecification.AllowMachiningSize.MachiningMinLength,StringFormat={}{0:0}}" />
+                            </ScrollViewer>
+                            <TabControl Name="MainTabControl">
+                                <TabControl.Resources>
+                                    <Style TargetType="TabItem" >
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
+                                </TabControl.Resources>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MachanicalSpecificationVM}">
+                                    <ScrollViewer VerticalScrollBarVisibility="auto">
+                                        <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
+                                            <StackPanel Margin="10" Width="450">
+                                                <TextBlock Text="{DynamicResource btnDescription_MachineInfo}" HorizontalAlignment="Left" Margin="5,0,0,20" Foreground="#d8d8d8"/>
+                                                <Border Background="White" Margin="5">
+                                                    <Grid Margin="1">
+                                                        <Grid.Resources>
+                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+                                                                <Setter Property="Padding" Value="1"/>
+                                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                            </Style>
+                                                            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
+                                                                <Setter Property="CornerRadius" Value="0"/>
+                                                                <Setter Property="Margin" Value="0"/>
+                                                                <Setter Property="Padding" Value="0,2"/>
+                                                            </Style>
+                                                            <Style TargetType="TextBox">
+                                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                                <Setter Property="MinWidth" Value="5"/>
+                                                                <Setter Property="Margin" Value="0"/>
+                                                                <Setter Property="Padding" Value="0"/>
+                                                                <Setter Property="BorderThickness" Value="0"/>
+                                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                            </Style>
+                                                        </Grid.Resources>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+                                                        <Border Background="#a00010" Grid.ColumnSpan="2">
+                                                            <TextBlock Text="{DynamicResource Text_MachanicalSpecification}" Foreground="White"/>
+                                                        </Border>
+                                                        <Border Background="#1c2c42" Grid.ColumnSpan="2" Grid.Row="1">
+                                                            <TextBlock Text="{DynamicResource Text_AllowMachiningSize}" Foreground="White"/>
+                                                        </Border>
+                                                        <TextBlock Grid.Row="2" Text="{DynamicResource Text_WebHeight}"/>
+                                                        <TextBlock Grid.Row="3" Text="{DynamicResource Text_FlangeWidth}"/>
+                                                        <TextBlock Grid.Row="4" Text="{DynamicResource Text_MachiningMinLength}"/>
+                                                        <TextBlock Grid.Row="5" Text="{DynamicResource Text_MachiningMaxLength}"/>
+
+                                                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}"/>
+                                                            <TextBlock Text="～"/>
+                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}"/>
+                                                            <TextBlock Text="mm" VerticalAlignment="Bottom"/>
+                                                        </StackPanel>
+
+
+                                                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.FlangeWidthLowerLimited}"/>
+                                                            <TextBlock Text="～"/>
+                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.FlangeWidthUpperLimited}"/>
+                                                            <TextBlock Text="mm" VerticalAlignment="Bottom"/>
+                                                        </StackPanel>
+
+                                                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding MachanicalSpecification.AllowMachiningSize.MachiningMaxLength,StringFormat={}{0:0}}" />
+                                                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding MachanicalSpecification.AllowMachiningSize.MachiningMinLength,StringFormat={}{0:0}}" />
 
 
 
-                                                    <Border Background="#4b3943" Grid.ColumnSpan="2" Grid.Row="6">
-                                                        <TextBlock Text="{DynamicResource Text_MachiningProperty}" Foreground="White"/>
-                                                    </Border>
+                                                        <Border Background="#4b3943" Grid.ColumnSpan="2" Grid.Row="6">
+                                                            <TextBlock Text="{DynamicResource Text_MachiningProperty}" Foreground="White"/>
+                                                        </Border>
 
-                                                    <TextBlock Grid.Row="7" Text="{DynamicResource Text_VerticalDrillCount}"/>
-                                                    <TextBlock Grid.Row="8" Text="{DynamicResource Text_HorizontalDrillCount}"/>
-                                                    <TextBlock Grid.Row="9" Text="{DynamicResource Text_Each_VerticalDrill_Spindle}"/>
-                                                    <TextBlock Grid.Row="10" Text="{DynamicResource Text_Each_HorizontalDrill_Spindle}"/>
-                                                    <TextBlock Grid.Row="11" Text="{DynamicResource Text_AuxiliaryAxisEffectiveTravelMax}"/>
-                                                    <TextBlock Grid.Row="12" Text="{DynamicResource Text_MaxDrillDiameter}"/>
-                                                    <TextBlock Grid.Row="13" Text="{DynamicResource Text_MaxDrillThickness}"/>
-                                                    <TextBlock Grid.Row="14" Text="{DynamicResource Text_SpindleMaxPower}"/>
-                                                    <TextBlock Grid.Row="15" Text="{DynamicResource Text_SpindleToolHolder}"/>
-                                                    <TextBlock Grid.Row="16" Text="{DynamicResource Text_SpindleRotationalFrequency}"/>
-                                                    <TextBlock Grid.Row="17" Text="{DynamicResource Text_SpindleFeedSpeed}"/>
-                                                    <TextBlock Grid.Row="18" Text="{DynamicResource Text_SpindleMoveSpeed}"/>
+                                                        <TextBlock Grid.Row="7" Text="{DynamicResource Text_VerticalDrillCount}"/>
+                                                        <TextBlock Grid.Row="8" Text="{DynamicResource Text_HorizontalDrillCount}"/>
+                                                        <TextBlock Grid.Row="9" Text="{DynamicResource Text_Each_VerticalDrill_Spindle}"/>
+                                                        <TextBlock Grid.Row="10" Text="{DynamicResource Text_Each_HorizontalDrill_Spindle}"/>
+                                                        <TextBlock Grid.Row="11" Text="{DynamicResource Text_AuxiliaryAxisEffectiveTravelMax}"/>
+                                                        <TextBlock Grid.Row="12" Text="{DynamicResource Text_MaxDrillDiameter}"/>
+                                                        <TextBlock Grid.Row="13" Text="{DynamicResource Text_MaxDrillThickness}"/>
+                                                        <TextBlock Grid.Row="14" Text="{DynamicResource Text_SpindleMaxPower}"/>
+                                                        <TextBlock Grid.Row="15" Text="{DynamicResource Text_SpindleToolHolder}"/>
+                                                        <TextBlock Grid.Row="16" Text="{DynamicResource Text_SpindleRotationalFrequency}"/>
+                                                        <TextBlock Grid.Row="17" Text="{DynamicResource Text_SpindleFeedSpeed}"/>
+                                                        <TextBlock Grid.Row="18" Text="{DynamicResource Text_SpindleMoveSpeed}"/>
 
 
-                                                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.HorizontalDrillCount}"/>
-                                                    <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.VerticalDrillCount}"/>
-                                                    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.Each_HorizontalDrill_SpindleCount}"/>
-                                                    <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.Each_VerticalDrill_SpindleCount}"/>
-                                                    <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.AuxiliaryAxisEffectiveTravelMax}"/>
-                                                        <TextBlock Text="mm"/>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBlock Text="Φ"/>
-                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.MaxDrillDiameter}"/>
-                                                    </StackPanel>
+                                                        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.HorizontalDrillCount}"/>
+                                                        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.VerticalDrillCount}"/>
+                                                        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.Each_HorizontalDrill_SpindleCount}"/>
+                                                        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding MachanicalSpecification.MachiningProperty.Each_VerticalDrill_SpindleCount}"/>
+                                                        <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.AuxiliaryAxisEffectiveTravelMax}"/>
+                                                            <TextBlock Text="mm"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBlock Text="Φ"/>
+                                                            <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.MaxDrillDiameter}"/>
+                                                        </StackPanel>
 
-                                                    <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.MaxDrillThickness}"/>
-                                                        <TextBlock Text="mm"/>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Row="14" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.SpindleMaxPower}"/>
-                                                        <TextBlock Text="kw"/>
-                                                    </StackPanel>
+                                                        <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.MaxDrillThickness}"/>
+                                                            <TextBlock Text="mm"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Row="14" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox Text="{Binding MachanicalSpecification.MachiningProperty.SpindleMaxPower}"/>
+                                                            <TextBlock Text="kw"/>
+                                                        </StackPanel>
 
-                                                    <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1" FontWeight="Bold"
+                                                        <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1" FontWeight="Bold"
                                                               EditValue="{Binding MachanicalSpecification.MachiningProperty.SpindleToolHolder, Mode=TwoWay}" 
                                                               IsTextEditable="False"         
                                                               ShowBorder="False" ShowEditorButtons="False"
                                                               ApplyItemTemplateToSelectedItem="True" >
-                                                        <dxmvvm:Interaction.Behaviors>
-                                                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:SpindleToolHolderEnum}" ImageSize="95,95" />
-                                                            <!--SortMode="DisplayName"-->
-                                                        </dxmvvm:Interaction.Behaviors>
-                                                    </dxe:ComboBoxEdit>
-                                                    <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMin }"/>
-                                                        <TextBlock  Text="~"/>
-                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMax }"/>
-                                                        <TextBlock  Text="RPM"/>
-                                                    </StackPanel>
+                                                            <dxmvvm:Interaction.Behaviors>
+                                                                <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:SpindleToolHolderEnum}" ImageSize="95,95" />
+                                                                <!--SortMode="DisplayName"-->
+                                                            </dxmvvm:Interaction.Behaviors>
+                                                        </dxe:ComboBoxEdit>
+                                                        <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMin }"/>
+                                                            <TextBlock  Text="~"/>
+                                                            <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleRotationalFrequencyMax }"/>
+                                                            <TextBlock  Text="RPM"/>
+                                                        </StackPanel>
 
-                                                    <StackPanel Grid.Row="17" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleFeedSpeedMin }"/>
-                                                        <TextBlock  Text="~"/>
-                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleFeedSpeedMax }"/>
-                                                        <TextBlock  Text="mm/min"/>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Row="18" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleMoveSpeed }"/>
-                                                        <TextBlock  Text="M/min"/>
-                                                    </StackPanel>
+                                                        <StackPanel Grid.Row="17" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleFeedSpeedMin }"/>
+                                                            <TextBlock  Text="~"/>
+                                                            <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleFeedSpeedMax }"/>
+                                                            <TextBlock  Text="mm/min"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Row="18" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox  Text="{Binding MachanicalSpecification.MachiningProperty.SpindleMoveSpeed }"/>
+                                                            <TextBlock  Text="M/min"/>
+                                                        </StackPanel>
 
 
-                                                    <Border Grid.Row="19"  Background="#10362b" Grid.ColumnSpan="2">
-                                                        <TextBlock Text="{DynamicResource Text_MachineSize}" Foreground="White"/>
-                                                    </Border>
-                                                    <TextBlock Grid.Row="20" Text="{DynamicResource Text_Length}"/>
-                                                    <TextBlock Grid.Row="21" Text="{DynamicResource Text_Width}"/>
-                                                    <TextBlock Grid.Row="22" Text="{DynamicResource Text_Height}"/>
-                                                    <TextBlock Grid.Row="23" Text="{DynamicResource Text_MachineWeight}"/>
+                                                        <Border Grid.Row="19"  Background="#10362b" Grid.ColumnSpan="2">
+                                                            <TextBlock Text="{DynamicResource Text_MachineSize}" Foreground="White"/>
+                                                        </Border>
+                                                        <TextBlock Grid.Row="20" Text="{DynamicResource Text_Length}"/>
+                                                        <TextBlock Grid.Row="21" Text="{DynamicResource Text_Width}"/>
+                                                        <TextBlock Grid.Row="22" Text="{DynamicResource Text_Height}"/>
+                                                        <TextBlock Grid.Row="23" Text="{DynamicResource Text_MachineWeight}"/>
 
-                                                    <StackPanel Grid.Row="20" Grid.Column="1" Orientation="Horizontal">
+                                                        <StackPanel Grid.Row="20" Grid.Column="1" Orientation="Horizontal">
 
-                                                        <TextBox    Text="{Binding MachanicalSpecification.MachineSize.Length}"/>
-                                                        <TextBlock Text="mm"/>
-                                                        <TextBlock  Text="(" Padding="0"/>
-                                                        <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
-                                                        <TextBlock  Text="{DynamicResource Text_ChipConveyor}" Padding="0" VerticalAlignment="Center"/>
-                                                        <TextBlock  Text=")" Padding="0"/>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Row="21" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox    Text="{Binding MachanicalSpecification.MachineSize.Length}"/>
+                                                            <TextBlock Text="mm"/>
+                                                            <TextBlock  Text="(" Padding="0"/>
+                                                            <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                            <TextBlock  Text="{DynamicResource Text_ChipConveyor}" Padding="0" VerticalAlignment="Center"/>
+                                                            <TextBlock  Text=")" Padding="0"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Row="21" Grid.Column="1" Orientation="Horizontal">
 
-                                                        <TextBox  Text="{Binding MachanicalSpecification.MachineSize.Width}"/>
-                                                        <TextBlock Text="mm"/>
-                                                        <TextBlock  Text="(" Padding="0"/>
-                                                        <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
-                                                        <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
-                                                        <TextBlock  Text=")" Padding="0"/>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Row="22" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox  Text="{Binding MachanicalSpecification.MachineSize.Width}"/>
+                                                            <TextBlock Text="mm"/>
+                                                            <TextBlock  Text="(" Padding="0"/>
+                                                            <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                            <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
+                                                            <TextBlock  Text=")" Padding="0"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Row="22" Grid.Column="1" Orientation="Horizontal">
 
-                                                        <TextBlock Text="{Binding MachanicalSpecification.MachineSize.Height}"/>
-                                                        <TextBlock Text="mm"/>
-                                                        <TextBlock  Text="(" Padding="0"/>
-                                                        <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
-                                                        <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
-                                                        <TextBlock  Text=")" Padding="0"/>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Row="23" Grid.Column="1" Orientation="Horizontal">
-                                                        <TextBox    Text="{Binding MachanicalSpecification.MachineSize.Weight}"/>
-                                                        <TextBlock Text="Ton"/>
-                                                    </StackPanel>
+                                                            <TextBlock Text="{Binding MachanicalSpecification.MachineSize.Height}"/>
+                                                            <TextBlock Text="mm"/>
+                                                            <TextBlock  Text="(" Padding="0"/>
+                                                            <TextBlock  Text="{DynamicResource Text_NotInclude}" Padding="0" VerticalAlignment="Center"/>
+                                                            <TextBlock  Text="{DynamicResource Text_ProminentAccessories}" Padding="0" VerticalAlignment="Center"/>
+                                                            <TextBlock  Text=")" Padding="0"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Row="23" Grid.Column="1" Orientation="Horizontal">
+                                                            <TextBox    Text="{Binding MachanicalSpecification.MachineSize.Weight}"/>
+                                                            <TextBlock Text="Ton"/>
+                                                        </StackPanel>
 
-                                                </Grid>
-                                            </Border>
-                                        </StackPanel>
-                                    </Border>
-                                </ScrollViewer>
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
+                                                    </Grid>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                    </ScrollViewer>
+                                </TabItem>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">
 
-                                <GD_UserControls:StampingFontChangedUserControl DataContext="{Binding StampingFontChangedVM}"/>
+                                    <GD_UserControls:StampingFontChangedUserControl DataContext="{Binding StampingFontChangedVM}"/>
 
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}">
-                                <GD_UserControls:ParamaterSettingUserControl DataContext="{Binding ParameterSettingVM}"/>
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
-                                <TabItem.Resources>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    </Style>
-                                </TabItem.Resources>
-                                <ScrollViewer VerticalScrollBarVisibility="auto">
-                                    <GD_UserControls:SoftwareUpdateUserControl/>
-                                </ScrollViewer>
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}" >
-                                <GD_UserControls:ProductSettingUserControl DataContext="{Binding ProductSettingVM}"/>
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_TypeSettingSettings, Path=IsChecked}">
-                                <GD_UserControls:TypeSettingSettingUserControl DataContext="{Binding TypeSettingSettingVM}"/>
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_MachiningSettings, Path=IsChecked}">
-                                <GD_UserControls:MachiningSettingUserControl DataContext="{Binding MachiningSettingVM}"/>
-                            </TabItem>
-                            <TabItem IsSelected="{Binding ElementName=TBtn_MachineFunction, Path=IsChecked}">
-                                <StackPanel Orientation="Horizontal">
-                                <StackPanel Margin="5">
-                                    <TextBlock Text="test"/>
-                                    <materialDesign:PopupBox  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                                </TabItem>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_ParameterSetting, Path=IsChecked}">
+                                    <GD_UserControls:ParamaterSettingUserControl DataContext="{Binding ParameterSettingVM}"/>
+                                </TabItem>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_SoftwareUpdate, Path=IsChecked}">
+                                    <TabItem.Resources>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        </Style>
+                                    </TabItem.Resources>
+                                    <ScrollViewer VerticalScrollBarVisibility="auto">
+                                        <GD_UserControls:SoftwareUpdateUserControl/>
+                                    </ScrollViewer>
+                                </TabItem>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_ProductSettings, Path=IsChecked}" >
+                                    <GD_UserControls:ProductSettingUserControl DataContext="{Binding ProductSettingVM}"/>
+                                </TabItem>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_TypeSettingSettings, Path=IsChecked}">
+                                    <GD_UserControls:TypeSettingSettingUserControl DataContext="{Binding TypeSettingSettingVM}"/>
+                                </TabItem>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_MachiningSettings, Path=IsChecked}">
+                                    <GD_UserControls:MachiningSettingUserControl DataContext="{Binding MachiningSettingVM}"/>
+                                </TabItem>
+                                <TabItem IsSelected="{Binding ElementName=TBtn_MachineFunction, Path=IsChecked}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Margin="5">
+                                            <TextBlock Text="test"/>
+                                            <materialDesign:PopupBox  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                                                               PopupMode="Click"
                                                               StaysOpen ="True" 
                                                               ToolTip="PopupBox"
                                                               ToolTipService.Placement="Right">
-                                        <materialDesign:PopupBox.Style>
-                                            <Style TargetType="{x:Type materialDesign:PopupBox}">
-                                                <Setter Property="PopupUniformCornerRadius" Value="5"/>
-                                                <Setter Property="PlacementMode" Value="BottomAndAlignCentres"/>
+                                                <materialDesign:PopupBox.Style>
+                                                    <Style TargetType="{x:Type materialDesign:PopupBox}">
+                                                        <Setter Property="PopupUniformCornerRadius" Value="5"/>
+                                                        <Setter Property="PlacementMode" Value="BottomAndAlignCentres"/>
 
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type materialDesign:PopupBox}">
-                                                            <ControlTemplate.Resources>
-                                                                <Style x:Key="ToggleButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                                                                    <Setter Property="MinWidth" Value="60" />
-                                                                    <Setter Property="Opacity" Value="0.9" />
-                                                                    <Setter Property="BorderThickness" Value="0.2" />
-                                                                    <Setter Property="BorderBrush"
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type materialDesign:PopupBox}">
+                                                                    <ControlTemplate.Resources>
+                                                                        <Style x:Key="ToggleButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                                                            <Setter Property="MinWidth" Value="60" />
+                                                                            <Setter Property="Opacity" Value="0.9" />
+                                                                            <Setter Property="BorderThickness" Value="0.2" />
+                                                                            <Setter Property="BorderBrush"
                             Value="Black" />
-                                                                    <Setter Property="Cursor"
+                                                                            <Setter Property="Cursor"
                             Value="Hand" />
-                                                                    <Setter Property="Margin"
+                                                                            <Setter Property="Margin"
                             Value="5" />
-                                                                    <Setter Property="Padding"
+                                                                            <Setter Property="Padding"
                             Value="5" />
-                                                                    <Setter Property="Foreground"
+                                                                            <Setter Property="Foreground"
                             Value="Black" />
-                                                                    <Setter Property="Background"
+                                                                            <Setter Property="Background"
                             Value="WhiteSmoke" />
-                                                                    <Setter Property="Template">
-                                                                        <Setter.Value>
-                                                                            <ControlTemplate TargetType="ButtonBase">
-                                                                                <Border Background="{TemplateBinding Background}"        
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="ButtonBase">
+                                                                                        <Border Background="{TemplateBinding Background}"        
                                                                                         Margin="0"
                                                                                         CornerRadius="5"
                                                                                         BorderThickness="{TemplateBinding BorderThickness}"
                                                                                         Padding="{TemplateBinding Padding}"
                                                                                         BorderBrush="{TemplateBinding BorderBrush}">
-                                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                                </Border>
-                                                                                <ControlTemplate.Triggers>
-                                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                                        <Setter Property="Background" Value="LightSkyBlue"/>
-                                                                                        <Setter Property="Foreground" Value="Black"/>
-                                                                                    </Trigger>
-                                                                                    <Trigger Property="IsPressed" Value="True">
-                                                                                        <Setter Property="Background" Value="Orange"/>
-                                                                                        <Setter Property="Foreground" Value="Black"/>
-                                                                                    </Trigger>
+                                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                        </Border>
+                                                                                        <ControlTemplate.Triggers>
+                                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                                <Setter Property="Background" Value="LightSkyBlue"/>
+                                                                                                <Setter Property="Foreground" Value="Black"/>
+                                                                                            </Trigger>
+                                                                                            <Trigger Property="IsPressed" Value="True">
+                                                                                                <Setter Property="Background" Value="Orange"/>
+                                                                                                <Setter Property="Foreground" Value="Black"/>
+                                                                                            </Trigger>
 
-                                                                                    <Trigger Property="IsEnabled" Value="False">
-                                                                                        <Setter Property="Opacity" Value="0.3"/>
-                                                                                    </Trigger>
+                                                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                                                <Setter Property="Opacity" Value="0.3"/>
+                                                                                            </Trigger>
 
-                                                                                </ControlTemplate.Triggers>
-                                                                            </ControlTemplate>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </Style>
-                                                            </ControlTemplate.Resources>
-                                                            <Grid>
-                                                                <ToggleButton x:Name="PART_Toggle"  
+                                                                                        </ControlTemplate.Triggers>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style>
+                                                                    </ControlTemplate.Resources>
+                                                                    <Grid>
+                                                                        <ToggleButton x:Name="PART_Toggle"  
                                                                               VerticalAlignment="Center"
                                                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -592,14 +622,14 @@
                                                                               IsTabStop="{TemplateBinding IsTabStop}"
                                                                               Style="{StaticResource GD_ToggleButton}"
                                                                               TabIndex="{TemplateBinding TabIndex}" />
-                                                                <materialDesign:PopupEx
+                                                                        <materialDesign:PopupEx
                                                                                         AllowsTransparency="True"
                                                                                         CustomPopupPlacementCallback="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopupPlacementMethod}"
                                                                                         IsOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPopupOpen, Mode=TwoWay}"
                                                                                         Placement="Custom"
                                                                                         PlacementTarget="{Binding ElementName=PART_Toggle}"
                                                                                         PopupAnimation="Slide">
-                                                                    <!--<materialDesign:PopupEx.Style>
+                                                                            <!--<materialDesign:PopupEx.Style>
                                                                         <Style TargetType="{x:Type materialDesign:PopupEx}" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
                                                                             <Style.Triggers>
                                                                                 <Trigger Property="IsOpen" Value="True">
@@ -615,191 +645,193 @@
                                                                         </Style>
                                                                     </materialDesign:PopupEx.Style>-->
 
-                                                                    <materialDesign:Card 
+                                                                            <materialDesign:Card 
                                                                         Padding="{TemplateBinding Padding}"
                                                                         Content="{TemplateBinding PopupContent}"
                                                                         ContentTemplate="{TemplateBinding PopupContentTemplate}"
                                                                         Foreground="{DynamicResource MaterialDesignBody}"
                                                                         RenderOptions.ClearTypeHint="Enabled"
                                                                         UniformCornerRadius="{TemplateBinding PopupUniformCornerRadius}">
-                                                                    </materialDesign:Card>
-                                                                </materialDesign:PopupEx>
-                                                            </Grid>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsEnabled" Value="false">
-                                                                    <Setter Property="Opacity" Value="0.38" />
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Setter Property="TextElement.FontWeight" Value="Normal" />
-                                                <Setter Property="materialDesign:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
-                                            </Style>
-                                        </materialDesign:PopupBox.Style>
-                                        <materialDesign:PopupBox.ToggleContent>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="45678912312312313123" Foreground="Red"/>
-                                            </StackPanel>
-                                        </materialDesign:PopupBox.ToggleContent>
-                                        <StackPanel>
-                                            <Button      Content="1"      Opacity="0.5"      ToolTip="One with custom opacity" Style="{StaticResource SiegCustomButton}"/>
-                                            <Button      Content="2"      ToolTip="Two" Style="{StaticResource SiegCustomButton_Dark}" />
-                                            <ToggleButton      Content="3"      ToolTip="Two" Style="{StaticResource GD_MainToggleButton}" />
-                                            <Button      Content="4"      ToolTip="Three" />
-                                        </StackPanel>
-                                    </materialDesign:PopupBox>
-                                    <Grid>
-                                        <Grid.Triggers>
-                                            <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
-                                                <BeginStoryboard >
-                                                    <Storyboard>
-                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                                                        <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
-                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
-                                                        </DoubleAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-
-                                        </Grid.Triggers>
-                                        <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF1B3861">
-                                            <StackPanel>
-                                                <StackPanel Height="150" Background="White" Orientation="Horizontal">
-
-                                                    <Button x:Name="ButtonOpenMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right">
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="ButtonBase.Click" >
-                                                                <BeginStoryboard >
-                                                                    <Storyboard>
-                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                                                                            <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
-                                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
-                                                                        </DoubleAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
-                                                        <materialDesign:PackIcon Kind="Menu" Foreground="#FF1B3861" Width="25" Height="25"/>
-                                                    </Button>
-                                                    <Button x:Name="ButtonCloseMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" >
-                                                        <Button.Triggers>
-                                                            <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                                                                            <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-                                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
-                                                                        </DoubleAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-                                                        </Button.Triggers>
-                                                        <materialDesign:PackIcon Kind="ArrowLeft" Foreground="#FF1B3861" Width="25" Height="25"/>
-                                                    </Button>
+                                                                            </materialDesign:Card>
+                                                                        </materialDesign:PopupEx>
+                                                                    </Grid>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsEnabled" Value="false">
+                                                                            <Setter Property="Opacity" Value="0.38" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="TextElement.FontWeight" Value="Normal" />
+                                                        <Setter Property="materialDesign:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
+                                                    </Style>
+                                                </materialDesign:PopupBox.Style>
+                                                <materialDesign:PopupBox.ToggleContent>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="45678912312312313123" Foreground="Red"/>
+                                                    </StackPanel>
+                                                </materialDesign:PopupBox.ToggleContent>
+                                                <StackPanel>
+                                                    <Button      Content="1"      Opacity="0.5"      ToolTip="One with custom opacity" Style="{StaticResource SiegCustomButton}"/>
+                                                    <Button      Content="2"      ToolTip="Two" Style="{StaticResource SiegCustomButton_Dark}" />
+                                                    <ToggleButton      Content="3"      ToolTip="Two" Style="{StaticResource GD_MainToggleButton}" />
+                                                    <Button      Content="4"      ToolTip="Three" />
                                                 </StackPanel>
-                                                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#FF1368BD">
-                                                        <ListViewItem Height="60">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
-                                                            </StackPanel>
-                                                        </ListViewItem>
-                                                        <Border Height="2" Background="Red" Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},Path=ActualWidth}"/>
-                                                        <ListViewItem Height="60">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
-                                                            </StackPanel>
-                                                        </ListViewItem>
-                                                    </ListView>
-                                            </StackPanel>
-                                        </Grid>
+                                            </materialDesign:PopupBox>
+                                            <Grid>
+                                                <Grid.Triggers>
+                                                    <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+                                                        <BeginStoryboard >
+                                                            <Storyboard>
+                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                                                                    <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+                                                                </DoubleAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+
+                                                </Grid.Triggers>
+                                                <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF1B3861">
+                                                    <StackPanel>
+                                                        <StackPanel Height="150" Background="White" Orientation="Horizontal">
+
+                                                            <Button x:Name="ButtonOpenMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                                                <Button.Triggers>
+                                                                    <EventTrigger RoutedEvent="ButtonBase.Click" >
+                                                                        <BeginStoryboard >
+                                                                            <Storyboard>
+                                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                                                                                    <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+                                                                                </DoubleAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger>
+                                                                </Button.Triggers>
+                                                                <materialDesign:PackIcon Kind="Menu" Foreground="#FF1B3861" Width="25" Height="25"/>
+                                                            </Button>
+                                                            <Button x:Name="ButtonCloseMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" >
+                                                                <Button.Triggers>
+                                                                    <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                                                                                    <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
+                                                                                </DoubleAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger>
+                                                                </Button.Triggers>
+                                                                <materialDesign:PackIcon Kind="ArrowLeft" Foreground="#FF1B3861" Width="25" Height="25"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#FF1368BD">
+                                                            <ListViewItem Height="60">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
+                                                                </StackPanel>
+                                                            </ListViewItem>
+                                                            <Border Height="2" Background="Red" Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},Path=ActualWidth}"/>
+                                                            <ListViewItem Height="60">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
+                                                                </StackPanel>
+                                                            </ListViewItem>
+                                                        </ListView>
+                                                    </StackPanel>
+                                                </Grid>
 
 
-                                    </Grid>
+                                            </Grid>
 
 
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </TabItem>
+                                </TabItem>
 
-                            
-                            <TabItem  IsSelected="{Binding ElementName=TBtn_Calendar, Path=IsChecked}">
-                                <dxsch:SchedulerControl  />
-                            </TabItem>
-                        </TabControl>
-                    </Grid>
-                    <!--彈出式按鈕-->
-                <materialDesign:DrawerHost  Opacity="0.9"
+
+                                <TabItem  IsSelected="{Binding ElementName=TBtn_Calendar, Path=IsChecked}">
+                                    <dxsch:SchedulerControl  />
+                                </TabItem>
+                            </TabControl>
+                        </Grid>
+                        <!--彈出式按鈕-->
+                        <materialDesign:DrawerHost  Opacity="0.95"
                         IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}" LeftDrawerBackground="Transparent"
                                             IsRightDrawerOpen="{Binding ElementName=TBtn_Alarm, Path=IsChecked}" RightDrawerBackground="Transparent"
                                             >
-                    <materialDesign:DrawerHost.LeftDrawerContent>
-                            <materialDesign:ColorZone Mode="PrimaryDark"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0" >
-                            <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left" >
-                                <StackPanel.Resources>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="Orientation" Value="Horizontal"/>
-                                        <Setter Property="Margin" Value="8"/>
-                                    </Style>
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}">
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="Margin" Value="5"/>
-                                    </Style>
-                                </StackPanel.Resources>
+                            <materialDesign:DrawerHost.LeftDrawerContent>
+                                <materialDesign:ColorZone
+                                Mode="PrimaryDark"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0" >
+                                    <materialDesign:ColorZone.Effect>
+                                        <DropShadowEffect       ShadowDepth="2"
+                                                        Direction="0"
+                                                        Color="Black"
+                                                        Opacity="0.5"
+                                                        BlurRadius="10"/>
+                                    </materialDesign:ColorZone.Effect>
 
-                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+                                    <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left"  >
+                                        <StackPanel.Resources>
+                                            <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
+                                                <Setter Property="Margin" Value="10,5"/>
+                                                <Setter Property="TextMargin" Value="5,0,10,0"/>
+                                                <Setter Property="Orientation" Value="Horizontal"/>
+                                            </Style>
+                                        </StackPanel.Resources>
+
+                                        <GD_Customcontrols:FunctionToggleUserControl 
                                         x:Name="TBtn_MachineInfo" 
-                                        ButtonContentText="logo"
-                                        ButtonTitleText="{DynamicResource btnDescription_MachineInfo}"                                    
-                                        Orientation="Horizontal"/>
+                                        ImageSource="{StaticResource Logo}"
+                                        TitleText="{DynamicResource btnDescription_MachineInfo}"      />
 
-                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+                                        <GD_Customcontrols:FunctionToggleUserControl 
                                         x:Name="TBtn_PunchedFontSetting" 
-                                        ButtonContentText="logo"
-                                        ButtonTitleText="{DynamicResource btnDescription_PunchedFontSetting}"                                    
-                                        Orientation="Horizontal"/>
+                                        ImageSource="{StaticResource Logo}"
+                                        TitleText="{DynamicResource btnDescription_PunchedFontSetting}"                                />
 
-                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+                                        <GD_Customcontrols:FunctionToggleUserControl 
                                         x:Name="TBtn_ParameterSetting" 
-                                        ButtonContentText="logo" 
-                                        ButtonTitleText="{DynamicResource btnDescription_ParameterSetting}"                                    
-                                        Orientation="Horizontal">
-                                        <GD_Customcontrols:FunctionToggleButton.IsChecked>
-                                            <MultiBinding Converter="{GD_C_ValueConverters:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                                <MultiBinding.Bindings>
-                                                    <Binding Path="ParameterSettingVM.TbtnNumberSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                    <Binding Path="ParameterSettingVM.TbtnQRSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                    <Binding Path="ParameterSettingVM.TbtnAxisSettingSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                    <Binding Path="ParameterSettingVM.TbtnTimimgSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                    <Binding Path="ParameterSettingVM.TbtnSegregationSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                    <Binding Path="ParameterSettingVM.TbtnInputOutputIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                    <Binding Path="ParameterSettingVM.TbtnSeEngineeringModeIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                </MultiBinding.Bindings>
-                                            </MultiBinding>
-                                        </GD_Customcontrols:FunctionToggleButton.IsChecked>
-                                        
-                                        
-                                        
-                                        
-                                        
-                                    </GD_Customcontrols:FunctionToggleButton>
+                                        ImageSource="{StaticResource Logo}" 
+                                        TitleText="{DynamicResource btnDescription_ParameterSetting}"           >
+                                            <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
+                                                <MultiBinding Converter="{GD_C_ValueConverters:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                    <MultiBinding.Bindings>
+                                                        <Binding Path="ParameterSettingVM.TbtnNumberSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                        <Binding Path="ParameterSettingVM.TbtnQRSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                        <Binding Path="ParameterSettingVM.TbtnAxisSettingSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                        <Binding Path="ParameterSettingVM.TbtnTimimgSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                        <Binding Path="ParameterSettingVM.TbtnSegregationSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                        <Binding Path="ParameterSettingVM.TbtnInputOutputIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                        <Binding Path="ParameterSettingVM.TbtnSeEngineeringModeIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                    </MultiBinding.Bindings>
+                                                </MultiBinding>
+                                            </GD_Customcontrols:FunctionToggleUserControl.IsChecked>
 
-                                    <GD_Customcontrols:FunctionToggleButton Margin="0,5"
+
+
+
+
+                                        </GD_Customcontrols:FunctionToggleUserControl>
+
+                                        <GD_Customcontrols:FunctionToggleUserControl  
                                         x:Name="TBtn_SoftwareUpdate" 
-                                        ButtonContentText="logo"
-                                        ButtonTitleText="{DynamicResource btnDescription_SoftwareUpdate}"                                    
-                                        Orientation="Horizontal"/>
-                                </StackPanel>
-                        </materialDesign:ColorZone>
-                    </materialDesign:DrawerHost.LeftDrawerContent>
+                                        ImageSource="{StaticResource Logo}"
+                                        TitleText="{DynamicResource btnDescription_SoftwareUpdate}"                     />
+                                    </StackPanel>
+                                </materialDesign:ColorZone>
+                            </materialDesign:DrawerHost.LeftDrawerContent>
 
-                        <materialDesign:DrawerHost.RightDrawerContent>
-                            <materialDesign:ColorZone Mode="PrimaryDark" Width="auto"  HorizontalAlignment="Right"  VerticalAlignment="Stretch" Margin="0" >
+                            <materialDesign:DrawerHost.RightDrawerContent>
+                                <materialDesign:ColorZone Mode="PrimaryDark" Width="auto"  HorizontalAlignment="Right"  VerticalAlignment="Stretch" Margin="0" >
 
-                                <ScrollViewer GD_Extensions:ScrollViewerExtension.AlwaysScrollToEnd="True">
-                                <dxg:GridControl
+                                    <ScrollViewer GD_Extensions:ScrollViewerExtension.AlwaysScrollToEnd="True">
+                                        <dxg:GridControl
                                     Style="{StaticResource AlarmGridControl}"
                                     Background="Transparent"
                                                   AutoGenerateColumns="None"
@@ -807,8 +839,8 @@
                                                   ItemsSource="{Binding LogDataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
                                     MaxHeight="100000"    >
 
-                                    <dxg:GridControl.View >
-                                        <dxg:TableView  
+                                            <dxg:GridControl.View >
+                                                <dxg:TableView  
                                 IsColumnMenuEnabled ="False"
                                 AllowSorting="false"
                                 AllowColumnFiltering="False"
@@ -827,132 +859,141 @@
                                 SearchPanelFindMode="Always"
                                 ShowIndicator="False"
                                 SearchDelay="0"/>
-                                    </dxg:GridControl.View>
+                                            </dxg:GridControl.View>
 
-                                    <dxg:GridColumn FieldName="LogDatetime" Header="時間" Width="45" AllowMoving="false"  IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:DateEditSettings Mask="HH:mm"  MaskUseAsDisplayFormat="True"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
-                                        <dxg:GridColumn FieldName="LogSource"  Header="來源" Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn FieldName="LogString" Header="系統訊息" Width="auto" AllowMoving="false"  IsSmart="True">
-                                        <dxg:GridColumn.EditSettings>
-                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                        </dxg:GridColumn.EditSettings>
-                                    </dxg:GridColumn>
+                                            <dxg:GridColumn FieldName="LogDatetime" Header="時間" Width="45" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:DateEditSettings Mask="HH:mm"  MaskUseAsDisplayFormat="True"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+                                            <dxg:GridColumn FieldName="LogSource"  Header="來源" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+                                            <dxg:GridColumn FieldName="LogString" Header="系統訊息" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
 
-                                    </dxg:GridControl>
-                                </ScrollViewer>
-
-
+                                        </dxg:GridControl>
+                                    </ScrollViewer>
 
 
 
 
-                            </materialDesign:ColorZone>
-                        </materialDesign:DrawerHost.RightDrawerContent>
-                    </materialDesign:DrawerHost>
 
 
-            </Grid>
+                                </materialDesign:ColorZone>
+                            </materialDesign:DrawerHost.RightDrawerContent>
+                        </materialDesign:DrawerHost>
+
+
+                    </Grid>
             </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Grid.Row="2" Padding="5"  Mode="PrimaryLight" VerticalAlignment="Bottom" Grid.ColumnSpan="2" >
+            <materialDesign:ColorZone Grid.Row="2" Padding="5"  Mode="PrimaryLight" VerticalAlignment="Bottom" Grid.ColumnSpan="2"  >
+                <materialDesign:ColorZone.Effect>
+                    <DropShadowEffect       ShadowDepth="4"
+      Direction="90"
+      Color="Black"
+      Opacity="0.5"
+     BlurRadius="6"/>
+                </materialDesign:ColorZone.Effect>
+                
             <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-
-
-
-                        <ItemsControl  Margin="5,10,5,0">
+                        <ItemsControl  Margin="5,5,5,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.Resources>
-                            <Style TargetType="StackPanel">
-                                <Setter Property="Margin" Value="10,0"/>
-                            </Style>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}"/>
                         </ItemsControl.Resources>
                         
-                            <GD_Customcontrols:FunctionToggleButton 
+                            <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_MainSysyem"
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_MainSystem}"
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_MainSystem}"
                                 >
-                            </GD_Customcontrols:FunctionToggleButton>
+                            </GD_Customcontrols:FunctionToggleUserControl>
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                            <GD_Customcontrols:FunctionToggleButton 
+                            <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_ProductSettings"
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_ProductSettings}" 
-                                />
-                        
-                        
-                            <GD_Customcontrols:FunctionToggleButton
-                                x:Name="TBtn_TypeSettingSettings" Command="{Binding ReloadTypeSettingSettingsCommand}"
-                                ButtonContentText="Logo1"
-                                ButtonTitleText="{DynamicResource btnDescription_LayoutSettings}" 
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_ProductSettings}" 
                                 />
 
-                            <GD_Customcontrols:FunctionToggleButton 
+
+                            <GD_Customcontrols:FunctionToggleUserControl
+                                x:Name="TBtn_TypeSettingSettings" 
+                                 ImageSource="{StaticResource Window_Close}"
+                                TitleText="{DynamicResource btnDescription_LayoutSettings}" 
+                                >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                        <i:InvokeCommandAction  Command="{Binding ReloadTypeSettingSettingsCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </GD_Customcontrols:FunctionToggleUserControl>
+
+                            <GD_Customcontrols:FunctionToggleUserControl 
                                 IsEnabled="{Binding MachiningSettingVM.ProjectDistributeVMSelected, Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}}"
                                 x:Name="TBtn_MachiningSettings" 
-                                ButtonContentText="Logo2"
-                                ButtonTitleText="{DynamicResource btnDescription_MachiningSettings}"/>
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_MachiningSettings}"/>
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                            <GD_Customcontrols:FunctionToggleButton 
+                            <GD_Customcontrols:FunctionToggleUserControl 
                                      x:Name="TBtn_MachineFunction" 
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_MachineFunction}" 
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_MachineFunction}" 
                                 />
-                            <GD_Customcontrols:FunctionToggleButton
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_OneKeyReturn}" 
+                            <GD_Customcontrols:FunctionToggleUserControl
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_OneKeyReturn}" 
                                 />
                         
-                            <GD_Customcontrols:FunctionToggleButton 
-                                ButtonContentText="Light"
-                                ButtonTitleText="{DynamicResource btnDescription_LightUpSwitch}" 
+                            <GD_Customcontrols:FunctionToggleUserControl 
+                            ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_LightUpSwitch}" 
                                 />
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                            <GD_Customcontrols:FunctionToggleButton 
+                            <GD_Customcontrols:FunctionToggleUserControl 
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True" 
-                                ButtonContentText="C1"
-                                ButtonTitleText="{DynamicResource btnDescription_UsualKey1}" 
+                               ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
                             <Grid>
-                                <GD_Customcontrols:FunctionToggleButton   
+                                <GD_Customcontrols:FunctionToggleUserControl   
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True"
-                                ButtonContentText="C2"
-                                ButtonTitleText="{DynamicResource btnDescription_UsualKey2}" 
+                                ImageSource="{StaticResource Window_Close}"
+                                TitleText="{DynamicResource btnDescription_UsualKey2}" 
                                 />
 
                             </Grid>
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                            <GD_Customcontrols:FunctionToggleButton 
+                            <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_Calendar"
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_Calendar}" 
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_Calendar}" 
                                 />
 
 
-                            <GD_Popup:DraggablePopup IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}" AllowsTransparency="True"  
-                                                   Placement="Top"  PlacementTarget="{Binding ElementName=TBtn_Speed}" PopupAnimation="Fade" PlacementRectangle="-110,0,0,0" >
+                            <GD_Popup:DraggablePopup 
+                                IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}" AllowsTransparency="True"  
+                                                   Placement="Top"  PlacementTarget="{Binding ElementName=TBtn_Speed}" PopupAnimation="Slide" PlacementRectangle="-110,-10,0,0" >
                                 <Border CornerRadius="10"   Background="#474747" BorderBrush="White">
                                     <StackPanel Margin="5" Orientation="Vertical">
                                         <TextBlock Text="{StaticResource btnDescription_Speed}" FontSize="20" />
@@ -963,24 +1004,18 @@
                                 </Border>
                             </GD_Popup:DraggablePopup>
 
-                            <GD_Customcontrols:FunctionToggleButton 
-                                x:Name="TBtn_Speed"
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_Speed}" 
-                                />
+
+                            <GD_Customcontrols:FunctionToggleUserControl
+                                     x:Name="TBtn_Speed"
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_Speed}" />
+
+                            <GD_Customcontrols:FunctionToggleUserControl
+                                     x:Name="TBtn_Alarm"
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_Alarm}" />
 
 
-
-                            <GD_Customcontrols:FunctionToggleButton 
-                                x:Name="TBtn_Alarm"
-                                ButtonContentText="Logo"
-                                ButtonTitleText="{DynamicResource btnDescription_Alarm}" 
-                                />
-
-                            
-                            
-                            
-                            
                             <StackPanel Visibility="Collapsed">
                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="100"
                                     ItemsSource="{Binding SupportedCultures}" 
@@ -994,7 +1029,8 @@
                     </ItemsControl>
                 </ScrollViewer>
             </Border>
-        </materialDesign:ColorZone>
+                </materialDesign:ColorZone>
+
         </Grid>
     </materialDesign:DialogHost>
 </UserControl>

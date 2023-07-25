@@ -12,15 +12,17 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
 
-                <ResourceDictionary Source="Dictionary/Style/SolidColorBrushDictionary.xaml" />
-                <ResourceDictionary Source="Dictionary/Style/StyleDictionary.xaml" />
-
-                <ResourceDictionary Source="Dictionary/Style/DragDropStyleDictionary.xaml" />
-                <ResourceDictionary Source="Dictionary/Style/GridControlStyleDictionary.xaml" />
-                <ResourceDictionary Source="Dictionary/Style/ComboBoxStyleDictionary.xaml" />
-                <ResourceDictionary Source="Dictionary/Style/ScrollViews.xaml" />
-                
+                <ResourceDictionary Source="Dictionary/SolidColorBrushDictionary.xaml" />
                 <ResourceDictionary Source="Dictionary/DrawingDictionary.xaml" />
+                <ResourceDictionary Source="Dictionary/IconDictionary.xaml" />
+
+                
+                <ResourceDictionary Source="Styles/StyleDictionary.xaml" />
+
+                <ResourceDictionary Source="Styles/DragDropStyleDictionary.xaml" />
+                <ResourceDictionary Source="Styles/GridControlStyleDictionary.xaml" />
+                <ResourceDictionary Source="Styles/ComboBoxStyleDictionary.xaml" />
+                <ResourceDictionary Source="Styles/ScrollViews.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <sys:Int32 x:Key="IntZero">0</sys:Int32>
             <sys:Int32 x:Key="MinusOne">-1</sys:Int32>

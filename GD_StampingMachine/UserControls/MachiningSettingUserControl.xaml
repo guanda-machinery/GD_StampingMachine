@@ -158,9 +158,7 @@
                                                         AllowDragDrop="True"
                                                         AllowDrop="True"
                                                         ShowDragDropHint="False"
-
                                                     >
-
                 </dxg:TableView>
             </dxg:GridControl.View>
             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">

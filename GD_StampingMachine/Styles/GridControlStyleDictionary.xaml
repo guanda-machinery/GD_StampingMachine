@@ -3,7 +3,8 @@
                     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"      
                     xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary">
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary">
 
         <Style  x:Key="ProjectGridControlCellStyle" TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
             <Setter Property="TextBlock.FontSize" Value="16"/>
@@ -60,13 +61,14 @@
 
 
     <Style x:Key="ProjectGridControl" TargetType="dxg:GridControl">
+
         <Setter Property="ShowBorder" Value="False"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="True">
                 <Setter Property="Opacity" Value="1"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.9"/>
+                <Setter Property="Opacity" Value="0.7"/>
             </Trigger>
         </Style.Triggers>
         <Style.Resources>
@@ -177,6 +179,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
             <Style TargetType="dxe:PagerControl">
                 <Style.Resources>
                     <Style TargetType="TextBlock">
@@ -185,7 +188,7 @@
                 </Style.Resources>
                 <Setter Property="ShowFirstPageButton" Value="False"/>
                 <Setter Property="ShowLastPageButton" Value="False"/>
-                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
         </Style.Resources>
     </Style>

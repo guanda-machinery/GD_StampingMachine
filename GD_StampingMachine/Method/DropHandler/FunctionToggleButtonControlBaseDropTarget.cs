@@ -38,7 +38,14 @@ namespace GD_StampingMachine.Method
         }
         public override void Drop(IDropInfo dropInfo)
         {
-            (dropInfo.VisualTarget as FunctionToggleButton).MainStackPanel.DataContext = (dropInfo.Data as FunctionToggleButton).MainStackPanel.DataContext ;
+            if(dropInfo.VisualTarget is FunctionToggleButton DropTarget && dropInfo.Data is FunctionToggleButton DropData)
+                DropTarget.MainStackPanel.DataContext = DropData.MainStackPanel.DataContext ;
+            
+            if(dropInfo.VisualTarget is FunctionToggleUserControl UserControlDropTarget && dropInfo.Data is FunctionToggleUserControl UserControlDropData)
+            {
+                UserControlDropTarget.Toggle.DataContext = UserControlDropData.Toggle.DataContext;
+            }
+
         }
 
 

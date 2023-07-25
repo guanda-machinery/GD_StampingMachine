@@ -1162,19 +1162,21 @@
                  Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
-                    <dxg:GridControl  IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" 
+                    <dxg:GridControl Name="ProjectGridControl"
+                        IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" 
                                       Background="Transparent"
-                                          Style="{StaticResource ProjectGridControl}"
-                                          AutoGenerateColumns="None"
-                                          SelectedItem="{Binding PartsParameterViewModelSelectItem}"
-                                          ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MinHeight="250"
+                                      DataAreaBackground="Transparent"
+                     
+                                      Style="{StaticResource ProjectGridControl}"
+                                      AutoGenerateColumns="None"
+                                      SelectedItem="{Binding PartsParameterViewModelSelectItem}"
+                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      MinHeight="250"
                                       Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"
-                                          MaxHeight="100000"    >
+                                      MaxHeight="100000"    >
                             <dxg:GridControl.View >
                             <dxg:TableView   
-                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         
+                                SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 PageSize="10"
                                 AllowPaging="True"
                                 IsColumnMenuEnabled ="False"
@@ -1195,6 +1197,7 @@
                                 ShowIndicator="False"
                                 SearchDelay="0"
                         >
+
 
                                 
                             </dxg:TableView>

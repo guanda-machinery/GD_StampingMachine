@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,106 +25,21 @@ namespace GD_StampingMachine.UserControls.CustomControls
             InitializeComponent();
         }
 
-        public UIElement ButtonContent
-        {
-            get { return (UIElement)GetValue(ButtonContentProperty); }
-            set { SetValue(ButtonContentProperty, value); }
-        }
+
+        //new PropertyMetadata(TitleTextPropertyChanged)
         /// <summary>
         /// <see cref=""/> 註冊為依賴屬性
         /// </summary>
-        public static readonly DependencyProperty ButtonContentProperty =
-            DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new PropertyMetadata(ButtonContentPropertyChanged));
-        /// <summary>
-        /// <see cref=""/>變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void ButtonContentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as FunctionToggleUserControl).TButton.Content = (UIElement)e.NewValue;
-        }
-
-
-
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-
-
-
-        /// <summary>
-        /// <see cref=""/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleUserControl), new PropertyMetadata(CommandPropertyChanged));
-        /// <summary>
-        /// <see cref=""/>變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void CommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as FunctionToggleUserControl).TButton.Command = (ICommand)e.NewValue;
-        }
-
-
-    [Bindable(true)]
-        [Category("Action")]
-        [Localizability(LocalizationCategory.NeverLocalize)]
-        public object CommandParameter
-        {
-            get
-            {
-                return GetValue(CommandParameterProperty);
-            }
-            set
-            {
-                SetValue(CommandParameterProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty CommandParameterProperty = 
-            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(FunctionToggleUserControl), new PropertyMetadata(CommandParameterPropertyChanged));
-        private static void CommandParameterPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as FunctionToggleUserControl).TButton.CommandParameter = e.NewValue;
-        }
-
-
-        public bool IsChecked
-        {
-            get { return (bool)GetValue(IsCheckedProperty); }
-            set { SetValue(IsCheckedProperty, value); }
-        }
-        /// <summary>
-        /// <see cref=""/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty IsCheckedProperty =
-            DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new PropertyMetadata(IsCheckedPropertyChanged));
-        /// <summary>
-        /// <see cref=""/>變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void IsCheckedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as FunctionToggleUserControl).TButton.IsChecked = (bool)e.NewValue;
-        }
-
-
-        public string TitleText
-        {
-            get { return (string)GetValue(TitleTextProperty); }
-            set { SetValue(TitleTextProperty, value); }
-        }
-        /// <summary>
-        /// <see cref=""/> 註冊為依賴屬性
-        /// </summary>
-        public static readonly DependencyProperty TitleTextProperty =
-            DependencyProperty.Register(nameof(TitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata(TitleTextPropertyChanged));
+        public static readonly DependencyProperty TitleTextProperty = DependencyProperty.Register(nameof(TitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty TitleFontSizeProperty = DependencyProperty.Register(nameof(TitleFontSize), typeof(double), typeof(FunctionToggleUserControl), new PropertyMetadata(14.0));
+        public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register(nameof(ImageWidth), typeof(double), typeof(FunctionToggleUserControl), new PropertyMetadata(40.0));
+        public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register(nameof(ImageHeight), typeof(double), typeof(FunctionToggleUserControl), new PropertyMetadata(40.0));
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new CornerRadius(0)));
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Orientation.Vertical));
+        public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(nameof(TextMargin), typeof(Thickness), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new Thickness(0)));
+        
         /// <summary>
         /// <see cref=""/>變更時觸發
         /// </summary>
@@ -133,17 +47,88 @@ namespace GD_StampingMachine.UserControls.CustomControls
         /// <param name="e"></param>
         private static void TitleTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as FunctionToggleUserControl).TitleTextBlock.Text = (string)e.NewValue;
+            //(d as FunctionToggleUserControl).TitleTextBlock.Text = (string)e.NewValue;
+        }
+
+
+
+        public string TitleText
+        {
+            get { return (string)GetValue(TitleTextProperty); }
+            set { SetValue(TitleTextProperty, value); }
+        }
+
+        public ImageSource ImageSource
+        {
+            get { return (ImageSource)GetValue(ImageSourceProperty); }
+            set { SetValue(ImageSourceProperty, value); }
+        }
+
+        public bool IsChecked
+        {
+            get { return (bool)GetValue(IsCheckedProperty); }
+            set { SetValue(IsCheckedProperty, value); }
+        }
+
+
+
+        public double TitleFontSize
+        {
+            get { return (double)GetValue(TitleFontSizeProperty); }
+            set { SetValue(TitleFontSizeProperty, value); }
+        }
+
+        public double ImageWidth
+        {
+            get { return (double)GetValue(ImageWidthProperty); }
+            set { SetValue(ImageWidthProperty, value); }
+        }
+        public double ImageHeight
+        {
+            get { return (double)GetValue(ImageHeightProperty); }
+            set { SetValue(ImageHeightProperty, value); }
+        }
+
+        public CornerRadius CornerRadius
+        {
+            get
+            {
+                return (CornerRadius)GetValue(CornerRadiusProperty);
+            }
+            set
+            {
+                SetValue(CornerRadiusProperty, value);
+            }
+        }
+
+        public Orientation Orientation
+        {
+            get
+            {
+                return (Orientation)GetValue(OrientationProperty);
+            }
+            set
+            {
+                SetValue(OrientationProperty, value);
+            }
+        }
+        public Thickness TextMargin
+        {
+            get
+            {
+                return (Thickness)GetValue(TextMarginProperty);
+            }
+            set
+            {
+                SetValue(TextMarginProperty, value);
+            }
         }
 
 
 
 
-
-
-
-
-
-
     }
+
+
+
 }

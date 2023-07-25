@@ -16,21 +16,17 @@ namespace GD_CommonLibrary.ValueConverters
     {
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is System.Enum)
+            if (value is System.Enum EnumValue)
             {
-               var description=((System.Enum)value).GetDescription();
-               var CultResource = (string)System.Windows.Application.Current.TryFindResource("Enum_" + ((System.Enum)value).ToString());
+                var description = EnumValue.GetDescription();
+                var CultResource = (string)System.Windows.Application.Current.TryFindResource("Enum_" + EnumValue.ToString());
                 if (!string.IsNullOrEmpty(CultResource))
                 {
                     return CultResource;
                 }
-                else
+                else if (!string.IsNullOrEmpty(description))
                 {
-                    if (!string.IsNullOrEmpty(description))
-                    {
-                        return description;
-                     
-                    }
+                    return description;
                 }
                 return value.ToString() + "(找不到資源檔)";
             }
@@ -46,6 +42,11 @@ namespace GD_CommonLibrary.ValueConverters
                     return EnumA;
                 }
 
+                var CultResource = (string)System.Windows.Application.Current.TryFindResource("Enum_" + EnumA.ToString());
+                if (value.ToString() == CultResource)
+                {
+                    return EnumA;
+                }
 
 
             }

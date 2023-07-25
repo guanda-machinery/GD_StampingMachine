@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--PRIMARY-->
-    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#858585"/>
-    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="Black"/>
-    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#c4c4c4"/>
-    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="Black"/>
-    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#363535"/>
+    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#383838"/>
+    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#4b4b4b"/>
+    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
 
     
@@ -21,7 +21,7 @@
     <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Black"/>
     
     <SolidColorBrush x:Key="BackgroundColorBrush" Color="#FAFCFB"/>
-    <SolidColorBrush x:Key="ToggleButtonBackgroundLightGrayBrush" Color="#d9d9d9"/>
+    <SolidColorBrush x:Key="ToggleButtonBackgroundLightGrayBrush" Color="#a2a2a2"/>
     
     
     <Color x:Key="cToggleButtonBackgroundSkyBlueBrush">#007be4</Color>
