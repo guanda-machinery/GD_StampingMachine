@@ -107,11 +107,13 @@ namespace GD_StampingMachine.ViewModels
             var ST_index = StampingTypeVMObservableCollection.FindIndex(x => x == StampingFontSelected);
             var UST_index = UnusedStampingTypeVMObservableCollection.FindIndex(x => x == UnusedStampingFontSelected);
 
-            var UsedS  = StampingTypeVMObservableCollection[ST_index].StampingType.DeepCloneByJson();
-            var UnusedS = UnusedStampingTypeVMObservableCollection[UST_index].StampingType.DeepCloneByJson();
+           // var UsedS = StampingTypeVMObservableCollection[ST_index].StampingType.DeepCloneByJson();
+            //var UnusedS = UnusedStampingTypeVMObservableCollection[UST_index].StampingType.DeepCloneByJson();
+            var UsedS = StampingTypeVMObservableCollection[ST_index].DeepCloneByJson();
+            var UnusedS = UnusedStampingTypeVMObservableCollection[UST_index].DeepCloneByJson();
 
-            StampingTypeVMObservableCollection[ST_index] = new StampingTypeViewModel(UnusedS);
-            UnusedStampingTypeVMObservableCollection[UST_index] = new StampingTypeViewModel(UsedS);
+            StampingTypeVMObservableCollection[ST_index] = UnusedS;
+            UnusedStampingTypeVMObservableCollection[UST_index] = UsedS;
 
         }
 
@@ -137,7 +139,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }*/
 
-        public ObservableCollection<StampingTypeViewModel> _newUnusedStampingFont;
+        private ObservableCollection<StampingTypeViewModel> _newUnusedStampingFont;
         [JsonIgnore]
         public ObservableCollection<StampingTypeViewModel> NewUnusedStampingFont
           {

@@ -270,7 +270,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem" >
-                    <Border Style="{StaticResource SelectedListBoxItemBackground }" Padding="5" Margin="10,0" >
+                    <Border Style="{StaticResource SelectedListBoxItemBackground }" Padding="5" Margin="10,0"  >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -278,14 +278,15 @@
                             </Grid.ColumnDefinitions>
                             <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder" >
                                 <Border  Style="{StaticResource SelectedBorder}" CornerRadius="{Binding ElementName=MainBorder, Path=CornerRadius}">
-                                    <TextBox FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" BorderThickness="0" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                        <TextBox.Text>
+                                    <TextBox Text="{Binding StampingTypeString}"
+                                        FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" BorderThickness="0" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                    <!--    <TextBox.Text>
                                             <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
                                                 <Binding.ValidationRules>
                                                     <GD_ValidRule:CheckStringEmptyRule StringLengthMax="1"/>
                                                 </Binding.ValidationRules>
                                             </Binding>
-                                        </TextBox.Text>
+                                        </TextBox.Text>-->
                                     </TextBox>
                                 </Border>
                             </Border>

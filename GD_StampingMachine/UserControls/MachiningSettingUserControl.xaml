@@ -22,121 +22,131 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MinHeight="100"/>
-            <RowDefinition MaxHeight="70" MinHeight="20"/>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" MinHeight="100"/>
+            <RowDefinition Height="auto" MinHeight="50"/>
+            <RowDefinition Height="*" MinHeight="50"/>
         </Grid.RowDefinitions>
-        <Grid Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/--> 
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
-                    <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
-                </Border>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <StackPanel.Resources>
-                        <Style TargetType="materialDesign:PackIcon">
-                            <Setter Property="Foreground" Value="#e82127"/>
-                            <Setter Property="Margin" Value="5"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                </StackPanel>
-                <Border  BorderBrush="#ff9900" BorderThickness="5" CornerRadius="10"  Width="150" >
-                    <Image Source="pack://application:,,,/image/stamp2.PNG"  Margin="5"/>
-                </Border>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <StackPanel.Resources>
-                        <Style TargetType="materialDesign:PackIcon">
-                            <Setter Property="Foreground" Value="#ff9900"/>
-                            <Setter Property="Margin" Value="5"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                </StackPanel>
-                <Border  BorderBrush="#25cb55" BorderThickness="5" CornerRadius="10"  Width="150">
-                    <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
-                </Border>
-            </StackPanel>
-            <Border Grid.Row="2" Margin="10" Background="White"/>
-            <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
-                <Border Background="White" Margin="0,0,115,0"/>
-                <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem" >
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border  Margin="0,6"
+        <Grid >
+
+            <TabControl
+              materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp5"
+                    materialDesign:ColorZoneAssist.Background="{DynamicResource PrimaryHueDarkBrush}"
+                    materialDesign:ColorZoneAssist.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    materialDesign:ColorZoneAssist.Mode="Custom" TabStripPlacement="Top" 
+                    Style="{StaticResource MaterialDesignFilledTabControl}" Background="Transparent" HorizontalContentAlignment="Left">
+                
+                
+                <TabItem Style="{StaticResource MaterialDesignTabItem}"      
+                        Header="{DynamicResource TabItem_MetalStampingMachineStatus}">
+
+                    </TabItem>
+                <TabItem Style="{StaticResource MaterialDesignTabItem}" 
+                         Header="{DynamicResource TabItem_MachiningStatus}" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                            <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/-->
+                            <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                                <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
+                                    <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
+                                </Border>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#e82127"/>
+                                            <Setter Property="Margin" Value="5"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                </StackPanel>
+                                <Border  BorderBrush="#ff9900" BorderThickness="5" CornerRadius="10"  Width="150" >
+                                    <Image Source="pack://application:,,,/image/stamp2.PNG"  Margin="5"/>
+                                </Border>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#ff9900"/>
+                                            <Setter Property="Margin" Value="5"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                </StackPanel>
+                                <Border  BorderBrush="#25cb55" BorderThickness="5" CornerRadius="10"  Width="150">
+                                    <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
+                                </Border>
+                            </StackPanel>
+                            <Border Grid.Row="2" Margin="10" Background="White"/>
+                            <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
+                                <Border Background="White" Margin="0,0,115,0"/>
+                                <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem" >
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border  Margin="0,6"
                                                                     CornerRadius="8" Background="{Binding MachiningStatus, Converter={GD_ValueConverters:EnumToBrushesConverter}}"  d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:StampingSteelBeltViewModel}">
-                                            <Border BorderThickness="1" CornerRadius="8" BorderBrush="Black">
-                                                <Grid  >
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Text="{Binding BeltString}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" Foreground="White"/>
-                                                    <TextBlock Text="{Binding BeltNumberString}" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5,0,0,5" Foreground="White"/>
-                                                    <materialDesign:PackIcon
+                                                            <Border BorderThickness="1" CornerRadius="8" BorderBrush="Black">
+                                                                <Grid  >
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition/>
+                                                                        <RowDefinition/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <TextBlock Text="{Binding BeltString}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" Foreground="White"/>
+                                                                    <TextBlock Text="{Binding BeltNumberString}" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5,0,0,5" Foreground="White"/>
+                                                                    <materialDesign:PackIcon
                                                                                 Width="40" Height="40"
                                                                                 Kind="Qrcode" Foreground="White" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                                </Grid>
-                                            </Border>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel RenderTransformOrigin="0.5,0.5" >
-                                <StackPanel.LayoutTransform>
-                                    <RotateTransform Angle="90"/>
-                                </StackPanel.LayoutTransform>
-                            </StackPanel>
+                                                                </Grid>
+                                                            </Border>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel RenderTransformOrigin="0.5,0.5" >
+                                                <StackPanel.LayoutTransform>
+                                                    <RotateTransform Angle="90"/>
+                                                </StackPanel.LayoutTransform>
+                                            </StackPanel>
 
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
-            </Grid>
-        </Grid>
-        <dxg:GridControl  HorizontalAlignment="Center"     Grid.ColumnSpan="2"
-                                        Grid.Row="1" 
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                        </Grid>
+                        <dxg:GridControl HorizontalAlignment="Center"     Grid.ColumnSpan="2"
+                                        Grid.Row="3" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  MinHeight="50" 
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"
                                     ItemsSource="{Binding MachiningPartsVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     MaxHeight="2000"    >
-            <dxg:GridControl.View >
-                <dxg:TableView   
+                            <dxg:GridControl.View >
+                                <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
@@ -159,59 +169,46 @@
                                                         AllowDrop="True"
                                                         ShowDragDropHint="False"
                                                     >
-                </dxg:TableView>
-            </dxg:GridControl.View>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
+                                </dxg:TableView>
+                            </dxg:GridControl.View>
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
 
-        </dxg:GridControl>
-        <!-- 
-        <StackPanel Grid.Row="1" Width="200" HorizontalAlignment="Left" Margin="10,0">
-            <dxe:ComboBoxEdit  
-                  EditValue="{Binding ProjectDistributeVMSelected, UpdateSourceTrigger=PropertyChanged}"  
-                  ItemsSource="{Binding ProjectDistributeVMObservableCollection}" >
-                <dxmvvm:Interaction.Behaviors>
-                    <dxmvvm:EventToCommand EventName="EditValueChanged" Command="{Binding ComboBoxEdit_EditValueChanged}" PassEventArgsToCommand="True"/>
-                </dxmvvm:Interaction.Behaviors>
-                
-            </dxe:ComboBoxEdit>
-            <TextBlock Text="{Binding StampingBoxPartsVM.ProjectDistributeName}"   />
-        </StackPanel>        -->
-
-        <local:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}"
-                                        Grid.Row="3"/>
-        <GridSplitter  
-            Grid.Row="2"   
-            Grid.ColumnSpan="2"
-            Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" 
-            HorizontalAlignment="Stretch" Margin="0,10" Height="10"  />
+                        </dxg:GridControl>
+                    </Grid>
+                    </TabItem>
+                </TabControl>
+        </Grid>
+        <Grid   Grid.Row="1" Margin="0,5">
+        <local:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}" HorizontalAlignment="Left"/>
+        </Grid>
     </Grid>
 </UserControl>

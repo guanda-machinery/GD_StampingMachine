@@ -40,16 +40,6 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Orientation.Vertical));
         public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(nameof(TextMargin), typeof(Thickness), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new Thickness(0)));
         
-        /// <summary>
-        /// <see cref=""/>變更時觸發
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        private static void TitleTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //(d as FunctionToggleUserControl).TitleTextBlock.Text = (string)e.NewValue;
-        }
-
 
 
         public string TitleText

@@ -1,4 +1,5 @@
 ﻿using GD_StampingMachine.GD_Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,18 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingTypeViewModel");
 
-        
-        public StampingTypeModel StampingType;
 
+        private readonly StampingTypeModel StampingType;
         public StampingTypeViewModel(StampingTypeModel _StampingType)
         {
-            StampingType = _StampingType;
+                StampingType = _StampingType;
         }
+
+        public StampingTypeViewModel()
+        {
+            StampingType = new StampingTypeModel();
+        }
+
 
         /// <summary>
         /// 鋼印文字
@@ -75,9 +81,11 @@ namespace GD_StampingMachine.ViewModels
             set
             {
                 _stampingIsUsing = value;
-                OnPropertyChanged(nameof(StampingIsUsing));
+                OnPropertyChanged();
             }
         }
+
+
 
 
 

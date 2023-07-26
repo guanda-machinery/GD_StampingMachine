@@ -41,7 +41,19 @@ namespace GD_CommonLibrary.Method
                     throw new ArgumentNullException();
 
                 string output = JsonConvert.SerializeObject(JsonData);
-                File.WriteAllText(fileName, output);
+                //檢查檔案是否存在於該目錄 若存在則將先將檔案寫入temp
+                if (File.Exists(fileName))
+                {
+                    var Temp_fileName =  fileName+".tmp";
+
+                    File.WriteAllText(Temp_fileName, output);
+                    File.Delete(fileName);
+                    File.Move(Temp_fileName, fileName);
+                }
+                else
+                {
+                    File.WriteAllText(fileName, output);
+                }
                 return true;
             }
             catch (Exception ex)

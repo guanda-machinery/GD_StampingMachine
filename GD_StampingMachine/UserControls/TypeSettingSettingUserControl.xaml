@@ -20,7 +20,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:TypeSettingSettingViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction  Command="{Binding ProjectDistributeVM.ReloadTypeSettingSettingsCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
+        
+        
         <Border Name="ProjectDistributeListBorder" Visibility="{Binding ProjectDistributeVM.IsInDistributePage, Converter={dx:BooleanToVisibilityConverter Invert=True}}"
                     Grid.Column="1" Grid.Row="1" Margin="0,10"
                                                      Background="Transparent" 

@@ -329,6 +329,8 @@
     <Compile Include="Views\StampingMainView.xaml.cs">
       <DependentUpon>StampingMainView.xaml</DependentUpon>
     </Compile>
+    <Resource Include="Image\SNP-0001.bmp" />
+    <Resource Include="Image\刻印組.bmp" />
     <Resource Include="Resources\Logo.ico" />
     <Resource Include="Image\svg\NewLogo_1-2.svg" />
     <Resource Include="Image\stamp1.png" />
@@ -467,6 +469,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="Image\鋼印機外型資料%281%29.pdf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

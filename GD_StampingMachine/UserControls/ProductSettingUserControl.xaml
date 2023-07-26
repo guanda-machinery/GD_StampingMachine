@@ -25,7 +25,6 @@
               xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
              xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary" 
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
-
     <Grid AllowDrop="True">
 
         <!--<dxmvvm:Interaction.Behaviors>

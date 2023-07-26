@@ -43,45 +43,47 @@
             </Border.Resources>
             
             
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,5">
 
-                <GD_Customcontrols:FunctionToggleButton Margin="5,0"
-                                        x:Name="TbtnNumberSetting" 
-                                        IsChecked="{Binding TbtnNumberSettingIsChecked , Mode=TwoWay}"
-                                       
-                                        ButtonTitleText="{DynamicResource btnNumberSetting}"  />
+                <GD_Customcontrols:FunctionToggleUserControl
+                    x:Name="TbtnNumberSetting" 
+                    ImageSource="{StaticResource MainIcon_16_Number_DrawingImage}"
+                    IsChecked="{Binding TbtnNumberSettingIsChecked , Mode=TwoWay}"
+                    TitleText="{DynamicResource btnNumberSetting}"  />
 
-                <GD_Customcontrols:FunctionToggleButton Margin="5,0"
+                <GD_Customcontrols:FunctionToggleUserControl 
+                    ImageSource="{StaticResource MainIcon_17_QRIcon_DrawingImage}"
                                         x:Name="TbtnQRSetting" 
                                         IsChecked="{Binding TbtnQRSettingIsChecked, Mode=TwoWay}"
                                        
-                                        ButtonTitleText="{DynamicResource btnQRSetting}"  />
-                <GD_Customcontrols:FunctionToggleButton Margin="5,0"
+                                        TitleText="{DynamicResource btnQRSetting}"  />
+                <GD_Customcontrols:FunctionToggleUserControl
+                    ImageSource="{StaticResource MainIcon_18_3Axial_DrawingImage}"
                                         x:Name="TbtnAxisSetting" 
-                                                        IsChecked="{Binding TbtnAxisSettingSettingIsChecked, Mode=TwoWay}"
+                    IsChecked="{Binding TbtnAxisSettingSettingIsChecked, Mode=TwoWay}"
                                        
-                                        ButtonTitleText="{DynamicResource btnAxisSetting}"  />
-                <GD_Customcontrols:FunctionToggleButton Margin="5,0"
-                                        x:Name="TbtnTimimgSetting" 
-                                        IsChecked="{Binding TbtnTimimgSettingIsChecked , Mode=TwoWay}"
+                                        TitleText="{DynamicResource btnAxisSetting}"  />
+                <GD_Customcontrols:FunctionToggleUserControl
+                    x:Name="TbtnTimimgSetting" 
+                    ImageSource="{StaticResource MainIcon_19_Stopwatch_DrawingImage}"
+                    IsChecked="{Binding TbtnTimimgSettingIsChecked , Mode=TwoWay}"
                                        
-                                        ButtonTitleText="{DynamicResource btnTimimgSetting}"  />
-                <GD_Customcontrols:FunctionToggleButton Margin="5,0"
-                                        x:Name="TbtnSegregationSetting" 
-                                        IsChecked="{Binding TbtnSegregationSettingIsChecked, Mode=TwoWay}"
-                                       
-                                        ButtonTitleText="{DynamicResource btnSeparateSetting}"  />
-                <GD_Customcontrols:FunctionToggleButton Margin="5,0"
-                                        x:Name="TbtnInputOutput" 
-                                        IsChecked="{Binding  TbtnInputOutputIsChecked, Mode=TwoWay}"
-                                       
-                                        ButtonTitleText="{DynamicResource btnInput}" 
-                                        ButtonTitleText2="{DynamicResource btnOutput}"  />
-                <GD_Customcontrols:FunctionToggleButton Margin="5,0"
-                                        x:Name="TbtnSeEngineeringMode" 
-                                        IsChecked="{Binding TbtnSeEngineeringModeIsChecked, Mode=TwoWay}"
-                                       
-                                        ButtonTitleText="{DynamicResource btnSeEngineeringMode}"  />
+                                        TitleText="{DynamicResource btnTimimgSetting}"  />
+                <GD_Customcontrols:FunctionToggleUserControl
+                    ImageSource="{StaticResource MainIcon_20_Shunt_DrawingImage}"
+                    x:Name="TbtnSegregationSetting" 
+                    IsChecked="{Binding TbtnSegregationSettingIsChecked, Mode=TwoWay}"           
+                    TitleText="{DynamicResource btnSeparateSetting}"  />
+                <GD_Customcontrols:FunctionToggleUserControl 
+                    ImageSource="{StaticResource MainIcon_21_IO_DrawingImage}"
+                    x:Name="TbtnInputOutput" 
+                    IsChecked="{Binding  TbtnInputOutputIsChecked, Mode=TwoWay}"
+                    TitleText="{DynamicResource btnIOTable}"/>
+                <GD_Customcontrols:FunctionToggleUserControl
+                    ImageSource="{StaticResource MainIcon_22_Engineering_DrawingImage}"
+                    x:Name="TbtnSeEngineeringMode" 
+                    IsChecked="{Binding TbtnSeEngineeringModeIsChecked, Mode=TwoWay}"
+                    TitleText="{DynamicResource btnSeEngineeringMode}"  />
 
             </StackPanel>
         </Border>

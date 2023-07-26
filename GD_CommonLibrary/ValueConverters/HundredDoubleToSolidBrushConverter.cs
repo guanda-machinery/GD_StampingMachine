@@ -16,8 +16,14 @@ namespace GD_CommonLibrary.ValueConverters
     {
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            //思路:先將HEX色碼分成三部分 #00 00 00
+            //將16進制轉成10進制
+            //比較兩個色碼的差值
+            //計算目前落在哪個區間->變色
 
-            if(double.TryParse(value.ToString() , out double result))
+
+
+            if (double.TryParse(value.ToString() , out double result))
             {
                 if (result >= 0 && result < 25)
                 {

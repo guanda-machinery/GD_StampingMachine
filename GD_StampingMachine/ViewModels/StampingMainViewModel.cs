@@ -396,23 +396,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         #endregion
-        [JsonIgnore]
-        public ICommand ReloadTypeSettingSettingsCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                if(TypeSettingSettingVM.ProjectDistributeVM!=null)
-                    TypeSettingSettingVM.ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
-            });
-        }
-        //[JsonIgnore]
-        /*public ICommand ReloadMachiningSettingsCommand
-        {
-            get
-            {
-                 return MachiningSettingVM.GridControlRefreshCommand;
-            }
-        }*/
+
 
         [JsonIgnore]
         public ICommand DownloadAndUpdatedCommand

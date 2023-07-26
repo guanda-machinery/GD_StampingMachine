@@ -8,9 +8,10 @@
     <sys:String x:Key="btnDescription_MainSystem">主系統</sys:String> 
     <sys:String x:Key="btnDescription_ProductSettings">製品設定</sys:String>
     <sys:String x:Key="btnDescription_LayoutSettings">排版設定</sys:String>
-    <sys:String x:Key="btnDescription_MachiningSettings">加工設定</sys:String>
+    <sys:String x:Key="btnDescription_MachineMonitoring">加工監控</sys:String>
     <sys:String x:Key="btnDescription_MachineFunction">機台功能</sys:String>
     <sys:String x:Key="btnDescription_OneKeyReturn">一鍵返航</sys:String>
+    <sys:String x:Key="btnDescription_ReturningToOriginPoint">原點複歸</sys:String>
     <sys:String x:Key="btnDescription_LightUpSwitch">照明開關</sys:String>
     <sys:String x:Key="btnDescription_UsualKey1">常用鍵1</sys:String>
     <sys:String x:Key="btnDescription_UsualKey2">常用鍵2</sys:String>
@@ -22,7 +23,7 @@
     <sys:String x:Key="btnDescription_PunchedFontSetting">字模設定</sys:String>
     <sys:String x:Key="btnDescription_ParameterSetting">參數設定</sys:String>
     <sys:String x:Key="btnDescription_SoftwareUpdate">軟體更新</sys:String>
-
+    
     <sys:String x:Key="Text_SteelCoil_XAxis">鋼捲(X軸)</sys:String>
    
     <!--#endregion-->
@@ -77,6 +78,7 @@
     <sys:String x:Key="btnAxisSetting">軸向設定</sys:String>
     <sys:String x:Key="btnTimimgSetting">計時設定</sys:String>
     <sys:String x:Key="btnSeparateSetting">分料設定</sys:String>
+    <sys:String x:Key="btnIOTable">I/O&#x000A;Table</sys:String>
     <sys:String x:Key="btnInput">Input</sys:String>
     <sys:String x:Key="btnOutput">Output</sys:String>
     <sys:String x:Key="btnInputOutput">InPutOutPut</sys:String>
@@ -160,7 +162,14 @@
     <sys:String x:Key="Text_Box">盒子</sys:String>
     <sys:String x:Key="Text_Box_AllSetting">盒子全設定</sys:String>
     <!--#endregion-->
-    
+
+
+    <!--#region加工監控 -->
+    <sys:String x:Key="TabItem_MetalStampingMachineStatus">鋼印機狀態</sys:String>
+    <sys:String x:Key="TabItem_MachiningStatus">加工狀態</sys:String>
+
+    <!--#endregion-->
+
     <!--#region軟體更新 -->
 
     <sys:String x:Key="Text_CurrentVersion">現有版本</sys:String>
@@ -174,8 +183,11 @@
     <!--#endregion-->
 
 
+    <!--#region軟體更新 -->
 
-    
+    <!--#endregion-->
+
+
 
 
 

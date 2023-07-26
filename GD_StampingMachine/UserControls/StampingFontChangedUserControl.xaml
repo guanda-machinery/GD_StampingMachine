@@ -547,14 +547,15 @@
 
                                                                 <Border  Background="Gray"  Margin="10">
                                                                     <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
-                                                                        <TextBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  FontSize="30"  Foreground="White">
-                                                                            <TextBox.Text>
-                                                                                <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
+                                                                        <TextBox  Text="{Binding StampingTypeString}"
+                                                                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  FontSize="30"  Foreground="White">
+                                                                            <!--  <TextBox.Text>
+                                                                               <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
                                                                                     <Binding.ValidationRules>
                                                                                         <GD_ValidRule:CheckStringEmptyRule StringLengthMax="1"/>
                                                                                     </Binding.ValidationRules>
                                                                                 </Binding>
-                                                                            </TextBox.Text>
+                                                                            </TextBox.Text>-->
                                                                         </TextBox>
                                                                     </Border>
                                                                 </Border>
@@ -568,7 +569,7 @@
                                 </ListBox>
                             </StackPanel>
                             <StackPanel
-                                                                Orientation="Horizontal"
+                                Orientation="Horizontal"
                                                                 HorizontalAlignment="Right">
                                 <Button  Margin="8" 
                                                                     IsDefault="True"

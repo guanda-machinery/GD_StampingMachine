@@ -188,6 +188,15 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+        [JsonIgnore]
+        public ICommand ReloadTypeSettingSettingsCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                PartsParameterVMObservableCollectionRefresh();
+            });
+        }
+
         public void PartsParameterVMObservableCollectionRefresh()
         {
             PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
