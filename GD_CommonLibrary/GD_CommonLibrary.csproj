@@ -306,7 +306,7 @@
     <Compile Include="Extensions\GetEnumData.cs" />
     <Compile Include="Extensions\PathCheckMethod.cs" />
     <Compile Include="Extensions\ScrollViewerExtension.cs" />
-    <Compile Include="GD_Behavior\ProgresBarAnimateBehavior.cs" />
+    <Compile Include="Behaviors\ProgresBarAnimateBehavior.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
     <Compile Include="Method\BaseViewModel.cs" />

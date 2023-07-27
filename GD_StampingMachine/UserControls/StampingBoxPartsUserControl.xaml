@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
+
              mc:Ignorable="d" 
              
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
@@ -11,14 +11,14 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              
             xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:GD_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters"
+             xmlns:local="clr-namespace:GD_StampingMachine"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingBoxPartsViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -206,7 +206,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                 <ProgressBar.Foreground>
-                                    <Binding Path="Row.FinishProgress" Converter="{GD_C_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                    <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                 </ProgressBar.Foreground>
                             </ProgressBar>
 
@@ -222,7 +222,7 @@
                 HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
-                        <Border Background="{Binding Row.MachiningStatus, Converter={GD_ValueConverters:EnumToBrushesConverter}}"  
+                        <Border Background="{Binding Row.MachiningStatus, Converter={local:EnumToBrushesConverter}}"  
                                 Width="20" 
                                 Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
                                 CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>

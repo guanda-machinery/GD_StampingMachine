@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"    
              xmlns:calc="clr-namespace:CalcBinding;assembly=CalcBinding"
-             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum"
             
              mc:Ignorable="d" >
@@ -27,18 +27,18 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Left},  Converter={GD_C_ValueConverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
+            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Left},  Converter={GD_Common:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Right},  Converter={GD_C_ValueConverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
+            <ColumnDefinition Width="{Binding PlateHorizontalAlignment, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Right},  Converter={GD_Common:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_Enum:VerticalAlignEnum.Top},  Converter={GD_C_ValueConverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
+            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_Enum:VerticalAlignEnum.Top},  Converter={GD_Common:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
             <!--B30-->
             <RowDefinition Height="auto" d:Height="70"/>
-            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_Enum:VerticalAlignEnum.Bottom},  Converter={GD_C_ValueConverters:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
+            <RowDefinition Height="{Binding PlateVerticalAlignment, ConverterParameter={x:Static GD_Enum:VerticalAlignEnum.Bottom},  Converter={GD_Common:ObjectIsEqualToAutoOrNaNValueConverter}}" MinHeight="40" />
             <!--底-->
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
@@ -80,7 +80,7 @@
 
 
         <Grid Visibility="{Binding RedMeasurementLineVisibility}" Grid.Row="3">
-        <TextBlock Text="D" Foreground="Red"  FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
+        <TextBlock Text="D" Foreground="Red"  FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
         </Grid>
         <TextBlock Text="E" Foreground="Red" Grid.Column="4" FontSize="20" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
@@ -90,21 +90,21 @@
         <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="7" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
         <Grid Visibility="{Binding RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center">
-        <Border BorderThickness="1,0,0,0" BorderBrush="Red"  Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red"  Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
     </Grid>
         <Grid Visibility="{Binding RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="7">
-            <Border BorderThickness="0,1" BorderBrush="Red" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
+            <Border BorderThickness="0,1" BorderBrush="Red" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
         </Grid>
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="4" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding RedMeasurementLineVisibility}"/>
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="4" Grid.Row="1" Grid.RowSpan="7" Visibility="{Binding RedMeasurementLineVisibility}"/>
 
 
         <Grid HorizontalAlignment="Center" 
-            Visibility="{Binding SequenceCount, Converter={GD_C_ValueConverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
+            Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
             <Grid Visibility="{Binding RedMeasurementLineVisibility}">
                 <TextBlock Text="C" Foreground="Red" FontSize="20"   
-                       Visibility="{Binding SequenceCount, Converter={GD_C_ValueConverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
+                       Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
 
             </Grid>
         </Grid>
@@ -113,11 +113,11 @@
 
 
         <Grid HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="5"  Width="25"
-            Visibility="{Binding SequenceCount, Converter={GD_C_ValueConverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
+            Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
             <Grid Visibility="{Binding RedMeasurementLineVisibility}">
                 <Border BorderThickness="1,0"  BorderBrush="Red"  Width="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Visibility="{Binding SequenceCount, Converter={GD_C_ValueConverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
+                Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
             </Grid>
         </Grid>
 
@@ -125,17 +125,17 @@
 
 
         <Grid Visibility="{Binding RedMeasurementLineVisibility}"  Grid.Column="3" >
-            <TextBlock Text="C" Foreground="Red" FontSize="20" Width="25" HorizontalAlignment="Left" Margin="130,0,0,0"  Visibility="{Binding SequenceCount, Converter={GD_C_ValueConverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
+            <TextBlock Text="C" Foreground="Red" FontSize="20" Width="25" HorizontalAlignment="Left" Margin="130,0,0,0"  Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
         </Grid>
 
 
         <Grid Visibility="{Binding RedMeasurementLineVisibility}" Grid.Column="3" Grid.Row="1" >
-            <Border BorderThickness="0,0,0,1" BorderBrush="Red" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_C_ValueConverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+            <Border BorderThickness="0,0,0,1" BorderBrush="Red" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
         </Grid>
 
 
         <Grid Visibility="{Binding RedMeasurementLineVisibility}" Grid.RowSpan="8" Grid.Column="3" Grid.Row="1" >
-            <Border BorderThickness="1,0"  BorderBrush="Red"  HorizontalAlignment="Left"   Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_C_ValueConverters:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+            <Border BorderThickness="1,0"  BorderBrush="Red"  HorizontalAlignment="Left"   Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
         </Grid>
  
 

@@ -8,8 +8,7 @@
                xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              Foreground="White"          
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:GD_Behavior="clr-namespace:GD_CommonLibrary.GD_Behavior;assembly=GD_CommonLibrary"
-             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary" 
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              Padding="5" Background="Transparent" Cursor="Hand">
     
     <Grid>
@@ -47,7 +46,7 @@
                                  Minimum="{Binding ProgressBarMinimum}"
                                     IsIndeterminate="{Binding ProgressIsIndeterminate}">
                                         <i:Interaction.Behaviors>
-                                            <GD_Behavior:ProgresBarAnimateBehavior />
+                                            <GD_Common:ProgresBarAnimateBehavior />
                                         </i:Interaction.Behaviors>
                                     </ProgressBar>
                                     <TextBlock Name="ButtonContentTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -62,7 +61,7 @@
             <TextBlock Name="ButtonTitleTextBlock" TextWrapping="Wrap" 
                            Text="{Binding ButtonTitleText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Name="ButtonTitleTextBlock2" TextWrapping="Wrap" 
-                       Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={GD_C_ValueConverters:ObjectIsNullToVisibilityConverter}}"
+                       Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={GD_Common:ObjectIsNullToVisibilityConverter}}"
                            Text="{Binding ButtonTitleText2,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <Border Name="MainBorder"

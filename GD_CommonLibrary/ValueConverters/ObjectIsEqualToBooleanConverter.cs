@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using GD_CommonLibrary;
 
-namespace GD_CommonLibrary.ValueConverters
+namespace GD_CommonLibrary
 {
     public class ObjectIsEqualToBooleanConverter : BaseValueConverter
     {

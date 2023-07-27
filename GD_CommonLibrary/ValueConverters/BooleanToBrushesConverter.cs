@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_CommonLibrary.ValueConverters
+namespace GD_CommonLibrary
 {
     public class BooleanToBrushesConverter : BaseValueConverter
     {

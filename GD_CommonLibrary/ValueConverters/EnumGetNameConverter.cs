@@ -10,7 +10,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Xml.Linq;
 
-namespace GD_CommonLibrary.ValueConverters
+namespace GD_CommonLibrary
 {
     public class EnumGetNameConverter : BaseValueConverter
     {

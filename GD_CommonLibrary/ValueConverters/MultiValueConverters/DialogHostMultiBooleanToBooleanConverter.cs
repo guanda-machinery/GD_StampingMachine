@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace GD_CommonLibrary.ValueConverters
+namespace GD_CommonLibrary
 {
     public class DialogHostMultiBooleanToBooleanConverter : BaseMultiValueConverter
     {

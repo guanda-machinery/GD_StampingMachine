@@ -8,7 +8,6 @@
                         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                         xmlns:local="clr-namespace:GD_CommonLibrary" 
-                        xmlns:GD_Behavior="clr-namespace:GD_CommonLibrary.GD_Behavior"
                         WindowStyle="None"
                        Topmost="True"
                        WindowStartupLocation="CenterScreen"
@@ -42,7 +41,7 @@
                          Style="{ StaticResource MaterialDesignCircularProgressBar }"
                      >
                 <i:Interaction.Behaviors>
-                    <GD_Behavior:ProgresBarAnimateBehavior />
+                    <local:ProgresBarAnimateBehavior />
                 </i:Interaction.Behaviors>
             </ProgressBar>
             <StackPanel Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal"
@@ -72,7 +71,7 @@
                      Style="{ StaticResource MaterialDesignLinearProgressBar }"
                      >
                 <i:Interaction.Behaviors>
-                    <GD_Behavior:ProgresBarAnimateBehavior />
+                    <local:ProgresBarAnimateBehavior />
                 </i:Interaction.Behaviors>
 
             </ProgressBar>

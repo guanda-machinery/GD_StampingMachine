@@ -6,7 +6,7 @@
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
-             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
@@ -264,12 +264,12 @@
                            
                                 <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="10" VerticalAlignment="Bottom">
 
-                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                     Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
-                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                     <Button HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding NumberSettingMode, Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                         Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
                             </StackPanel>
 
@@ -455,7 +455,7 @@
                                                                       SelectedValue="{Binding NumberSetting.CharactersForm, UpdateSourceTrigger=PropertyChanged}">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={ GD_C_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                                    <TextBlock Text="{Binding Converter={ GD_Common:EnumGetNameConverter}}"></TextBlock>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
@@ -566,10 +566,10 @@
 
                                         <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
                                             <Button 
-                                                 IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                                 IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                                 Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
                                             <Button HorizontalAlignment="Left" 
-                                                    IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                                    IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                             <Button Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
                                             <Button Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>

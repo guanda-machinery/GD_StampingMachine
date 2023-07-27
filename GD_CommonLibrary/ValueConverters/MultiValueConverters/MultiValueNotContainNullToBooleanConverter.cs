@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace GD_CommonLibrary.ValueConverters
+namespace GD_CommonLibrary
 {
     /// <summary>
     /// 當多重綁定的值有空值時 回傳

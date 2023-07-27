@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
 
-namespace GD_CommonLibrary.GD_Behavior
+namespace GD_CommonLibrary
 {
     /// <summary>
     /// 使ProgressBar 轉為動態 

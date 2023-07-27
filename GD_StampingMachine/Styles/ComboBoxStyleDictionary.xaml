@@ -3,8 +3,8 @@
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
                     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                 xmlns:GD_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
-                    xmlns:GD_C_ValueConverters="clr-namespace:GD_StampingMachine.ValueConverters">
+                    xmlns:local="clr-namespace:GD_StampingMachine"
+                    xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary">
 
     <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}" x:Key="WhiteMDComboBox">
         <Setter Property="Foreground" Value="White"/>
@@ -32,8 +32,8 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Kind="{Binding Converter={GD_C_ValueConverters:EnumToPackIconKindConverter}}" Width="20" Height="20" Margin="0,0,5,0" />
-                        <TextBlock Grid.Column="1" Text="{Binding Converter={GD_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                        <materialDesign:PackIcon Kind="{Binding Converter={local:EnumToPackIconKindConverter}}" Width="20" Height="20" Margin="0,0,5,0" />
+                        <TextBlock Grid.Column="1" Text="{Binding Converter={GD_Common:EnumGetNameConverter}}"></TextBlock>
                     </Grid>
                 </DataTemplate>
             </Setter.Value>

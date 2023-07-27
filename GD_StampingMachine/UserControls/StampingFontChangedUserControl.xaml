@@ -14,11 +14,11 @@
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-                          xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
+             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
-             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary"
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              Name="MainGridControl"
              >
 
@@ -425,9 +425,9 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <StackPanel IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_C_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}">
+                <StackPanel IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}">
                         <Button Padding="10,0"
-                        IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_C_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
+                        IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}"
                     Grid.Row="0" Command="{Binding StampingFontReplaceCommand}" Margin="5,10">
 
                         <Button.Style>
@@ -453,7 +453,7 @@
                 </StackPanel>
 
                     <Button  Grid.Row="1" Margin="5,10"  Padding="10,0"
-                    IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_C_ValueConverters:ObjectIsEqualToBooleanConverter Invert=True}}"
+                    IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}"
                     Command="{Binding UnusedStampingFontDelCommand}"
                          dd:DragDrop.DropTargetAdornerBrush="Red"
                          dd:DragDrop.IsDragSource="False"

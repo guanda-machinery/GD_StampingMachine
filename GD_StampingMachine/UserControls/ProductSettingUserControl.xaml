@@ -23,7 +23,7 @@
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
               xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
-             xmlns:GD_C_ValueConverters="clr-namespace:GD_CommonLibrary.ValueConverters;assembly=GD_CommonLibrary" 
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary" 
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}">
     <Grid AllowDrop="True">
 
@@ -211,7 +211,7 @@
 
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Converter={GD_C_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                            <TextBlock Text="{Binding Converter={GD_Common:EnumGetNameConverter}}"></TextBlock>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
@@ -222,7 +222,7 @@
                                     </Button>
                                     <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
                                         <Button.IsEnabled>
-                                        <MultiBinding Converter="{GD_C_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
+                                        <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                             <Binding Path="CreatedProjectVM.ProductProjectPath"/>
                                             <Binding Path="CreatedProjectVM.ProductProjectName"/>
                                             <Binding Path="CreatedProjectVM.ProductProjectNumber"/>
@@ -375,7 +375,7 @@
 
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={ GD_C_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                        <TextBlock Text="{Binding Converter={ GD_Common:EnumGetNameConverter}}"></TextBlock>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
@@ -386,7 +386,7 @@
                                 <Button Visibility="Collapsed"
                                     Style="{StaticResource SiegCustomButton}" Content="{DynamicResource btnEdit}" Command="{Binding}">
                                     <Button.IsEnabled>
-                                        <MultiBinding Converter="{GD_C_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
+                                        <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                             <Binding Path="SelectProductProjectVM.ProductProjectPath"/>
                                             <Binding Path="SelectProductProjectVM.ProductProjectName"/>
                                             <Binding Path="SelectProductProjectVM.ProductProjectNumber"/>
@@ -459,7 +459,7 @@
                         </dxg:GridColumn>
 
                         <dxg:GridColumn  Header="{DynamicResource Text_Form}" 
-                                             Binding="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_C_ValueConverters:EnumGetNameConverter}}" 
+                                             Binding="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}}" 
                                  Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
@@ -491,7 +491,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                             <ProgressBar.Foreground>
-                                            <Binding Path="Row.ProductProjectFinishProcessing" Converter="{GD_C_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                            <Binding Path="Row.ProductProjectFinishProcessing" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                             </ProgressBar.Foreground>
                                         </ProgressBar>
 
@@ -642,7 +642,7 @@
                 <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                     <TextBlock Text="{Binding  ProductProjectNumber}" HorizontalAlignment="Center" FontSize="20"/>
                     <TextBlock Text="{Binding ProductProjectName}" HorizontalAlignment="Center" FontSize="20" Margin="15,0"/>
-                    <TextBlock Text="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_C_ValueConverters:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
+                    <TextBlock Text="{Binding ProductProjectSheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
               
                     <StackPanel Orientation="Horizontal" Margin="15,0"  Visibility="{Binding IsFinish, Converter={dx:BooleanToVisibilityConverter}}">
                         <TextBlock Text="[" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
@@ -656,7 +656,7 @@
                                   ExpandDirection="Down"  
                                   Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsExpanded, Converter={dx:BooleanToVisibilityConverter Invert=False}}"
                                   IsExpanded="{Binding PartsParameterViewModelSelectItem,
-                            Converter={GD_C_ValueConverters:ObjectIsNullToBooleanConverter Invert=True}}"
+                            Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
                                   IsEnabled="False">
                         <StackPanel Margin="0,-70,0,0">
                             <StackPanel.LayoutTransform>
@@ -664,7 +664,7 @@
                             </StackPanel.LayoutTransform>
                             <GD_SchematicDiagram:PlateRowDiagramUserControl        
                              Margin="0,-5,0,10"  
-                                Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.NormalSheetStamping}, Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
+                                Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.NormalSheetStamping}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter}}"
                                 PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -674,7 +674,7 @@
                         />
                             <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl
                         Margin="-20,-80,0,0"
-                        Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}, Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter}}"
+                        Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter}}"
                                 PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -838,7 +838,7 @@
                                                     <Setter.Value>
                                                         <DataTemplate>
                                                             <Grid>
-                                                                <TextBlock Visibility="{Binding Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter}, ConverterParameter={x:Null}}"
+                                                                <TextBlock Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter}, ConverterParameter={x:Null}}"
                                                                     Text="{DynamicResource Text_SelectedMachiningForm}" Grid.RowSpan="2" VerticalAlignment="Center"/>
                                                                 <Grid Margin="5,0,5,15">
                                                                 <Grid.RowDefinitions>
@@ -853,7 +853,7 @@
                                                                             <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
                                                                         </Grid.RenderTransform>
                                                                         <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,15,0,15"
-                                                                Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
+                                                                Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                   PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -862,7 +862,7 @@
                         RedMeasurementLineVisibility="Collapsed"
                         />
                                                                         <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
-                                         Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}, Converter={GD_C_ValueConverters:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
+                                         Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
                                                                 PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
                                 PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
                                 SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
@@ -887,7 +887,7 @@
                                             </Button>
                                             <Button Content="{DynamicResource btnCreate}" Command="{Binding CreatePartCommand}">
                                                 <Button.IsEnabled>
-                                                    <MultiBinding Converter="{GD_C_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
+                                                    <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterC"/>
@@ -1002,7 +1002,7 @@
 
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={GD_C_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                                    <TextBlock Text="{Binding Converter={GD_Common:EnumGetNameConverter}}"></TextBlock>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
@@ -1013,7 +1013,7 @@
                                             </Button>
                                             <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
                                                 <Button.IsEnabled>
-                                                    <MultiBinding Converter="{GD_C_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
+                                                    <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                                         <Binding Path="ProjectPathText"/>
                                                         <Binding Path="CreatedProjectModel.Name"/>
                                                         <Binding Path="CreatedProjectModel.Number"/>
@@ -1123,7 +1123,7 @@
 
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={ GD_C_ValueConverters:EnumGetNameConverter}}"></TextBlock>
+                                                    <TextBlock Text="{Binding Converter={ GD_Common:EnumGetNameConverter}}"></TextBlock>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
@@ -1134,7 +1134,7 @@
                                             </Button>
                                             <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
                                                 <Button.IsEnabled>
-                                                    <MultiBinding Converter="{GD_C_ValueConverters:MultiValueNotContainNullToBooleanConverter}">
+                                                    <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                                         <Binding Path="ProjectPathText"/>
                                                         <Binding Path="CreatedProjectModel.Name"/>
                                                         <Binding Path="CreatedProjectModel.Number"/>
@@ -1237,7 +1237,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                                 <ProgressBar.Foreground>
-                                                <Binding Path="Row.FinishProgress" Converter="{GD_C_ValueConverters:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                                 </ProgressBar.Foreground>
                                             </ProgressBar>
 

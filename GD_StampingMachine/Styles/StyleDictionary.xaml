@@ -277,7 +277,7 @@
         <Setter Property="MinWidth"
                             Value="60" />
         <Setter Property="Opacity"
-                            Value="0.9" />
+                            Value="0.95" />
         <Setter Property="BorderThickness"
                             Value="0.2" />
         <Setter Property="BorderBrush"
@@ -386,7 +386,7 @@
 
 
 
-    <Style x:Key="SiegToggleButton_UnderLine" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
+    <Style x:Key="SiegToggleButton_UnderLine" TargetType="ToggleButton" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="Opacity"
                             Value="0.9" />
         <Setter Property="BorderThickness"
@@ -462,7 +462,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_MainToggleButton">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_MainToggleButton" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
         <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
         <Setter Property="BorderThickness" Value="0"/>

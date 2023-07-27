@@ -42,20 +42,46 @@ namespace GD_StampingMachine.UserControls
             get => (double)GetValue(MainSilderValueProperty);
             set => SetValue(MainSilderValueProperty, value);
         }
+        public double Minimum
+        {
+            get => (double)GetValue(MinimumProperty);
+            set => SetValue(MinimumProperty, value);
+        }
+        public double Maximum
+        {
+            get => (double)GetValue(MaximumProperty);
+            set => SetValue(MaximumProperty, value);
+        }
+        public double TickFrequency
+        {
+            get => (double)GetValue(TickFrequencyProperty);
+            set => SetValue(TickFrequencyProperty, value);
+        }
+
 
         public static readonly DependencyProperty MainSilderValueProperty = DependencyProperty.Register(
-            nameof(MainSilderValue),
-            typeof(double),
-            typeof(TriggerSliderUserControl),
-            new PropertyMetadata());
+         nameof(MainSilderValue),
+         typeof(double),
+         typeof(TriggerSliderUserControl),
+         new PropertyMetadata(0.0));
 
+        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(
+         nameof(Minimum),
+         typeof(double),
+         typeof(TriggerSliderUserControl),
+         new PropertyMetadata(0.0));
 
+        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(
+         nameof(Maximum),
+         typeof(double),
+         typeof(TriggerSliderUserControl),
+         new PropertyMetadata(100.0));
 
-
-
-
-
-
+        public static readonly DependencyProperty TickFrequencyProperty = DependencyProperty.Register(
+         nameof(TickFrequency),
+         typeof(double),
+         typeof(TriggerSliderUserControl),
+         new PropertyMetadata(1.0));
 
 
     }

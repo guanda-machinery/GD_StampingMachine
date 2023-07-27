@@ -7,7 +7,7 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
              mc:Ignorable="d" Foreground="White" FontSize="14" MinWidth="70" 
-             x:Name="MainFunctionToggleUserControl" d:Background="Black"  VerticalAlignment="Top">
+             x:Name="MainFunctionToggleUserControl" d:Background="Black"  >
     <Grid
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
         <!--<Border BorderBrush="Red" BorderThickness="1" Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter}}"/-->

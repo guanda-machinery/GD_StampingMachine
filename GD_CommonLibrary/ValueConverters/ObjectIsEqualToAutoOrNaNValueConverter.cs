@@ -2,7 +2,7 @@
 using System.Globalization;
 using GD_CommonLibrary;
 
-namespace GD_CommonLibrary.ValueConverters
+namespace GD_CommonLibrary
 {
     public class ObjectIsEqualToAutoOrNaNValueConverter : BaseValueConverter
     {

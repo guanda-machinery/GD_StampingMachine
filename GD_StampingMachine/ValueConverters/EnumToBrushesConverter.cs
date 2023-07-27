@@ -9,7 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using GD_CommonLibrary;
 
-namespace GD_StampingMachine.ValueConverters
+namespace GD_StampingMachine
 {
     public class EnumToBrushesConverter : BaseValueConverter
     {

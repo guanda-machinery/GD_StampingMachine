@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using GD_CommonLibrary;
 
-namespace GD_CommonLibrary.ValueConverters
+namespace GD_CommonLibrary
 {
     public class ToggleButtonMultiBooleanToBooleanConverter : BaseMultiValueConverter
     {
