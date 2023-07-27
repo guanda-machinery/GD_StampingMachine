@@ -104,8 +104,12 @@ namespace GD_CommonLibrary
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (BrushArray.Count() == 0)
-                throw new Exception();
+            if (BrushArray== null)
+                return Brushes.Red;
+
+            if (BrushArray.Count() <= 1)
+                return BrushArray.FirstOrDefault();
+
             Debugger.Break();
 
             var Denominator = Math.Abs(SliderMax - SliderMin);
