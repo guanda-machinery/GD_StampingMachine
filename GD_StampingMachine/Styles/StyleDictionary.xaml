@@ -276,6 +276,8 @@
     <Style x:Key="SiegCustomButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
         <Setter Property="MinWidth"
                             Value="60" />
+        <Setter Property="MinHeight"
+                            Value="60" />
         <Setter Property="Opacity"
                             Value="0.95" />
         <Setter Property="BorderThickness"

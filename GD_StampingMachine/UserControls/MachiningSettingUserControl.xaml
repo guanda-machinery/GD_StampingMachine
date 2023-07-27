@@ -17,6 +17,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
+             xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachiningSettingViewModel}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -59,9 +60,11 @@
                                 <Canvas Height="{Binding ElementName=SnpImage, Path=Height}" 
                                         Width="{Binding ElementName=SnpImage, Path=Width}"
                                         >
-                              
-                                    <ToggleButton Canvas.Left="45" Canvas.Top="150"></ToggleButton>
-                                    <Line></Line>
+
+                                    <ToggleButton  Canvas.Left="45" Canvas.Top="150"></ToggleButton>
+                                    <p:ArrowLine  X1="75" Y1="160"  X2="75" Y2="182" 
+                                                              Stroke="Red" StrokeThickness="2" >
+                                    </p:ArrowLine>
                                 </Canvas>
                             </Grid>
                         </materialDesign:Card>

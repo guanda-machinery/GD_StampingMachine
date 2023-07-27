@@ -67,8 +67,14 @@
     <Reference Include="DevExpress.CodeParser.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.CodeParser.21.1.4\lib\net452\DevExpress.CodeParser.v21.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.Desktop.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Data.Desktop.21.1.4\lib\net452\DevExpress.Data.Desktop.v21.1.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Data.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Data.21.1.4\lib\net452\DevExpress.Data.v21.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Diagram.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Diagram.Core.21.1.4\lib\net452\DevExpress.Diagram.v21.1.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Dialogs.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Win.Dialogs.Core.21.1.4\lib\net452\DevExpress.Dialogs.v21.1.Core.dll</HintPath>
@@ -103,6 +109,9 @@
       <HintPath>..\packages\DevExpress.Wpf.Controls.21.1.4\lib\net452\DevExpress.Xpf.Controls.v21.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpf.Core.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.Diagram.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Wpf.Diagram.21.1.4\lib\net452\DevExpress.Xpf.Diagram.v21.1.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Xpf.Docking.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.Docking.21.1.4\lib\net452\DevExpress.Xpf.Docking.v21.1.dll</HintPath>
     </Reference>
@@ -496,6 +505,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Arrowheads\Arrowheads.csproj">
+      <Project>{1f310940-b462-458e-8134-1c9b049b16a4}</Project>
+      <Name>Arrowheads</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj">
       <Project>{0911bde5-d35b-409b-8c14-8d93f4a52cac}</Project>
       <Name>GD_CommonLibrary</Name>
