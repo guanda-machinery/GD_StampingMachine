@@ -61,8 +61,10 @@
                                         Width="{Binding ElementName=SnpImage, Path=Width}"
                                         >
 
-                                    <ToggleButton  Canvas.Left="45" Canvas.Top="150"></ToggleButton>
-                                    <p:ArrowLine  X1="75" Y1="160"  X2="75" Y2="182" 
+                                    <ToggleButton Content="123"
+                                        Canvas.Left="45" Canvas.Top="150"/>
+                                    <p:ArrowLine Canvas.Left="75" Canvas.Top="173"
+                                        X1="0" Y1="0"  X2="0" Y2="23" 
                                                               Stroke="Red" StrokeThickness="2" >
                                     </p:ArrowLine>
                                 </Canvas>
