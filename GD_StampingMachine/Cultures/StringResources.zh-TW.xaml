@@ -277,7 +277,7 @@
 
     <!--加工監控-->
 
-    <sys:String x:Key="Text_XAxis_Motor">X軸 馬達</sys:String>
+    <sys:String x:Key="Text_XAxis_Motor">X軸馬達</sys:String>
     <sys:String x:Key="Text_DoubleGuideRodPneumaticCylinder">雙導桿缸</sys:String>
     <sys:String x:Key="Text_BlockCylinder">阻擋缸</sys:String>
     <sys:String x:Key="Text_DownCylinder_Component">壓座組</sys:String>

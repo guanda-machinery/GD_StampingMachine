@@ -550,19 +550,16 @@
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Margin="5">
                                             <TextBlock Text="test"/>
-                                        <materialDesign:PopupBox 
+                                        <materialDesign:PopupBox  Padding="50"
+                                                                  
                                                 Style="{StaticResource GD_PopUpBox}"
                                                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                                                               PopupMode="Click"
-                                                              StaysOpen ="True" 
+                                                              StaysOpen ="True"  MinHeight="1"
+                                                                  ToggleContent="45678912312312" Foreground="Red"
                                                               ToolTip="PopupBox"
                                                               ToolTipService.Placement="Right">
-                                            <materialDesign:PopupBox.ToggleContent>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="45678912312312" Foreground="Red"/>
-                                                    </StackPanel>
-                                                </materialDesign:PopupBox.ToggleContent>
-                                                <StackPanel>
+                                            <StackPanel>
                                                     <Button      Content="1"      Opacity="0.5"      ToolTip="One with custom opacity" Style="{StaticResource SiegCustomButton}"/>
                                                     <Button      Content="2"      ToolTip="Two" Style="{StaticResource SiegCustomButton_Dark}" />
                                                     <ToggleButton      Content="3"      ToolTip="Two" Style="{StaticResource GD_MainToggleButton}" />

@@ -11,7 +11,7 @@ namespace GD_CommonLibrary
 {
     public abstract class BaseMultiValueConverter : MarkupExtension, IMultiValueConverter
     {
-        public abstract object Convert(object[] value, Type targetType, object parameter, CultureInfo culture);
+        public abstract object Convert(object[] values, Type targetType, object parameter, CultureInfo culture);
 
         public abstract object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture);
 
