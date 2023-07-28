@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
+using DevExpress.Charts.Native;
+using DevExpress.Data.Extensions;
 using DevExpress.Xpf.Bars;
 using GD_CommonLibrary;
 
@@ -99,49 +101,77 @@ namespace GD_CommonLibrary
         public double SliderMin { get; set; } = 0;
         public double SliderMax { get; set; } = 100;
 
-        public SolidColorBrush[] BrushArray { get; set; } = new SolidColorBrush[] { Brushes.Red, Brushes.Orange , Brushes.Yellow};
+        //public SolidColorBrush[] BrushArray { get; set; } = new SolidColorBrush[] { Brushes.Red, Brushes.Orange , Brushes.Yellow};
 
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (BrushArray== null)
-                return Brushes.Red;
+            if (parameter == null)
+                return Brushes.Black;
 
-            if (BrushArray.Count() <= 1)
+            var BrushArray = new List<SolidColorBrush> { Brushes.Red, Brushes.Orange, Brushes.Yellow };
+            if (parameter is IEnumerable<SolidColorBrush> parameterBrushList)
+            {
+                BrushArray = parameterBrushList.ToList();
+            }
+
+            if (parameter is SolidColorBrush parameterSolidColorBrush)
+            {
+                return parameterSolidColorBrush;
+            }
+
+            var BrushCount = BrushArray.Count();
+            if (BrushCount <= 1)
                 return BrushArray.FirstOrDefault();
 
-            Debugger.Break();
+            //Debugger.Break();
 
             var Denominator = Math.Abs(SliderMax - SliderMin);
             //思路:先將HEX色碼分成三部分 #00 00 00
             //將16進制轉成10進制
             //比較兩個色碼的差值
             //計算目前落在哪個區間->變色
-
-
-
-
             if (double.TryParse(value.ToString(), out double result))
             {
                 //先找出result的區間 再找陣列中的位置
+                var Result_step = result / Denominator;
+                //找出區間
+                //0...1...2...3...4...5
+                //| 1 | 2 | 3 | 4 | 5 |
 
-                
+                SolidColorBrush LeftBrush = BrushArray.FirstOrDefault();
+                SolidColorBrush RightBrush = BrushArray.LastOrDefault();
+                var Brush_step = 1.0 / (BrushCount-1);
+                for (int i = 0; i <= BrushCount; i ++)
+                {
+                    if(((double)(i+1.0)* Brush_step) > Result_step)
+                    {
+                        if (BrushArray.TryGetValue(i, out var oLeftBrush))
+                            LeftBrush = oLeftBrush;
+                        if(BrushArray.TryGetValue(i+1, out var oRightBrush))
+                            RightBrush = oRightBrush;
 
+                        //若有三種顏色
+                        //max =200 , min =0 , value =104
+                        //先將104/(200-0) =0.52
+                        //找出該顏色落在第 i = "1" 區間 使用"1"和"2"的顏色 間距 = 1/(3-1) =0.5
+                        //0.52- 0.5 * 1
 
+                        Result_step = (result / Denominator - (Brush_step * i)) * (BrushCount - 1);
 
-
-                SolidColorBrush LeftBrush = System.Windows.Media.Brushes.Red;
-                SolidColorBrush RightBrush = System.Windows.Media.Brushes.Green;
+                        break;
+                    }
+                }
 
                 var A_Diff = RightBrush.Color.A - LeftBrush.Color.A;
                 var R_Diff = RightBrush.Color.R - LeftBrush.Color.R;
                 var G_Diff = RightBrush.Color.G - LeftBrush.Color.G;
                 var B_Diff = RightBrush.Color.B - LeftBrush.Color.B;
 
-                var A = (byte)(LeftBrush.Color.A + A_Diff * (result / Denominator));
-                var R = (byte)(LeftBrush.Color.R + R_Diff * (result / Denominator));
-                var G = (byte)(LeftBrush.Color.G + G_Diff * (result / Denominator));
-                var B = (byte)(LeftBrush.Color.B + B_Diff * (result / Denominator));
+                var A = (byte)(LeftBrush.Color.A + A_Diff * Result_step);
+                var R = (byte)(LeftBrush.Color.R + R_Diff * Result_step);
+                var G = (byte)(LeftBrush.Color.G + G_Diff * Result_step);
+                var B = (byte)(LeftBrush.Color.B + B_Diff * Result_step);
 
                 SolidColorBrush ReturnBrush = new SolidColorBrush(Color.FromArgb(A, R, G, B));
 

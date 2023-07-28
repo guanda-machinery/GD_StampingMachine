@@ -550,127 +550,16 @@
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Margin="5">
                                             <TextBlock Text="test"/>
-                                            <materialDesign:PopupBox  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                                        <materialDesign:PopupBox 
+                                                Style="{StaticResource GD_PopUpBox}"
+                                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                                                               PopupMode="Click"
                                                               StaysOpen ="True" 
                                                               ToolTip="PopupBox"
                                                               ToolTipService.Placement="Right">
-                                                <materialDesign:PopupBox.Style>
-                                                    <Style TargetType="{x:Type materialDesign:PopupBox}">
-                                                        <Setter Property="PopupUniformCornerRadius" Value="5"/>
-                                                        <Setter Property="PlacementMode" Value="BottomAndAlignCentres"/>
-
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="{x:Type materialDesign:PopupBox}">
-                                                                    <ControlTemplate.Resources>
-                                                                        <Style x:Key="ToggleButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                                                                            <Setter Property="MinWidth" Value="60" />
-                                                                            <Setter Property="Opacity" Value="0.9" />
-                                                                            <Setter Property="BorderThickness" Value="0.2" />
-                                                                            <Setter Property="BorderBrush"
-                            Value="Black" />
-                                                                            <Setter Property="Cursor"
-                            Value="Hand" />
-                                                                            <Setter Property="Margin"
-                            Value="5" />
-                                                                            <Setter Property="Padding"
-                            Value="5" />
-                                                                            <Setter Property="Foreground"
-                            Value="Black" />
-                                                                            <Setter Property="Background"
-                            Value="WhiteSmoke" />
-                                                                            <Setter Property="Template">
-                                                                                <Setter.Value>
-                                                                                    <ControlTemplate TargetType="ButtonBase">
-                                                                                        <Border Background="{TemplateBinding Background}"        
-                                                                                        Margin="0"
-                                                                                        CornerRadius="5"
-                                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                                        Padding="{TemplateBinding Padding}"
-                                                                                        BorderBrush="{TemplateBinding BorderBrush}">
-                                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                                        </Border>
-                                                                                        <ControlTemplate.Triggers>
-                                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                                <Setter Property="Background" Value="LightSkyBlue"/>
-                                                                                                <Setter Property="Foreground" Value="Black"/>
-                                                                                            </Trigger>
-                                                                                            <Trigger Property="IsPressed" Value="True">
-                                                                                                <Setter Property="Background" Value="Orange"/>
-                                                                                                <Setter Property="Foreground" Value="Black"/>
-                                                                                            </Trigger>
-
-                                                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                                                <Setter Property="Opacity" Value="0.3"/>
-                                                                                            </Trigger>
-
-                                                                                        </ControlTemplate.Triggers>
-                                                                                    </ControlTemplate>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                        </Style>
-                                                                    </ControlTemplate.Resources>
-                                                                    <Grid>
-                                                                        <ToggleButton x:Name="PART_Toggle"  
-                                                                              VerticalAlignment="Center"
-                                                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                              Content="{TemplateBinding ToggleContent}"
-                                                                              ContentTemplate="{TemplateBinding ToggleContentTemplate}"
-                                                                              Cursor="Hand"
-                                                                              IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPopupOpen, Mode=TwoWay}"
-                                                                              IsTabStop="{TemplateBinding IsTabStop}"
-                                                                              Style="{StaticResource GD_ToggleButton}"
-                                                                              TabIndex="{TemplateBinding TabIndex}" />
-                                                                        <materialDesign:PopupEx
-                                                                                        AllowsTransparency="True"
-                                                                                        CustomPopupPlacementCallback="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopupPlacementMethod}"
-                                                                                        IsOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPopupOpen, Mode=TwoWay}"
-                                                                                        Placement="Custom"
-                                                                                        PlacementTarget="{Binding ElementName=PART_Toggle}"
-                                                                                        PopupAnimation="Slide">
-                                                                            <!--<materialDesign:PopupEx.Style>
-                                                                        <Style TargetType="{x:Type materialDesign:PopupEx}" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
-                                                                            <Style.Triggers>
-                                                                                <Trigger Property="IsOpen" Value="True">
-                                                                                    <Trigger.EnterActions>
-                                                                                        <BeginStoryboard>
-                                                                                            <Storyboard>
-                                                                                                <DoubleAnimation Storyboard.TargetProperty="Height" From="20" To="200" Duration="0:0:0.3" />
-                                                                                            </Storyboard>
-                                                                                        </BeginStoryboard>
-                                                                                    </Trigger.EnterActions>
-                                                                                </Trigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </materialDesign:PopupEx.Style>-->
-
-                                                                            <materialDesign:Card 
-                                                                        Padding="{TemplateBinding Padding}"
-                                                                        Content="{TemplateBinding PopupContent}"
-                                                                        ContentTemplate="{TemplateBinding PopupContentTemplate}"
-                                                                        Foreground="{DynamicResource MaterialDesignBody}"
-                                                                        RenderOptions.ClearTypeHint="Enabled"
-                                                                        UniformCornerRadius="{TemplateBinding PopupUniformCornerRadius}">
-                                                                            </materialDesign:Card>
-                                                                        </materialDesign:PopupEx>
-                                                                    </Grid>
-                                                                    <ControlTemplate.Triggers>
-                                                                        <Trigger Property="IsEnabled" Value="false">
-                                                                            <Setter Property="Opacity" Value="0.38" />
-                                                                        </Trigger>
-                                                                    </ControlTemplate.Triggers>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Setter Property="TextElement.FontWeight" Value="Normal" />
-                                                        <Setter Property="materialDesign:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
-                                                    </Style>
-                                                </materialDesign:PopupBox.Style>
-                                                <materialDesign:PopupBox.ToggleContent>
+                                            <materialDesign:PopupBox.ToggleContent>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="45678912312312313123" Foreground="Red"/>
+                                                        <TextBlock Text="45678912312312" Foreground="Red"/>
                                                     </StackPanel>
                                                 </materialDesign:PopupBox.ToggleContent>
                                                 <StackPanel>
@@ -993,9 +882,29 @@
                                 <Border CornerRadius="10"   Background="#474747" BorderBrush="White">
                                     <StackPanel Margin="5" Orientation="Vertical">
                                         <TextBlock Text="{StaticResource btnDescription_Speed}" FontSize="20" />
+
+                                        <!--
                                         <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding}" Width="300" Margin="10"
                                                                                   Foreground="{Binding Path=MainSilderValue, RelativeSource={RelativeSource Self},  
-                                            Converter={GD_Common:HundredDoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}}"/>
+                                            Converter={GD_Common:HundredDoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}}"/>-->
+
+                                        <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding}" Width="300" Margin="10">
+                                                <GD_UserControls:TriggerSliderUserControl.Foreground>
+                                                    <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MuiltBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                        <Binding.ConverterParameter>
+                                                        <x:Array Type="SolidColorBrush">
+                                                            <SolidColorBrush Color="Red"/>
+                                                            <SolidColorBrush Color="OrangeRed"/>
+                                                            <SolidColorBrush Color="Orange"/>
+                                                            <SolidColorBrush Color="Green"/>
+                                                            <SolidColorBrush Color="Green"/>
+                                                        </x:Array>
+                                                    </Binding.ConverterParameter>
+                                                    </Binding>
+                                                </GD_UserControls:TriggerSliderUserControl.Foreground>
+
+                                            </GD_UserControls:TriggerSliderUserControl>
+                                        
                                     </StackPanel>
 
                                 </Border>

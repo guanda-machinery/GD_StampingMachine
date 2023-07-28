@@ -15,9 +15,17 @@ namespace GD_CommonLibrary.GD_Popup
 {
     public class DraggablePopup : NonTopmostPopup
     {
-       
+
         Point _initialMousePosition;
         bool _isDragging;
+
+        public static readonly DependencyProperty AllowDragProperty = DependencyProperty.Register(nameof(AllowDrag), typeof(bool), typeof(DraggablePopup), new FrameworkPropertyMetadata());
+        public bool AllowDrag
+        {
+            get { return (bool)GetValue(AllowDragProperty); }
+            set { SetValue(AllowDragProperty, value); }
+        }
+
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -31,7 +39,10 @@ namespace GD_CommonLibrary.GD_Popup
 
         }
         private void Child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        { 
+            if(!AllowDrag)
+                e.Handled = false;
+
             var element = sender as FrameworkElement;
             _initialMousePosition = e.GetPosition(null);
             element.CaptureMouse();
@@ -64,7 +75,7 @@ namespace GD_CommonLibrary.GD_Popup
         /// <summary>
         /// Is Topmost dependency property
         /// </summary>
-        public static readonly DependencyProperty IsTopmostProperty = DependencyProperty.Register("IsTopmost", typeof(bool), typeof(NonTopmostPopup), new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
+        public static readonly DependencyProperty IsTopmostProperty = DependencyProperty.Register(nameof(IsTopmost), typeof(bool), typeof(NonTopmostPopup), new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
 
         private bool? _appliedTopMost;
         private bool _alreadyLoaded;

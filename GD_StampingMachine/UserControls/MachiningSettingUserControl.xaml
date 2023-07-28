@@ -17,20 +17,22 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
-             xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads"
+             xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachiningSettingViewModel}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding GridControlRefreshCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MinHeight="50"/>
-            <RowDefinition Height="*" MinHeight="50"/>
-        </Grid.RowDefinitions>
-        <Grid >
-            <TabControl
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" MinHeight="50"/>
+                <RowDefinition Height="*" MinHeight="50"/>
+            </Grid.RowDefinitions>
+            <Grid Name="TabControlGird">
+                <TabControl
               materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp5"
                     materialDesign:ColorZoneAssist.Background="{DynamicResource PrimaryHueDarkBrush}"
                     materialDesign:ColorZoneAssist.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
@@ -40,137 +42,236 @@
 
                 <TabItem Style="{StaticResource MaterialDesignTabItem}"      
                         Header="{DynamicResource TabItem_MetalStampingMachineStatus}">
-                    <TabItem.Resources>
-                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Dark}">
-                            <Setter Property="Margin" Value="0"/>
-                        </Style>
-                        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="BorderBrush" Value="Black"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="Opacity" Value="0.6"/>
-                            <Setter Property="Margin" Value="0"/>
-                        </Style>
-                    </TabItem.Resources>
                     <Grid >
-                        <materialDesign:Card Background="Transparent" Padding="10"
+                            <materialDesign:Card Background="Transparent" Padding="10"
                             materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
-                            <Grid HorizontalAlignment="Center">
-                                <Image Name="SnpImage" Source="pack://application:,,,/image/SNP-0001.BMP" Height="400"/>
-                                <Canvas Height="{Binding ElementName=SnpImage, Path=Height}" 
-                                        Width="{Binding ElementName=SnpImage, Path=Width}"
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <StackPanel RenderTransformOrigin="0.5,0.5">
+                                        <StackPanel.LayoutTransform >
+                                            <ScaleTransform ScaleX="1.0" ScaleY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ScaleX}"/>
+                                        </StackPanel.LayoutTransform>
+                                        <Grid HorizontalAlignment="Center">
+                                            <Image Name="SnpImage" Source="pack://application:,,,/image/SNP-0001.BMP" Height="400"/>
+                                            <Canvas Height="{Binding ElementName=SnpImage, Path=ActualHeight}" 
+                                        Width="{Binding ElementName=SnpImage, Path=ActualWidth}"
                                         >
+                                                <Canvas.Resources>
+                                                    <Style TargetType="p:ArrowLine">
+                                                        <Setter Property="Stroke" Value="Red"/>
+                                                        <Setter Property="StrokeThickness" Value="2"/>
+                                                        <Setter Property="ArrowLength" Value="5"/>
+                                                    </Style>
+                                                <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
+                                                    <Setter Property="Background" Value="White"/>
+                                                    <Setter Property="BorderBrush" Value="Black"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Setter Property="Opacity" Value="0.8"/>
+                                                    <Setter Property="Margin" Value="0"/>
+                                                    <Setter Property="Padding" Value="5"/>
+                                                    <Setter Property="TextBlock.FontSize" Value="14"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Foreground" Value="Black"/>
+                                                            <Setter Property="Background" Value="Orange"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
 
-                                    <ToggleButton Content="123"
-                                        Canvas.Left="45" Canvas.Top="150"/>
-                                    <p:ArrowLine Canvas.Left="75" Canvas.Top="173"
-                                        X1="0" Y1="0"  X2="0" Y2="23" 
-                                                              Stroke="Red" StrokeThickness="2" >
-                                    </p:ArrowLine>
-                                </Canvas>
-                            </Grid>
-                        </materialDesign:Card>
-                    </Grid>
+                                            </Canvas.Resources>
 
-                </TabItem>
-                <TabItem Style="{StaticResource MaterialDesignTabItem}" 
+                                            <StackPanel Canvas.Left="130" Canvas.Top="35">
+                                                <ToggleButton Content="{DynamicResource Text_Feeding_Component}"/>
+                                            </StackPanel>
+                                            <StackPanel Canvas.Left="230" Canvas.Top="35">
+                                                <ToggleButton Content="{DynamicResource Text_QRCode_Component}"/>
+                                            </StackPanel>
+
+
+
+                                            <StackPanel Canvas.Left="45" Canvas.Top="150">
+
+                                                <ToggleButton Name="XAxis_MotorToggleButton" Content="{DynamicResource Text_XAxis_Motor}"/>
+                                                <materialDesign:PopupBox Background="White"
+                                                    Style="{StaticResource GD_PopUpBox}" Padding="5" Margin="0"
+                                                                         ToggleContent="{DynamicResource Text_XAxis_Motor}"
+                                                                         >
+                                                </materialDesign:PopupBox>
+                                                
+                                                <p:ArrowLine HorizontalAlignment="Center" 
+                                        X1="0" Y1="0"  X2="0" Y2="20" />
+
+                                            </StackPanel>
+
+                                                <StackPanel Canvas.Left="80" Canvas.Top="90">
+                                                <ToggleButton 
+                                                    Foreground="Red"
+                                                    Content="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" 
+                                                              ContentStringFormat="{}{0}-1"
+                                                              />
+
+
+                                                <p:ArrowLine HorizontalAlignment="Center" 
+                                        X1="0" Y1="0"  X2="0" Y2="35" >
+                                                    </p:ArrowLine>
+                                                </StackPanel>
+
+                                            <StackPanel Canvas.Left="166" Canvas.Top="90">
+                                                <ToggleButton                          
+                                                     Foreground="Red"
+                                                    Content="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" 
+                                                    ContentStringFormat="{}{0}-2"/>
+                                                <p:ArrowLine HorizontalAlignment="Center" 
+                                        X1="0" Y1="0"  X2="0" Y2="35" >
+                                                </p:ArrowLine>
+                                            </StackPanel>
+
+                                            <StackPanel Canvas.Left="285" Canvas.Top="90">
+                                                <ToggleButton Content="{DynamicResource Text_BlockCylinder}"/>
+                                                <p:ArrowLine HorizontalAlignment="Center" 
+                                        X1="0" Y1="0"  X2="0" Y2="75" >
+                                                </p:ArrowLine>
+                                            </StackPanel>
+                                                
+                                            <StackPanel Canvas.Left="433" Canvas.Top="40">
+                                                <ToggleButton Content="{DynamicResource Text_ShearCut_Component_Hydraulic}"/>
+                                                <p:ArrowLine 
+                                        X1="30" Y1="0"  X2="30" Y2="95" >
+                                                </p:ArrowLine>
+                                            </StackPanel>
+
+
+                                            <StackPanel Canvas.Left="255" Canvas.Top="200">
+                                                <p:ArrowLine
+                                        X1="32" Y1="20"  X2="32" Y2="0" >
+                                                </p:ArrowLine>
+                                                <ToggleButton 
+                                                    Content="{DynamicResource Text_DownCylinder_Component}" 
+                                                      ContentStringFormat="{}{0}-2"
+                                                    />
+                                            </StackPanel>
+                                                
+                                            <StackPanel Canvas.Left="365" Canvas.Top="200">
+                                                <p:ArrowLine HorizontalAlignment="Center" 
+                                        X1="0" Y1="20"  X2="0" Y2="0" >
+                                                </p:ArrowLine>
+                                                <ToggleButton Content="{DynamicResource Text_DownCylinder_Component}"/>
+                                            </StackPanel>
+
+                                            <StackPanel Canvas.Left="505" Canvas.Top="220">
+                                                <ToggleButton Content="{DynamicResource Text_Separator_Component}"/>
+                                                <p:ArrowLine HorizontalAlignment="Center" 
+                                        X1="0" Y1="0"  X2="0" Y2="30" >
+                                                </p:ArrowLine>
+                                            </StackPanel>
+
+
+
+                                        </Canvas>
+                                        </Grid>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </materialDesign:Card>
+                        </Grid>
+
+                    </TabItem>
+                    <TabItem Style="{StaticResource MaterialDesignTabItem}" 
                          Header="{DynamicResource TabItem_MachiningStatus}" >
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/-->
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                            <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
-                                <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
-                            </Border>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <StackPanel.Resources>
-                                    <Style TargetType="materialDesign:PackIcon">
-                                        <Setter Property="Foreground" Value="#e82127"/>
-                                        <Setter Property="Margin" Value="5"/>
-                                    </Style>
-                                </StackPanel.Resources>
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/-->
+                            <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                                <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
+                                    <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
+                                </Border>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#e82127"/>
+                                            <Setter Property="Margin" Value="5"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                </StackPanel>
+                                <Border  BorderBrush="#ff9900" BorderThickness="5" CornerRadius="10"  Width="150" >
+                                    <Image Source="pack://application:,,,/image/stamp2.PNG"  Margin="5"/>
+                                </Border>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#ff9900"/>
+                                            <Setter Property="Margin" Value="5"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                    <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                                </StackPanel>
+                                <Border  BorderBrush="#25cb55" BorderThickness="5" CornerRadius="10"  Width="150">
+                                    <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
+                                </Border>
                             </StackPanel>
-                            <Border  BorderBrush="#ff9900" BorderThickness="5" CornerRadius="10"  Width="150" >
-                                <Image Source="pack://application:,,,/image/stamp2.PNG"  Margin="5"/>
-                            </Border>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <StackPanel.Resources>
-                                    <Style TargetType="materialDesign:PackIcon">
-                                        <Setter Property="Foreground" Value="#ff9900"/>
-                                        <Setter Property="Margin" Value="5"/>
-                                    </Style>
-                                </StackPanel.Resources>
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                                <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                            </StackPanel>
-                            <Border  BorderBrush="#25cb55" BorderThickness="5" CornerRadius="10"  Width="150">
-                                <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
-                            </Border>
-                        </StackPanel>
-                        <Border Grid.Row="2" Margin="10" Background="White"/>
-                        <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
-                            <Border Background="White" Margin="0,0,115,0"/>
-                            <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem" >
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="ListBoxItem">
-                                                    <Border  Margin="0,6"
+                            <Border Grid.Row="2" Margin="10" Background="White"/>
+                            <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
+                                <Border Background="White" Margin="0,0,115,0"/>
+                                <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem" >
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border  Margin="0,6"
                                                                     CornerRadius="8" Background="{Binding MachiningStatus, Converter={local:EnumToBrushesConverter}}"  d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:StampingSteelBeltViewModel}">
-                                                        <Border BorderThickness="1" CornerRadius="8" BorderBrush="Black">
-                                                            <Grid  >
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition/>
-                                                                    <RowDefinition/>
-                                                                </Grid.RowDefinitions>
-                                                                <TextBlock Text="{Binding BeltString}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" Foreground="White"/>
-                                                                <TextBlock Text="{Binding BeltNumberString}" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5,0,0,5" Foreground="White"/>
-                                                                <materialDesign:PackIcon
+                                                            <Border BorderThickness="1" CornerRadius="8" BorderBrush="Black">
+                                                                <Grid  >
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition/>
+                                                                        <RowDefinition/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <TextBlock Text="{Binding BeltString}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" Foreground="White"/>
+                                                                    <TextBlock Text="{Binding BeltNumberString}" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5,0,0,5" Foreground="White"/>
+                                                                    <materialDesign:PackIcon
                                                                                 Width="40" Height="40"
                                                                                 Kind="Qrcode" Foreground="White" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                                            </Grid>
+                                                                </Grid>
+                                                            </Border>
                                                         </Border>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel RenderTransformOrigin="0.5,0.5" >
-                                            <StackPanel.LayoutTransform>
-                                                <RotateTransform Angle="90"/>
-                                            </StackPanel.LayoutTransform>
-                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel RenderTransformOrigin="0.5,0.5" >
+                                                <StackPanel.LayoutTransform>
+                                                    <RotateTransform Angle="90"/>
+                                                </StackPanel.LayoutTransform>
+                                            </StackPanel>
 
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                            </ListBox>
-                        </Grid>
-                        <dxg:GridControl HorizontalAlignment="Center"     Grid.ColumnSpan="2"
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </Grid>
+                            <dxg:GridControl HorizontalAlignment="Center"     Grid.ColumnSpan="2"
                                         Grid.Row="3" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  MinHeight="50" 
@@ -178,8 +279,8 @@
                                     AutoGenerateColumns="None"
                                     ItemsSource="{Binding MachiningPartsVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     MaxHeight="2000"    >
-                            <dxg:GridControl.View >
-                                <dxg:TableView   
+                                <dxg:GridControl.View >
+                                    <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
@@ -202,46 +303,46 @@
                                                         AllowDrop="True"
                                                         ShowDragDropHint="False"
                                                     >
-                                </dxg:TableView>
-                            </dxg:GridControl.View>
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
+                                    </dxg:TableView>
+                                </dxg:GridControl.View>
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
 
-                        </dxg:GridControl>
-                    </Grid>
-                </TabItem>
-            </TabControl>
+                            </dxg:GridControl>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0,5"   >
+                <GD_StampingMachine_UserControls:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}" HorizontalAlignment="Left"/>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="1" Margin="0,5">
-            <GD_StampingMachine_UserControls:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}" HorizontalAlignment="Left"/>
-        </Grid>
-    </Grid>
 </UserControl>

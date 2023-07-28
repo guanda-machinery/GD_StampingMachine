@@ -399,20 +399,20 @@
             <GroupBox 
                    Name="StampingFontGroupBox"  
                     Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                <ListBox  Grid.Row="1"  
+                    <ListBox  Grid.Row="1"  
                          SelectedItem="{Binding StampingFontSelected}"  Margin="10,0"  Name="StampingFontListBox" 
-                         ItemsSource="{Binding StampingTypeVMObservableCollection}"
+                         ItemsSource="{Binding StampingTypeVMObservableCollection}"      
                          dd:DragDrop.CanDragWithMouseRightButton="True"
                          dd:DragDrop.DropTargetAdornerBrush="Transparent"
                          dd:DragDrop.IsDragSource="True"
                          dd:DragDrop.IsDropTarget="True"                   
                          dd:DragDrop.UseDefaultEffectDataTemplate="False"
                          dd:DragDrop.UseDefaultDragAdorner ="True" 
-                         dd:DragDrop.DefaultDragAdornerOpacity="1"
+                         dd:DragDrop.DefaultDragAdornerOpacity="1" 
                          dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}"
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
-                    <ListBox.ItemsPanel>
+                        <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Margin="5,0"/>
                         </ItemsPanelTemplate>

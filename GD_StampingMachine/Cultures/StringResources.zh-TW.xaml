@@ -275,12 +275,20 @@
     <sys:String x:Key="Text_MachiningStatus">加工狀態</sys:String>
 
 
+    <!--加工監控-->
+
+    <sys:String x:Key="Text_XAxis_Motor">X軸 馬達</sys:String>
+    <sys:String x:Key="Text_DoubleGuideRodPneumaticCylinder">雙導桿缸</sys:String>
+    <sys:String x:Key="Text_BlockCylinder">阻擋缸</sys:String>
+    <sys:String x:Key="Text_DownCylinder_Component">壓座組</sys:String>
+    <sys:String x:Key="Text_ShearCut_Component_Hydraulic">裁切組-油壓</sys:String>
+
+    <sys:String x:Key="Text_Separator_Component">分料組</sys:String>
+    <sys:String x:Key="Text_Feeding_Component">進料組</sys:String>
+    <sys:String x:Key="Text_QRCode_Component">QR CODE組</sys:String>
 
 
-
-
-
-<!--Method-->
+    <!--Method-->
 
     
     <sys:String x:Key="Text_notify">通知</sys:String>
