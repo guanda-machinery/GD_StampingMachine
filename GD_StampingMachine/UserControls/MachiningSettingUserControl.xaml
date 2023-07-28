@@ -90,11 +90,22 @@
 
                                             <StackPanel Canvas.Left="45" Canvas.Top="150">
 
-                                                <ToggleButton Name="XAxis_MotorToggleButton" Content="{DynamicResource Text_XAxis_Motor}"/>
-                                                <materialDesign:PopupBox Background="White"
+                                            
+                                                <materialDesign:PopupBox Background="White" BorderThickness="1" BorderBrush="Black"
                                                     Style="{StaticResource GD_PopUpBox}" Padding="5" Margin="0"
                                                                          ToggleContent="{DynamicResource Text_XAxis_Motor}"
                                                                          >
+                                                    <Border Background="White" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                        AncestorType=materialDesign:PopupBox}, Path=ActualWidth}">
+                                                        <StackPanel>
+                                                            <TextBlock Text="123" Foreground="Black"/>
+                                                            <TextBlock Text="123" Foreground="Black"/>
+                                                            <TextBlock Text="123" Foreground="Black"/>
+                                                            <TextBlock Text="123" Foreground="Black"/>
+                                                            <TextBlock Text="123" Foreground="Black"/>
+                                                            <TextBlock Text="123" Foreground="Black"/>
+                                                        </StackPanel>
+                                                    </Border>
                                                 </materialDesign:PopupBox>
                                                 
                                                 <p:ArrowLine HorizontalAlignment="Center" 

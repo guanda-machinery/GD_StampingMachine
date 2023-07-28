@@ -972,6 +972,8 @@
                                                                               IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPopupOpen, Mode=TwoWay}"
                                                                               IsTabStop="{TemplateBinding IsTabStop}"
                                                                               Style="{StaticResource GD_ToggleButton}"
+                                          Padding="{TemplateBinding Padding}"
+                                          Margin="{TemplateBinding Margin}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
                                           Background="{TemplateBinding Background}"
