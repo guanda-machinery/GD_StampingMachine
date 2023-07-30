@@ -466,6 +466,7 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
 
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="MinWidth" Value="10"/>
@@ -475,10 +476,11 @@
         <Setter Property="Height" Value="auto"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource solidclr_SilverGray}"/>
+                <Setter Property="Background" Value="SkyBlue"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="SkyBlue"/>
+                <Setter Property="Background" Value="Orange"/>
+                <Setter Property="Foreground" Value="White"/>
             </Trigger>
         </Style.Triggers>
     </Style>
