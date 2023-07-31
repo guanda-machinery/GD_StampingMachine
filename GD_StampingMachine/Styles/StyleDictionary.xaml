@@ -303,9 +303,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             BorderBrush="{TemplateBinding BorderBrush}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                        </ContentPresenter>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -448,8 +446,8 @@
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
         <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="MinWidth" Value="40"/>
-        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="MinWidth" Value="10"/>
+        <Setter Property="MinHeight" Value="10"/>
         <Setter Property="Cursor"  Value="Hand"/>
         <Setter Property="Width" Value="auto"/>
         <Setter Property="Height" Value="auto"/>
@@ -463,6 +461,30 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton_White" BasedOn="{StaticResource GD_ToggleButton}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
+
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="MinWidth" Value="10"/>
+        <Setter Property="MinHeight" Value="10"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Height" Value="auto"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="SkyBlue"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="Orange"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 
     <Style TargetType="{x:Type ToggleButton}" x:Key="GD_MainToggleButton" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
@@ -908,61 +930,18 @@
     <Style x:Key="GD_PopUpBox" TargetType="{x:Type materialDesign:PopupBox}" >
             <Setter Property="PopupUniformCornerRadius" Value="5"/>
             <Setter Property="PlacementMode" Value="BottomAndAlignCentres"/>
-        
-            <Setter Property="Template">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type materialDesign:PopupBox}">
-                        <ControlTemplate.Resources>
-                            <Style x:Key="ToggleButtonStyle" 
-                                   TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
-                                <Setter Property="MinWidth" Value="60" />
-                                <Setter Property="Opacity" Value="0.9" />
-                                <Setter Property="BorderThickness" Value="0.2" />
-                                <Setter Property="BorderBrush"
-                            Value="Black" />
-                                <Setter Property="Cursor"
-                            Value="Hand" />
-                                <Setter Property="Margin"
-                            Value="5" />
-                                <Setter Property="Padding"
-                            Value="5" />
-                                <Setter Property="Foreground"
-                            Value="Black" />
-                                <Setter Property="Background"
-                            Value="WhiteSmoke" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ButtonBase">
-                                            <Border Background="{TemplateBinding Background}"        
-                                                                                        Margin="0"
-                                                                                        CornerRadius="5"
-                                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                                        Padding="{TemplateBinding Padding}"
-                                                                                        BorderBrush="{TemplateBinding BorderBrush}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="LightSkyBlue"/>
-                                                    <Setter Property="Foreground" Value="Black"/>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter Property="Background" Value="Orange"/>
-                                                    <Setter Property="Foreground" Value="Black"/>
-                                                </Trigger>
-
-                                                <Trigger Property="IsEnabled" Value="False">
-                                                    <Setter Property="Opacity" Value="0.3"/>
-                                                </Trigger>
-
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ControlTemplate.Resources>
-                        <Grid>
-                            <ToggleButton x:Name="PART_Toggle" 
+                <ControlTemplate TargetType="{x:Type materialDesign:PopupBox}">
+                    <Grid>
+                        <ToggleButton x:Name="PART_Toggle"  Style="{StaticResource GD_ToggleButton_White}"
+                                      MinHeight="5"
+                                      Padding="{TemplateBinding Padding}"
+                                      Margin="{TemplateBinding Margin}"
                                                                               VerticalAlignment="Center"
                                                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -971,12 +950,9 @@
                                                                               Cursor="Hand"
                                                                               IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPopupOpen, Mode=TwoWay}"
                                                                               IsTabStop="{TemplateBinding IsTabStop}"
-                                                                              Style="{StaticResource GD_ToggleButton}"
-                                          Padding="{TemplateBinding Padding}"
-                                          Margin="{TemplateBinding Margin}"
+                                      Foreground="{TemplateBinding Foreground}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                          Background="{TemplateBinding Background}"
                                                                               TabIndex="{TemplateBinding TabIndex}" />
                             <materialDesign:PopupEx
                                                                                         AllowsTransparency="True"
@@ -984,7 +960,7 @@
                                                                                         IsOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPopupOpen, Mode=TwoWay}"
                                                                                         Placement="Custom"
                                                                                         PlacementTarget="{Binding ElementName=PART_Toggle}"
-                                                                                        PopupAnimation="Slide">
+                                                                                        PopupAnimation="Fade">
                                 <!--<materialDesign:PopupEx.Style>
                                                                         <Style TargetType="{x:Type materialDesign:PopupEx}" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
                                                                             <Style.Triggers>

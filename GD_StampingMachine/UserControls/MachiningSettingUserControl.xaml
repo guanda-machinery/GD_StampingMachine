@@ -88,16 +88,16 @@
 
 
 
-                                            <StackPanel Canvas.Left="45" Canvas.Top="150">
+                                            <StackPanel Canvas.Left="45" Canvas.Top="145">
 
                                             
-                                                <materialDesign:PopupBox Background="White" BorderThickness="1" BorderBrush="Black"
-                                                    Style="{StaticResource GD_PopUpBox}" Padding="5" Margin="0"
+                                                <materialDesign:PopupBox Background="White"  
+                                                                         BorderThickness="1" BorderBrush="Black"
+                                                    Style="{StaticResource GD_PopUpBox}" 
                                                                          ToggleContent="{DynamicResource Text_XAxis_Motor}"
                                                                          >
-                                                    <Border Background="White" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                        AncestorType=materialDesign:PopupBox}, Path=ActualWidth}">
-                                                        <StackPanel>
+                                                    <Border Background="White">
+                                                        <StackPanel Margin="10">
                                                             <TextBlock Text="123" Foreground="Black"/>
                                                             <TextBlock Text="123" Foreground="Black"/>
                                                             <TextBlock Text="123" Foreground="Black"/>
@@ -114,11 +114,36 @@
                                             </StackPanel>
 
                                                 <StackPanel Canvas.Left="80" Canvas.Top="90">
-                                                <ToggleButton 
-                                                    Foreground="Red"
-                                                    Content="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" 
-                                                              ContentStringFormat="{}{0}-1"
-                                                              />
+
+                                                <materialDesign:PopupBox Background="White"  
+                                                                         BorderThickness="1"  
+                                                                         Style="{StaticResource GD_PopUpBox}" 
+                                                                         >
+                                                    <materialDesign:PopupBox.ToggleContent>
+                                                        <TextBlock DataContext="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" Margin="0" Padding="0"
+                                                         Foreground="Red">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0}-1">
+                                                                    <Binding/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+
+                                                        </TextBlock>
+                                                    </materialDesign:PopupBox.ToggleContent>
+                                                    <Border Background="White">
+                                                        <StackPanel Margin="15">
+                                                            <TextBlock  
+                                                                Text="．四個滑動軸承或線性滾珠軸承可擁有較高的負載或精密度。&#x000A;．可節省許多機構設計之思考，繪圖及安裝的時間，且結構簡單。&#x000A;．與MCG*系列相比，本系列有較長行程及較大缸徑可選用。&#x000A;．ø32~ø63缸管四面均設計埋入式傳感器固定溝槽，可依實際使用需要變更傳感器安裝位置。&#x000A;．一律附有端點可調式緩衝。&#x000A;．須定期於注油孔處填充潤滑脂，以增加潤滑度及使用壽命。&#x000A;．全系列均附磁。"
+                                                                        Foreground="Black" TextWrapping="Wrap">
+
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </materialDesign:PopupBox>
+
+
+                                                    
+                                                    
 
 
                                                 <p:ArrowLine HorizontalAlignment="Center" 
