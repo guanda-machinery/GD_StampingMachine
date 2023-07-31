@@ -40,7 +40,8 @@ namespace GD_StampingMachine.ViewModels
         public ParameterSettingViewModel ParameterSettingVM { get; set; }
         public ProductSettingViewModel ProductSettingVM { get; set; }
         public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
-        public MachiningSettingViewModel MachiningSettingVM { get; set; }
+        public MachineMonitorViewModel MachineMonitorVM { get; set; }
+        public MachineFunctionViewModel MachineFunctionVM { get; set; }
     }
 
     public partial class StampingMainViewModel : BaseViewModelWithLog
@@ -255,12 +256,12 @@ namespace GD_StampingMachine.ViewModels
             }
 
 
-            MachiningSettingVM = new MachiningSettingViewModel(new MachiningSettingModel()
+            MachineMonitorVM = new MachineMonitorViewModel(new MachineMonitorModel()
             {
                 ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
             });
 
-            TypeSettingSettingVM.ChangeProjectDistributeCommand = MachiningSettingVM.ProjectDistributeVMChangeCommand;
+            TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
 
             Task.Run(() =>
@@ -387,11 +388,14 @@ namespace GD_StampingMachine.ViewModels
         public TypeSettingSettingViewModel TypeSettingSettingVM { get => StampingMain.TypeSettingSettingVM; set => StampingMain.TypeSettingSettingVM = value; }
 
         /// <summary>
-        /// 加工設定
+        /// 加工監控
         /// </summary>
-        public MachiningSettingViewModel MachiningSettingVM { get => StampingMain.MachiningSettingVM; set => StampingMain.MachiningSettingVM = value; }
+        public MachineMonitorViewModel MachineMonitorVM { get => StampingMain.MachineMonitorVM; set => StampingMain.MachineMonitorVM = value; }
 
-
+        /// <summary>
+        /// 機台功能
+        /// </summary>
+        public MachineFunctionViewModel MachineFunctionVM { get => StampingMain.MachineFunctionVM; set => StampingMain.MachineFunctionVM = value; }
 
 
 

@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace GD_StampingMachine.UserControls
 {
     /// <summary>
-    /// MachiningSettingUserControl.xaml 的互動邏輯
+    /// MachineFunctionUserControl.xaml 的互動邏輯
     /// </summary>
-    public partial class MachiningSettingUserControl : UserControl
+    public partial class MachineFunctionUserControl : UserControl
     {
-        public MachiningSettingUserControl()
+        public MachineFunctionUserControl()
         {
             InitializeComponent();
         }
-
-
     }
 }

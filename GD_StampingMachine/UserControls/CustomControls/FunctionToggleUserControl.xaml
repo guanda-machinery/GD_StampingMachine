@@ -123,13 +123,13 @@
 
 
                                             <StackPanel Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
-                                            <Image  Margin="5" d:Source="{StaticResource Logo}"
+                                            <Image  Margin="5" 
                                                     d:Width="40" d:Height="40"
-                                                    Source="{Binding ImageSource}"
+                                                    Source="{Binding ImageSource ,FallbackValue={StaticResource Logo}}"
                                                     Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"
                                                     Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"/>
                                             <TextBlock Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}" TextWrapping="Wrap"
-                                                Grid.Row="1" Text="{Binding TitleText}"   d:Text="Text"
+                                                Grid.Row="1" Text="{Binding TitleText,FallbackValue=Text}"  
                                                        HorizontalAlignment="Center"  VerticalAlignment="Center"
                                                        FontSize="{Binding FontSize , ElementName=MainFunctionToggleUserControl}" />
                                             </StackPanel>

@@ -273,8 +273,11 @@
     <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
       <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MachiningSettingUserControl.xaml.cs">
-      <DependentUpon>MachiningSettingUserControl.xaml</DependentUpon>
+    <Compile Include="UserControls\MachineFunctionUserControl.xaml.cs">
+      <DependentUpon>MachineFunctionUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MachineMonitorUserControl.xaml.cs">
+      <DependentUpon>MachineMonitorUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRUserControl.xaml.cs">
       <DependentUpon>PlateRowDiagramWithQRUserControl.xaml</DependentUpon>
@@ -310,8 +313,9 @@
     <Compile Include="ValueConverters\EnumToPackIconKindConverter.cs" />
     <Compile Include="ViewModels\BaseViewModelWithLog.cs" />
     <Compile Include="ViewModels\CultureViewModel.cs" />
+    <Compile Include="ViewModels\MachineFunctionViewModel.cs" />
     <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
-    <Compile Include="ViewModels\MachiningSettingViewModel.cs" />
+    <Compile Include="ViewModels\MachineMonitorViewModel.cs" />
     <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
     <Compile Include="ViewModels\OperatingLogViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
@@ -408,7 +412,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MachiningSettingUserControl.xaml">
+    <Page Include="UserControls\MachineFunctionUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MachineMonitorUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

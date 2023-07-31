@@ -25,8 +25,7 @@
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
              xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
-    xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
-    
+    xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     d:DesignHeight="800" d:DesignWidth="1000"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
              DataContext="{GD_ViewModels:StampingMainViewModel}" >
@@ -150,7 +149,7 @@
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
                             <Border BorderBrush="{StaticResource PrimaryHueLightForegroundBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
                                     BorderThickness="0,0,0,1.5">
-                                <TextBlock Text="{Binding MachiningSettingVM.ProjectDistributeVMSelected.ProjectDistributeName}" Margin="4,1"/>
+                                <TextBlock Text="{Binding MachineMonitorVM.ProjectDistributeVMSelected.ProjectDistributeName}" Margin="4,1"/>
                             </Border>
                         </ToggleButton>
 
@@ -199,8 +198,8 @@
 
                                 <Grid MinWidth="100" MinHeight="50" Margin="10">
                                     <ComboBox  
-                                              ItemsSource="{Binding MachiningSettingVM.ProjectDistributeVMObservableCollection}"
-                                              SelectedValue="{Binding MachiningSettingVM.ProjectDistributeVMSelected}">
+                                              ItemsSource="{Binding MachineMonitorVM.ProjectDistributeVMObservableCollection}"
+                                              SelectedValue="{Binding MachineMonitorVM.ProjectDistributeVMSelected}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ProjectDistributeName}" Foreground="White"></TextBlock>
@@ -543,13 +542,24 @@
                                 <TabItem IsSelected="{Binding ElementName=TBtn_TypeSettingSettings, Path=IsChecked}">
                                     <GD_UserControls:TypeSettingSettingUserControl DataContext="{Binding TypeSettingSettingVM}"/>
                                 </TabItem>
-                                <TabItem IsSelected="{Binding ElementName=TBtn_MachiningSettings, Path=IsChecked}">
-                                    <GD_UserControls:MachiningSettingUserControl DataContext="{Binding MachiningSettingVM}"/>
+                            <TabItem IsSelected="{Binding ElementName=TBtn_MachineMonitor, Path=IsChecked}">
+                                <GD_UserControls:MachineMonitorUserControl DataContext="{Binding MachineMonitorVM}"/>
                                 </TabItem>
-                                <TabItem IsSelected="{Binding ElementName=TBtn_MachineFunction, Path=IsChecked}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <StackPanel Margin="5">
-                                            <TextBlock Text="test"/>
+
+                            <TabItem IsSelected="{Binding ElementName=TBtn_MachineFunction, Path=IsChecked}">
+                                <GD_UserControls:MachineFunctionUserControl DataContext="{Binding MachineFunctionVM}"/>
+                            </TabItem>
+
+                            <TabItem IsSelected="{Binding ElementName=TBtn_ReturningToOriginPoint, Path=IsChecked}">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel.Resources>
+                                        <x:Array Type="GD_ViewModels:StampingTypeViewModel" x:Key="NewArray">
+                                            <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="0" StampingTypeString="A"/>
+                                            <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="1" StampingTypeString="B"/>
+                                            <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="2" StampingTypeString="C"/>
+                                        </x:Array>
+                                    </StackPanel.Resources>
+                                    <TextBlock Text="各種功能測試區 - test"/>
                                         <materialDesign:PopupBox  Padding="50"
                                                                   
                                                 Style="{StaticResource GD_PopUpBox}"
@@ -635,10 +645,48 @@
 
 
                                             </Grid>
+                                    <dxe:ComboBoxEdit  Background="Transparent"  IsPopupOpen="True"  
+                                        ApplyItemTemplateToSelectedItem="True"   
+                                        ItemsSource="{StaticResource NewArray}" Width="500"  >
+                                        <dxe:ComboBoxEdit.Resources>
+                                            <Style TargetType="dx:DXBorder" x:Key="PART_Border">
+                                                <Setter Property="Background" Value="Red"/>
+                                            </Style>
+                                        </dxe:ComboBoxEdit.Resources>
+                                        <dxe:ComboBoxEdit.EditTemplate>
+                                            <ControlTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Foreground="White"
+                                                        Text="{Binding Path=(dxe:BaseEdit.OwnerEdit).EditValue.StampingTypeString, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
+                                                    <TextBlock Text=" - "  Foreground="Black"/>
+                                                    <TextBlock Foreground="Black"
+                                                        Text="{Binding Path=(dxe:BaseEdit.OwnerEdit).SelectedItem.StampingTypeNumber, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </dxe:ComboBoxEdit.EditTemplate>
 
 
-                                        </StackPanel>
-                                    </StackPanel>
+                                        <dxe:ComboBoxEdit.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding StampingTypeString}" FontSize="18"/>
+                                                    <TextBlock Text="{Binding StampingTypeNumber}"  FontSize="12"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </dxe:ComboBoxEdit.ItemTemplate>
+                                    </dxe:ComboBoxEdit>
+                                    <TabControl 
+              materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp5"
+                    materialDesign:ColorZoneAssist.Background="{DynamicResource PrimaryHueDarkBrush}"
+                    materialDesign:ColorZoneAssist.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    materialDesign:ColorZoneAssist.Mode="Custom" TabStripPlacement="Top" 
+                    Style="{StaticResource MaterialDesignFilledTabControl}" Background="Transparent" HorizontalContentAlignment="Left">
+                                        <TabItem Style="{StaticResource MaterialDesignTabItem}" 
+                         Header="{DynamicResource TabItem_MachiningStatus}" >
+                                        </TabItem>
+                                    </TabControl>
+
+                                </StackPanel>
                                 </TabItem>
 
 
@@ -824,8 +872,8 @@
 
 
                             <GD_Customcontrols:FunctionToggleUserControl 
-                                IsEnabled="{Binding MachiningSettingVM.ProjectDistributeVMSelected, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
-                                x:Name="TBtn_MachiningSettings" 
+                                IsEnabled="{Binding MachineMonitorVM.ProjectDistributeVMSelected, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                x:Name="TBtn_MachineMonitor" 
                                 ImageSource="{StaticResource MainIcon_04_Machining_DrawingImage}"
                                 TitleText="{DynamicResource btnDescription_MachineMonitoring}"/>
 
@@ -837,6 +885,7 @@
                                 TitleText="{DynamicResource btnDescription_MachineFunction}" 
                                 />
                             <GD_Customcontrols:FunctionToggleUserControl
+                                      x:Name="TBtn_ReturningToOriginPoint" 
                                 ImageSource="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage}"
                                 TitleText="{DynamicResource btnDescription_ReturningToOriginPoint}" 
                                 />

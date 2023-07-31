@@ -17,22 +17,19 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MachiningSettingModel
+    public class MachineMonitorModel
     {
         public ProjectDistributeViewModel ProjectDistributeVM { get; set; }
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
-  
-    
     }
 
-    public class MachiningSettingViewModel : BaseViewModelWithLog
+    public class MachineMonitorViewModel : BaseViewModelWithLog
     {
 
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_Description_PunchedFontSettingViewModel");
-
-        public MachiningSettingViewModel(MachiningSettingModel _machiningSetting)
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineMonitoring");
+        public MachineMonitorViewModel(MachineMonitorModel _machineMonitor)
         {
-            MachiningSetting = _machiningSetting;
+            MachineMonitor = _machineMonitor;
             StampingSteelBeltVMObservableCollection = new();
 
             //由右到左排列 
@@ -98,14 +95,14 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private MachiningSettingModel _machiningSetting;
-        public MachiningSettingModel MachiningSetting { get => _machiningSetting ??= new MachiningSettingModel(); set => _machiningSetting = value; }
+        private MachineMonitorModel _machineMonitor;
+        public MachineMonitorModel MachineMonitor { get => _machineMonitor ??= new MachineMonitorModel(); set => _machineMonitor = value; }
         public ProjectDistributeViewModel ProjectDistributeVMSelected
         {
-            get => MachiningSetting.ProjectDistributeVM;
+            get => MachineMonitor.ProjectDistributeVM;
             set
             {
-                MachiningSetting.ProjectDistributeVM = value;
+                MachineMonitor.ProjectDistributeVM = value;
                 OnPropertyChanged();
                 GridControlRefresh();
             }
@@ -131,8 +128,8 @@ namespace GD_StampingMachine.ViewModels
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection
         {
-            get => MachiningSetting.ProjectDistributeVMObservableCollection;
-            private set { MachiningSetting.ProjectDistributeVMObservableCollection = value; OnPropertyChanged(); }
+            get => MachineMonitor.ProjectDistributeVMObservableCollection;
+            private set { MachineMonitor.ProjectDistributeVMObservableCollection = value; OnPropertyChanged(); }
         }
 
 
