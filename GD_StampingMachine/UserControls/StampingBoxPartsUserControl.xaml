@@ -23,8 +23,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <ScrollViewer>
             <ListBox ItemsSource="{Binding SeparateBoxVMObservableCollection}"  SelectedItem="{Binding SelectedSeparateBoxVM}">
@@ -122,7 +122,7 @@
 
             </ListBox>
         </ScrollViewer>
-        
+
         <dxg:GridControl 
             Margin="10,0"
                                     Grid.Column="1"

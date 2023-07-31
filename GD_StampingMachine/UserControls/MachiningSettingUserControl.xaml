@@ -353,7 +353,8 @@
                 </TabControl>
             </Grid>
             <Grid Grid.Row="1" Margin="0,5"   >
-                <GD_StampingMachine_UserControls:StampingBoxPartsUserControl DataContext="{Binding StampingBoxPartsVM}" HorizontalAlignment="Left"/>
+                <GD_StampingMachine_UserControls:StampingBoxPartsUserControl
+                    DataContext="{Binding StampingBoxPartsVM}" HorizontalAlignment="Left"/>
             </Grid>
         </Grid>
 </UserControl>
