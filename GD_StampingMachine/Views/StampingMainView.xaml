@@ -962,7 +962,7 @@
                                 ImageSource="{StaticResource MainIcon_10_SpeedMeter_DrawingImage}"
                                 TitleText="{DynamicResource btnDescription_Speed}" />
 
-                            <GD_Customcontrols:FunctionToggleUserControl
+                            <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ParameterSettingVM}"
                                      x:Name="TBtn_Alarm"
                                 ImageSource="{StaticResource MainIcon_11_Alarm_DrawingImage}"
                                 TitleText="{DynamicResource btnDescription_Alarm}" />

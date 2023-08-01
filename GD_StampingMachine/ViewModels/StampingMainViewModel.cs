@@ -365,6 +365,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+
         #region VM
         /// <summary>
         /// 關於本機
@@ -409,7 +410,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (Parameter is Button)
                 {
-                    (Parameter as Button).IsEnabled= false;
+                    (Parameter as Button).IsEnabled = false;
                 }
 
 
@@ -432,9 +433,9 @@ namespace GD_StampingMachine.ViewModels
                 {
                     try
                     {
-                       for(double i=10000;i<0;i--)
+                        for (double i = 10000; i < 0; i--)
                         {
-                            ManagerVM.Progress= i/10000;
+                            ManagerVM.Progress = i / 10000;
                         }
                         Thread.Sleep(100);
 
@@ -462,6 +463,13 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+
+        private bool IsAlert
+        {
+            get;
+            set;
+        }
+        
 
 
 
