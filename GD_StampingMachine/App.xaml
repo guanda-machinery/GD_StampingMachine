@@ -61,6 +61,24 @@
                 </Setter>
             </Style>
 
+
+            <DataTemplate x:Key="FunctionToggleDragAdorner">
+                <Grid MinHeight="50">
+                <Border  
+                                Background="Green" 
+                                     CornerRadius="{Binding CornerRadius}" >
+                    <GD_Customcontrols:FunctionToggleUserControl  
+                                ImageSource="{Binding ImageSource}"
+                                TitleText="{Binding TitleText}"
+                                 IsCheckedKind="{Binding IsCheckedKind}"
+                                 UnCheckedKind="{Binding UnCheckedKind}"
+                                ImageWidth="{Binding ImageWidth}"
+                                ImageHeight="{Binding ImageHeight}"
+                                />
+                    </Border>
+                </Grid>
+            </DataTemplate>
+
             <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                 <Setter Property="TextMargin" Value="0,0,0,4"/>
@@ -75,21 +93,7 @@
                 <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="False"/>
                 <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
                 <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
-                <Setter Property="dd:DragDrop.DragAdornerTemplate" >
-                    <Setter.Value>
-                        <DataTemplate>
-                            <Border  Background="Green" CornerRadius="{Binding CornerRadius}" >
-                                <GD_Customcontrols:FunctionToggleUserControl  
-                                ImageSource="{Binding ImageSource}"
-                                TitleText="{Binding TitleText}"
-                                 MinWidth ="0"
-                                ImageWidth="{Binding ImageWidth}"
-                                ImageHeight="{Binding ImageHeight}"
-                                />
-                            </Border>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="dd:DragDrop.DragAdornerTemplate"  Value="{StaticResource FunctionToggleDragAdorner}" />
             </Style>
             <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
 

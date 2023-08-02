@@ -1,7 +1,10 @@
 ﻿
+using DevExpress.CodeParser;
 using DevExpress.Xpf.Core.Internal;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -37,6 +40,9 @@ namespace GD_StampingMachine.UserControls.CustomControls
         /// </summary>
         public static readonly DependencyProperty TitleTextProperty = DependencyProperty.Register(nameof(TitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        
+        public static readonly DependencyProperty IsCheckedKindProperty = DependencyProperty.Register(nameof(IsCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty UnCheckedKindProperty = DependencyProperty.Register(nameof(UnCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
         public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool?), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         public static readonly DependencyProperty IsThreeStateProperty = DependencyProperty.Register(nameof(IsThreeState), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
@@ -46,9 +52,8 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new CornerRadius(0)));
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Orientation.Vertical));
         public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(nameof(TextMargin), typeof(Thickness), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new Thickness(0)));
-        public static readonly DependencyProperty ToggleButtonContentProperty = DependencyProperty.Register(nameof(ToggleButtonContent), typeof(object), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
-
-
+        //public static readonly DependencyProperty ToggleButtonContentProperty = DependencyProperty.Register(nameof(ToggleButtonContent), typeof(object), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+        //public static readonly DependencyProperty ToggleButtonContentProperty = DependencyProperty.Register(nameof(ToggleButtonContent), typeof(object), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
 
 
         public string TitleText
@@ -56,12 +61,24 @@ namespace GD_StampingMachine.UserControls.CustomControls
             get { return (string)GetValue(TitleTextProperty); }
             set { SetValue(TitleTextProperty, value); }
         }
-
+        
         public ImageSource ImageSource
         {
             get { return (ImageSource)GetValue(ImageSourceProperty); }
             set { SetValue(ImageSourceProperty, value); }
         }
+
+        public PackIconKind? IsCheckedKind
+        {
+            get { return (PackIconKind?)GetValue(IsCheckedKindProperty); }
+            set { SetValue(IsCheckedKindProperty, value); }
+        }
+        public PackIconKind? UnCheckedKind
+        {
+            get { return (PackIconKind?)GetValue(UnCheckedKindProperty); }
+            set { SetValue(UnCheckedKindProperty, value); }
+        }
+
         public bool IsThreeState
         {
             get { return (bool)GetValue(IsThreeStateProperty); }
@@ -134,7 +151,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
         }
 
 
-        public object ToggleButtonContent
+        /*public object ToggleButtonContent
         {
             get
             {
@@ -144,7 +161,10 @@ namespace GD_StampingMachine.UserControls.CustomControls
             {
                 SetValue(ToggleButtonContentProperty, value);
             }
-        }
+        }*/
+
+
+
 
 
 

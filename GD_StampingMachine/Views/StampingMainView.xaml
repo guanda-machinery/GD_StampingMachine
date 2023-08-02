@@ -644,9 +644,10 @@
 
                                     <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left" >
                                         <StackPanel.Resources>
-                                            <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-                                                <Setter Property="Margin" Value="10,5"/>
-                                                <Setter Property="TextMargin" Value="5,0,10,0"/>
+                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
+
+                                            <Setter Property="Margin" Value="10,5"/>
+                                            <Setter Property="TextMargin" Value="5,0,10,0"/>
                                                 <Setter Property="Orientation" Value="Horizontal"/>
                                             </Style>
                                         </StackPanel.Resources>
@@ -771,6 +772,11 @@
             <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}" >
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <ItemsControl  Margin="5,5,5,2">
+
+
+
+
+
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"/>
@@ -900,20 +906,10 @@
                                 TitleText="{DynamicResource btnDescription_Alarm}" />
 
                             <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding IsBrightMode}"
-                              
-                                TitleText="{DynamicResource btnDescription_BrightMode}"                    
-                                                                          >
-                                <GD_Customcontrols:FunctionToggleUserControl.ToggleButtonContent>
-                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="Brightness5" Width="40" Height="40"
-                                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_Customcontrols:FunctionToggleUserControl}
-                                            ,Path=IsChecked,Converter={dx:BooleanToVisibilityConverter}}"/>
+                                                         IsCheckedKind="Brightness5"
+                                                         UnCheckedKind="MoonAndStars"                             
+                                TitleText="{DynamicResource btnDescription_BrightMode}">
 
-                                        <materialDesign:PackIcon Kind="MoonAndStars" Width="40" Height="40"    
-                                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_Customcontrols:FunctionToggleUserControl}
-                                            ,Path=IsChecked,Converter={dx:BooleanToVisibilityConverter Invert=True}}"/>
-                                    </Grid>
-                                </GD_Customcontrols:FunctionToggleUserControl.ToggleButtonContent>
                             </GD_Customcontrols:FunctionToggleUserControl>
 
 

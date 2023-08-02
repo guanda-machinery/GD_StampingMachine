@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
+             xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" 
              BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
@@ -14,6 +14,7 @@
     <Grid
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
         <ToggleButton IsChecked="{Binding IsChecked}" IsThreeState="{Binding IsThreeState}" x:Name="Toggle">
+
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton" >
                     <Setter Property="Background" Value="Transparent"/>
@@ -49,20 +50,26 @@
                                         </Border.Style>
                                     </Border>
                                     <StackPanel Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
-                                        <Grid Margin="5">
+                                        <Grid Margin="5" MinWidth="40" MinHeight="40">
                                             <Image   Visibility="{Binding ElementName=CustomButtonContent, Path=Content, Converter={dx:NullableToVisibilityConverter Invert=True}}"
-                                                    d:Width="40" d:Height="40"
+                                                    d:Width="40" d:Height="40" 
                                                     Source="{Binding ImageSource ,FallbackValue={StaticResource Logo}}"
                                                     Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"
                                                     Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"/>
 
                                             <!--自定義方塊-->
-                                            <ContentControl Name="CustomButtonContent" 
-                                            Visibility="{Binding ElementName=CustomButtonContent, Path=Content, Converter={dx:NullableToVisibilityConverter}}"
-                                            MinWidth="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"
-                                            MinHeight="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
-                                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            Content="{Binding ToggleButtonContent , ElementName=MainFunctionToggleUserControl}"/>
+
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40">
+                                                <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                                                    <materialDesign:PackIcon Kind="{Binding IsCheckedKind}"  Width="auto" Height="auto"
+                                                                 Visibility="{Binding IsCheckedKind,Converter={dx:NullableToVisibilityConverter}}"/>
+                                                </Grid>
+                                                <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
+                                                    <materialDesign:PackIcon Kind="{Binding UnCheckedKind}" Width="auto" Height="auto"
+                                                                 Visibility="{Binding UnCheckedKind,Converter={dx:NullableToVisibilityConverter}}"/>
+                                            </Grid>
+                                        </Grid>
+
                                         </Grid>
 
                                         <TextBlock Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}" TextWrapping="Wrap"
