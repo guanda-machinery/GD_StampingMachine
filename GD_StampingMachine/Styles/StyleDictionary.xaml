@@ -10,23 +10,18 @@
 
 
 
-    <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}" x:Key="ToggleButtonTitleWhite">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-    </Style>
+
+
     <Style TargetType="materialDesign:TimePicker" BasedOn="{StaticResource MaterialDesignTimePicker}">
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
         <Setter Property="Is24Hours" Value="True"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Margin" Value="10,0"/>
         <Setter Property="materialDesign:HintAssist.Hint" Value="{DynamicResource Text_PSelectTime}"     />
         <Setter Property="FontSize" Value="16"     />
         <Setter Property="materialDesign:TextFieldAssist.TextBoxViewMargin" Value="10,0" />
-        <Setter Property="BorderBrush" Value="White"/>
-        <Style.Resources>
-            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#c4c4c4" />
-
-        </Style.Resources>
     </Style>
 
 
@@ -89,9 +84,9 @@
     </Style>
     <Style TargetType="{x:Type GroupBox}" x:Key="UnderLineStyleGroupBox">
         <Setter Property="FontSize" Value="18"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="Padding" Value="5,15,5,5"/>
-        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="BorderThickness" Value="0,2,0,0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
@@ -155,7 +150,7 @@
                                                       Padding="9" DockPanel.Dock="Top" 
                                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                                       UseLayoutRounding="True" Background="Gray" 
-                                                      Foreground="White" >
+                                                      Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" >
                                 <ContentPresenter ContentSource="Header" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </materialDesign:ColorZone>
                             <ContentPresenter Margin="{TemplateBinding Padding}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -282,7 +277,7 @@
         <Setter Property="Opacity"
                             Value="0.95" />
         <Setter Property="BorderThickness"
-                            Value="0.2" />
+                            Value="0.5" />
         <Setter Property="BorderBrush"
                             Value="Black" />
         <Setter Property="Cursor"
@@ -503,6 +498,7 @@
         </Setter>
     </Style>
 
+    
 
     <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
@@ -589,14 +585,24 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="Orange"/>
             </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="OrangeRed"/>
+            </Trigger>
             
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="True" />
-                    <Condition Property="IsChecked" Value="False" />
+                    <Condition Property="IsChecked" Value="True" />
+                    <Condition Property="IsPressed" Value="False" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="OrangeRed"/>
+                <Setter Property="Background" Value="DeepSkyBlue"/>
             </MultiTrigger>
+
+
+
+
+
             
             
 

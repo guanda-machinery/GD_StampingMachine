@@ -1,12 +1,31 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--PRIMARY-->
+
+    
+    <SolidColorBrush x:Key="DarkHueLightBrush" Color="#383838"/>
+    <SolidColorBrush x:Key="DarkHueLightForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="DarkHueMidBrush" Color="#4b4b4b"/>
+    <SolidColorBrush x:Key="DarkHueMidForegroundBrush" Color="#FAFAFA"/>
+    <SolidColorBrush x:Key="DarkHueDarkBrush" Color="#2c2c2c"/>
+    <SolidColorBrush x:Key="DarkHueDarkForegroundBrush" Color="#f0f0f0"/>
+
+    <SolidColorBrush x:Key="BrightHueLightBrush" Color="Snow"/>
+    <SolidColorBrush x:Key="BrightHueLightForegroundBrush" Color="#383838"/>
+    <SolidColorBrush x:Key="BrightHueMidBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="BrightHueMidForegroundBrush" Color="#4b4b4b"/>
+    <SolidColorBrush x:Key="BrightHueDarkBrush" Color="White"/>
+    <SolidColorBrush x:Key="BrightHueDarkForegroundBrush" Color="#2c2c2c"/>
+
     <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#383838"/>
     <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#4b4b4b"/>
-    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FAFAFA"/>
     <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2c2c2c"/>
-    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#f0f0f0"/>
+
+
+
 
 
     <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#1565c0"/>

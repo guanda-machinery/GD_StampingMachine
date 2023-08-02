@@ -6,15 +6,16 @@
             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
-             mc:Ignorable="d" Foreground="White" FontSize="14" MinWidth="70" 
-             x:Name="MainFunctionToggleUserControl" d:Background="Black"  >
+             mc:Ignorable="d" 
+             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" 
+             BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
+             FontSize="14" MinWidth="65"  
+             x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
     <Grid
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <!--<Border BorderBrush="Red" BorderThickness="1" Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter}}"/-->
-        <ToggleButton IsChecked="{Binding IsChecked}" x:Name="Toggle">
+        <ToggleButton IsChecked="{Binding IsChecked}" IsThreeState="{Binding IsThreeState}" x:Name="Toggle">
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton" >
-                    <Setter Property="IsThreeState" Value="False"/>
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
                     <Setter Property="FontSize" Value="{Binding Path=FontSize}"/>
@@ -23,32 +24,15 @@
                     <Setter Property="FontStretch" Value="{Binding Path=FontStretch}"/>
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate>
-                                <Border Name="MainBorder">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Cursor" Value="Hand"/>
-                                            <Setter Property="BorderThickness" Value="1.5"/>
-                                            <Setter Property="CornerRadius" Value="{Binding CornerRadius}"/>
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Path=IsChecked}" Value="True">
-                                                    <Setter Property="BorderBrush" Value="#cccccc" />
-                                                    <Setter Property="Background" Value="#575757" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Path=IsChecked}" Value="False">
-                                                    <Setter Property="BorderBrush" Value="Transparent" />
-                                                    <Setter Property="Background" Value="Transparent" />
-                                                </DataTrigger>
-
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <Border  >
-
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Grid>
+                                    <Border Name="MainBorder">
                                         <Border.Style>
                                             <Style TargetType="Border">
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Setter Property="CornerRadius" Value="{Binding CornerRadius}"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="BorderThickness" Value="1.5"/>
                                                 <Setter Property="Background" Value="Transparent"/>
                                                 <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
                                                 <Setter Property="CornerRadius" Value="{Binding CornerRadius}"/>
@@ -61,85 +45,80 @@
                                                         </TransformGroup>
                                                     </Setter.Value>
                                                 </Setter>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Opacity" Value="0.3"/>
-                                                    </Trigger>
-
-                                                    <EventTrigger RoutedEvent="Border.MouseEnter">
-                                                        
-                                                        <EventTrigger.Actions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.2" From="#383838" To="OrangeRed" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger.Actions>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="Border.MouseLeave">
-                                                        <EventTrigger.Actions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <!--離開-->
-                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color"   Duration="0:0:0.2" To="#383838" />
-                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" BeginTime="0:0:0.2"  Duration="0:0:0.0" From="#383838" To="Transparent" />
-                                                                    <DoubleAnimationUsingKeyFrames  Storyboard.TargetProperty="LayoutTransform.Children[1].Angle"  RepeatBehavior="1x">
-                                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
-                                                                    </DoubleAnimationUsingKeyFrames>
-
-                                                                    <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleX"  RepeatBehavior="1x"
-                                               To="1" Duration="0:0:0.1"
-                                               />
-                                                                    <DoubleAnimation   Storyboard.TargetProperty="LayoutTransform.Children[2].ScaleY"  RepeatBehavior="1x"
-                                                 To="1" Duration="0:0:0.1"
-                                               />
-
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger.Actions>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="DragEnter">
-                                                        <EventTrigger.Actions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="Orange" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger.Actions>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="DragLeave">
-                                                        <EventTrigger.Actions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" Duration="0:0:0.200" To="Transparent" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger.Actions>
-                                                    </EventTrigger>
-                                                </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-
-
-                                            <StackPanel Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
-                                            <Image  Margin="5" 
+                                    </Border>
+                                    <StackPanel Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
+                                        <Grid Margin="5">
+                                            <Image   Visibility="{Binding ElementName=CustomButtonContent, Path=Content, Converter={dx:NullableToVisibilityConverter Invert=True}}"
                                                     d:Width="40" d:Height="40"
                                                     Source="{Binding ImageSource ,FallbackValue={StaticResource Logo}}"
                                                     Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"
                                                     Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"/>
-                                            <TextBlock Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}" TextWrapping="Wrap"
+
+                                            <!--自定義方塊-->
+                                            <ContentControl Name="CustomButtonContent" 
+                                            Visibility="{Binding ElementName=CustomButtonContent, Path=Content, Converter={dx:NullableToVisibilityConverter}}"
+                                            MinWidth="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"
+                                            MinHeight="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Content="{Binding ToggleButtonContent , ElementName=MainFunctionToggleUserControl}"/>
+                                        </Grid>
+
+                                        <TextBlock Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}" TextWrapping="Wrap"
                                                 Grid.Row="1" Text="{Binding TitleText,FallbackValue=Text}"  
                                                        HorizontalAlignment="Center"  VerticalAlignment="Center"
                                                        FontSize="{Binding FontSize , ElementName=MainFunctionToggleUserControl}" />
-                                            </StackPanel>
-                              
-                                    </Border>
-                                </Border>
+                                    </StackPanel>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger  Property="IsChecked" Value="True">
+                                        <Setter TargetName="MainBorder" Property="BorderBrush" Value="{Binding BorderBrush}" />
+                                        <Setter TargetName="MainBorder" Property="Background" Value="Gray"/>
+                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
+                                    </Trigger>
+                                    <Trigger  Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="MainBorder" Property="Background" Value="Orange"/>
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="True" />
+                                            <Condition Property="IsChecked" Value="True" />
+                                            <Condition Property="IsPressed" Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
+                                        <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
+                                    </MultiTrigger>
+                                    <EventTrigger RoutedEvent="DragEnter">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard Storyboard.TargetName="MainBorder">
+                                                    <ColorAnimation 
+                                                            Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="Orange" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="DragLeave">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard Storyboard.TargetName="MainBorder">
+                                                    <ColorAnimation 
+                                                        Storyboard.TargetProperty="Background.Color" Duration="0:0:0.500" To="Transparent"  />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
+
+
                 </Style>
             </ToggleButton.Style>
         </ToggleButton>

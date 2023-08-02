@@ -30,6 +30,7 @@ using System.Windows;
 using DevExpress.Mvvm;
 using System.Windows.Controls;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using System.Windows.Media;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -368,20 +369,33 @@ namespace GD_StampingMachine.ViewModels
         public bool IsBrightMode 
         {get => _isBrightMode;
             set
-            { _isBrightMode = value;
+            {
+                _isBrightMode = value;
+                if (_isBrightMode)
+                {
+                    Application.Current.Resources["PrimaryHueLightBrush"] = Application.Current.TryFindResource("BrightHueLightBrush");
+                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("BrightHueLightForegroundBrush");
+                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("BrightHueMidBrush");
+                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("BrightHueMidForegroundBrush");
+                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("BrightHueDarkBrush");
+                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("BrightHueDarkForegroundBrush");
+                }
+                else
+                {
+                    Application.Current.Resources["PrimaryHueLightBrush"] = (SolidColorBrush)Application.Current.TryFindResource("DarkHueLightBrush");
+                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("DarkHueLightForegroundBrush");
+                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("DarkHueMidBrush");
+                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("DarkHueMidForegroundBrush");
+                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
+                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
+                }
+
+
+
                 OnPropertyChanged();
             }
         } 
 
-        public RelayCommand BrightDarkModeChangeCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                Debugger.Break();
-                var color = Application.Current.TryFindResource("PrimaryHueLightBrush");
-
-            });
-        }
 
 
 

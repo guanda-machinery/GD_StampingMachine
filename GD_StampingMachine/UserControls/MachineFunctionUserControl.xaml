@@ -62,7 +62,8 @@
                                 </Canvas.Resources>
 
                                 <StackPanel Canvas.Left="130" Canvas.Top="35">
-                                    <ToggleButton Content="{DynamicResource Text_Feeding_Component}"/>
+                                    <ToggleButton 
+                                        Content="{DynamicResource Text_Feeding_Component}"/>
                                 </StackPanel>
                                 <StackPanel Canvas.Left="230" Canvas.Top="35">
                                     <ToggleButton Content="{DynamicResource Text_QRCode_Component}"/>
@@ -194,13 +195,13 @@
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
                         <Setter Property="Margin" Value="5"/>
                         <Setter Property="Padding" Value="5"/>
-                        <Setter Property="Foreground" Value="{StaticResource PrimaryHueDarkForegroundBrush}"/>
-                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryHueDarkForegroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                     </Style>
                 </StackPanel.Resources>
                 
                 <GroupBox Header="{DynamicResource Text_Feeding_Component}">
-                    <StackPanel Orientation="Horizontal">
+                    <WrapPanel Orientation="Horizontal">
                         <GroupBox Header="{DynamicResource Text_XAxis_Motor}">
                             <materialDesign:ColorZone CornerRadius="2" Padding="1">
                                 <StackPanel Orientation="Horizontal">
@@ -216,7 +217,7 @@
 
                         </GroupBox>
 
-                        <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}">
+                        <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1">
 
                             <materialDesign:ColorZone CornerRadius="2" Padding="1">
                                 <Grid >
@@ -229,8 +230,17 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Kind="AlertCircleOutline" Foreground="{StaticResource PrimaryHueDarkBrush}"/>
+                                    <materialDesign:PackIcon Margin="2"  Grid.Column="0" Grid.Row="0"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
+
+                                    <materialDesign:PackIcon Margin="2"   Grid.Column="0" Grid.Row="1"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
+
+                                    <materialDesign:PackIcon Margin="2"   Grid.Column="0" Grid.Row="2"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
 
                                     <RadioButton Grid.Column="1" Grid.Row="0"
                                         Style="{StaticResource Sieg_RadioButton}" 
@@ -246,23 +256,22 @@
                                 </Grid>
                             </materialDesign:ColorZone>
                         </GroupBox>
+                        <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
+               
+                        </GroupBox>
 
 
-
-                    </StackPanel>
+                    </WrapPanel>
                 </GroupBox>
 
-                <GroupBox Header="{DynamicResource Text_Stamping_Component}" Margin="5"
-                      Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="White" BorderBrush="White">
+                <GroupBox Header="{DynamicResource Text_Stamping_Component}">
 
                 </GroupBox>
 
-                <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Margin="5"
-                      Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="White" BorderBrush="White">
+                <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" >
 
                 </GroupBox>
-                <GroupBox Header="{DynamicResource Text_Separator_Component}" Margin="5"
-                      Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="White" BorderBrush="White">
+                <GroupBox Header="{DynamicResource Text_Separator_Component}">
 
                 </GroupBox>
             </StackPanel>

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d"  Foreground="#E82127" Height="24" >
+             mc:Ignorable="d"  Foreground="#E82127" Height="24">
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -15,7 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <RepeatButton Margin="5,0"
+        <RepeatButton Margin="5,0" BorderBrush="{Binding RepeatButtonForeground}" Foreground="{Binding RepeatButtonForeground}"
             Click="RepeatButton_Minus_Click" Style="{StaticResource SiegCustomRepeatButton}"    
                        Height="auto"  Padding="0"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">
             <materialDesign:PackIcon Kind="MinusThick" />
@@ -23,7 +23,8 @@
         <Slider Grid.Column="1"  VerticalAlignment="Center" x:Name="MainSlider" MinWidth="50"  Height="auto" FontSize="12"
                 Margin="5,0" Style="{StaticResource CustomSlider}"  
                 Value="{Binding MainSilderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           Foreground="{Binding Foreground}" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
+                           Foreground="{Binding Foreground}" 
+                Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
                             Minimum="{Binding Minimum}"
                             Maximum="{Binding Maximum}"
                             TickFrequency="{Binding TickFrequency}" 
@@ -33,6 +34,7 @@
         <TextBlock FontSize="12"  Foreground="Black"
             Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=MainSlider, Path=Value}"></TextBlock>
         <RepeatButton Margin="5,0" Click="RepeatButton_Plus_Click" Style="{StaticResource SiegCustomRepeatButton}"  
+                      BorderBrush="{Binding RepeatButtonForeground}" Foreground="{Binding RepeatButtonForeground}"
                       Grid.Column="2" Padding="0"    Height="auto"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">
             <materialDesign:PackIcon Kind="PlusBold" />
         </RepeatButton>

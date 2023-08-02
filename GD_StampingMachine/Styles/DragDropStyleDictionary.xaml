@@ -70,12 +70,12 @@
 
     <Style TargetType="Border" x:Key="DragDropBorderStyle" BasedOn="{StaticResource DragDropBorderBackgroundChangeStyle}">
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="CornerRadius" Value="3"/>
         <Setter Property="Width" Value="40"/>
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"/>
 
-    </Style> 
+    </Style>
     <Style TargetType="Border" x:Key="SelectedBorder">
         <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>
@@ -249,13 +249,15 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder">
-                            <Border Style="{StaticResource SelectedBorder}"  CornerRadius="{Binding ElementName=MainBorder, Path=CornerRadius}">
-                    <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                            <Border Style="{StaticResource SelectedBorder}" 
+                                    CornerRadius="{Binding ElementName=MainBorder, Path=CornerRadius}">
+                                    <TextBlock Text="{Binding StampingTypeString}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                 </Border>
             </Border>
             <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
-                <TextBlock Text="NO." FontSize="10" Foreground="White"/>
-                <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10" Foreground="White"/>
+                                <TextBlock Text="NO." FontSize="10" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
 
                 <!-- <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Converter={GD_Common:ContainerToIndexConverter}, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="White"/>-->
             </StackPanel>
@@ -279,7 +281,7 @@
                             <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder" >
                                 <Border  Style="{StaticResource SelectedBorder}" CornerRadius="{Binding ElementName=MainBorder, Path=CornerRadius}">
                                     <TextBox Text="{Binding StampingTypeString}"
-                                        FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" BorderThickness="0" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                        FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" BorderThickness="0" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                     <!--    <TextBox.Text>
                                             <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
                                                 <Binding.ValidationRules>
@@ -291,8 +293,8 @@
                                 </Border>
                             </Border>
                             <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0" Width="100">
-                                <TextBlock  Text="{Binding StampingTypeUseCount}" VerticalAlignment="Center" FontSize="14" Width="50" TextAlignment="Right"  Foreground="White"/>
-                                <TextBlock  Text="{DynamicResource Text_Count2}" VerticalAlignment="Center" FontSize="16"  Foreground="White"/>
+                                <TextBlock  Text="{Binding StampingTypeUseCount}" VerticalAlignment="Center" FontSize="14" Width="50" TextAlignment="Right"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <TextBlock  Text="{DynamicResource Text_Count2}" VerticalAlignment="Center" FontSize="16"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                             </StackPanel>
                         </Grid>
                     </Border>

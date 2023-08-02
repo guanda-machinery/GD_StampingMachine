@@ -22,7 +22,8 @@
             </Style>
             <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
                 <Setter Property="FontSize" Value="16"/>
-                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"  Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Width" Value="300"/>
                 <Setter Property="Margin" Value="10,0"/>
@@ -36,12 +37,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border BorderThickness="0,0,0,1" BorderBrush="White">
-            <Border.Resources>
-                <Style TargetType="TextBlock" BasedOn="{StaticResource ToggleButtonTitleWhite}">
-                </Style>
-            </Border.Resources>
-            
+        <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}">
+
             
             <StackPanel Orientation="Horizontal" Margin="0,10,0,5">
 
@@ -737,7 +734,7 @@
                                 </StackPanel>
 
 
-                                <materialDesign:TimePicker Grid.Row="1"  Grid.Column="1"  
+                                <materialDesign:TimePicker Grid.Row="1"  Grid.Column="1" 
                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
                                                           SelectedTime="{Binding TimingSetting.RestTime, UpdateSourceTrigger=PropertyChanged}"                     />
 
@@ -754,6 +751,7 @@
                                     <TextBlock Text="："/>
                                 </StackPanel>
                                 <ComboBox  Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint=""  
+
                                                                        ItemsSource="{Binding CharactersCountCollection}"
                                                                        SelectedValue="{Binding TimingSetting.RepeatCount}">
 
@@ -786,15 +784,12 @@
                                 <StackPanel Orientation="Horizontal" Margin="40,0">
                                     <StackPanel.Resources>
                                             <Style TargetType="ToggleButton" BasedOn="{StaticResource SiegToggleButton_UnderLine}">
-                                            <Setter Property="Cursor" Value="Hand"/>
-                                            <Style.Resources>
-                                                <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="White"/>
-                                            </Style.Resources>
-                                        </Style>
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Style>
                                     </StackPanel.Resources>
-                                        <ToggleButton  Content="{DynamicResource Text_SingleSetting}"
+                                        <ToggleButton  Content="{DynamicResource Text_SingleSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                      IsChecked="{Binding IsSingleSetting}"/>
-                                        <ToggleButton  Content="{DynamicResource Text_UnifiedSetting}"
+                                        <ToggleButton  Content="{DynamicResource Text_UnifiedSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                      IsChecked="{Binding IsUnifiedSetting}"
                                                      />
                                 </StackPanel>
@@ -811,10 +806,10 @@
                                     Grid.Row="0" Grid.Column="1" 
                                     MainSilderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>
-                                <CheckBox Margin="0,5" VerticalAlignment="Center"
+                                <CheckBox Margin="0.5,5" VerticalAlignment="Center"
                                                                 Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" IsChecked="True"
                                                                       Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" 
-                                          Content="{DynamicResource Text_Box_AllSetting}" Foreground="White" FontSize="16" >
+                                          Content="{DynamicResource Text_Box_AllSetting}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" FontSize="16" >
                                     
                                 </CheckBox>
                                 <ListBox Grid.Row="1" Grid.ColumnSpan="2"  SelectionMode="Multiple" 
@@ -833,15 +828,16 @@
                                                             </Grid.ColumnDefinitions>
                                                             <CheckBox Margin="0,5" VerticalAlignment="Center"
                                                                 Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" 
-                                                                      Foreground="LightGray"
+                                                                     Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                                       IsChecked="{Binding BoxIsEnabled}">
                                                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-3,0,0" >
-                                                                <TextBlock Text="{DynamicResource Text_Box}" Foreground="White" FontSize="16"/>
-                                                                <TextBlock  Text="{Binding BoxIndex}" VerticalAlignment="Center" FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="White"/>
+                                                                    <TextBlock Text="{DynamicResource Text_Box}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" FontSize="16"/>
+                                                                <TextBlock  Text="{Binding BoxIndex}" VerticalAlignment="Center" 
+                                                                            FontSize="16" Margin="2,0" TextAlignment="Right" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
                                                                 </StackPanel>
                                                             </CheckBox>
                                                             <Grid Grid.Column="1" IsEnabled="{Binding BoxIsEnabled}">
-                                                            <GD_UserControls:TriggerSliderUserControl 
+                                                            <GD_UserControls:TriggerSliderUserControl  
                                                                 IsEnabled="{Binding BoxSliderIsEnabled}"
                                                              MainSilderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
                                                             </Grid>

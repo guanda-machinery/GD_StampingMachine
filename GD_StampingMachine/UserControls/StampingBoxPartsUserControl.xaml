@@ -34,6 +34,7 @@
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
+                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
@@ -47,7 +48,7 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </StackPanel.Style>
-                                        <Border BorderThickness="1" BorderBrush="White"
+                                        <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                                                     CornerRadius="7.5" Padding="0" Margin="10,5"
                                                                                     Width="auto"
                                                                                     Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
@@ -76,9 +77,6 @@
                                                             </EventTrigger.Actions>
                                                         </EventTrigger>
                                                     </Style.Triggers>
-
-
-
                                                 </Style>
                                             </Border.Style>
                                             <Border  CornerRadius="7.5"  Margin="0">
@@ -95,23 +93,37 @@
                                                     </Style>
                                                 </Border.Style>
                                                 <Grid Margin="5">
+                                                    <Grid.Resources>
+                                                        <Style TargetType="TextBlock" >
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsSelected}" Value="True">
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Resources>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="auto"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{DynamicResource Text_Box}" Foreground="White" 
-                                                                                   FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock  Name="Text_Box_TexBlock"
+                                                        Text="{DynamicResource Text_Box}" 
+                                                                                   FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                                    </TextBlock>
                                                     <TextBlock  Grid.Column="1"       
                                                                                 FontSize="12" 
-                                                                                                    Text="{Binding BoxIndex}"  Foreground="White" 
+                                                                                                    Text="{Binding BoxIndex}"  
                                                                                                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Grid>
                                             </Border>
                                         </Border>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding BoxPieceValue}" Foreground="White" />
-                                            <TextBlock Text="/" Foreground="White" />
-                                            <TextBlock Text="{Binding BoxSliderValue}" Foreground="White" />
+                                            <TextBlock Text="{Binding BoxPieceValue}" />
+                                            <TextBlock Text="/" />
+                                            <TextBlock Text="{Binding BoxSliderValue}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </ControlTemplate>

@@ -7,9 +7,12 @@
                     xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary">
 
     <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}" x:Key="WhiteMDComboBox">
-        <Setter Property="Foreground" Value="White"/>
+
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="BorderBrush" Value="White"/>
         <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
         <Setter Property="Width" Value="300"/>
         <Setter Property="Margin" Value="10,0"/>

@@ -58,6 +58,13 @@ namespace GD_StampingMachine.UserControls
             set => SetValue(TickFrequencyProperty, value);
         }
 
+        public SolidColorBrush RepeatButtonForeground
+        {
+            get => (SolidColorBrush)GetValue(RepeatButtonForegroundProperty);
+            set => SetValue(RepeatButtonForegroundProperty, value);
+        }
+
+
 
         public static readonly DependencyProperty MainSilderValueProperty = DependencyProperty.Register(
          nameof(MainSilderValue),
@@ -82,6 +89,14 @@ namespace GD_StampingMachine.UserControls
          typeof(double),
          typeof(TriggerSliderUserControl),
          new PropertyMetadata(1.0));
+
+        public static readonly DependencyProperty RepeatButtonForegroundProperty = DependencyProperty.Register(
+ nameof(RepeatButtonForeground),
+ typeof(SolidColorBrush),
+ typeof(TriggerSliderUserControl),
+ new PropertyMetadata(Brushes.White));
+        
+
 
 
     }

@@ -10,6 +10,10 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineFunction");
 
+        private bool _isSelected;
+
+
+
 
 
 
