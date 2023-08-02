@@ -281,6 +281,8 @@
     <sys:String x:Key="Text_DoubleGuideRodPneumaticCylinder">雙導桿缸</sys:String>
     <sys:String x:Key="Text_BlockCylinder">阻擋缸</sys:String>
     <sys:String x:Key="Text_DownCylinder_Component">壓座組</sys:String>
+
+    <sys:String x:Key="Text_Stamping_Component">鋼印組</sys:String>
     <sys:String x:Key="Text_ShearCut_Component_Hydraulic">裁切組-油壓</sys:String>
 
     <sys:String x:Key="Text_Separator_Component">分料組</sys:String>

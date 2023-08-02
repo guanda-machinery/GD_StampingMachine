@@ -8,8 +8,7 @@
     <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
 
-    
-    
+
     <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#1565c0"/>
     <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#5e92f3"/>

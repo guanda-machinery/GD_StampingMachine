@@ -327,7 +327,8 @@ namespace GD_StampingMachine.ViewModels
         {
             get => DateTime.Now;
         }
-
+     
+        [JsonIgnore]
         public RelayCommand OpenProjectFileCommand
         {
             get
@@ -360,6 +361,26 @@ namespace GD_StampingMachine.ViewModels
                     }
                 });
             }
+        }
+
+
+        private bool _isBrightMode = false;
+        public bool IsBrightMode 
+        {get => _isBrightMode;
+            set
+            { _isBrightMode = value;
+                OnPropertyChanged();
+            }
+        } 
+
+        public RelayCommand BrightDarkModeChangeCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                Debugger.Break();
+                var color = Application.Current.TryFindResource("PrimaryHueLightBrush");
+
+            });
         }
 
 

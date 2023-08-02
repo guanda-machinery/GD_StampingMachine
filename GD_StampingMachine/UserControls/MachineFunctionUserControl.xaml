@@ -13,7 +13,6 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"                
-             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
@@ -21,11 +20,11 @@
              xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
              xmlns:sys="clr-namespace:System;assembly=System.Runtime" 
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
-             d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:MachineFunctionViewModel}"
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
 
              >
-    <StackPanel>
-        <Grid >
+    <Grid >
+        <StackPanel>
             <materialDesign:Card Background="Transparent" Padding="10"
                             materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -190,6 +189,83 @@
                     </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
-        </Grid>
-    </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Padding" Value="5"/>
+                        <Setter Property="Foreground" Value="{StaticResource PrimaryHueDarkForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryHueDarkForegroundBrush}"/>
+                    </Style>
+                </StackPanel.Resources>
+                
+                <GroupBox Header="{DynamicResource Text_Feeding_Component}">
+                    <StackPanel Orientation="Horizontal">
+                        <GroupBox Header="{DynamicResource Text_XAxis_Motor}">
+                            <materialDesign:ColorZone CornerRadius="2" Padding="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <RepeatButton Style="{StaticResource AxisMoveRepeatButton}"
+                                             Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}"/>
+                                    <Border Margin="5,0"/>
+                                    <RepeatButton Style="{StaticResource AxisMoveRepeatButton}"   
+                                              Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}"/>
+                            </StackPanel>
+                                </materialDesign:ColorZone>
+
+
+
+                        </GroupBox>
+
+                        <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}">
+
+                            <materialDesign:ColorZone CornerRadius="2" Padding="1">
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Kind="AlertCircleOutline" Foreground="{StaticResource PrimaryHueDarkBrush}"/>
+
+                                    <RadioButton Grid.Column="1" Grid.Row="0"
+                                        Style="{StaticResource Sieg_RadioButton}" 
+                                             Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}"/>
+
+                                    <RadioButton Grid.Column="1" Grid.Row="1"
+                                        Style="{StaticResource Sieg_RadioButton}" 
+                                             Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
+
+                                    <RadioButton Grid.Column="1" Grid.Row="2"
+                                        Style="{StaticResource Sieg_RadioButton}"  
+                                              Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}"/>
+                                </Grid>
+                            </materialDesign:ColorZone>
+                        </GroupBox>
+
+
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="{DynamicResource Text_Stamping_Component}" Margin="5"
+                      Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="White" BorderBrush="White">
+
+                </GroupBox>
+
+                <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Margin="5"
+                      Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="White" BorderBrush="White">
+
+                </GroupBox>
+                <GroupBox Header="{DynamicResource Text_Separator_Component}" Margin="5"
+                      Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="White" BorderBrush="White">
+
+                </GroupBox>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </UserControl>

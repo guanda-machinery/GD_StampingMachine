@@ -25,80 +25,11 @@
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
              xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
-    xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     d:DesignHeight="800" d:DesignWidth="1000"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
              DataContext="{GD_ViewModels:StampingMainViewModel}" >
-    <UserControl.Resources>
-        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
-            <Setter Property="Width" Value="45"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Padding" Value="0"/>
-        </Style>
-        <Style TargetType="GD_Customcontrols:FunctionToggleButton" >
-            <Setter Property="ProgressBarCollapsed" Value="Collapsed"/>
-            <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
-            <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
-            <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
-            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="False"/>
-            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="False"/>
-            <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
-            <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
-            <Setter Property="dd:DragDrop.DragAdornerTemplate" >
-                <Setter.Value>
-                    <DataTemplate>
-                        <Border DataContext="{Binding}">
-                            <ToggleButton Style="{StaticResource GD_ToggleButton}" Width="45" Height="45" Padding="0" IsChecked="{Binding IsChecked}">
-                                <TextBlock Text="{Binding ButtonContentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </ToggleButton>
-                        </Border>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
-
-            <Setter Property="TextMargin" Value="0,0,0,4"/>
-            <Setter Property="Margin" Value="2.5,0"/>
-            <Setter Property="CornerRadius" Value="5"/>
-            <Setter Property="ImageWidth" Value="40"/>
-            <Setter Property="ImageHeight" Value="40"/>
-            <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Transparent"/>
-            <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
-            <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
-            <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="False"/>
-            <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="False"/>
-            <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
-            <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
-            <Setter Property="dd:DragDrop.DragAdornerTemplate" >
-                <Setter.Value>
-                    <DataTemplate>
-                        <Border  Background="OrangeRed" CornerRadius="{Binding CornerRadius}" >
-                            <GD_Customcontrols:FunctionToggleUserControl  
-                                ImageSource="{Binding ImageSource}"
-                                TitleText="{Binding TitleText}"
-                                ImageWidth="{Binding ImageWidth}"
-                                ImageHeight="{Binding ImageHeight}"
-                                />
-                        </Border>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
-
-        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
-        <Style TargetType="ComboBox" BasedOn="{StaticResource GD_White_ComboBox}"/>
-        <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
-            <Setter Property="Placement" Value="MousePoint"/>
-            <Setter Property="PopupAnimation"  Value="Fade"/>
-        </Style>
-
-    </UserControl.Resources>
-
-
 
     <materialDesign:DialogHost CloseOnClickAway="True">
         <materialDesign:DialogHost.IsOpen>
@@ -966,6 +897,17 @@
                                      x:Name="TBtn_Alarm"
                                 ImageSource="{StaticResource MainIcon_11_Alarm_DrawingImage}"
                                 TitleText="{DynamicResource btnDescription_Alarm}" />
+
+                            <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding IsBrightMode}"
+                                ImageSource="{StaticResource Logo}"
+                                TitleText="{DynamicResource btnDescription_Alarm}" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding BrightDarkModeChangeCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </GD_Customcontrols:FunctionToggleUserControl>
+
 
 
                             <StackPanel Visibility="Collapsed">

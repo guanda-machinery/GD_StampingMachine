@@ -333,6 +333,7 @@
     <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
     <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
     <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
+    <Compile Include="ValueConverters\InvertBooleanConverter.cs" />
     <Compile Include="ValueConverters\ItemSourceCountIsZeroToVisibility.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\FormatStringConverter.cs" />
