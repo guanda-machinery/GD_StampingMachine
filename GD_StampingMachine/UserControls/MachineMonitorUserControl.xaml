@@ -88,9 +88,9 @@
                         <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
                     </Border>
                 </StackPanel>
-                <Border Grid.Row="2" Margin="10" Background="White"/>
+                <Border Grid.Row="2" Margin="10" Background="{DynamicResource PrimaryHueLightForegroundBrush}"/>
                 <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
-                    <Border Background="White" Margin="0,0,115,0"/>
+                    <Border Background="{DynamicResource PrimaryHueLightForegroundBrush}" Margin="0,0,115,0"/>
                     <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" >

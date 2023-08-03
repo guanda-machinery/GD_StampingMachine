@@ -17,7 +17,7 @@ namespace GD_StampingMachine.Method
 
         public override void DragOver(IDropInfo dropInfo)
         {
-            if(dropInfo.DragInfo == null)
+            if (dropInfo.DragInfo == null)
             {
                 dropInfo.NotHandled = false;
                 dropInfo.Effects = System.Windows.DragDropEffects.None;
@@ -29,7 +29,7 @@ namespace GD_StampingMachine.Method
             {
                 dropInfo.DropTargetAdorner = typeof(DropTargetHighlightAdorner);
                 dropInfo.NotHandled = true;
-                dropInfo.Effects = System.Windows.DragDropEffects.Copy;
+                dropInfo.Effects = System.Windows.DragDropEffects.Move;
             }
             else
             {

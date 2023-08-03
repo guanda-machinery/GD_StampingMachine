@@ -20,7 +20,7 @@ namespace GD_StampingMachine
                 switch(SteelBeltStampingStatus)
                 {
                     case (SteelBeltStampingStatusEnum.None):
-                        return System.Windows.Media.Brushes.Transparent;
+                        return (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFF");
                     case (SteelBeltStampingStatusEnum.QRCarving):
                         return (SolidColorBrush)new BrushConverter().ConvertFrom("#e82127");
                     case (SteelBeltStampingStatusEnum.Stamping): 

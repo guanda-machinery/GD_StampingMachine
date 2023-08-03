@@ -18,7 +18,6 @@ namespace GD_CommonLibrary
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             var ValueList = values.ToList();
-
             if(ValueList.Contains(DependencyProperty.UnsetValue))
             {
                 //Debugger.Break();

@@ -265,6 +265,9 @@ namespace GD_StampingMachine.ViewModels
             TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
 
+            MachineFunctionVM = new MachineFunctionViewModel();
+
+
             Task.Run(() =>
             {
                 while (true)

@@ -36,8 +36,6 @@ namespace GD_CommonLibrary.Method
 
         public virtual void Drop(IDropInfo dropInfo)
         {
-
-
             // The default drop handler don't know how to set an item's group. You need to explicitly set the group on the dropped item like this.
             //沒拿東西
             if (dropInfo?.DragInfo == null)

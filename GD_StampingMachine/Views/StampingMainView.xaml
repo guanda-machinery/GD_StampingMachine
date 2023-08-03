@@ -642,30 +642,30 @@
                                                         BlurRadius="10"/>
                                     </materialDesign:ColorZone.Effect>
 
-                                    <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left" >
-                                        <StackPanel.Resources>
+                                    <ItemsControl VerticalAlignment="Top"  HorizontalAlignment="Left" >
+                                    <ItemsControl.Resources>
                                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
 
                                             <Setter Property="Margin" Value="10,5"/>
                                             <Setter Property="TextMargin" Value="5,0,10,0"/>
                                                 <Setter Property="Orientation" Value="Horizontal"/>
                                             </Style>
-                                        </StackPanel.Resources>
+                                        </ItemsControl.Resources>
 
                                         <GD_Customcontrols:FunctionToggleUserControl 
                                         x:Name="TBtn_MachineInfo" 
                                         ImageSource="{StaticResource MainIcon_12_About_DrawingImage}"
-                                        TitleText="{DynamicResource btnDescription_MachineInfo}"      />
+                                        UnCheckedTitleText="{DynamicResource btnDescription_MachineInfo}"      />
 
                                         <GD_Customcontrols:FunctionToggleUserControl 
                                         x:Name="TBtn_PunchedFontSetting" 
                                         ImageSource="{StaticResource MainIcon_13_MoldFont_DrawingImage}"
-                                        TitleText="{DynamicResource btnDescription_PunchedFontSetting}"                                />
+                                        UnCheckedTitleText="{DynamicResource btnDescription_PunchedFontSetting}"                                />
 
                                         <GD_Customcontrols:FunctionToggleUserControl 
                                         x:Name="TBtn_ParameterSetting" 
                                         ImageSource="{StaticResource MainIcon_14_Parameter_DrawingImage}" 
-                                        TitleText="{DynamicResource btnDescription_ParameterSetting}"           >
+                                        UnCheckedTitleText="{DynamicResource btnDescription_ParameterSetting}"           >
                                             <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
                                                 <MultiBinding Converter="{GD_Common:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                     <MultiBinding.Bindings>
@@ -689,8 +689,8 @@
                                         <GD_Customcontrols:FunctionToggleUserControl  
                                         x:Name="TBtn_SoftwareUpdate" 
                                         ImageSource="{StaticResource MainIcon_15_Update_DrawingImage}"
-                                        TitleText="{DynamicResource btnDescription_SoftwareUpdate}"                     />
-                                    </StackPanel>
+                                        UnCheckedTitleText="{DynamicResource btnDescription_SoftwareUpdate}"                     />
+                                    </ItemsControl>
                                 </materialDesign:ColorZone>
                             </materialDesign:DrawerHost.LeftDrawerContent>
 
@@ -776,7 +776,6 @@
 
 
 
-
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"/>
@@ -786,7 +785,7 @@
                             <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_MainSysyem"
                                 ImageSource="{StaticResource MainIcon_01_MainSystem_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_MainSystem}"
+                                UnCheckedTitleText="{DynamicResource btnDescription_MainSystem}"
                                 />
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
@@ -794,14 +793,14 @@
                             <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_ProductSettings"
                                 ImageSource="{StaticResource MainIcon_02_Production_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_ProductSettings}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_ProductSettings}" 
                                 />
 
 
                             <GD_Customcontrols:FunctionToggleUserControl
                                 x:Name="TBtn_TypeSettingSettings" 
                                  ImageSource="{StaticResource MainIcon_03_TypeSetting_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_LayoutSettings}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_LayoutSettings}" 
                                 />
 
 
@@ -809,24 +808,24 @@
                                 IsEnabled="{Binding MachineMonitorVM.ProjectDistributeVMSelected, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
                                 x:Name="TBtn_MachineMonitor" 
                                 ImageSource="{StaticResource MainIcon_04_Machining_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_MachineMonitoring}"/>
+                                UnCheckedTitleText="{DynamicResource btnDescription_MachineMonitoring}"/>
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
                             <GD_Customcontrols:FunctionToggleUserControl 
                                      x:Name="TBtn_MachineFunction" 
                                 ImageSource="{StaticResource MainIcon_05_Machine_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_MachineFunction}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_MachineFunction}" 
                                 />
                             <GD_Customcontrols:FunctionToggleUserControl
                                       x:Name="TBtn_ReturningToOriginPoint" 
                                 ImageSource="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_ReturningToOriginPoint}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_ReturningToOriginPoint}" 
                                 />
                         
                             <GD_Customcontrols:FunctionToggleUserControl 
                             ImageSource="{StaticResource MainIcon_07_Lamp_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_LightUpSwitch}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_LightUpSwitch}" 
                                 />
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
@@ -835,14 +834,14 @@
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True" 
                                ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_UsualKey1}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
                             <Grid>
                                 <GD_Customcontrols:FunctionToggleUserControl   
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True"
                                 ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_UsualKey2}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_UsualKey2}" 
                                 />
 
                             </Grid>
@@ -852,7 +851,7 @@
                             <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_Calendar"
                                 ImageSource="{StaticResource MainIcon_09_Calendar_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_Calendar}" 
+                                UnCheckedTitleText="{DynamicResource btnDescription_Calendar}" 
                                 />
 
 
@@ -898,19 +897,21 @@
                             <GD_Customcontrols:FunctionToggleUserControl
                                      x:Name="TBtn_Speed"
                                 ImageSource="{StaticResource MainIcon_10_SpeedMeter_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_Speed}" />
+                                UnCheckedTitleText="{DynamicResource btnDescription_Speed}" />
 
                             <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ParameterSettingVM}"
                                      x:Name="TBtn_Alarm"
                                 ImageSource="{StaticResource MainIcon_11_Alarm_DrawingImage}"
-                                TitleText="{DynamicResource btnDescription_Alarm}" />
+                                UnCheckedTitleText="{DynamicResource btnDescription_Alarm}" />
 
                             <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding IsBrightMode}"
-                                                         IsCheckedKind="Brightness5"
-                                                         UnCheckedKind="MoonAndStars"                             
-                                TitleText="{DynamicResource btnDescription_BrightMode}">
+                                                                          IsCheckedKind="Brightness5"
+                                                                          UnCheckedKind="MoonAndStars"
+                                IsCheckedTitleText="{DynamicResource btnDescription_BrightMode}"
+                                UnCheckedTitleText="{DynamicResource btnDescription_DarkMode}">
 
                             </GD_Customcontrols:FunctionToggleUserControl>
+
 
 
                             <StackPanel Visibility="Collapsed">

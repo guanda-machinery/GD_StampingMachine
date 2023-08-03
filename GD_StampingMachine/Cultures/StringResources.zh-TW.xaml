@@ -20,6 +20,7 @@
     <sys:String x:Key="btnDescription_Alarm">警報</sys:String>
 
     <sys:String x:Key="btnDescription_BrightMode">光亮模式</sys:String>
+    <sys:String x:Key="btnDescription_DarkMode">黑暗模式</sys:String>
 
     <sys:String x:Key="btnDescription_MachineInfo">關於本機</sys:String>
     <sys:String x:Key="btnDescription_PunchedFontSetting">字模設定</sys:String>

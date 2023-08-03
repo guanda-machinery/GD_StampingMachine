@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="GD_StampingMachine.UserControls.CylinderUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" >
+    <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
+        <materialDesign:ColorZone CornerRadius="2" Padding="1">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <materialDesign:PackIcon Margin="2"  Grid.Column="0" Grid.Row="0"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
+                <materialDesign:PackIcon Margin="2"   Grid.Column="0" Grid.Row="1"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
+                <materialDesign:PackIcon Margin="2"   Grid.Column="0" Grid.Row="2"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
+                <RadioButton Grid.Column="1" Grid.Row="0" Command="{Binding CylinderUpCommand}"
+                                        Style="{StaticResource Sieg_RadioButton}" 
+                                             Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}"/>
+                <RadioButton Grid.Column="1" Grid.Row="1" Command="{Binding CylinderMiddleCommand}"
+                                        Style="{StaticResource Sieg_RadioButton}" 
+                                             Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
+                <RadioButton Grid.Column="1" Grid.Row="2" Command="{Binding CylinderDownCommand}"
+                                        Style="{StaticResource Sieg_RadioButton}"  
+                                              Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}"/>
+            </Grid>
+        </materialDesign:ColorZone>
+    </Grid>
+</UserControl>

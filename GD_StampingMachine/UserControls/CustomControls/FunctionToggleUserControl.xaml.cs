@@ -2,6 +2,7 @@
 using DevExpress.CodeParser;
 using DevExpress.Xpf.Core.Internal;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -38,11 +39,14 @@ namespace GD_StampingMachine.UserControls.CustomControls
         /// <summary>
         /// <see cref=""/> 註冊為依賴屬性
         /// </summary>
-        public static readonly DependencyProperty TitleTextProperty = DependencyProperty.Register(nameof(TitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty IsCheckedTitleTextProperty = DependencyProperty.Register(nameof(IsCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty UnCheckedTitleTextProperty = DependencyProperty.Register(nameof(UnCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(FunctionToggleUserControl), new PropertyMetadata());
         
         public static readonly DependencyProperty IsCheckedKindProperty = DependencyProperty.Register(nameof(IsCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
         public static readonly DependencyProperty UnCheckedKindProperty = DependencyProperty.Register(nameof(UnCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty ButtonContentProperty =  DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
         public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool?), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         public static readonly DependencyProperty IsThreeStateProperty = DependencyProperty.Register(nameof(IsThreeState), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
@@ -56,12 +60,17 @@ namespace GD_StampingMachine.UserControls.CustomControls
         //public static readonly DependencyProperty ToggleButtonContentProperty = DependencyProperty.Register(nameof(ToggleButtonContent), typeof(object), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
 
 
-        public string TitleText
+        public string IsCheckedTitleText
         {
-            get { return (string)GetValue(TitleTextProperty); }
-            set { SetValue(TitleTextProperty, value); }
+            get=>(string)GetValue(IsCheckedTitleTextProperty); 
+            set => SetValue(IsCheckedTitleTextProperty, value); 
         }
-        
+        public string UnCheckedTitleText
+        {
+            get => (string)GetValue(UnCheckedTitleTextProperty);
+            set => SetValue(UnCheckedTitleTextProperty, value);
+        }
+
         public ImageSource ImageSource
         {
             get { return (ImageSource)GetValue(ImageSourceProperty); }
@@ -79,6 +88,26 @@ namespace GD_StampingMachine.UserControls.CustomControls
             set { SetValue(UnCheckedKindProperty, value); }
         }
 
+        /// <summary>
+        /// 圖片樣式
+        /// </summary>
+        public UIElement ButtonContent
+        {
+            get { return (UIElement)GetValue(ButtonContentProperty); }
+            set { SetValue(ButtonContentProperty, value); }
+        }
+
+        /// <summary>
+        /// <see cref=""/>變更時觸發
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+       /* private static void ButtonContentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as FunctionToggleUserControl).Toggle.Content = (UIElement)e.NewValue;
+        }*/
+
+
         public bool IsThreeState
         {
             get { return (bool)GetValue(IsThreeStateProperty); }
@@ -93,8 +122,16 @@ namespace GD_StampingMachine.UserControls.CustomControls
         [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
         public bool? IsChecked
         {
-            get{ return (bool?)GetValue(IsCheckedProperty);}
-            set{SetValue(IsCheckedProperty, value);}
+            get
+            {
+                object value = GetValue(IsCheckedProperty);
+                if (value == null)
+                {
+                    return null;
+                }
+                return (bool)value;
+            }
+            set=>SetValue(IsCheckedProperty, value.HasValue? BooleanBoxes.Box(value.Value) : null);
         }
 
 
@@ -149,6 +186,10 @@ namespace GD_StampingMachine.UserControls.CustomControls
                 SetValue(TextMarginProperty, value);
             }
         }
+
+
+
+
 
 
         /*public object ToggleButtonContent

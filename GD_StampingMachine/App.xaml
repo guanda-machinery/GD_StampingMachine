@@ -6,6 +6,7 @@
                           xmlns:dd="urn:gong-wpf-dragdrop" 
               xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
                  xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
+             
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -62,44 +63,56 @@
             </Style>
 
 
-            <DataTemplate x:Key="FunctionToggleDragAdorner">
-                <Grid MinHeight="50">
-                <Border  
-                                Background="Green" 
-                                     CornerRadius="{Binding CornerRadius}" >
-                    <GD_Customcontrols:FunctionToggleUserControl  
+            <DataTemplate x:Key="FunctionToggleDragAdorner" DataType="DataTemplate" >
+                <Border   
+                               Background="{DynamicResource PrimaryHueDarkBrush}" 
+                                     CornerRadius="10" >
+                    <GD_Customcontrols:FunctionToggleUserControl 
+                Margin="0"
+                                 Orientation="{Binding Orientation}"
                                 ImageSource="{Binding ImageSource}"
-                                TitleText="{Binding TitleText}"
+                                UnCheckedTitleText="{Binding UnCheckedTitleText}"
+                                IsCheckedTitleText="{Binding IsCheckedTitleText}"
+                                 IsChecked="{Binding IsChecked}"
                                  IsCheckedKind="{Binding IsCheckedKind}"
                                  UnCheckedKind="{Binding UnCheckedKind}"
                                 ImageWidth="{Binding ImageWidth}"
                                 ImageHeight="{Binding ImageHeight}"
                                 />
                     </Border>
-                </Grid>
+                    
+                    
             </DataTemplate>
+
+
 
             <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                <Setter Property="TextMargin" Value="0,0,0,4"/>
-                <Setter Property="Margin" Value="2.5,0"/>
+                <Setter Property="TextMargin" Value="2,0,3,2"/>
                 <Setter Property="CornerRadius" Value="5"/>
                 <Setter Property="ImageWidth" Value="40"/>
                 <Setter Property="ImageHeight" Value="40"/>
                 <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Transparent"/>
                 <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
                 <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
-                <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="False"/>
-                <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="False"/>
+                <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="True"/>
+                <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="True"/>
+                <Setter Property="dd:DragDrop.DragAdornerTemplate" Value="{DynamicResource FunctionToggleDragAdorner}"/>
                 <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
                 <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
-                <Setter Property="dd:DragDrop.DragAdornerTemplate"  Value="{StaticResource FunctionToggleDragAdorner}" />
+               
             </Style>
             <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
 
-            
-            
-            
+
+
+
+
+
+
+
+
+
             <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
             <Style TargetType="ComboBox" BasedOn="{StaticResource GD_White_ComboBox}"/>
             <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">

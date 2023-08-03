@@ -218,43 +218,9 @@
                         </GroupBox>
 
                         <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1">
-
-                            <materialDesign:ColorZone CornerRadius="2" Padding="1">
-                                <Grid >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <materialDesign:PackIcon Margin="2"  Grid.Column="0" Grid.Row="0"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
-
-                                    <materialDesign:PackIcon Margin="2"   Grid.Column="0" Grid.Row="1"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
-
-                                    <materialDesign:PackIcon Margin="2"   Grid.Column="0" Grid.Row="2"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Kind="AlertCircleOutline" Foreground="DarkGreen"/>
-
-                                    <RadioButton Grid.Column="1" Grid.Row="0"
-                                        Style="{StaticResource Sieg_RadioButton}" 
-                                             Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}"/>
-
-                                    <RadioButton Grid.Column="1" Grid.Row="1"
-                                        Style="{StaticResource Sieg_RadioButton}" 
-                                             Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
-
-                                    <RadioButton Grid.Column="1" Grid.Row="2"
-                                        Style="{StaticResource Sieg_RadioButton}"  
-                                              Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}"/>
-                                </Grid>
-                            </materialDesign:ColorZone>
+                            <GD_StampingMachine_UserControls:CylinderUserControl CylinderUpCommand="{Binding Cylinder_1_Up}">
+                                
+                            </GD_StampingMachine_UserControls:CylinderUserControl>
                         </GroupBox>
                         <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
                

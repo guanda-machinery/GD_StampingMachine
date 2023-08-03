@@ -300,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DeepCloneByJson.cs" />
+    <Compile Include="Extensions\DeepClone.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Extensions\ExpandCharIntConverter.cs" />
     <Compile Include="Extensions\ExpandIEnumerableToString.cs" />
@@ -335,6 +336,7 @@
     <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
     <Compile Include="ValueConverters\InvertBooleanConverter.cs" />
     <Compile Include="ValueConverters\ItemSourceCountIsZeroToVisibility.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\MultiBooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\FormatStringConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiBindingToArrayValueConverter.cs" />
@@ -361,6 +363,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets" Condition="Exists('..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets')" />
