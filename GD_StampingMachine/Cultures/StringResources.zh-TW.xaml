@@ -19,6 +19,8 @@
     <sys:String x:Key="btnDescription_Speed">速度</sys:String>
     <sys:String x:Key="btnDescription_Alarm">警報</sys:String>
 
+    <sys:String x:Key="btnDescription_ManualOperatingMode">手動模式</sys:String>
+
     <sys:String x:Key="btnDescription_BrightMode">光亮模式</sys:String>
     <sys:String x:Key="btnDescription_DarkMode">黑暗模式</sys:String>
 
@@ -67,6 +69,7 @@
 
     <!--#region字模設定 -->
 
+    <sys:String x:Key="Text_SteelPunchedFont">鋼印字模</sys:String>
     <sys:String x:Key="Text_SteelPunchedFontSetting">鋼印字模設定</sys:String>
     <sys:String x:Key="Text_RecorderCount">記錄次數</sys:String>
 
@@ -284,15 +287,19 @@
     <!--加工監控-->
 
     <sys:String x:Key="Text_XAxis_Motor">X軸馬達</sys:String>
+    <sys:String x:Key="Text_YAxis_Motor">Y軸馬達</sys:String>
     <sys:String x:Key="Text_DoubleGuideRodPneumaticCylinder">雙導桿缸</sys:String>
     <sys:String x:Key="Text_BlockCylinder">阻擋缸</sys:String>
     <sys:String x:Key="Text_DownCylinder_Component">壓座組</sys:String>
 
     <sys:String x:Key="Text_Stamping_Component">鋼印組</sys:String>
+    <sys:String x:Key="Text_Stamping_ZAxis_Component">鋼印組Z軸</sys:String>
     <sys:String x:Key="Text_ShearCut_Component_Hydraulic">裁切組-油壓</sys:String>
 
+    <sys:String x:Key="Text_SteelPunchedFont_Component">鋼印字模組</sys:String>
     <sys:String x:Key="Text_Separator_Component">分料組</sys:String>
     <sys:String x:Key="Text_Feeding_Component">進料組</sys:String>
+    
     <sys:String x:Key="Text_QRCode_Component">QR CODE組</sys:String>
 
 

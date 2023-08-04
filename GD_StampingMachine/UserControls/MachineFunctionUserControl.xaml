@@ -8,7 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              
-                                   
+            xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
+             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
@@ -20,21 +21,28 @@
              xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
              xmlns:sys="clr-namespace:System;assembly=System.Runtime" 
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
+             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
 
              >
     <Grid >
         <StackPanel>
-            <TextBlock Text="手工模式"/>
             <materialDesign:Card Background="Transparent" Padding="10"
                             materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel RenderTransformOrigin="0.5,0.5">
-                        <StackPanel.LayoutTransform >
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="5">
+                            <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ManualOperatingMode}"
+                                   UnCheckedKind="HandBackLeft"
+                                   IsCheckedKind="HandBackLeft"
+                                UnCheckedTitleText="{DynamicResource btnDescription_ManualOperatingMode}" />
+                        </StackPanel>
+                        <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.LayoutTransform >
                             <ScaleTransform ScaleX="1.0" ScaleY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ScaleX}"/>
-                        </StackPanel.LayoutTransform>
-                        <Grid HorizontalAlignment="Center">
+                        </Grid.LayoutTransform>
+
+                        <Grid HorizontalAlignment="Left">
                             <Image Name="SnpImage" Source="pack://application:,,,/image/SNP-0001.BMP" Height="400"/>
                             <Canvas Height="{Binding ElementName=SnpImage, Path=ActualHeight}" 
                                         Width="{Binding ElementName=SnpImage, Path=ActualWidth}"
@@ -66,16 +74,17 @@
 
 
                                 <StackPanel Canvas.Left="50" Canvas.Top="100">
-                                    <ToggleButton Width="300" Height="200" />
+                                        <ToggleButton MinWidth="300" Height="200" Content="{DynamicResource Text_Feeding_Component}" 
+                                                      IsChecked="{Binding Feeding_Component_Button_IsChecked}"/>
                                 </StackPanel>
                                 <StackPanel Canvas.Left="350" Canvas.Top="20">
-                                    <ToggleButton Width="70" Height="200" />
+                                        <ToggleButton MinWidth="70" Height="200" Content="{DynamicResource Text_Stamping_Component}" IsChecked="{Binding Stamping_Component_Button_IsChecked}"/>
                                 </StackPanel>
                                 <StackPanel Canvas.Left="430" Canvas.Top="75">
-                                    <ToggleButton Width="65" Height="150" />
+                                        <ToggleButton MinWidth="65" Height="150" Content="{DynamicResource Text_ShearCut_Component_Hydraulic}"  IsChecked="{Binding ShearCut_Component_Button_IsChecked}"/>
                                 </StackPanel>
                                 <StackPanel Canvas.Left="450" Canvas.Top="275">
-                                    <ToggleButton Width="140" Height="100" />
+                                        <ToggleButton MinWidth="140" Height="100" Content="{DynamicResource Text_Separator_Component}" IsChecked="{Binding Separator_Component_Button_IsChecked}" />
                                 </StackPanel>
 
 
@@ -205,6 +214,7 @@
 
                             </Canvas>
                         </Grid>
+                        </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
@@ -216,7 +226,7 @@
                     </Style>
                 </WrapPanel.Resources>
                 
-                <GroupBox Header="{DynamicResource Text_Feeding_Component}">
+                <GroupBox Header="{DynamicResource Text_Feeding_Component}" Visibility="{Binding Feeding_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <WrapPanel Orientation="Horizontal">
                         <GroupBox Header="{DynamicResource Text_XAxis_Motor}">
                             <materialDesign:ColorZone CornerRadius="2" Padding="1">
@@ -259,9 +269,10 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <ComboBox  Width="120"
-                                    ItemsSource="{Binding QRSettingModelCollection}">
+                                <ComboBox  Width="120" 
+                                    ItemsSource="{Binding ParameterSettingVM.QRSettingVM.QRSettingModelCollection}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding NumberSettingMode}"/>
@@ -269,9 +280,18 @@
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
 
-                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5,0">
-                                    <RadioButton Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" />
-                                    <RadioButton Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="1" Grid.Row="1"  Width="40" Height="40"/>
+
+
+
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,0">
+                                    <RadioButton Name="PlayButton"  IsEnabled="{Binding ElementName=StopButton ,Path=IsChecked}"
+                                        Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
+                                        <materialDesign:PackIcon Kind="Play" Width="auto" Height="auto"/>
+                                    </RadioButton>
+                                    <RadioButton Name="StopButton" IsEnabled="{Binding ElementName=PlayButton ,Path=IsChecked}"
+                                        Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="1" Grid.Row="1"  Width="40" Height="40">
+                                        <materialDesign:PackIcon Kind="Pause" Width="auto" Height="auto"/>
+                                    </RadioButton>
                                 </StackPanel>
 
                             </Grid>
@@ -280,16 +300,124 @@
                     </WrapPanel>
                 </GroupBox>
 
-                <GroupBox Header="{DynamicResource Text_Stamping_Component}">
+                <GroupBox Header="{DynamicResource Text_Stamping_Component}" Visibility="{Binding Stamping_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                    <StackPanel>
+                    <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
+                Style="{StaticResource WhiteMDComboBox}" 
+                               SelectedValue="{Binding StampingFontChangedVM.StampingTypeModel_ReadyStamping, UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}" />
+                     
+                        <StackPanel Orientation="Horizontal">
+                        <GroupBox Header="{DynamicResource Text_YAxis_Motor}" >
+                            <materialDesign:ColorZone CornerRadius="2" Padding="1" HorizontalAlignment="Center">
+                                <StackPanel Orientation="Vertical">
+                                    <RepeatButton Style="{StaticResource AxisMoveRepeatButton}" 
+                                             Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}"/>
+                                    <Border Margin="5,0"/>
+                                        <RepeatButton Style="{StaticResource AxisMoveRepeatButton}"   
+                                              Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}"/>
+                                </StackPanel>
+                            </materialDesign:ColorZone>
+                        </GroupBox>
 
-                </GroupBox>
-
-                <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" >
-
-                </GroupBox>
+                            <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}">
+                                <GD_StampingMachine_UserControls:CylinderUserControl 
+   
+                             CylinderIsUpSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked}"
+                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked, Converter={dx:BoolInverseConverter}}"
                     
-                <GroupBox Header="{DynamicResource Text_Separator_Component}">
+                               CylinderIsMiddleSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked}"
+                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
+                               CylinderIsDownSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
 
+                                
+                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                />
+                            </GroupBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Visibility="{Binding ShearCut_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                    <GD_StampingMachine_UserControls:CylinderUserControl 
+   
+                             CylinderIsUpSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked}"
+                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked, Converter={dx:BoolInverseConverter}}"
+                    
+                               CylinderIsMiddleSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked}"
+                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
+                               CylinderIsDownSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
+
+                                
+                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                />
+                </GroupBox>
+
+                <GroupBox Header="{DynamicResource Text_Separator_Component}" Visibility="{Binding Separator_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                    <ListBox Width="250" Height="250" Margin="10"
+                            ItemsSource="{Binding ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="Width" Value="60"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem" >
+                                            <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
+                                                <Grid VerticalAlignment="Bottom">
+                                                    <Border
+                                                        Background="{DynamicResource PrimaryHueDarkForegroundBrush}" CornerRadius="5" />
+
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center">
+                                                        <TextBlock FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                   Text="{DynamicResource Text_Box}"/>
+                                                    <TextBlock FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2" 
+                                                               Foreground="{DynamicResource PrimaryHueDarkBrush}">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0}">
+                                                                <Binding Path="BoxIndex"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger 
+                            Binding="{Binding StampingIsUsing}" Value="True">
+                                        <Setter Property="Background" Value="DarkRed"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="Orange"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#00Bfff"/>
+                                    </Trigger>
+
+                                </Style.Triggers>
+
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <GD_Views:RadialPanel
+                                        d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
+                                        DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
+                                        RotationDirection="Clockwise"
+                                        StartAngle="90" RotateAngle="{Binding StampingFontTurntable_RorateAngle}"  RoundAngle="360"
+                                        
+                                        ItemRotateAngle="-90"  />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
                 </GroupBox>
             </WrapPanel>
         </StackPanel>

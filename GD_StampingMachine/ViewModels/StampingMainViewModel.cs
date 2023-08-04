@@ -267,7 +267,11 @@ namespace GD_StampingMachine.ViewModels
 
             MachineFunctionVM = new MachineFunctionViewModel()
             {
-                   QRSettingModelCollection = ParameterSettingVM.QRSettingVM.QRSettingModelCollection
+                ParameterSettingVM = ParameterSettingVM,
+                StampingFontChangedVM = StampingFontChangedVM,
+                   //QRSettingModelCollection = ParameterSettingVM.QRSettingVM.QRSettingModelCollection,
+                //StampingTypeVMObservableCollection = StampingFontChangedVM.StampingTypeVMObservableCollection,
+                  // StampingTypeModel_ReadyStamping = StampingFontChangedVM.StampingTypeModel_ReadyStamping
             };
 
 

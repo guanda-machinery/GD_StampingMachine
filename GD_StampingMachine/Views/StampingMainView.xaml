@@ -74,7 +74,7 @@
                         </StackPanel.Resources>
                         <TextBlock Text="{DynamicResource Text_TypeSettingProject}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                         <TextBlock Text="：" VerticalAlignment="Center" Margin="0,0"/>
-                        <ToggleButton Name="OpenProjectFileToggleButton"  Width="150"
+                        <ToggleButton Name="OpenProjectFileToggleButton"  Width="250" 
                                       IsChecked="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Height="auto">
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->

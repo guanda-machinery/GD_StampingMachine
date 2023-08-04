@@ -14,11 +14,17 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineFunction");
 
+
+        public ParameterSettingViewModel ParameterSettingVM{get;set;}
+
+        public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
+
+
+
         /// <summary>
         /// QR資訊
         /// </summary>
-        public ObservableCollection<StampingPlateSettingModel> QRSettingModelCollection { get; set; }
-
+        /*public ObservableCollection<StampingPlateSettingModel> QRSettingModelCollection { get; set; }
 
         private StampingPlateSettingModel _selectedQRSettingModelCollection;
         public StampingPlateSettingModel SelectedQRSettingModelCollection
@@ -27,8 +33,114 @@ namespace GD_StampingMachine.ViewModels
             set
             {
                 _selectedQRSettingModelCollection = value;
+                OnPropertyChanged();
             }
+        }*/
+
+
+        /*private StampingTypeViewModel _stampingTypeModel_readyStamping;
+        /// <summary>
+        /// 轉盤資訊
+        /// </summary>
+        public StampingTypeViewModel StampingTypeModel_ReadyStamping
+        {
+            get => _stampingTypeModel_readyStamping;
+            set { _stampingTypeModel_readyStamping = value; OnPropertyChanged(); }
+        }*/
+
+        /*private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
+        public ObservableCollection<StampingTypeViewModel> StampingTypeVMObservableCollection
+        {
+
+            get => _stampingTypeVMObservableCollection;
+            set { _stampingTypeVMObservableCollection = value; OnPropertyChanged(); }
         }
+        */
+
+
+
+
+
+
+
+
+
+
+
+
+        private bool _manualOperatingMode = false;
+
+       public bool ManualOperatingMode
+        {
+            get => _manualOperatingMode;
+            set 
+            {
+                Feeding_Component_Button_IsChecked = true;
+                Stamping_Component_Button_IsChecked = true;
+                ShearCut_Component_Button_IsChecked = true;
+                Separator_Component_Button_IsChecked = true;
+                _manualOperatingMode = value;
+                OnPropertyChanged();
+            }
+
+        }
+
+        private bool _feeding_Component_Button_IsChecked = false;
+        /// <summary>
+        /// 選擇進料組
+        /// </summary>
+        public bool Feeding_Component_Button_IsChecked
+        {
+            get => _feeding_Component_Button_IsChecked;
+            set { _feeding_Component_Button_IsChecked = value; OnPropertyChanged(); }
+
+        }
+
+
+        private bool _stamping_Component_Button_IsChecked = false;
+        /// <summary>
+        /// 選擇進料組
+        /// </summary>
+        public bool Stamping_Component_Button_IsChecked
+        {
+            get => _stamping_Component_Button_IsChecked;
+            set { _stamping_Component_Button_IsChecked = value; OnPropertyChanged(); }
+
+        }
+        private bool _shearCut_Component_Button_IsChecked = false;
+        /// <summary>
+        /// 選擇進料組
+        /// </summary>
+        public bool ShearCut_Component_Button_IsChecked
+        {
+            get => _shearCut_Component_Button_IsChecked;
+            set { _shearCut_Component_Button_IsChecked = value; OnPropertyChanged(); }
+
+        }
+        private bool _Separator_Component_Button_IsChecked = false;
+        /// <summary>
+        /// 選擇進料組
+        /// </summary>
+        public bool Separator_Component_Button_IsChecked
+        {
+            get => _Separator_Component_Button_IsChecked;
+            set { _Separator_Component_Button_IsChecked = value; OnPropertyChanged(); }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private bool _cylinder_1_Up_ReedSwitchIsTriggered = false;
         /// <summary>
