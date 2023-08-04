@@ -84,7 +84,7 @@
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                                     <Setter Property="Background" Value="DeepSkyBlue" />
-                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
                                 </DataTrigger>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="DodgerBlue"/>

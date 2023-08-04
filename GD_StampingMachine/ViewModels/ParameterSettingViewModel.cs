@@ -61,11 +61,21 @@ namespace GD_StampingMachine.ViewModels
         public bool TbtnSeEngineeringModeIsChecked { get => _tbtnSeEngineeringModeIsChecked; set { _tbtnSeEngineeringModeIsChecked = value; OnPropertyChanged(); } }
 
 
+        public ParameterSettingViewModel()
+        {
+            init(new());
+        }
+
 
         public ParameterSettingViewModel(ParameterSettingModel ParameterSetting)
         {
+            init(ParameterSetting);
+        }
+
+        private void init(ParameterSettingModel ParameterSetting)
+        {
             _parameterSetting = ParameterSetting;
-            NumberSettingVM= new NumberSettingViewModel(_parameterSetting.NumberSetting);
+            NumberSettingVM = new NumberSettingViewModel(_parameterSetting.NumberSetting);
             QRSettingVM = new QRSettingViewModel(_parameterSetting.QRSetting);
             AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
             TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);
@@ -74,7 +84,10 @@ namespace GD_StampingMachine.ViewModels
             EngineerSettingVM = new EngineerSettingViewModel(_parameterSetting.EngineerSetting);
         }
 
-        private ParameterSettingModel _parameterSetting;
+
+
+
+        private ParameterSettingModel _parameterSetting = new();
 
         /// <summary>
         /// 號碼設定

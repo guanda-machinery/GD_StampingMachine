@@ -19,18 +19,18 @@ using GD_StampingMachine.Method;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class TypeSettingSettingModel
-    {
+    //public class TypeSettingSettingModel
+    //{
 
         /// <summary>
         /// 製品清單
         /// </summary>
-        public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; } 
+        //public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; } 
         /// <summary>
         /// 盒子列表
         /// </summary>
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
-    }
+        //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
+    //}
     /// <summary>
     /// 排版設定
     /// </summary>
@@ -39,18 +39,11 @@ namespace GD_StampingMachine.ViewModels
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_TypeSettingSettingViewModel");
 
-        public TypeSettingSettingViewModel(TypeSettingSettingModel _typeSettingSetting)
+        public TypeSettingSettingViewModel()
         {
-            if (_typeSettingSetting == null)
-                _typeSettingSetting = new TypeSettingSettingModel();
 
-            TypeSettingSetting = _typeSettingSetting;
-
-
-            ProjectDistributeVM = ProjectDistributeVMObservableCollection.FirstOrDefault();
         }
 
-        public TypeSettingSettingModel TypeSettingSetting { get; }
 
         /// <summary>
         /// 建立用的model
@@ -59,6 +52,10 @@ namespace GD_StampingMachine.ViewModels
         {
             get; set;
         } = new();
+
+
+        public ProductSettingViewModel ProductSettingVM { get; set; }=new();
+        public ParameterSettingViewModel ParameterSettingVM { get; set; } = new();
 
 
         [JsonIgnore]
@@ -84,8 +81,8 @@ namespace GD_StampingMachine.ViewModels
 
                     NewProjectDistribute.CreatedDate = DateTime.Now;
                     var Clone = NewProjectDistribute.DeepCloneByJson();
-                    Clone.ProductProjectVMObservableCollection = TypeSettingSetting.ProductProjectVMObservableCollection;
-                    Clone.SeparateBoxVMObservableCollection = TypeSettingSetting.SeparateBoxVMObservableCollection;
+                    Clone.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
+                    Clone.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
                     ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                     //存檔

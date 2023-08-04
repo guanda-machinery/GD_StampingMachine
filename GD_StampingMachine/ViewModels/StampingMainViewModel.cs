@@ -210,6 +210,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
             };
+
             if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
             {
                 PathList.ForEach(EPath =>
@@ -233,12 +234,14 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
 
-            TypeSettingSettingVM = new(new TypeSettingSettingModel()
+            TypeSettingSettingVM = new()
             {
-                ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
-                SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection,
+                ProductSettingVM = ProductSettingVM,
+                ParameterSettingVM = ParameterSettingVM
+                //ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
+                //SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection,
+            };
 
-            });
             if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
             {
                 RPDList.ForEach(PDistribute =>
@@ -257,11 +260,11 @@ namespace GD_StampingMachine.ViewModels
             }
 
 
-            MachineMonitorVM = new MachineMonitorViewModel(new MachineMonitorModel()
+            MachineMonitorVM = new MachineMonitorViewModel(new MachineMonitorModel())
             {
-                ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
-            });
-
+                TypeSettingSettingVM = TypeSettingSettingVM
+            };
+            
             TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
 
@@ -269,9 +272,6 @@ namespace GD_StampingMachine.ViewModels
             {
                 ParameterSettingVM = ParameterSettingVM,
                 StampingFontChangedVM = StampingFontChangedVM,
-                   //QRSettingModelCollection = ParameterSettingVM.QRSettingVM.QRSettingModelCollection,
-                //StampingTypeVMObservableCollection = StampingFontChangedVM.StampingTypeVMObservableCollection,
-                  // StampingTypeModel_ReadyStamping = StampingFontChangedVM.StampingTypeModel_ReadyStamping
             };
 
 
