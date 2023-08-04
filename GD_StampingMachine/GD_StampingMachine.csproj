@@ -355,6 +355,10 @@
     <Resource Include="Image\擷取3.PNG" />
     <Resource Include="Image\擷取1.PNG" />
     <Resource Include="Image\擷取2.PNG" />
+    <Content Include="Cultures\StringResources.en-US.xaml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Page Include="Dictionary\DrawingDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -50,7 +50,7 @@
                                         </Border.Style>
                                     </Border>
                                     <StackPanel 
-                                        MinWidth="65"  MinHeight="40"
+                                        MinWidth="65" 
                                         Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
                                         <Grid Margin="5" Width="40" Height="40">
                                             <Image 
@@ -85,8 +85,7 @@
                                                     <Setter Property="FontSize" Value="{Binding FontSize , ElementName=MainFunctionToggleUserControl}"/>
                                                 </Style>
                                             </Grid.Resources>
-
-                                            <TextBlock  
+                                            <TextBlock  TextWrapping="WrapWithOverflow" MaxWidth="80" 
                                                 Text="{Binding UnCheckedTitleText,FallbackValue=Text}" >
                                                 <TextBlock.Visibility>
                                                     <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Union}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
@@ -97,7 +96,8 @@
                                                     </MultiBinding>
                                                 </TextBlock.Visibility>
                                             </TextBlock>
-                                            <TextBlock   Text="{Binding IsCheckedTitleText,FallbackValue=Text}"   >
+                                            <TextBlock   MaxWidth="80" 
+                                                Text="{Binding IsCheckedTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
                                             <TextBlock.Visibility>
                                                 <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                     <MultiBinding.Bindings>

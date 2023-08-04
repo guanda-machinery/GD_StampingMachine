@@ -32,6 +32,7 @@
             </ResourceDictionary.MergedDictionaries>
             <sys:Int32 x:Key="IntZero">0</sys:Int32>
             <sys:Int32 x:Key="MinusOne">-1</sys:Int32>
+            <sys:String x:Key="HiddenOnFalse">HiddenOnFalse</sys:String>
 
 
             <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_ToggleButton}">
@@ -92,6 +93,9 @@
                 <Setter Property="CornerRadius" Value="5"/>
                 <Setter Property="ImageWidth" Value="40"/>
                 <Setter Property="ImageHeight" Value="40"/>
+                <Setter Property="IsDragable" Value="true"/>
+                <Setter Property="IsDropable" Value="false"/>
+                <!--
                 <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Transparent"/>
                 <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
                 <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
@@ -100,8 +104,12 @@
                 <Setter Property="dd:DragDrop.DragAdornerTemplate" Value="{DynamicResource FunctionToggleDragAdorner}"/>
                 <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
                 <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
-               
+                -->
+
             </Style>
+
+
+            
             <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
 
 
@@ -109,12 +117,8 @@
 
 
 
-
-
-
-
             <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
-            <Style TargetType="ComboBox" BasedOn="{StaticResource GD_White_ComboBox}"/>
+
             <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
                 <Setter Property="Placement" Value="MousePoint"/>
                 <Setter Property="PopupAnimation"  Value="Fade"/>

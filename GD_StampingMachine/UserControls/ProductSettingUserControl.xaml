@@ -107,18 +107,6 @@
                                     <Setter Property="Margin" Value="10,0"/>
                                     <Setter Property="Padding" Value="10,0,0,2"/>
                                 </Style>
-                                <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                                    <Setter Property="FontSize" Value="16"/>
-                                    <Setter Property="BorderBrush" Value="Black"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                                    <Setter Property="Width" Value="200"/>
-                                    <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="10,0,0,2"/>
-                                    <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                                    <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                                    <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".8"/>
-                                    <Setter Property="IsEditable" Value="False"/>
-                                </Style>
                             </Border.Resources>
 
                             <Grid MinWidth="100" MinHeight="100" Margin="10">
@@ -268,18 +256,6 @@
                                 <Setter Property="Width" Value="200"/>
                                 <Setter Property="Margin" Value="10,0"/>
                                 <Setter Property="Padding" Value="10,0,0,2"/>
-                            </Style>
-                            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="BorderBrush" Value="Black"/>
-                                <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                                <Setter Property="Width" Value="200"/>
-                                <Setter Property="Margin" Value="10,0"/>
-                                <Setter Property="Padding" Value="10,0,0,2"/>
-                                <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                                <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                                <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".8"/>
-                                <Setter Property="IsEditable" Value="False"/>
                             </Style>
                         </Border.Resources>
 
@@ -713,27 +689,15 @@
                                     <Setter Property="Padding" Value="10,0"/>
                                     <Setter Property="Margin" Value="5,0"/>
                                 </Style>
-                                <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
-                                    <Setter Property="FontSize" Value="16"/>
-                                    <Setter Property="BorderBrush" Value="Black"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Width" Value="200"/>
-                                    <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="10,0,0,2"/>
-                                </Style>
-                                <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                                    <Setter Property="FontSize" Value="16"/>
-                                    <Setter Property="BorderBrush" Value="Black"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                                    <Setter Property="Width" Value="200"/>
-                                    <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="10,0,0,2"/>
-                                    <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                                    <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                                    <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".8"/>
-                                    <Setter Property="IsEditable" Value="False"/>
-                                </Style>
-                            </StackPanel.Resources>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Width" Value="200"/>
+                                <Setter Property="Margin" Value="10,0"/>
+                                <Setter Property="Padding" Value="10,0,0,2"/>
+                            </Style>
+                        </StackPanel.Resources>
 
                         <ToggleButton IsThreeState="False" 
                                               IsChecked="{Binding IsInParameterPage, Converter={dx:BoolInverseConverter}}"
@@ -998,7 +962,7 @@
                                         <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding CreatedProjectModel.Number,UpdateSourceTrigger=PropertyChanged}">
 
                                         </TextBox>
-                                        <ComboBox Grid.Column="3" Grid.Row="4" 
+                                        <ComboBox Grid.Column="3" Grid.Row="4"  Width="auto"
                                               ItemsSource="{Binding SheetStampingTypeEnumCollection}"
                                               SelectedValue="{Binding CreatedProjectModel.SheetStampingTypeForm}">
 
@@ -1119,7 +1083,7 @@
                                         <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding CreatedProjectModel.Number,UpdateSourceTrigger=PropertyChanged}">
 
                                         </TextBox>
-                                        <ComboBox Grid.Column="3" Grid.Row="4" 
+                                        <ComboBox Grid.Column="3" Grid.Row="4" Width="auto"
                                               ItemsSource="{Binding SheetStampingTypeEnumCollection}"
                                               SelectedValue="{Binding CreatedProjectModel.SheetStampingTypeForm}">
 

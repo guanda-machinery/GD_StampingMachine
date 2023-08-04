@@ -93,38 +93,9 @@
                             PopupAnimation="Slide">
                             <Border BorderThickness="0"  
                                                 CornerRadius="10"
-                                               Background="{StaticResource PrimaryHueLightBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                               Background="{DynamicResource PrimaryHueLightBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Border.Resources >
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                    </Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="BorderBrush" Value="Black"/>
-                                        <Setter Property="BorderThickness" Value="0.5"/>
-                                        <Setter Property="Padding" Value="10,0"/>
-                                        <Setter Property="Margin" Value="5,0"/>
-                                    </Style>
-                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
-                                        <Setter Property="FontSize" Value="16"/>
-                                        <Setter Property="BorderBrush" Value="Black"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="Width" Value="200"/>
-                                        <Setter Property="Margin" Value="10,0"/>
-                                        <Setter Property="Padding" Value="10,0,0,2"/>
-                                    </Style>
-                                    <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-                                        <Setter Property="FontSize" Value="16"/>
-                                        <Setter Property="BorderBrush" Value="Black"/>
-                                        <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
-                                        <Setter Property="Width" Value="200"/>
-                                        <Setter Property="Margin" Value="10,0"/>
-                                        <Setter Property="Padding" Value="10,0,0,2"/>
-                                        <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
-                                        <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
-                                        <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".8"/>
-                                        <Setter Property="IsEditable" Value="False"/>
-                                    </Style>
+
                                 </Border.Resources>
 
                                 <Grid MinWidth="100" MinHeight="50" Margin="10">
@@ -133,7 +104,7 @@
                                               SelectedValue="{Binding MachineMonitorVM.ProjectDistributeVMSelected}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding ProjectDistributeName}" Foreground="White"></TextBlock>
+                                                <TextBlock Text="{Binding ProjectDistributeName}" ></TextBlock>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
@@ -628,7 +599,7 @@
                         </Grid>
                         <!--彈出式按鈕-->
                         <materialDesign:DrawerHost  Opacity="0.95"
-                        IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}" LeftDrawerBackground="Transparent"
+                                                    IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}" LeftDrawerBackground="Transparent"
                                             IsRightDrawerOpen="{Binding ElementName=TBtn_Alarm, Path=IsChecked}" RightDrawerBackground="Transparent"
                                             >
                             <materialDesign:DrawerHost.LeftDrawerContent>
@@ -642,14 +613,23 @@
                                                         BlurRadius="10"/>
                                     </materialDesign:ColorZone.Effect>
 
-                                    <ItemsControl VerticalAlignment="Top"  HorizontalAlignment="Left" >
+                                    <ItemsControl 
+                                        dd:DragDrop.DropTargetAdornerBrush ="Transparent"
+                                        dd:DragDrop.IsDragSource ="True"
+                                        dd:DragDrop.IsDropTarget ="True"
+                                        dd:DragDrop.UseDefaultEffectDataTemplate ="True"
+                                        dd:DragDrop.UseDefaultDragAdorner ="True"
+                                        dd:DragDrop.DefaultDragAdornerOpacity ="1"
+                                        dd:DragDrop.DropHandler ="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"
+                                        VerticalAlignment="Top"  HorizontalAlignment="Left" >
                                     <ItemsControl.Resources>
                                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-
                                             <Setter Property="Margin" Value="10,5"/>
                                             <Setter Property="TextMargin" Value="5,0,10,0"/>
-                                                <Setter Property="Orientation" Value="Horizontal"/>
-                                            </Style>
+                                            <Setter Property="Orientation" Value="Horizontal"/>
+                                            <Setter Property="IsDragable" Value="True"/>
+                                            <Setter Property="IsDropable" Value="False"/>
+                                        </Style>
                                         </ItemsControl.Resources>
 
                                         <GD_Customcontrols:FunctionToggleUserControl 
@@ -771,11 +751,16 @@
                 
             <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}" >
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl  Margin="5,5,5,2">
-
-
-
-
+                        <ItemsControl 
+                            Margin="5,5,5,2"
+                            dd:DragDrop.DropTargetAdornerBrush ="Transparent"
+                           dd:DragDrop.IsDragSource ="True"
+                           dd:DragDrop.IsDropTarget ="True"
+                           dd:DragDrop.UseDefaultEffectDataTemplate ="True"
+                           dd:DragDrop.UseDefaultDragAdorner ="True"
+                           dd:DragDrop.DefaultDragAdornerOpacity ="1"
+                           dd:DragDrop.DropHandler ="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"
+                            >
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"/>
@@ -831,20 +816,18 @@
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
                             <GD_Customcontrols:FunctionToggleUserControl 
-                                dd:DragDrop.IsDragSource="False"
-                                dd:DragDrop.IsDropTarget="True" 
+                                IsDragable="False"
+                                IsDropable ="True"
                                ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
-                            <Grid>
-                                <GD_Customcontrols:FunctionToggleUserControl   
-                                dd:DragDrop.IsDragSource="False"
-                                dd:DragDrop.IsDropTarget="True"
+                            <GD_Customcontrols:FunctionToggleUserControl   
+                                IsDragable="False"
+                                IsDropable ="True"
                                 ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_UsualKey2}" 
                                 />
 
-                            </Grid>
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
@@ -911,18 +894,26 @@
                                 UnCheckedTitleText="{DynamicResource btnDescription_DarkMode}">
 
                             </GD_Customcontrols:FunctionToggleUserControl>
-
-
-
-                            <StackPanel Visibility="Collapsed">
-                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="100"
+                            <Expander 
+                                      materialDesign:ExpanderAssist.VerticalHeaderPadding="0" 
+                                      Background="Transparent"  
+                                Padding="0" Margin="0"  Style="{StaticResource MaterialDesignExpander}"  ExpandDirection="Right">
+                                <StackPanel Orientation="Horizontal">
+                                <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{DynamicResource textCultureSetting}" HorizontalAlignment="Center" FontSize="16" />
+                                        <ComboBox  Width="auto" Margin="0"
                                     ItemsSource="{Binding SupportedCultures}" 
-                                          SelectedValue="{Binding SelectedCultures}">
-                                    <ComboBox.DataContext>
-                                        <GD_ViewModels:CultureViewModel/>
-                                    </ComboBox.DataContext>
-                                </ComboBox>
-                            </StackPanel>
+                                          SelectedValue="{Binding SelectedCultures, UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBox.DataContext>
+                                            <GD_ViewModels:CultureViewModel/>
+                                        </ComboBox.DataContext>
+                                    </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+
+
+
                     
                     </ItemsControl>
                 </ScrollViewer>

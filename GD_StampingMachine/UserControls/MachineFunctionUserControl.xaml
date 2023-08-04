@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -25,6 +26,7 @@
              >
     <Grid >
         <StackPanel>
+            <TextBlock Text="手工模式"/>
             <materialDesign:Card Background="Transparent" Padding="10"
                             materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -60,6 +62,22 @@
                                     </Style>
 
                                 </Canvas.Resources>
+
+
+
+                                <StackPanel Canvas.Left="50" Canvas.Top="100">
+                                    <ToggleButton Width="300" Height="200" />
+                                </StackPanel>
+                                <StackPanel Canvas.Left="350" Canvas.Top="20">
+                                    <ToggleButton Width="70" Height="200" />
+                                </StackPanel>
+                                <StackPanel Canvas.Left="430" Canvas.Top="75">
+                                    <ToggleButton Width="65" Height="150" />
+                                </StackPanel>
+                                <StackPanel Canvas.Left="450" Canvas.Top="275">
+                                    <ToggleButton Width="140" Height="100" />
+                                </StackPanel>
+
 
                                 <StackPanel Canvas.Left="130" Canvas.Top="35">
                                     <ToggleButton 
@@ -190,15 +208,13 @@
                     </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel.Resources>
+            <WrapPanel Orientation="Horizontal">
+                <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
-                        <Setter Property="Margin" Value="5"/>
-                        <Setter Property="Padding" Value="5"/>
                         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                     </Style>
-                </StackPanel.Resources>
+                </WrapPanel.Resources>
                 
                 <GroupBox Header="{DynamicResource Text_Feeding_Component}">
                     <WrapPanel Orientation="Horizontal">
@@ -212,20 +228,54 @@
                                               Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}"/>
                             </StackPanel>
                                 </materialDesign:ColorZone>
-
-
-
                         </GroupBox>
 
-                        <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1">
-                            <GD_StampingMachine_UserControls:CylinderUserControl CylinderUpCommand="{Binding Cylinder_1_Up}">
-                                
-                            </GD_StampingMachine_UserControls:CylinderUserControl>
+                        <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1" >
+                            <GD_StampingMachine_UserControls:CylinderUserControl 
+                                CylinderUpCommand="{Binding Cylinder_1_Up_Command}" CylinderIsUpSingal_IsTriggered="{Binding Cylinder_1_Up_ReedSwitchIsTriggered}" CylinderUpIsActived="True"
+                                CylinderUp_IsChecked="{Binding Cylinder_1_isUp}" CylinderUp_IsEnabled="{Binding Cylinder_1_Up_IsEnabled}"
+                                CylinderMiddleCommand="{Binding Cylinder_1_Mid_Command}" CylinderIsMiddleSingal_IsTriggered="{Binding Cylinder_1_Middle_ReedSwitchIsTriggered}" CylinderMiddleIsActived="True"
+                               CylinderMiddle_IsChecked="{Binding Cylinder_1_isMiddle}" CylinderMiddle_IsEnabled="{Binding Cylinder_1_Middle_IsEnabled}"
+                                CylinderDownCommand="{Binding Cylinder_1_Down_Command}" CylinderIsDownSingal_IsTriggered="{Binding Cylinder_1_Down_ReedSwitchIsTriggered}" CylinderDownIsActived="True"
+                               CylinderDown_IsChecked="{Binding Cylinder_1_isDown}" CylinderDown_IsEnabled="{Binding Cylinder_1_Down_IsEnabled}"
+                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                />
                         </GroupBox>
                         <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
-               
-                        </GroupBox>
+                            <GD_StampingMachine_UserControls:CylinderUserControl 
+                                 CylinderUpIsActived="False"
+                               CylinderIsMiddleSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked}"
+                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
+                                
+                               CylinderIsDownSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
 
+                                
+                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                />
+                        </GroupBox>
+                        <GroupBox Header="{DynamicResource Text_QRCode_Component}" >
+                            <Grid Margin="0,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <ComboBox  Width="120"
+                                    ItemsSource="{Binding QRSettingModelCollection}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding NumberSettingMode}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5,0">
+                                    <RadioButton Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" />
+                                    <RadioButton Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="1" Grid.Row="1"  Width="40" Height="40"/>
+                                </StackPanel>
+
+                            </Grid>
+                        </GroupBox>
 
                     </WrapPanel>
                 </GroupBox>
@@ -237,10 +287,11 @@
                 <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" >
 
                 </GroupBox>
+                    
                 <GroupBox Header="{DynamicResource Text_Separator_Component}">
 
                 </GroupBox>
-            </StackPanel>
+            </WrapPanel>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -20,13 +20,13 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private CultureInfo _selectedCulture;
+        private CultureInfo _selectedCulture = Properties.Settings.Default.DefaultCulture;
 
         public CultureInfo SelectedCultures
         {
             get
             {
-                if (_selectedCulture == null)
+                if (_selectedCulture != null)
                 {
                     CulturesHelper.ChangeCulture(_selectedCulture);
                 }

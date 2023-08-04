@@ -1,26 +1,26 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
-          
+    
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="btnOk">OK</sys:String>
 
     <!--#region主介面 -->
-    <sys:String x:Key="btnDescription_MainSystem">主系統</sys:String> 
-    <sys:String x:Key="btnDescription_ProductSettings">製品設定</sys:String>
-    <sys:String x:Key="btnDescription_LayoutSettings">排版設定</sys:String>
-    <sys:String x:Key="btnDescription_MachineMonitoring">加工監控</sys:String>
-    <sys:String x:Key="btnDescription_MachineFunction">機台功能</sys:String>
-    <sys:String x:Key="btnDescription_OneKeyReturn">一鍵返航</sys:String>
-    <sys:String x:Key="btnDescription_ReturningToOriginPoint">原點複歸</sys:String>
-    <sys:String x:Key="btnDescription_LightUpSwitch">照明開關</sys:String>
-    <sys:String x:Key="btnDescription_UsualKey1">常用鍵1</sys:String>
-    <sys:String x:Key="btnDescription_UsualKey2">常用鍵2</sys:String>
-    <sys:String x:Key="btnDescription_Calendar">行事曆</sys:String>
-    <sys:String x:Key="btnDescription_Speed">速度</sys:String>
-    <sys:String x:Key="btnDescription_Alarm">警報</sys:String>
+    <sys:String x:Key="btnDescription_MainSystem">Main System</sys:String>
+    <sys:String x:Key="btnDescription_ProductSettings">Product Settings</sys:String>
+    <sys:String x:Key="btnDescription_LayoutSettings">Layout Settings</sys:String>
+    <sys:String x:Key="btnDescription_MachineMonitoring">Machine Monitoring</sys:String>
+    <sys:String x:Key="btnDescription_MachineFunction">Machine Function</sys:String>
+    <sys:String x:Key="btnDescription_OneKeyReturn">OneKeyReturn</sys:String>
+    <sys:String x:Key="btnDescription_ReturningToOriginPoint">Return</sys:String>
+    <sys:String x:Key="btnDescription_LightUpSwitch">Light</sys:String>
+    <sys:String x:Key="btnDescription_UsualKey1">UsualKey1</sys:String>
+    <sys:String x:Key="btnDescription_UsualKey2">UsualKey2</sys:String>
+    <sys:String x:Key="btnDescription_Calendar">Calendar</sys:String>
+    <sys:String x:Key="btnDescription_Speed">Speed</sys:String>
+    <sys:String x:Key="btnDescription_Alarm">Alarm</sys:String>
 
-    <sys:String x:Key="btnDescription_BrightMode">光亮模式</sys:String>
-    <sys:String x:Key="btnDescription_DarkMode">黑暗模式</sys:String>
+    <sys:String x:Key="btnDescription_BrightMode">BrightMode</sys:String>
+    <sys:String x:Key="btnDescription_DarkMode">DarkMode</sys:String>
 
     <sys:String x:Key="btnDescription_MachineInfo">關於本機</sys:String>
     <sys:String x:Key="btnDescription_PunchedFontSetting">字模設定</sys:String>
@@ -86,9 +86,6 @@
     <sys:String x:Key="btnOutput">Output</sys:String>
     <sys:String x:Key="btnInputOutput">InPutOutPut</sys:String>
     <sys:String x:Key="btnSeEngineeringMode">工程模式</sys:String>
-
-
-    <sys:String x:Key="textCultureSetting">語言設定</sys:String>
     <!--#region號碼設定 -->
 
     <sys:String x:Key="textMode">模式</sys:String>

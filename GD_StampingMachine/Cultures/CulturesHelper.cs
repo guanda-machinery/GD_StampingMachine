@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DevExpress.Utils.Extensions;
+using DevExpress.Xpf.Utils.Themes;
+using GD_StampingMachine.Properties;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -63,23 +66,44 @@ namespace GD_StampingMachine
             return CultList;
         }
 
-        public static void ChangeCulture(CultureInfo culture)
+
+
+        public static void ChangeCulture(CultureInfo newCulture )
         {
-            if (SupportedCultures.Contains(culture))
+            if (SupportedCultures.Contains(newCulture))
             {
-                string LoadedFileName = string.Format("{0}\\{1}\\{2}.{3}.xaml", System.Windows.Forms.Application.StartupPath, _culturesFolder
-                    , _resourcePrefix, culture.Name);
+                var newResourceDictionary = LoadResourceDictionary(newCulture);
+                if (newResourceDictionary != null)
+                {
+                    //用source 找index 刪掉舊的字典
+                    var oldCulture = LoadResourceDictionary(Properties.Settings.Default.DefaultCulture);
+                    if ((oldCulture!= null))
+                    {
+                        Application.Current.Resources.MergedDictionaries.Remove(x => x.Source == oldCulture.Source);
+                    }
 
-                FileStream fileStream = new FileStream(@LoadedFileName, FileMode.Open);
+                    Application.Current.Resources.MergedDictionaries.Add(newResourceDictionary);
 
-                ResourceDictionary resourceDictionary = XamlReader.Load(fileStream) as ResourceDictionary;
-
-                Application.Current.MainWindow.Resources.MergedDictionaries.Add(resourceDictionary);
-
-                Properties.Settings.Default.DefaultCulture = culture;
-                Properties.Settings.Default.Save();
+                    Properties.Settings.Default.DefaultCulture = newCulture;
+                    Properties.Settings.Default.Save();
+                }
             }
         }
+
+        private static ResourceDictionary LoadResourceDictionary(CultureInfo culture)
+        {
+            var cultureFName = _resourcePrefix + "." + culture.Name + ".xaml";
+            string source = Path.Combine(_culturesFolder,  cultureFName);
+            string LoadedFileName = Path.Combine(System.Windows.Forms.Application.StartupPath, source);
+
+            FileStream fileStream = new FileStream(LoadedFileName, FileMode.Open);
+            ResourceDictionary resourceDictionary = XamlReader.Load(fileStream) as ResourceDictionary;
+            resourceDictionary.Source = new System.Uri(source , UriKind.Relative);
+            return resourceDictionary;
+        }
+
+
+
 
     }
 

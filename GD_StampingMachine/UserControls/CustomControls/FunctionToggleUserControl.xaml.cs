@@ -50,6 +50,10 @@ namespace GD_StampingMachine.UserControls.CustomControls
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
         public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool?), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         public static readonly DependencyProperty IsThreeStateProperty = DependencyProperty.Register(nameof(IsThreeState), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+
+        public static readonly DependencyProperty IsDragableProperty = DependencyProperty.Register(nameof(IsDragable), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+        public static readonly DependencyProperty IsDropableProperty = DependencyProperty.Register(nameof(IsDropable), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+
         public static readonly DependencyProperty TitleFontSizeProperty = DependencyProperty.Register(nameof(TitleFontSize), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(14.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register(nameof(ImageWidth), typeof(double), typeof(FunctionToggleUserControl), new PropertyMetadata(40.0));
         public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register(nameof(ImageHeight), typeof(double), typeof(FunctionToggleUserControl), new PropertyMetadata(40.0));
@@ -114,6 +118,23 @@ namespace GD_StampingMachine.UserControls.CustomControls
             set { SetValue(IsThreeStateProperty, value); }
         }
 
+        /// <summary>
+        /// 可以被抓
+        /// </summary>
+        public bool IsDragable
+        {
+            get { return (bool)GetValue(IsDragableProperty); }
+            set { SetValue(IsDragableProperty, value); }
+        }
+
+        /// <summary>
+        /// 可以被丟
+        /// </summary>
+        public bool IsDropable
+        {
+            get { return (bool)GetValue(IsDropableProperty); }
+            set { SetValue(IsDropableProperty, value); }
+        }
 
 
 

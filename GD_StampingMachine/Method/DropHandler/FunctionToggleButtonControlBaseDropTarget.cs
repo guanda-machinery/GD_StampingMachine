@@ -1,9 +1,11 @@
-﻿using GD_CommonLibrary.Extensions;
+﻿using DevExpress.Xpf.Core.Native;
+using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.UserControls.CustomControls;
 using GongSolutions.Wpf.DragDrop;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +16,6 @@ namespace GD_StampingMachine.Method
 {
     public class FunctionToggleButtonControlBaseDropTarget : BaseDropTarget
     {
-
         public override void DragOver(IDropInfo dropInfo)
         {
             if (dropInfo.DragInfo == null)
@@ -24,28 +25,48 @@ namespace GD_StampingMachine.Method
                 return;
             }
 
+            if (dropInfo.DragInfo is FunctionToggleUserControl UserControlSourceData)
+            {
+                if (!UserControlSourceData.IsDragable)
+                {
+                    dropInfo.NotHandled = false;
+                    dropInfo.Effects = System.Windows.DragDropEffects.None;
+                    return;
+                }
+            }
 
-            if (dropInfo.DragInfo.SourceItem.GetType() == dropInfo.VisualTarget.GetType())
+            if (dropInfo.TargetItem is FunctionToggleUserControl UserControlTargetData)
             {
-                dropInfo.DropTargetAdorner = typeof(DropTargetHighlightAdorner);
-                dropInfo.NotHandled = true;
-                dropInfo.Effects = System.Windows.DragDropEffects.Move;
+                if (UserControlTargetData.IsDropable)
+                {
+                    dropInfo.DropTargetAdorner = typeof(DropTargetHighlightAdorner);
+                    dropInfo.NotHandled = true;
+                    dropInfo.Effects = System.Windows.DragDropEffects.Copy;
+                    return;
+                }
             }
-            else
-            {
-                dropInfo.NotHandled = false;
-                dropInfo.Effects = System.Windows.DragDropEffects.None;
-            }
+
+
+            dropInfo.NotHandled = false;
+            dropInfo.Effects = System.Windows.DragDropEffects.None;
         }
         public override void Drop(IDropInfo dropInfo)
         {
             if(dropInfo.VisualTarget is FunctionToggleButton DropTarget && dropInfo.Data is FunctionToggleButton DropData)
                 DropTarget.MainStackPanel.DataContext = DropData.MainStackPanel.DataContext ;
-            
-            if(dropInfo.VisualTarget is FunctionToggleUserControl UserControlDropTarget && dropInfo.Data is FunctionToggleUserControl UserControlDropData)
+
+            if (dropInfo.Data is FunctionToggleUserControl UserControlDropData)
             {
-                UserControlDropTarget.Toggle.DataContext = UserControlDropData.Toggle.DataContext;
+                //if (dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource)
+                if (dropInfo.TargetItem is FunctionToggleUserControl UserControlTargetData)
+                {
+                    if(UserControlTargetData.IsDropable)
+                        UserControlTargetData.Toggle.DataContext = UserControlDropData.Toggle.DataContext;
+                }
+
             }
+
+
 
         }
 

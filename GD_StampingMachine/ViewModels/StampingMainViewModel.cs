@@ -265,7 +265,13 @@ namespace GD_StampingMachine.ViewModels
             TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
 
-            MachineFunctionVM = new MachineFunctionViewModel();
+            MachineFunctionVM = new MachineFunctionViewModel()
+            {
+                   QRSettingModelCollection = ParameterSettingVM.QRSettingVM.QRSettingModelCollection
+            };
+
+
+
 
 
             Task.Run(() =>
