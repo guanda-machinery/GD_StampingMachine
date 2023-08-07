@@ -14,7 +14,9 @@
              x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <ToggleButton IsChecked="{Binding IsChecked}" IsThreeState="{Binding IsThreeState}" x:Name="Toggle" Content="{Binding ButtonContent, Mode=OneWay}">
+        <ToggleButton IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsChecked}"
+                      IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
+                      Content="{Binding ButtonContent, Mode=OneWay}">
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton" >
                     <Setter Property="Background" Value="Transparent"/>
@@ -23,6 +25,7 @@
                     <Setter Property="FontWeight" Value="{Binding Path=FontWeight}"/>
                     <Setter Property="FontFamily" Value="{Binding Path=FontFamily}"/>
                     <Setter Property="FontStretch" Value="{Binding Path=FontStretch}"/>
+
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ToggleButton">
@@ -156,6 +159,12 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
+
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.3"/>
+                                </Trigger>
+                            </Style.Triggers>
 
 
                 </Style>

@@ -6,7 +6,7 @@
                     xmlns:local="clr-namespace:GD_StampingMachine"
                     xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary">
 
-    <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}" x:Key="WhiteMDComboBox">
+    <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}" x:Key="GD_ComboBox">
 
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -22,11 +22,21 @@
         <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".2"/>
         <Setter Property="IsEditable" Value="False"/>
     </Style>
-    <Style TargetType="ComboBox" BasedOn="{StaticResource WhiteMDComboBox}"/>
+    <Style TargetType="ComboBox" BasedOn="{StaticResource GD_ComboBox}"/>
+
+    <Style TargetType="ComboBox" BasedOn="{StaticResource GD_ComboBox}" x:Key="GD_WhiteComboBox">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="Black" />
+        <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="Custom"/>
+        <Setter Property="materialDesign:ColorZoneAssist.Background" Value="White"/>
+        <Setter Property="materialDesign:ColorZoneAssist.Foreground" Value="Black"/>
+    </Style>
 
 
 
-    <Style TargetType="ComboBox" BasedOn="{StaticResource WhiteMDComboBox}" x:Key="WhiteMDComboBox_WithIconPack">
+
+    <Style TargetType="ComboBox" BasedOn="{StaticResource GD_ComboBox}" x:Key="GD_ComboBox_WithIconPack">
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>

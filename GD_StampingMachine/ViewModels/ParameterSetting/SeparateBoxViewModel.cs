@@ -70,5 +70,22 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+
+        public bool IsUsing
+        {
+            get => _separateBox.BoxIsUsing;
+            set
+            {
+                _separateBox.BoxIsUsing = value;
+                OnPropertyChanged();
+            }
+        }
+
+
     }
+
+
+
+
+
 }

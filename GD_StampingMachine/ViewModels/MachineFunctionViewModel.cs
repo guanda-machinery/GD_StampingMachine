@@ -1,5 +1,7 @@
-﻿using GD_CommonLibrary;
+﻿using DevExpress.Data.Extensions;
+using GD_CommonLibrary;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,9 +17,13 @@ namespace GD_StampingMachine.ViewModels
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineFunction");
 
 
-        public ParameterSettingViewModel ParameterSettingVM{get;set;}
 
-        public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
+
+        public ParameterSettingViewModel ParameterSettingVM { get; set; } = new();
+
+
+
+        public StampingFontChangedViewModel StampingFontChangedVM { get; set; } = new();
 
 
 
@@ -68,7 +74,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private bool _manualOperatingMode = false;
+     /*   private bool _manualOperatingMode = false;
 
        public bool ManualOperatingMode
         {
@@ -82,8 +88,8 @@ namespace GD_StampingMachine.ViewModels
                 _manualOperatingMode = value;
                 OnPropertyChanged();
             }
+        }*/
 
-        }
 
         private bool _feeding_Component_Button_IsChecked = false;
         /// <summary>
@@ -95,6 +101,15 @@ namespace GD_StampingMachine.ViewModels
             set { _feeding_Component_Button_IsChecked = value; OnPropertyChanged(); }
 
         }
+
+
+        private bool _qrCode_Component_Button_IsChecked = false;
+        public bool QRCode_Component_Button_IsChecked
+        {
+            get => _qrCode_Component_Button_IsChecked;
+            set { _qrCode_Component_Button_IsChecked = value; OnPropertyChanged(); }
+        }
+        
 
 
         private bool _stamping_Component_Button_IsChecked = false;
@@ -199,20 +214,20 @@ namespace GD_StampingMachine.ViewModels
             set { _cylinder_1_isDown = value; OnPropertyChanged(); }
         }
 
-        public bool _cylinder_1_Up_IsEnabled = true;
+        private bool _cylinder_1_Up_IsEnabled = true;
         public bool Cylinder_1_Up_IsEnabled
         {
             get => _cylinder_1_Up_IsEnabled;
             set { _cylinder_1_Up_IsEnabled = value; OnPropertyChanged(); }
         }
-        public bool _cylinder_1_Middle_IsEnabled = true;
+        private bool _cylinder_1_Middle_IsEnabled = true;
         public bool Cylinder_1_Middle_IsEnabled
         {
             get => _cylinder_1_Middle_IsEnabled;
             set { _cylinder_1_Middle_IsEnabled = value; OnPropertyChanged(); }
         }
 
-        public bool _cylinder_1_Down_IsEnabled = true;
+        private bool _cylinder_1_Down_IsEnabled = true;
         public bool Cylinder_1_Down_IsEnabled
         {
             get => _cylinder_1_Down_IsEnabled;
@@ -282,6 +297,88 @@ namespace GD_StampingMachine.ViewModels
 
             });
         }
+
+
+
+
+        public ICommand SeparateBox_ClockwiseRotateCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                try
+                {
+                    SeparateBox_Rotate(-1);
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            });
+        }
+
+        public ICommand SeparateBox_CounterClockwiseRotateCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                try
+                {
+                    SeparateBox_Rotate(1);
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            });
+        }
+
+        private void SeparateBox_Rotate(int step)
+        {
+            var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);
+            var Maxindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
+
+
+            var IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
+            if (IsUsingindex == -1)
+            {
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;
+                if(step>0)
+                {
+                    IsUsingindex = MinIndex;
+                }
+                else  if (step <= 0)
+                {
+
+                    IsUsingindex = Maxindex;
+                }
+                return;
+            }
+            else
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;
+
+            IsUsingindex += step;
+
+
+            if (IsUsingindex < MinIndex)
+            {
+                //IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count-1;
+                IsUsingindex = Maxindex;
+            }
+
+            if (IsUsingindex > Maxindex)
+            {
+                //IsUsingindex = 0;
+                IsUsingindex = MinIndex;
+                //最小的可用index
+            }
+
+            if(IsUsingindex!=-1)
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
+
+
+        }
+
 
 
 

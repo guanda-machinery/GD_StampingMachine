@@ -14,14 +14,12 @@ namespace GD_CommonLibrary
     public class MultiValueHasParameterValueToBooleanConverter : BaseMultiValueConverter
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-           var ValueList = values.ToList();
-
+        {   
             if (parameter != null)
             {
-                foreach(var item in ValueList)
+                foreach (var item in values)
                 {
-                    if(Equals(item, parameter))
+                    if (Equals(item, parameter))
                         return true;
                 }
                 return false;

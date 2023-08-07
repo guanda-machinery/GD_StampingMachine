@@ -17,6 +17,10 @@
                         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
                         <Setter Property="Kind" Value="{Binding CylinderIsSingalPackIcon}"/>
                     </Style>
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource Sieg_CylinderToggleButton}">
+                        <Setter Property="Height" Value="auto"/>
+                        <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"/>
+                    </Style>
                 </Grid.Resources>               
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -49,17 +53,17 @@
                 <RadioButton IsChecked="{Binding CylinderUp_IsChecked}" IsThreeState="False" IsEnabled="{Binding CylinderUp_IsEnabled}"
                     Grid.Column="1" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}" 
+                                
                                              Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}"/>
                 <RadioButton IsChecked="{Binding CylinderMiddle_IsChecked}" IsThreeState="False"   IsEnabled="{Binding CylinderMiddle_IsEnabled}"
                     Grid.Column="1" Grid.Row="1"  Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderMiddleCommand}"  CommandParameter="{Binding CylinderMiddleCommandParameter}"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}" 
+                              
                                              Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
                 <RadioButton IsChecked="{Binding CylinderDown_IsChecked}" IsThreeState="False"  IsEnabled="{Binding CylinderDown_IsEnabled}"
                     Grid.Column="1" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderDownCommand}"  CommandParameter="{Binding CylinderDownCommandParameter}"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}"  
+              
                                               Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}"/>
             </Grid>
         </materialDesign:ColorZone>

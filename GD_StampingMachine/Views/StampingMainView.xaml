@@ -842,7 +842,7 @@
                                 IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}" AllowsTransparency="True"  
                                                    Placement="Top"  PlacementTarget="{Binding ElementName=TBtn_Speed}" PopupAnimation="Slide" PlacementRectangle="-110,-10,0,0" >
                                 <Border Opacity="0.95"
-                                    CornerRadius="10"   Background="{DynamicResource PrimaryHueDarkBrush}" BorderBrush="White">
+                                    CornerRadius="10"   Background="{DynamicResource PrimaryHueLightBrush}" BorderBrush="{DynamicResource PrimaryHueLightBrush}" BorderThickness="1">
                                     <StackPanel Margin="5" Orientation="Vertical">
                                         <TextBlock  HorizontalAlignment="Center"
                                             Text="{StaticResource btnDescription_Speed}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"

@@ -31,7 +31,7 @@
         <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
                 <StackPanel >
                     <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
-                Style="{StaticResource WhiteMDComboBox}" SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
+                Style="{StaticResource GD_White_ComboBox}" SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
                 ItemsSource="{Binding StampingTypeVMObservableCollection}" />
                     <dxe:ComboBoxEdit   Width="150" Foreground="Red" EditValue="{Binding Direction, UpdateSourceTrigger=PropertyChanged}"   >
                         <dxmvvm:Interaction.Behaviors>

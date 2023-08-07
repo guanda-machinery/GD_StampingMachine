@@ -5,6 +5,7 @@ using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.ObjectModel;
+using System.Security.Policy;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting

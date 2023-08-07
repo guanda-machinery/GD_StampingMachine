@@ -238,8 +238,6 @@ namespace GD_StampingMachine.ViewModels
             {
                 ProductSettingVM = ProductSettingVM,
                 ParameterSettingVM = ParameterSettingVM
-                //ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
-                //SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection,
             };
 
             if (JsonHM.ReadProjectDistributeListJson(out var RPDList))

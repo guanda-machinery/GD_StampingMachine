@@ -340,6 +340,7 @@
     <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\FormatStringConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiBindingToArrayValueConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\MultiBooleanArrayAndArrayParameterToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\ToggleButtonMultiBooleanToBooleanConverter.cs" />
