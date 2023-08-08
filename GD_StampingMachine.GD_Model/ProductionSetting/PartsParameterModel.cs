@@ -1,4 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,9 +51,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public int? BoxIndex { get; set; }
 
-        
-
-        public StampingPlateSettingModel StampingPlate { get; set; } 
+        public StampPlateSettingModel StampingPlate { get; set; } 
     }
 
 

@@ -342,16 +342,16 @@ namespace GD_StampingMachine.ViewModels
             var IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
             if (IsUsingindex == -1)
             {
-                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;
+                //ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;
                 if(step>0)
                 {
                     IsUsingindex = MinIndex;
                 }
                 else  if (step <= 0)
                 {
-
                     IsUsingindex = Maxindex;
                 }
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
                 return;
             }
             else

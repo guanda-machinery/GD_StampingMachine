@@ -35,7 +35,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Border Background="#0042c9" Width="50" CornerRadius="10" Margin="5" HorizontalAlignment="Left" >
-                                <TextBlock Text="16" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}"/>
+                                <TextBlock Foreground="White" Text="16" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}"/>
                             </Border>
                             <Grid Grid.Column="1" Margin="0,3">
                                 <Grid.RowDefinitions>

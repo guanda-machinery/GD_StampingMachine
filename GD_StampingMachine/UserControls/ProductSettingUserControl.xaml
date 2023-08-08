@@ -631,36 +631,24 @@
                     
                 </StackPanel>
                 <Expander Grid.Row="1" 
-                    Background="Transparent" Foreground="Transparent" Margin="-10,0,0,0"
-                                  ExpandDirection="Down"  
+                    Background="Transparent" Foreground="Transparent" Margin="10"
+                                  ExpandDirection="Down"   
                                   Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsExpanded, Converter={dx:BooleanToVisibilityConverter Invert=False}}"
                                   IsExpanded="{Binding PartsParameterViewModelSelectItem,
                             Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
                                   IsEnabled="False">
-                        <StackPanel Margin="0,-70,0,0">
-                            <StackPanel.LayoutTransform>
-                                <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                            </StackPanel.LayoutTransform>
-                            <GD_SchematicDiagram:PlateRowDiagramUserControl        
-                             Margin="0,-5,0,10"  
-                                Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.NormalSheetStamping}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter}}"
-                                PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
-                                PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
-                                SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
-                                SequenceCount="{Binding SettingVM.SequenceCountComboBoxSelectValue, FallbackValue=8}"
-                                PlateNumberList="{Binding SettingVM.PlateNumberList}"
-                        RedMeasurementLineVisibility="Collapsed"
-                        />
-                            <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl
-                        Margin="-20,-80,0,0"
-                        Visibility="{Binding ProductProjectSheetStampingTypeForm, ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter}}"
-                                PlateHorizontalAlignment="{Binding SettingVM.HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
-                                PlateVerticalAlignment="{Binding SettingVM.VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
-                                SpecialSequence="{Binding SettingVM.SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
-                                SequenceCount="{Binding SettingVM.SequenceCountComboBoxSelectValue, FallbackValue=8}"
-                                PlateNumberList="{Binding SettingVM.PlateNumberList}"            
-                        RedMeasurementLineVisibility="Collapsed"
-                                />
+                        <StackPanel Margin="0,-40,0,0">
+                        <StackPanel.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </StackPanel.LayoutTransform>
+                        <GD_SchematicDiagram:PlateRowDiagramViewUserControl
+                            DataContext="{Binding SettingVM}" 
+                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
+                        <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
+                            DataContext="{Binding SettingVM}" 
+                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
                         </StackPanel>
                     </Expander>
                     
@@ -805,39 +793,30 @@
                                                     <Setter.Value>
                                                         <DataTemplate>
                                                             <Grid>
-                                                                <TextBlock Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter}, ConverterParameter={x:Null}}"
-                                                                    Text="{DynamicResource Text_SelectedMachiningForm}" Grid.RowSpan="2" VerticalAlignment="Center"/>
-                                                                <Grid Margin="5,0,5,15">
+                                                                <Grid Margin="5,5">
                                                                 <Grid.RowDefinitions>
                                                                     <RowDefinition Height="auto"/>
                                                                     <RowDefinition/>
                                                                 </Grid.RowDefinitions>
-                                                                <TextBlock Text="{Binding NumberSetting.NumberSettingMode}"/>
-                                                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="-10,-10,0,00">
+                                                                    <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
+                                                                    
+                                                                <StackPanel Grid.Row="1" Orientation="Horizontal" >
                                                                     <Grid 
-                                                            RenderTransformOrigin="0.0,0.0" Margin="0,0,-700,-295">
-                                                                        <Grid.RenderTransform>
-                                                                            <ScaleTransform ScaleX="0.22" ScaleY="0.22" />
-                                                                        </Grid.RenderTransform>
-                                                                        <GD_SchematicDiagram:PlateRowDiagramUserControl Margin="0,15,0,15"
-                                                                Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"          
-                                                                PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
-                                  PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue, FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
-                                SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
-                                SequenceCount="{Binding SequenceCountComboBoxSelectValue, FallbackValue=8}"
-                                PlateNumberList="{Binding PlateNumberList}"
-                        RedMeasurementLineVisibility="Collapsed"
-                        />
-                                                                        <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl  Margin="-20,-50,0,0"      
-                                         Visibility="{Binding ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}, Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True}}"
-                                                                PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
-                                PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
-                                SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
-                                SequenceCount="{Binding SequenceCountComboBoxSelectValue, FallbackValue=6}"
-                                PlateNumberList="{Binding PlateNumberList}"            
-                        RedMeasurementLineVisibility="Collapsed"
-                                />
-                                                                    </Grid>
+                                                            RenderTransformOrigin="0.0,0.0" >
+                                                                            <Grid.LayoutTransform>
+                                                                                <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                            </Grid.LayoutTransform>
+                                                                            <StackPanel> 
+                                                                            <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
+                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
+                                                                            <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
+                                                                                                                                             Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
+
+                                                                            </StackPanel>
+
+                                                                        </Grid>
                                                                 </StackPanel>
                                                             </Grid>
                                                         </Grid>
@@ -858,7 +837,7 @@
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterC"/>
-                                                    <Binding Path="SelectedSettingVMBase.NumberSetting.NumberSettingMode" />
+                                                    <Binding Path="SelectedSettingVMBase.NumberSettingMode" />
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
                                             </Button>
@@ -1192,6 +1171,27 @@
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="1" >
+                                        <Grid.LayoutTransform>
+                                            <ScaleTransform ScaleX="0.14" ScaleY="0.14"/>
+                                        </Grid.LayoutTransform>
+                                        <GD_SchematicDiagram:PlateRowDiagramViewUserControl
+                            DataContext="{Binding Row.SettingVMBase}" 
+                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
+                                        <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
+                            DataContext="{Binding Row.SettingVMBase}" 
+                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
+                                    </Grid>
+                                    
+                                    
+                                    
+                                    
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
                         </dxg:GridColumn>
 
 

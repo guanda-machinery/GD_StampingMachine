@@ -99,19 +99,17 @@
         <ScrollViewer Style="{StaticResource scrollviewer_STD}"
             VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
             <TabControl>
-                <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}" DataContext="{Binding NumberSettingVM}">
+                <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
                     <StackPanel HorizontalAlignment="Left">
                         <Grid  Margin="20">
                             <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
-                            <GD_SchematicDiagram:PlateRowDiagramUserControl
-                                PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
-                                PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
-                                SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
-                                SequenceCount="{Binding SequenceCountComboBoxSelectValue, FallbackValue=8}"
-                                PlateNumberList="{Binding PlateNumberList}"
-                                />
-
+                            <StackPanel>
+                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" />
+                            </StackPanel>
                         </Grid>
+                        
+                        
+                        
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -172,13 +170,14 @@
                                         <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding NumberSettingVM.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
                                     <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <ComboBox Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" SelectedValue="{Binding SequenceCountComboBoxSelectValue}" ItemsSource="{Binding SequenceCountCollection}">
+                                    <ComboBox Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}"
+                                              SelectedValue="{Binding NumberSettingVM.SequenceCount ,Mode=TwoWay}" ItemsSource="{Binding SequenceCountCollection}">
 
                                     </ComboBox>
                                     <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
@@ -188,7 +187,7 @@
                                     <ComboBox  Name="SpecialSequenceComboBox" Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
                                                                        ItemsSource="{Binding SpecialSequenceCollection}"
-                                                                       SelectedValue="{Binding SpecialSequenceComboBoxSelectValue, UpdateSourceTrigger=PropertyChanged}">
+                                                                       SelectedValue="{Binding NumberSettingVM.SpecialSequence, UpdateSourceTrigger=PropertyChanged}">
 
                                     </ComboBox>
                                     <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
@@ -197,7 +196,7 @@
                                     </StackPanel>
                                     <ComboBox Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="4" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
-                                                                       SelectedValue="{Binding HorizontalAlignEnumComboBoxSelectValue}"
+                                                                       SelectedValue="{Binding NumberSettingVM.HorizontalAlign}"
                                         ItemsSource="{Binding HorizontalAlignmentCollection}">
 
                                     </ComboBox>
@@ -207,7 +206,7 @@
                                     </StackPanel>
                                     <ComboBox  Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="5" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
-                                        SelectedValue="{Binding VerticalAlignEnumComboBoxSelectValue}"
+                                        SelectedValue="{Binding NumberSettingVM.VerticalAlign}"
                                         ItemsSource="{Binding VerticalAlignmentCollection}"
                                         >
 
@@ -237,35 +236,35 @@
                                         <TextBlock Text="A"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding Margin_A}"/>
+                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSettingVM.IronPlateMargin.A_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="B"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding Margin_B}"/>
+                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSettingVM.IronPlateMargin.B_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="C"/>
                                             <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding Margin_C}"/>
+                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSettingVM.IronPlateMargin.C_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="D"/>
                                          <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding Margin_D}"  />
+                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSettingVM.IronPlateMargin.D_Margin}"  />
                                     <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="E"/>
                                        <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding Margin_E}"/>
+                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSettingVM.IronPlateMargin.E_Margin}"/>
                                     <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                 </Grid>
@@ -285,21 +284,20 @@
                         </Grid>
                     </StackPanel>
                 </TabItem>
-                <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}" DataContext="{Binding QRSettingVM}" Cursor="">
+                <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
                     <Grid HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel>
-                            <GD_SchematicDiagram:PlateRowDiagramWithQRUserControl HorizontalAlignment="Left"
-                               PlateHorizontalAlignment="{Binding HorizontalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:HorizontalAlignEnum.Left}}"
-                                PlateVerticalAlignment="{Binding VerticalAlignEnumComboBoxSelectValue , FallbackValue={x:Static GD_Enum:VerticalAlignEnum.Top}}"
-                                SpecialSequence="{Binding SpecialSequenceComboBoxSelectValue, FallbackValue={x:Static GD_Enum:SpecialSequenceEnum.TwoRow}}"
-                                SequenceCount="{Binding SequenceCountComboBoxSelectValue, FallbackValue=6}"
-                                PlateNumberList="{Binding PlateNumberList}"
+
+                            <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl HorizontalAlignment="Left" 
+                                                                                      DataContext="{Binding QRSettingVM}" 
                                 
                                 />
+
+
                         </StackPanel>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -352,14 +350,14 @@
                                             <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox   Grid.Column="1" Text="{Binding NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
+                                        <TextBox   Grid.Column="1" Text="{Binding QRSettingVM.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
                                         </TextBox>
                                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
                                         <ComboBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" 
-                                                  SelectedValue="{Binding SequenceCountComboBoxSelectValue}" ItemsSource="{Binding SequenceCountCollection}">
+                                                  SelectedValue="{Binding QRSettingVM.SequenceCount}" ItemsSource="{Binding SequenceCountCollection}">
 
                                         </ComboBox>
 
@@ -370,7 +368,7 @@
                                         <ComboBox  Style="{StaticResource GD_ComboBox_WithIconPack}"
                                             Grid.Row="2" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
                                                                        ItemsSource="{Binding SpecialSequenceCollection}"
-                                                                       SelectedValue="{Binding SpecialSequenceComboBoxSelectValue}">
+                                                                       SelectedValue="{Binding QRSettingVM.SpecialSequence}">
 
                                         </ComboBox>
 
@@ -380,7 +378,7 @@
                                         </StackPanel>
                                         <ComboBox  Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
-                                                                       SelectedValue="{Binding HorizontalAlignEnumComboBoxSelectValue}"
+                                                                       SelectedValue="{Binding QRSettingVM.HorizontalAlign}"
                                         ItemsSource="{Binding HorizontalAlignmentCollection}">
                                         </ComboBox>
                                         <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10">
@@ -389,7 +387,7 @@
                                         </StackPanel>
                                         <ComboBox  Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="4" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
-                                                                       SelectedValue="{Binding VerticalAlignEnumComboBoxSelectValue}"
+                                                                       SelectedValue="{Binding QRSettingVM.VerticalAlign}"
                                         ItemsSource="{Binding VerticalAlignmentCollection}">
                                         </ComboBox>
                                         <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10" Visibility="Collapsed">
@@ -453,7 +451,7 @@
                                         </StackPanel>
                                         <ComboBox 
                                             Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding CharactersCountCollection}" 
-                                                                      SelectedValue="{Binding NumberSetting.CharactersCount, UpdateSourceTrigger=PropertyChanged}">
+                                                                      SelectedValue="{Binding QRSettingVM.CharactersCount, UpdateSourceTrigger=PropertyChanged}">
                                         </ComboBox>
 
 
@@ -463,7 +461,7 @@
                                         </StackPanel>
                                         <ComboBox 
                                             Grid.Column="1" Grid.Row="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  ItemsSource="{Binding CharactersFormEnumCollection}" 
-                                                                      SelectedValue="{Binding NumberSetting.CharactersForm, UpdateSourceTrigger=PropertyChanged}">
+                                                                      SelectedValue="{Binding QRSettingVM.CharactersForm, UpdateSourceTrigger=PropertyChanged}">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Converter={ GD_Common:EnumGetNameConverter}}"></TextBlock>
@@ -484,7 +482,7 @@
                                         </StackPanel>
                                         <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}" 
                                                   ItemsSource="{Binding ModelSizeCollection}" 
-                                                                      SelectedItem="{Binding NumberSetting.ModelSize, UpdateSourceTrigger=PropertyChanged}">
+                                                                      SelectedItem="{Binding QRSettingVM.ModelSize, UpdateSourceTrigger=PropertyChanged}">
 
                                         </ComboBox>
                                     </Grid>
@@ -513,35 +511,35 @@
                                         
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding Margin_A}"/>
+                                        <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.A_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="B"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  Margin_B}"/>
+                                        <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMargin.B_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="C"/>
                                                <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding Margin_C}"/>
+                                        <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.C_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="D"/>
                                                <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding Margin_D}"  />
+                                        <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSettingVM.IronPlateMargin.D_Margin}"  />
                                         <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="E"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding Margin_E}"/>
+                                        <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSettingVM.IronPlateMargin.E_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="0" Grid.Column="3" Orientation="Horizontal" Margin="0,10" >
@@ -549,28 +547,28 @@
                                               <TextBlock Text="："/>
                                         </StackPanel>
 
-                                        <TextBox Grid.Column="4"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding Margin_F}"/>
+                                        <TextBox Grid.Column="4"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.F_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel Grid.Column="3"  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="G"/>
                                            <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox Grid.Row="1"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  Margin_G}"/>
+                                        <TextBox Grid.Row="1"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMargin.G_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="H"/>
                                          <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox  Grid.Row="2"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding Margin_H}"/>
+                                        <TextBox  Grid.Row="2"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.H_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="I"/>
                                            <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox   Grid.Row="3" Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  Margin_I}"  />
+                                        <TextBox   Grid.Row="3" Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMargin.I_Margin}"  />
                                         <TextBlock Text="mm" Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
 

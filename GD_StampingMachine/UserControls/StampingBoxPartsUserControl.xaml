@@ -35,6 +35,7 @@
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
+                        <Setter Property="IsEnabled" Value="{Binding BoxIsEnabled}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
@@ -135,7 +136,7 @@
             </ListBox>
         </ScrollViewer>
 
-        <dxg:GridControl 
+        <dxg:GridControl  IsEnabled="{Binding SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
                                     Grid.Column="1"
              SelectionMode="MultipleRow"

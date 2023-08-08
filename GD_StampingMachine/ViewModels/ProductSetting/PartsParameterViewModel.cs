@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
+using GD_StampingMachine.Model;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -153,11 +154,22 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
-        private IStampingPlateVM _settingVMBase;
-
-        public IStampingPlateVM SettingVMBase
+        private SettingBaseViewModel _settingVMBase;
+        public SettingBaseViewModel SettingVMBase
         {
-            // get=>_settingVMBase??= new SettingViewModelBase(PartsParameter.NormalSetting);
+            get
+            {
+                return _settingVMBase;
+            }
+            set
+            {
+                _settingVMBase = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /*public StampPlateSettingModel SettingVMBase
+        {
             get
             {
                 if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
@@ -169,17 +181,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _settingVMBase = value;
-                if (_settingVMBase is QRSettingViewModel QrSetting)
+                if (_settingVMBase is QRSettingViewModel QrSettingVM)
                 {
-                    PartsParameter.StampingPlate = QrSetting.NumberSetting;
+                    PartsParameter.StampingPlate = QrSettingVM.QRSetting;
                 }
-                if (_settingVMBase is NumberSettingViewModel NumberSetting)
+                if (_settingVMBase is NumberSettingViewModel NumberSettingVM)
                 {
-                    PartsParameter.StampingPlate = NumberSetting.NumberSetting;
+                    PartsParameter.StampingPlate = NumberSettingVM.NumberSetting;
                 }
                 OnPropertyChanged(nameof(SettingVMBase));
             }
-        }
+        }*/
 
         [JsonIgnore]
         public RelayParameterizedCommand ProjectEditCommand

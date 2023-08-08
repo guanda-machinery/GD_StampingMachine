@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using GD_StampingMachine.Model;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -253,7 +254,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         } 
-        public IStampingPlateVM SelectedSettingVMBase
+
+        public SettingBaseViewModel SelectedSettingVMBase
         {
             get => AddNewPartsParameterVM.SettingVMBase;
             set 
@@ -265,15 +267,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
  
 
 
-        private ObservableCollection<IStampingPlateVM> _numberSettingSavedCollection;
+        private ObservableCollection<SettingBaseViewModel> _numberSettingSavedCollection;
         /// <summary>
         /// 建立零件POPUP-加工型態combobox
         /// </summary>
-        public ObservableCollection<IStampingPlateVM> NumberSettingSavedCollection
+        public ObservableCollection<SettingBaseViewModel> NumberSettingSavedCollection
         {
             get 
             {
-                _numberSettingSavedCollection ??= new ObservableCollection<IStampingPlateVM>();
+                _numberSettingSavedCollection ??= new ObservableCollection<SettingBaseViewModel>();
                 return _numberSettingSavedCollection;
              }
             set
@@ -299,22 +301,24 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public void RefreshNumberSettingSavedCollection()
         {
-            var newSavedCollection = new ObservableCollection<IStampingPlateVM>();
+            var newSavedCollection = new ObservableCollection<SettingBaseViewModel>();
             if (_productProject != null)
             {
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                 {
-                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<StampingPlateSettingModel> SavedCollection))
+                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<StampPlateSettingModel> SavedCollection))
                         if (SavedCollection != null)
                             foreach (var asd in SavedCollection)
+                                //newSavedCollection.Add(asd);
                                 newSavedCollection.Add(new NumberSettingViewModel(asd));
 
                 }
                 if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampingPlateSettingModel> QRSavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampPlateSettingModel> QRSavedCollection))
                         if (QRSavedCollection != null)
                             foreach (var asd in QRSavedCollection)
+                                //newSavedCollection.Add(asd);
                                 newSavedCollection.Add(new QRSettingViewModel(asd));
                 }
             }
@@ -324,12 +328,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private IStampingPlateVM _settingVM;
+        private SettingBaseViewModel _settingVM;
         /// <summary>
         /// 上方的排列示意圖(純顯示)
         /// </summary>
         [JsonIgnore]
-        public IStampingPlateVM SettingVM
+        public SettingBaseViewModel SettingVM
         {
             get => _settingVM;
             set
@@ -338,6 +342,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
+
         private PartsParameterViewModel _partsParameterViewModelSelectItem;
         /// <summary>
         /// 參數gridcontrol選擇

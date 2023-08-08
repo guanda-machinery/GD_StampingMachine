@@ -47,9 +47,9 @@
     <Compile Include="ParameterSetting\AxisSettingModel.cs" />
     <Compile Include="ParameterSetting\EngineerSettingModel.cs" />
     <Compile Include="ParameterSetting\InputOutputModel.cs" />
+    <Compile Include="ParameterSetting\NumberSetting\StampPlateSettingModel.cs" />
     <Compile Include="ParameterSetting\SeparateBoxModel.cs" />
     <Compile Include="ParameterSetting\SeparateSettingModel.cs" />
-    <Compile Include="ParameterSetting\StampingPlateSettingModel.cs" />
     <Compile Include="ParameterSetting\TimingSettingModel.cs" />
     <Compile Include="ProductionSetting\PartsParameterModel.cs" />
     <Compile Include="ProductionSetting\StampingSteelBeltModel.cs" />

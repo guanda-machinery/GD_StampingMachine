@@ -12,11 +12,11 @@ namespace GD_StampingMachine.ViewModels
 
     public class ParameterSettingModel
     {
-        public GD_Model.StampingPlateSettingModel NumberSetting { get; set; } = new();
+        //public GD_Model.StampingPlateSettingModel NumberSetting { get; set; } = new();
         /// <summary>
         /// QR設定
         /// </summary>
-        public GD_Model.StampingPlateSettingModel QRSetting { get; set; } = new();
+        //public GD_Model.StampingPlateSettingModel QRSetting { get; set; } = new();
         /// <summary>
         /// 軸向設定
         /// </summary>
@@ -75,8 +75,8 @@ namespace GD_StampingMachine.ViewModels
         private void init(ParameterSettingModel ParameterSetting)
         {
             _parameterSetting = ParameterSetting;
-            NumberSettingVM = new NumberSettingViewModel(_parameterSetting.NumberSetting);
-            QRSettingVM = new QRSettingViewModel(_parameterSetting.QRSetting);
+            NumberSettingPageVM = new NumberSettingPageViewModel();
+            QRSettingPageVM = new QRSettingPageViewModel();
             AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
             TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);
             SeparateSettingVM = new SeparateSettingViewModel(_parameterSetting.SeparateSetting);
@@ -92,11 +92,11 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 號碼設定
         /// </summary>
-        public NumberSettingViewModel NumberSettingVM { get; set; }
+        public NumberSettingPageViewModel NumberSettingPageVM { get; set; }
         /// <summary>
         /// QR設定
         /// </summary>
-        public QRSettingViewModel QRSettingVM { get; set; } 
+        public QRSettingPageViewModel QRSettingPageVM { get; set; } 
         /// <summary>
         /// 軸向設定
         /// </summary>

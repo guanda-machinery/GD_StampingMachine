@@ -20,7 +20,8 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
-             xmlns:sys="clr-namespace:System;assembly=System.Runtime" 
+
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
 
@@ -40,7 +41,7 @@
                                     <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
                                         <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
                                             <MultiBinding.ConverterParameter>
-                                                <x:Array Type="sys:Boolean">
+                                                <x:Array Type="{x:Type sys:Boolean}">
                                                     <sys:Boolean>true</sys:Boolean>
                                                     <sys:Boolean>false</sys:Boolean>
                                                     <sys:Boolean>true</sys:Boolean>
