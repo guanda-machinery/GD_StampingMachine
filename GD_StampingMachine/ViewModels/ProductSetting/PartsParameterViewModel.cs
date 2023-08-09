@@ -127,27 +127,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-
-      //  private SheetStampingTypeFormEnum _sheetStampingTypeForm;
-        /// <summary>
-        /// 型態
-        /// </summary>
-        [JsonIgnore]
-        public SheetStampingTypeFormEnum SheetStampingTypeForm
-        {
-            get 
-            {
-                if(PartsParameter.StampingPlate !=null)
-                {
-                    return PartsParameter.StampingPlate.SheetStampingTypeForm;
-                }
-
-                return SheetStampingTypeFormEnum.NormalSheetStamping;
-            }
-        }
-
-
-
         private SettingBaseViewModel _settingVMBase;//= new NumberSettingViewModel();
         /// <summary>
         /// 金屬牌樣式
@@ -158,16 +137,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (_settingVMBase == null)
                 {
-                    if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                    if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                         _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
                     else
                         _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
+
+                    PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
                 }
                 return _settingVMBase;
             }
             set
             {
                 _settingVMBase = value;
+                if(_settingVMBase != null)
+                    PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
                 OnPropertyChanged();
             }
         }
