@@ -45,14 +45,7 @@ namespace GD_StampingMachine
                 Copyright = "Copyright © 2023 GUANDA",
             };
 
-            LoadLanguage();
-            //靜態調用. 當資源字典變更成其他語系後, Title並不會隨著變化
-            //lblTitle.Content = FindResource(“lblTitle”).ToString();
-            //動態調用, Title會隨著字典而變化.
-            // lblTitle.SetResourceReference(Label.ContentProperty, “lblTitle”);
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
-    
+
             Task.Run(() =>
             {
 
@@ -87,8 +80,17 @@ namespace GD_StampingMachine
                 StampingMachineWindow MachineWindow;
                 var ThreadOper = Dispatcher.BeginInvoke(new Action(delegate
                 {
-                    MachineWindow = new StampingMachineWindow();
-                    MachineWindow.Show();
+                    try
+                    {
+                        MachineWindow = new StampingMachineWindow();
+                        MachineWindow.Show();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show (ex.Message);
+                        Environment.Exit(0);
+                    }
+
                 }));
 
                 Thread.Sleep(1000);
@@ -118,30 +120,6 @@ namespace GD_StampingMachine
 
 
          }
-
-
-        private void LoadLanguage()
-        {
-            CultureInfo currentCultureInfo = CultureInfo.CurrentCulture;
-            ResourceDictionary langRd = null;
-            try
-            {
-                langRd = Application.LoadComponent(
-                new Uri(@"Language\" + "StringResource." + currentCultureInfo.Name + ".xaml ", UriKind.Relative)) as ResourceDictionary;
-            }
-            catch
-            {
-            }
-
-            if (langRd != null)
-            {
-                if (this.Resources.MergedDictionaries.Count > 0)
-                {
-                    this.Resources.MergedDictionaries.Clear();
-                }
-                this.Resources.MergedDictionaries.Add(langRd);
-            }
-        }
 
 
 

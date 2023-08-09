@@ -277,7 +277,7 @@
                                     <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                     <Button HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding NumberSettingVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                         Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
                             </StackPanel>
 

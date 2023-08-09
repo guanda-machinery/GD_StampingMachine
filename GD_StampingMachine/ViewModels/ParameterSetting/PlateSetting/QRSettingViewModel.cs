@@ -26,35 +26,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
 
-
-
         public QRSettingViewModel()
         {
-            StampPlateSetting = new();
+            this.StampPlateSetting = new StampPlateSettingModel();
+            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
-
-        public QRSettingViewModel(StampPlateSettingModel qrSettingModel)
+        public QRSettingViewModel(StampPlateSettingModel stampPlateSetting)
         {
-            StampPlateSetting = qrSettingModel;
+            this.StampPlateSetting = stampPlateSetting;
+            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
-
-        private StampPlateSettingModel _stampPlateSetting;
-        public override StampPlateSettingModel StampPlateSetting
-        {
-            get
-            {
-                if (_stampPlateSetting == null)
-                    _stampPlateSetting = new();
-                return _stampPlateSetting;
-            }
-            set
-            {
-                _stampPlateSetting = value;
-                OnPropertyChanged();
-            }
-        }
-
-
 
         /// <summary>
         /// Code設定 字元數量

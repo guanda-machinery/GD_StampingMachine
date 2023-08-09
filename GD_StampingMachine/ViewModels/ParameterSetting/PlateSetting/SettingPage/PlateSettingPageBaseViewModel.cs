@@ -14,6 +14,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public abstract class PlateSettingPageBaseViewModel : ParameterSettingBaseViewModel
     {
+
+        public abstract SheetStampingTypeFormEnum SheetStampingTypeForm{get;}
+
         [JsonIgnore]
         public Array HorizontalAlignmentCollection
         {
@@ -32,7 +35,19 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        public abstract int PlateNumberListMax { get; }
+        [JsonIgnore]
+        public int PlateNumberListMax
+        { 
+            get 
+            {
+                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                    return 6;
+                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
+                    return 8;
+
+                return 0;
+            }
+        }
         [JsonIgnore]
         public ObservableCollection<int> SequenceCountCollection
         {

@@ -302,6 +302,7 @@
     
     <sys:String x:Key="Text_QRCode_Component">QR CODE組</sys:String>
 
+    <sys:String x:Key="Text_Custom_Component">自定義</sys:String>
 
     <!--Method-->
 

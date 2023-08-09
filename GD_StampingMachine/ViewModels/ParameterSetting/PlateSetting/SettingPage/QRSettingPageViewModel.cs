@@ -36,6 +36,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.QRSheetStamping;
         /// <summary>
         /// 選擇
         /// </summary>
@@ -209,6 +210,5 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        public override int PlateNumberListMax => 6;
     }
 }

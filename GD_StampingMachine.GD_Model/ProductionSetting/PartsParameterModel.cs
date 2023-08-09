@@ -51,7 +51,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public int? BoxIndex { get; set; }
 
-        public StampPlateSettingModel StampingPlate { get; set; } 
+        public StampPlateSettingModel StampingPlate { get; set; } = new StampPlateSettingModel();
     }
 
 

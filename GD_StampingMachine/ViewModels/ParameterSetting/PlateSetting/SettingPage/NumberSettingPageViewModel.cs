@@ -27,10 +27,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
     public class NumberSettingPageViewModel : PlateSettingPageBaseViewModel
     {
+
         [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelNormalViewModel");
 
-  
+
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.NormalSheetStamping;
 
         private NumberSettingViewModel _numberSettingVM;
         public NumberSettingViewModel NumberSettingVM
@@ -137,8 +139,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-
-        public override int PlateNumberListMax => 8;
     }
 
 }

@@ -117,31 +117,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 var sfd = new System.Windows.Forms.SaveFileDialog()
                 {
-                    Filter = "Json files (*.json)|*.json"
+                    Filter = "Json files (*.json)|*.json" ,
+                    FileName = CreatedProjectVM.ProductProjectName
                 };
 
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     CreatedProjectVM.ProductProjectName = Path.GetFileNameWithoutExtension(sfd.FileName);
-                    CreatedProjectVM.ProductProjectPath = Path.GetDirectoryName(sfd.FileName);
-                    /*   if (obj is System.Windows.Controls.TextBox ObjTB)
-                       {
-                           sfd.FileName
-                           ObjTB.Text = dialog.SelectedPath;
-                       }*/
+                    CreatedProjectVM.ProductProjectPath = Path.GetDirectoryName(sfd.FileName); 
                 }
-
-                /*using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
-                {
-                    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                    if (result == System.Windows.Forms.DialogResult.OK)
-                    {
-                        if (obj is System.Windows.Controls.TextBox ObjTB)
-                        {
-                            ObjTB.Text = dialog.SelectedPath;
-                        }
-                    }
-                }*/
             });
         }
         [JsonIgnore]
@@ -194,6 +178,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
+                return new SheetStampingTypeFormEnum[]
+                {
+                    SheetStampingTypeFormEnum.NormalSheetStamping, SheetStampingTypeFormEnum.QRSheetStamping
+                };
                 return System.Enum.GetValues(typeof(SheetStampingTypeFormEnum));
             }
         }

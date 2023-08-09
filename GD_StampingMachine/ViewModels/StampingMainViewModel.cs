@@ -31,6 +31,7 @@ using DevExpress.Mvvm;
 using System.Windows.Controls;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System.Windows.Media;
+using GD_CommonLibrary.Method;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -215,6 +216,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 PathList.ForEach(EPath =>
                 {
+                    
                     //加工專案為到處放的形式 沒有固定位置
                     if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
                     {
@@ -224,6 +226,7 @@ namespace GD_StampingMachine.ViewModels
                     else
                     {
                         //需註解找不到檔案!
+                        MessageBoxResultShow.ShowOK("",$"Can't find file {Path.Combine(EPath.ProjectPath, EPath.Name)}");
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,

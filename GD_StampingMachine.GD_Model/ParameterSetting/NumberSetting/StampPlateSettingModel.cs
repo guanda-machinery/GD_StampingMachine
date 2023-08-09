@@ -11,7 +11,10 @@ namespace GD_StampingMachine.Model
 
     public class StampPlateSettingModel
     { 
-        // public string NumberSettingName { get; set; }
+        /// <summary>
+        /// 型態
+        /// </summary>
+         public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
         /// <summary>
         /// 目前模式
         /// </summary>

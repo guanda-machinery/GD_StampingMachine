@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace GD_StampingMachine.GD_Model
 {
@@ -21,6 +22,8 @@ namespace GD_StampingMachine.GD_Model
         /// 專案名稱
         /// </summary>
         public string Name { get; set; }
+
+
 
         /* public static implicit operator ProjectModel(ProductProjectViewModel v)
          {

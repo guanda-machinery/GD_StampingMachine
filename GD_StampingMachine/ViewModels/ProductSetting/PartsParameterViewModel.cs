@@ -136,29 +136,33 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public SheetStampingTypeFormEnum SheetStampingTypeForm
         {
             get 
-            { 
-                if(_settingVMBase is QRSettingViewModel)
+            {
+                if(PartsParameter.StampingPlate !=null)
                 {
-                    return SheetStampingTypeFormEnum.QRSheetStamping;
+                    return PartsParameter.StampingPlate.SheetStampingTypeForm;
                 }
-                if (_settingVMBase is NumberSettingViewModel)
-                {
-                    return SheetStampingTypeFormEnum.NormalSheetStamping;
-                }
+
                 return SheetStampingTypeFormEnum.NormalSheetStamping;
             }
         }
 
 
 
+        private SettingBaseViewModel _settingVMBase;//= new NumberSettingViewModel();
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
-        private SettingBaseViewModel _settingVMBase;
         public SettingBaseViewModel SettingVMBase
         {
             get
             {
+                if (_settingVMBase == null)
+                {
+                    if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                        _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
+                    else
+                        _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
+                }
                 return _settingVMBase;
             }
             set
@@ -168,45 +172,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        /*public StampPlateSettingModel SettingVMBase
+
+        public bool _editPartDarggableIsPopup;
+        /// <summary>
+        /// 編輯視窗
+        /// </summary>
+        public bool EditPartDarggableIsPopup
         {
-            get
-            {
-                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                    _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
-                else
-                    _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
-                return _settingVMBase;
+            get => _editPartDarggableIsPopup;
+            set  { _editPartDarggableIsPopup = value;OnPropertyChanged();
             }
-            set
-            {
-                _settingVMBase = value;
-                if (_settingVMBase is QRSettingViewModel QrSettingVM)
-                {
-                    PartsParameter.StampingPlate = QrSettingVM.QRSetting;
-                }
-                if (_settingVMBase is NumberSettingViewModel NumberSettingVM)
-                {
-                    PartsParameter.StampingPlate = NumberSettingVM.NumberSetting;
-                }
-                OnPropertyChanged(nameof(SettingVMBase));
-            }
-        }*/
+        }
+
 
         [JsonIgnore]
-        public RelayParameterizedCommand ProjectEditCommand
+        public RelayCommand ProjectEditCommand
         {
-            get => new(obj =>
+            get => new(() =>
             {
-                if (obj is GridControl ObjGridControl)
-                {
-                    if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
-                    {
-                        
-                      if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSettingMode))
-                            GridItemSource.Remove(this);
-                    }
-                }
+                EditPartDarggableIsPopup = true;
             });
         }
 

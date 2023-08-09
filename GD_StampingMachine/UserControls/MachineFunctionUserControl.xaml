@@ -34,30 +34,6 @@
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="5">
-                                <GD_Customcontrols:FunctionToggleUserControl 
-                                                                             UnCheckedKind="HandBackLeft"
-                                                                             IsCheckedKind="HandBackLeft"
-                                                                             UnCheckedTitleText="{DynamicResource btnDescription_ManualOperatingMode}" >
-                                    <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
-                                        <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
-                                            <MultiBinding.ConverterParameter>
-                                                <x:Array Type="{x:Type sys:Boolean}">
-                                                    <sys:Boolean>true</sys:Boolean>
-                                                    <sys:Boolean>false</sys:Boolean>
-                                                    <sys:Boolean>true</sys:Boolean>
-                                                    <sys:Boolean>false</sys:Boolean>
-                                                    <sys:Boolean>false</sys:Boolean>
-                                                </x:Array>
-                                            </MultiBinding.ConverterParameter>
-                                            <Binding Path="Feeding_Component_Button_IsChecked"/>
-                                            <Binding Path="QRCode_Component_Button_IsChecked"/>
-                                            <Binding Path="Stamping_Component_Button_IsChecked"/>
-                                            <Binding Path="ShearCut_Component_Button_IsChecked"/>
-                                            <Binding Path="Separator_Component_Button_IsChecked"/>
-                                        </MultiBinding>
-                                    </GD_Customcontrols:FunctionToggleUserControl.IsChecked>
-                                    
-                                </GD_Customcontrols:FunctionToggleUserControl>
                                 <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}"
                                                                              UnCheckedKind="Import"
                                                                              IsCheckedKind="Import"
@@ -78,6 +54,52 @@
                                    UnCheckedKind="Download"
                                    IsCheckedKind="Download"
                                 UnCheckedTitleText="{DynamicResource Text_Separator_Component}" />
+
+                                <GD_Customcontrols:FunctionToggleUserControl x:Name="Custom_Component_TButton"
+                                   UnCheckedKind="Download"
+                                   IsCheckedKind="Download"
+                                UnCheckedTitleText="{DynamicResource Text_Custom_Component}" />
+
+                                <GD_Popup:NonTopmostPopup
+                                    PopupAnimation="Fade"   FlowDirection="LeftToRight"
+                                    Placement="Right"   
+                                    PlacementTarget="{Binding ElementName=Custom_Component_TButton}"
+                                                          HorizontalAlignment="Center" 
+                                    IsOpen="{Binding ElementName=Custom_Component_TButton, Path=IsChecked, Mode=TwoWay}">
+
+                                    <Grid>
+                                        <Border Background="{DynamicResource PrimaryHueMidBrush}" Padding="5,0" CornerRadius="10">
+                                            <StackPanel>
+                                                <GD_Customcontrols:FunctionToggleUserControl 
+                                                                             UnCheckedKind="HandBackLeft"
+                                                                             IsCheckedKind="HandBackLeft"
+                                                                             UnCheckedTitleText="{DynamicResource btnDescription_ManualOperatingMode}" >
+                                                    <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
+                                                        <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
+                                                            <MultiBinding.ConverterParameter>
+                                                                <x:Array Type="{x:Type sys:Boolean}">
+                                                                    <sys:Boolean>true</sys:Boolean>
+                                                                    <sys:Boolean>false</sys:Boolean>
+                                                                    <sys:Boolean>true</sys:Boolean>
+                                                                    <sys:Boolean>false</sys:Boolean>
+                                                                    <sys:Boolean>false</sys:Boolean>
+                                                                </x:Array>
+                                                            </MultiBinding.ConverterParameter>
+                                                            <Binding Path="Feeding_Component_Button_IsChecked"/>
+                                                            <Binding Path="QRCode_Component_Button_IsChecked"/>
+                                                            <Binding Path="Stamping_Component_Button_IsChecked"/>
+                                                            <Binding Path="ShearCut_Component_Button_IsChecked"/>
+                                                            <Binding Path="Separator_Component_Button_IsChecked"/>
+                                                        </MultiBinding>
+                                                    </GD_Customcontrols:FunctionToggleUserControl.IsChecked>
+
+                                                </GD_Customcontrols:FunctionToggleUserControl>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </GD_Popup:NonTopmostPopup>
+
+
                             </StackPanel>
                         <Grid RenderTransformOrigin="0.5,0.5">
                         <Grid.LayoutTransform >
@@ -356,7 +378,7 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <ComboBox  Width="120" 
-                                    ItemsSource="{Binding ParameterSettingVM.QRSettingVM.QRSettingModelCollection}">
+                                    ItemsSource="{Binding ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding NumberSettingMode}"/>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
@@ -26,6 +27,13 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
+                if (_selectedCulture == CultureInfo.InvariantCulture)
+                {
+                    var CurrentCulture = Thread.CurrentThread.CurrentCulture;
+                    if (CulturesHelper.SupportedCultures.Contains(CurrentCulture))
+                        _selectedCulture = CurrentCulture;
+                }
+
                 if (_selectedCulture != null)
                 {
                     CulturesHelper.ChangeCulture(_selectedCulture);

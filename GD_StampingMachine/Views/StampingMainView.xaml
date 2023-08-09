@@ -38,6 +38,7 @@
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
+                    <Binding Path="ProductSettingVM.SelectProductProjectVM.PartsParameterViewModelSelectItem.EditPartDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.ExportParameterDarggableIsPopup"/>
                     <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>

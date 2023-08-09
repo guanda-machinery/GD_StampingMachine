@@ -35,6 +35,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     public class ProductProjectViewModel : BaseViewModelWithLog
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProductProjectViewModel");
+
         public ProductProjectViewModel(ProductProjectModel ProductProject)
         {
             _productProject = ProductProject;
@@ -68,6 +69,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
+
         public ProductProjectViewModel()
         {
             _productProject = new();
@@ -82,16 +84,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public readonly ProductProjectModel _productProject;
 
 
-
-        public SheetStampingTypeFormEnum ProductProjectSheetStampingTypeForm
+        public SheetStampingTypeFormEnum SheetStampingTypeForm
         {
             get => _productProject.SheetStampingTypeForm;
-            set
-            {
-                _productProject.SheetStampingTypeForm = value;
-                OnPropertyChanged(nameof(ProductProjectSheetStampingTypeForm));
-            }
+            set { _productProject.SheetStampingTypeForm = value; OnPropertyChanged(); }
         }
+
+
         public string ProductProjectName
         {
             get => _productProject.Name;
@@ -139,11 +138,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(ProductProjectEditTime));
             }
         }
-        public SheetStampingTypeFormEnum SheetStampingTypeForm
-        {
-            get => _productProject.SheetStampingTypeForm;
-            set{ _productProject.SheetStampingTypeForm = value; OnPropertyChanged(); }
-        }
 
 
 
@@ -183,7 +177,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayParameterizedCommand(obj =>
             {
-                EditProjectDarggableIsPopup= true;
+                EditProjectDarggableIsPopup = true;
             });
         }
         // private RelayParameterizedCommand _projectDeleteCommand;
@@ -197,7 +191,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
                         {
-                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x=>!string.IsNullOrEmpty(x.DistributeName)) !=-1)
+                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
                                 MethodWinUIMessageBox.CanNotCloseProject();
                             else
                             {
@@ -246,25 +240,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _addNewPartsParameterVM = new PartsParameterViewModel(new GD_Model.ProductionSetting.PartsParameterModel() { ProjectID = ProductProjectName });
                 }
+                _addNewPartsParameterVM.SettingVMBase.SheetStampingTypeForm = this.SheetStampingTypeForm;
                 return _addNewPartsParameterVM;
             }
             set
             {
-                _addNewPartsParameterVM = value; 
-                OnPropertyChanged();
-            }
-        } 
-
-        public SettingBaseViewModel SelectedSettingVMBase
-        {
-            get => AddNewPartsParameterVM.SettingVMBase;
-            set 
-            {
-                AddNewPartsParameterVM.SettingVMBase = value;
+                _addNewPartsParameterVM = value;
                 OnPropertyChanged();
             }
         }
- 
+
+
+
 
 
         private ObservableCollection<SettingBaseViewModel> _numberSettingSavedCollection;
@@ -273,17 +260,54 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public ObservableCollection<SettingBaseViewModel> NumberSettingSavedCollection
         {
-            get 
+            get
             {
                 _numberSettingSavedCollection ??= new ObservableCollection<SettingBaseViewModel>();
                 return _numberSettingSavedCollection;
-             }
+            }
             set
             {
                 _numberSettingSavedCollection = value;
                 OnPropertyChanged();
             }
         }
+
+        [JsonIgnore]
+        public ObservableCollection<SettingBaseViewModel> AddNumberSettingSavedCollection
+        {
+            get
+            {
+
+                    if (this.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+                        return NumberSettingSavedCollection
+                             .ToList()
+                             .FindAll(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
+                             .ToObservableCollection();
+                
+                return NumberSettingSavedCollection;
+            }
+        }
+        [JsonIgnore]
+        public ObservableCollection<SettingBaseViewModel> EditNumberSettingSavedCollection
+        {
+            get 
+            {
+                if (this.PartsParameterViewModelSelectItem != null)
+                {
+                    if(this.PartsParameterViewModelSelectItem.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+                       return NumberSettingSavedCollection
+                            .ToList()
+                            .FindAll(x => x.SheetStampingTypeForm == this.PartsParameterViewModelSelectItem.SheetStampingTypeForm)
+                            .ToObservableCollection();
+                }
+                return NumberSettingSavedCollection;
+              }
+         }
+
+
+
+
+
 
         private ICommand _refreshSavedCollectionCommand;
         [JsonIgnore]
@@ -304,27 +328,29 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             var newSavedCollection = new ObservableCollection<SettingBaseViewModel>();
             if (_productProject != null)
             {
-                if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
-                {
-                   if( JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting ,out ObservableCollection<StampPlateSettingModel> SavedCollection))
-                        if (SavedCollection != null)
-                            foreach (var asd in SavedCollection)
-                                //newSavedCollection.Add(asd);
-                                newSavedCollection.Add(new NumberSettingViewModel(asd));
+                //if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
 
-                }
-                if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampPlateSettingModel> QRSavedCollection))
-                        if (QRSavedCollection != null)
-                            foreach (var asd in QRSavedCollection)
-                                //newSavedCollection.Add(asd);
-                                newSavedCollection.Add(new QRSettingViewModel(asd));
-                }
+                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<StampPlateSettingModel> SavedCollection))
+                    if (SavedCollection != null)
+                        foreach (var asd in SavedCollection)
+                            //newSavedCollection.Add(asd);
+                            newSavedCollection.Add(new NumberSettingViewModel(asd));
+
+
+                // if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+
+                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampPlateSettingModel> QRSavedCollection))
+                    if (QRSavedCollection != null)
+                        foreach (var asd in QRSavedCollection)
+                            //newSavedCollection.Add(asd);
+                            newSavedCollection.Add(new QRSettingViewModel(asd));
+
             }
 
-            SelectedSettingVMBase = null;
             NumberSettingSavedCollection = newSavedCollection;
+
+            OnPropertyChanged(nameof(EditNumberSettingSavedCollection));
+            OnPropertyChanged(nameof(AddNumberSettingSavedCollection));
         }
 
 
@@ -356,12 +382,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     SettingVM = _partsParameterViewModelSelectItem.SettingVMBase;
                 }
+                
                 return _partsParameterViewModelSelectItem;
             }
             set
             {
                 _partsParameterViewModelSelectItem = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(EditNumberSettingSavedCollection));
             }
         }
 
@@ -446,6 +474,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         private bool _addParameterDarggableIsPopup;
+        /// <summary>
+        /// 加入新零件
+        /// </summary>
         public bool AddParameterDarggableIsPopup
         {
             get
@@ -458,6 +489,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
+
+
+
 
 
         private bool _importParameterDarggableIsPopup;

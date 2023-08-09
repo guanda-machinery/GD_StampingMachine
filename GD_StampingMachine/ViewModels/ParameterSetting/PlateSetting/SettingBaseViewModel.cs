@@ -12,7 +12,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public abstract class SettingBaseViewModel :  ParameterSettingBaseViewModel
     {
-         public abstract StampPlateSettingModel StampPlateSetting { get; set; }
+        public StampPlateSettingModel StampPlateSetting { get; set; } = new StampPlateSettingModel();
+
+        public SheetStampingTypeFormEnum SheetStampingTypeForm
+        {
+            get => StampPlateSetting.SheetStampingTypeForm;
+            set 
+            { 
+                StampPlateSetting.SheetStampingTypeForm = value; 
+                OnPropertyChanged(); 
+            }
+        }
+
 
         public string NumberSettingMode { get => StampPlateSetting.NumberSettingMode; set { StampPlateSetting.NumberSettingMode = value; OnPropertyChanged(); } }
         /// <summary>

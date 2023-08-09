@@ -25,29 +25,20 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public class NumberSettingViewModel : SettingBaseViewModel
     {
-
         public NumberSettingViewModel()
         {
-            StampPlateSetting = new();
+            this.StampPlateSetting = new StampPlateSettingModel();
+            SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
         }
         public NumberSettingViewModel(StampPlateSettingModel stampPlateSetting)
         {
-            StampPlateSetting = stampPlateSetting;
+            this.StampPlateSetting = stampPlateSetting;
+            SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
         }
-
-
-        private StampPlateSettingModel _stampPlateSetting = new StampPlateSettingModel();
-        public override StampPlateSettingModel StampPlateSetting
-        {
-            get => _stampPlateSetting;
-            set
-            {
-                _stampPlateSetting = value; 
-                OnPropertyChanged();
-            }
-        }
+        //public override StampPlateSettingModel StampPlateSetting { get; set; } = new StampPlateSettingModel();
 
     }
+
 
 
 
