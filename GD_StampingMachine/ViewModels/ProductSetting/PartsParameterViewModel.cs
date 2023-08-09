@@ -135,22 +135,22 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                if (_settingVMBase == null)
-                {
-                    if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                        _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
-                    else
-                        _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
+                 if (_settingVMBase == null)
+                 {
+                     if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                         _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
+                     else
+                         _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
 
-                    PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
-                }
-                return _settingVMBase;
+                     PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
+                 }
+                 return _settingVMBase;
             }
             set
             {
-                _settingVMBase = value;
-                if(_settingVMBase != null)
-                    PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
+                 _settingVMBase = value;
+                 if(_settingVMBase != null)
+                     PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
                 OnPropertyChanged();
             }
         }
@@ -198,8 +198,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                     }
                 }
-            }
-            );
+            });
         }
 
 
