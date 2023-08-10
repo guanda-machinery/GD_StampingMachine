@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.CodeView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,5 +36,24 @@ namespace GD_StampingMachine.Method
                 base.RemoveItem(index);
             });
         }
+
+        public void SyncRemoveRange(int index , int count)
+        {
+            Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                if (count != 0)
+                {
+                    List<T> list = new List<T>(count);
+                    for (int i = index; i < count; i++)
+                    {
+                        list.Add(Items[i]);
+                    }
+
+                    Items.RemoveRange(index, count);
+                    //OnCollectionChangedCore(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, list, index));
+                }
+            });
+        }
+
     }
 }

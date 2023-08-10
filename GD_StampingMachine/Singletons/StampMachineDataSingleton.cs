@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.Model
+namespace GD_StampingMachine.Singletons
 {
-    public class InputOutputModel
+    internal class StampMachineDataSingleton
     {
     }
 }

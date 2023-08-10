@@ -1,4 +1,5 @@
-﻿using GD_StampingMachine.GD_Enum;
+﻿using DevExpress.Mvvm.Native;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using Newtonsoft.Json;
 using System;
@@ -64,29 +65,37 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public IronPlateMarginStruct IronPlateMargin { get => StampPlateSetting.IronPlateMargin; set { StampPlateSetting.IronPlateMargin = value; OnPropertyChanged(); } }
 
+
+        private List<int> _plateNumberList;
         [JsonIgnore]
         public ObservableCollection<int> PlateNumberList
         {
             get
             {
-
-                int RowCount = 2;
+                if (_plateNumberList == null)
+                {
+                    _plateNumberList = new List<int>();
+                }
+                int RowCount;
                 _ = SpecialSequence switch
                 {
                     SpecialSequenceEnum.OneRow => RowCount = 1,
                     SpecialSequenceEnum.TwoRow => RowCount = 2,
-                    _ => RowCount = 2,
+                    _ => RowCount = 0,
                 };
 
-                var NumberList = new ObservableCollection<int>();
-
                 var ListCount = SequenceCount * RowCount;
-                for (int i = 0; i < ListCount; i++)
+                //若格數不夠 則擴充
+                while(_plateNumberList.Count< ListCount)
                 {
-                    NumberList.Add(i + 1);
+                    var c = _plateNumberList.Count;
+                    _plateNumberList.Add(c+1);
                 }
-                return NumberList;
+
+                return _plateNumberList.GetRange(0, ListCount).ToObservableCollection();
             }
+            
+
         }
 
 

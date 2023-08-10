@@ -205,8 +205,8 @@ namespace GD_StampingMachine.ViewModels
                         });
                     });
 
-                    if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
-                        StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefresh();
+                  /*  if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                        StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefresh();*/
                 }
             }
             catch (Exception ex)

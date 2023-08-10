@@ -60,7 +60,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_qrSettingModelModelCollection == null)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> SavedCollection, false))
+                    if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> SavedCollection, false))
                         _qrSettingModelModelCollection = SavedCollection;
                     else
                         _qrSettingModelModelCollection = new();
@@ -157,7 +157,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
                 }
 
-                this.JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
+                this.JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
             });
         }
         public override ICommand DeleteSettingCommand
@@ -167,7 +167,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (QRSettingModelCollectionSelected != null)
                 {
                     QRSettingModelCollection.Remove(QRSettingModelCollectionSelected);
-                    JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection);
+                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection);
                 }
             });
         }
@@ -196,7 +196,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_qrSettingVMModelSavedCollection == null)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> SavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> SavedCollection))
                         _qrSettingVMModelSavedCollection = SavedCollection;
                     else
                         _qrSettingVMModelSavedCollection = new();

@@ -1244,7 +1244,28 @@
                             </dxg:TableView>
                         </dxg:GridControl.View>
 
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn FixedWidth="True" 
+                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_TypeSetting_Already}" FieldName="DistributeName" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Left">
+                                        <materialDesign:PackIcon Height="auto" Width="auto" Margin="8"
+                                            Kind="Gear" Visibility="{Binding Row.DistributeName , Converter={GD_Common:ObjectIsNullToVisibilityConverter}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_TypeSettingProject}" FieldName="DistributeName" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>
@@ -1261,10 +1282,16 @@
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>
                             </dxg:GridColumn>
-
+                        
+                        <dxg:GridColumn  
+                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
 
                         <dxg:GridColumn  
-                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>

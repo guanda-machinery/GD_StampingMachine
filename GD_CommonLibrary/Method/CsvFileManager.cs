@@ -10,13 +10,13 @@ using System.Globalization;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using DevExpress.XtraRichEdit.Model;
-using GD_StampingMachine.Model;
 using DevExpress.Mvvm.Native;
 using DevExpress.XtraGrid.Registrator;
+using System.Security.Policy;
 
 namespace GD_StampingMachine.Method
 {
-    public class CsvHelperMethod
+    public class CsvFileManager
     {
         /// <summary>
         /// 複寫檔案
@@ -25,19 +25,19 @@ namespace GD_StampingMachine.Method
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        protected bool WriteCSVFile<T>(string fileName, object CSVData)
+        public bool WriteCSVFile<T>(string fileName, T CSVData, bool isAppend)
         {
-            var CSVDataIEnumerable = new List<object>() { CSVData };
-            return WriteCSVFileIEnumerable(fileName, CSVDataIEnumerable);
+            var CSVDataIEnumerable = new List<T>() { CSVData };
+            return WriteCSVFileIEnumerable(fileName, CSVDataIEnumerable , true);
         }
         /// <summary>
-        /// 複寫檔案
+        /// 寫入檔案
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        protected bool WriteCSVFileIEnumerable<T>(string fileName , List<T> CSVDataIEnumerable)
+        public bool WriteCSVFileIEnumerable<T>(string fileName , List<T> CSVDataIEnumerable , bool isAppend)
         {
             try
             {
@@ -46,6 +46,7 @@ namespace GD_StampingMachine.Method
                 {
                     fileName = Path.ChangeExtension(fileName, "csv");
                 }
+
                 //建立資料夾
                 if (!Directory.Exists(fileName))
                     Directory.CreateDirectory(Path.GetDirectoryName(fileName));
@@ -55,12 +56,29 @@ namespace GD_StampingMachine.Method
                     HasHeaderRecord = true
                 };
                 Directory.CreateDirectory(Path.GetDirectoryName(fileName));
-                using (var writer = new StreamWriter(fileName, false))
+
+                bool append = false;
+                if (isAppend)
+                {
+                    if (File.Exists(fileName))
+                    {
+                        writeConfiguration.HasHeaderRecord = false;
+                        append = true;
+                    }
+                }
+
+
+                using (var writer = new StreamWriter(fileName, append))
                 using (var csv = new CsvWriter(writer, writeConfiguration))
                 {
                     csv.WriteRecords(CSVDataIEnumerable);
                     return true;
                 }
+            }
+            catch (IOException ex)
+            {
+                Debugger.Break();
+                return false;
             }
             catch (Exception ex)
             {
@@ -69,16 +87,14 @@ namespace GD_StampingMachine.Method
             }
         }
 
-
-
         /// <summary>
-        /// 讀取檔案
+        /// 讀取第一行
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        protected bool ReadCSVFile<T>(string fileName, out T CSVData)
+        public bool ReadCSVFile<T>(string fileName, out T CSVData)
         {
             CSVData = default(T);
            if(ReadCSVFileIEnumerable(fileName, out List<T> CSVDataIEnumerable))
@@ -90,8 +106,11 @@ namespace GD_StampingMachine.Method
                 }
            }
             return false;
-
         }
+
+
+
+
 
         /// <summary>
         /// 讀取檔案
@@ -100,13 +119,18 @@ namespace GD_StampingMachine.Method
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        protected bool ReadCSVFileIEnumerable<T>(string fileName , out List<T> CSVDataIEnumerable)
+        public bool ReadCSVFileIEnumerable<T>(string fileName , out List<T> CSVDataIEnumerable)
         {
             CSVDataIEnumerable = new List<T>();
 
+            //先檢查副檔名
+            if (!Path.HasExtension(fileName) || Path.GetExtension(fileName).ToLower() != "csv")
+            {
+                fileName = Path.ChangeExtension(fileName, "csv");
+            }
+
             if (!Directory.Exists(Path.GetDirectoryName(fileName)))
                 return false;
-
 
             try
             {
@@ -118,13 +142,13 @@ namespace GD_StampingMachine.Method
                 using (var reader = new StreamReader(fileName))
                 using (var csv = new CsvReader(reader, readConfiguration))
                 {
-                    CSVDataIEnumerable = csv.GetRecords<T>().ToList();
+                   CSVDataIEnumerable = csv.GetRecords<T>().ToList();
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                Debugger.Break();
+                //Debugger.Break();
                 return false;
             }
         }

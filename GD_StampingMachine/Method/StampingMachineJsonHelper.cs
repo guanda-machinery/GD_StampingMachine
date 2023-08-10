@@ -13,10 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GD_CommonLibrary.Method;
 
 namespace GD_StampingMachine.Method
 {
-    public class GD_JsonHelperMethod : GD_CommonLibrary.Method.JsonHelperMethod
+    public class StampingMachineJsonHelper : GD_CommonLibrary.Method.JsonHelperMethod
     {
         public enum ParameterSettingNameEnum
         {
@@ -51,11 +52,11 @@ namespace GD_StampingMachine.Method
         }*/
        /* public bool ReadStampingAllData(out StampingMainModel StampingMain)
         {
-            return this.ReadJsonFile(MainSetting ,out StampingMain);
+            return ReadJsonFile(MainSetting ,out StampingMain);
         }
         public bool WriteStampingAllData(StampingMainModel StampingMain)
         {
-            return this.WriteJsonFile(MainSetting, StampingMain);
+            return WriteJsonFile(MainSetting, StampingMain);
         }*/
 
 
@@ -65,31 +66,31 @@ namespace GD_StampingMachine.Method
 
         public bool ReadParameterSettingJsonSetting<T>(ParameterSettingNameEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
         {
-            return this.ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
+            return ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
         }
         public bool WriteParameterSettingJsonSetting<T>(ParameterSettingNameEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
         {
-           return this.WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
+           return WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
         }
 
 
         public bool ReadMachineSettingJson<T>(MachineSettingNameEnum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
         {
-            return this.ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
+            return ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
         }
         public bool WriteMachineSettingJson<T>(MachineSettingNameEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
         {
-            return this.WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
+            return WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
         }
 
 
         public bool ReadProjectSettingJson(out List<ProjectModel> PathList, bool ShowMessageBox = false)
         {
-            return this.ReadJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, out PathList, ShowMessageBox);
+            return ReadJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, out PathList, ShowMessageBox);
         }
         public bool WriteProjectSettingJson(List<ProjectModel> JsonData, bool ShowMessageBox = false)
         {
-            return this.WriteJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, JsonData, ShowMessageBox);
+            return WriteJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, JsonData, ShowMessageBox);
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace GD_StampingMachine.Method
         /// <returns></returns>
         public bool ReadProjectDistributeListJson(out List<ProjectDistributeModel> PathList, bool ShowMessageBox = false)
         {
-            return this.ReadJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, out PathList, ShowMessageBox);
+            return ReadJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, out PathList, ShowMessageBox);
         }
         /// <summary>
         /// 加工專案寫入
@@ -110,7 +111,7 @@ namespace GD_StampingMachine.Method
         /// <returns></returns>
         public bool WriteProjectDistributeListJson(List<ProjectDistributeModel> JsonData, bool ShowMessageBox = false)
         {
-            return this.WriteJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, JsonData, ShowMessageBox);
+            return WriteJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, JsonData, ShowMessageBox);
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace GD_StampingMachine.Method
         /// <returns></returns>
         public bool ManualReadProductProject(out ProductProjectModel ProductProject)
         {
-            var Result = this.ManualReadJsonFile(out ProductProject, out string FilePath);
+            var Result = ManualReadJsonFile(out ProductProject, out string FilePath);
             if (Result)
             {
                 ProductProject.Name = Path.GetFileNameWithoutExtension(FilePath);
@@ -158,7 +159,7 @@ namespace GD_StampingMachine.Method
             return Result;
         }
 
-        private string GetJsonFilePath(Enum ParameterSettingName)
+        private static string GetJsonFilePath(Enum ParameterSettingName)
         {
             var FilePath = "";// Path.Combine();
 

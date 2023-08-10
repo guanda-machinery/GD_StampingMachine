@@ -125,11 +125,11 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public StampingBoxPartsViewModel StampingBoxPartsVM { get; set; }
        
-        [JsonIgnore]
+       /* [JsonIgnore]
         public ICommand RefreshStampingBoxCommand
         {
             get => StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
-        }
+        }*/
 
 
 

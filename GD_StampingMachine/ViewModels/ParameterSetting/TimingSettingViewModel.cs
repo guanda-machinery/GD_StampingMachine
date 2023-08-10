@@ -53,7 +53,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel NewTiming ,true))
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel NewTiming ,true))
                 {
                     TimingSetting = NewTiming;
                 }
@@ -71,7 +71,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                if (JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.TimingSetting, TimingSetting, true))
+                if (JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, TimingSetting, true))
                 {
                 }
             });

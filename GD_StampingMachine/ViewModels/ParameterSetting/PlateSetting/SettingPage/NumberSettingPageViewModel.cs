@@ -72,7 +72,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_numberSettingVMModelSavedCollection == null)
                 {
-                    if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NumberSettingViewModel> SavedCollection))
+                    if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NumberSettingViewModel> SavedCollection))
                         _numberSettingVMModelSavedCollection = SavedCollection;
                     else
                         _numberSettingVMModelSavedCollection = new();
@@ -124,7 +124,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     NumberSettingModelSavedCollection.Add(NumberSettingVM.DeepCloneByJson());
                 }
 
-                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection, true);
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection, true);
             });
         }
         public override ICommand DeleteSettingCommand
@@ -134,7 +134,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (NumberSettingModelCollectionSelected != null)
                 {
                     NumberSettingModelSavedCollection.Remove(NumberSettingModelCollectionSelected);
-                    JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection);
+                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection);
                 }
             });
         }

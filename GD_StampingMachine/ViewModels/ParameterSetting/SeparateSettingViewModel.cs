@@ -3,6 +3,7 @@ using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.Method;
 using System;
 using System.Collections.ObjectModel;
 using System.Security.Policy;
@@ -169,14 +170,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                JsonHM.WriteParameterSettingJsonSetting(Method.GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);       
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);       
             });
         }
         public override ICommand LoadSettingCommand
         {
             get => new RelayCommand(() =>
             {
-                if (JsonHM.ReadParameterSettingJsonSetting(Method.GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel SSetting, true))
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel SSetting, true))
                 {
                     SeparateSetting = SSetting;
                     OnPropertyChanged(nameof(SettingType));

@@ -332,7 +332,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 //if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
 
-                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<StampPlateSettingModel> SavedCollection))
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<StampPlateSettingModel> SavedCollection))
                     if (SavedCollection != null)
                         foreach (var asd in SavedCollection)
                             //newSavedCollection.Add(asd);
@@ -341,7 +341,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                 // if (_productProject.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
 
-                if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampPlateSettingModel> QRSavedCollection))
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out ObservableCollection<StampPlateSettingModel> QRSavedCollection))
                     if (QRSavedCollection != null)
                         foreach (var asd in QRSavedCollection)
                             //newSavedCollection.Add(asd);
@@ -634,6 +634,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 Eobj.DistributeName = null;
                                 Eobj.BoxIndex = null;
                             });
+                            ProjectDistributeVM.StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollection();
+                          //  ProjectDistributeVM.StampingBoxPartsVM.ProductProjectVMObservableCollection
                         }
 
                         ProjectDistributeVM.ProjectDistribute.ProductProjectNameList.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
@@ -646,8 +648,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set => _closeTypeSettingCommand= value;
         }
 
-        [JsonIgnore]
-        public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand { get; set; }
+        //[JsonIgnore]
+       // public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand { get; set; }
 
 
 

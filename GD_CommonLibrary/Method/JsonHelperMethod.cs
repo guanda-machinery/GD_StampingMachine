@@ -30,7 +30,7 @@ namespace GD_CommonLibrary.Method
                 if (string.IsNullOrEmpty(Path.GetDirectoryName(fileName)))
                 {
                     //如果檔案名不包含根目錄 幫他建在工作目錄下
-                    fileName =Path.Combine( Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
+                    fileName =Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
                 }
 
                 //建立資料夾
@@ -105,8 +105,6 @@ namespace GD_CommonLibrary.Method
         }
 
 
-
-
         public bool ManualReadJsonFile<T>(out T JsonData)
         {
             return ManualReadJsonFile(out JsonData, out _);
@@ -140,8 +138,6 @@ namespace GD_CommonLibrary.Method
             }
             return false;
         }
-
-
 
         public bool ManualWriteJsonFile<T>(T JsonData)
         {

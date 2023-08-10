@@ -66,13 +66,15 @@
             ItemsSource="{Binding PlateNumberList}"   >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="#55534d" 
-                                        Width="50" Height="70" Margin="12.5,15">
-                            <TextBlock Text="{Binding .}" Foreground="White"  
+                        <Grid Width="75" Height="100">
+                        <Border Background="#55534d" Margin="12.5,15" >
+                            <TextBox Text="{Binding .}" Foreground="White"  Width="auto" Margin="0" Padding="0"
                                                HorizontalAlignment="Center"
+                                     BorderThickness="0"
                                                VerticalAlignment="Center"
-                                               FontSize="24"/>
-                        </Border>
+                                               FontSize="30"/>
+                            </Border>
+                        </Grid>
                     </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>

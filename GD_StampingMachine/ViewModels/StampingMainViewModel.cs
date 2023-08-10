@@ -55,16 +55,16 @@ namespace GD_StampingMachine.ViewModels
         ~StampingMainViewModel()
         {
             if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
 
             if (ParameterSettingVM.TimingSettingVM.TimingSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.TimingSetting, ParameterSettingVM.TimingSettingVM.TimingSetting);
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, ParameterSettingVM.TimingSettingVM.TimingSetting);
 
             if (ParameterSettingVM.EngineerSettingVM.EngineerSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.EngineerSetting, ParameterSettingVM.EngineerSettingVM.EngineerSetting);
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, ParameterSettingVM.EngineerSettingVM.EngineerSetting);
 
             if (ParameterSettingVM.SeparateSettingVM.SeparateSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, ParameterSettingVM.SeparateSettingVM.SeparateSetting);
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, ParameterSettingVM.SeparateSettingVM.SeparateSetting);
         }
 
 
@@ -82,11 +82,6 @@ namespace GD_StampingMachine.ViewModels
             {
                 Task.Run(() =>
                 {
-                    for (int i = 0; i < 100; i++)
-                    {
-                        AddLogData("Debug", $"TestMessage-{i}");
-                    }
-
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
                         AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
@@ -139,7 +134,7 @@ namespace GD_StampingMachine.ViewModels
 
             };
 
-            if (JsonHM.ReadMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont, out StampingFontChangedViewModel SReadSFC))
+            if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.StampingFont, out StampingFontChangedViewModel SReadSFC))
             {
                 StampingFontChangedVM = SReadSFC;
             }
@@ -173,25 +168,25 @@ namespace GD_StampingMachine.ViewModels
 
 
             AxisSettingModel AxisSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
             {
                 AxisSetting = JsonAxisSetting;
             }
 
             TimingSettingModel TimingSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel JsonTimingSetting))
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel JsonTimingSetting))
             {
                 TimingSetting = JsonTimingSetting;
             }
 
             EngineerSettingModel EngineerSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.EngineerSetting, out EngineerSettingModel JsonEngineerSetting))
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, out EngineerSettingModel JsonEngineerSetting))
             {
                 EngineerSetting = JsonEngineerSetting;
             }
 
             SeparateSettingModel SeparateSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(GD_JsonHelperMethod.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel JsonSeparateSetting))
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel JsonSeparateSetting))
             {
                 SeparateSetting = JsonSeparateSetting;
             }
@@ -318,7 +313,7 @@ namespace GD_StampingMachine.ViewModels
 
                     try
                     {
-                        if (JsonHM.WriteMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont, StampingFontChangedVM))
+                        if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.StampingFont, StampingFontChangedVM))
                         {
 
                         }
@@ -446,6 +441,20 @@ namespace GD_StampingMachine.ViewModels
         /// 機台功能
         /// </summary>
         public MachineFunctionViewModel MachineFunctionVM { get => StampingMain.MachineFunctionVM; set => StampingMain.MachineFunctionVM = value; }
+
+
+
+        // private DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection;//= new DXObservableCollection<OperatingLogViewModel>();
+       /// <summary>
+       /// 機台警報
+       /// </summary>
+        public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
+        {
+            get
+            {
+                return Singletons.LogDataSingleton.Instance.DataObservableCollection;
+            }
+        }
 
 
 

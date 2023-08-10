@@ -63,7 +63,7 @@
 
 
 
-            <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="4" Width="680" Height="250"
+            <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="4" Width="655" Height="250"
             Background="#d6d5ce" CornerRadius="10" 
                                                          HorizontalAlignment="Stretch" />
             <Border Background="White" Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Width="25" HorizontalAlignment="Left" Height="25" CornerRadius="12.5" VerticalAlignment="Top" Margin="7.5,12"/>
@@ -85,7 +85,9 @@
                                     <ControlTemplate TargetType="ListBoxItem">
                                         <Border Background="#55534d" 
                                         Width="50" Height="70" Margin="12.5,15">
-                                            <TextBlock Text="{Binding .}" Foreground="White"  
+                                            <TextBox Text="{Binding . , Mode=TwoWay}" Foreground="White"  
+                                                     Margin="0" Padding="0" Width="auto"
+                                                     BorderThickness="0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="24"/>
@@ -103,10 +105,10 @@
                 </ListBox>
             </Grid>
 
-            <Grid  Grid.Column="4" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2"  HorizontalAlignment="Right" >
-                <Border Background="White"  VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20,0" >
+            <Grid  Grid.Column="4" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2"  HorizontalAlignment="Right">
+                <Border Background="White"  VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20,0">
                 <materialDesign:PackIcon Foreground="#55534d"
-                        Kind="Qrcode" Width="155" Margin="-10"  Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
+                        Kind="Qrcode" Width="140" Margin="-10"  Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
                 </Border>
             </Grid>
 
@@ -126,7 +128,7 @@
         <TextBlock Text="F" Foreground="Red" Grid.Column="1" Grid.ColumnSpan="3" FontSize="20" Grid.Row="0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <TextBlock Text="G" Foreground="Red" Grid.Column="5" FontSize="20" Grid.Row="2" Width="50" HorizontalAlignment="Right" Margin="0,0,0,0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <TextBlock Text="I" Foreground="Red" Grid.Row="4" Grid.RowSpan="3" FontSize="20" Height="60" VerticalAlignment="Bottom" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
-        <TextBlock Text="H" Foreground="Red" Grid.Column="7" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-70,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="H" Foreground="Red" Grid.Column="7" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-50,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
         <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,-10,0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
@@ -144,14 +146,14 @@
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="2" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" VerticalAlignment="Center" Margin="-1,0,20,0"  Width="50" HorizontalAlignment="Right" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.RowSpan="7" Grid.ColumnSpan="1" Margin="-1,0,19,0"  Width="50" HorizontalAlignment="Right" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.RowSpan="7" Grid.ColumnSpan="1" Margin="-1,0,27,0"  Width="36" HorizontalAlignment="Right" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
 
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="1" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
-        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-90,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3" Height="50" Margin="-100,-90,0,0" Grid.ColumnSpan="1" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3"  Height="35" Margin="0,-70,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3" Height="35" Margin="-100,-70,0,0" Grid.ColumnSpan="1" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
 
 
 
