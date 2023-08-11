@@ -18,14 +18,10 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// 加工專案名稱
         /// </summary>
         public string ProjectID { get; set; }
-
-
         /// <summary>
         /// ID
         /// </summary>
         public string ID { get; set; }
-
-
         /// <summary>
         /// 參數A
         /// </summary>
@@ -50,7 +46,9 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// 分料盒
         /// </summary>
         public int? BoxIndex { get; set; }
-
+        /// <summary>
+        /// 鐵牌
+        /// </summary>
         public StampPlateSettingModel StampingPlate { get; set; } = new StampPlateSettingModel();
     }
 

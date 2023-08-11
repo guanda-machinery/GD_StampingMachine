@@ -269,9 +269,6 @@
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CustomControls\FunctionToggleButton.xaml.cs">
-      <DependentUpon>FunctionToggleButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
       <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
     </Compile>
@@ -345,7 +342,7 @@
     <Compile Include="ViewModels\ProductSetting\StampingSteelBeltViewModel.cs" />
     <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
-    <Compile Include="ViewModels\StampingMainViewModel.cs" />
+    <Compile Include="Singletons\StampingMainViewModel.cs" />
     <Compile Include="ViewModels\StampingTypeViewModel.cs" />
     <Compile Include="ViewModels\ProjectDistributeViewModel.cs" />
     <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />
@@ -416,10 +413,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="StampingMachineWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\CustomControls\FunctionToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

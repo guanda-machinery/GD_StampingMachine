@@ -277,6 +277,7 @@
 
     <sys:String x:Key="Text_PartsParameter">零件參數</sys:String>
     <sys:String x:Key="Text_CreatePart">建立零件</sys:String>
+    <sys:String x:Key="Text_EditPart">編輯零件</sys:String>
     <sys:String x:Key="Text_Parameter_A">A參數</sys:String>
     <sys:String x:Key="Text_Parameter_B">B參數</sys:String>
     <sys:String x:Key="Text_Parameter_C_DataMartix">C參數(Data-Martix)</sys:String>

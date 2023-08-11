@@ -547,8 +547,8 @@
 
                                                                 <Border  Background="Gray"  Margin="10">
                                                                     <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
-                                                                        <TextBox  Text="{Binding StampingTypeString}"
-                                                                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"  FontSize="30"  Foreground="White">
+                                                                        <TextBox  Text="{Binding StampingTypeString}" BorderThickness="0"
+                                                                            HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"  FontSize="30"  Foreground="White">
                                                                             <!--  <TextBox.Text>
                                                                                <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
                                                                                     <Binding.ValidationRules>

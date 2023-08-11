@@ -29,7 +29,7 @@
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     d:DesignHeight="800" d:DesignWidth="1000"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
-             DataContext="{GD_ViewModels:StampingMainViewModel}" >
+             DataContext="{ GD_ViewModels:StampingMainViewModel}">
 
     <materialDesign:DialogHost CloseOnClickAway="True">
         <materialDesign:DialogHost.IsOpen>
@@ -148,71 +148,67 @@
                 <Grid>
                         <!--首頁-->
                         <Grid>
-                            <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" 
+                        <ScrollViewer  Background="White"
                            VerticalScrollBarVisibility="Auto"
                         Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter}}">
-
-                                <Border  Background="White">
-                                    <StackPanel >
-                                        <Grid  Width="600"  >
-                                            <materialDesign:Card   materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
-                                                <Image Source="pack://application:,,,/image/擷取1.PNG" />
-                                            </materialDesign:Card>
-                                        </Grid>
-                                        <GroupBox Header="鋼印字模設定" 
+                            <StackPanel >
+                                <Grid  Width="600"  >
+                                    <materialDesign:Card   materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
+                                        <Image Source="pack://application:,,,/image/擷取1.PNG" />
+                                    </materialDesign:Card>
+                                </Grid>
+                                <GroupBox Header="鋼印字模設定" 
                               Margin="10"
                               Style="{StaticResource ParameterBaseStyleGroupBox}" Foreground="Black" FontSize="20">
-                                            <StackPanel>
-                                                <ItemsControl 
+                                    <StackPanel>
+                                        <ItemsControl 
                                         Grid.Row="1" ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection, UpdateSourceTrigger=PropertyChanged}">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <WrapPanel Orientation="Horizontal"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Grid Margin="5">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition/>
-                                                                    <RowDefinition/>
-                                                                    <RowDefinition/>
-                                                                </Grid.RowDefinitions>
-                                                                <Border BorderThickness="0.5" BorderBrush="Black" 
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+                                                        <Border BorderThickness="0.5" BorderBrush="Black" 
                                                             CornerRadius="3"
                                                             Width="45"
                                                             Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                                                    <TextBlock Text="{Binding StampingTypeString}" FontSize="30"
+                                                            <TextBlock Text="{Binding StampingTypeString}" FontSize="30"
                                                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                </Border>
-                                                                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
-                                                                    <TextBlock Text="NO." FontSize="10"/>
-                                                                    <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
-                                                                </StackPanel>
-                                                                <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" 
+                                                        </Border>
+                                                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1">
+                                                            <TextBlock Text="NO." FontSize="10"/>
+                                                            <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
+                                                        </StackPanel>
+                                                        <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" 
                                                             CornerRadius="3">
-                                                                    <TextBlock Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
-                                                                </Border>
-                                                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
+                                                            <TextBlock Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
 
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-
-
-                                            </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
 
 
-                                        </GroupBox>
                                     </StackPanel>
-                                </Border>
 
-                            </ScrollViewer>
+
+                                </GroupBox>
+                            </StackPanel>
+                        </ScrollViewer>
                             <TabControl Name="MainTabControl">
                                 <TabControl.Resources>
                                 <Style TargetType="TabItem" >
@@ -751,9 +747,9 @@
                 </materialDesign:ColorZone.Effect>
                 
             <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}" >
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="0,0,0,0">
                         <ItemsControl 
-                            Margin="5,5,5,2"
+                            Margin="5,5,5,0"
                             dd:DragDrop.DropTargetAdornerBrush ="Transparent"
                            dd:DragDrop.IsDragSource ="True"
                            dd:DragDrop.IsDropTarget ="True"
@@ -808,7 +804,7 @@
                                 ImageSource="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_ReturningToOriginPoint}" 
                                 />
-                        
+
                             <GD_Customcontrols:FunctionToggleUserControl 
                             ImageSource="{StaticResource MainIcon_07_Lamp_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_LightUpSwitch}" 
@@ -871,7 +867,7 @@
                                                 </Binding>
                                             </GD_UserControls:TriggerSliderUserControl.Foreground>
                                         </GD_UserControls:TriggerSliderUserControl>
-                                        
+
                                     </StackPanel>
 
                                 </Border>
@@ -900,24 +896,24 @@
                                       Background="Transparent"  
                                 Padding="0" Margin="0"  Style="{StaticResource MaterialDesignExpander}"  ExpandDirection="Right">
                                 <StackPanel Orientation="Horizontal">
-                                <StackPanel VerticalAlignment="Center">
+                                    <StackPanel VerticalAlignment="Center">
                                         <TextBlock Text="{DynamicResource textCultureSetting}" HorizontalAlignment="Center" FontSize="16" />
                                         <ComboBox  Width="auto" Margin="0"
                                     ItemsSource="{Binding SupportedCultures}" 
                                           SelectedValue="{Binding SelectedCultures, UpdateSourceTrigger=PropertyChanged}">
-                                        <ComboBox.DataContext>
-                                            <GD_ViewModels:CultureViewModel/>
-                                        </ComboBox.DataContext>
-                                    </ComboBox>
+                                            <ComboBox.DataContext>
+                                                <GD_ViewModels:CultureViewModel/>
+                                            </ComboBox.DataContext>
+                                        </ComboBox>
                                     </StackPanel>
                                 </StackPanel>
                             </Expander>
 
 
 
-                    
-                    </ItemsControl>
-                </ScrollViewer>
+
+                        </ItemsControl>
+                    </ScrollViewer>
             </Border>
                 </materialDesign:ColorZone>
 

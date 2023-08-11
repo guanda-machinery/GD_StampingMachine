@@ -96,7 +96,7 @@
 
             </ItemsControl>
         </Border>
-        <ScrollViewer Style="{StaticResource scrollviewer_STD}"
+        <ScrollViewer
             VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
             <TabControl>
                 <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
@@ -134,7 +134,7 @@
                                     <ComboBox  Name="NumberSettingModeComboBox"   Width="300"
                                         Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  
                                               DisplayMemberPath="NumberSettingMode"
-                                              ItemsSource="{Binding NumberSettingModelSavedCollection}" 
+                                              ItemsSource="{Binding NumberSettingModelCollection}" 
                                                  SelectedItem="{Binding NumberSettingModelCollectionSelected, UpdateSourceTrigger=PropertyChanged}">
                                       <!--  <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -277,7 +277,8 @@
                                     <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                     <Button HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding NumberSettingVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  
+                                        IsEnabled="{Binding NumberSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                         Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
                             </StackPanel>
 
@@ -581,7 +582,8 @@
                                                     IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                             <Button Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                            <Button Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                                            <Button Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding QRSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                                    Margin="10" Command="{Binding SaveSettingCommand}"/>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>

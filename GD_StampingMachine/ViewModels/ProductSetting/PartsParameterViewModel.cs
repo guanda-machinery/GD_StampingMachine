@@ -40,7 +40,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             PartsParameter ??= new PartsParameterModel();
         }
 
-        public readonly PartsParameterModel PartsParameter;
+        public PartsParameterModel PartsParameter 
+        { 
+            get; 
+            set; 
+        }
+
         public float FinishProgress
         {
             get => PartsParameter.Processing;
@@ -138,19 +143,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                  if (_settingVMBase == null)
                  {
                      if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                         _settingVMBase ??= new QRSettingViewModel(PartsParameter.StampingPlate);
+                         _settingVMBase = new QRSettingViewModel(PartsParameter.StampingPlate);
                      else
-                         _settingVMBase ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
-
-                     PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
+                         _settingVMBase = new NumberSettingViewModel(PartsParameter.StampingPlate);
                  }
                  return _settingVMBase;
             }
             set
             {
                  _settingVMBase = value;
-                 if(_settingVMBase != null)
-                     PartsParameter.StampingPlate = _settingVMBase.StampPlateSetting;
+                 if(value != null)
+                     PartsParameter.StampingPlate = value.StampPlateSetting;
                 OnPropertyChanged();
             }
         }

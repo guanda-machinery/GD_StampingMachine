@@ -1068,7 +1068,6 @@
                             Placement="Custom"
                             PlacementTarget="{Binding ElementName=PART_Toggle}"
                             PopupAnimation="Slide">
-
                             <materialDesign:Card 
                                                                         Padding="{TemplateBinding Padding}"
                                                                         Content="{TemplateBinding PopupContent}"
@@ -1176,6 +1175,7 @@
     </Style>
 
 
+    
 
 
 </ResourceDictionary>

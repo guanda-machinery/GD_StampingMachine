@@ -1,4 +1,5 @@
 ﻿using DevExpress.Utils;
+using GD_StampingMachine.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 namespace GD_StampingMachine.Views

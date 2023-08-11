@@ -14,11 +14,12 @@
              x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <ToggleButton IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsChecked}"
+        <ToggleButton
+            IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsChecked}"
                       IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
                       Content="{Binding ButtonContent, Mode=OneWay}">
             <ToggleButton.Style>
-                <Style TargetType="ToggleButton" >
+                <Style TargetType="ToggleButton">
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
                     <Setter Property="FontSize" Value="{Binding Path=FontSize}"/>
@@ -76,6 +77,16 @@
                                                                              Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
                                                                  Visibility="{Binding UnCheckedKind,Converter={dx:NullableToVisibilityConverter}}"/>
                                                 </Grid>
+                                                <ProgressBar Opacity="0.5"
+                                                             Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                             Visibility="{Binding ProgressVisibility}" Value="{Binding Progress}"
+                                                             Foreground="Red"
+                                                             IsIndeterminate="{Binding IsIndeterminate}"
+                                                             Width="40"
+                                                             Height="40">
+
+                                                </ProgressBar>
+
                                             </Grid>
 
                                         </Grid>
@@ -101,14 +112,14 @@
                                             </TextBlock>
                                             <TextBlock   MaxWidth="80" 
                                                 Text="{Binding IsCheckedTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
-                                            <TextBlock.Visibility>
-                                                <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                                    <MultiBinding.Bindings>
-                                                        <Binding Path="IsChecked"/>
-                                                        <Binding Path="IsCheckedTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
-                                                    </MultiBinding.Bindings>
-                                                </MultiBinding>
-                                            </TextBlock.Visibility>
+                                                <TextBlock.Visibility>
+                                                    <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                        <MultiBinding.Bindings>
+                                                            <Binding Path="IsChecked"/>
+                                                            <Binding Path="IsCheckedTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
+                                                        </MultiBinding.Bindings>
+                                                    </MultiBinding>
+                                                </TextBlock.Visibility>
                                             </TextBlock>
                                         </Grid>
                                     </StackPanel>
@@ -159,16 +170,14 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" Value="0.3"/>
-                                </Trigger>
-                            </Style.Triggers>
-
-
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.3"/>
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
             </ToggleButton.Style>
         </ToggleButton>
+
     </Grid>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,7 +77,11 @@ namespace GD_StampingMachine.ViewModels
         {
             _parameterSetting = ParameterSetting;
             NumberSettingPageVM = new NumberSettingPageViewModel();
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NumberSettingViewModel> nSavedCollection))
+                NumberSettingPageVM.NumberSettingModelCollection = nSavedCollection;
             QRSettingPageVM = new QRSettingPageViewModel();
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> qrSavedCollection, false))
+                QRSettingPageVM.QRSettingModelCollection = qrSavedCollection;
             AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
             TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);
             SeparateSettingVM = new SeparateSettingViewModel(_parameterSetting.SeparateSetting);

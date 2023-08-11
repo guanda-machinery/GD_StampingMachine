@@ -290,7 +290,7 @@ namespace GD_StampingMachine.ViewModels
                     }
 
                     //延遲旋轉
-                    Task.Run(() =>
+                    // Task.Run(() =>
                     {
                         if (StampingTypeModel_ReadyStamping_IsRotating)
                         {
@@ -332,48 +332,51 @@ namespace GD_StampingMachine.ViewModels
 
                         }
 
-                        //先取得目前角度->方向逆時針
-                        lock (balanceLock)
+                        Task.Run(() =>
                         {
-                            //var CurrentAngle = StampingFontTurntable_RorateAngle;
-                            StampingTypeModel_ReadyStamping_IsRotating = true;
-
-                            //StampingFontTurntable_RorateAngle = TargetAngle;
-                            while (StampingTypeModel_ReadyStamping_IsRotating)
+                            //先取得目前角度->方向逆時針
+                            lock (balanceLock)
                             {
-                                if (StampingFontTurntable_RorateAngle > 360)
+                                //var CurrentAngle = StampingFontTurntable_RorateAngle;
+                                StampingTypeModel_ReadyStamping_IsRotating = true;
+
+                                //StampingFontTurntable_RorateAngle = TargetAngle;
+                                while (StampingTypeModel_ReadyStamping_IsRotating)
                                 {
-                                    StampingFontTurntable_RorateAngle -= 360;
-                                }
-                                if (StampingFontTurntable_RorateAngle < -360)
-                                {
-                                    StampingFontTurntable_RorateAngle += 360;
-                                }
+                                    if (StampingFontTurntable_RorateAngle > 360)
+                                    {
+                                        StampingFontTurntable_RorateAngle -= 360;
+                                    }
+                                    if (StampingFontTurntable_RorateAngle < -360)
+                                    {
+                                        StampingFontTurntable_RorateAngle += 360;
+                                    }
 
 
-                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
-                                    Math.Abs(TargetAngle+360 - StampingFontTurntable_RorateAngle) < 1.2)
-                                {
-                                    break;
+                                    if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
+                                        Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 1.2)
+                                    {
+                                        break;
+                                    }
+                                    StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
+                                    System.Threading.Thread.Sleep(2);
                                 }
-                                StampingFontTurntable_RorateAngle += ClockDirection* 0.5;
-                                System.Threading.Thread.Sleep(2);
+                                StampingFontTurntable_RorateAngle = TargetAngle;
+
+
+                                StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
+                                StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
+                                StampingTypeModel_ReadyStamping_IsRotating = false;
+
+                                //找出上下左右四個格子的方塊
+                                //下方
+
+
+
                             }
-                           StampingFontTurntable_RorateAngle = TargetAngle;
-                           
-
-                            StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
-                            StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
-                            StampingTypeModel_ReadyStamping_IsRotating = false;
-
-                            //找出上下左右四個格子的方塊
-                            //下方
-
-
-
-                        }
-
-                    });
+                        });
+                    }
+                //    });
                 }
 
                 return _stampingTypeModel_readyStamping;
