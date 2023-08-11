@@ -13,7 +13,7 @@
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method"
+             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" >
     <Grid  Margin="150,0,0,0">
         <Grid.Resources>
@@ -883,8 +883,8 @@
 
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}" DataContext="{Binding EngineerSettingVM}">
-                    <StackPanel >
-                        <GroupBox Grid.Row="1" Header="{DynamicResource Text_lubricationSystem}" Margin="10"  VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <StackPanel HorizontalAlignment="Left" >
+                        <GroupBox Grid.Row="1" Header="{DynamicResource Text_lubricationSystem}" Margin="10"  VerticalAlignment="Top" >
                         <Grid HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="80"/>
@@ -901,7 +901,7 @@
                             </StackPanel>
                             <materialDesign:TimePicker Grid.Row="0"  Grid.Column="1"  Width="300"
                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
-                                                           WithSeconds="True"
+                                                           WithSeconds="True" 
                                                            SelectedTime="{Binding CycleTimeTimePicker}">
 
                             </materialDesign:TimePicker>
@@ -920,6 +920,26 @@
                             </materialDesign:TimePicker>
                         </Grid>
                     </GroupBox>
+                        <GroupBox Grid.Row="1" Header="OPCUA test" Margin="10"  VerticalAlignment="Top" >
+                            <StackPanel HorizontalAlignment="Left">
+
+                                <GD_Customcontrols:FunctionToggleUserControl 
+                                    IsEnabled="{Binding OpcuaFormBrowseServerOpenIsEnabled}"
+                                    ProgressVisibility="{Binding OpcuaFormBrowseServerOpenIsEnabled, Converter={dx:BooleanToVisibilityConverter Invert=True}}"
+                                    IsCheckedTitleText="OPCUA"
+                                    IsCheckedKind="Gear"
+                                    UnCheckedKind="GearOutline"
+                                    >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                            <i:InvokeCommandAction Command="{Binding OpcuaFormBrowseServerOpenCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </GD_Customcontrols:FunctionToggleUserControl>
+
+
+                            </StackPanel>
+                        </GroupBox>
                     </StackPanel>
                 </TabItem>
             </TabControl>

@@ -595,12 +595,12 @@
                             </TabControl>
                         </Grid>
                         <!--彈出式按鈕-->
-                        <materialDesign:DrawerHost  Opacity="0.95"
+                        <materialDesign:DrawerHost  Opacity="0.90"
                                                     IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}" LeftDrawerBackground="Transparent"
                                             IsRightDrawerOpen="{Binding ElementName=TBtn_Alarm, Path=IsChecked}" RightDrawerBackground="Transparent"
                                             >
                             <materialDesign:DrawerHost.LeftDrawerContent>
-                            <materialDesign:ColorZone
+                            <materialDesign:ColorZone Padding="0,5,5,0"
                                 Mode="PrimaryLight"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0" >
                                     <materialDesign:ColorZone.Effect>
                                         <DropShadowEffect       ShadowDepth="2"

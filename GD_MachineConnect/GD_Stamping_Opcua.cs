@@ -13,7 +13,7 @@ namespace GD_MachineConnect
 {
     public class GD_Stamping_Opcua : IStampingMachineConnect
     {
-        private GD_OpcUaHelperClient GD_OpcUaClient = new GD_OpcUaHelperClient();
+        private GD_OpcUaHelperClient GD_OpcUaClient = new();
 
         public bool Connect(string HostPath, int Port, string DataPath)
         {

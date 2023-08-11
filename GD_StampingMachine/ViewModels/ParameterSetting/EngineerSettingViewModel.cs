@@ -1,9 +1,14 @@
-﻿using GD_StampingMachine.GD_Model;
+﻿using DevExpress.Xpf.Scheduling.Themes;
+using DevExpress.XtraRichEdit.Printing;
+using GD_CommonLibrary;
+using GD_MachineConnect.Machine;
+using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
@@ -61,5 +66,53 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override ICommand LoadSettingCommand => throw new NotImplementedException();
 
         public override ICommand DeleteSettingCommand => throw new NotImplementedException();
+
+        
+        private bool _opcuaFormBrowseServerOpenIsEnabled = true;
+        public bool OpcuaFormBrowseServerOpenIsEnabled { get => _opcuaFormBrowseServerOpenIsEnabled; set { _opcuaFormBrowseServerOpenIsEnabled = value; OnPropertyChanged(); } }
+
+
+        public ICommand OpcuaFormBrowseServerOpenCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                Task.Run(async () =>
+                {
+                    if (!GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.OpcuaTestIsOpen)
+                    {
+                        OpcuaFormBrowseServerOpenIsEnabled = false;
+                        await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
+                        OpcuaFormBrowseServerOpenIsEnabled = true;
+                    }
+                });
+
+            });
+        }
+
+        public ICommand OpcuaStartScanCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.ScanOpcua();
+                
+
+
+            });
+        }
+
+        public ICommand OpcuaStopScanCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScan();
+
+
+
+            });
+        }
+
+
+
+
     }
 }
