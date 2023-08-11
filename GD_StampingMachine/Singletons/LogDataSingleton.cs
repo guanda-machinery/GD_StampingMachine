@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Singletons
 {
-    internal class LogDataSingleton : BaseSingleton<LogDataSingleton>
+    internal class LogDataSingleton : GD_CommonLibrary.BaseSingleton<LogDataSingleton>
     {   
         public int LogCollectionMax = 100;
         private DXObservableCollection<OperatingLogViewModel> _dataObservableCollection;

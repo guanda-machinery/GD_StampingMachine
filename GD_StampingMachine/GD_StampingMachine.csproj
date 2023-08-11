@@ -258,7 +258,6 @@
     <Compile Include="Cultures\CulturesHelper.cs" />
     <Compile Include="Commands\BoxDrapDragRecordCommand.cs" />
     <Compile Include="Method\StampingMachineJsonHelper.cs" />
-    <Compile Include="Singletons\BaseSingleton.cs" />
     <Compile Include="Singletons\LogDataSingleton.cs" />
     <Compile Include="Singletons\StampMachineDataSingleton.cs" />
     <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingBaseViewModel.cs" />

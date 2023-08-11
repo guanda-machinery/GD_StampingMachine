@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Singletons
 {
-    public class StampMachineDataSingleton : BaseSingleton<StampMachineDataSingleton>
+    public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>
     {
         protected override void Init()
         {

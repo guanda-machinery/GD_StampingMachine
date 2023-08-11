@@ -1,18 +1,14 @@
-﻿using GD_StampingMachine.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.Singletons
+namespace GD_CommonLibrary
 {
     public abstract class BaseSingleton<T> where T : BaseSingleton<T>
     {
         private static readonly Lazy<T> Lazy = new(() => (Activator.CreateInstance(typeof(T), true) as T)!);
-
-      
-  
         private static readonly object thisLock = new();
         private static T _instance; 
         public static T Instance 
@@ -35,6 +31,9 @@ namespace GD_StampingMachine.Singletons
             }
         }
 
+        /// <summary>
+        /// 如果有需要初始化 複寫這裡！
+        /// </summary>
         protected virtual void Init()
         {
 
