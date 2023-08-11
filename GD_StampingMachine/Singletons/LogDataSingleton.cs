@@ -13,12 +13,11 @@ namespace GD_StampingMachine.Singletons
     internal class LogDataSingleton
     {   
         // 多執行緒，lock 使用
-        private static readonly object thisLock = new object();
+        private static readonly object thisLock = new();
 
         // 將唯一實例設為 private static
         private static LogDataSingleton instance;
 
-        public int test = 1;
 
         // 設為 private，外界不能 new
         private LogDataSingleton()
@@ -28,12 +27,12 @@ namespace GD_StampingMachine.Singletons
         // 外界只能使用靜態方法取得實例
         public static LogDataSingleton Instance
         {
-            //雙重鎖同步
+            //雙重鎖
             get
             {
-                if (null == instance)
+                if (instance == null)
                     lock (thisLock)
-                        if (null == instance)
+                        if (instance == null)
                             instance = new LogDataSingleton();
                 return instance;
             }
