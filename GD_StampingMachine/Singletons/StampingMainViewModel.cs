@@ -1,75 +1,34 @@
-﻿using DevExpress.Data.Extensions;
-using DevExpress.Mvvm.Native;
-using DevExpress.Utils.CommonDialogs;
-using DevExpress.Utils.CommonDialogs.Internal;
+﻿using DevExpress.Mvvm.Native;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ProductSetting;
-using GongSolutions.Wpf.DragDrop;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
 using GD_CommonLibrary;
-using DevExpress.Xpf.Editors;
 using Newtonsoft.Json;
 using GD_CommonLibrary.Extensions;
-using GD_CommonLibrary.SplashScreenWindows;
 using DevExpress.Xpf.Core;
 using System.Windows;
 using DevExpress.Mvvm;
 using System.Windows.Controls;
-using GD_StampingMachine.ViewModels.ParameterSetting;
 using System.Windows.Media;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Singletons;
-using System.Windows.Markup;
 
 namespace GD_StampingMachine.ViewModels
 {
 
-    public class StampingMainModel
+    public class StampingMainModel  : BaseSingleton<StampingMainModel>
     { 
-        private static readonly object thisLock = new();
-        private StampingMainModel()
-        {
-            
-        }
-
-        public static StampingMainModel Instance
-        {
-            //雙重鎖同步
-            get
-            {
-                if (instance == null)
-                {
-                    lock (thisLock)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new StampingMainModel();
-                            instance.Init();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
-        private static StampingMainModel instance;
-
-
-
-        private void Init()
+        protected override void Init()
         {
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
@@ -144,8 +103,6 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
                 };
             }
-
-
             AxisSettingModel AxisSetting = new();
             if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
             {
@@ -241,16 +198,13 @@ namespace GD_StampingMachine.ViewModels
 
             TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
-
             MachineFunctionVM = new MachineFunctionViewModel()
             {
 
             };
-
-
-
         }
 
+        
 
         public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; } 
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; }

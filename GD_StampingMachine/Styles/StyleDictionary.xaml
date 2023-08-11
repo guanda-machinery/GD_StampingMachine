@@ -1098,6 +1098,7 @@
         <Setter Property="Margin" Value="2"/>
         <Setter Property="Padding" Value="0"/>
     </Style>
+    <!--
     <Style TargetType="GD_Customcontrols:FunctionToggleButton" >
         <Setter Property="ProgressBarCollapsed" Value="Collapsed"/>
         <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
@@ -1118,7 +1119,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
 
     <DataTemplate x:Key="FunctionToggleDragAdorner" DataType="DataTemplate" >
