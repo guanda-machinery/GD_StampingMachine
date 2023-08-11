@@ -280,7 +280,8 @@
                             </Grid.ColumnDefinitions>
                             <Border Style="{StaticResource DragDropBorderStyle}" Name="MainBorder" >
                                 <Border  Style="{StaticResource SelectedBorder}" CornerRadius="{Binding ElementName=MainBorder, Path=CornerRadius}">
-                                    <TextBox Text="{Binding StampingTypeString}"
+                                    <TextBox 
+                                        Text="{Binding StampingTypeString}"
                                         FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" BorderThickness="0" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                     <!--    <TextBox.Text>
                                             <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >

@@ -26,6 +26,7 @@
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
 
              >
+
     <Grid >
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel >
@@ -61,14 +62,14 @@
                                 UnCheckedTitleText="{DynamicResource Text_Custom_Component}" />
 
                                 <GD_Popup:NonTopmostPopup
-                                    PopupAnimation="Fade"   FlowDirection="LeftToRight"
-                                    Placement="Right"   
+                                    PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
+                                    Placement="Right"  
                                     PlacementTarget="{Binding ElementName=Custom_Component_TButton}"
                                                           HorizontalAlignment="Center" 
                                     IsOpen="{Binding ElementName=Custom_Component_TButton, Path=IsChecked, Mode=TwoWay}">
 
                                     <Grid>
-                                        <Border Background="{DynamicResource PrimaryHueMidBrush}" Padding="5,0" CornerRadius="10">
+                                        <Border  Background="{DynamicResource PrimaryHueMidBrush}" Padding="5,0" CornerRadius="10">
                                             <StackPanel>
                                                 <GD_Customcontrols:FunctionToggleUserControl 
                                                                              UnCheckedKind="HandBackLeft"
@@ -100,6 +101,7 @@
                                 </GD_Popup:NonTopmostPopup>
 
 
+
                             </StackPanel>
                         <Grid RenderTransformOrigin="0.5,0.5">
                         <Grid.LayoutTransform >
@@ -118,46 +120,53 @@
                                                 <Setter Property="ArrowLength" Value="5"/>
                                             </Style>
                                             <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
-                                                <Setter Property="Background" Value="White"/>
+                                                <Setter Property="Background" Value="Transparent"/>
                                                 <Setter Property="BorderBrush" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="1"/>
-                                                <Setter Property="Opacity" Value="0.8"/>
+                                                <Setter Property="BorderThickness" Value="0.5"/>
+                                                <Setter Property="Opacity" Value="0.5"/>
                                                 <Setter Property="Margin" Value="0"/>
                                                 <Setter Property="Padding" Value="5"/>
                                                 <Setter Property="TextBlock.FontSize" Value="14"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Foreground" Value="Black"/>
-                                                        <Setter Property="Background" Value="Orange"/>
+                                                        <Setter Property="BorderThickness" Value="0.5"/>
+                                                        <Setter Property="Background" Value="DeepSkyBlue"/>
+                                                        <Setter Property="Opacity" Value="0.3"/>
                                                     </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="DeepSkyBlue"/>
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                    </Trigger>
+
                                                 </Style.Triggers>
                                             </Style>
 
                                         </Canvas.Resources>
 
-                                        <StackPanel Canvas.Left="50" Canvas.Top="100">
-                                            <ToggleButton MinWidth="200" Height="200" Content="{DynamicResource Text_Feeding_Component}" 
+                                        <StackPanel Canvas.Left="60" Canvas.Top="120">
+                                            <ToggleButton MinWidth="190" Height="130" 
                                                       IsChecked="{Binding Feeding_Component_Button_IsChecked}"/>
                                         </StackPanel>
 
-                                        <StackPanel Canvas.Left="250" Canvas.Top="100">
-                                            <ToggleButton MinWidth="70" Height="110" Content="{DynamicResource Text_QRCode_Component}"  
+                                        <StackPanel Canvas.Left="250" Canvas.Top="120">
+                                            <ToggleButton MinWidth="70" Height="130" 
                                                       IsChecked="{Binding QRCode_Component_Button_IsChecked}"/>
                                         </StackPanel>
-                                        <StackPanel Canvas.Left="350" Canvas.Top="20">
-                                            <ToggleButton MinWidth="70" Height="200" Content="{DynamicResource Text_Stamping_Component}"
+                                        <StackPanel Canvas.Left="320" Canvas.Top="0">
+                                            <ToggleButton MinWidth="110" Height="250" 
                                                           IsChecked="{Binding Stamping_Component_Button_IsChecked}"/>
                                         </StackPanel>
                                 
                                 
                                         <StackPanel Canvas.Left="430" Canvas.Top="75">
-                                        <ToggleButton MinWidth="65" Height="150" Content="{DynamicResource Text_ShearCut_Component_Hydraulic}"  IsChecked="{Binding ShearCut_Component_Button_IsChecked}"/>
+                                        <ToggleButton MinWidth="70" Height="175"  IsChecked="{Binding ShearCut_Component_Button_IsChecked}"/>
                                 </StackPanel>
-                                <StackPanel Canvas.Left="450" Canvas.Top="275">
-                                        <ToggleButton MinWidth="140" Height="100" Content="{DynamicResource Text_Separator_Component}" IsChecked="{Binding Separator_Component_Button_IsChecked}" />
+                                <StackPanel Canvas.Left="470" Canvas.Top="280">
+                                        <ToggleButton MinWidth="125" Height="110"  IsChecked="{Binding Separator_Component_Button_IsChecked}" />
                                 </StackPanel>
 
-
+<!--
                                 <StackPanel Canvas.Left="130" Canvas.Top="35">
                                     <ToggleButton 
                                         Content="{DynamicResource Text_Feeding_Component}"/>
@@ -270,16 +279,16 @@
                                     <p:ArrowLine HorizontalAlignment="Center" 
                                         X1="0" Y1="20"  X2="0" Y2="0" >
                                     </p:ArrowLine>
-                                    <ToggleButton Content="{DynamicResource Text_DownCylinder_Component}"/>
+                                    <ToggleButton />
                                 </StackPanel>
 
                                 <StackPanel Canvas.Left="505" Canvas.Top="220">
-                                    <ToggleButton Content="{DynamicResource Text_Separator_Component}"/>
+                                    <ToggleButton />
                                     <p:ArrowLine HorizontalAlignment="Center" 
                                         X1="0" Y1="0"  X2="0" Y2="30" >
                                     </p:ArrowLine>
                                 </StackPanel>
-
+-->
 
 
                             </Canvas>

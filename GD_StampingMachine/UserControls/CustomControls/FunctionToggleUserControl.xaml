@@ -14,11 +14,12 @@
              x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <ToggleButton IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsChecked}"
+        <ToggleButton
+            IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsChecked}"
                       IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
                       Content="{Binding ButtonContent, Mode=OneWay}">
             <ToggleButton.Style>
-                <Style TargetType="ToggleButton" >
+                <Style TargetType="ToggleButton">
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
                     <Setter Property="FontSize" Value="{Binding Path=FontSize}"/>
@@ -55,29 +56,64 @@
                                     <StackPanel 
                                         MinWidth="65" 
                                         Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
-                                        <Grid Margin="5" Width="40" Height="40">
-                                            <Image 
+                                        <Grid >
+                                            <Border >
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter Property="Opacity" Value="0.3"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Grid Margin="5">
+
+                                                <Image 
                                                     d:Width="40" d:Height="40" 
                                                     Source="{Binding ImageSource ,FallbackValue={StaticResource Logo}}"
                                                     Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"
                                                     Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"/>
-                                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                            <!--自定義方塊-->
-                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40">
-                                                <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
-                                                    <materialDesign:PackIcon Kind="{Binding IsCheckedKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
+                                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                                <!--自定義方塊-->
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40">
+
+                                                    <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                                                        <materialDesign:PackIcon Kind="{Binding IsCheckedKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
                                                                              Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"  
                                                                              Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
                                                                  Visibility="{Binding IsCheckedKind,Converter={dx:NullableToVisibilityConverter}}"/>
-                                                </Grid>
-                                                <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
-                                                    <materialDesign:PackIcon Kind="{Binding UnCheckedKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
+                                                    </Grid>
+                                                    <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
+                                                        <materialDesign:PackIcon Kind="{Binding UnCheckedKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
                                                                              Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"  
                                                                              Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
                                                                  Visibility="{Binding UnCheckedKind,Converter={dx:NullableToVisibilityConverter}}"/>
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
+                                        </Border>
+                                            <ProgressBar Width="40" Height="40"
+                                            Opacity="0.95" Minimum="0" Maximum="100" 
+                                                             Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                             Visibility="{Binding ProgressVisibility}" Value="{Binding Progress}"
+                                                             IsIndeterminate="{Binding IsIndeterminate}">
+                                                <i:Interaction.Behaviors>
+                                                    <GD_Common:ProgresBarAnimateBehavior />
+                                                </i:Interaction.Behaviors>
+                                                <ProgressBar.Foreground>
+                                                    <Binding Path="Progress" Converter="{GD_Common:MuiltBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                        <Binding.ConverterParameter>
+                                                            <x:Array Type="SolidColorBrush">
+                                                                <SolidColorBrush Color="Red"/>
+                                                                <SolidColorBrush Color="SkyBlue"/>
+                                                                <SolidColorBrush Color="Green"/>
+                                                            </x:Array>
+                                                        </Binding.ConverterParameter>
+                                                    </Binding>
+                                                </ProgressBar.Foreground>
 
+                                            </ProgressBar>
                                         </Grid>
                                         <Grid Grid.Row="1" >
                                             <Grid.Resources>
@@ -86,6 +122,11 @@
                                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                                     <Setter Property="FontSize" Value="{Binding FontSize , ElementName=MainFunctionToggleUserControl}"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter Property="Opacity" Value="0.5"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
                                                 </Style>
                                             </Grid.Resources>
                                             <TextBlock  TextWrapping="WrapWithOverflow" MaxWidth="80" 
@@ -101,14 +142,14 @@
                                             </TextBlock>
                                             <TextBlock   MaxWidth="80" 
                                                 Text="{Binding IsCheckedTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
-                                            <TextBlock.Visibility>
-                                                <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                                    <MultiBinding.Bindings>
-                                                        <Binding Path="IsChecked"/>
-                                                        <Binding Path="IsCheckedTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
-                                                    </MultiBinding.Bindings>
-                                                </MultiBinding>
-                                            </TextBlock.Visibility>
+                                                <TextBlock.Visibility>
+                                                    <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                        <MultiBinding.Bindings>
+                                                            <Binding Path="IsChecked"/>
+                                                            <Binding Path="IsCheckedTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
+                                                        </MultiBinding.Bindings>
+                                                    </MultiBinding>
+                                                </TextBlock.Visibility>
                                             </TextBlock>
                                         </Grid>
                                     </StackPanel>
@@ -160,15 +201,9 @@
                         </Setter.Value>
                     </Setter>
 
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" Value="0.3"/>
-                                </Trigger>
-                            </Style.Triggers>
-
-
                 </Style>
             </ToggleButton.Style>
         </ToggleButton>
+
     </Grid>
 </UserControl>

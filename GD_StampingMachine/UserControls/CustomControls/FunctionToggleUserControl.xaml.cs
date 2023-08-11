@@ -60,8 +60,48 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new CornerRadius(0)));
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Orientation.Vertical));
         public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(nameof(TextMargin), typeof(Thickness), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new Thickness(0)));
-        //public static readonly DependencyProperty ToggleButtonContentProperty = DependencyProperty.Register(nameof(ToggleButtonContent), typeof(object), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
-        //public static readonly DependencyProperty ToggleButtonContentProperty = DependencyProperty.Register(nameof(ToggleButtonContent), typeof(object), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
+       
+        public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register(nameof(Progress), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty IsIndeterminateProperty = DependencyProperty.Register(nameof(IsIndeterminate), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ProgressVisibilityProperty = DependencyProperty.Register(nameof(ProgressVisibility), typeof(Visibility), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Visibility.Collapsed, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        
+        public double Progress
+        {
+            get
+            {
+                return (double)GetValue(ProgressProperty);
+            }
+            set 
+            { 
+                SetValue(ProgressProperty, value);
+            }
+        }
+
+        public bool IsIndeterminate
+        {
+            get { return (bool) GetValue(IsIndeterminateProperty);
+            }
+            set 
+            {
+                SetValue(IsIndeterminateProperty, value);
+            }
+        }
+
+        public Visibility ProgressVisibility
+        {
+            get
+            {
+                return (Visibility)GetValue(ProgressVisibilityProperty);
+            }
+            set
+            {
+                SetValue(ProgressVisibilityProperty, value);
+            }
+        }
+
+
+
 
 
         public string IsCheckedTitleText

@@ -23,6 +23,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
 
+
+
+
         private QRSettingViewModel _qrSetting;
         public QRSettingViewModel QRSettingVM
         {
@@ -56,17 +59,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ObservableCollection<QRSettingViewModel> _qrSettingModelModelCollection;
         public ObservableCollection<QRSettingViewModel> QRSettingModelCollection
         {
-            get
-            {
-                if (_qrSettingModelModelCollection == null)
-                {
-                    if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> SavedCollection, false))
-                        _qrSettingModelModelCollection = SavedCollection;
-                    else
-                        _qrSettingModelModelCollection = new();
-                }
-                return _qrSettingModelModelCollection;
-            }
+            get => _qrSettingModelModelCollection??=new();
             set
             {
                 _qrSettingModelModelCollection = value;
@@ -189,26 +182,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<QRSettingViewModel> _qrSettingVMModelSavedCollection;
-        public ObservableCollection<QRSettingViewModel> QRSettingModelSavedCollection
-        {
-            get
-            {
-                if (_qrSettingVMModelSavedCollection == null)
-                {
-                    if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> SavedCollection))
-                        _qrSettingVMModelSavedCollection = SavedCollection;
-                    else
-                        _qrSettingVMModelSavedCollection = new();
-                }
-                return _qrSettingVMModelSavedCollection;
-            }
-            set
-            {
-                _qrSettingVMModelSavedCollection = value;
-                OnPropertyChanged(nameof(QRSettingModelSavedCollection));
-            }
-        }
 
     }
 }

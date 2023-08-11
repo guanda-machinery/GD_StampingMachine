@@ -338,6 +338,7 @@
     <Compile Include="Extensions\ScrollViewerExtension.cs" />
     <Compile Include="Behaviors\ProgresBarAnimateBehavior.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
+    <Compile Include="Method\BaseSingleton.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
     <Compile Include="Method\BaseViewModel.cs" />
     <Compile Include="CustomControl\DraggablePopup.cs" />

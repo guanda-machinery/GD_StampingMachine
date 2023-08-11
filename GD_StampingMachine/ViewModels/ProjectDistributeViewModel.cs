@@ -52,7 +52,9 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
     }
 
-
+    /// <summary>
+    /// 加工專案
+    /// </summary>
     public class ProjectDistributeViewModel : BaseViewModelWithLog
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProjectDistributeViewModel");

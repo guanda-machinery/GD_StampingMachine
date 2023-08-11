@@ -34,6 +34,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.NormalSheetStamping;
 
+
+
+
+
         private NumberSettingViewModel _numberSettingVM;
         public NumberSettingViewModel NumberSettingVM
         {
@@ -65,24 +69,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<NumberSettingViewModel> _numberSettingVMModelSavedCollection;
-        public ObservableCollection<NumberSettingViewModel> NumberSettingModelSavedCollection
+        private ObservableCollection<NumberSettingViewModel> _numberSettingModelCollection;
+        public ObservableCollection<NumberSettingViewModel> NumberSettingModelCollection
         {
-            get
-            {
-                if (_numberSettingVMModelSavedCollection == null)
-                {
-                    if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NumberSettingViewModel> SavedCollection))
-                        _numberSettingVMModelSavedCollection = SavedCollection;
-                    else
-                        _numberSettingVMModelSavedCollection = new();
-                }
-                return _numberSettingVMModelSavedCollection;
-            }
+            get => _numberSettingModelCollection ??= new();
             set
             {
-                _numberSettingVMModelSavedCollection = value;
-                OnPropertyChanged(nameof(NumberSettingModelSavedCollection));
+                _numberSettingModelCollection = value;
+                OnPropertyChanged();
             }
         }
 
@@ -107,12 +101,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                var FIndex = NumberSettingModelSavedCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
+                var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                 if (FIndex != -1)
                 {
                     if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                     {
-                        NumberSettingModelSavedCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
+                        NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
                     }
                     else
                     {
@@ -121,10 +115,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    NumberSettingModelSavedCollection.Add(NumberSettingVM.DeepCloneByJson());
+                    NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
                 }
 
-                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection, true);
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
             });
         }
         public override ICommand DeleteSettingCommand
@@ -133,8 +127,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (NumberSettingModelCollectionSelected != null)
                 {
-                    NumberSettingModelSavedCollection.Remove(NumberSettingModelCollectionSelected);
-                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelSavedCollection);
+                    NumberSettingModelCollection.Remove(NumberSettingModelCollectionSelected);
+                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection);
                 }
             });
         }

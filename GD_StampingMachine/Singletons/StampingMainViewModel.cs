@@ -1,98 +1,36 @@
-﻿using DevExpress.Data.Extensions;
-using DevExpress.Mvvm.Native;
-using DevExpress.Utils.CommonDialogs;
-using DevExpress.Utils.CommonDialogs.Internal;
+﻿using DevExpress.Mvvm.Native;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ProductSetting;
-using GongSolutions.Wpf.DragDrop;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
 using GD_CommonLibrary;
-using DevExpress.Xpf.Editors;
 using Newtonsoft.Json;
 using GD_CommonLibrary.Extensions;
-using GD_CommonLibrary.SplashScreenWindows;
 using DevExpress.Xpf.Core;
 using System.Windows;
 using DevExpress.Mvvm;
 using System.Windows.Controls;
-using GD_StampingMachine.ViewModels.ParameterSetting;
 using System.Windows.Media;
 using GD_CommonLibrary.Method;
+using GD_StampingMachine.Singletons;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class StampingMainModel
-    {
-        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; } 
-        public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
-        public ParameterSettingViewModel ParameterSettingVM { get; set; }
-        public ProductSettingViewModel ProductSettingVM { get; set; }
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
-        public MachineMonitorViewModel MachineMonitorVM { get; set; }
-        public MachineFunctionViewModel MachineFunctionVM { get; set; }
-    }
 
-    public partial class StampingMainViewModel : BaseViewModelWithLog
-    {
-        /// <summary>
-        /// 解構
-        /// </summary>
-
-        ~StampingMainViewModel()
+    public class StampingMainModel  : BaseSingleton<StampingMainModel>
+    { 
+        protected override void Init()
         {
-            if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
-
-            if (ParameterSettingVM.TimingSettingVM.TimingSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, ParameterSettingVM.TimingSettingVM.TimingSetting);
-
-            if (ParameterSettingVM.EngineerSettingVM.EngineerSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, ParameterSettingVM.EngineerSettingVM.EngineerSetting);
-
-            if (ParameterSettingVM.SeparateSettingVM.SeparateSetting != null)
-                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, ParameterSettingVM.SeparateSettingVM.SeparateSetting);
-        }
-
-
-
-
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
-
-        private StampingMainModel StampingMain = new();
-
-        public StampingMainViewModel()
-        {
-            StampingMain = new StampingMainModel();
-            //測試模式
-            if (Debugger.IsAttached)
-            {
-                Task.Run(() =>
-                {
-                    for (int ErrorCount = 0; true; ErrorCount++)
-                    {
-                        AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
-                        Thread.Sleep(1000);
-
-                    }
-                });
-            }
-
-
-
+            StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
             MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
             {
@@ -165,8 +103,6 @@ namespace GD_StampingMachine.ViewModels
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
                 };
             }
-
-
             AxisSettingModel AxisSetting = new();
             if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
             {
@@ -211,17 +147,16 @@ namespace GD_StampingMachine.ViewModels
             {
                 PathList.ForEach(EPath =>
                 {
-                    
+
                     //加工專案為到處放的形式 沒有固定位置
                     if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
                     {
-                        //var a = PProject.PartsParameterObservableCollection;
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
                     }
                     else
                     {
                         //需註解找不到檔案!
-                        MessageBoxResultShow.ShowOK("",$"Can't find file {Path.Combine(EPath.ProjectPath, EPath.Name)}");
+                        MessageBoxResultShow.ShowOK("", $"Can't find file {Path.Combine(EPath.ProjectPath, EPath.Name)}");
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,
@@ -260,18 +195,66 @@ namespace GD_StampingMachine.ViewModels
             {
                 TypeSettingSettingVM = TypeSettingSettingVM
             };
-            
-            TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
+            TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
             MachineFunctionVM = new MachineFunctionViewModel()
             {
-                ParameterSettingVM = ParameterSettingVM,
-                StampingFontChangedVM = StampingFontChangedVM,
+
             };
+        }
 
+        
 
+        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; } 
+        public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
+        public ParameterSettingViewModel ParameterSettingVM { get; set; }
+        public ProductSettingViewModel ProductSettingVM { get; set; }
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
+        public MachineMonitorViewModel MachineMonitorVM { get; set; }
+        public MachineFunctionViewModel MachineFunctionVM { get; set; }
+    }
 
+    public partial class StampingMainViewModel : BaseViewModelWithLog
+    {
+        /// <summary>
+        /// 解構
+        /// </summary>
+
+        ~StampingMainViewModel()
+        {
+            if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
+
+            if (ParameterSettingVM.TimingSettingVM.TimingSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, ParameterSettingVM.TimingSettingVM.TimingSetting);
+
+            if (ParameterSettingVM.EngineerSettingVM.EngineerSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, ParameterSettingVM.EngineerSettingVM.EngineerSetting);
+
+            if (ParameterSettingVM.SeparateSettingVM.SeparateSetting != null)
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, ParameterSettingVM.SeparateSettingVM.SeparateSetting);
+        }
+
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
+
+        private StampingMainModel StampingMain;
+        public StampingMainViewModel()
+        {
+            StampingMain = StampingMainModel.Instance;
+            //測試模式
+            if (Debugger.IsAttached)
+            {
+                Task.Run(() =>
+                {
+                    for (int ErrorCount = 0; true; ErrorCount++)
+                    {
+                        AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
+                        Thread.Sleep(1000);
+
+                    }
+                });
+            }
 
 
             Task.Run(() =>
@@ -376,7 +359,8 @@ namespace GD_StampingMachine.ViewModels
 
         private bool _isBrightMode = false;
         public bool IsBrightMode 
-        {get => _isBrightMode;
+        {
+            get => _isBrightMode;
             set
             {
                 _isBrightMode = value;
@@ -422,7 +406,10 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 參數設定
         /// </summary>
-        public ParameterSettingViewModel ParameterSettingVM { get => StampingMain.ParameterSettingVM; set => StampingMain.ParameterSettingVM = value; }
+        public ParameterSettingViewModel ParameterSettingVM
+        {
+            get => StampingMain.ParameterSettingVM; 
+            set => StampingMain.ParameterSettingVM = value; }
         /// <summary>
         /// 製品設定
         /// </summary>
@@ -497,9 +484,6 @@ namespace GD_StampingMachine.ViewModels
                         }
                         Thread.Sleep(100);
 
-
-
-
                         System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                         {
                             manager.Close();
@@ -521,12 +505,6 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-
-        private bool IsAlert
-        {
-            get;
-            set;
-        }
         
 
 

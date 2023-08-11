@@ -20,7 +20,6 @@ namespace GD_StampingMachine.ViewModels
     public class MachineMonitorModel
     {
         public ProjectDistributeViewModel ProjectDistributeVM { get; set; }
-        //public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
     }
 
     public class MachineMonitorViewModel : BaseViewModelWithLog
@@ -129,8 +128,6 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection
         {
             get => TypeSettingSettingVM.ProjectDistributeVMObservableCollection;
-            /*get => MachineMonitor.ProjectDistributeVMObservableCollection;
-            private set { MachineMonitor.ProjectDistributeVMObservableCollection = value; OnPropertyChanged(); }*/
         }
 
 
