@@ -921,12 +921,14 @@
                         </Grid>
                     </GroupBox>
                         <GroupBox Grid.Row="1" Header="OPCUA test" Margin="10"  VerticalAlignment="Top" >
-                            <StackPanel HorizontalAlignment="Left">
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 
-                                <GD_Customcontrols:FunctionToggleUserControl 
-                                    IsEnabled="{Binding OpcuaFormBrowseServerOpenIsEnabled}"
-                                    ProgressVisibility="{Binding OpcuaFormBrowseServerOpenIsEnabled, Converter={dx:BooleanToVisibilityConverter Invert=True}}"
-                                    IsCheckedTitleText="OPCUA"
+                                <GD_Customcontrols:FunctionToggleUserControl              
+                                    IsEnabled="{Binding StampMachineData.OpcuaTestIsOpen,Mode=OneWay,Converter={dx:BoolInverseConverter}}"
+                                   IsChecked="{Binding OpcuaFormBrowseServerOpenIsChecked}"
+                                    ProgressVisibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, Converter={dx:BooleanToVisibilityConverter}}"
+                                    IsCheckedTitleText="OPCUA"                               
+                                    UnCheckedTitleText="OPCUA"
                                     IsCheckedKind="Gear"
                                     UnCheckedKind="GearOutline"
                                     >
@@ -936,6 +938,14 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </GD_Customcontrols:FunctionToggleUserControl>
+
+
+                                <Button  Content="Opcua StartScan"
+                                    IsEnabled="{Binding StampMachineData.IsScaning, Converter={dx:BoolInverseConverter}}"
+                                    Command="{Binding OpcuaStartScanCommand}"/>
+                                <Button Content="Opcua StopScan"
+                                    IsEnabled="{Binding StampMachineData.IsScaning}"
+                                    Command="{Binding OpcuaStopScanCommand}"/>
 
 
                             </StackPanel>

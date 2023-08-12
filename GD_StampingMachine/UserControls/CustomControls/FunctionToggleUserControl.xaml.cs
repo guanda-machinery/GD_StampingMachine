@@ -43,8 +43,8 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty UnCheckedTitleTextProperty = DependencyProperty.Register(nameof(UnCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(FunctionToggleUserControl), new PropertyMetadata());
         
-        public static readonly DependencyProperty IsCheckedKindProperty = DependencyProperty.Register(nameof(IsCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty UnCheckedKindProperty = DependencyProperty.Register(nameof(UnCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty IsCheckedKindProperty = DependencyProperty.Register(nameof(IsCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty UnCheckedKindProperty = DependencyProperty.Register(nameof(UnCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata());
 
         public static readonly DependencyProperty ButtonContentProperty =  DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));

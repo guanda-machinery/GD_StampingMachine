@@ -3,6 +3,7 @@ using DevExpress.XtraRichEdit.Printing;
 using GD_CommonLibrary;
 using GD_MachineConnect.Machine;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,27 +68,41 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand DeleteSettingCommand => throw new NotImplementedException();
 
-        
-        private bool _opcuaFormBrowseServerOpenIsEnabled = true;
-        public bool OpcuaFormBrowseServerOpenIsEnabled { get => _opcuaFormBrowseServerOpenIsEnabled; set { _opcuaFormBrowseServerOpenIsEnabled = value; OnPropertyChanged(); } }
+
+
+        public StampMachineDataSingleton StampMachineData
+        { 
+            get => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
+        }
+
+
+        //private bool _opcuaFormBrowseServerOpenIsEnabled = true;
+        //public bool OpcuaFormBrowseServerOpenIsEnabled { get => _opcuaFormBrowseServerOpenIsEnabled; set { _opcuaFormBrowseServerOpenIsEnabled = value; OnPropertyChanged(); } }
+
+        private bool _opcuaFormBrowseServerOpenIsChecked = false;
+        public bool OpcuaFormBrowseServerOpenIsChecked { get => _opcuaFormBrowseServerOpenIsChecked; set { _opcuaFormBrowseServerOpenIsChecked = value; OnPropertyChanged(); } }
 
 
         public ICommand OpcuaFormBrowseServerOpenCommand
         {
             get => new RelayCommand(() =>
             {
+                OpcuaFormBrowseServerOpenIsChecked = false;
                 Task.Run(async () =>
                 {
                     if (!GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.OpcuaTestIsOpen)
                     {
-                        OpcuaFormBrowseServerOpenIsEnabled = false;
+                        OpcuaFormBrowseServerOpenIsChecked = true;
                         await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
-                        OpcuaFormBrowseServerOpenIsEnabled = true;
+                        OpcuaFormBrowseServerOpenIsChecked = false;
                     }
+                    return;
                 });
-
             });
         }
+
+
+
 
         public ICommand OpcuaStartScanCommand
         {
@@ -99,6 +114,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
             });
         }
+
 
         public ICommand OpcuaStopScanCommand
         {

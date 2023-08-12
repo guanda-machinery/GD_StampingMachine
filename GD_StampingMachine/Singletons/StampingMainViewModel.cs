@@ -266,9 +266,10 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
 
-            Task.Run(() =>
+            Task.Run(async() =>
             {
-                Thread.Sleep(5000);
+                await Task.Delay(5000);
+                //Thread.Sleep(5000);
                 while (true)
                 {
                     //定期存檔
@@ -307,7 +308,7 @@ namespace GD_StampingMachine.ViewModels
                         Debugger.Break();
                     }
 
-                    Thread.Sleep(3000);
+                    await Task.Delay(5000);
                 }
             });
 

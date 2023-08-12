@@ -4,15 +4,27 @@ using GD_MachineConnect.Machine;
 using GD_StampingMachine.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Singletons
 {
-    public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>
+    public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+        protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            }
+        }
+
+
         protected override void Init()
         {
 
@@ -20,18 +32,19 @@ namespace GD_StampingMachine.Singletons
 
 
         private bool _opcuaTestIsOpen= false;
-        public bool OpcuaTestIsOpen { get => _opcuaTestIsOpen; }
-
+        public bool OpcuaTestIsOpen { get => _opcuaTestIsOpen; private set { _opcuaTestIsOpen = value; OnPropertyChanged(); } }
+     
+        
+        OpcuaTest _opcuaTest = new OpcuaTest();
         internal async Task TestConnect()
         {
             await Task.Run(() =>
             {
-                if (_opcuaTestIsOpen == false)
+                if (OpcuaTestIsOpen == false)
                 {
                     try
                     {
-                        _opcuaTestIsOpen = true;
-                        var _opcuaTest = new OpcuaTest();
+                        OpcuaTestIsOpen = true;
                         _opcuaTest.TestOpen();
                     }
                     catch(Exception ex)
@@ -40,11 +53,14 @@ namespace GD_StampingMachine.Singletons
                     }
                     finally
                     {
-                        _opcuaTestIsOpen = false;
+                        OpcuaTestIsOpen = false;
                     }
                 }
+
             });
         }
+
+
 
 
         public string HostString = "127.0.0.1";
@@ -65,7 +81,8 @@ namespace GD_StampingMachine.Singletons
         }
 
         private bool ContinueScanning = true;
-        public bool IsScaning { get; set; } = false;
+        private bool _isScaning = false;
+        public bool IsScaning { get=> _isScaning; set { _isScaning = value; OnPropertyChanged(); } }
         public void ScanOpcua()
         {
             if (!IsScaning)
@@ -92,8 +109,8 @@ namespace GD_StampingMachine.Singletons
 
                     } while (ContinueScanning);
 
+                    IsScaning = false;
                 });
-                IsScaning = false;
             }
             return;
         }

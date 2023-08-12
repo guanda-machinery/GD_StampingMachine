@@ -47,14 +47,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             RefreshNumberSettingSavedCollection();
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
                     while (true)
                     {
-
-                        Thread.Sleep(1000);
+                        await Task.Delay(1000);
                         double AverageProgress = 0;
                        foreach(var p in PartsParameterVMObservableCollection)
                         {

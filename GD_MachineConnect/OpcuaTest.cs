@@ -1,14 +1,17 @@
-﻿using System;
+﻿using OpcUaHelper.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GD_MachineConnect
 {
     public class OpcuaTest
     {
-        public void TestOpen()
+        OpcUaHelper.Forms.FormBrowseServer formBrowseServer;
+        public DialogResult TestOpen()
         {
             string HostString = "127.0.0.1";
             int Port = 62541;
@@ -17,8 +20,11 @@ namespace GD_MachineConnect
             var BaseUrl = new Uri($"opc.tcp://{HostString}:{Port}");
             var CombineUrl = new Uri(BaseUrl, ServerDataPath);
             var ServerUrl = CombineUrl.ToString();
-            OpcUaHelper.Forms.FormBrowseServer formBrowseServer = new OpcUaHelper.Forms.FormBrowseServer(ServerUrl);
-            formBrowseServer.ShowDialog();
+            formBrowseServer = new FormBrowseServer(ServerUrl);
+
+            return formBrowseServer.ShowDialog();
         }
+
+
     }
 }
