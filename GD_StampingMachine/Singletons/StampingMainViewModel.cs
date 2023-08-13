@@ -167,11 +167,8 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
 
-            TypeSettingSettingVM = new()
-            {
-                ProductSettingVM = ProductSettingVM,
-                ParameterSettingVM = ParameterSettingVM
-            };
+            TypeSettingSettingVM = new();
+
 
             if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
             {
@@ -193,10 +190,9 @@ namespace GD_StampingMachine.ViewModels
 
             MachineMonitorVM = new MachineMonitorViewModel(new MachineMonitorModel())
             {
-                TypeSettingSettingVM = TypeSettingSettingVM
+
             };
 
-            TypeSettingSettingVM.ChangeProjectDistributeCommand = MachineMonitorVM.ProjectDistributeVMChangeCommand;
 
             MachineFunctionVM = new MachineFunctionViewModel()
             {
@@ -211,8 +207,16 @@ namespace GD_StampingMachine.ViewModels
         public ParameterSettingViewModel ParameterSettingVM { get; set; }
         public ProductSettingViewModel ProductSettingVM { get; set; }
         public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
-        public MachineMonitorViewModel MachineMonitorVM { get; set; }
-        public MachineFunctionViewModel MachineFunctionVM { get; set; }
+        public MachineMonitorViewModel MachineMonitorVM 
+        {
+            get; 
+            set; 
+        }
+        public MachineFunctionViewModel MachineFunctionVM 
+        {
+            get; 
+            set; 
+        }
     }
 
     public partial class StampingMainViewModel : BaseViewModelWithLog

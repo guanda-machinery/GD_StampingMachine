@@ -311,14 +311,14 @@
                                 <StackPanel>
                             <materialDesign:ColorZone CornerRadius="2" Padding="1">
                                 <StackPanel Orientation="Horizontal">
-                                    <RepeatButton Style="{StaticResource AxisMoveRepeatButton}"
+                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"
                                              Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}"/>
                                     <Border Margin="5,0"/>
-                                    <RepeatButton Style="{StaticResource AxisMoveRepeatButton}"   
+                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"   
                                               Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}"/>
                             </StackPanel>
                                     </materialDesign:ColorZone>
-                                    <TextBox Text="123"/>
+                                    <TextBox Text="123" Margin="0,2"/>
                                 </StackPanel>
                             </GroupBox>
 
@@ -382,23 +382,57 @@
                     <GroupBox Header="{DynamicResource Text_QRCode_Component}" Visibility="{Binding QRCode_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                         <Grid Margin="0,10">
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <ComboBox  Width="120" 
-                                    ItemsSource="{Binding ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding NumberSettingMode}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
+
+                            <ComboBox Grid.Row="0"
+                                        Margin="10,0,10,10" Padding="0" Width="auto"   MaxDropDownHeight="275"
+                                      
+                                        ItemsSource="{Binding Path=ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection}"
+                                      >
+                                
+                                <ComboBox.Style>
+                                    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_ComboBox}">
+                                        <Setter Property="ItemTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate >
+                                                    <Grid>
+                                                        <Grid Margin="5,0,5,5">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="auto"/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                            <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                                                                <Grid 
+                                                            RenderTransformOrigin="0.0,0.0" >
+                                                                    <Grid.LayoutTransform>
+                                                                        <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                    </Grid.LayoutTransform>
+                                                                    <StackPanel>
+                                                                        <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
+                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
+                                                                        <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
+                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
+
+                                                                    </StackPanel>
+
+                                                                </Grid>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ComboBox.Style>
                             </ComboBox>
 
-
-
-
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,0">
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5,0">
                                 <RadioButton Name="PlayButton"  IsEnabled="{Binding ElementName=StopButton ,Path=IsChecked}"
                                         Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                     <materialDesign:PackIcon Kind="Play" Width="auto" Height="auto"/>
@@ -417,19 +451,21 @@
                         
                     <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
                 Style="{StaticResource GD_ComboBox}" 
-                               SelectedValue="{Binding StampingFontChangedVM.StampingTypeModel_ReadyStamping, UpdateSourceTrigger=PropertyChanged}"
-                ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}" />
+                               SelectedValue="{Binding Path=StampingFontChangedVM.StampingTypeModel_ReadyStamping}"
+                               ItemsSource="{Binding Path=StampingFontChangedVM.StampingTypeVMObservableCollection}"    
+ 
+                               />
                      
                         <StackPanel Orientation="Horizontal">
                         <GroupBox Header="{DynamicResource Text_YAxis_Motor}" >
                             <materialDesign:ColorZone CornerRadius="2" Padding="1" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal">
 
-                                            <RepeatButton Style="{StaticResource AxisMoveRepeatButton}"   
+                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"   
                                               Content="{materialDesign:PackIcon Kind=ArrowBottomLeftBoldBoxOutline, Size=30}"/>
-                                            <RepeatButton Style="{StaticResource AxisMoveRepeatButton}" 
+                                            <RepeatButton Style="{StaticResource GD_RepeatButton}" 
                                              Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
-                                            <RepeatButton Style="{StaticResource AxisMoveRepeatButton}" 
+                                            <RepeatButton Style="{StaticResource GD_RepeatButton}" 
                                              Content="{materialDesign:PackIcon Kind=ArrowTopRightBoldBoxOutline, Size=30}"/>
                                         </StackPanel>
                             </materialDesign:ColorZone>
@@ -494,7 +530,7 @@
                 <GroupBox Header="{DynamicResource Text_Separator_Component}" Visibility="{Binding Separator_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <StackPanel>
                     <ListBox Width="250" Height="250" Margin="10"
-                            ItemsSource="{Binding  ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}">
+                             ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance}, Path=ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}"                      >
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Height" Value="40"/>
@@ -566,14 +602,14 @@
                         </ListBox.ItemsPanel>
                         </ListBox>
                         <Grid>
-                                <ToggleButton Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding SeparateBox_CounterClockwiseRotateCommand}"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
+                                <RepeatButton Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding SeparateBox_CounterClockwiseRotateCommand}"
+                                        Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowURightTop" Width="auto" Height="auto"/>
-                            </ToggleButton>
-                                <ToggleButton Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SeparateBox_ClockwiseRotateCommand}"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
+                            </RepeatButton>
+                                <RepeatButton Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SeparateBox_ClockwiseRotateCommand}"
+                                        Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowULeftTop" Width="auto" Height="auto"/>
-                            </ToggleButton>
+                            </RepeatButton>
                         </Grid>
                     </StackPanel>
                 </GroupBox>

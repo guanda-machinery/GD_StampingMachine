@@ -18,83 +18,10 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+        public ParameterSettingViewModel ParameterSettingVM { get => StampingMainModel.Instance.ParameterSettingVM; }
+        public StampingFontChangedViewModel StampingFontChangedVM { get => StampingMainModel.Instance.StampingFontChangedVM; }
 
-        public ParameterSettingViewModel ParameterSettingVM
-        {
-            get => StampingMainModel.Instance.ParameterSettingVM;
-        }
-
-
-
-        public StampingFontChangedViewModel StampingFontChangedVM
-        { 
-            get=> StampingMainModel.Instance.StampingFontChangedVM;
-        }
-
-
-
-        /// <summary>
-        /// QR資訊
-        /// </summary>
-            /*public ObservableCollection<StampingPlateSettingModel> QRSettingModelCollection { get; set; }
-
-            private StampingPlateSettingModel _selectedQRSettingModelCollection;
-            public StampingPlateSettingModel SelectedQRSettingModelCollection
-            {
-                get => _selectedQRSettingModelCollection;
-                set
-                {
-                    _selectedQRSettingModelCollection = value;
-                    OnPropertyChanged();
-                }
-            }*/
-
-
-            /*private StampingTypeViewModel _stampingTypeModel_readyStamping;
-            /// <summary>
-            /// 轉盤資訊
-            /// </summary>
-            public StampingTypeViewModel StampingTypeModel_ReadyStamping
-            {
-                get => _stampingTypeModel_readyStamping;
-                set { _stampingTypeModel_readyStamping = value; OnPropertyChanged(); }
-            }*/
-
-            /*private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
-            public ObservableCollection<StampingTypeViewModel> StampingTypeVMObservableCollection
-            {
-
-                get => _stampingTypeVMObservableCollection;
-                set { _stampingTypeVMObservableCollection = value; OnPropertyChanged(); }
-            }
-            */
-
-
-
-
-
-
-
-
-
-
-
-
-            /*   private bool _manualOperatingMode = false;
-
-              public bool ManualOperatingMode
-               {
-                   get => _manualOperatingMode;
-                   set 
-                   {
-                       Feeding_Component_Button_IsChecked = true;
-                       Stamping_Component_Button_IsChecked = true;
-                       ShearCut_Component_Button_IsChecked = true;
-                       Separator_Component_Button_IsChecked = true;
-                       _manualOperatingMode = value;
-                       OnPropertyChanged();
-                   }
-               }*/
+        
 
 
         private bool _feeding_Component_Button_IsChecked = false;
@@ -339,13 +266,16 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+
+
+
         private void SeparateBox_Rotate(int step)
         {
-            var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);
-            var Maxindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
+            var MinIndex = StampingMainModel.Instance.ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);
+            var Maxindex = StampingMainModel.Instance.ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
 
 
-            var IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
+            var IsUsingindex = StampingMainModel.Instance.ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
             if (IsUsingindex == -1)
             {
                 //ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;

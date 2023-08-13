@@ -399,7 +399,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="AxisMoveRepeatButton" TargetType="RepeatButton" BasedOn="{StaticResource MaterialDesignFlatButton}">
+    <Style x:Key="GD_RepeatButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
 
         <Setter Property="Width"
                             Value="auto" />
@@ -431,7 +431,7 @@
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="RepeatButton">
+                <ControlTemplate TargetType="ButtonBase">
                     <Border Background="{TemplateBinding Background}"     
                             Height="{TemplateBinding Width}"
                             Width="{TemplateBinding Width}"

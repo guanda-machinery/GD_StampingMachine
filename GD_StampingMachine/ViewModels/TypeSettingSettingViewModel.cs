@@ -54,8 +54,8 @@ namespace GD_StampingMachine.ViewModels
         } = new();
 
 
-        public ProductSettingViewModel ProductSettingVM { get; set; }=new();
-        public ParameterSettingViewModel ParameterSettingVM { get; set; } = new();
+        public ProductSettingViewModel ProductSettingVM { get => StampingMainModel.Instance.ProductSettingVM; }
+        public ParameterSettingViewModel ParameterSettingVM { get => StampingMainModel.Instance.ParameterSettingVM; }
 
 
         [JsonIgnore]
@@ -96,7 +96,7 @@ namespace GD_StampingMachine.ViewModels
         /// 切換工程號
         /// </summary>
         [JsonIgnore]
-        public ICommand ChangeProjectDistributeCommand{get;set;}
+        public ICommand ChangeProjectDistributeCommand{get =>StampingMainModel.Instance.MachineMonitorVM.ProjectDistributeVMChangeCommand; }
 
         /// <summary>
         /// 刪除排版專案 並將盒子內的所有東西釋放回專案
