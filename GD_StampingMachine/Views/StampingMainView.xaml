@@ -812,9 +812,9 @@
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
+                            
+
                             <GD_Customcontrols:FunctionToggleUserControl 
-                                IsDragable="False"
-                                IsDropable ="True"
                                ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />

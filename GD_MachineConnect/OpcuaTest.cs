@@ -22,6 +22,8 @@ namespace GD_MachineConnect
             var ServerUrl = CombineUrl.ToString();
             formBrowseServer = new FormBrowseServer(ServerUrl);
 
+
+
             return formBrowseServer.ShowDialog();
         }
 

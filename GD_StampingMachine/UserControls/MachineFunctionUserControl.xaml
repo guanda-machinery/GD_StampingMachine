@@ -22,7 +22,7 @@
              xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
+             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
 
              >
@@ -52,8 +52,8 @@
                                    IsCheckedKind="ScissorsCutting"
                                 UnCheckedTitleText="{DynamicResource Text_ShearCut_Component_Hydraulic}" />
                                 <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Separator_Component_Button_IsChecked}"
-                                   UnCheckedKind="Download"
-                                   IsCheckedKind="Download"
+                                   UnCheckedKind="PackageVariantClosed"
+                                   IsCheckedKind="PackageVariantClosed"
                                 UnCheckedTitleText="{DynamicResource Text_Separator_Component}" />
 
                                 <GD_Customcontrols:FunctionToggleUserControl x:Name="Custom_Component_TButton"
@@ -72,17 +72,17 @@
                                         <Border  Background="{DynamicResource PrimaryHueMidBrush}" Padding="5,0" CornerRadius="10">
                                             <StackPanel>
                                                 <GD_Customcontrols:FunctionToggleUserControl 
-                                                                             UnCheckedKind="HandBackLeft"
-                                                                             IsCheckedKind="HandBackLeft"
-                                                                             UnCheckedTitleText="{DynamicResource btnDescription_ManualOperatingMode}" >
+                                                                             UnCheckedKind="BoxCutter"
+                                                                             IsCheckedKind="BoxCutter"
+                                                                             UnCheckedTitleText="{DynamicResource btnDescription_ManualCutting}" >
                                                     <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
                                                         <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
                                                             <MultiBinding.ConverterParameter>
                                                                 <x:Array Type="{x:Type sys:Boolean}">
                                                                     <sys:Boolean>true</sys:Boolean>
-                                                                    <sys:Boolean>false</sys:Boolean>
                                                                     <sys:Boolean>true</sys:Boolean>
-                                                                    <sys:Boolean>false</sys:Boolean>
+                                                                    <sys:Boolean>true</sys:Boolean>
+                                                                    <sys:Boolean>true</sys:Boolean>
                                                                     <sys:Boolean>false</sys:Boolean>
                                                                 </x:Array>
                                                             </MultiBinding.ConverterParameter>
@@ -319,6 +319,11 @@
                             </StackPanel>
                                     </materialDesign:ColorZone>
                                     <TextBox Text="123" Margin="0,2"/>
+                                    <ToggleButton/>
+                                    <ToggleButton >
+                                        <Image Source="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage}"/>
+                                    </ToggleButton>
+                                    
                                 </StackPanel>
                             </GroupBox>
 
@@ -457,8 +462,10 @@
                                />
                      
                         <StackPanel Orientation="Horizontal">
-                        <GroupBox Header="{DynamicResource Text_YAxis_Motor}" >
-                            <materialDesign:ColorZone CornerRadius="2" Padding="1" HorizontalAlignment="Center">
+                                <GroupBox Header="{DynamicResource Text_YAxis_Motor}" >
+                                    <StackPanel>
+                                        <materialDesign:ColorZone CornerRadius="2" Padding="1" HorizontalAlignment="Center">
+
                                         <StackPanel Orientation="Horizontal">
 
                                             <RepeatButton Style="{StaticResource GD_RepeatButton}"   
@@ -467,9 +474,13 @@
                                              Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
                                             <RepeatButton Style="{StaticResource GD_RepeatButton}" 
                                              Content="{materialDesign:PackIcon Kind=ArrowTopRightBoldBoxOutline, Size=30}"/>
-                                        </StackPanel>
-                            </materialDesign:ColorZone>
-                        </GroupBox>
+
+                                            </StackPanel>
+                                        </materialDesign:ColorZone>
+                                        <TextBox Text="123" Margin="0,2"/>
+                                        <ToggleButton/>
+                                    </StackPanel>
+                                </GroupBox>
 
                             <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
@@ -529,8 +540,16 @@
 
                 <GroupBox Header="{DynamicResource Text_Separator_Component}" Visibility="{Binding Separator_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <StackPanel>
-                    <ListBox Width="250" Height="250" Margin="10"
-                             ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance}, Path=ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}"                      >
+                            <Grid>
+                                
+                                
+                                
+                                
+                                <Border Background="Transparent" CornerRadius="125" Margin="5" 
+                                        BorderThickness="1"
+                                        BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <ListBox Width="250" Height="250" Margin="10"
+                             ItemsSource="{Binding ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Height" Value="40"/>
@@ -592,16 +611,16 @@
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <GD_Views:RadialPanel
-                                        d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
+                                        d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
                                         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
                                         RotationDirection="Clockwise"
-                                        StartAngle="90" RotateAngle="{Binding StampingFontTurntable_RorateAngle}"  RoundAngle="360"
-                                        
+                                        StartAngle="90" RotateAngle="{Binding SeparateBox_RotateAngle}"  RoundAngle="360"
                                         ItemRotateAngle="-90"  />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         </ListBox>
-                        <Grid>
+                            </Grid>
+                            <Grid IsEnabled="{Binding IsRotating, Converter={dx:BoolInverseConverter}}">
                                 <RepeatButton Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding SeparateBox_CounterClockwiseRotateCommand}"
                                         Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowURightTop" Width="auto" Height="auto"/>

@@ -140,6 +140,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
+                
                  if (_settingVMBase == null)
                  {
                      if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)

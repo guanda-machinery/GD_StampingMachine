@@ -10,6 +10,7 @@
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
+
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 

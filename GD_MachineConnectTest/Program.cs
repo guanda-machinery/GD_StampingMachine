@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
+using Opc.Ua;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GD_MachineConnectTest
 {
@@ -31,10 +34,12 @@ namespace GD_MachineConnectTest
                     var Opcua = new GD_OpcUaHelperClient();
                     if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                     {
+
+
                         //Opcua.WriteNode();
                         //Opcua.ReadNode_TEST();
                         // Opcua.ReadReference_Test();
-                        Opcua.ReadAllReference();
+                        var a = Opcua.ReadAllReference();
                         Opcua.Disconnect();
                     }
 
@@ -57,12 +62,64 @@ namespace GD_MachineConnectTest
 
             //opc.tcp://127.0.0.1:62541/SharpNodeSettings/OpcUaServer
             OpcUaHelper.Forms.FormBrowseServer formBrowseServer = new OpcUaHelper.Forms.FormBrowseServer(ServerUrl);
-            formBrowseServer.ShowDialog();
+
+            Task.Run(() =>
+            {
+                formBrowseServer.ShowDialog();
+            });
+
+
+            Thread.Sleep(1000);
+
+            short input = 0;
+
+            while (true)
+            {
+                Console.WriteLine("請輸入temp1的值(short)");
+                var shortstring = Console.ReadLine();
+
+                if (shortstring.ToLower() == "exit")
+                    break;
+
+                if (short.TryParse(shortstring, out input))
+                {
+                    Task.Run(async () =>
+                        {
+                            await Task.Delay(1000);
+                            var Opcua = new GD_OpcUaHelperClient();
+                            if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
+                            {
+                                //var allR = Opcua.ReadAllReference();
+                                //var newid = new NodeId("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1");
+                                
+                                Opcua.ReadNode<short>("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1", out var vae);
+                                Opcua.WriteNode("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1", (short)input);
+
+                                //Opcua.ReadNode_TEST();
+                                // Opcua.ReadReference_Test();
+                                //Opcua.ReadAllReference();
+                                Opcua.Disconnect();
+                            }
+                        });
+                }
+            }
+
+
+
 
 
 
             Console.WriteLine("Press any key");
             Console.ReadKey();
+            Console.ReadKey();
+            Console.ReadKey();
+
+
+
+
+
+
+
         }
     }
 }

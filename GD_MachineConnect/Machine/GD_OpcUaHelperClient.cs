@@ -40,13 +40,13 @@ namespace GD_MachineConnect.Machine
                 await m_OpcUaClient.ConnectServer(CombineUrl.ToString());
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
         }
         
-        public bool WriteNode<T>(T WriteValue , string NodeTreeString)
+        public bool WriteNode<T>( string NodeTreeString , T WriteValue)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace GD_MachineConnect.Machine
                 NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }

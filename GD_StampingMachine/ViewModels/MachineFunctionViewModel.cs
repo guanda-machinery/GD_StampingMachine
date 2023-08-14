@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data.Extensions;
+using DevExpress.Utils.StructuredStorage.Internal;
 using GD_CommonLibrary;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,6 +22,22 @@ namespace GD_StampingMachine.ViewModels
 
         public ParameterSettingViewModel ParameterSettingVM { get => StampingMainModel.Instance.ParameterSettingVM; }
         public StampingFontChangedViewModel StampingFontChangedVM { get => StampingMainModel.Instance.StampingFontChangedVM; }
+
+        public MachineFunctionViewModel()
+        {
+
+            var DegreeRate = 0;
+            if (ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count != 0)
+            {
+                DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count;
+                var Uindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
+                if (Uindex != -1)
+                    SeparateBox_RotateAngle = -DegreeRate * Uindex;
+            }
+
+
+        }
+
 
         
 
@@ -240,7 +258,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    SeparateBox_Rotate(-1);
+                    SeparateBox_Rotate(1);
                 }
                 catch (Exception ex)
                 {
@@ -256,7 +274,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    SeparateBox_Rotate(1);
+                    SeparateBox_Rotate(-1);
                 }
                 catch (Exception ex)
                 {
@@ -268,17 +286,24 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+        object SeparateBox_Rotatelock = new();
+
+        private bool _isRotating = false;
+        public bool IsRotating
+        {
+            get => _isRotating; set { _isRotating = value; OnPropertyChanged(); } 
+        }
+
 
         private void SeparateBox_Rotate(int step)
         {
-            var MinIndex = StampingMainModel.Instance.ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);
-            var Maxindex = StampingMainModel.Instance.ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
+            var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);
+            var Maxindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
 
 
-            var IsUsingindex = StampingMainModel.Instance.ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
+            var IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
             if (IsUsingindex == -1)
             {
-                //ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;
                 if(step>0)
                 {
                     IsUsingindex = MinIndex;
@@ -298,7 +323,6 @@ namespace GD_StampingMachine.ViewModels
 
             if (IsUsingindex < MinIndex)
             {
-                //IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count-1;
                 IsUsingindex = Maxindex;
             }
 
@@ -309,12 +333,62 @@ namespace GD_StampingMachine.ViewModels
                 //最小的可用index
             }
 
-            if(IsUsingindex!=-1)
+            if (IsUsingindex != -1)
+            {
                 ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
+                //取得
 
+                IsRotating = false;
+               
+                Task.Run(async () =>
+                {
+                    IsRotating = true;
 
+                    //角度比例
+                    var DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count;
+                    //目標
+
+                    //先取得目前的位置
+                    var tempRotate = SeparateBox_RotateAngle;
+                    //檢查正反轉
+                    var endRotatePoint = 360 - DegreeRate * IsUsingindex;
+                    while (true)
+                    {
+                        if (step > 0)
+                        {
+                            SeparateBox_RotateAngle -= 1;
+                        }
+                        else
+                        {
+                            SeparateBox_RotateAngle +=1;
+                        }
+
+                        if (Math.Abs(SeparateBox_RotateAngle - endRotatePoint) < 2 || Math.Abs(SeparateBox_RotateAngle - endRotatePoint) > 360)
+                            break;
+
+                        if (!IsRotating)
+                            break;
+
+                        await Task.Delay(1);
+                    }
+
+                    if (IsRotating)
+                    {
+                        SeparateBox_RotateAngle = endRotatePoint;
+                        IsRotating = false;
+                    }
+                });
+            }
         }
 
+        private double _separateBox_RotateAngle = 0;
+        public double SeparateBox_RotateAngle
+        { 
+            get => _separateBox_RotateAngle; 
+            set 
+            { _separateBox_RotateAngle = value; OnPropertyChanged(); 
+            } 
+        }
 
 
 

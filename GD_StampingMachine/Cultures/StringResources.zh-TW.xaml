@@ -19,7 +19,7 @@
     <sys:String x:Key="btnDescription_Speed">速度</sys:String>
     <sys:String x:Key="btnDescription_Alarm">警報</sys:String>
 
-    <sys:String x:Key="btnDescription_ManualOperatingMode">手動模式</sys:String>
+    <sys:String x:Key="btnDescription_ManualCutting">手動裁切</sys:String>
 
     <sys:String x:Key="btnDescription_BrightMode">光亮模式</sys:String>
     <sys:String x:Key="btnDescription_DarkMode">黑暗模式</sys:String>
