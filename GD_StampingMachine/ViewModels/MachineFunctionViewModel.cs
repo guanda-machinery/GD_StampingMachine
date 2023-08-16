@@ -1,6 +1,7 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.Utils.StructuredStorage.Internal;
 using GD_CommonLibrary;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
@@ -389,6 +390,137 @@ namespace GD_StampingMachine.ViewModels
             { _separateBox_RotateAngle = value; OnPropertyChanged(); 
             } 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region 機台移動命令
+
+        private double _steelBeltLength = 450;
+
+        public double SteelBeltLength
+        {
+            get => _steelBeltLength;
+            set { _steelBeltLength = value; OnPropertyChanged(); }
+        }
+
+        private double _stampingProductWidth = 133;
+        public double StampingProductWidth
+        {
+            get => _stampingProductWidth;
+            set { _stampingProductWidth = value; OnPropertyChanged(); }
+        }
+
+
+        /*private double _steelBeltWidth = 100;
+
+        public double SteelBeltWidth
+        {
+            get => _steelBeltWidth;
+            set { _steelBeltWidth = value; OnPropertyChanged(); }
+        }*/
+
+
+
+
+
+        private double _qr_Stamping_Distance = 50;
+        public double QR_Stamping_Distance
+        {
+            get => _qr_Stamping_Distance;
+            set { _qr_Stamping_Distance = value; OnPropertyChanged(); }
+        }
+
+        private double _fonts_Stamping_Distance = 50;
+        public double Fonts_Stamping_Distance
+        {
+            get => _fonts_Stamping_Distance;
+            set { _fonts_Stamping_Distance = value; OnPropertyChanged(); }
+        }
+
+
+        private double _magnificationRatio = 1;
+        public double MagnificationRatio
+        {
+            get
+            {
+                if (_magnificationRatio <= 0)
+                    _magnificationRatio = 0.01;
+                if (_magnificationRatio > 2)
+                    _magnificationRatio = 2;
+
+                _magnificationRatio = Math.Round(_magnificationRatio, 3);
+                return _magnificationRatio;
+            }
+            set { _magnificationRatio = value; OnPropertyChanged(); }
+        }
+        
+
+
+
+
+
+
+        private ObservableCollection<SendMachineCommandViewModel> _sendMachineCommandVMObservableCollection;
+
+        public ObservableCollection<SendMachineCommandViewModel> SendMachineCommandVMObservableCollection
+        {
+            get => _sendMachineCommandVMObservableCollection ??= new ObservableCollection<SendMachineCommandViewModel>();
+            set => _sendMachineCommandVMObservableCollection = value;
+        }
+
+        public ICommand SendMachineCommand
+        {
+            get => new RelayParameterizedCommand(para =>
+            {
+                if (para != null)
+                {
+                    if (para is GD_StampingMachine.ViewModels.ParameterSetting.SettingBaseViewModel SettingBaseVM)
+                    {
+                        SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
+                        {
+                            SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
+                            RelativeMoveDistance = double.PositiveInfinity,
+                            AbsoluteMoveDistance = double.PositiveInfinity,
+                            SettingBaseVM = SettingBaseVM,
+                            //尺寸
+                            StampWidth = 50
+
+                        }); ;
+                    }
+                }
+            });
+        }
+        public ICommand SoftSendMachineCommand
+        {
+            get => new RelayCommand(() =>
+            {
+
+                //SendMachineCommandVMObservableCollection.
+
+
+                //先依照功能算出個別的鋼片距離的Relative distance 後 
+                //按照大小重新排序 每做一次加工就排序一次?
+                //預先算出所有加工進行?
+
+
+            });
+        }
+        //需輸入三種數字 代表三種機器距離切割線的位置 並以切割線為基準算出所有鋼片的絕對座標
+        //用一按鍵重整數值
+        #endregion
 
 
 

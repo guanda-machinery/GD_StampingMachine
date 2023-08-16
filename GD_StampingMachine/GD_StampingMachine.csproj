@@ -340,6 +340,7 @@
     <Compile Include="ViewModels\ProductSetting\ProductSettingViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\ProductProjectViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\StampingSteelBeltViewModel.cs" />
+    <Compile Include="ViewModels\SendMachineCommandViewModel.cs" />
     <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="Singletons\StampingMainViewModel.cs" />

@@ -34,7 +34,7 @@ namespace GD_CommonLibrary
         /// <summary>
         /// 如果有需要初始化 複寫這裡！
         /// </summary>
-        protected virtual void Init()
+        protected virtual void Init()  
         {
 
         }

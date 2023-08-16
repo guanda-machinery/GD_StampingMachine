@@ -37,6 +37,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
 
+
+
+
+
+
+
         /// <summary>
         /// Code設定 字元數量
         /// </summary>

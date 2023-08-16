@@ -232,9 +232,10 @@
                                                                 <Setter Property="Margin" Value="0"/>
                                                                 <Setter Property="Padding" Value="0,2"/>
                                                             </Style>
-                                                            <Style TargetType="TextBox">
-                                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                                                <Setter Property="MinWidth" Value="5"/>
+                                                        <Style TargetType="TextBox">
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                                            <Setter Property="MinWidth" Value="5"/>
                                                                 <Setter Property="Margin" Value="0"/>
                                                                 <Setter Property="Padding" Value="0"/>
                                                                 <Setter Property="BorderThickness" Value="0"/>
@@ -283,9 +284,9 @@
                                                         <TextBlock Grid.Row="5" Text="{DynamicResource Text_MachiningMaxLength}"/>
 
                                                         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}"/>
+                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightLowerLimited}" />
                                                             <TextBlock Text="～"/>
-                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}"/>
+                                                            <TextBox Text="{Binding MachanicalSpecification.AllowMachiningSize.WebHeightUpperLimited}" />
                                                             <TextBlock Text="mm" VerticalAlignment="Bottom"/>
                                                         </StackPanel>
 
@@ -680,7 +681,7 @@
                                     Background="Transparent"
                                                   AutoGenerateColumns="None"
                                                   SelectionMode="Row"
-                                                  ItemsSource="{Binding LogDataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
+                                                  ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance}, Path=LogDataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
                                     MaxHeight="100000"    >
 
                                             <dxg:GridControl.View >
@@ -748,23 +749,31 @@
                 
             <Border BorderThickness="0,2,0,0" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}" >
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="0,0,0,0">
-                        <ItemsControl 
-                            Margin="5,5,5,0"
-                            dd:DragDrop.DropTargetAdornerBrush ="Transparent"
-                           dd:DragDrop.IsDragSource ="True"
-                           dd:DragDrop.IsDropTarget ="True"
-                           dd:DragDrop.UseDefaultEffectDataTemplate ="True"
-                           dd:DragDrop.UseDefaultDragAdorner ="True"
-                           dd:DragDrop.DefaultDragAdornerOpacity ="1"
-                           dd:DragDrop.DropHandler ="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"
-                            >
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
+                        <StackPanel Margin="0,5,0,2"
+                            Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="ItemsControl">
+                                    <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value ="Blue"/>
+                                    <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
+                                    <Setter Property="dd:DragDrop.IsDropTarget" Value ="False"/>
+                                    <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value ="True"/>
+                                    <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value ="True"/>
+                                    <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value ="1"/>
+                                    <Setter Property="dd:DragDrop.DropHandler" Value ="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
 
-                            <GD_Customcontrols:FunctionToggleUserControl 
+                                    <Setter Property="ItemsPanel">
+                                        <Setter.Value>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <ItemsControl dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
+
+                                <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_MainSysyem"
                                 ImageSource="{StaticResource MainIcon_01_MainSystem_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_MainSystem}"
@@ -812,9 +821,9 @@
 
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                            
-
-                            <GD_Customcontrols:FunctionToggleUserControl 
+                        </ItemsControl>
+                        <ItemsControl dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="True">
+                        <GD_Customcontrols:FunctionToggleUserControl 
                                ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
@@ -825,94 +834,85 @@
                                 UnCheckedTitleText="{DynamicResource btnDescription_UsualKey2}" 
                                 />
 
-
-                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
-
-                            <GD_Customcontrols:FunctionToggleUserControl 
+                        </ItemsControl>
+                            <ItemsControl dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
+                                <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+                                <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_Calendar"
                                 ImageSource="{StaticResource MainIcon_09_Calendar_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_Calendar}" 
                                 />
-
-
-                            <GD_Popup:DraggablePopup 
+                                <GD_Popup:DraggablePopup 
                                 IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}" AllowsTransparency="True"  
                                                    Placement="Top"  PlacementTarget="{Binding ElementName=TBtn_Speed}" PopupAnimation="Slide" PlacementRectangle="-110,-10,0,0" >
-                                <Border Opacity="0.95"
+                                    <Border Opacity="0.95"
                                     CornerRadius="10"   Background="{DynamicResource PrimaryHueLightBrush}" BorderBrush="{DynamicResource PrimaryHueLightBrush}" BorderThickness="1">
-                                    <StackPanel Margin="5" Orientation="Vertical">
-                                        <TextBlock  HorizontalAlignment="Center"
+                                        <StackPanel Margin="5" Orientation="Vertical">
+                                            <TextBlock  HorizontalAlignment="Center"
                                             Text="{StaticResource btnDescription_Speed}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                    FontSize="20" />
 
-                                        <!--
+                                            <!--
                                         <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding}" Width="300" Margin="10"
                                                                                   Foreground="{Binding Path=MainSilderValue, RelativeSource={RelativeSource Self},  
                                             Converter={GD_Common:HundredDoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}}"/>-->
 
-                                        <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
+                                            <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
                                                                                   RepeatButtonForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                                                                  MainSilderValue="{Binding}" Width="300" Margin="10">
-                                            <GD_UserControls:TriggerSliderUserControl.Foreground>
-                                                <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MuiltBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
-                                                    <Binding.ConverterParameter>
-                                                        <x:Array Type="SolidColorBrush">
-                                                            <SolidColorBrush Color="Red"/>
-                                                            <SolidColorBrush Color="OrangeRed"/>
-                                                            <SolidColorBrush Color="Orange"/>
-                                                            <SolidColorBrush Color="Green"/>
-                                                            <SolidColorBrush Color="Green"/>
-                                                        </x:Array>
-                                                    </Binding.ConverterParameter>
-                                                </Binding>
-                                            </GD_UserControls:TriggerSliderUserControl.Foreground>
-                                        </GD_UserControls:TriggerSliderUserControl>
+                                                                                  MainSilderValue="{Binding .}" Width="300" Margin="10">
+                                                <GD_UserControls:TriggerSliderUserControl.Foreground>
+                                                    <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MuiltBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                        <Binding.ConverterParameter>
+                                                            <x:Array Type="SolidColorBrush">
+                                                                <SolidColorBrush Color="Red"/>
+                                                                <SolidColorBrush Color="OrangeRed"/>
+                                                                <SolidColorBrush Color="Orange"/>
+                                                                <SolidColorBrush Color="Green"/>
+                                                                <SolidColorBrush Color="Green"/>
+                                                            </x:Array>
+                                                        </Binding.ConverterParameter>
+                                                    </Binding>
+                                                </GD_UserControls:TriggerSliderUserControl.Foreground>
+                                            </GD_UserControls:TriggerSliderUserControl>
 
-                                    </StackPanel>
+                                        </StackPanel>
 
-                                </Border>
-                            </GD_Popup:DraggablePopup>
-
-
-                            <GD_Customcontrols:FunctionToggleUserControl
+                                    </Border>
+                                </GD_Popup:DraggablePopup>
+                                <GD_Customcontrols:FunctionToggleUserControl
                                      x:Name="TBtn_Speed"
                                 ImageSource="{StaticResource MainIcon_10_SpeedMeter_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_Speed}" />
-
-                            <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ParameterSettingVM}"
+                                <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ParameterSettingVM}"
                                      x:Name="TBtn_Alarm"
                                 ImageSource="{StaticResource MainIcon_11_Alarm_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_Alarm}" />
-
-                            <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding IsBrightMode}"
+                                <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding IsBrightMode}"
                                                                           IsCheckedKind="Brightness5"
                                                                           UnCheckedKind="MoonAndStars"
                                 IsCheckedTitleText="{DynamicResource btnDescription_BrightMode}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_DarkMode}">
 
-                            </GD_Customcontrols:FunctionToggleUserControl>
-                            <Expander 
+                                </GD_Customcontrols:FunctionToggleUserControl>
+                                <Expander 
                                       materialDesign:ExpanderAssist.VerticalHeaderPadding="0" 
                                       Background="Transparent"  
                                 Padding="0" Margin="0"  Style="{StaticResource MaterialDesignExpander}"  ExpandDirection="Right">
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{DynamicResource textCultureSetting}" HorizontalAlignment="Center" FontSize="16" />
-                                        <ComboBox  Width="auto" Margin="0"
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{DynamicResource textCultureSetting}" HorizontalAlignment="Center" FontSize="16" />
+                                            <ComboBox  Width="auto" Margin="0"
                                     ItemsSource="{Binding SupportedCultures}" 
                                           SelectedValue="{Binding SelectedCultures, UpdateSourceTrigger=PropertyChanged}">
-                                            <ComboBox.DataContext>
-                                                <GD_ViewModels:CultureViewModel/>
-                                            </ComboBox.DataContext>
-                                        </ComboBox>
+                                                <ComboBox.DataContext>
+                                                    <GD_ViewModels:CultureViewModel/>
+                                                </ComboBox.DataContext>
+                                            </ComboBox>
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </Expander>
-
-
-
-
-                        </ItemsControl>
+                                </Expander>
+                            </ItemsControl>
+                        </StackPanel>
                     </ScrollViewer>
             </Border>
                 </materialDesign:ColorZone>

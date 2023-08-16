@@ -1152,20 +1152,8 @@
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="ImageWidth" Value="40"/>
         <Setter Property="ImageHeight" Value="40"/>
-        <Setter Property="IsDragable" Value="true"/>
-        <Setter Property="IsDropable" Value="false"/>
-        <!--
-                <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Transparent"/>
-                <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
-                <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
-                <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="True"/>
-                <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="True"/>
-                <Setter Property="dd:DragDrop.DragAdornerTemplate" Value="{DynamicResource FunctionToggleDragAdorner}"/>
-                <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
-                <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
-                -->
-
     </Style>
+    
     <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
     <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
@@ -1176,7 +1164,10 @@
         <Setter Property="RepeatButtonForeground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
     </Style>
 
-
+    <Style TargetType="materialDesign:PackIcon">
+        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
+    </Style>
+    
     
 
 

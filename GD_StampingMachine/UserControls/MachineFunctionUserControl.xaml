@@ -22,9 +22,9 @@
              xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
-
+             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
              >
 
     <Grid >
@@ -104,13 +104,12 @@
 
                             </StackPanel>
                         <Grid RenderTransformOrigin="0.5,0.5">
-                        <Grid.LayoutTransform >
-                            <ScaleTransform ScaleX="1.0" ScaleY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ScaleX}"/>
-                        </Grid.LayoutTransform>
-
-                        <Grid HorizontalAlignment="Left">
-                            <Image Name="SnpImage" Source="pack://application:,,,/image/SNP-0001.BMP" Height="400"/>
-                            <Canvas Height="{Binding ElementName=SnpImage, Path=ActualHeight}" 
+                                <Grid.LayoutTransform >
+                                    <ScaleTransform ScaleX="1.0" ScaleY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ScaleX}"/>
+                                </Grid.LayoutTransform>
+                                <Grid HorizontalAlignment="Left">
+                                    <Image Name="SnpImage" Source="pack://application:,,,/image/SNP-0001.BMP" Height="400"/>
+                                    <Canvas Height="{Binding ElementName=SnpImage, Path=ActualHeight}" 
                                         Width="{Binding ElementName=SnpImage, Path=ActualWidth}"
                                         >
                                         <Canvas.Resources>
@@ -157,16 +156,16 @@
                                             <ToggleButton MinWidth="110" Height="250" 
                                                           IsChecked="{Binding Stamping_Component_Button_IsChecked}"/>
                                         </StackPanel>
-                                
-                                
-                                        <StackPanel Canvas.Left="430" Canvas.Top="75">
-                                        <ToggleButton MinWidth="70" Height="175"  IsChecked="{Binding ShearCut_Component_Button_IsChecked}"/>
-                                </StackPanel>
-                                <StackPanel Canvas.Left="470" Canvas.Top="280">
-                                        <ToggleButton MinWidth="125" Height="110"  IsChecked="{Binding Separator_Component_Button_IsChecked}" />
-                                </StackPanel>
 
-<!--
+
+                                        <StackPanel Canvas.Left="430" Canvas.Top="75">
+                                            <ToggleButton MinWidth="70" Height="175"  IsChecked="{Binding ShearCut_Component_Button_IsChecked}"/>
+                                        </StackPanel>
+                                        <StackPanel Canvas.Left="470" Canvas.Top="280">
+                                            <ToggleButton MinWidth="125" Height="110"  IsChecked="{Binding Separator_Component_Button_IsChecked}" />
+                                        </StackPanel>
+
+                                        <!--
                                 <StackPanel Canvas.Left="130" Canvas.Top="35">
                                     <ToggleButton 
                                         Content="{DynamicResource Text_Feeding_Component}"/>
@@ -291,10 +290,329 @@
 -->
 
 
-                            </Canvas>
+                                    </Canvas>
+                                </Grid>
                         </Grid>
-                        </Grid>
-                    </StackPanel>
+                        
+                        
+                            <Grid Margin="10" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Border  
+                        BorderThickness="1" BorderBrush="Red">
+                                    <ScrollViewer MaxHeight="300">
+                                        <dxg:GridControl      
+                                Style="{StaticResource ProjectGridControl}"
+                                    Background="Transparent"
+                                                  AutoGenerateColumns="None"
+                                                  SelectionMode="Row"
+                                                  ItemsSource="{Binding SendMachineCommandVMObservableCollection, UpdateSourceTrigger=PropertyChanged}"
+                                    MaxHeight="100000"    >
+
+                                            <dxg:GridControl.View >
+                                                <dxg:TableView  
+                                IsColumnMenuEnabled ="False"
+                                AllowSorting="false"
+                                AllowColumnFiltering="False"
+                                AllowColumnMoving="False"
+                                Name="MachineMessage_TableView"
+                                AllowEditing="True"
+                                ShowColumnHeaders="True"
+                                HeaderHorizontalAlignment="Center"
+                                VerticalScrollbarVisibility="Disabled"
+                                HorizontalScrollbarVisibility="Disabled"
+                                ShowHorizontalLines="False"
+                                ShowVerticalLines="False"
+                                ShowGroupPanel="False"
+                                ShowSearchPanelMode="Never"
+                                SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                SearchPanelFindMode="Always"
+                                ShowIndicator="False"
+                                SearchDelay="0"/>
+                                            </dxg:GridControl.View>
+
+
+                                            <dxg:GridColumn FieldName="RelativeMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+                                            <dxg:GridColumn FieldName="AbsoluteMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+
+                                            <dxg:GridColumn FieldName="StampWidth"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+
+
+                                        </dxg:GridControl>
+                                    </ScrollViewer>
+                                </Border>
+                                <Grid  Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="80"/>
+                                        <RowDefinition Height="80"/>
+                                    </Grid.RowDefinitions>
+                                    <Button Command="{Binding SendMachineCommand}" CommandParameter="{Binding ElementName=NumberSettingComboBox , Path=SelectedItem}" Content="新建一般加工"></Button>
+                                    <ComboBox Grid.Column="1" Name="NumberSettingComboBox"
+                                        Margin="10,0" Padding="0" Width="200"   MaxDropDownHeight="275"
+                                              ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance},
+                                        Path=ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBox.Style>
+                                            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_ComboBox}">
+                                                <Setter Property="ItemTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate >
+                                                            <Grid>
+                                                                <Grid Margin="5,0,5,5">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="auto"/>
+                                                                        <RowDefinition/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                                                                        <Grid 
+                                                            RenderTransformOrigin="0.0,0.0" >
+                                                                            <Grid.LayoutTransform>
+                                                                                <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                            </Grid.LayoutTransform>
+                                                                            <StackPanel>
+                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
+                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
+                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
+                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
+
+                                                                            </StackPanel>
+
+                                                                        </Grid>
+                                                                    </StackPanel>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ComboBox.Style>
+                                    </ComboBox>
+
+                                    <Button Grid.Row="1" Command="{Binding SendMachineCommand}" CommandParameter="{Binding ElementName=QRSettingComboBox , Path=SelectedItem}" Content="新建QR加工"></Button>
+                                    <ComboBox  Grid.Row="1" Grid.Column="1" Name="QRSettingComboBox"
+                                               Margin="10,0" Padding="0" Width="200" Text="123"  MaxDropDownHeight="275"
+                                               ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance},
+                                        Path=ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBox.Style>
+                                            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_ComboBox}">
+                                                <Setter Property="ItemTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate >
+                                                            <Grid>
+                                                                <Grid Margin="5,0,5,5">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="auto"/>
+                                                                        <RowDefinition/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                                                                        <Grid 
+                                                            RenderTransformOrigin="0.0,0.0" >
+                                                                            <Grid.LayoutTransform>
+                                                                                <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                            </Grid.LayoutTransform>
+                                                                            <StackPanel>
+                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
+                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
+                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
+                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
+
+                                                                            </StackPanel>
+
+                                                                        </Grid>
+                                                                    </StackPanel>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ComboBox.Style>
+                                    </ComboBox>
+                                </Grid>
+                            </Grid>
+                            <StackPanel>
+                            <WrapPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Top">
+                                    <WrapPanel.Resources>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                    </Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                        <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+                                        <Setter Property="materialDesign:HintAssist.Hint" Value="Hint"/>
+                                        <Setter Property="materialDesign:HintAssist.Background" Value="Transparent"/>
+                                        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+
+                                        <Setter Property="MinWidth" Value="80"/>
+                                        <Setter Property="Padding" Value="0,2,0,0.5"/>
+                                        <Setter Property="Margin" Value="5,0"/>
+                                    </Style>
+                                    </WrapPanel.Resources>
+                                    <TextBox Text="{Binding SteelBeltLength, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鋼帶長度" materialDesign:HintAssist.HelperTextFontSize="20"/>
+
+                                    <TextBox Text="{Binding StampingProductWidth, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鐵片寬度" materialDesign:HintAssist.HelperTextFontSize="20"/>
+
+                                    <TextBox Text="{Binding QR_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="QR距離" />
+                                    <TextBox  Text="{Binding Fonts_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鋼印距離" />
+                                    <TextBox  Text="{Binding MagnificationRatio, UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="倍率" />
+                                    <local:TriggerSliderUserControl MainSilderValue="{Binding MagnificationRatio, Mode=TwoWay}"
+                                       Minimum="0.01" Maximum="2" TickFrequency="0.01" />
+                                    <CheckBox Name="StampingRangeIsVisible" IsChecked="True" Content="顯示標線" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                </WrapPanel>
+                     
+                             <ScrollViewer MaxWidth="600"  HorizontalAlignment="Left"  HorizontalScrollBarVisibility="Auto">
+                                <Grid Margin="0,5" >
+                                        <Grid.LayoutTransform>
+                                            <ScaleTransform ScaleX="{Binding MagnificationRatio}" ScaleY="{Binding MagnificationRatio}"/>
+                                        </Grid.LayoutTransform>
+                                    <Border BorderBrush="Red" BorderThickness="1"  Padding="5" >
+                                            <Grid>
+                                                <Grid Margin="0,25,0,0" >
+                                                    <Border Background="Gray" >
+                                                        <ListBox Width="{Binding SteelBeltLength}" MinHeight="{Binding StampingProductWidth}"
+                                                    ItemsSource="{Binding SendMachineCommandVMObservableCollection}"
+                                                             ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+                                                            <ListBox.ItemContainerStyle>
+                                                                <Style TargetType="ListBoxItem" >
+                                                                    <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistance}"/>
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="ListBoxItem">
+                                                                                <Border>
+                                                                                    <Grid Opacity="0.9"  
+                                                                                     d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
+                                                                                      Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
+                                                                                    ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
+                                                                                        <Grid.LayoutTransform>
+                                                                                            <ScaleTransform ScaleX="{c:Binding StampWidth/250}"
+                                                                                                        ScaleY="{c:Binding StampWidth/250}" />
+                                                                                        </Grid.LayoutTransform>
+                                                                                        <Grid DataContext="{Binding SettingBaseVM}">
+                                                                                            <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
+                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
+
+
+
+
+
+
+                                                                                            <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
+                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
+
+                                                                                        </Grid>
+
+
+
+                                                                                    </Grid>
+                                                                                </Border>
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </ListBox.ItemContainerStyle>
+                                                            <ListBox.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <Canvas IsItemsHost="True"  >
+                                                                        <Canvas.LayoutTransform>
+                                                                            <RotateTransform Angle="90"/>
+                                                                        </Canvas.LayoutTransform>
+                                                                    </Canvas>
+
+                                                                    <!--  <WrapPanel FlowDirection="RightToLeft"/>-->
+                                                                </ItemsPanelTemplate>
+                                                            </ListBox.ItemsPanel>
+                                                        </ListBox>
+                                                    </Border>
+                                                </Grid>
+                                                
+                                                <Grid Visibility="{Binding ElementName=StampingRangeIsVisible,Path=IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+
+                                                    <Border  Grid.Column="1" BorderThickness="1,0" BorderBrush="Cyan"
+                                                             Width="{Binding QR_Stamping_Distance}">
+                                                        <Border Background="Blue" Opacity="0.2"/>
+                                                    </Border>
+                                                    <Grid Grid.Column="1"  Width="{Binding QR_Stamping_Distance}" VerticalAlignment="Top" >
+                                         
+                                                <TextBlock    Text="{Binding QR_Stamping_Distance}" HorizontalAlignment="Center"
+                                                            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Background="Transparent"/>
+                                                    <p:ArrowLine Grid.Row="1"
+                                                        Margin="0,0,0,0"
+                                                        ArrowLength="8"
+                                                        Stroke="Cyan"  ArrowEnds="Both"  
+                                                                 X1="0"
+                                                                 Y1="15"  
+                                                                 X2="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=Width}" 
+                                                                 Y2="15" />
+                                                </Grid>
+
+                                                    <Border Width="{Binding Fonts_Stamping_Distance}" Grid.Column="2" BorderThickness="1,0" BorderBrush="Salmon">
+                                                        <Border  
+                                                              Background="SkyBlue" Opacity="0.2"/>
+                                                    </Border>
+                                        <Grid Grid.Column="2"  Width="{Binding Fonts_Stamping_Distance}"  VerticalAlignment="Top" >
+                                                        <TextBlock    Text="{Binding Fonts_Stamping_Distance}" HorizontalAlignment="Center"
+                                                            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                    <p:ArrowLine Grid.Row="1"
+                                                        Margin="0,0,0,0"
+                                                        ArrowLength="8"
+                                                        Stroke="Cyan"              ArrowEnds="Both"                                  
+                                                                 X1="0"
+                                                                 Y1="15"  
+                                                                 X2="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=ActualWidth}" 
+                                                                 Y2="15" />
+                                                </Grid>
+
+
+
+
+
+
+                                                </Grid>
+                                                <Line  HorizontalAlignment="Right"/>
+                                            </Grid>
+
+
+                                    </Border>
+                                </Grid>
+                                </ScrollViewer>
+
+                            </StackPanel>
+
+                        </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
             <WrapPanel Orientation="Horizontal">
@@ -319,9 +637,11 @@
                             </StackPanel>
                                     </materialDesign:ColorZone>
                                     <TextBox Text="123" Margin="0,2"/>
-                                    <ToggleButton/>
-                                    <ToggleButton >
-                                        <Image Source="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage}"/>
+                                    <ToggleButton Style="{StaticResource GD_ToggleButton_White}">
+                                        <materialDesign:PackIcon Kind="AxisYArrow" Height="30" Width="30"/>
+                                    </ToggleButton>
+                                    <ToggleButton Style="{StaticResource GD_ToggleButton_White}">
+                                        <Image Source="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage}" Width="30" Height="30"/>
                                     </ToggleButton>
                                     
                                 </StackPanel>

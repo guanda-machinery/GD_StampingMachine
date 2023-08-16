@@ -24,17 +24,14 @@ namespace GD_StampingMachine.Singletons
             }
         }
 
-
         protected override void Init()
         {
 
         }
 
-
         private bool _opcuaTestIsOpen= false;
         public bool OpcuaTestIsOpen { get => _opcuaTestIsOpen; private set { _opcuaTestIsOpen = value; OnPropertyChanged(); } }
      
-        
         OpcuaTest _opcuaTest = new OpcuaTest();
         internal async Task TestConnect()
         {
@@ -59,8 +56,6 @@ namespace GD_StampingMachine.Singletons
 
             });
         }
-
-
 
 
         public string HostString = "127.0.0.1";
@@ -114,8 +109,6 @@ namespace GD_StampingMachine.Singletons
             }
             return;
         }
-
-
         public async void StopScan()
         {
             if (!IsScaning)
@@ -135,10 +128,6 @@ namespace GD_StampingMachine.Singletons
             });
             return;
         }
-
-
-
-
         public async void WriteOpcua()
         {
 
@@ -149,6 +138,8 @@ namespace GD_StampingMachine.Singletons
             }
             return;
         }
+
+
 
 
 

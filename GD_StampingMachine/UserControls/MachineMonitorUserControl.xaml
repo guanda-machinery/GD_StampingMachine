@@ -28,7 +28,7 @@
 
         <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MinHeight="50"/>
+            <RowDefinition Height="auto" MinHeight="50" MaxHeight="400"/>
             <RowDefinition Height="*" MinHeight="50"/>
         </Grid.RowDefinitions>
         <materialDesign:ColorZone  Mode="PrimaryDark"  >
@@ -39,6 +39,11 @@
       Opacity="0.5"
      BlurRadius="6"/>
                 </materialDesign:ColorZone.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
                 <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -201,8 +206,13 @@
 
                 </dxg:GridControl>
 
+                </Grid>
+
+                    
+                    
+                    
             </Grid>
-            </materialDesign:ColorZone>
+        </materialDesign:ColorZone>
         <Grid Grid.Row="1" Margin="0,5"   >
             <GD_StampingMachine_UserControls:StampingBoxPartsUserControl Margin="10"
                     DataContext="{Binding StampingBoxPartsVM}" HorizontalAlignment="Left"/>

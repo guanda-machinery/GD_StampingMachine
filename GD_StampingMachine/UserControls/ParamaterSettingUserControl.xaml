@@ -105,7 +105,8 @@
                         <Grid  Margin="20">
                             <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
                             <StackPanel>
-                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" />
+                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
+                                    DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" />
                             </StackPanel>
                         </Grid>
                         

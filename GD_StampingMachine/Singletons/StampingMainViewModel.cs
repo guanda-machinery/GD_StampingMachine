@@ -21,7 +21,6 @@ using DevExpress.Mvvm;
 using System.Windows.Controls;
 using System.Windows.Media;
 using GD_CommonLibrary.Method;
-using GD_StampingMachine.Singletons;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -138,16 +137,12 @@ namespace GD_StampingMachine.ViewModels
 
             ParameterSettingVM = new(ParameterSetting);
 
-            ProductSettingVM = new()
-            {
-                ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>()
-            };
+            ProductSettingVM = new();
 
             if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
             {
                 PathList.ForEach(EPath =>
                 {
-
                     //加工專案為到處放的形式 沒有固定位置
                     if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
                     {
@@ -216,6 +211,13 @@ namespace GD_StampingMachine.ViewModels
         {
             get; 
             set; 
+        }
+        public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
+        {
+            get
+            {
+                return Singletons.LogDataSingleton.Instance.DataObservableCollection;
+            }
         }
     }
 
@@ -436,7 +438,6 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        // private DXObservableCollection<OperatingLogViewModel> _logDataObservableCollection;//= new DXObservableCollection<OperatingLogViewModel>();
        /// <summary>
        /// 機台警報
        /// </summary>

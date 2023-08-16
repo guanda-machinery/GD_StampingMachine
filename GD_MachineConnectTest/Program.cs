@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
@@ -89,9 +90,11 @@ namespace GD_MachineConnectTest
                             var Opcua = new GD_OpcUaHelperClient();
                             if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                             {
+
+                            
                                 //var allR = Opcua.ReadAllReference();
                                 //var newid = new NodeId("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1");
-                                
+
                                 Opcua.ReadNode<short>("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1", out var vae);
                                 Opcua.WriteNode("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1", (short)input);
 

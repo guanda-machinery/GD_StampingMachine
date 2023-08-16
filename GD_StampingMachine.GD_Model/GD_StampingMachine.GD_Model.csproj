@@ -55,6 +55,7 @@
     <Compile Include="ProductionSetting\StampingSteelBeltModel.cs" />
     <Compile Include="ProductProjectModel.cs" />
     <Compile Include="ProjectModel.cs" />
+    <Compile Include="SendMachineCommandModel.cs" />
     <Compile Include="StampingTypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

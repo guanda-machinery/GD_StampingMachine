@@ -30,11 +30,11 @@ namespace GD_StampingMachine.UserControls
 
         private void RepeatButton_Minus_Click(object sender, RoutedEventArgs e)
         {
-            MainSlider.Value--;
+            MainSlider.Value-= TickFrequency;
         }
         private void RepeatButton_Plus_Click(object sender, RoutedEventArgs e)
         {
-            MainSlider.Value++;
+            MainSlider.Value+= TickFrequency;
         }
 
         public double MainSilderValue
@@ -70,7 +70,7 @@ namespace GD_StampingMachine.UserControls
          nameof(MainSilderValue),
          typeof(double),
          typeof(TriggerSliderUserControl),
-         new PropertyMetadata(0.0));
+         new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(
          nameof(Minimum),

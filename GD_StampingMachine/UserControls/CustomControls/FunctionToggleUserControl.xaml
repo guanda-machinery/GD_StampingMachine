@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" 
              BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
+             
              FontSize="14" 
 
              x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
@@ -181,7 +182,7 @@
                                                 <Storyboard Storyboard.TargetName="MainBorder">
                                                     <ColorAnimation 
                                                             Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="Orange" />
+                                                        Duration="0:0:0.100" To="Red" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger.Actions>
