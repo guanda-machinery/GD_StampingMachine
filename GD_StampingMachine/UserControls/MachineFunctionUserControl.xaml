@@ -21,6 +21,8 @@
              xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
 
+             xmlns:GD_Extensions="clr-namespace:GD_CommonLibrary.Extensions;assembly=GD_CommonLibrary" 
+             
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
@@ -386,7 +388,7 @@
                                                                         <Grid 
                                                             RenderTransformOrigin="0.0,0.0" >
                                                                             <Grid.LayoutTransform>
-                                                                                <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                                <ScaleTransform ScaleX="0.15" ScaleY="0.15" />
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel>
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
@@ -431,7 +433,7 @@
                                                                         <Grid 
                                                             RenderTransformOrigin="0.0,0.0" >
                                                                             <Grid.LayoutTransform>
-                                                                                <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                                <ScaleTransform ScaleX="0.15" ScaleY="0.15" />
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel>
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
@@ -485,8 +487,9 @@
                                        Minimum="0.01" Maximum="2" TickFrequency="0.01" />
                                     <CheckBox Name="StampingRangeIsVisible" IsChecked="True" Content="顯示標線" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                                 </WrapPanel>
-                     
-                             <ScrollViewer MaxWidth="600"  HorizontalAlignment="Left"  HorizontalScrollBarVisibility="Auto">
+
+                                <ScrollViewer GD_Extensions:ScrollViewerExtension.AlwaysScrollToEnd="True"
+                                 MaxWidth="600"  HorizontalAlignment="Left"  HorizontalScrollBarVisibility="Auto">
                                 <Grid Margin="0,5" >
                                         <Grid.LayoutTransform>
                                             <ScaleTransform ScaleX="{Binding MagnificationRatio}" ScaleY="{Binding MagnificationRatio}"/>
@@ -510,8 +513,8 @@
                                                                                       Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
                                                                                         <Grid.LayoutTransform>
-                                                                                            <ScaleTransform ScaleX="{c:Binding StampWidth/250}"
-                                                                                                        ScaleY="{c:Binding StampWidth/250}" />
+                                                                                            <ScaleTransform ScaleX="{c:Binding StampWidth/350}"
+                                                                                                        ScaleY="{c:Binding StampWidth/350}" />
                                                                                         </Grid.LayoutTransform>
                                                                                         <Grid DataContext="{Binding SettingBaseVM}">
                                                                                             <GD_SchematicDiagram:PlateRowDiagramViewUserControl 

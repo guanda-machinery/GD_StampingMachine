@@ -34,7 +34,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="{Binding HorizontalAlign, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Left},  Converter={GD_Common:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/> 
             <ColumnDefinition Width="{Binding HorizontalAlign, ConverterParameter={x:Static GD_Enum:HorizontalAlignEnum.Right},  Converter={GD_Common:ObjectIsEqualToAutoOrNaNValueConverter}}" MinWidth="40" />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
@@ -63,19 +63,18 @@
 
 
 
-            <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="4" Width="655" Height="250"
+            <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="4" Width="900" Height="350"
             Background="#d6d5ce" CornerRadius="10" 
                                                          HorizontalAlignment="Stretch" />
-            <Border Background="White" Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Width="25" HorizontalAlignment="Left" Height="25" CornerRadius="12.5" VerticalAlignment="Top" Margin="7.5,12"/>
+            <Border Background="White" Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Width="40" HorizontalAlignment="Left" Height="40" CornerRadius="20" VerticalAlignment="Top" Margin="15,12"/>
 
-            <Border Background="#55534d" Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Margin="7.5,0" Height="70" Width="25" HorizontalAlignment="Left">
-                <TextBlock Text="{DynamicResource Text_Spec}" FontSize="16" />
+            <Border Background="#55534d" Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Margin="15,0" Height="70" Width="40" HorizontalAlignment="Left">
+                <TextBlock Text="{DynamicResource Text_Spec}" FontSize="24" />
             </Border>
 
 
-            <Grid Grid.Column="3"  Grid.Row="5" >
-
-                <ListBox 
+        <Grid Grid.Column="3"  Grid.Row="5" >
+            <ListBox  
             Margin="-12.5,-15" ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
             ItemsSource="{Binding PlateNumberList}" >
                     <ListBox.ItemContainerStyle>
@@ -84,54 +83,56 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
                                         <Border Background="#55534d" 
-                                        Width="50" Height="70" Margin="12.5,15">
-                                            <TextBox Text="{Binding . , Mode=TwoWay}" Foreground="White"  
+                                        Width="70" Height="110" Margin="12.5,15">
+                                            <TextBlock Text="{Binding . , Mode=TwoWay}" Foreground="White"  
                                                      Margin="0" Padding="0" Width="auto"
-                                                     BorderThickness="0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize="24"/>
+                                               FontSize="50"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                         </Style>
                     </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" Width="{calc:Binding (50*SequenceCount+25*(SequenceCount))}"  />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"  Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
             </Grid>
 
-            <Grid  Grid.Column="4" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2"  HorizontalAlignment="Right">
-                <Border Background="White"  VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20,0">
-                <materialDesign:PackIcon Foreground="#55534d"
-                        Kind="Qrcode" Width="140" Margin="-10"  Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
+            <Grid  Width="220" Height="220" Margin="20,0"
+                Grid.Column="4" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2"  HorizontalAlignment="Right">
+                <Border Background="White"  
+                          Margin="0,0" Padding="0">
+                <materialDesign:PackIcon Foreground="#55534d" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Kind="Qrcode" Margin="-20"
+                                         Width="260"   Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
                 </Border>
             </Grid>
 
 
-        <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="20" Grid.Row="2" VerticalAlignment="Top" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="A" Foreground="Red" Grid.Column="2" FontSize="30" Grid.Row="2" VerticalAlignment="Top" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="3" Grid.RowSpan="7" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
 
-        <TextBlock Text="B" Foreground="Red" Grid.Row="4" FontSize="20" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="B" Foreground="Red" Grid.Row="4" FontSize="30" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
 
         <Grid Grid.Row="5" Visibility="{DynamicResource RedMeasurementLineVisibility}">
-            <TextBlock Text="D" Foreground="Red" FontSize="20" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
+            <TextBlock Text="D" Foreground="Red" FontSize="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
         </Grid>
-        <TextBlock Text="E" Foreground="Red" Grid.Column="5" HorizontalAlignment="Right" Width="15" FontSize="20" Grid.Row="0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <TextBlock Text="F" Foreground="Red" Grid.Column="1" Grid.ColumnSpan="3" FontSize="20" Grid.Row="0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <TextBlock Text="G" Foreground="Red" Grid.Column="5" FontSize="20" Grid.Row="2" Width="50" HorizontalAlignment="Right" Margin="0,0,0,0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <TextBlock Text="I" Foreground="Red" Grid.Row="4" Grid.RowSpan="3" FontSize="20" Height="60" VerticalAlignment="Bottom" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
-        <TextBlock Text="H" Foreground="Red" Grid.Column="7" Grid.Row="4" Grid.RowSpan="3"  Height="50" Margin="0,-50,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="E" Foreground="Red" Grid.Column="5" HorizontalAlignment="Right" Width="15" FontSize="30" Grid.Row="0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="F" Foreground="Red" Grid.Column="1" Grid.ColumnSpan="3" FontSize="30" Grid.Row="0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="G" Foreground="Red" Grid.Column="5" FontSize="30" Grid.Row="2" Width="30" HorizontalAlignment="Right" Margin="0,0,40,0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="I" Foreground="Red" Grid.Row="4" Grid.RowSpan="3" FontSize="30" Height="60" VerticalAlignment="Bottom" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
+        <TextBlock Text="H" Foreground="Red" Grid.Column="7" Grid.Row="4" Grid.RowSpan="3"  Height="50" FontSize="30" Margin="0,-110,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
         <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,-10,0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,-20,0" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <Grid Grid.Column="1" Grid.Row="5" Visibility="{DynamicResource RedMeasurementLineVisibility}">
             <Border BorderThickness="1,0,0,0" BorderBrush="Red"  HorizontalAlignment="Center" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
           </Grid>
@@ -145,15 +146,15 @@
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="2" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
-        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" VerticalAlignment="Center" Margin="-1,0,20,0"  Width="50" HorizontalAlignment="Right" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.RowSpan="7" Grid.ColumnSpan="1" Margin="-1,0,27,0"  Width="36" HorizontalAlignment="Right" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" VerticalAlignment="Center" Margin="-1,0,32,0"  Width="66" HorizontalAlignment="Right" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" Grid.Row="3" Grid.RowSpan="7" Grid.ColumnSpan="1" Margin="-1,0,32,0"  Width="66" HorizontalAlignment="Right" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
 
         <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
         <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="5" HorizontalAlignment="Right" Width="20" Grid.Row="1" Grid.RowSpan="7" Grid.ColumnSpan="1" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
-        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3"  Height="35" Margin="0,-70,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3" Height="35" Margin="-100,-70,0,0" Grid.ColumnSpan="1" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3"  Height="65" Margin="0,-130,0,0" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="6" Grid.Row="4" Grid.RowSpan="3" Height="65" Margin="-115,-130,0,0" Grid.ColumnSpan="1" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
 
 
 
@@ -161,7 +162,7 @@
             Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
             <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}">
-                <TextBlock Text="C" Foreground="Red" FontSize="20"    Grid.Row="2"
+                <TextBlock Text="C" Foreground="Red" FontSize="30"    Grid.Row="2"
                        Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
         </Grid>
             </Grid>
@@ -180,7 +181,7 @@
             </Grid>
 
         <Grid Grid.Column="3" Grid.Row="2" Visibility="{DynamicResource RedMeasurementLineVisibility}">
-            <TextBlock Text="C" Foreground="Red" FontSize="20" Width="25"  HorizontalAlignment="Left" Margin="130,0,0,0" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
+            <TextBlock Text="C" Foreground="Red" FontSize="30" Width="25"  HorizontalAlignment="Left" Margin="130,0,0,0" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
          </Grid>
 
             

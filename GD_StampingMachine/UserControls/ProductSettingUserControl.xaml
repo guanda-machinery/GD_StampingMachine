@@ -108,7 +108,7 @@
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="Width" Value="200"/>
                                     <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="10,0,0,2"/>
+                                    <Setter Property="Padding" Value="0,0,0,0"/>
                                 </Style>
                             </Border.Resources>
 
@@ -264,7 +264,7 @@
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="Width" Value="200"/>
                                 <Setter Property="Margin" Value="10,0"/>
-                                <Setter Property="Padding" Value="10,0,0,2"/>
+                                <Setter Property="Padding" Value="0,0,0,0"/>
                             </Style>
                         </Border.Resources>
 
@@ -793,7 +793,7 @@
                                                                         <Grid 
                                                             RenderTransformOrigin="0.0,0.0" >
                                                                             <Grid.LayoutTransform>
-                                                                                <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                                <ScaleTransform ScaleX="0.18" ScaleY="0.18" />
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel>
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
@@ -1337,7 +1337,7 @@
                                             </ToggleButton.Style>
                                             <Grid  RenderTransformOrigin="0.5,0.5">
                                                 <Grid.LayoutTransform>
-                                                    <ScaleTransform ScaleX="0.14" ScaleY="0.14"/>
+                                                    <ScaleTransform ScaleX="0.11" ScaleY="0.11"/>
                                                 </Grid.LayoutTransform>
                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl
                             DataContext="{Binding Row.SettingVMBase}" 

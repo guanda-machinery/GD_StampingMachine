@@ -520,10 +520,43 @@ namespace GD_StampingMachine.ViewModels
         }
         //需輸入三種數字 代表三種機器距離切割線的位置 並以切割線為基準算出所有鋼片的絕對座標
         //用一按鍵重整數值
+
+        private bool _beltIsMoving;
+        public bool BeltIsMoving
+        {
+            get => _beltIsMoving;
+            set
+            {
+                _beltIsMoving = value; OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 移動所有物件
+        /// </summary>
+        public ICommand BeltMoveCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                BeltIsMoving = true;
+
+                foreach(var SMC in SendMachineCommandVMObservableCollection)
+                {
+                    //SMC.AbsoluteMoveDistance 
+                }
+
+
+
+
+
+
+
+                BeltIsMoving = false;
+            });
+        }
+
+
         #endregion
-
-
-
 
 
 

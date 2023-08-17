@@ -105,6 +105,9 @@
                         <Grid  Margin="20">
                             <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
                             <StackPanel>
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                </StackPanel.LayoutTransform>
                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
                                     DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" />
                             </StackPanel>
@@ -294,6 +297,9 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel>
+                            <StackPanel.LayoutTransform>
+                                <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                            </StackPanel.LayoutTransform>
 
                             <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl HorizontalAlignment="Left" 
                                                                                       DataContext="{Binding QRSettingVM}" 
