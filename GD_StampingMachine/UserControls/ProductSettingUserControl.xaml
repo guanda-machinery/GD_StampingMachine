@@ -921,7 +921,7 @@
                                                                         <Grid 
                                                             RenderTransformOrigin="0.0,0.0" >
                                                                             <Grid.LayoutTransform>
-                                                                                <ScaleTransform ScaleX="0.20" ScaleY="0.20" />
+                                                                                <ScaleTransform ScaleX="0.19" ScaleY="0.19" />
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel>
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"

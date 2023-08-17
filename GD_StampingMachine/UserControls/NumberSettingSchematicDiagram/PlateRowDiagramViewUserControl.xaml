@@ -66,9 +66,8 @@
                     <DataTemplate>
                         <Border Width="70" Height="110" 
                             Background="#55534d" Margin="12.5,15" >
-                            <TextBox Text="{Binding .}" Foreground="White"  Width="auto" Margin="0" Padding="0" 
+                            <TextBlock Text="{Binding .}" Foreground="White"  Width="auto" Margin="0" Padding="0" 
                                                HorizontalAlignment="Center"
-                                     BorderThickness="0"
                                                VerticalAlignment="Center"
                                                FontSize="50"/>
                         </Border>

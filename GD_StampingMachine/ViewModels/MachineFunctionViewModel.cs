@@ -416,7 +416,7 @@ namespace GD_StampingMachine.ViewModels
             set { _steelBeltLength = value; OnPropertyChanged(); }
         }
 
-        private double _stampingProductWidth = 133;
+        private double _stampingProductWidth = 100;
         public double StampingProductWidth
         {
             get => _stampingProductWidth;
@@ -496,7 +496,7 @@ namespace GD_StampingMachine.ViewModels
                             AbsoluteMoveDistance = double.PositiveInfinity,
                             SettingBaseVM = SettingBaseVM,
                             //尺寸
-                            StampWidth = 50
+                            StampWidth = 35
 
                         }); ;
                     }
