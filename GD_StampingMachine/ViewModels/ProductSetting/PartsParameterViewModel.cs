@@ -132,27 +132,27 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private SettingBaseViewModel _settingVMBase;//= new NumberSettingViewModel();
+        private SettingBaseViewModel _SettingBaseVM;//= new NumberSettingViewModel();
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
-        public SettingBaseViewModel SettingVMBase
+        public SettingBaseViewModel SettingBaseVM
         {
             get
             {
                 
-                 if (_settingVMBase == null)
+                 if (_SettingBaseVM == null)
                  {
                      if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                         _settingVMBase = new QRSettingViewModel(PartsParameter.StampingPlate);
+                         _SettingBaseVM = new QRSettingViewModel(PartsParameter.StampingPlate);
                      else
-                         _settingVMBase = new NumberSettingViewModel(PartsParameter.StampingPlate);
+                         _SettingBaseVM = new NumberSettingViewModel(PartsParameter.StampingPlate);
                  }
-                 return _settingVMBase;
+                 return _SettingBaseVM;
             }
             set
             {
-                 _settingVMBase = value;
+                 _SettingBaseVM = value;
                  if(value != null)
                      PartsParameter.StampingPlate = value.StampPlateSetting;
                 OnPropertyChanged();
@@ -190,9 +190,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                     {
-                        if (SettingVMBase != null)
+                        if (SettingBaseVM != null)
                         {
-                            if (MethodWinUIMessageBox.AskDelProject(this.SettingVMBase.NumberSettingMode))
+                            if (MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.NumberSettingMode))
                             {
                                 GridItemSource.Remove(this);
                             }

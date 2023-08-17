@@ -241,7 +241,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     _addNewPartsParameterVM = new PartsParameterViewModel(
                         new GD_Model.ProductionSetting.PartsParameterModel() { ProjectID = ProductProjectName });
                 }
-                _addNewPartsParameterVM.SettingVMBase.SheetStampingTypeForm = this.SheetStampingTypeForm;
+                _addNewPartsParameterVM.SettingBaseVM.SheetStampingTypeForm = this.SheetStampingTypeForm;
 
                 return _addNewPartsParameterVM;
             }
@@ -297,10 +297,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (this.PartsParameterViewModelSelectItem != null)
                 {
-                    if(this.PartsParameterViewModelSelectItem.SettingVMBase.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+                    if(this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
                        return NumberSettingSavedCollection
                             .ToList()
-                            .FindAll(x => x.SheetStampingTypeForm == this.PartsParameterViewModelSelectItem.SettingVMBase.SheetStampingTypeForm)
+                            .FindAll(x => x.SheetStampingTypeForm == this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm)
                             .ToObservableCollection();
                 }
                 return NumberSettingSavedCollection;

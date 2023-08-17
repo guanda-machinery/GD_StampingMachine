@@ -1,6 +1,9 @@
 ﻿using DevExpress.Data.Extensions;
+using DevExpress.Utils.Extensions;
 using DevExpress.Utils.StructuredStorage.Internal;
+using DevExpress.Xpf.Grid;
 using GD_CommonLibrary;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
@@ -417,12 +420,26 @@ namespace GD_StampingMachine.ViewModels
         }
 
         private double _stampingProductWidth = 100;
+        /// <summary>
+        /// 素材寬度
+        /// </summary>
         public double StampingProductWidth
         {
             get => _stampingProductWidth;
             set { _stampingProductWidth = value; OnPropertyChanged(); }
         }
 
+
+
+        private double _stampingProductMargin = 5;
+        /// <summary>
+        /// 鐵片間隔
+        /// </summary>
+        public double StampingProductMargin
+        {
+            get => _stampingProductMargin;
+            set { _stampingProductMargin = value; OnPropertyChanged(); }
+        }
 
         /*private double _steelBeltWidth = 100;
 
@@ -478,9 +495,14 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<SendMachineCommandViewModel> SendMachineCommandVMObservableCollection
         {
             get => _sendMachineCommandVMObservableCollection ??= new ObservableCollection<SendMachineCommandViewModel>();
-            set => _sendMachineCommandVMObservableCollection = value;
+            set { _sendMachineCommandVMObservableCollection = value; OnPropertyChanged(); }
         }
 
+
+
+        /// <summary>
+        /// 新建加工
+        /// </summary>
         public ICommand SendMachineCommand
         {
             get => new RelayParameterizedCommand(para =>
@@ -489,26 +511,73 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (para is GD_StampingMachine.ViewModels.ParameterSetting.SettingBaseViewModel SettingBaseVM)
                     {
-                        SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
-                        {
-                            SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
-                            RelativeMoveDistance = double.PositiveInfinity,
-                            AbsoluteMoveDistance = double.PositiveInfinity,
-                            SettingBaseVM = SettingBaseVM,
-                            //尺寸
-                            StampWidth = 35
+                        //先找第一個在哪 若不存在則給預設值
 
-                        }); ;
+                        if (SendMachineCommandVMObservableCollection.Count == 0)
+                        {
+                            SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
+                            {
+                                SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
+                                RelativeMoveDistance = double.PositiveInfinity,
+                                AbsoluteMoveDistance = double.PositiveInfinity,
+                                SettingBaseVM = SettingBaseVM,
+                                StampWidth = 35
+                            }); ;
+                        }
+                        else
+                        {
+                            var LastSMC = SendMachineCommandVMObservableCollection.LastOrDefault();
+
+                            SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
+                            {
+                                SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
+                                RelativeMoveDistance = double.PositiveInfinity,
+                                AbsoluteMoveDistance = LastSMC.AbsoluteMoveDistance + LastSMC.StampWidth + StampingProductMargin,
+                                SettingBaseVM = SettingBaseVM,
+                                StampWidth = LastSMC.StampWidth
+                            }); ;
+                        }
+
+
                     }
                 }
             });
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand DeleteSendMachineCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if(obj is GridControl ProjectGridControl)
+                {
+                   if (ProjectGridControl.ItemsSource is IList<GD_StampingMachine.ViewModels.SendMachineCommandViewModel> IEnumerableData)
+                    {
+                        if (ProjectGridControl.SelectedItems != null)
+                        {
+                            for (int i = ProjectGridControl.SelectedItems.Count - 1; i >= 0; i--)
+                            {
+                                var rIndex = IEnumerableData.FindIndex(x => x == ProjectGridControl.SelectedItems[i]);
+                                if(rIndex !=-1)
+                                    IEnumerableData.RemoveAt(rIndex);
+                            }
+
+                        }               
+                    }
+
+                }
+            });
+        }
+
         public ICommand SoftSendMachineCommand
         {
             get => new RelayCommand(() =>
             {
 
-                //SendMachineCommandVMObservableCollection.
+                SendMachineCommandVMObservableCollection = new ObservableCollection<SendMachineCommandViewModel>
+                (SendMachineCommandVMObservableCollection.OrderBy(x=>x.AbsoluteMoveDistance));
 
 
                 //先依照功能算出個別的鋼片距離的Relative distance 後 
@@ -520,6 +589,30 @@ namespace GD_StampingMachine.ViewModels
         }
         //需輸入三種數字 代表三種機器距離切割線的位置 並以切割線為基準算出所有鋼片的絕對座標
         //用一按鍵重整數值
+
+        public ICommand X_axisMoveSendMachineCommand
+        {
+            get => new RelayParameterizedCommand(para =>
+            {
+                double MoveStep = 1;
+                if(para is double doublepara)
+                {
+                    MoveStep = doublepara;
+                }
+
+                SendMachineCommandVMObservableCollection.ForEach(smc =>
+                {
+                    smc.AbsoluteMoveDistance += MoveStep;
+                    smc.RelativeMoveDistance += MoveStep;
+                });
+                
+
+
+
+            });
+        }
+
+
 
         private bool _beltIsMoving;
         public bool BeltIsMoving

@@ -104,11 +104,12 @@
                             <Style TargetType="TextBox" BasedOn="{StaticResource GD_TextBox}" >
                                 <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkBrush}"/>
                                 <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"  Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                <Setter Property="Foreground"  Value="{DynamicResource PrimaryHueDarkBrush}"/>
                                 <Setter Property="FontSize" Value="16"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="Width" Value="200"/>
                                     <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="0,0,0,0"/>
+                                    <Setter Property="Padding" Value="5,0,0,0"/>
                                 </Style>
                             </Border.Resources>
 
@@ -259,12 +260,13 @@
 
                                 <Setter Property="BorderBrush" Value="{DynamicResource DarkHueDarkBrush}"/>
                                 <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"  Value="{DynamicResource DarkHueDarkBrush}"/>
+                                <Setter Property="Foreground"  Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                <Setter Property="BorderBrush"  Value="{DynamicResource PrimaryHueDarkBrush}"/>
                                 <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="BorderBrush" Value="Black"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="Width" Value="200"/>
                                 <Setter Property="Margin" Value="10,0"/>
-                                <Setter Property="Padding" Value="0,0,0,0"/>
+                                <Setter Property="Padding" Value="5,0,0,0"/>
                             </Style>
                         </Border.Resources>
 
@@ -675,12 +677,13 @@
 
                                 <Setter Property="BorderBrush" Value="{DynamicResource DarkHueDarkBrush}"/>
                                 <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"  Value="{DynamicResource DarkHueDarkBrush}"/>
+                                <Setter Property="Foreground"  Value="{DynamicResource PrimaryHueDarkBrush}"/>
                                 <Setter Property="FontSize" Value="16"/>
                                 <Setter Property="BorderBrush" Value="Black"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="Width" Value="200"/>
-                                <Setter Property="Margin" Value="10,0"/>
-                                <Setter Property="Padding" Value="10,0,0,2"/>
+                                <Setter Property="Margin" Value="0,0"/>
+                                <Setter Property="Padding" Value="5,0,0,0"/>
                             </Style>
                         </StackPanel.Resources>
 
@@ -776,7 +779,7 @@
                                         Margin="10,0" Padding="0" Width="200" Text="123"
                                             Grid.Column="3" Grid.Row="4" 
                                               ItemsSource="{Binding EditNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding EditPartsParameterVM_Cloned.SettingVMBase,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                              SelectedValue="{Binding EditPartsParameterVM_Cloned.SettingBaseVM,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
                                             <Style TargetType="ComboBox" BasedOn="{StaticResource GD_WhiteComboBox}">
                                                 <Setter Property="ItemTemplate">
@@ -904,7 +907,7 @@
                                         Margin="10,0" Padding="0" Width="200" Text="123" 
                                             Grid.Column="3" Grid.Row="4"   MaxDropDownHeight="275"
                                               ItemsSource="{Binding AddNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding AddNewPartsParameterVM.SettingVMBase ,UpdateSourceTrigger=PropertyChanged}">
+                                              SelectedItem="{Binding AddNewPartsParameterVM.SettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
                                             <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_WhiteComboBox}">
                                                 <Setter Property="ItemTemplate">
@@ -955,7 +958,7 @@
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterC"/>
-                                                    <Binding Path="AddNewPartsParameterVM.SettingVMBase.NumberSettingMode" />
+                                                    <Binding Path="AddNewPartsParameterVM.SettingBaseVM.NumberSettingMode" />
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
                                             </Button>
@@ -1013,7 +1016,7 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBox Margin="0" Text="{Binding ProjectPathText, UpdateSourceTrigger=PropertyChanged}">
                                             </TextBox>
-                                            <Button Grid.Column="1" Command="{Binding SetProjectFolder}" Margin="0,0,0,0" Width="25" Height="25" Padding="0">
+                                            <Button Grid.Column="1" Command="{Binding SetProjectFolder}" Margin="5,0,0,0" Width="30" Height="25" MinWidth="0"  Padding="0">
                                                 <Button.Style>
                                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}" >
                                                         <Setter Property="BorderThickness" Value="0"/>
@@ -1049,7 +1052,7 @@
                                         <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding CreatedProjectModel.Number,UpdateSourceTrigger=PropertyChanged}">
 
                                         </TextBox>
-                                        <ComboBox Grid.Column="3" Grid.Row="4"  Width="auto"
+                                    <ComboBox Grid.Column="3" Grid.Row="4"  Width="auto" Style="{StaticResource GD_WhiteComboBox}"  Margin="0"
                                               ItemsSource="{Binding SheetStampingTypeEnumCollection}"
                                               SelectedValue="{Binding CreatedProjectModel.SheetStampingTypeForm}">
 
@@ -1134,7 +1137,7 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBox Margin="0" Text="{Binding ProjectPathText, UpdateSourceTrigger=PropertyChanged}">
                                             </TextBox>
-                                            <Button Grid.Column="1" Command="{Binding SetProjectFolder}" Margin="0,0,0,0" Width="25" Height="25" Padding="0">
+                                            <Button Grid.Column="1" Command="{Binding SetProjectFolder}" Margin="5,0,0,0" Width="30" Height="25" MinWidth="0" Padding="0">
                                                 <Button.Style>
                                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}" >
                                                         <Setter Property="BorderThickness" Value="0"/>
@@ -1170,7 +1173,7 @@
                                         <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding CreatedProjectModel.Number,UpdateSourceTrigger=PropertyChanged}">
 
                                         </TextBox>
-                                        <ComboBox Grid.Column="3" Grid.Row="4" Width="auto"
+                                    <ComboBox Grid.Column="3" Grid.Row="4" Width="auto"  Style="{StaticResource GD_WhiteComboBox}" Margin="0"
                                               ItemsSource="{Binding SheetStampingTypeEnumCollection}"
                                               SelectedValue="{Binding CreatedProjectModel.SheetStampingTypeForm}">
 
@@ -1295,7 +1298,7 @@
                             </dxg:GridColumn>
                         
                         <dxg:GridColumn  
-                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
@@ -1340,11 +1343,11 @@
                                                     <ScaleTransform ScaleX="0.11" ScaleY="0.11"/>
                                                 </Grid.LayoutTransform>
                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl
-                            DataContext="{Binding Row.SettingVMBase}" 
+                            DataContext="{Binding Row.SettingBaseVM}" 
                            Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
-                            DataContext="{Binding Row.SettingVMBase}" 
+                            DataContext="{Binding Row.SettingBaseVM}" 
                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                             </Grid>
@@ -1363,11 +1366,11 @@
                                                     </Border.LayoutTransform>
                                                     <Grid>
                                                         <GD_SchematicDiagram:PlateRowDiagramViewUserControl
-                            DataContext="{Binding Row.SettingVMBase}" 
+                            DataContext="{Binding Row.SettingBaseVM}" 
                            Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                     <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
-                            DataContext="{Binding Row.SettingVMBase}" 
+                            DataContext="{Binding Row.SettingBaseVM}" 
                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                     </Grid>

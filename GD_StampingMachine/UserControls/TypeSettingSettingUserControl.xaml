@@ -585,7 +585,7 @@
 
 
                             <dxg:GridColumn  
-                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>
@@ -627,14 +627,14 @@
                                                 </ToggleButton.Style>
                                                 <Grid  RenderTransformOrigin="0.5,0.5">
                                                     <Grid.LayoutTransform>
-                                                        <ScaleTransform ScaleX="0.14" ScaleY="0.14"/>
+                                                        <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
                                                     </Grid.LayoutTransform>
                                                     <GD_SchematicDiagram:PlateRowDiagramViewUserControl
-                            DataContext="{Binding Row.SettingVMBase}" 
+                            DataContext="{Binding Row.SettingBaseVM}" 
                            Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                     <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
-                            DataContext="{Binding Row.SettingVMBase}" 
+                            DataContext="{Binding Row.SettingBaseVM}" 
                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                 </Grid>

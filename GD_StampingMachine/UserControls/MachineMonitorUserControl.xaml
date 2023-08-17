@@ -198,7 +198,7 @@
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingVMBase.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
