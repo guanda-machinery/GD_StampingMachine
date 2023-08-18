@@ -13,6 +13,12 @@ namespace GD_StampingMachine.GD_Model
         public SteelBeltStampingStatusEnum SteelBeltStampingStatus { get; set; }
 
         /// <summary>
+        /// 鐵片流水號
+        /// </summary>
+        public int WorkNumber { get; set; }
+
+        
+        /// <summary>
         /// 工作移動到下一個工站的相對距離(由計算得出 輪到他加工時他需移動的距離)
         /// </summary>
         public double RelativeMoveDistance { get; set; }
@@ -30,6 +36,31 @@ namespace GD_StampingMachine.GD_Model
         /// 鐵牌寬度
         /// </summary>
         public  double StampWidth { get; set; }
+
+
+
+        /// <summary>
+        /// 加工需求 QR加工 true會進行加工
+        /// </summary>
+        public bool WorkScheduler_QRStamping { get; set; }
+        //public double WorkScheduler_QRStamping_XOffset { get; set; }
+
+
+        /// <summary>
+        /// 加工需求 鋼印加工 true會進行加工
+        /// </summary>
+        public bool WorkScheduler_FontStamping { get; set; }
+        //public double WorkScheduler_FontStamping_XOffset { get; set; }
+
+        /// <summary>
+        /// 加工需求 剪斷 true會進行加工
+        /// </summary>
+        public bool WorkScheduler_Shearing { get; set; }
+        //public double WorkScheduler_Shearing_XOffset { get; set; }
+
+        public bool IsFinish { get; set; }
+
+
 
 
     }

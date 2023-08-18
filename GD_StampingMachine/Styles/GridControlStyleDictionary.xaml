@@ -74,6 +74,9 @@
             </Trigger>
         </Style.Triggers>
         <Style.Resources>
+
+
+
             <Style TargetType="dxg:TableView">
                 <Setter Property="FadeSelectionOnLostFocus" Value="False"/>
                 <Setter Property="CellStyle" Value="{StaticResource ProjectGridControlCellStyle}"/>

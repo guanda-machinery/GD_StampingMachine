@@ -296,39 +296,195 @@
                                 </Grid>
                             </Grid>
                             <Grid Margin="10" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <GroupBox Header="加工前設定" Padding="0,5">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition  Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0">
-                                            <Button Command="{Binding DeleteSendMachineCommand}" CommandParameter="{Binding ElementName=SendMachineCommandGridControl}">
-                                                <materialDesign:PackIcon Kind="GarbageCan"/>
-                                            </Button>
-                                        </StackPanel>
-                                <Border  Grid.Column="1"
-                        BorderThickness="1" BorderBrush="Red">
-                                    <ScrollViewer MaxHeight="200">
-                                                <dxg:GridControl      Name="SendMachineCommandGridControl"
-                                Style="{StaticResource ProjectGridControl}"
+
+
+                                <Grid Grid.ColumnSpan="2">
+                                <TabControl Height="300"
+                                    Style="{StaticResource  MaterialDesignFilledTabControl}"  HorizontalContentAlignment="Left">
+                                    <TabControl.Resources>
+                                        <Style TargetType="TabItem" BasedOn="{StaticResource MaterialDesignTabItem}">
+                        
+                                            </Style>
+                                    </TabControl.Resources>
+
+                                    <TabItem Header="加工前設定"  >
+                                        <Grid Margin="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition  Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <Button Command="{Binding DeleteSendMachineCommand}" CommandParameter="{Binding ElementName=SendMachineCommandGridControl}">
+                                                    <materialDesign:PackIcon Kind="GarbageCan"/>
+                                                </Button>
+                                            </StackPanel>
+                                            <Border  Grid.Column="1" CornerRadius="5"
+                        BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                                    <ScrollViewer>
+                                                        
+                                                    <dxg:GridControl      Name="SendMachineCommandGridControl" 
+                                Style="{StaticResource ProjectGridControl}" 
                                     Background="Transparent"
                                                   AutoGenerateColumns="None"
                                                   SelectionMode="Row"
                                                   ItemsSource="{Binding SendMachineCommandVMObservableCollection, UpdateSourceTrigger=PropertyChanged}"
                                     MaxHeight="100000"    >
 
-                                            <dxg:GridControl.View >
-                                                <dxg:TableView  
+                                                        <dxg:GridControl.View >
+                                                            <dxg:TableView  
                                 IsColumnMenuEnabled ="False"
                                 AllowSorting="false"
                                 AllowColumnFiltering="False"
                                 AllowColumnMoving="False"
                                 Name="MachineMessage_TableView"
+                                AllowEditing="True"
+                                ShowColumnHeaders="True"
+                                HeaderHorizontalAlignment="Center"
+                                                                
+                                VerticalScrollbarVisibility="Disabled"
+                                HorizontalScrollbarVisibility="Disabled"
+                                ShowHorizontalLines="False"
+                                ShowVerticalLines="False"
+                                ShowGroupPanel="False"
+                                ShowSearchPanelMode="Never"
+                                SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                SearchPanelFindMode="Always"
+                                ShowIndicator="False"
+                                SearchDelay="0"/>
+                                                        </dxg:GridControl.View>
+
+
+                                                        <dxg:GridColumn Header="鐵片流水號"
+                                                    FieldName="WorkNumber"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                            <dxg:GridColumn.EditSettings>
+                                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                            </dxg:GridColumn.EditSettings>
+                                                        </dxg:GridColumn>
+
+                                                        <dxg:GridColumn  
+                            HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                            <dxg:GridColumn.EditSettings>
+                                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                            </dxg:GridColumn.EditSettings>
+                                                            <dxg:GridColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid>
+                                                                        <ToggleButton Padding="0" Margin="1" x:Name="MachiningFormTButton">
+                                                                            <ToggleButton.Style>
+                                                                                <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
+                                                                                    <Setter Property="Width" Value="auto"/>
+                                                                                    <Setter Property="Height" Value="auto"/>
+                                                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                                                    <Setter Property="Template">
+                                                                                        <Setter.Value>
+                                                                                            <ControlTemplate TargetType="ToggleButton">
+                                                                                                <Grid>
+                                                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                                </Grid>
+                                                                                            </ControlTemplate>
+                                                                                        </Setter.Value>
+                                                                                    </Setter>
+                                                                                    <Style.Triggers>
+                                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                                            <Setter Property="IsChecked" Value="True"/>
+                                                                                        </Trigger>
+                                                                                        <Trigger Property="IsChecked" Value="True">
+                                                                                            <Setter Property="Foreground" Value="Black"/>
+                                                                                            <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                                                                                        </Trigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </ToggleButton.Style>
+                                                                            <Grid  RenderTransformOrigin="0.5,0.5">
+                                                                                <Grid.LayoutTransform>
+                                                                                    <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
+                                                                                </Grid.LayoutTransform>
+                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl
+                            DataContext="{Binding Row.SettingBaseVM}" 
+                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
+                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
+                            DataContext="{Binding Row.SettingBaseVM}" 
+                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
+                                                                            </Grid>
+                                                                        </ToggleButton>
+
+                                                                    </Grid>
+
+                                                                </DataTemplate>
+                                                            </dxg:GridColumn.CellTemplate>
+                                                        </dxg:GridColumn>
+
+
+                                                        <dxg:GridColumn Header="絕對位置"
+                                                    FieldName="AbsoluteMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                            <dxg:GridColumn.EditSettings>
+                                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                            </dxg:GridColumn.EditSettings>
+                                                        </dxg:GridColumn>
+
+                                                        <dxg:GridColumn Header="鐵片寬度"
+                                                FieldName="StampWidth"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                            <dxg:GridColumn.EditSettings>
+                                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                            </dxg:GridColumn.EditSettings>
+
+
+
+                                                        </dxg:GridColumn>
+                                                        <dxg:GridColumn Header="QR加工" HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="WorkScheduler_QRStamping">
+                                                        </dxg:GridColumn>
+
+                                                        <dxg:GridColumn Header="鋼印加工" HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="WorkScheduler_FontStamping">
+                                                        </dxg:GridColumn>
+
+                                                        <dxg:GridColumn Header="剪斷加工" HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="WorkScheduler_Shearing">
+                                                        </dxg:GridColumn>
+
+                                                        <dxg:GridColumn Header="已完工" HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="IsFinish">
+                                                        </dxg:GridColumn>
+
+
+
+
+
+
+                                                    </dxg:GridControl>
+
+                                                    </ScrollViewer>
+                                                </Border>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="加工序列" >
+                                            <ScrollViewer >
+                                                <dxg:GridControl     
+                                Style="{StaticResource ProjectGridControl}" 
+                                    Background="Transparent"
+                                                  AutoGenerateColumns="None"
+                                                  SelectionMode="Row"
+                                                  ItemsSource="{Binding StampingPlateProcessingSequenceVMObservableCollection, UpdateSourceTrigger=PropertyChanged}"
+                                    MaxHeight="100000"  
+                                                >
+
+                                                    <dxg:GridControl.View >
+                                                        <dxg:TableView  
+                                IsColumnMenuEnabled ="False"
+                                AllowSorting="false"
+                                AllowColumnFiltering="False"
+                                AllowColumnMoving="False"
                                 AllowEditing="True"
                                 ShowColumnHeaders="True"
                                 HeaderHorizontalAlignment="Center"
@@ -342,100 +498,67 @@
                                 SearchPanelFindMode="Always"
                                 ShowIndicator="False"
                                 SearchDelay="0"/>
-                                            </dxg:GridControl.View>
+                                                    </dxg:GridControl.View>
 
 
+                                                    <dxg:GridColumn Header="鐵片流水號"    
+                                                    FieldName="SendMachineCommandVM.WorkNumber"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                        <dxg:GridColumn.EditSettings>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                        </dxg:GridColumn.EditSettings>
+                                                    </dxg:GridColumn>
 
-                                                <dxg:GridColumn  
+                                                    <dxg:GridColumn  FieldName="SteelBeltStampingStatus "   Header="工作"
+                                                                     Binding="{Binding SteelBeltStampingStatus}"  
                             HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.EditSettings>
-                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                    </dxg:GridColumn.EditSettings>
-                                                    <dxg:GridColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Grid>
-                                                                <ToggleButton Padding="0" Margin="1" x:Name="MachiningFormTButton">
-                                                                    <ToggleButton.Style>
-                                                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
-                                                                            <Setter Property="Width" Value="auto"/>
-                                                                            <Setter Property="Height" Value="auto"/>
-                                                                            <Setter Property="BorderThickness" Value="0"/>
-                                                                            <Setter Property="Template">
-                                                                                <Setter.Value>
-                                                                                    <ControlTemplate TargetType="ToggleButton">
-                                                                                        <Grid>
-                                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                                        </Grid>
-                                                                                    </ControlTemplate>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                            <Style.Triggers>
-                                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                                    <Setter Property="IsChecked" Value="True"/>
-                                                                                </Trigger>
-                                                                                <Trigger Property="IsChecked" Value="True">
-                                                                                    <Setter Property="Foreground" Value="Black"/>
-                                                                                    <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>
-                                                                                </Trigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </ToggleButton.Style>
-                                                                    <Grid  RenderTransformOrigin="0.5,0.5">
-                                                                        <Grid.LayoutTransform>
-                                                                            <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
-                                                                        </Grid.LayoutTransform>
-                                                                        <GD_SchematicDiagram:PlateRowDiagramViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>
-                                                                        <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>
-                                                                    </Grid>
-                                                                </ToggleButton>
-
-                                                            </Grid>
-
-                                                        </DataTemplate>
-                                                    </dxg:GridColumn.CellTemplate>
-                                                </dxg:GridColumn>
+                                                        <dxg:GridColumn.EditSettings>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                        </dxg:GridColumn.EditSettings>
+                                                    </dxg:GridColumn>
 
 
-                                                <dxg:GridColumn FieldName="AbsoluteMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                                <dxg:GridColumn.EditSettings>
-                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                </dxg:GridColumn.EditSettings>
-                                            </dxg:GridColumn>
+                                                    <dxg:GridColumn Header="絕對位置(距離加工點的距離)"
+                                                    FieldName="SendMachineCommandVM.AbsoluteMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                        <dxg:GridColumn.EditSettings>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                        </dxg:GridColumn.EditSettings>
+                                                    </dxg:GridColumn>
 
-                                            <dxg:GridColumn FieldName="StampWidth"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                                <dxg:GridColumn.EditSettings>
-                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    <dxg:GridColumn Header="相對位置"
+                                                FieldName="SendMachineCommandVM.RelativeMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                        <dxg:GridColumn.EditSettings>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                        </dxg:GridColumn.EditSettings>
+
+
+
+                                                    </dxg:GridColumn>
                                                     
                                                     
-                                                    
-                                                </dxg:GridColumn.EditSettings>
-                                                
-                                                
-                                                
-                                            </dxg:GridColumn>
+                                                    <dxg:GridColumn Header="已完工" HorizontalHeaderContentAlignment="Left"
+                                                        FieldName="SendMachineCommandVM.IsFinish">
+                                                        <dxg:GridColumn.EditSettings>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                        </dxg:GridColumn.EditSettings>
+                                                    </dxg:GridColumn>
 
 
-                                        </dxg:GridControl>
-                                    </ScrollViewer>
-                                        </Border>
-                                    </Grid>
-                                </GroupBox>
+
+
+
+
+                                                </dxg:GridControl>
+                                            </ScrollViewer>
+                                        </TabItem>
+                                </TabControl>
+                                </Grid>
+                                
                                 <Grid  Grid.Row="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
                                     <StackPanel Grid.RowSpan="2">
                                         <StackPanel.Resources>
                                             <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
@@ -451,20 +574,32 @@
                                                 <Setter Property="Margin" Value="5,0"/>
                                             </Style>
                                         </StackPanel.Resources>
-                                        
-                                        
-                                    <Button Command="{Binding SendMachineCommand}"
+
+
+                                        <Button  Command="{Binding SendMachineCommand}"   Content="新建空鐵片"/>
+
+                                        <Button IsEnabled="{Binding ElementName=NumberSettingComboBox , Path=SelectedValue, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                            Command="{Binding SendMachineCommand}"
                                             CommandParameter="{Binding ElementName=NumberSettingComboBox , Path=SelectedValue}" Content="新建一般加工"></Button>
-                                        <Button  Command="{Binding SendMachineCommand}" 
+                                        <Button   IsEnabled="{Binding ElementName=QRSettingComboBox , Path=SelectedValue, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                            Command="{Binding SendMachineCommand}" 
                                             CommandParameter="{Binding ElementName=QRSettingComboBox , Path=SelectedValue}" Content="新建QR加工"/>
-                                        
+
                                         <TextBox 
                                         Text="{Binding StampingProductMargin, UpdateSourceTrigger=PropertyChanged}"
                                             materialDesign:HintAssist.Hint="鐵片間隔" 
                                             materialDesign:HintAssist.HelperTextFontSize="20"/>
 
+                                        <TextBox 
+                                        Text="{Binding StampingFontHeight, UpdateSourceTrigger=PropertyChanged}"
+                                            materialDesign:HintAssist.Hint="字模高度" 
+                                            materialDesign:HintAssist.HelperTextFontSize="20"/>
+
+
+
                                     </StackPanel>
-                                    <ComboBox Grid.Column="1" Name="NumberSettingComboBox"
+                                    <StackPanel   Grid.Column="1">
+                                        <ComboBox  Name="NumberSettingComboBox" Height="80"
                                         Margin="10,0" Padding="0" Width="200"   MaxDropDownHeight="275"
                                               ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance},
                                         Path=ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection,
@@ -507,7 +642,7 @@
                                             </Style>
                                         </ComboBox.Style>
                                     </ComboBox>
-                                    <ComboBox  Grid.Row="1" Grid.Column="1" Name="QRSettingComboBox"
+                                    <ComboBox  Name="QRSettingComboBox" Height="80"
                                                Margin="10,0" Padding="0" Width="200" Text="123"  MaxDropDownHeight="275"
                                                ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance},
                                         Path=ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection,
@@ -551,9 +686,10 @@
                                         </ComboBox.Style>
                                     </ComboBox>
 
-                                    <StackPanel Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center">
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2"  HorizontalAlignment="Center">
                                         <Button Content="重新排序" Command="{Binding SoftSendMachineCommand}"/>
-                                        <Button Content="輸出命令"/>
+                                        <Button Content="產生加工序列" Command="{Binding GenerateProcessingSequenceCommand}"/>
                                         <Button/>
                                         <Button/>
 
@@ -562,72 +698,73 @@
                                     
                                     
                                 </Grid>
-                            </Grid>
-                            <StackPanel>
-                            <WrapPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Top">
-                                    <WrapPanel.Resources>
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                    </Style>
-                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                        <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
-                                        <Setter Property="materialDesign:HintAssist.Hint" Value="Hint"/>
-                                        <Setter Property="materialDesign:HintAssist.Background" Value="Transparent"/>
-                                        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
 
-                                        <Setter Property="MinWidth" Value="80"/>
-                                        <Setter Property="Padding" Value="0,2,0,0.5"/>
-                                        <Setter Property="Margin" Value="5,0"/>
-                                    </Style>
-                                    </WrapPanel.Resources>
-                                    <TextBox Text="{Binding SteelBeltLength, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鋼帶長度" materialDesign:HintAssist.HelperTextFontSize="20"/>
 
-                                    <TextBox Name="StampingProductWidthTextBox"
+                                <StackPanel Grid.Column="1" Grid.Row="1">
+                                    <WrapPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Top">
+                                        <WrapPanel.Resources>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                            </Style>
+                                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+                                                <Setter Property="materialDesign:HintAssist.Hint" Value="Hint"/>
+                                                <Setter Property="materialDesign:HintAssist.Background" Value="Transparent"/>
+                                                <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+
+                                                <Setter Property="MinWidth" Value="80"/>
+                                                <Setter Property="Padding" Value="0,2,0,0.5"/>
+                                                <Setter Property="Margin" Value="5,0"/>
+                                            </Style>
+                                        </WrapPanel.Resources>
+                                        <TextBox Text="{Binding SteelBeltLength, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鋼帶長度" materialDesign:HintAssist.HelperTextFontSize="20"/>
+
+                                        <TextBox Name="StampingProductWidthTextBox"
                                         Text="{Binding StampingProductWidth, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鐵片寬度" materialDesign:HintAssist.HelperTextFontSize="20"/>
 
-                                    <TextBox Text="{Binding QR_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="QR距離" />
-                                    <TextBox  Text="{Binding Fonts_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鋼印距離" />
-                                    <TextBox  Text="{Binding MagnificationRatio, UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="倍率" />
-                                    <local:TriggerSliderUserControl MainSilderValue="{Binding MagnificationRatio, Mode=TwoWay}"
+                                        <TextBox Text="{Binding QR_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="QR距離" />
+                                        <TextBox  Text="{Binding Fonts_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鋼印距離" />
+                                        <TextBox  Text="{Binding MagnificationRatio, UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="倍率" />
+                                        <local:TriggerSliderUserControl MainSilderValue="{Binding MagnificationRatio, Mode=TwoWay}"
                                        Minimum="0.01" Maximum="2" TickFrequency="0.01" />
-                                    <CheckBox Name="StampingRangeIsVisible" IsChecked="True" Content="顯示標線" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                </WrapPanel>
+                                        <CheckBox Name="StampingRangeIsVisible" IsChecked="True" Content="顯示標線" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                    </WrapPanel>
 
-                                <ScrollViewer GD_Extensions:ScrollViewerExtension.AlwaysScrollToEnd="True"
+                                    <ScrollViewer GD_Extensions:ScrollViewerExtension.AlwaysScrollToEnd="True"
                                  MaxWidth="600"  HorizontalAlignment="Left"  HorizontalScrollBarVisibility="Auto">
-                                <Grid Margin="0,5" >
-                                        <Grid.LayoutTransform>
-                                            <ScaleTransform ScaleX="{Binding MagnificationRatio}" ScaleY="{Binding MagnificationRatio}"/>
-                                        </Grid.LayoutTransform>
-                                    <Border BorderBrush="Red" BorderThickness="1"  Padding="5" >
-                                            <Grid>
-                                                <Grid Margin="0,25,0,0" >
-                                                    <Border Background="Gray" >
-                                                        <ListBox Width="{Binding SteelBeltLength}" 
+                                        <Grid Margin="0,5" >
+                                            <Grid.LayoutTransform>
+                                                <ScaleTransform ScaleX="{Binding MagnificationRatio}" ScaleY="{Binding MagnificationRatio}"/>
+                                            </Grid.LayoutTransform>
+                                            <Border BorderBrush="Red" BorderThickness="1"  Padding="5" >
+                                                <Grid>
+                                                    <Grid Margin="0,25,0,0" >
+                                                        <Border Background="Gray" >
+                                                            <ListBox Width="{Binding SteelBeltLength}" 
                                                                  MinHeight="{Binding StampingProductWidth}"
                                                     ItemsSource="{Binding SendMachineCommandVMObservableCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled" >
-                                                            <ListBox.ItemContainerStyle>
-                                                                <Style TargetType="ListBoxItem" >
-                                                                    <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistance}"/>
+                                                                <ListBox.ItemContainerStyle>
+                                                                    <Style TargetType="ListBoxItem" >
+                                                                        <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistanceAnimation}"/>
 
-                                                                    <Setter Property="Width" Value="{Binding ElementName=StampingProductWidthTextBox ,Path=Text}"/>
-                                                                    <Setter Property="Template">
-                                                                        <Setter.Value>
-                                                                            <ControlTemplate TargetType="ListBoxItem">
-                                                                                <Border HorizontalAlignment="Center">
-                                                                                    <Grid Opacity="0.9"  
+                                                                        <Setter Property="Width" Value="{Binding ElementName=StampingProductWidthTextBox ,Path=Text}"/>
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="ListBoxItem">
+                                                                                    <Border HorizontalAlignment="Center">
+                                                                                        <Grid Opacity="0.9"  
                                                                                      d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
                                                                                       Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
-                                                                                        <Grid.LayoutTransform>
-                                                                                            <ScaleTransform ScaleX="{c:Binding StampWidth/350}"
+                                                                                            <Grid.LayoutTransform>
+                                                                                                <ScaleTransform ScaleX="{c:Binding StampWidth/350}"
                                                                                                         ScaleY="{c:Binding StampWidth/350}" />
-                                                                                        </Grid.LayoutTransform>
-                                                                                        <Grid DataContext="{Binding SettingBaseVM}">
-                                                                                            <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
+                                                                                            </Grid.LayoutTransform>
+                                                                                            <Grid DataContext="{Binding SettingBaseVM}">
+                                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
                                                                                                                                  Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                                                                 RedMeasurementLineVisibility="Collapsed" />
 
@@ -636,54 +773,54 @@
 
 
 
-                                                                                            <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
+                                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
                                                                                                                                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                                                                                                                                       RedMeasurementLineVisibility="Collapsed" />
 
+                                                                                            </Grid>
+
+
+
                                                                                         </Grid>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Style>
+                                                                </ListBox.ItemContainerStyle>
+                                                                <ListBox.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <Canvas IsItemsHost="True"  >
+                                                                            <Canvas.LayoutTransform>
+                                                                                <RotateTransform Angle="90"/>
+                                                                            </Canvas.LayoutTransform>
+                                                                        </Canvas>
+
+                                                                        <!--  <WrapPanel FlowDirection="RightToLeft"/>-->
+                                                                    </ItemsPanelTemplate>
+                                                                </ListBox.ItemsPanel>
+                                                            </ListBox>
+                                                        </Border>
+                                                    </Grid>
+
+                                                    <Grid Visibility="{Binding ElementName=StampingRangeIsVisible,Path=IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                        </Grid.ColumnDefinitions>
 
 
-
-                                                                                    </Grid>
-                                                                                </Border>
-                                                                            </ControlTemplate>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </Style>
-                                                            </ListBox.ItemContainerStyle>
-                                                            <ListBox.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <Canvas IsItemsHost="True"  >
-                                                                        <Canvas.LayoutTransform>
-                                                                            <RotateTransform Angle="90"/>
-                                                                        </Canvas.LayoutTransform>
-                                                                    </Canvas>
-
-                                                                    <!--  <WrapPanel FlowDirection="RightToLeft"/>-->
-                                                                </ItemsPanelTemplate>
-                                                            </ListBox.ItemsPanel>
-                                                        </ListBox>
-                                                    </Border>
-                                                </Grid>
-                                                
-                                                <Grid Visibility="{Binding ElementName=StampingRangeIsVisible,Path=IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
-
-
-                                                    <Border  Grid.Column="1" BorderThickness="1,0" BorderBrush="Cyan"
+                                                        <Border  Grid.Column="1" BorderThickness="1,0" BorderBrush="Cyan"
                                                              Width="{Binding QR_Stamping_Distance}">
-                                                        <Border Background="Blue" Opacity="0.2"/>
-                                                    </Border>
+                                                            <Border Background="Blue" Opacity="0.2"/>
+                                                        </Border>
 
-                                                    <Grid Grid.Column="1"  Width="{Binding QR_Stamping_Distance}" VerticalAlignment="Top" >
-                                         
-                                                <TextBlock    Text="{Binding QR_Stamping_Distance}" HorizontalAlignment="Center"
+                                                        <Grid Grid.Column="1"  Width="{Binding QR_Stamping_Distance}" VerticalAlignment="Top" >
+
+                                                            <TextBlock    Text="{Binding QR_Stamping_Distance}" HorizontalAlignment="Center"
                                                             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Background="Transparent"/>
-                                                    <p:ArrowLine Grid.Row="1"
+                                                            <p:ArrowLine Grid.Row="1"
                                                         Margin="0,0,0,0"
                                                         ArrowLength="8"
                                                         Stroke="Cyan"  ArrowEnds="Both"  
@@ -691,16 +828,16 @@
                                                                  Y1="15"  
                                                                  X2="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=Width}" 
                                                                  Y2="15" />
-                                                </Grid>
+                                                        </Grid>
 
-                                                    <Border Width="{Binding Fonts_Stamping_Distance}" Grid.Column="2" BorderThickness="1,0" BorderBrush="Salmon">
-                                                        <Border  
+                                                        <Border Width="{Binding Fonts_Stamping_Distance}" Grid.Column="2" BorderThickness="1,0" BorderBrush="Salmon">
+                                                            <Border  
                                                               Background="SkyBlue" Opacity="0.2"/>
-                                                    </Border>
-                                        <Grid Grid.Column="2"  Width="{Binding Fonts_Stamping_Distance}"  VerticalAlignment="Top" >
-                                                        <TextBlock    Text="{Binding Fonts_Stamping_Distance}" HorizontalAlignment="Center"
+                                                        </Border>
+                                                        <Grid Grid.Column="2"  Width="{Binding Fonts_Stamping_Distance}"  VerticalAlignment="Top" >
+                                                            <TextBlock    Text="{Binding Fonts_Stamping_Distance}" HorizontalAlignment="Center"
                                                             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                    <p:ArrowLine Grid.Row="1"
+                                                            <p:ArrowLine Grid.Row="1"
                                                         Margin="0,0,0,0"
                                                         ArrowLength="8"
                                                         Stroke="Cyan"              ArrowEnds="Both"                                  
@@ -708,46 +845,49 @@
                                                                  Y1="15"  
                                                                  X2="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=ActualWidth}" 
                                                                  Y2="15" />
+                                                        </Grid>
+
+
+
+
+
+
+                                                    </Grid>
+                                                    <Line  HorizontalAlignment="Right"/>
                                                 </Grid>
 
 
-
-
-
-
-                                                </Grid>
-                                                <Line  HorizontalAlignment="Right"/>
-                                            </Grid>
-
-
-                                    </Border>
-                                </Grid>
-                                </ScrollViewer>
-                                <StackPanel Orientation="Horizontal">
-                                    <RepeatButton Style="{StaticResource GD_RepeatButton}" Command="{Binding X_axisMoveSendMachineCommand}"
+                                            </Border>
+                                        </Grid>
+                                    </ScrollViewer>
+                                    <StackPanel Orientation="Horizontal">
+                                        <RepeatButton Style="{StaticResource GD_RepeatButton}" 
+                                                      Command="{Binding X_axisMoveSendMachineCommand}"
                                              Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}">
-                                        <RepeatButton.CommandParameter>
-                                            <sys:Double>1.0</sys:Double>
-                                        </RepeatButton.CommandParameter>
-                                    </RepeatButton>
-                                    
-                                    <Border Margin="5,0"/>
-                                    
-                                    <RepeatButton Style="{StaticResource GD_RepeatButton}"   Command="{Binding X_axisMoveSendMachineCommand}" 
-                                              Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}">
-                                        <RepeatButton.CommandParameter>
-                                            <sys:Double>-1.0</sys:Double>
-                                        </RepeatButton.CommandParameter>
-                                        
-                                    </RepeatButton>
+                                            <RepeatButton.CommandParameter>
+                                                <sys:Double>1.0</sys:Double>
+                                            </RepeatButton.CommandParameter>
+                                        </RepeatButton>
 
-                                    <Button/>
-                                    <Button/>
+                                        <Border Margin="5,0"/>
+
+                                        <RepeatButton Style="{StaticResource GD_RepeatButton}"  Command="{Binding X_axisMoveSendMachineCommand}" 
+                                              Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}">
+                                            <RepeatButton.CommandParameter>
+                                                <sys:Double>-1.0</sys:Double>
+                                            </RepeatButton.CommandParameter>
+
+                                        </RepeatButton>
+
+                                        <Button/>
+                                        <Button/>
+                                    </StackPanel>
+
+
+
                                 </StackPanel>
-                                
-                                
-                                
-                            </StackPanel>
+
+                            </Grid>
 
                         </StackPanel>
                 </ScrollViewer>

@@ -1,7 +1,11 @@
-﻿using DevExpress.Data.Extensions;
+﻿using DevExpress.CodeParser;
+using DevExpress.Data.Extensions;
+using DevExpress.Mvvm.Native;
+using DevExpress.Office.Utils;
 using DevExpress.Utils.Extensions;
 using DevExpress.Utils.StructuredStorage.Internal;
 using DevExpress.Xpf.Grid;
+using DevExpress.XtraRichEdit.Import.Doc;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
@@ -441,15 +445,15 @@ namespace GD_StampingMachine.ViewModels
             set { _stampingProductMargin = value; OnPropertyChanged(); }
         }
 
-        /*private double _steelBeltWidth = 100;
-
-        public double SteelBeltWidth
+        private double _stampingFontHeight= 10;
+        /// <summary>
+        /// 字模高度 雙排字會移動0/StampingFontHeight ，單排字則看上中下決定0/ 1/2 StampingFontHeight
+        /// </summary>
+        public double StampingFontHeight
         {
-            get => _steelBeltWidth;
-            set { _steelBeltWidth = value; OnPropertyChanged(); }
-        }*/
-
-
+            get => _stampingFontHeight;
+            set { _stampingFontHeight = value; OnPropertyChanged(); }
+        }
 
 
 
@@ -507,40 +511,86 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayParameterizedCommand(para =>
             {
+                bool _scheduler_FontStamping = false;
+                bool _scheduler_QRStamping = false;
+                bool _scheduler_Shearing = true;
+
+                GD_StampingMachine.ViewModels.ParameterSetting.SettingBaseViewModel SettingBaseVM = new NumberSettingViewModel()
+                {
+                    SequenceCount = 0
+                };
+
+
                 if (para != null)
                 {
-                    if (para is GD_StampingMachine.ViewModels.ParameterSetting.SettingBaseViewModel SettingBaseVM)
+                    if (para is GD_StampingMachine.ViewModels.ParameterSetting.SettingBaseViewModel ParaSettingBaseVM)
                     {
-                        //先找第一個在哪 若不存在則給預設值
+                        _scheduler_FontStamping = true;
 
-                        if (SendMachineCommandVMObservableCollection.Count == 0)
+
+                        SettingBaseVM = ParaSettingBaseVM;
+                        if (SettingBaseVM is QRSettingViewModel)
                         {
-                            SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
-                            {
-                                SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
-                                RelativeMoveDistance = double.PositiveInfinity,
-                                AbsoluteMoveDistance = double.PositiveInfinity,
-                                SettingBaseVM = SettingBaseVM,
-                                StampWidth = 35
-                            }); ;
+                             _scheduler_QRStamping = true;
                         }
                         else
                         {
-                            var LastSMC = SendMachineCommandVMObservableCollection.LastOrDefault();
-
-                            SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
-                            {
-                                SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
-                                RelativeMoveDistance = double.PositiveInfinity,
-                                AbsoluteMoveDistance = LastSMC.AbsoluteMoveDistance + LastSMC.StampWidth + StampingProductMargin,
-                                SettingBaseVM = SettingBaseVM,
-                                StampWidth = LastSMC.StampWidth
-                            }); ;
+                             _scheduler_QRStamping = false;
                         }
-
-
                     }
                 }
+
+
+
+
+
+
+                //先找第一個在哪 若不存在則給預設值
+                if (SendMachineCommandVMObservableCollection.Count == 0)
+                {
+                    SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
+                    {
+                        SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
+                        WorkNumber = 0,
+                        AbsoluteMoveDistance = QR_Stamping_Distance + Fonts_Stamping_Distance,
+                        SettingBaseVM = SettingBaseVM,
+                        StampWidth = 35,
+
+                        WorkScheduler_FontStamping = _scheduler_FontStamping,
+                        WorkScheduler_QRStamping = _scheduler_QRStamping,
+                        WorkScheduler_Shearing = _scheduler_Shearing,
+                        IsFinish = false
+
+                    }); ;
+                }
+                else
+                {
+                    //找出最後一個
+                    var AbsoluteMaxSMC = SendMachineCommandVMObservableCollection.MaxBy(x => x.AbsoluteMoveDistance);//.LastOrDefault();
+                    var WorkNumberMax = SendMachineCommandVMObservableCollection.Max(x => x.WorkNumber);//.LastOrDefault();
+                    var Distance = AbsoluteMaxSMC.StampWidth + StampingProductMargin;
+                    if(AbsoluteMaxSMC.AbsoluteMoveDistance>=0)
+                    {
+                        Distance += AbsoluteMaxSMC.AbsoluteMoveDistance;
+                    }
+
+                    SendMachineCommandVMObservableCollection.Add(new SendMachineCommandViewModel()
+                    {
+                        SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None,
+                        WorkNumber = WorkNumberMax + 1,
+                        AbsoluteMoveDistance = Distance,
+                        SettingBaseVM = SettingBaseVM,
+                        StampWidth = AbsoluteMaxSMC.StampWidth,
+
+                        WorkScheduler_FontStamping = _scheduler_FontStamping,
+                        WorkScheduler_QRStamping = _scheduler_QRStamping,
+                        WorkScheduler_Shearing = _scheduler_Shearing,
+                        IsFinish = false
+                    }); ; ;
+                }
+
+
+
             });
         }
 
@@ -587,6 +637,148 @@ namespace GD_StampingMachine.ViewModels
 
             });
         }
+
+
+        /// <summary>
+        /// 產生加工序列
+        /// </summary>
+        public ICommand GenerateProcessingSequenceCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                //先排序 並將已經加工完成的物件丟掉
+               var smcCollection = SendMachineCommandVMObservableCollection.ToList().FindAll(x => !x.IsFinish && (x.WorkScheduler_QRStamping || x.WorkScheduler_FontStamping || x.WorkScheduler_Shearing));
+                //計算所有工序的座標 並於稍後排列
+
+                //陣列內的物件 : 加工類型/加工物件/需移動的距離
+              var  StampingPlateProcessingSequenceViewModelList = new List<StampingPlateProcessingSequenceViewModel>();
+
+                foreach (var smc in smcCollection)
+                {
+                    //有QR加工需求
+                    if(smc.WorkScheduler_QRStamping)
+                    {
+                        StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                        {
+                            SteelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving,
+                            SendMachineCommandVM = smc,
+                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (QR_Stamping_Distance + Fonts_Stamping_Distance)
+                        });
+                    }
+
+                    //有字模加工需求
+                    //※須注意字模有分靠上 靠下 置中
+                    //且當字模有兩排時需產出兩條加工程式
+                    if (smc.WorkScheduler_FontStamping)
+                    {
+                        switch (smc.SettingBaseVM.SpecialSequence)
+                        {
+                            default:
+                            case SpecialSequenceEnum.OneRow:
+                                switch (smc.SettingBaseVM.VerticalAlign)
+                                {
+                                    case VerticalAlignEnum.Top:
+                                        StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                                        {
+                                            SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
+                                            SendMachineCommandVM = smc,
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - QR_Stamping_Distance -  Fonts_Stamping_Distance
+                                        });
+                                        break;
+
+                                    case VerticalAlignEnum.Center:
+                                        StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                                        {
+                                            SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
+                                            SendMachineCommandVM = smc,
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (QR_Stamping_Distance + Fonts_Stamping_Distance + StampingFontHeight/2)
+                                        });
+                                        break;
+
+                                    case VerticalAlignEnum.Bottom:
+                                        StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                                        {
+                                            SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
+                                            SendMachineCommandVM = smc,
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (QR_Stamping_Distance + Fonts_Stamping_Distance + StampingFontHeight)
+                                        });
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                break;
+
+                            case SpecialSequenceEnum.TwoRow:
+
+                                StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                                {
+                                    SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
+                                    SendMachineCommandVM = smc,
+                                    ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance -(QR_Stamping_Distance + Fonts_Stamping_Distance)
+                                });
+
+                                StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                                {
+                                    SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
+                                    SendMachineCommandVM = smc,
+                                    ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (QR_Stamping_Distance + Fonts_Stamping_Distance + StampingFontHeight)
+                                });
+                                break;
+                        }
+                    }
+
+                    //有切斷需求
+                    if (smc.WorkScheduler_Shearing)
+                    {
+                        StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                        {
+                            SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing,
+                            SendMachineCommandVM = smc,
+                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance 
+                        });
+                    }
+
+                }
+
+                //重新排序 依照距離順序由小到大
+                StampingPlateProcessingSequenceViewModelList.OrderBy(x => x.ProcessingAbsoluteDistance).ToList();
+                //計算相對距離
+
+                if(StampingPlateProcessingSequenceViewModelList.Count>0)
+                    StampingPlateProcessingSequenceViewModelList[0].ProcessingRelativeDistance = StampingPlateProcessingSequenceViewModelList[0].ProcessingAbsoluteDistance;
+                for ( int i= 1;i< StampingPlateProcessingSequenceViewModelList.Count;i++ )
+                {
+                    StampingPlateProcessingSequenceViewModelList[i].ProcessingRelativeDistance = StampingPlateProcessingSequenceViewModelList[i].ProcessingAbsoluteDistance - StampingPlateProcessingSequenceViewModelList[i - 1].ProcessingAbsoluteDistance;
+                }
+
+
+                StampingPlateProcessingSequenceVMObservableCollection = StampingPlateProcessingSequenceViewModelList.ToObservableCollection();
+            });
+        }
+
+        /// <summary>
+        /// 沖壓加工陣列
+        /// </summary>
+
+        private ObservableCollection<StampingPlateProcessingSequenceViewModel> _stampingPlateProcessingSequenceVMObservableCollection;
+        public ObservableCollection<StampingPlateProcessingSequenceViewModel> StampingPlateProcessingSequenceVMObservableCollection
+        {
+            get => _stampingPlateProcessingSequenceVMObservableCollection ??= new ObservableCollection<StampingPlateProcessingSequenceViewModel>();
+            set { _stampingPlateProcessingSequenceVMObservableCollection = value;OnPropertyChanged(); }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         //需輸入三種數字 代表三種機器距離切割線的位置 並以切割線為基準算出所有鋼片的絕對座標
         //用一按鍵重整數值
 
@@ -600,15 +792,11 @@ namespace GD_StampingMachine.ViewModels
                     MoveStep = doublepara;
                 }
 
-                SendMachineCommandVMObservableCollection.ForEach(smc =>
+                foreach(var smc in SendMachineCommandVMObservableCollection)
                 {
                     smc.AbsoluteMoveDistance += MoveStep;
-                    smc.RelativeMoveDistance += MoveStep;
-                });
+                }
                 
-
-
-
             });
         }
 
@@ -655,7 +843,54 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+        
+
+    }
+
+    public class StampingPlateProcessingSequenceViewModel: BaseViewModel
+    {
+        private SteelBeltStampingStatusEnum _steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
+        public SteelBeltStampingStatusEnum SteelBeltStampingStatus
+        {
+            get => _steelBeltStampingStatus;
+            set { _steelBeltStampingStatus = value; OnPropertyChanged(); }
+        }
+
+        private GD_StampingMachine.ViewModels.SendMachineCommandViewModel _sendMachineCommandVM;
+        public GD_StampingMachine.ViewModels.SendMachineCommandViewModel SendMachineCommandVM
+        {
+            get => _sendMachineCommandVM;
+            set
+            {
+                _sendMachineCommandVM = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _processingAbsoluteDistance = 0;
+        public double ProcessingAbsoluteDistance
+        {
+            get => _processingAbsoluteDistance;
+            set
+            {
+                _processingAbsoluteDistance = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private double? _processingRelativeDistance;
+        public double? ProcessingRelativeDistance
+        {
+            get => _processingRelativeDistance;
+            set
+            {
+                _processingRelativeDistance = value; OnPropertyChanged();
+            }
+
+        }
 
 
     }
+
 }

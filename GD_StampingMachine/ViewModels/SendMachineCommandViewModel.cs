@@ -4,6 +4,7 @@ using GD_StampingMachine.GD_Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -23,7 +24,9 @@ namespace GD_StampingMachine.ViewModels
             SendMachineCommand = sendMachineCommand;
         }
 
+        [JsonIgnore]
         public readonly SendMachineCommandModel SendMachineCommand = new();
+
 
 
         /// <summary>
@@ -39,31 +42,91 @@ namespace GD_StampingMachine.ViewModels
             } 
         }
 
-        /// <summary>
-        /// 工作移動到下一個工站的相對距離(由計算得出 輪到他加工時他需移動的距離)
-        /// </summary>
-        public double RelativeMoveDistance
-        {
-            get => SendMachineCommand.RelativeMoveDistance; 
-            set 
-            {
-                SendMachineCommand.RelativeMoveDistance = value; 
-                OnPropertyChanged(); 
-            }
-        }
+
+        private object AbsoluteMoveDistanceAnimationLock = new object();
+        private bool AbsoluteMoveDistanceAnimationIsTriggered;
 
         /// <summary>
         /// 工作需要移動的絕對距離(目前位置離加工位置多遠)
         /// </summary>
         public double AbsoluteMoveDistance 
         { 
-            get => SendMachineCommand.AbsoluteMoveDistance; set
+            get => SendMachineCommand.AbsoluteMoveDistance; 
+            set
             {
-                SendMachineCommand.AbsoluteMoveDistance = value; 
+                SendMachineCommand.AbsoluteMoveDistance = value;
+
+                Task.Run(() =>
+                {
+                    AbsoluteMoveDistanceAnimationIsTriggered = false;
+                    if (AbsoluteMoveDistanceAnimation.HasValue)
+                    {
+                        lock (AbsoluteMoveDistanceAnimationLock)
+                        {
+                            AbsoluteMoveDistanceAnimationIsTriggered = true;
+
+                            var absAnimationValue = AbsoluteMoveDistanceAnimation.Value;
+                            var Diff = value - absAnimationValue;
+
+                            var AbsDiff = Math.Abs(Diff);
+                            double MoveDiff = 10;
+                            /*if (AbsDiff != 0)
+                                MoveDiff = MoveDiff / AbsDiff;*/
+                            //依照不同值給不同速度
+                            if (AbsDiff > 100)
+                            {
+                                MoveDiff = 250;
+                            }
+                            else if (AbsDiff > 10)
+                            {
+                                MoveDiff = 100;
+                            }
+                            else if (AbsDiff >= 5)
+                            {
+                                MoveDiff = 50;
+                            }
+                            else if (AbsDiff >= 0)
+                            {
+                                MoveDiff = 1;
+                            }
+
+
+                            var PercentDiff = Diff / MoveDiff;
+                            //計算要跑幾次
+                            // while (Math.Abs(Diff) > Math.Abs(PercentDiff * 3))
+                            for (double i = 0; i < Math.Abs(Diff); i += Math.Abs(PercentDiff))
+                            {
+                                AbsoluteMoveDistanceAnimation += PercentDiff;
+                                System.Threading.Thread.Sleep(10);
+                                //如果被重複觸發 立刻放棄上次的移動
+                                if (!AbsoluteMoveDistanceAnimationIsTriggered)
+                                    return;
+                            }
+                        }
+                    }
+
+                    AbsoluteMoveDistanceAnimation = value;
+                    AbsoluteMoveDistanceAnimationIsTriggered = false;
+                });
+
                 OnPropertyChanged();
             } 
         }
 
+        private double? _absoluteMoveDistanceAnimation;
+        public double? AbsoluteMoveDistanceAnimation
+        {
+            get => _absoluteMoveDistanceAnimation ;
+            private set{_absoluteMoveDistanceAnimation = value; OnPropertyChanged();}
+        }
+
+
+
+
+
+
+
+        public int WorkNumber { get => SendMachineCommand.WorkNumber; set { SendMachineCommand.WorkNumber = value; OnPropertyChanged(); } }
 
         private GD_StampingMachine.ViewModels.ParameterSetting.SettingBaseViewModel _settingBaseVM;
         /// <summary>
@@ -93,7 +156,38 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+        
+        /// <summary>
+        /// QR加工 true會進行加工
+        /// </summary>
+        public bool WorkScheduler_QRStamping
+        {
+            get => SendMachineCommand.WorkScheduler_QRStamping; set { SendMachineCommand.WorkScheduler_QRStamping = value; OnPropertyChanged(); }
+        }
 
+        /// <summary>
+        /// 鋼印加工 true會進行加工
+        /// </summary>
+        public bool WorkScheduler_FontStamping
+        {
+
+            get => SendMachineCommand.WorkScheduler_FontStamping; set { SendMachineCommand.WorkScheduler_FontStamping = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 剪斷 true會進行加工
+        /// </summary>
+        public bool WorkScheduler_Shearing
+        {
+            get => SendMachineCommand.WorkScheduler_Shearing; set { SendMachineCommand.WorkScheduler_Shearing = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 已完成 有此標記者會被略過
+        /// </summary>
+        public bool IsFinish
+        {
+            get => SendMachineCommand.IsFinish; set { SendMachineCommand.IsFinish = value; OnPropertyChanged(); }
+        }
 
 
 
@@ -103,4 +197,6 @@ namespace GD_StampingMachine.ViewModels
 
 
     }
+
+
 }
