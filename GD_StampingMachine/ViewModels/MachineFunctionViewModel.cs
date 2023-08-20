@@ -682,7 +682,7 @@ namespace GD_StampingMachine.ViewModels
                                         {
                                             SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
                                             SendMachineCommandVM = smc,
-                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - QR_Stamping_Distance -  Fonts_Stamping_Distance
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance -  Fonts_Stamping_Distance
                                         });
                                         break;
 
@@ -691,7 +691,7 @@ namespace GD_StampingMachine.ViewModels
                                         {
                                             SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
                                             SendMachineCommandVM = smc,
-                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (QR_Stamping_Distance + Fonts_Stamping_Distance + StampingFontHeight/2)
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (Fonts_Stamping_Distance + StampingFontHeight/2)
                                         });
                                         break;
 
@@ -700,7 +700,7 @@ namespace GD_StampingMachine.ViewModels
                                         {
                                             SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
                                             SendMachineCommandVM = smc,
-                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (QR_Stamping_Distance + Fonts_Stamping_Distance + StampingFontHeight)
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - ( Fonts_Stamping_Distance + StampingFontHeight)
                                         });
                                         break;
                                     default:
@@ -742,7 +742,7 @@ namespace GD_StampingMachine.ViewModels
                 }
 
                 //重新排序 依照距離順序由小到大
-                StampingPlateProcessingSequenceViewModelList.OrderBy(x => x.ProcessingAbsoluteDistance).ToList();
+                StampingPlateProcessingSequenceViewModelList = StampingPlateProcessingSequenceViewModelList.OrderBy(x => x.ProcessingAbsoluteDistance).ToList();
                 //計算相對距離
 
                 if(StampingPlateProcessingSequenceViewModelList.Count>0)
@@ -795,8 +795,14 @@ namespace GD_StampingMachine.ViewModels
                 foreach(var smc in SendMachineCommandVMObservableCollection)
                 {
                     smc.AbsoluteMoveDistance += MoveStep;
+                    
                 }
-                
+
+                foreach (var spp in StampingPlateProcessingSequenceVMObservableCollection)
+                {
+                    spp.ProcessingAbsoluteDistance += MoveStep;
+                }
+
             });
         }
 
@@ -836,16 +842,110 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-
-        #endregion
-
-
+        private bool _isWorking = false;
+        public bool IsWorking { get => _isWorking; set { _isWorking = value; OnPropertyChanged(); } }
 
 
+      
+        public ICommand AutoWorkCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                Task.Run(async() =>
+                {
+                    IsWorking = true;
 
-        
+                    while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance > 0) != -1)
+                    {
+                        //把最上面ProcessingAbsoluteDistance大於0的鐵片移動到指定位置
+                        var FIndex = StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance > 0);
 
-    }
+                        var moveDistance = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
+                        double moveStep = 0.1;
+
+                        while (StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance >= moveStep)
+                        {
+                            //StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance-= moveStep;
+                            //須重構成function 與移動指令共用
+                            foreach (var item in StampingPlateProcessingSequenceVMObservableCollection)
+                            {
+                                item.ProcessingAbsoluteDistance -= moveStep;
+
+                            }
+                            foreach (var item in SendMachineCommandVMObservableCollection)
+                            {
+                                item.AbsoluteMoveDistance -= moveStep;
+                            }
+
+                            await Task.Delay(10);
+                        }
+
+                        //最後一階
+                        var LastMove = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
+                        foreach (var item in StampingPlateProcessingSequenceVMObservableCollection)
+                        {
+                            item.ProcessingAbsoluteDistance -= LastMove;
+                        }
+                        foreach (var item in SendMachineCommandVMObservableCollection)
+                        {
+                            item.AbsoluteMoveDistance -= LastMove;
+                        }
+
+
+
+
+                        StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance = 0;
+
+                        //每個工作到位置後 等待三秒
+                        await Task.Delay(3000);
+                    }
+                    await Task.Delay(1000);
+
+                    IsWorking = false;
+
+                });
+
+            });
+        }
+
+        public ICommand Recover
+        {
+            get => new RelayCommand(() =>
+            {
+            
+                var returnOriginValue = SendMachineCommandVMObservableCollection.Min(x => x.AbsoluteMoveDistance);
+                returnOriginValue = returnOriginValue - QR_Stamping_Distance- Fonts_Stamping_Distance ;
+
+                foreach (var item in StampingPlateProcessingSequenceVMObservableCollection)
+                {
+                    item.ProcessingAbsoluteDistance -= returnOriginValue;
+
+                }
+                foreach (var item in SendMachineCommandVMObservableCollection)
+                {
+                    item.AbsoluteMoveDistance -= returnOriginValue;
+                }
+
+
+
+            });
+        }
+
+
+
+
+            #endregion
+
+
+
+
+
+
+
+
+
+
+        }
 
     public class StampingPlateProcessingSequenceViewModel: BaseViewModel
     {

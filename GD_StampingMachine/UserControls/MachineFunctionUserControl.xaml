@@ -518,16 +518,16 @@
 
 
                                                     <dxg:GridColumn Header="絕對位置(距離加工點的距離)"
-                                                    FieldName="SendMachineCommandVM.AbsoluteMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    FieldName="ProcessingAbsoluteDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
                                                         <dxg:GridColumn.EditSettings>
-                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="N1"/>
                                                         </dxg:GridColumn.EditSettings>
                                                     </dxg:GridColumn>
 
                                                     <dxg:GridColumn Header="相對位置"
-                                                FieldName="SendMachineCommandVM.RelativeMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                FieldName="ProcessingRelativeDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
                                                         <dxg:GridColumn.EditSettings>
-                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="a1"/>
                                                         </dxg:GridColumn.EditSettings>
 
 
@@ -879,8 +879,10 @@
 
                                         </RepeatButton>
 
-                                        <Button/>
-                                        <Button/>
+                                        <Button Content="自動加工" Command="{Binding AutoWorkCommand}"
+                                                IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
+                                        <Button Content="復原" Command="{Binding Recover}"
+                                                 IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
                                     </StackPanel>
 
 
