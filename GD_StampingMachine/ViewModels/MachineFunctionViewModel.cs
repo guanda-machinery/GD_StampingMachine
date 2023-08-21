@@ -870,6 +870,17 @@ namespace GD_StampingMachine.ViewModels
                         var FIndex = StampingPlateProcessingSequenceVMObservableCollection.FindIndex(FindPredicate);
 
                         var moveDistance = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
+                       /*foreach(var PreMachiningStampingPlate in StampingPlateProcessingSequenceVMObservableCollection.ToList().FindAll(x => x.ProcessingAbsoluteDistance == moveDistance))
+                        {
+                            //把該鋼片設為正在加工
+                            //在這邊加入進度條
+                            //找出所有同距離的工件
+                            PreMachiningStampingPlate.SendMachineCommandVM.IsWorking = true;
+                        }*/
+
+
+
+
                         double moveStep = 0.5;
 
                         while (StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance >= moveStep)
