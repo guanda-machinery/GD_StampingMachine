@@ -6,6 +6,7 @@ using DevExpress.Utils.Extensions;
 using DevExpress.Utils.StructuredStorage.Internal;
 using DevExpress.Xpf.Grid;
 using DevExpress.XtraRichEdit.Import.Doc;
+using DevExpress.XtraScheduler.Native;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
@@ -17,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -504,6 +506,9 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+
+
+
         /// <summary>
         /// 新建加工
         /// </summary>
@@ -691,7 +696,7 @@ namespace GD_StampingMachine.ViewModels
                                         {
                                             SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
                                             SendMachineCommandVM = smc,
-                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (Fonts_Stamping_Distance + StampingFontHeight/2)
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (Fonts_Stamping_Distance - StampingFontHeight/2)
                                         });
                                         break;
 
@@ -700,7 +705,7 @@ namespace GD_StampingMachine.ViewModels
                                         {
                                             SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
                                             SendMachineCommandVM = smc,
-                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - ( Fonts_Stamping_Distance + StampingFontHeight)
+                                            ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - ( Fonts_Stamping_Distance - StampingFontHeight)
                                         });
                                         break;
                                     default:
@@ -715,14 +720,14 @@ namespace GD_StampingMachine.ViewModels
                                 {
                                     SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
                                     SendMachineCommandVM = smc,
-                                    ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance -(QR_Stamping_Distance + Fonts_Stamping_Distance)
+                                    ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance -( Fonts_Stamping_Distance)
                                 });
 
                                 StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
                                 {
                                     SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping,
                                     SendMachineCommandVM = smc,
-                                    ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - (QR_Stamping_Distance + Fonts_Stamping_Distance + StampingFontHeight)
+                                    ProcessingAbsoluteDistance = smc.AbsoluteMoveDistance - ( Fonts_Stamping_Distance - StampingFontHeight)
                                 });
                                 break;
                         }
@@ -757,11 +762,12 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+
+        private ObservableCollection<StampingPlateProcessingSequenceViewModel> _stampingPlateProcessingSequenceVMObservableCollection;
+
         /// <summary>
         /// 沖壓加工陣列
         /// </summary>
-
-        private ObservableCollection<StampingPlateProcessingSequenceViewModel> _stampingPlateProcessingSequenceVMObservableCollection;
         public ObservableCollection<StampingPlateProcessingSequenceViewModel> StampingPlateProcessingSequenceVMObservableCollection
         {
             get => _stampingPlateProcessingSequenceVMObservableCollection ??= new ObservableCollection<StampingPlateProcessingSequenceViewModel>();
@@ -855,13 +861,16 @@ namespace GD_StampingMachine.ViewModels
                 {
                     IsWorking = true;
 
-                    while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance > 0) != -1)
+                    var FindPredicate = new Predicate<StampingPlateProcessingSequenceViewModel>(x => x.ProcessingAbsoluteDistance >= 0 && !x.IsFinish);
+
+                    //  while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance >= 0 && !x.IsFinish) != -1)
+                    while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(FindPredicate) != -1)
                     {
                         //把最上面ProcessingAbsoluteDistance大於0的鐵片移動到指定位置
-                        var FIndex = StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance > 0);
+                        var FIndex = StampingPlateProcessingSequenceVMObservableCollection.FindIndex(FindPredicate);
 
                         var moveDistance = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
-                        double moveStep = 0.1;
+                        double moveStep = 0.5;
 
                         while (StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance >= moveStep)
                         {
@@ -890,15 +899,79 @@ namespace GD_StampingMachine.ViewModels
                         {
                             item.AbsoluteMoveDistance -= LastMove;
                         }
-
-
-
-
                         StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance = 0;
 
                         //每個工作到位置後 等待三秒
-                        await Task.Delay(3000);
+
+                        if (false)
+                        {
+                            //單動
+                            await Task.Delay(3000);
+                            StampingPlateProcessingSequenceVMObservableCollection[FIndex].IsFinish = true;
+                            StampingPlateProcessingSequenceVMObservableCollection[FIndex].SendMachineCommandVM.SteelBeltStampingStatus = StampingPlateProcessingSequenceVMObservableCollection[FIndex].SteelBeltStampingStatus;
+                        }
+                        else
+                        {
+                            //所有在指定位置上的都可以加工
+                            var ReadyWorkList = StampingPlateProcessingSequenceVMObservableCollection.ToList().FindAll(x => x.ProcessingAbsoluteDistance == 0 && !x.IsFinish);
+
+                            List<Task> AllworkTask = new List<Task>();
+
+                            foreach(var work in ReadyWorkList)
+                            {
+                                Task WrokTask = Task.Run(async() =>
+                                {
+                                    //把該鋼片設為正在加工
+                                    //在這邊加入進度條
+                                    work.SendMachineCommandVM.IsWorking = true;
+                                    //各種工作所花時間不同
+                                    switch (work.SteelBeltStampingStatus)
+                                    {
+                                        case SteelBeltStampingStatusEnum.QRCarving:
+                                            //send command 
+
+                                            await Task.Delay(1000);
+                                            //wait complete
+                                            break;
+                                        case SteelBeltStampingStatusEnum.Stamping:
+
+                                            await Task.Delay(3000);
+
+                                            break;
+                                        case SteelBeltStampingStatusEnum.Shearing:
+
+                                            await Task.Delay(100);
+                                            break;
+                                        default:
+                                        case SteelBeltStampingStatusEnum.None:
+                                            await Task.Delay(10);
+                                            break;
+                                    }
+
+                                    work.IsFinish = true;
+                                    work.SendMachineCommandVM.IsWorking = false;
+                                    work.SendMachineCommandVM.SteelBeltStampingStatus = work.SteelBeltStampingStatus;
+                                    // await Task.Delay(3000);
+                                });
+                                AllworkTask.Add(WrokTask);
+                                await Task.Delay(500);
+                            }
+
+
+
+                            await Task.WhenAll(AllworkTask);
+                        }
+
+
+
+                        //同步加工 如果有其他同位置的零件可以一起加工
+
+
+
+
                     }
+
+
                     await Task.Delay(1000);
 
                     IsWorking = false;
@@ -919,11 +992,13 @@ namespace GD_StampingMachine.ViewModels
                 foreach (var item in StampingPlateProcessingSequenceVMObservableCollection)
                 {
                     item.ProcessingAbsoluteDistance -= returnOriginValue;
-
+                    item.IsFinish = false;// true;
+                    //item.SteelBeltStampingStatus
                 }
                 foreach (var item in SendMachineCommandVMObservableCollection)
                 {
                     item.AbsoluteMoveDistance -= returnOriginValue;
+                    item.SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
                 }
 
 
@@ -950,6 +1025,10 @@ namespace GD_StampingMachine.ViewModels
     public class StampingPlateProcessingSequenceViewModel: BaseViewModel
     {
         private SteelBeltStampingStatusEnum _steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
+        
+        /// <summary>
+        /// 命令
+        /// </summary>
         public SteelBeltStampingStatusEnum SteelBeltStampingStatus
         {
             get => _steelBeltStampingStatus;
@@ -989,6 +1068,16 @@ namespace GD_StampingMachine.ViewModels
             }
 
         }
+
+
+        private bool _isFinish = false;
+        /// <summary>
+        /// 標記為完成
+        /// </summary>
+        public bool IsFinish { get => _isFinish; set { _isFinish = value; OnPropertyChanged(); } }
+
+
+
 
 
     }

@@ -30,7 +30,8 @@ namespace GD_StampingMachine
                     default:
                         break;
                 }
-                return System.Windows.Media.Brushes.White;
+                //return System.Windows.Media.Brushes.White;
+                return System.Windows.Media.Brushes.Transparent;
             }
 
             if(value is MachiningStatusEnum MachiningStatus)

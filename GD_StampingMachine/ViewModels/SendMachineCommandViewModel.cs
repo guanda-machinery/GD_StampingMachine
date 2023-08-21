@@ -190,6 +190,12 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
+        private bool _isWorking = false;
+        /// <summary>
+        /// 標記為正在加工
+        /// </summary>
+        public bool IsWorking { get => _isWorking; set { _isWorking = value; OnPropertyChanged(); } }
+
 
 
 

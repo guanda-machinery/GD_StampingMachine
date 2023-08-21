@@ -108,7 +108,7 @@
                                 <StackPanel.LayoutTransform>
                                     <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
                                 </StackPanel.LayoutTransform>
-                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
+                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl  
                                     DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" />
                             </StackPanel>
                         </Grid>

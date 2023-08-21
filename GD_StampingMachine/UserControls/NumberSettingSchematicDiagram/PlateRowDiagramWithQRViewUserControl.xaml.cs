@@ -20,24 +20,31 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
     /// <summary>
     /// NumberSettingSchematicDiagramUserControl.xaml 的互動邏輯
     /// </summary>
-    public partial class PlateRowDiagramWithQRViewUserControl : UserControl
+    public partial class PlateRowDiagramWithQRViewUserControl : PlateRowDiagramBaseUserControl
     {
         public PlateRowDiagramWithQRViewUserControl()
         {
             InitializeComponent();
-
-
-
         }
 
 
-        public Visibility RedMeasurementLineVisibility
+        /*public Visibility RedMeasurementLineVisibility
         {
             get => (Visibility)GetValue(RedMeasurementLineVisibilityProperty);
             set => SetValue(RedMeasurementLineVisibilityProperty, value);
-        }
+        }*/
 
-        public static readonly DependencyProperty RedMeasurementLineVisibilityProperty = DependencyProperty.Register(
+       /* public Brushes RedMeasurementLineVisibility
+        {
+            get => (Brushes)GetValue(RedMeasurementLineVisibilityProperty);
+            set => SetValue(RedMeasurementLineVisibilityProperty, value);
+        }*/
+
+
+
+
+
+     /*   public static readonly DependencyProperty RedMeasurementLineVisibilityProperty = DependencyProperty.Register(
             nameof(RedMeasurementLineVisibility),
             typeof(Visibility),
             typeof(PlateRowDiagramWithQRViewUserControl),
@@ -49,7 +56,12 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
             UserControl.Resources["RedMeasurementLineVisibility"] = e.NewValue;
             //UserControl.Resources.Remove("RedMeasurementLineVisibilityProperty");
             //UserControl.Resources.Add("RedMeasurementLineVisibilityProperty",(Visibility)e.NewValue);
-        }
+        }*/
+
+
+
+
+
 
 
 

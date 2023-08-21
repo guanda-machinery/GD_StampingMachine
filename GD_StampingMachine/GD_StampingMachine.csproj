@@ -260,6 +260,7 @@
     <Compile Include="Method\StampingMachineJsonHelper.cs" />
     <Compile Include="Singletons\LogDataSingleton.cs" />
     <Compile Include="Singletons\StampMachineDataSingleton.cs" />
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
     <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingBaseViewModel.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\DropHandler\StampingFileDropTarget.cs" />
@@ -286,9 +287,6 @@
     </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRViewUserControl.xaml.cs">
       <DependentUpon>PlateRowDiagramWithQRViewUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRUserControl.xaml.cs">
-      <DependentUpon>PlateRowDiagramWithQRUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ParamaterSettingUserControl.xaml.cs">
       <DependentUpon>ParamaterSettingUserControl.xaml</DependentUpon>
@@ -438,10 +436,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRViewUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

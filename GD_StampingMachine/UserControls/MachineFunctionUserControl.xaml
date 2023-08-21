@@ -428,7 +428,7 @@
                                                         <dxg:GridColumn Header="絕對位置"
                                                     FieldName="AbsoluteMoveDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
                                                             <dxg:GridColumn.EditSettings>
-                                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"  DisplayFormat="N1"/>
                                                             </dxg:GridColumn.EditSettings>
                                                         </dxg:GridColumn>
 
@@ -453,16 +453,18 @@
                                                         FieldName="WorkScheduler_Shearing">
                                                         </dxg:GridColumn>
 
-                                                        <dxg:GridColumn Header="已完工" HorizontalHeaderContentAlignment="Center"
+                                                            <dxg:GridColumn Header="已完工" HorizontalHeaderContentAlignment="Center"
                                                         FieldName="IsFinish">
-                                                        </dxg:GridColumn>
+                                                            </dxg:GridColumn>
 
 
+                                                        
+                                                            <dxg:GridColumn Header="加工狀態" HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="SteelBeltStampingStatus">
+                                                            </dxg:GridColumn> 
 
 
-
-
-                                                    </dxg:GridControl>
+                                                        </dxg:GridControl>
 
                                                     </ScrollViewer>
                                                 </Border>
@@ -527,19 +529,22 @@
                                                     <dxg:GridColumn Header="相對位置"
                                                 FieldName="ProcessingRelativeDistance"  Width="auto" AllowMoving="false"  IsSmart="True">
                                                         <dxg:GridColumn.EditSettings>
-                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="a1"/>
+                                                            <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="N1"/>
                                                         </dxg:GridColumn.EditSettings>
 
 
 
                                                     </dxg:GridColumn>
-                                                    
-                                                    
+
+
                                                     <dxg:GridColumn Header="已完工" HorizontalHeaderContentAlignment="Left"
-                                                        FieldName="SendMachineCommandVM.IsFinish">
+                                                        FieldName="IsFinish">
                                                         <dxg:GridColumn.EditSettings>
                                                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                                         </dxg:GridColumn.EditSettings>
+                                                    </dxg:GridColumn>
+                                                    <dxg:GridColumn Header="已完工" HorizontalHeaderContentAlignment="Left"  
+                                                        FieldName="IsFinish">
                                                     </dxg:GridColumn>
 
 
@@ -690,9 +695,10 @@
                                     <StackPanel Grid.Column="2"  HorizontalAlignment="Center">
                                         <Button Content="重新排序" Command="{Binding SoftSendMachineCommand}"/>
                                         <Button Content="產生加工序列" Command="{Binding GenerateProcessingSequenceCommand}"/>
-                                        <Button/>
-                                        <Button/>
-
+                                        <Button Content="自動加工" Command="{Binding AutoWorkCommand}"
+                                                IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
+                                        <Button Content="復原" Command="{Binding Recover}"
+                                                 IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
                                     </StackPanel>
                                     
                                     
@@ -738,10 +744,10 @@
                                             <Grid.LayoutTransform>
                                                 <ScaleTransform ScaleX="{Binding MagnificationRatio}" ScaleY="{Binding MagnificationRatio}"/>
                                             </Grid.LayoutTransform>
-                                            <Border BorderBrush="Red" BorderThickness="1"  Padding="5" >
+                                            <Border  Padding="5" >
                                                 <Grid>
                                                     <Grid Margin="0,25,0,0" >
-                                                        <Border Background="Gray" >
+                                                        <Border Background="{DynamicResource PrimaryHueDarkForegroundBrush}" >
                                                             <ListBox Width="{Binding SteelBeltLength}" 
                                                                  MinHeight="{Binding StampingProductWidth}"
                                                     ItemsSource="{Binding SendMachineCommandVMObservableCollection}"
@@ -754,8 +760,10 @@
                                                                         <Setter Property="Template">
                                                                             <Setter.Value>
                                                                                 <ControlTemplate TargetType="ListBoxItem">
-                                                                                    <Border HorizontalAlignment="Center">
-                                                                                        <Grid Opacity="0.9"  
+                                                                                    <Border BorderThickness="0.5" BorderBrush="Black" CornerRadius="5"
+                                                                                        HorizontalAlignment="Center" Background="{Binding SteelBeltStampingStatus, Converter={GD_StampingMachine:EnumToBrushesConverter}}"
+                                                                                        >
+                                                                                        <Grid Opacity="1"  
                                                                                      d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
                                                                                       Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
@@ -766,18 +774,27 @@
                                                                                             <Grid DataContext="{Binding SettingBaseVM}">
                                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
                                                                                                                                  Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
-
-
-
-
-
-
+                                                                                                                    
+                                                                                             PlateRowBackground="Transparent"       
+                                                                                                    RedMeasurementLineVisibility="Collapsed" />
                                                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
                                                                                                                                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
-
+                                                                                                               
+                                                                                             PlateRowBackground="Transparent"         
+                                                                                                    RedMeasurementLineVisibility="Collapsed" />
                                                                                             </Grid>
+
+                                                                                            <ProgressBar Width="auto" Height="auto"  Background="Transparent"      
+                                                                                                         Visibility="{Binding IsWorking, 
+                                                                                                Converter={dx:BooleanToVisibilityConverter}}"
+                                            Opacity="0.95" Minimum="0" Maximum="100"  
+                                                             Style="{StaticResource MaterialDesignLinearProgressBar}" 
+                                                             IsIndeterminate="True">
+                                                                                                <i:Interaction.Behaviors>
+                                                                                                    <GD_Common:ProgresBarAnimateBehavior />
+                                                                                                </i:Interaction.Behaviors>
+
+                                                                                            </ProgressBar>
 
 
 
@@ -802,21 +819,22 @@
                                                             </ListBox>
                                                         </Border>
                                                     </Grid>
-
+                                                    
                                                     <Grid Visibility="{Binding ElementName=StampingRangeIsVisible,Path=IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="auto"/>
                                                             <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="auto"/>
                                                         </Grid.ColumnDefinitions>
 
 
-                                                        <Border  Grid.Column="1" BorderThickness="1,0" BorderBrush="Cyan"
+                                                        <Border  Grid.Column="2" BorderThickness="1,0,0,0" BorderBrush="Cyan"
                                                              Width="{Binding QR_Stamping_Distance}">
                                                             <Border Background="Blue" Opacity="0.2"/>
                                                         </Border>
 
-                                                        <Grid Grid.Column="1"  Width="{Binding QR_Stamping_Distance}" VerticalAlignment="Top" >
+                                                        <Grid Grid.Column="2"  Width="{Binding QR_Stamping_Distance}" VerticalAlignment="Top" >
 
                                                             <TextBlock    Text="{Binding QR_Stamping_Distance}" HorizontalAlignment="Center"
                                                             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Background="Transparent"/>
@@ -830,12 +848,22 @@
                                                                  Y2="15" />
                                                         </Grid>
 
-                                                        <Border Width="{Binding Fonts_Stamping_Distance}" Grid.Column="2" BorderThickness="1,0" BorderBrush="Salmon">
+                                                        <Border Width="{Binding Fonts_Stamping_Distance}" Grid.Column="3" BorderThickness="1,0" BorderBrush="Salmon">
                                                             <Border  
                                                               Background="SkyBlue" Opacity="0.2"/>
                                                         </Border>
-                                                        <Grid Grid.Column="2"  Width="{Binding Fonts_Stamping_Distance}"  VerticalAlignment="Top" >
-                                                            <TextBlock    Text="{Binding Fonts_Stamping_Distance}" HorizontalAlignment="Center"
+
+                                                        <Border Width="{Binding StampingFontHeight}" Grid.Column="3" BorderThickness="1,0" BorderBrush="Red" HorizontalAlignment="Left">
+
+                                                        </Border>
+
+
+                                                        <Grid Grid.Column="3"  Width="{Binding Fonts_Stamping_Distance}"  VerticalAlignment="Top" >
+                                                      
+
+
+
+                                                                <TextBlock    Text="{Binding Fonts_Stamping_Distance}" HorizontalAlignment="Center"
                                                             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                                                             <p:ArrowLine Grid.Row="1"
                                                         Margin="0,0,0,0"
@@ -879,10 +907,7 @@
 
                                         </RepeatButton>
 
-                                        <Button Content="自動加工" Command="{Binding AutoWorkCommand}"
-                                                IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
-                                        <Button Content="復原" Command="{Binding Recover}"
-                                                 IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
+
                                     </StackPanel>
 
 

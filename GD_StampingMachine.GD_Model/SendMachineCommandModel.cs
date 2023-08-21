@@ -56,11 +56,11 @@ namespace GD_StampingMachine.GD_Model
         /// 加工需求 剪斷 true會進行加工
         /// </summary>
         public bool WorkScheduler_Shearing { get; set; }
-        //public double WorkScheduler_Shearing_XOffset { get; set; }
+        //public double WorkScheduler_Shearing_XOffset { get; set; }when
 
         public bool IsFinish { get; set; }
 
-
+        public SteelBeltStampingStatusEnum MachiningStatus { get; set; }
 
 
     }
