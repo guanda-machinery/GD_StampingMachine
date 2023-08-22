@@ -328,6 +328,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\CheckedFileIsLocked.cs" />
+    <Compile Include="Extensions\CommonString.cs" />
     <Compile Include="Extensions\DeepCloneByJson.cs" />
     <Compile Include="Extensions\DeepClone.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />

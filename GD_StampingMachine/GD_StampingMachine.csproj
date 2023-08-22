@@ -259,8 +259,13 @@
     <Compile Include="Commands\BoxDrapDragRecordCommand.cs" />
     <Compile Include="Method\StampingMachineJsonHelper.cs" />
     <Compile Include="Singletons\LogDataSingleton.cs" />
+    <Compile Include="Singletons\StampingMachineSingleton.cs" />
     <Compile Include="Singletons\StampMachineDataSingleton.cs" />
+    <Compile Include="UserControls\MachineFunctionTestUserControl.xaml.cs">
+      <DependentUpon>MachineFunctionTestUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
+    <Compile Include="ViewModels\MachineFunctionTestViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingBaseViewModel.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\DropHandler\StampingFileDropTarget.cs" />
@@ -420,6 +425,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CylinderUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MachineFunctionTestUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

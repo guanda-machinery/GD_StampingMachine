@@ -330,8 +330,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             var newSavedCollection = new DXObservableCollection<SettingBaseViewModel>();
 
-            newSavedCollection.AddRange(StampingMainModel.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection);
-            newSavedCollection.AddRange(StampingMainModel.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection);
+            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection);
+            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection);
 
             NumberSettingSavedCollection = newSavedCollection;
 

@@ -18,9 +18,7 @@ namespace GD_StampingMachine.Method
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"));
-            if (MessageBoxReturn == MessageBoxResult.Yes)
-                return true;
-            return false;
+            return MessageBoxReturn == MessageBoxResult.Yes;
         }
 
         public static bool AskDelProject(string NumberSetting)
@@ -31,7 +29,6 @@ namespace GD_StampingMachine.Method
                 "\r\n" +
                 $"{NumberSetting}" +
                 "?");
-
             return MessageBoxReturn == MessageBoxResult.Yes;
         }
         /// <summary>

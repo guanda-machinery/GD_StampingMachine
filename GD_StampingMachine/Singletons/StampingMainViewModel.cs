@@ -25,201 +25,6 @@ using GD_CommonLibrary.Method;
 namespace GD_StampingMachine.ViewModels
 {
 
-    public class StampingMainModel  : BaseSingleton<StampingMainModel>
-    { 
-        protected override void Init()
-        {
-            StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
-
-            MachanicalSpecificationVM = new MachanicalSpecificationViewModel(new MachanicalSpecificationModel()
-            {
-                AllowMachiningSize = new AllowMachiningSizeModel()
-                {
-                    WebHeightLowerLimited = 75,
-                    WebHeightUpperLimited = 500,
-                    FlangeWidthLowerLimited = 150,
-                    FlangeWidthUpperLimited = 1050,
-                    MachiningMinLength = 2400,
-                    MachiningMaxLength = 99999
-                },
-                MachiningProperty = new MachiningPropertyModel()
-                {
-                    HorizontalDrillCount = 1,
-                    VerticalDrillCount = 2,
-                    Each_HorizontalDrill_SpindleCount = 1,
-                    Each_VerticalDrill_SpindleCount = 1,
-                    AuxiliaryAxisEffectiveTravelMax = 300,
-                    MaxDrillDiameter = 40,
-                    MaxDrillThickness = 80,
-                    SpindleMaxPower = 15,
-                    SpindleToolHolder = SpindleToolHolderEnum.BT40,
-                    SpindleRotationalFrequencyMin = 180,
-                    SpindleRotationalFrequencyMax = 400,
-                    SpindleFeedSpeedMin = 40,
-                    SpindleFeedSpeedMax = 1000,
-                    SpindleMoveSpeed = 24
-                },
-                MachineSize = new MachineSizeModel()
-                {
-                    Length = 5450,
-                    Width = 2000,
-                    Height = 2000,
-                    Weight = 14.5
-                },
-            })
-            {
-
-            };
-
-            if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.StampingFont, out StampingFontChangedViewModel SReadSFC))
-            {
-                StampingFontChangedVM = SReadSFC;
-            }
-            else
-            {
-                StampingFontChangedVM = new StampingFontChangedViewModel
-                {
-                    StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
-                };
-                for (int i = 1; i <= 40; i++)
-                {
-                    // char
-
-                    StampingFontChangedVM.StampingTypeVMObservableCollection.Add(
-                        new StampingTypeViewModel(
-                            new StampingTypeModel()
-                            {
-                                StampingTypeNumber = i,
-                                StampingTypeString = (64 + i).ToChar().ToString(),
-                                StampingTypeUseCount = 0
-                            })
-                        );
-                }
-                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
-                {
-                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0}) ,
-                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0}),
-                    new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
-                };
-            }
-            AxisSettingModel AxisSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
-            {
-                AxisSetting = JsonAxisSetting;
-            }
-
-            TimingSettingModel TimingSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel JsonTimingSetting))
-            {
-                TimingSetting = JsonTimingSetting;
-            }
-
-            EngineerSettingModel EngineerSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, out EngineerSettingModel JsonEngineerSetting))
-            {
-                EngineerSetting = JsonEngineerSetting;
-            }
-
-            SeparateSettingModel SeparateSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel JsonSeparateSetting))
-            {
-                SeparateSetting = JsonSeparateSetting;
-            }
-
-            ParameterSettingModel ParameterSetting = new()
-            {
-                AxisSetting = AxisSetting,
-                TimingSetting = TimingSetting,
-                SeparateSetting = SeparateSetting,
-                InputOutput = new(),
-                EngineerSetting = EngineerSetting
-            };
-
-            ParameterSettingVM = new(ParameterSetting);
-
-            ProductSettingVM = new();
-
-            if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
-            {
-                PathList.ForEach(EPath =>
-                {
-                    //加工專案為到處放的形式 沒有固定位置
-                    if (JsonHM.ReadJsonFile(Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
-                    {
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
-                    }
-                    else
-                    {
-                        //需註解找不到檔案!
-                        MessageBoxResultShow.ShowOK("", $"Can't find file {Path.Combine(EPath.ProjectPath, EPath.Name)}");
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
-                        {
-                            ProjectPath = EPath.ProjectPath,
-                            Name = EPath.Name,
-                            FileIsNotExisted = true
-                        })); ;
-                    }
-                });
-            }
-
-            TypeSettingSettingVM = new();
-
-
-            if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
-            {
-                RPDList.ForEach(PDistribute =>
-                {
-                    //PDistribute.ProductProjectNameList
-                    PDistribute.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
-                    PDistribute.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
-                    //將製品清單拆分成兩份
-                    TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute)
-                    {
-                        IsInDistributePage = false
-                        //重新繫結
-                    });
-
-                });
-            }
-
-
-            MachineMonitorVM = new MachineMonitorViewModel(new MachineMonitorModel())
-            {
-
-            };
-
-
-            MachineFunctionVM = new MachineFunctionViewModel()
-            {
-
-            };
-        }
-
-        
-
-        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; } 
-        public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
-        public ParameterSettingViewModel ParameterSettingVM { get; set; }
-        public ProductSettingViewModel ProductSettingVM { get; set; }
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
-        public MachineMonitorViewModel MachineMonitorVM 
-        {
-            get; 
-            set; 
-        }
-        public MachineFunctionViewModel MachineFunctionVM 
-        {
-            get; 
-            set; 
-        }
-        public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
-        {
-            get
-            {
-                return Singletons.LogDataSingleton.Instance.DataObservableCollection;
-            }
-        }
-    }
 
     public partial class StampingMainViewModel : BaseViewModelWithLog
     {
@@ -244,10 +49,10 @@ namespace GD_StampingMachine.ViewModels
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
 
-        private StampingMainModel StampingMain;
+        private Singletons.StampingMachineSingleton stampingMain;
         public StampingMainViewModel()
         {
-            StampingMain = StampingMainModel.Instance;
+            stampingMain = Singletons.StampingMachineSingleton.Instance;
             //測試模式
             if (Debugger.IsAttached)
             {
@@ -405,42 +210,44 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 關於本機
         /// </summary>
-        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => StampingMain.MachanicalSpecificationVM; set => StampingMain.MachanicalSpecificationVM = value; }
+        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => stampingMain.MachanicalSpecificationVM; set => stampingMain.MachanicalSpecificationVM = value; }
         /// <summary>
         /// 字模設定
         /// </summary>
-        public StampingFontChangedViewModel StampingFontChangedVM { get => StampingMain.StampingFontChangedVM; set => StampingMain.StampingFontChangedVM = value; }
+        public StampingFontChangedViewModel StampingFontChangedVM { get => stampingMain.StampingFontChangedVM; set => stampingMain.StampingFontChangedVM = value; }
         /// <summary>
         /// 參數設定
         /// </summary>
         public ParameterSettingViewModel ParameterSettingVM
         {
-            get => StampingMain.ParameterSettingVM; 
-            set => StampingMain.ParameterSettingVM = value; }
+            get => stampingMain.ParameterSettingVM; 
+            set => stampingMain.ParameterSettingVM = value; }
         /// <summary>
         /// 製品設定
         /// </summary>
-        public ProductSettingViewModel ProductSettingVM { get => StampingMain.ProductSettingVM; set => StampingMain.ProductSettingVM = value; }
+        public ProductSettingViewModel ProductSettingVM { get => stampingMain.ProductSettingVM; set => stampingMain.ProductSettingVM = value; }
         /// <summary>
         /// 排版設定
         /// </summary>
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get => StampingMain.TypeSettingSettingVM; set => StampingMain.TypeSettingSettingVM = value; }
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get => stampingMain.TypeSettingSettingVM; set => stampingMain.TypeSettingSettingVM = value; }
 
         /// <summary>
         /// 加工監控
         /// </summary>
-        public MachineMonitorViewModel MachineMonitorVM { get => StampingMain.MachineMonitorVM; set => StampingMain.MachineMonitorVM = value; }
+        public MachineMonitorViewModel MachineMonitorVM { get => stampingMain.MachineMonitorVM; set => stampingMain.MachineMonitorVM = value; }
 
         /// <summary>
         /// 機台功能
         /// </summary>
-        public MachineFunctionViewModel MachineFunctionVM { get => StampingMain.MachineFunctionVM; set => StampingMain.MachineFunctionVM = value; }
+        public MachineFunctionViewModel MachineFunctionVM { get => stampingMain.MachineFunctionVM; set => stampingMain.MachineFunctionVM = value; }
+
+        private MachineFunctionTestViewModel _machineFunctionTestVM;
+        public MachineFunctionTestViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTestViewModel(); set => _machineFunctionTestVM = value; }
 
 
-
-       /// <summary>
-       /// 機台警報
-       /// </summary>
+        /// <summary>
+        /// 機台警報
+        /// </summary>
         public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
         {
             get

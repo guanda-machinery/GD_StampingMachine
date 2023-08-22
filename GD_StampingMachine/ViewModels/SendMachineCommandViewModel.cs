@@ -30,7 +30,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         /// <summary>
-        /// 
+        /// 已完成加工
         /// </summary>
         public SteelBeltStampingStatusEnum SteelBeltStampingStatus
         {
@@ -198,6 +198,26 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+
+        private SteelBeltStampingStatusEnum _workingSteelBeltStampingStatus;
+        /// <summary>
+        /// 正在加工的種類(渲染用)
+        /// </summary>
+        public SteelBeltStampingStatusEnum WorkingSteelBeltStampingStatus
+        {
+            get => _workingSteelBeltStampingStatus;
+            set
+            {
+                _workingSteelBeltStampingStatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _workingProgress = 0;
+        /// <summary>
+        /// 標記為完成
+        /// </summary>
+        public double WorkingProgress { get => _workingProgress; set { _workingProgress = value; OnPropertyChanged(); } }
 
 
 

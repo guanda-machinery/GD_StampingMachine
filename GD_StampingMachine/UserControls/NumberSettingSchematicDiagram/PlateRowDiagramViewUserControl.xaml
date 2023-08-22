@@ -10,11 +10,10 @@
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              d:DataContext="{d:DesignInstance Type= GD_ParameterSettingViewModels:NumberSettingViewModel}"
              mc:Ignorable="d" >
-
     <Grid  HorizontalAlignment="Left">
 
 
-                <Grid.Resources>
+        <Grid.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -25,7 +24,7 @@
                 <Setter Property="Width" Value="30"/>
                 <Setter Property="Height" Value="30"/>
             </Style>
-            
+
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -56,28 +55,28 @@
                                                          HorizontalAlignment="Stretch" />
         <Border Background="White" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Width="40" HorizontalAlignment="Left" Height="40" CornerRadius="20" VerticalAlignment="Top" Margin="15,12"/>
 
-            <Grid Grid.Column="3"  Grid.Row="3" >
+        <Grid Grid.Column="3"  Grid.Row="3" >
             <ItemsControl  ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
             Margin="-12.5,-15"
             ItemsSource="{Binding PlateNumberList}"   >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Width="70" Height="110" 
-                            Background="#55534d" Margin="12.5,15" >
+                            Background="#55534d" Margin="12.5" >
                             <TextBlock Text="{Binding .}" Foreground="White"  Width="auto" Margin="0" Padding="0" 
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="50"/>
                         </Border>
                     </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </Grid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
         <TextBlock
             Text="A" Foreground="Red" Grid.Column="2" FontSize="30" VerticalAlignment="Top" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
         <Border
@@ -89,7 +88,7 @@
 
 
         <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Row="3">
-        <TextBlock Text="D" Foreground="Red"  FontSize="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
+            <TextBlock Text="D" Foreground="Red"  FontSize="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
         </Grid>
         <TextBlock Text="E" Foreground="Red" Grid.Column="4" FontSize="30" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
 
@@ -100,7 +99,7 @@
 
         <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center">
             <Border BorderThickness="1,0,0,0" BorderBrush="Red"  Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
-    </Grid>
+        </Grid>
         <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="7">
             <Border BorderThickness="0,1" BorderBrush="Red" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
         </Grid>
@@ -134,19 +133,19 @@
 
 
         <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}"  Grid.Column="3" >
-            <TextBlock Text="C" Foreground="Red" FontSize="30" Width="25" HorizontalAlignment="Left" Margin="130,0,0,0"  Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
+            <TextBlock Text="C" Foreground="Red" FontSize="30" Width="25" HorizontalAlignment="Left" Margin="168,0,0,0"  Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
         </Grid>
 
 
         <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Column="3" Grid.Row="1" >
-            <Border BorderThickness="0,0,0,1" BorderBrush="Red" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+            <Border BorderThickness="0,0,0,1" BorderBrush="Red" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="165,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
         </Grid>
 
 
         <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.RowSpan="8" Grid.Column="3" Grid.Row="1" >
-            <Border BorderThickness="1,0"  BorderBrush="Red"  HorizontalAlignment="Left"   Margin="125,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
+            <Border BorderThickness="1,0"  BorderBrush="Red"  HorizontalAlignment="Left"   Margin="165,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
         </Grid>
- 
+
 
 
 

@@ -124,7 +124,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get => StampingMainModel.Instance.TypeSettingSettingVM; }
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get => Singletons.StampingMachineSingleton.Instance.TypeSettingSettingVM; }
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection
         {
             get => TypeSettingSettingVM.ProjectDistributeVMObservableCollection;

@@ -15,7 +15,7 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
              xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
-            
+                         xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
             xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
@@ -26,7 +26,9 @@
              xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
     xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
-    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
+    xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads"
+    xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
     d:DesignHeight="800" d:DesignWidth="1000"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
              DataContext="{GD_ViewModels:StampingMainViewModel}">
@@ -451,6 +453,12 @@
                             </TabItem>
 
                             <TabItem IsSelected="{Binding ElementName=TBtn_ReturningToOriginPoint, Path=IsChecked}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel.Resources>
                                         <x:Array Type="GD_ViewModels:StampingTypeViewModel" x:Key="NewArray">
@@ -587,6 +595,9 @@
                                     </TabControl>
 
                                 </StackPanel>
+                                    <GD_UserControls:MachineFunctionTestUserControl Grid.Column="1" DataContext="{Binding MachineFunctionTestVM}"/>
+
+                                </Grid>
                                 </TabItem>
 
 
@@ -681,7 +692,7 @@
                                     Background="Transparent"
                                                   AutoGenerateColumns="None"
                                                   SelectionMode="Row"
-                                                  ItemsSource="{Binding Source={x:Static GD_ViewModels:StampingMainModel.Instance}, Path=LogDataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
+                                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=LogDataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
                                     MaxHeight="100000"    >
 
                                             <dxg:GridControl.View >
