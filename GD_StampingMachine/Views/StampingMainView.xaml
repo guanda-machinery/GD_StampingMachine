@@ -33,7 +33,7 @@
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
              DataContext="{GD_ViewModels:StampingMainViewModel}">
 
-    <materialDesign:DialogHost CloseOnClickAway="True">
+    <materialDesign:DialogHost CloseOnClickAway="True"  >
         <materialDesign:DialogHost.IsOpen>
             <MultiBinding Converter="{GD_Common:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
@@ -41,8 +41,8 @@
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.PartsParameterViewModelSelectItem.EditPartDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/>
-                    <Binding Path="ProductSettingVM.SelectProductProjectVM.ExportParameterDarggableIsPopup"/>
+                    <!--Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/-->
+                    <!--Binding Path="ProductSettingVM.SelectProductProjectVM.ExportParameterDarggableIsPopup"/-->
                     <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>
                     <Binding Path="TypeSettingSettingVM.ProjectDistributeVM.AddTypeSettingProjectDarggableIsPopUp"/>
                     <Binding Path="ProductSettingVM.OpenProjectFileDarggableIsPopup"/>

@@ -13,7 +13,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public abstract class SettingBaseViewModel :  ParameterSettingBaseViewModel
     {
-        public StampPlateSettingModel StampPlateSetting { get; set; } = new StampPlateSettingModel();
+        private StampPlateSettingModel _stampPlateSetting;
+        public StampPlateSettingModel StampPlateSetting 
+        { 
+            get=> _stampPlateSetting ??= new StampPlateSettingModel(); 
+            protected set => _stampPlateSetting=value; 
+        }
 
         public SheetStampingTypeFormEnum SheetStampingTypeForm
         {
@@ -66,16 +71,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public IronPlateMarginStruct IronPlateMargin { get => StampPlateSetting.IronPlateMargin; set { StampPlateSetting.IronPlateMargin = value; OnPropertyChanged(); } }
 
 
-        private List<int> _plateNumberList;
+        private ObservableCollection<string> _plateNumberList;
         [JsonIgnore]
-        public ObservableCollection<int> PlateNumberList
+        public ObservableCollection<string> PlateNumberList
         {
             get
             {
-                if (_plateNumberList == null)
-                {
-                    _plateNumberList = new List<int>();
-                }
+                 _plateNumberList ??= new ObservableCollection<string>();
+                
                 int RowCount;
                 _ = SpecialSequence switch
                 {
@@ -89,10 +92,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 while(_plateNumberList.Count< ListCount)
                 {
                     var c = _plateNumberList.Count;
-                    _plateNumberList.Add(c+1);
+                    _plateNumberList.Add((c+1).ToString());
                 }
 
-                return _plateNumberList.GetRange(0, ListCount).ToObservableCollection();
+                return _plateNumberList;
             }
             
 

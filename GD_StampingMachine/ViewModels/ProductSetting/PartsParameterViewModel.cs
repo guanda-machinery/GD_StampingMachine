@@ -34,16 +34,23 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     {
         [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_PartsParameterViewModel");
-        public PartsParameterViewModel(PartsParameterModel PParameter)
+
+        public PartsParameterViewModel()
+        { 
+
+        }
+       public PartsParameterViewModel(PartsParameterModel PParameter)
        {
             PartsParameter = PParameter;
-            PartsParameter ??= new PartsParameterModel();
         }
 
+
+
+        private PartsParameterModel _partsParameter;
         public PartsParameterModel PartsParameter 
-        { 
-            get; 
-            set; 
+        {
+            get => _partsParameter ??= new PartsParameterModel();
+            private set => _partsParameter = value;
         }
 
         public float FinishProgress

@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using MaterialDesignThemes.Wpf;
+using DevExpress.Xpf.Editors.Popups;
+using System.Windows.Controls;
 
 namespace GD_CommonLibrary.GD_Popup
 {
@@ -106,10 +108,23 @@ namespace GD_CommonLibrary.GD_Popup
             this.AllowsTransparency = true;
             Loaded += OnPopupLoaded;
             Unloaded += OnPopupUnloaded;
+
+            base.CommandBindings.Add(new CommandBinding(ClosePopupCommand, ClosePopupHandler, ClosePopupCanExecute));
+            base.CommandBindings.Add(new CommandBinding(OpenPopupCommand, OpenPopupHandler, OpenPopupCanExecute));
+
         }
 
 
-        void OnPopupLoaded(object sender, RoutedEventArgs e)
+
+        static NonTopmostPopup()
+        {
+            ClosePopupCommand = new RoutedCommand();
+            OpenPopupCommand = new RoutedCommand();
+        }
+
+
+
+            void OnPopupLoaded(object sender, RoutedEventArgs e)
         {
             if (_alreadyLoaded)
                 return;
@@ -153,7 +168,6 @@ namespace GD_CommonLibrary.GD_Popup
                 SetTopmostState(IsTopmost);
             }
         }
-
         void OnChildPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Debug.WriteLine("Child Mouse Left Button Down");
@@ -221,6 +235,57 @@ namespace GD_CommonLibrary.GD_Popup
 
             _appliedTopMost = isTop;
         }
+
+
+
+        public static readonly RoutedCommand OpenPopupCommand;
+        public static readonly RoutedCommand ClosePopupCommand;
+        private void OpenPopupHandler(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
+        {
+            if (!executedRoutedEventArgs.Handled)
+            {
+                InternalOpen(executedRoutedEventArgs.Parameter);
+                executedRoutedEventArgs.Handled = true;
+            }
+        }
+        private void ClosePopupHandler(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
+        {
+            if (!executedRoutedEventArgs.Handled)
+            {
+                InternalOpen(executedRoutedEventArgs.Parameter);
+                executedRoutedEventArgs.Handled = true;
+            }
+        }
+
+        internal void InternalOpen(object parameter)
+        {
+            if (bool.TryParse(parameter.ToString(), out var BooleanParameter))
+            {
+                this.IsOpen = BooleanParameter;
+            }
+        }
+
+
+        private void OpenPopupCanExecute(object sender, CanExecuteRoutedEventArgs canExecuteRoutedEventArgs)
+        {
+            canExecuteRoutedEventArgs.CanExecute = !this.IsOpen;
+        }
+
+        private void ClosePopupCanExecute(object sender, CanExecuteRoutedEventArgs canExecuteRoutedEventArgs)
+        {
+            canExecuteRoutedEventArgs.CanExecute = this.IsOpen;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         #region P/Invoke imports & definitions
 #pragma warning disable 1591 //Xml-doc

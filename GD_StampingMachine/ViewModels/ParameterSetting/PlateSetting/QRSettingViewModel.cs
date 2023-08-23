@@ -28,7 +28,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public QRSettingViewModel()
         {
-            this.StampPlateSetting = new StampPlateSettingModel();
             this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
         public QRSettingViewModel(StampPlateSettingModel stampPlateSetting)

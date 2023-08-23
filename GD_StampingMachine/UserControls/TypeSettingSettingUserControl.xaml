@@ -41,11 +41,18 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel HorizontalAlignment="Left">
-                    <ToggleButton Name="AddProjectDistributeToggleButton"
-                        IsChecked="{Binding AddProjectDistributeDarggableIsPopup}" Style="{StaticResource SiegCustomButton}"
+                    <Button Name="AddProjectDistributeToggleButton"
+ 
+                                          Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
+                                          CommandParameter="{StaticResource TrueValue}"
+                                           CommandTarget="{Binding ElementName=AddProjectDistributeDraggablePopup}"
+                                    
+                                  
+                                  Style="{StaticResource SiegCustomButton}"
                                   Padding="10,0" Width="auto" Margin="10,5" 
-                                  IsThreeState="False" Content="{DynamicResource btnAddTypeSettingProject}"/>
-                    <GD_Popup:DraggablePopup AllowsTransparency="True" Margin="16"   
+                            Content="{DynamicResource btnAddTypeSettingProject}"/>
+                    <GD_Popup:DraggablePopup Name="AddProjectDistributeDraggablePopup"
+                        AllowsTransparency="True" Margin="16"   
                                              PlacementRectangle="0,40,0,0"
                                              Placement="RelativePoint"
                                              PlacementTarget="{Binding ElementName=AddProjectDistributeToggleButton}"
@@ -72,7 +79,7 @@
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="MinWidth" Value="200"/>
                                     <Setter Property="Margin" Value="10,0"/>
-                                    <Setter Property="Padding" Value="10,0,0,2"/>
+                                    <Setter Property="Padding" Value="0"/>
                                 </Style>
                             </Border.Resources>
 
@@ -103,7 +110,8 @@
                                 <StackPanel  Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
                                     <Button   
                                                                     Content="{DynamicResource btnCancel}"
-                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
+                                          Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  
+                                          CommandParameter="{StaticResource FalseValue}">
                                     </Button>
                                     <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectDistributeCommand}">
                                         <Button.IsEnabled>
@@ -228,11 +236,19 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <ToggleButton Style="{StaticResource SiegCustomButton}" x:Name="btnAddProjectToggleButton"
-                                Content="{StaticResource btnAddProject}" Width="auto" Height="35" IsThreeState="False"
+                            <Button Style="{StaticResource SiegCustomButton}" x:Name="btnAddProjectToggleButton"
+                                Content="{StaticResource btnAddProject}" Width="auto" Height="35" 
                                           Padding="5,0"
-                                          Margin="10,5" HorizontalAlignment="Left" IsChecked="{Binding AddTypeSettingProjectDarggableIsPopUp}"/>
-                            <GD_Popup:DraggablePopup Placement="Relative" PlacementTarget="{Binding ElementName=btnAddProjectToggleButton}" PopupAnimation="Fade"
+                                          Margin="10,5" HorizontalAlignment="Left" 
+                                    
+                                          Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
+                                          CommandParameter="{StaticResource TrueValue}"
+                                           CommandTarget="{Binding ElementName=AddTypeSettingProjectDraggablePopup}"
+                                    
+                                    
+                                    />
+                            <GD_Popup:DraggablePopup Name="AddTypeSettingProjectDraggablePopup"
+                                Placement="Relative" PlacementTarget="{Binding ElementName=btnAddProjectToggleButton}" PopupAnimation="Fade"
                                 AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddTypeSettingProjectDarggableIsPopUp}">
                                 <Border   Background="White" CornerRadius="10" >
                                     <Grid MinWidth="100" MinHeight="100" Margin="0,0">
@@ -253,7 +269,7 @@
                                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                                 <Setter Property="Width" Value="200"/>
                                                 <Setter Property="Margin" Value="10,0"/>
-                                                <Setter Property="Padding" Value="10,0,0,2"/>
+                                                <Setter Property="Padding" Value="0"/>
                                             </Style>
                                         </Grid.Resources>
                                         <Grid.RowDefinitions>

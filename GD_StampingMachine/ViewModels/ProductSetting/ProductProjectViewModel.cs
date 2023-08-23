@@ -290,6 +290,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+
         [JsonIgnore]
         public ObservableCollection<SettingBaseViewModel> EditNumberSettingSavedCollection
         {
@@ -297,11 +298,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (this.PartsParameterViewModelSelectItem != null)
                 {
-                    if(this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
-                       return NumberSettingSavedCollection
-                            .ToList()
-                            .FindAll(x => x.SheetStampingTypeForm == this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm)
-                            .ToObservableCollection();
+                    if (this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+                    {
+                        var Scollection = NumberSettingSavedCollection.DeepClone()
+                             .ToList()
+                             .FindAll(x => x.SheetStampingTypeForm == this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm)
+                             .ToObservableCollection();
+
+                        //這邊做板子上的變更
+                        return Scollection;
+                    }
                 }
                 return NumberSettingSavedCollection;
               }
@@ -401,6 +407,100 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
+        /// <summary>
+        /// 匯入 選擇檔案路徑
+        /// </summary>
+        public ICommand ImportProject_SelectPathFileCommand
+        {
+
+            get => new RelayCommand(() =>
+            {
+                if(JsonHM.ManualReadJsonFile<IList<ERP_IronPlateModel>>(out var ErpFile , out var FilePath))
+                {
+                    ImportFilePath = FilePath;
+                }
+            });
+
+        }
+
+        private string importFilePath;
+        /// <summary>
+        /// 匯入專案路徑
+        /// </summary>
+        public string ImportFilePath { get=> importFilePath; set { importFilePath = value; OnPropertyChanged(); } }
+
+        /// <summary>
+        /// 匯入
+        /// </summary>
+        public ICommand ImportProjectCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                if (JsonHM.ReadJsonFile<List<ERP_IronPlateModel>>(ImportFilePath ,out var ErpFile ))
+                {
+                    //將資料拆分為QR/一般
+                    if (ErpFile.Exists(x => x.QrCode) && ImportProjectNumberSettingBaseVM == null)
+                    {
+                        return;
+                    }
+                    if (ErpFile.Exists(x => !x.QrCode) && ImportProjectQRSettingBaseVM == null)
+                    {
+                        return;
+                    }
+
+                    //檢查字長度
+
+
+
+
+                    foreach(var _erp in ErpFile)
+                    {
+                        //開始轉換檔案
+                        SettingBaseViewModel SettingBaseVM;
+
+                        if (_erp.QrCode)
+                            SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
+                        else
+                            SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
+
+
+                       /* var _partNumber = _erp.PartNumber;
+                        for (int i =0; i< SettingBaseVM.PlateNumberList.Count ; i++)
+                        {
+                            //如果字段不夠長 留白
+                            if (i < _partNumber.Length)
+                                SettingBaseVM.PlateNumberList[i] = _partNumber[i].ToString();
+                            else
+                                SettingBaseVM.PlateNumberList[i] = null;
+                        }*/
+
+                        PartsParameterVMObservableCollection.Add(new PartsParameterViewModel()
+                        {
+                            ParameterA = _erp.PartNumber,
+                            ParameterB = _erp.QrCodeContent.FirstOrDefault(),
+                            ParameterC = _erp.TrainNumber.FirstOrDefault(),
+
+                            // ParameterA= 
+                            SettingBaseVM = SettingBaseVM
+                        });
+
+
+                        ProductProjectEditTime = DateTime.Now;
+                    }
+                    //儲存 ProductProject
+                    SaveProductProject();
+
+                }
+            });
+        }
+        /// <summary>
+        /// 匯入專案-加工型態 一般鐵牌
+        /// </summary>
+        public NumberSettingViewModel ImportProjectNumberSettingBaseVM { get; set; }
+        /// <summary>
+        /// 匯入專案-加工型態 QR鐵牌
+        /// </summary>
+        public QRSettingViewModel ImportProjectQRSettingBaseVM { get; set; }
 
 
 
