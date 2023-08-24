@@ -93,8 +93,22 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     if (!GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.OpcuaTestIsOpen)
                     {
                         OpcuaFormBrowseServerOpenIsChecked = true;
-                        await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
-                        OpcuaFormBrowseServerOpenIsChecked = false;
+                        try
+                        {
+                            //GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.HostString = "192.168.1.123";
+                            //GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.Port = 4840;
+                            //GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.ServerDataPath = "";
+                            await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
+
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        finally
+                        {
+                            OpcuaFormBrowseServerOpenIsChecked = false;
+                        }
                     }
                     return;
                 });

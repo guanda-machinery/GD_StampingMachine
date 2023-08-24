@@ -356,7 +356,7 @@
                                                         <DataTemplate>
                                                             <Button Height="30" Width="auto" Padding="10,0" 
                                                                         Content="{StaticResource btnAdd}" Command="{Binding Row.AddTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}" >
-                                                             <!--   <Button.CommandParameter>
+                                                                <!--   <Button.CommandParameter>
                                                                     <MultiBinding Converter="{GD_Common:MultiBindingToArrayValueConverter}">
                                                                         <MultiBinding.Bindings>
                                                                             <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
@@ -502,7 +502,7 @@
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding Row.CloseTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}">
-                                                          <!--  <i:InvokeCommandAction.CommandParameter>
+                                                            <!--  <i:InvokeCommandAction.CommandParameter>
                                                                 <MultiBinding Converter="{GD_Common:MultiBindingToArrayValueConverter}">
                                                                     <MultiBinding.Bindings>
                                                                         <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
@@ -522,7 +522,7 @@
 
                             </dxg:GridControl>
                         </Grid>
-                        <dxg:GridControl Grid.Column="2"  Background="Transparent"  MinHeight="500" Margin="10,0" 
+                        <dxg:GridControl Background="Transparent"    Grid.Column="2"  Margin="10,0"
                                          IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.IsFinish, Converter={dx:BoolInverseConverter}}"    
                                          Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="MultipleRow"
@@ -540,7 +540,7 @@
                                                         AllowEditing="False"
                                                         ShowColumnHeaders="True"
                                                         HeaderHorizontalAlignment="Center"
-                                                        VerticalScrollbarVisibility="Auto"
+                                                        VerticalScrollbarVisibility="Auto" 
                                                         HorizontalScrollbarVisibility="Auto"
                                                         ShowHorizontalLines="False"
                                                         ShowVerticalLines="False"
@@ -683,7 +683,8 @@
                                     </DataTemplate>
                                 </dxg:GridColumn.CellTemplate>
                             </dxg:GridColumn>
-                        </dxg:GridControl>
+                            </dxg:GridControl>
+
                         <GridSplitter Style="{StaticResource MaterialDesignGridSplitter}"  Grid.Column="1" Grid.Row="0"  
                                                                       Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="5"  />
                         <Border Grid.Column="3" Width="5" Margin="5,5,10,5" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" CornerRadius="2.5"/>

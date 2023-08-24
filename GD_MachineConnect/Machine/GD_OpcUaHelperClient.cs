@@ -30,10 +30,17 @@ namespace GD_MachineConnect.Machine
             get=> m_OpcUaClient.UserIdentity; 
             set => m_OpcUaClient.UserIdentity = value;
         }
-        
-        public async Task<bool> OpcuaConnectAsync(string HostPath, int Port, string DataPath = null)
+
+        public async Task<bool> OpcuaConnectAsync(string HostPath, int? Port, string DataPath = null)
         {
-            var BaseUrl = new Uri($"opc.tcp://{HostPath}:{Port}");
+            if(Port.HasValue)
+                return await OpcuaConnectAsync($"{HostPath}:{Port}", DataPath);
+            else
+                return await OpcuaConnectAsync($"{HostPath}", DataPath);
+        }
+        public async Task<bool> OpcuaConnectAsync(string HostPath, string DataPath = null)
+        {
+            var BaseUrl = new Uri(HostPath);
             var CombineUrl = new Uri(BaseUrl, DataPath);
             try
             {
@@ -42,6 +49,7 @@ namespace GD_MachineConnect.Machine
             }
             catch (Exception ex)
             {
+                ClientUtils.HandleException("Connected Failed", ex);
                 return false;
             }
         }
@@ -88,21 +96,26 @@ namespace GD_MachineConnect.Machine
             Console.WriteLine("-------------------------------------");
         }
 
-        public List<NodeTypeValue> ReadAllReference(string NodeTreeString = "ns=2;s=Devices" )
+        public List<NodeTypeValue> ReadAllReference(string NodeTreeString = "ns=2;s=Devices")
         {
             //取得所有節點
+            try
+            {
+
+            
             List<ReferenceDescription> referencesList = new List<ReferenceDescription>();
-            var NodeIDStringList = new List<string>() { NodeTreeString }; 
-            var ExistedNodeIDStringList = new List<string>() ;
+            var NodeIDStringList = new List<string>() { NodeTreeString };
+            var ExistedNodeIDStringList = new List<string>();
             while (true)
             {
                 var NodeSearchList = NodeIDStringList.Except(ExistedNodeIDStringList);
-                var NextSearchList = new List<string>() ;
+                var NextSearchList = new List<string>();
                 foreach (var NodeIDString in NodeSearchList)
                 {
                     ReferenceDescription[] references = m_OpcUaClient.BrowseNodeReference(NodeIDString);
                     foreach (var Ref in references)
                     {
+                           
                         //展開
                         NextSearchList.Add(Ref.NodeId.ToString());
                         referencesList.Add(Ref);
@@ -134,7 +147,7 @@ namespace GD_MachineConnect.Machine
             GetNodeValue.ForEach(NValue =>
             {
                 Type NodeType = null;
-                if(NValue.NodeValue!= null)
+                if (NValue.NodeValue != null)
                     NodeType = NValue.NodeValue.GetType();
 
                 Console.Write(string.Format("{0,-20}", nameof(NValue.NodeID)));
@@ -145,9 +158,16 @@ namespace GD_MachineConnect.Machine
                 Console.WriteLine(string.Format("{0,0}", NodeType));
                 Console.Write(string.Format("{0,-20}", nameof(NValue.NodeValue)));
                 Console.WriteLine(string.Format("{0,0}", NValue.NodeValue));
-                Console.WriteLine("".PadLeft(50,'-'));
+                Console.WriteLine("".PadLeft(50, '-'));
             });
-            return GetNodeValue;
+            return GetNodeValue; 
+       
+            }
+            catch (Exception ex)
+            {
+
+            }
+        return null;
         }
 
         public class NodeTypeValue

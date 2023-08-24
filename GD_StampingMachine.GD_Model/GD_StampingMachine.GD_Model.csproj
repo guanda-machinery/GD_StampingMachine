@@ -44,6 +44,7 @@
     <Compile Include="ERP\ERP_IronPlateModel.cs" />
     <Compile Include="MachiningProjectModel.cs" />
     <Compile Include="MechanicalSpecificationModel.cs" />
+    <Compile Include="OpcUASettingModel.cs" />
     <Compile Include="OperatingLogModel.cs" />
     <Compile Include="ParameterSetting\AxisSettingModel.cs" />
     <Compile Include="ParameterSetting\EngineerSettingModel.cs" />

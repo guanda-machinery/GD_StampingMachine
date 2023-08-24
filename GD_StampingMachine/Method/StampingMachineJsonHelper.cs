@@ -46,18 +46,18 @@ namespace GD_StampingMachine.Method
             ProjectDistributeList
         }
 
-       /* private string MainSetting
-        {
-            get =>Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, "MainSetting.json");
-        }*/
-       /* public bool ReadStampingAllData(out StampingMainModel StampingMain)
-        {
-            return ReadJsonFile(MainSetting ,out StampingMain);
-        }
-        public bool WriteStampingAllData(StampingMainModel StampingMain)
-        {
-            return WriteJsonFile(MainSetting, StampingMain);
-        }*/
+        /* private string MainSetting
+         {
+             get =>Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, "MainSetting.json");
+         }*/
+        /* public bool ReadStampingAllData(out StampingMainModel StampingMain)
+         {
+             return ReadJsonFile(MainSetting ,out StampingMain);
+         }
+         public bool WriteStampingAllData(StampingMainModel StampingMain)
+         {
+             return WriteJsonFile(MainSetting, StampingMain);
+         }*/
 
 
 
@@ -70,7 +70,7 @@ namespace GD_StampingMachine.Method
         }
         public bool WriteParameterSettingJsonSetting<T>(ParameterSettingNameEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
         {
-           return WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
+            return WriteJsonSettingByEnum(ParameterSettingName, JsonData, ShowMessageBox);
         }
 
 
@@ -131,14 +131,16 @@ namespace GD_StampingMachine.Method
         }
 
 
+        public string GetCurrentSettingsDirectory(string FilePath)
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, FilePath);
+        }
 
-
-
-
-        private const string ConstSettings = "Settings";
-
-        private const string ConstNumberSetting = "Numbers";
-        private const string ConstParameterSetting = "ParameterSetting";
+        public const string ConstSettings = "Settings";
+        public const string ConstMachineSettings = "MachineSettings";
+        
+        public const string ConstNumberSetting = "Numbers";
+        public const string ConstParameterSetting = "ParameterSetting";
 
         public bool ReadJsonSettingByEnum<T>(Enum ParameterSettingName , out T JsonData, bool ShowMessageBox = false)
         {
@@ -178,10 +180,22 @@ namespace GD_StampingMachine.Method
             return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings ,FilePath, FileName);
         }
 
+        public static string GetCurrentDirectory()
+        {
+            return Directory.GetCurrentDirectory();
+        }
 
+        public static string GetCurrentSettingDirectory(string FilePath = null)
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, FilePath);
+        }
 
+        public static string GetCurrentMachineSettingDirectory(string FilePath = null)
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), ConstMachineSettings, FilePath);
+        }
 
-
+        
 
     }
 }

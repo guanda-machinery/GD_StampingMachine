@@ -9,6 +9,7 @@ using GD_MachineConnect;
 using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
 using Opc.Ua;
+using OpcUaHelper;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace GD_MachineConnectTest
@@ -18,9 +19,12 @@ namespace GD_MachineConnectTest
         [STAThread]
         static void Main(string[] args)
         {
-            string HostString = "127.0.0.1";
-            int Port = 62541;
-            string ServerDataPath = "SharpNodeSettings/OpcUaServer";
+           // string HostString = "127.0.0.1";
+            //int Port = 62541;
+            //string ServerDataPath = "SharpNodeSettings/OpcUaServer";
+            string HostString = "192.168.1.123";
+            int Port = 4842;
+            string ServerDataPath = "";
 
 
             var BaseUrl = new Uri($"opc.tcp://{HostString}:{Port}");
@@ -33,6 +37,7 @@ namespace GD_MachineConnectTest
                 try
                 {
                     var Opcua = new GD_OpcUaHelperClient();
+                    Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                     if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                     {
 
@@ -40,7 +45,9 @@ namespace GD_MachineConnectTest
                         //Opcua.WriteNode();
                         //Opcua.ReadNode_TEST();
                         // Opcua.ReadReference_Test();
-                        var a = Opcua.ReadAllReference();
+                       // Opcua.ReadAllReference("ns=4;i=0");
+                        Console.WriteLine("------------------------------------");
+                        Opcua.ReadAllReference("ns=5;i=1");
                         Opcua.Disconnect();
                     }
 
@@ -63,11 +70,8 @@ namespace GD_MachineConnectTest
 
             //opc.tcp://127.0.0.1:62541/SharpNodeSettings/OpcUaServer
             OpcUaHelper.Forms.FormBrowseServer formBrowseServer = new OpcUaHelper.Forms.FormBrowseServer(ServerUrl);
+            formBrowseServer.ShowDialog();
 
-            Task.Run(() =>
-            {
-                formBrowseServer.ShowDialog();
-            });
 
 
             Thread.Sleep(1000);

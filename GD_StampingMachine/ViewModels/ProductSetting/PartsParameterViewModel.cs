@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using GD_StampingMachine.Model;
+using GD_CommonLibrary.Extensions;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -139,7 +140,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private SettingBaseViewModel _SettingBaseVM;//= new NumberSettingViewModel();
+        private SettingBaseViewModel _settingBaseVM;//= new NumberSettingViewModel();
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
@@ -147,19 +148,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                
-                 if (_SettingBaseVM == null)
+                 if (_settingBaseVM == null)
                  {
                      if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                         _SettingBaseVM = new QRSettingViewModel(PartsParameter.StampingPlate);
+                         _settingBaseVM = new QRSettingViewModel(PartsParameter.StampingPlate);
                      else
-                         _SettingBaseVM = new NumberSettingViewModel(PartsParameter.StampingPlate);
+                         _settingBaseVM = new NumberSettingViewModel(PartsParameter.StampingPlate);
                  }
-                 return _SettingBaseVM;
+                _settingBaseVM.PlateNumber = ParameterA;
+                 return _settingBaseVM;
             }
             set
             {
-                 _SettingBaseVM = value;
+                 _settingBaseVM = value;
                  if(value != null)
                      PartsParameter.StampingPlate = value.StampPlateSetting;
                 OnPropertyChanged();

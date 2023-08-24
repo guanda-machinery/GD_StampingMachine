@@ -1,20 +1,31 @@
-﻿using DevExpress.Xpf.Scheduling.Themes;
+﻿using DevExpress.Xpf.Bars;
+using DevExpress.Xpf.Scheduling.Themes;
+using GD_CommonLibrary.Method;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
+using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels;
+using Opc.Ua;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GD_StampingMachine.Singletons
 {
     public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>, INotifyPropertyChanged
     {
+        private string OpcUASettingFilePath
+        {
+            get => Method.StampingMachineJsonHelper.GetCurrentMachineSettingDirectory("OpcUASetting.json");
+        }
+
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
         protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
         {
@@ -26,8 +37,39 @@ namespace GD_StampingMachine.Singletons
 
         protected override void Init()
         {
+            var JsonHM = new JsonHelperMethod();
+            if(JsonHM.ReadJsonFile(OpcUASettingFilePath, out OpcUASettingModel OpcUASettingJson))
+            {
+                OpcUASetting = OpcUASettingJson;
+            }
+            else
+            {
+                //如果沒找到 產出一個新檔案後寫入
+                OpcUASetting = new OpcUASettingModel()
+                {
+                    MachineName="GuandaStamping",
+                    HostString = @"opc.tcp://192.168.1.123",
+                    Port = 4842,
+                    ServerDataPath= null,
+                    UserName= "Administrator",
+                    Password = "pass"               
+                };
+                JsonHM.WriteJsonFile(OpcUASettingFilePath, OpcUASetting);
+            }
 
+            gd_OpcUaHelperClient = new();
+            if(!string.IsNullOrEmpty(OpcUASetting.UserName) && !string.IsNullOrEmpty(OpcUASetting.Password))
+                gd_OpcUaHelperClient.UserIdentity = new UserIdentity(OpcUASetting.UserName, OpcUASetting.Password);
         }
+
+        private OpcUASettingModel _opcUASetting;
+        public OpcUASettingModel OpcUASetting
+        {
+            get=>_opcUASetting ??= new OpcUASettingModel();            
+            set=> _opcUASetting = value;
+        }
+
+
 
         private bool _opcuaTestIsOpen= false;
         public bool OpcuaTestIsOpen { get => _opcuaTestIsOpen; private set { _opcuaTestIsOpen = value; OnPropertyChanged(); } }
@@ -42,7 +84,7 @@ namespace GD_StampingMachine.Singletons
                     try
                     {
                         OpcuaTestIsOpen = true;
-                        _opcuaTest.TestOpen();
+                         _opcuaTest.OpenFormBrowseServer(null);
                     }
                     catch(Exception ex)
                     {
@@ -57,16 +99,11 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-
-        public string HostString = "127.0.0.1";
-        public int Port = 62541;
-        public string ServerDataPath = "SharpNodeSettings/OpcUaServer";
-
-        private GD_OpcUaHelperClient gd_OpcUaHelperClient = new();
+        private GD_OpcUaHelperClient gd_OpcUaHelperClient;
             //啟用掃描
         public async Task<bool> TestConnectToOpcua()
         {
-            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(HostString, Port, ServerDataPath))
+            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(OpcUASetting.HostString, OpcUASetting.Port, OpcUASetting.ServerDataPath))
             {
                 gd_OpcUaHelperClient.ReadAllReference();
                 gd_OpcUaHelperClient.Disconnect();
@@ -89,7 +126,7 @@ namespace GD_StampingMachine.Singletons
                     {
                         try
                         {
-                            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(HostString, Port, ServerDataPath))
+                            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(OpcUASetting.HostString, OpcUASetting.Port, OpcUASetting.ServerDataPath))
                             {
                                 var a = gd_OpcUaHelperClient.ReadAllReference();
                                 gd_OpcUaHelperClient.Disconnect();
@@ -131,7 +168,7 @@ namespace GD_StampingMachine.Singletons
         public async void WriteOpcua()
         {
 
-            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(HostString, Port, ServerDataPath))
+            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(OpcUASetting.HostString, OpcUASetting.Port, OpcUASetting.ServerDataPath))
             {
                 var a = gd_OpcUaHelperClient.ReadAllReference();
                 gd_OpcUaHelperClient.Disconnect();

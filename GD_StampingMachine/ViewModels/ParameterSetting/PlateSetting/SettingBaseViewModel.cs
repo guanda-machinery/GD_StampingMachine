@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,6 +72,38 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public IronPlateMarginStruct IronPlateMargin { get => StampPlateSetting.IronPlateMargin; set { StampPlateSetting.IronPlateMargin = value; OnPropertyChanged(); } }
 
 
+
+
+        private string _plateNumber;
+        /// <summary>
+        /// 板子上的字 可留白
+        /// </summary>
+        public string PlateNumber
+        {
+            get => _plateNumber;
+            set
+            {
+                _plateNumber = value;
+               if (_plateNumber != null)
+               {
+                    //找是否有-
+                    for (int i = 0; i < PlateNumberList.Count; i++)
+                    {
+                        //如果字段不夠長 留白
+                        if (i < _plateNumber.Length)
+                            PlateNumberList[i] = _plateNumber[i].ToString();
+                        else
+                            PlateNumberList[i] = null;
+                    }
+                }
+
+
+
+                OnPropertyChanged();
+            }
+        } 
+
+
         private ObservableCollection<string> _plateNumberList;
         [JsonIgnore]
         public ObservableCollection<string> PlateNumberList
@@ -92,7 +125,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 while(_plateNumberList.Count< ListCount)
                 {
                     var c = _plateNumberList.Count;
-                    _plateNumberList.Add((c+1).ToString());
+                    if (string.IsNullOrEmpty(_plateNumber))
+                        _plateNumberList.Add((c + 1).ToString());
+                    else
+                        _plateNumberList.Add(null);
                 }
 
                 return _plateNumberList;

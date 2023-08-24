@@ -29,7 +29,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using GD_StampingMachine.Model;
-using DevExpress.Utils.Extensions;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -300,10 +299,20 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
                     {
-                        var Scollection = NumberSettingSavedCollection.DeepClone()
+                        var Scollection = NumberSettingSavedCollection.DeepCloneByJson()
                              .ToList()
                              .FindAll(x => x.SheetStampingTypeForm == this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm)
                              .ToObservableCollection();
+
+
+                        Scollection.ForEach(obj =>
+                        {
+                            var _partNumber = PartsParameterViewModelSelectItem.ParameterA;
+                           if(string.IsNullOrEmpty(_partNumber))
+                                obj.PlateNumber = string.Empty;
+                           else
+                                obj.PlateNumber = _partNumber;
+                        });
 
                         //這邊做板子上的變更
                         return Scollection;
@@ -373,6 +382,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 _partsParameterViewModelSelectItem = value;
                 EditPartsParameterVM_Cloned = value.DeepCloneByJson();
+
+
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(AddNumberSettingSavedCollection));
                 OnPropertyChanged(nameof(EditNumberSettingSavedCollection));
@@ -402,7 +413,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    PartsParameterVMObservableCollection[Findex] = EditPartsParameterVM_Cloned.DeepCloneByJson();
+                    PartsParameterVMObservableCollection[Findex] = EditPartsParameterVM_Cloned;
+
+
+
                 }
             });
         }
@@ -464,15 +478,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
 
 
-                       /* var _partNumber = _erp.PartNumber;
-                        for (int i =0; i< SettingBaseVM.PlateNumberList.Count ; i++)
-                        {
-                            //如果字段不夠長 留白
-                            if (i < _partNumber.Length)
-                                SettingBaseVM.PlateNumberList[i] = _partNumber[i].ToString();
-                            else
-                                SettingBaseVM.PlateNumberList[i] = null;
-                        }*/
+
 
                         PartsParameterVMObservableCollection.Add(new PartsParameterViewModel()
                         {
