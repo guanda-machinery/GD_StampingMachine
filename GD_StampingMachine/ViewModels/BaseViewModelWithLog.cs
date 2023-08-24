@@ -22,7 +22,7 @@ namespace GD_StampingMachine.ViewModels
     public abstract class BaseViewModelWithLog : BaseViewModel
     {
         [JsonIgnore]
-        public StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
+        public StampingMachineJsonHelper JsonHM = new ();
 
         [JsonIgnore]
         public abstract string ViewModelName { get; }
