@@ -15,16 +15,19 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using GD_CommonLibrary.Method;
 using DevExpress.CodeParser.VB;
+using Newtonsoft.Json;
 
 namespace GD_StampingMachine.ViewModels
 {
     public abstract class BaseViewModelWithLog : BaseViewModel
     {
-
+        [JsonIgnore]
         public StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
-        public abstract string ViewModelName { get; } 
+        [JsonIgnore]
+        public abstract string ViewModelName { get; }
 
+        [JsonIgnore]
         public int LogCollectionMax = 100;
 
 
