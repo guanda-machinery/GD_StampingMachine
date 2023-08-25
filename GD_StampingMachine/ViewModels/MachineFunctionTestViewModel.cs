@@ -616,7 +616,7 @@ namespace GD_StampingMachine.ViewModels
                     item.ProcessingIsFinish = false;// true;
                     item.SendMachineCommandVM.WorkingProgress = 0;
                     //item.SteelBeltStampingStatus
-                    item.SendMachineCommandVM.AbsoluteMoveDistance += returnOriginValue;
+                    item.SendMachineCommandVM.AbsoluteMoveDistance -= returnOriginValue;
                     item.SendMachineCommandVM.SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
                     item.SendMachineCommandVM.IsFinish = false;
                 }
