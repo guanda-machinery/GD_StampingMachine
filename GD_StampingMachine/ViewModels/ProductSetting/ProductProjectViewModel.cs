@@ -29,6 +29,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using GD_StampingMachine.Model;
+using Newtonsoft.Json.Linq;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -235,13 +236,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                if (_addNewPartsParameterVM == null)
+                _addNewPartsParameterVM ??= new PartsParameterViewModel(new GD_Model.ProductionSetting.PartsParameterModel()
                 {
-                    _addNewPartsParameterVM = new PartsParameterViewModel(
-                        new GD_Model.ProductionSetting.PartsParameterModel() { ProjectID = ProductProjectName });
-                }
+                    ProjectID = ProductProjectName,
+                });
                 _addNewPartsParameterVM.SettingBaseVM.SheetStampingTypeForm = this.SheetStampingTypeForm;
-
                 return _addNewPartsParameterVM;
             }
             set
@@ -250,6 +249,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
+
+
+
 
 
 
@@ -272,54 +274,55 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
-        
-        
+
+
+        [JsonIgnore]
+        public ICommand AddNewPartsParameterVM_ClonedParameterCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                AddNumberSettingSavedCollection.ForEach(obj =>
+                {
+                    if (string.IsNullOrEmpty(AddNewPartsParameterVM.ParameterA))
+                        obj.PlateNumber = null;
+                    else
+                        obj.PlateNumber = AddNewPartsParameterVM.ParameterA;
+                });
+            });
+        }
+
+
+
+        private ObservableCollection<SettingBaseViewModel> _addNumberSettingSavedCollection;
         [JsonIgnore]
         public ObservableCollection<SettingBaseViewModel> AddNumberSettingSavedCollection
         {
             get
             {
-                    if (this.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
-                        return NumberSettingSavedCollection
-                             .ToList()
-                             .FindAll(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
-                             .ToObservableCollection();
-                
-                return NumberSettingSavedCollection;
+                return _addNumberSettingSavedCollection ??= new ObservableCollection<SettingBaseViewModel>() ;
+            }
+            set
+            {
+                _addNumberSettingSavedCollection = value;
+                OnPropertyChanged();
             }
         }
 
 
+
+        private ObservableCollection<SettingBaseViewModel> _editNumberSettingSavedCollection;
         [JsonIgnore]
         public ObservableCollection<SettingBaseViewModel> EditNumberSettingSavedCollection
         {
             get 
             {
-                if (this.PartsParameterViewModelSelectItem != null)
-                {
-                    if (this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
-                    {
-                        var Scollection = NumberSettingSavedCollection.DeepCloneByJson()
-                             .ToList()
-                             .FindAll(x => x.SheetStampingTypeForm == this.PartsParameterViewModelSelectItem.SettingBaseVM.SheetStampingTypeForm)
-                             .ToObservableCollection();
-
-
-                        Scollection.ForEach(obj =>
-                        {
-                            var _partNumber = PartsParameterViewModelSelectItem.ParameterA;
-                           if(string.IsNullOrEmpty(_partNumber))
-                                obj.PlateNumber = string.Empty;
-                           else
-                                obj.PlateNumber = _partNumber;
-                        });
-
-                        //這邊做板子上的變更
-                        return Scollection;
-                    }
-                }
-                return NumberSettingSavedCollection;
+                return _editNumberSettingSavedCollection ??= new ObservableCollection<SettingBaseViewModel>(); ;
               }
+            set 
+            {
+                _editNumberSettingSavedCollection = value;
+                OnPropertyChanged();
+            }
          }
         
 
@@ -350,25 +353,43 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             NumberSettingSavedCollection = newSavedCollection;
 
-            //OnPropertyChanged(nameof(EditNumberSettingSavedCollection));
-            //OnPropertyChanged(nameof(AddNumberSettingSavedCollection));
+
+            AddNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson();
+
+                if (this.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+                    AddNumberSettingSavedCollection = AddNumberSettingSavedCollection.ToList()
+                        .FindAll(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
+                        .ToObservableCollection();
+
+                AddNumberSettingSavedCollection.ForEach(obj =>
+                {
+                    var _partNumber = AddNewPartsParameterVM.ParameterA;
+                    if (string.IsNullOrEmpty(_partNumber))
+                        obj.PlateNumber = string.Empty;
+                    else
+                        obj.PlateNumber = _partNumber;
+                });
+            
+
+            EditNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson();
+            if (EditPartsParameterVM_Cloned != null)
+            {
+                if (EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+                    EditNumberSettingSavedCollection = EditNumberSettingSavedCollection.ToList()
+                        .FindAll(x => x.SheetStampingTypeForm == EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm)
+                        .ToObservableCollection();
+
+                EditNumberSettingSavedCollection.ForEach(obj =>
+                {
+                    var _partNumber = EditPartsParameterVM_Cloned.ParameterA;
+                    if (string.IsNullOrEmpty(_partNumber))
+                        obj.PlateNumber = string.Empty;
+                    else
+                        obj.PlateNumber = _partNumber;
+                });
+            }
         }
 
-
-      //  private SettingBaseViewModel _settingVM;
-        /// <summary>
-        /// 上方的排列示意圖(純顯示)
-        /// </summary>
-      /*  [JsonIgnore]
-        public SettingBaseViewModel SettingVM
-        {
-            get => _settingVM;
-            set
-            {
-                _settingVM = value;
-                OnPropertyChanged();
-            }
-        }*/
 
         private PartsParameterViewModel _partsParameterViewModelSelectItem;
         /// <summary>
@@ -381,19 +402,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _partsParameterViewModelSelectItem = value;
-                EditPartsParameterVM_Cloned = value.DeepCloneByJson();
-
-
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(AddNumberSettingSavedCollection));
-                OnPropertyChanged(nameof(EditNumberSettingSavedCollection));
             }
         }
+
+        public ICommand PartsParameterViewModelSelectedItemChangedCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                EditPartsParameterVM_Cloned = PartsParameterViewModelSelectItem.DeepCloneByJson();
+                RefreshNumberSettingSavedCollection();
+            });
+        }
+
+
 
         private PartsParameterViewModel _editPartsParameterVM_Cloned;
         public PartsParameterViewModel EditPartsParameterVM_Cloned
         {
-            get => _editPartsParameterVM_Cloned;
+            get => _editPartsParameterVM_Cloned ??= new PartsParameterViewModel();
             set
             {
                 _editPartsParameterVM_Cloned = value;
@@ -401,6 +428,34 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        public ICommand ChangePartsParameterVM_ClonedParameterCommand
+        {
+            get => new RelayCommand(() =>
+            {
+
+                EditNumberSettingSavedCollection.ForEach(obj =>
+                {
+                    if (string.IsNullOrEmpty(EditPartsParameterVM_Cloned.ParameterA))
+                        obj.PlateNumber = null;
+                    else
+                        obj.PlateNumber = EditPartsParameterVM_Cloned.ParameterA;
+
+                    if (!EditNumberSettingSavedCollection.Contains(EditPartsParameterVM_Cloned.SettingBaseVM))
+                    {
+                        //EditNumberSettingSavedCollection.Add(EditPartsParameterVM_Cloned.SettingBaseVM);
+                       var Findex = EditNumberSettingSavedCollection.FindIndex(x => x.NumberSettingMode == EditPartsParameterVM_Cloned.SettingBaseVM.NumberSettingMode);
+                        if (Findex != -1)
+                        {
+                            EditPartsParameterVM_Cloned.SettingBaseVM = EditNumberSettingSavedCollection[Findex];
+                        }
+                    }
+
+
+                });
+
+
+            });
+        }
 
 
 
@@ -413,10 +468,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    PartsParameterVMObservableCollection[Findex] = EditPartsParameterVM_Cloned;
-
-
-
+                    PartsParameterVMObservableCollection[Findex] = EditPartsParameterVM_Cloned.DeepCloneByJson();
                 }
             });
         }

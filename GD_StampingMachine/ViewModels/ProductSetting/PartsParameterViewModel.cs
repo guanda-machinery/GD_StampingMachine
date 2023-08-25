@@ -25,6 +25,7 @@ using System.Windows.Input;
 using System.Xml.Linq;
 using GD_StampingMachine.Model;
 using GD_CommonLibrary.Extensions;
+using Microsoft.Xaml.Behaviors;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -95,6 +96,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.ParamA = value;
                 OnPropertyChanged(nameof(ParameterA));
+                OnPropertyChanged(nameof(SettingBaseVM));
             }
         }
         public string ParameterB
@@ -166,7 +168,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
-
+        
+                                           
 
         public bool _editPartDarggableIsPopup;
         /// <summary>

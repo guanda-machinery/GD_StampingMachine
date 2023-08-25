@@ -150,10 +150,10 @@
                                     BorderThickness="1" />
                                 <dxlc:ScrollBox SnapsToDevicePixels="True">
                                     <dxlc:ScrollBox.VerticalScrollBarStyle>
-                                        <Style BasedOn="{StaticResource VerticalScrollBar_STD}" TargetType="ScrollBar" />
+                                        <Style BasedOn="{StaticResource VerticalScrollBar}" TargetType="ScrollBar" />
                                     </dxlc:ScrollBox.VerticalScrollBarStyle>
                                     <dxlc:ScrollBox.HorizontalScrollBarStyle>
-                                        <Style BasedOn="{StaticResource HorizontalScrollBar_STD}" TargetType="ScrollBar" />
+                                        <Style BasedOn="{StaticResource HorizontalScrollBar}" TargetType="ScrollBar" />
                                     </dxlc:ScrollBox.HorizontalScrollBarStyle>
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </dxlc:ScrollBox>

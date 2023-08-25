@@ -629,9 +629,10 @@
 
                 </Border>
             </Grid>
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
+        <ScrollViewer
+                VerticalScrollBarVisibility="Auto"
                               Visibility="{Binding ElementName=MainGrid, Path=Visibility, Converter={dx:VisibilityInverseConverter}}" >
-                <Grid DataContext="{Binding SelectProductProjectVM}">
+            <Grid DataContext="{Binding SelectProductProjectVM}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -736,11 +737,16 @@
 
                         <GD_Popup:DraggablePopup          
                             PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
-                            PlacementRectangle="-90,50,0,0"
-                            AllowsTransparency="True" Margin="16" 
+                            PlacementRectangle="-90,50,0,0" 
+                            AllowsTransparency="True" Margin="16"   
                             x:Name="EditParameterDarggablePopup" IsOpen="{Binding PartsParameterViewModelSelectItem.EditPartDarggableIsPopup}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Opened">
+                                    <i:InvokeCommandAction  Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Border 
-                                                CornerRadius="10"
+                                                CornerRadius="10" 
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
 
                                 <Grid MinWidth="100" MinHeight="100" Margin="10">
@@ -778,17 +784,39 @@
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="：" VerticalAlignment="Center"/>
 
                                     <TextBox Grid.Column="3" Grid.Row="1"  Width="200" Margin="0"  
-                                                 Text="{Binding EditPartsParameterVM_Cloned.ParameterA, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox Grid.Column="3" Grid.Row="2" 
-                                                 Text="{Binding  EditPartsParameterVM_Cloned.ParameterB,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox Grid.Column="3" Grid.Row="3" 
-                                                 Text="{Binding  EditPartsParameterVM_Cloned.ParameterC,UpdateSourceTrigger=PropertyChanged}"/>
+                                                 Text="{Binding EditPartsParameterVM_Cloned.ParameterA, UpdateSourceTrigger=PropertyChanged}" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <!--<TextBox.InputBindings>
+                                            <KeyBinding Command="{Binding Path=EditPartsParameterVM_ClonedParameter}" />
+                                        </TextBox.InputBindings>-->
+                                    </TextBox>
 
-                                    <ComboBox                              MaxDropDownHeight="275"           
+                                    <TextBox Grid.Column="3" Grid.Row="2" 
+                                                 Text="{Binding  EditPartsParameterVM_Cloned.ParameterB,UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox Grid.Column="3" Grid.Row="3" 
+                                                 Text="{Binding  EditPartsParameterVM_Cloned.ParameterC,UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <ComboBox MaxDropDownHeight="275"           
                                         Margin="10,0" Padding="0" Width="200" Text="123"
                                             Grid.Column="3" Grid.Row="4" 
                                               ItemsSource="{Binding EditNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding EditPartsParameterVM_Cloned.SettingBaseVM,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                              SelectedItem ="{Binding EditPartsParameterVM_Cloned.SettingBaseVM,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
                                             <Style TargetType="ComboBox" BasedOn="{StaticResource GD_WhiteComboBox}">
                                                 <Setter Property="ItemTemplate">
@@ -899,23 +927,41 @@
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="：" VerticalAlignment="Center"/>
 
                                     <TextBox Grid.Column="3" Grid.Row="1"  Width="200" Margin="0"  
-                                                 Text="{Binding AddNewPartsParameterVM.ParameterA, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <TextBox Grid.Column="3" Grid.Row="2" 
-                                                 Text="{Binding  AddNewPartsParameterVM.ParameterB,UpdateSourceTrigger=PropertyChanged}"/>
+                                                 Text="{Binding AddNewPartsParameterVM.ParameterA, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox Grid.Column="3" Grid.Row="2" 
+                                                 Text="{Binding  AddNewPartsParameterVM.ParameterB,UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
                                         <TextBox Grid.Column="3" Grid.Row="3" 
-                                                 Text="{Binding  AddNewPartsParameterVM.ParameterC,UpdateSourceTrigger=PropertyChanged}"/>
+                                                 Text="{Binding  AddNewPartsParameterVM.ParameterC,UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
 
-                                      <!--  <ComboBox  
+                                        <!--  <ComboBox  
                                             Name="NumberSettingSelectComboBox" 
                                             Grid.Column="3" Grid.Row="4" DisplayMemberPath="NumberSettingMode"
                                               ItemsSource="{Binding NumberSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValue="{Binding AddNewPartsParameterVM.NumberSetting}">
                                     </ComboBox>-->
 
-                                    <ComboBox 
-                                        Margin="10,0" Padding="0" Width="200" Text="123" 
-                                            Grid.Column="3" Grid.Row="4"   MaxDropDownHeight="275"
-                                              ItemsSource="{Binding AddNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
+                                    <ComboBox  Name="AddNewPartsSettingBaseVMComboBox"
+                                        Margin="10,0" Padding="0" Width="200" Text="123"  
+                                            Grid.Column="3" Grid.Row="4"   MaxDropDownHeight="275" 
+                                              ItemsSource="{Binding AddNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedItem="{Binding AddNewPartsParameterVM.SettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
                                             <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_WhiteComboBox}">
@@ -967,7 +1013,7 @@
                                                         <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterC"/>
-                                                    <Binding Path="AddNewPartsParameterVM.SettingBaseVM.NumberSettingMode" />
+                                                    <Binding ElementName="AddNewPartsSettingBaseVMComboBox" Path="SelectedItem" UpdateSourceTrigger="PropertyChanged"/>
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
                                             </Button>
@@ -1315,11 +1361,22 @@
                                       Style="{StaticResource ProjectGridControl}"
                                       AutoGenerateColumns="None"
                                       SelectedItem="{Binding PartsParameterViewModelSelectItem}"
+           
                                       ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      MinHeight="250"
+                                      MinHeight="250" 
                                       Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"
                                       MaxHeight="100000"    >
-                            <dxg:GridControl.View >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedItemChanged">
+                                <i:InvokeCommandAction Command="{Binding PartsParameterViewModelSelectedItemChangedCommand}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+
+
+
+
+                        <dxg:GridControl.View >
                             <dxg:TableView   
                                 SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 PageSize="10"

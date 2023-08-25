@@ -3,7 +3,8 @@
                     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"      
                     xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"     
+                    xmlns:dxdst="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
                     xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary">
 
         <Style  x:Key="ProjectGridControlCellStyle" TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
@@ -209,9 +210,12 @@
                 <Setter Property="ShowLastPageButton" Value="False"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
+
+
         </Style.Resources>
     </Style>
 
+    
     <Style x:Key="ProductProjectGridControl" TargetType="dxg:GridControl" BasedOn="{StaticResource ProjectGridControl}">
         <Style.Resources>
             <Style TargetType="dxg:TableView">
@@ -290,13 +294,12 @@
             </Style>
         </Style.Resources>
     </Style>
-    
-    
-    
-    
-    
-    
-        <Style x:Key="AlarmGridControl" TargetType="dxg:GridControl">
+
+
+
+
+
+    <Style x:Key="AlarmGridControl" TargetType="dxg:GridControl">
             <Style.Resources>
                 <Style TargetType="dxg:TableView">
                     <Setter Property="CellStyle">

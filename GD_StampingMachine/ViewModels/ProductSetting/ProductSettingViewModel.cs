@@ -279,6 +279,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             { 
                 _selectProductProjectVM = value;
                 OnPropertyChanged(nameof(SelectProductProjectVM)); 
+                
             }
         }
 
