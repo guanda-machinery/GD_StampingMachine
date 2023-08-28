@@ -16,7 +16,7 @@
         <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
         <Setter Property="Width" Value="auto"/>
         <Setter Property="Margin" Value="10,0"/>
-        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Padding" Value="5,0,0,0"/>
         <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="PrimaryMid"/>
         <Setter Property="materialDesign:HintAssist.Hint" Value="Default"/>
         <Setter Property="materialDesign:HintAssist.HintOpacity" Value=".2"/>

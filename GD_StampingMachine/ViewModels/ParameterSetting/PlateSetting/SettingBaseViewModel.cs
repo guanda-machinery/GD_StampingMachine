@@ -164,14 +164,26 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 var ListCount = SequenceCount * RowCount;
                 //若格數不夠 則擴充
-                while(_plateNumberList.Count< ListCount)
+                if (_plateNumberList.Count <= ListCount)
                 {
-                    var c = _plateNumberList.Count;
-                    if (string.IsNullOrEmpty(_plateNumber))
-                        _plateNumberList.Add((c + 1).ToString());
-                    else
-                        _plateNumberList.Add(null);
+                    while (_plateNumberList.Count < ListCount)
+                    {
+                        var c = _plateNumberList.Count;
+                        if (string.IsNullOrEmpty(_plateNumber))
+                            _plateNumberList.Add((c + 1).ToString());
+                        else
+                            _plateNumberList.Add(null);
+                    }
                 }
+                //若格數變少 則刪除
+                else
+                {
+                    while (_plateNumberList.Count > ListCount)
+                    {
+                        _plateNumberList.RemoveAt(ListCount);
+                    }
+                }
+
 
                 return _plateNumberList;
             }

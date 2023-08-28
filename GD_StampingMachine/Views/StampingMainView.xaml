@@ -764,12 +764,12 @@
                             Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <Style TargetType="ItemsControl">
-                                    <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value ="Blue"/>
+                                    <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value ="Transparent"/>
                                     <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
                                     <Setter Property="dd:DragDrop.IsDropTarget" Value ="False"/>
                                     <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value ="True"/>
                                     <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value ="True"/>
-                                    <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value ="1"/>
+                                    <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value ="0.95"/>
                                     <Setter Property="dd:DragDrop.DropHandler" Value ="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
 
                                     <Setter Property="ItemsPanel">
@@ -830,24 +830,27 @@
                                 UnCheckedTitleText="{DynamicResource btnDescription_LightUpSwitch}" 
                                 />
 
-                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                        </ItemsControl>
-                        <ItemsControl dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="True">
-                        <GD_Customcontrols:FunctionToggleUserControl 
+
+
+
+                            </ItemsControl>
+                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+                            <ItemsControl dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="True">
+                                <GD_Customcontrols:FunctionToggleUserControl 
                                ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_UsualKey1}" 
                                 />
-                            <GD_Customcontrols:FunctionToggleUserControl   
+                                <GD_Customcontrols:FunctionToggleUserControl   
                                 IsDragable="False"
                                 IsDropable ="True"
                                 ImageSource="{StaticResource MainIcon_08_Usual_DrawingImage}"
                                 UnCheckedTitleText="{DynamicResource btnDescription_UsualKey2}" 
                                 />
 
-                        </ItemsControl>
+                            </ItemsControl>
+                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
                             <ItemsControl dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
-                                <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
                                 <GD_Customcontrols:FunctionToggleUserControl 
                                 x:Name="TBtn_Calendar"
                                 ImageSource="{StaticResource MainIcon_09_Calendar_DrawingImage}"

@@ -181,7 +181,7 @@
                                         <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <ComboBox Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}"
+                                    <ComboBox Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" 
                                               SelectedValue="{Binding NumberSettingVM.SequenceCount ,Mode=TwoWay}" ItemsSource="{Binding SequenceCountCollection}">
 
                                     </ComboBox>

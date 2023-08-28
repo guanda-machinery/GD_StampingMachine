@@ -1,28 +1,31 @@
-//-----------------------------------------------
-// ArrowheadsDemo.cs (c) 2007 by Charles Petzold
-//-----------------------------------------------
+﻿using Petzold.Media2D;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Petzold.Media2D;
 
-namespace Petzold.Arrowheads
+namespace ArrowheadsDemo
 {
-    public class Arrowheads : Window
+    internal class Program
     {
         [STAThread]
-        public static void Main()
+        static void Main(string[] args)
         {
-            Application app = new Application();
-            app.Run(new Arrowheads());
+            var a = new Application();
+            a.Run(Arrowheads());
         }
 
-        public Arrowheads()
+        public static Window Arrowheads()
         {
+            var NewWin = new Window();
             Canvas canv = new Canvas();
-            Content = canv;
+            NewWin.Content = canv;
 
             // ArrowLine with animated arrow properties.
             ArrowLine aline1 = new ArrowLine();
@@ -84,6 +87,9 @@ namespace Petzold.Arrowheads
             AnimationTimeline animaDouble5 = new DoubleAnimation(0, 360, new Duration(new TimeSpan(0, 0, 10)));
             animaDouble5.RepeatBehavior = RepeatBehavior.Forever;
             xform.BeginAnimation(RotateTransform.AngleProperty, animaDouble5);
+
+            return NewWin;
         }
+
     }
 }
