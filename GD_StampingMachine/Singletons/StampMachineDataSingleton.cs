@@ -3,7 +3,9 @@ using DevExpress.Xpf.Scheduling.Themes;
 using GD_CommonLibrary.Method;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
+using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using Opc.Ua;
 using System;
@@ -21,10 +23,10 @@ namespace GD_StampingMachine.Singletons
 {
     public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>, INotifyPropertyChanged
     {
-        private string OpcUASettingFilePath
+        /*private string OpcUASettingFilePath
         {
-            get => Method.StampingMachineJsonHelper.GetCurrentMachineSettingDirectory("OpcUASetting.json");
-        }
+            get => Method.StampingMachineJsonHelper.GetJsonFilePath(Method.StampingMachineJsonHelper.MachineSettingNameEnum.OpcUASetting);
+        }*/
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
         protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
@@ -37,8 +39,9 @@ namespace GD_StampingMachine.Singletons
 
         protected override void Init()
         {
-            var JsonHM = new JsonHelperMethod();
-            if(JsonHM.ReadJsonFile(OpcUASettingFilePath, out OpcUASettingModel OpcUASettingJson))
+            var JsonHM = new StampingMachineJsonHelper();
+
+            if(JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.OpcUASetting, out OpcUASettingModel OpcUASettingJson))
             {
                 OpcUASetting = OpcUASettingJson;
             }
@@ -54,12 +57,8 @@ namespace GD_StampingMachine.Singletons
                     UserName= "Administrator",
                     Password = "pass"               
                 };
-                JsonHM.WriteJsonFile(OpcUASettingFilePath, OpcUASetting);
+                JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.OpcUASetting, OpcUASetting);
             }
-
-            gd_OpcUaHelperClient = new();
-            if(!string.IsNullOrEmpty(OpcUASetting.UserName) && !string.IsNullOrEmpty(OpcUASetting.Password))
-                gd_OpcUaHelperClient.UserIdentity = new UserIdentity(OpcUASetting.UserName, OpcUASetting.Password);
         }
 
         private OpcUASettingModel _opcUASetting;
@@ -99,18 +98,6 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-        private GD_OpcUaHelperClient gd_OpcUaHelperClient;
-            //啟用掃描
-        public async Task<bool> TestConnectToOpcua()
-        {
-            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(OpcUASetting.HostString, OpcUASetting.Port, OpcUASetting.ServerDataPath))
-            {
-                gd_OpcUaHelperClient.ReadAllReference();
-                gd_OpcUaHelperClient.Disconnect();
-                return true;
-            }
-            return false;
-        }
 
         private bool ContinueScanning = true;
         private bool _isScaning = false;
@@ -124,23 +111,29 @@ namespace GD_StampingMachine.Singletons
                 {
                     do
                     {
+                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                         try
                         {
-                            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(OpcUASetting.HostString, OpcUASetting.Port, OpcUASetting.ServerDataPath))
+                            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, "ns=4;s=APPL", OpcUASetting.UserName, OpcUASetting.Password))
                             {
-                                var a = gd_OpcUaHelperClient.ReadAllReference();
-                                gd_OpcUaHelperClient.Disconnect();
+                                //進料馬達
+                                if (GD_Stamping.GetFeedingPosition(out var fPos))
+                                    FeedingPosition = fPos;
+                                
                             }
                         }
                         catch (Exception ex)
                         {
 
                         }
+                        finally 
+                        {
+                            GD_Stamping.Disconnect();
+                        }
 
                         await Task.Delay(100);
 
                     } while (ContinueScanning);
-
                     IsScaning = false;
                 });
             }
@@ -165,16 +158,92 @@ namespace GD_StampingMachine.Singletons
             });
             return;
         }
-        public async void WriteOpcua()
-        {
 
-            if (await gd_OpcUaHelperClient.OpcuaConnectAsync(OpcUASetting.HostString, OpcUASetting.Port, OpcUASetting.ServerDataPath))
-            {
-                var a = gd_OpcUaHelperClient.ReadAllReference();
-                gd_OpcUaHelperClient.Disconnect();
-            }
-            return;
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private float _feedingPosition;
+        /// <summary>
+        /// 馬達目前位置
+        /// </summary>
+        public float FeedingPosition
+        {
+            get => _feedingPosition; set { _feedingPosition = value; OnPropertyChanged(); }
         }
+
+
+        /*馬達目前位置
+馬達位置移動命令
+回歸基準點命令
+手動前進
+手動後退
+磁簧訊號上限
+磁簧訊號下限
+手動氣壓缸升命令
+手動氣壓缸降命令
+磁簧訊號上限
+磁簧訊號下限
+手動氣壓缸升命令
+手動氣壓缸降命令
+磁簧訊號上限
+磁簧訊號下限
+手動氣壓缸升命令
+手動氣壓缸降命令
+磁簧訊號上限
+磁簧訊號下限
+手動氣壓缸升命令
+手動氣壓缸降命令
+磁簧訊號上限
+磁簧訊號下限
+手動氣壓缸升命令
+手動氣壓缸降命令
+切換雕刻圖形
+開始/暫停/中斷
+進度百分比(非必要)
+Y軸馬達目前位置
+Y軸馬達位置移動命令
+回歸基準點命令
+手動前進
+手動後退
+鋼印目前Z軸位置
+回歸基準點命令
+鋼印Z軸命令(單動/一次完整行程)
+手動油壓缸升命令
+手動油壓缸降命令
+鋼印目前選定的字元
+目前旋轉角度/或選定的字元
+變更鋼印目前選定的字元命令
+回歸基準點命令
+手動前進
+手動後退
+馬達啟動
+磁簧訊號上限
+磁簧訊號下限
+手動油壓缸升命令
+手動油壓缸降命令
+分料組當前位置
+分料組旋轉
+手動前進
+手動後退
+所有能控制的零件都回到原點
+*/
+
+
+
+
 
 
 

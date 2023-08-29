@@ -749,7 +749,8 @@
                     </Grid>
             </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Grid.Row="2" Padding="5"  Mode="PrimaryLight" VerticalAlignment="Bottom" Grid.ColumnSpan="2" >
+            <materialDesign:ColorZone Grid.Row="2" Padding="5"  Mode="PrimaryLight" VerticalAlignment="Bottom" Grid.ColumnSpan="2"  
+                                      Background="{DynamicResource DarkHueLightBrush}">
                 <materialDesign:ColorZone.Effect>
                     <DropShadowEffect  ShadowDepth="4"
       Direction="90"
@@ -780,7 +781,16 @@
                                         </Setter.Value>
                                     </Setter>
                                 </Style>
+
+                                <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
+                                    <Setter Property="Foreground" Value="{DynamicResource DarkHueDarkForegroundBrush}"/>
+                                </Style>
+                                
                             </StackPanel.Resources>
+
+
+
+
 
                             <ItemsControl dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
 

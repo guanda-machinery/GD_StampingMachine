@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:local="clr-namespace:GD_StampingMachine.UserControls.CustomControls" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              mc:Ignorable="d" 
-             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" 
-             BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
              
              FontSize="14" 
 

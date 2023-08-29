@@ -49,10 +49,8 @@ namespace GD_StampingMachine.ViewModels
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
 
-        private Singletons.StampingMachineSingleton stampingMain;
         public StampingMainViewModel()
         {
-            stampingMain = Singletons.StampingMachineSingleton.Instance;
             //測試模式
             if (Debugger.IsAttached)
             {
@@ -124,6 +122,9 @@ namespace GD_StampingMachine.ViewModels
             });
 
 
+            IsBrightMode = Properties.Settings.Default.IsBrightMode;
+
+
         }
 
         //private DateTime _dateTimeNow = new DateTime();
@@ -169,14 +170,14 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private bool _isBrightMode = false;
+        //private bool _isBrightMode = false;
         public bool IsBrightMode 
         {
-            get => _isBrightMode;
+            get => Properties.Settings.Default.IsBrightMode;
             set
             {
-                _isBrightMode = value;
-                if (_isBrightMode)
+                Properties.Settings.Default.IsBrightMode = value;
+                if (value)
                 {
                     Application.Current.Resources["PrimaryHueLightBrush"] = Application.Current.TryFindResource("BrightHueLightBrush");
                     Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("BrightHueLightForegroundBrush");
@@ -194,12 +195,10 @@ namespace GD_StampingMachine.ViewModels
                     Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
                     Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
                 }
-
-
-
+                Properties.Settings.Default.Save();
                 OnPropertyChanged();
             }
-        } 
+        }
 
 
 
@@ -207,6 +206,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         #region VM
+        private Singletons.StampingMachineSingleton stampingMain = Singletons.StampingMachineSingleton.Instance;
         /// <summary>
         /// 關於本機
         /// </summary>

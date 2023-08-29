@@ -96,78 +96,82 @@ namespace GD_MachineConnect.Machine
             Console.WriteLine("-------------------------------------");
         }
 
-        public List<NodeTypeValue> ReadAllReference(string NodeTreeString = "ns=2;s=Devices")
+
+
+        public bool ReadAllReference(string NodeTreeString , out List<NodeTypeValue> NodeValue)
         {
+            NodeValue = new List<NodeTypeValue>();
             //取得所有節點
             try
             {
+                List<ReferenceDescription> referencesList = new List<ReferenceDescription>();
 
-            
-            List<ReferenceDescription> referencesList = new List<ReferenceDescription>();
-            var NodeIDStringList = new List<string>() { NodeTreeString };
-            var ExistedNodeIDStringList = new List<string>();
-            while (true)
-            {
-                var NodeSearchList = NodeIDStringList.Except(ExistedNodeIDStringList);
-                var NextSearchList = new List<string>();
-                foreach (var NodeIDString in NodeSearchList)
+                var NodeIDStringList = new List<string>() { NodeTreeString };
+                var ExistedNodeIDStringList = new List<string>();
+                while (true)
                 {
-                    ReferenceDescription[] references = m_OpcUaClient.BrowseNodeReference(NodeIDString);
-                    foreach (var Ref in references)
+                    var NodeSearchList = NodeIDStringList.Except(ExistedNodeIDStringList);
+                    var NextSearchList = new List<string>();
+                    foreach (var NodeIDString in NodeSearchList)
                     {
-                           
-                        //展開
-                        NextSearchList.Add(Ref.NodeId.ToString());
-                        referencesList.Add(Ref);
+                        ReferenceDescription[] references = m_OpcUaClient.BrowseNodeReference(NodeIDString);
+                        foreach (var Ref in references)
+                        {
+
+                            //展開
+                            NextSearchList.Add(Ref.NodeId.ToString());
+                            referencesList.Add(Ref);
+                        }
                     }
+                    ExistedNodeIDStringList.AddRange(NodeSearchList);
+                    NodeIDStringList.AddRange(NextSearchList);
+
+                    if (NextSearchList.Count == 0)
+                        break;
                 }
-                ExistedNodeIDStringList.AddRange(NodeSearchList);
-                NodeIDStringList.AddRange(NextSearchList);
 
-                if (NextSearchList.Count == 0)
-                    break;
-            }
-
-            //展開所有節點
-            List<NodeTypeValue> GetNodeValue = new List<NodeTypeValue>();
-            referencesList.ForEach(reference =>
-            {
-                //ReadNoteAttributes(reference.NodeId.ToString());
-                ReadNode(reference.NodeId.ToString(), out object NValue);
-
-                GetNodeValue.Add(new NodeTypeValue()
+                //展開所有節點
+                var GetNodeValue = new List<NodeTypeValue>();
+                referencesList.ForEach(reference =>
                 {
-                    NodeID = reference.NodeId,
-                    NodeDisplayName = reference.DisplayName,
-                    NodeValue = NValue
+                    //ReadNoteAttributes(reference.NodeId.ToString());
+                    ReadNode(reference.NodeId.ToString(), out object NValue);
+
+                    GetNodeValue.Add(new NodeTypeValue()
+                    {
+                        NodeID = reference.NodeId,
+                        NodeDisplayName = reference.DisplayName,
+                        NodeValue = NValue
+                    });
+
+                });
+                //印出節點資料
+                GetNodeValue.ForEach(NValue =>
+                {
+                    Type NodeType = null;
+                    if (NValue.NodeValue != null)
+                        NodeType = NValue.NodeValue.GetType();
+
+                    Console.Write(string.Format("{0,-20}", nameof(NValue.NodeID)));
+                    Console.WriteLine(string.Format("{0,0}", NValue.NodeID));
+                    Console.Write(string.Format("{0,-20}", nameof(NValue.NodeDisplayName)));
+                    Console.WriteLine(string.Format("{0,0}", NValue.NodeDisplayName));
+                    Console.Write(string.Format("{0,-20}", nameof(Type)));
+                    Console.WriteLine(string.Format("{0,0}", NodeType));
+                    Console.Write(string.Format("{0,-20}", nameof(NValue.NodeValue)));
+                    Console.WriteLine(string.Format("{0,0}", NValue.NodeValue));
+                    Console.WriteLine("".PadLeft(50, '-'));
                 });
 
-            });
-            //印出節點資料
-            GetNodeValue.ForEach(NValue =>
-            {
-                Type NodeType = null;
-                if (NValue.NodeValue != null)
-                    NodeType = NValue.NodeValue.GetType();
+                NodeValue = GetNodeValue;
+                return true;
 
-                Console.Write(string.Format("{0,-20}", nameof(NValue.NodeID)));
-                Console.WriteLine(string.Format("{0,0}", NValue.NodeID));
-                Console.Write(string.Format("{0,-20}", nameof(NValue.NodeDisplayName)));
-                Console.WriteLine(string.Format("{0,0}", NValue.NodeDisplayName));
-                Console.Write(string.Format("{0,-20}", nameof(Type)));
-                Console.WriteLine(string.Format("{0,0}", NodeType));
-                Console.Write(string.Format("{0,-20}", nameof(NValue.NodeValue)));
-                Console.WriteLine(string.Format("{0,0}", NValue.NodeValue));
-                Console.WriteLine("".PadLeft(50, '-'));
-            });
-            return GetNodeValue; 
-       
             }
             catch (Exception ex)
             {
 
             }
-        return null;
+            return false;
         }
 
         public class NodeTypeValue

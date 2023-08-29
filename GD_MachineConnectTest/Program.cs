@@ -40,14 +40,14 @@ namespace GD_MachineConnectTest
                     Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                     if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                     {
-
+                        Opcua.ReadNode("ns=4;s=APPL.Feeding1.sv_rFeedingPosition", out float Pos);
 
                         //Opcua.WriteNode();
                         //Opcua.ReadNode_TEST();
                         // Opcua.ReadReference_Test();
-                       // Opcua.ReadAllReference("ns=4;i=0");
+                        // Opcua.ReadAllReference("ns=4;i=0");
                         Console.WriteLine("------------------------------------");
-                        Opcua.ReadAllReference("ns=5;i=1");
+                        //Opcua.ReadAllReference("ns=5;i=1");
                         Opcua.Disconnect();
                     }
 
