@@ -724,7 +724,7 @@
                                                       Height="auto" Padding="20,5" Margin="10,0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                                       Content="{DynamicResource btnImport}" />
-                            <Button  Name="ExportParameterToggleButton"
+                            <Button  Name="ExportParameterToggleButton" Visibility="Collapsed"
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=ExportParameterDarggablePopup}"

@@ -20,7 +20,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        bool Connect(string HostPath ,  int Port , string DataPath =null);
+        bool Connect(string HostPath, int Port, string DataPath, string UserName = null, string Password = null);
         /// <summary>
         /// 離線
         /// </summary>
@@ -138,6 +138,41 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
         bool SetEngineerSetting(EngineerSettingModel EngineerSetting);
+
+        /// <summary>
+        /// 取得馬達目前位置
+        /// </summary>
+        bool GetFeedingPosition(out float Position);
+        /// <summary>
+        /// 設定馬達目前位置
+        /// </summary>
+        bool SetFeedingPosition(out float Position);
+        /// <summary>
+        /// 回歸基準點命令
+        /// </summary>
+        /// <returns></returns>
+        bool FeedingPositionReturnToStandby();
+        /// <summary>
+        /// 手動前進
+        /// </summary>
+        /// <returns></returns>
+        bool FeedingPositionFwd();     
+        /// <summary>
+        /// 手動後退
+        /// </summary>
+        /// <returns></returns>
+        bool FeedingPositionBwd();
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

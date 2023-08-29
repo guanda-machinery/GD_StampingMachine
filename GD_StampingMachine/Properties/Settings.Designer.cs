@@ -34,5 +34,17 @@ namespace GD_StampingMachine.Properties {
                 this["DefaultCulture"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsBrightMode {
+            get {
+                return ((bool)(this["IsBrightMode"]));
+            }
+            set {
+                this["IsBrightMode"] = value;
+            }
+        }
     }
 }

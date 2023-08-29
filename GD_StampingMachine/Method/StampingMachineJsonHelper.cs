@@ -19,6 +19,9 @@ namespace GD_StampingMachine.Method
 {
     public class StampingMachineJsonHelper : GD_CommonLibrary.Method.JsonHelperMethod
     {
+
+
+
         public enum ParameterSettingNameEnum
         {
             AxisSetting,
@@ -32,6 +35,7 @@ namespace GD_StampingMachine.Method
         }
         public enum MachineSettingNameEnum
         {
+            OpcUASetting,
             StampingFont
         }
         public enum ProjectSettingEnum
@@ -45,6 +49,10 @@ namespace GD_StampingMachine.Method
             /// </summary>
             ProjectDistributeList
         }
+
+
+
+
 
         /* private string MainSetting
          {
@@ -136,11 +144,11 @@ namespace GD_StampingMachine.Method
             return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, FilePath);
         }
 
-        public const string ConstSettings = "Settings";
-        public const string ConstMachineSettings = "MachineSettings";
-        
-        public const string ConstNumberSetting = "Numbers";
-        public const string ConstParameterSetting = "ParameterSetting";
+        private const string ConstSettings = "Settings";
+        private const string ConstMachineSettings = "MachineSettings";
+
+        private const string ConstNumberSetting = "Numbers";
+        private const string ConstParameterSetting = "ParameterSetting";
 
         public bool ReadJsonSettingByEnum<T>(Enum ParameterSettingName , out T JsonData, bool ShowMessageBox = false)
         {
@@ -175,24 +183,10 @@ namespace GD_StampingMachine.Method
                 }
             }
 
+
             var FileName = Path.ChangeExtension(ParameterSettingName.ToString(), "json");
 
             return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings ,FilePath, FileName);
-        }
-
-        public static string GetCurrentDirectory()
-        {
-            return Directory.GetCurrentDirectory();
-        }
-
-        public static string GetCurrentSettingDirectory(string FilePath = null)
-        {
-            return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, FilePath);
-        }
-
-        public static string GetCurrentMachineSettingDirectory(string FilePath = null)
-        {
-            return Path.Combine(Directory.GetCurrentDirectory(), ConstMachineSettings, FilePath);
         }
 
         
