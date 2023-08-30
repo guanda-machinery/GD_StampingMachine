@@ -12,7 +12,7 @@
 
     <SolidColorBrush x:Key="BrightHueLightBrush" Color="Snow"/>
     <SolidColorBrush x:Key="BrightHueLightForegroundBrush" Color="#383838"/>
-    <SolidColorBrush x:Key="BrightHueMidBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="BrightHueMidBrush" Color="#eaeaea"/>
     <SolidColorBrush x:Key="BrightHueMidForegroundBrush" Color="#4b4b4b"/>
     <SolidColorBrush x:Key="BrightHueDarkBrush" Color="White"/>
     <SolidColorBrush x:Key="BrightHueDarkForegroundBrush" Color="#2c2c2c"/>

@@ -60,8 +60,14 @@ namespace GD_StampingMachine.Method
                 //if (dropInfo.VisualTarget == dropInfo.DragInfo.VisualSource)
                 if (dropInfo.TargetItem is FunctionToggleUserControl UserControlTargetData)
                 {
-                    if(UserControlTargetData.IsDropable)
+
+                    if (UserControlTargetData.IsDropable)
+                    {
+                        //將原按鈕的文字顏色保留
+                        var tempForeground = UserControlTargetData.Toggle.Foreground;
                         UserControlTargetData.Toggle.DataContext = UserControlDropData.Toggle.DataContext;
+                        UserControlTargetData.Toggle.Foreground = tempForeground;
+                    }
                 }
 
             }

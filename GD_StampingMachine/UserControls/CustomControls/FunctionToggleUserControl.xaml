@@ -157,9 +157,11 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger  Property="IsChecked" Value="True">
-                                        <Setter TargetName="MainBorder" Property="BorderBrush" Value="{Binding BorderBrush}" />
+                                        <Setter TargetName="MainBorder" Property="BorderThickness" Value="2" />
+                                        <Setter TargetName="MainBorder" Property="BorderBrush" Value="#acacac" />
                                         <Setter TargetName="MainBorder" Property="Background" Value="Gray"/>
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.7"/>
+                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.4
+                                                "/>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
@@ -173,6 +175,7 @@
                                             <Condition Property="IsChecked" Value="True" />
                                             <Condition Property="IsPressed" Value="False" />
                                         </MultiTrigger.Conditions>
+                                        <Setter TargetName="MainBorder" Property="BorderThickness" Value="0" />
                                         <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
                                         <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
                                     </MultiTrigger>

@@ -327,7 +327,7 @@
                                         <materialDesign:PackIcon Kind="AxisYArrow" Height="30" Width="30"/>
                                     </ToggleButton>
                                     <ToggleButton Style="{StaticResource GD_ToggleButton_White}">
-                                        <Image Source="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage}" Width="30" Height="30"/>
+                                        <Image Source="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage_Mono}" Width="30" Height="30"/>
                                     </ToggleButton>
                                     
                                 </StackPanel>
