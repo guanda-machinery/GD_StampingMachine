@@ -168,21 +168,23 @@ namespace GD_MachineConnect
 
         public bool ManualHydraulicCutControl(DirectionsEnum direction)
         {
-            var ret = false;
-            if (direction == DirectionsEnum.Up)
-                ret =  GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, true);
-            if (direction == DirectionsEnum.Down)
-                ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, true);
-            else
+            bool ret;
+            switch (direction)
             {
-                var O_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
-                var C_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
-                ret = O_ret && C_ret;
+                case DirectionsEnum.Up:
+                    ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, true);
+                    break;
+                case DirectionsEnum.Down:
+                    ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, true);
+                    break;
+                default:
+                    var O_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
+                    var C_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
+                    ret = O_ret && C_ret;
+                    break;
             }
+
             return ret;
-
-
-
         }
 
 
