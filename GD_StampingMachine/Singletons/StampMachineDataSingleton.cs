@@ -119,6 +119,11 @@ namespace GD_StampingMachine.Singletons
                                 //進料馬達
                                 if (GD_Stamping.GetFeedingPosition(out var fPos))
                                     FeedingPosition = fPos;
+
+
+
+
+
                                 
                             }
                         }

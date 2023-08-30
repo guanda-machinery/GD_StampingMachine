@@ -39,30 +39,24 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="5">
                                 <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}"
-                                                                             UnCheckedKind="Import"
-                                                                             IsCheckedKind="Import"
-                                                                             UnCheckedTitleText="{DynamicResource Text_Feeding_Component}" />
+                                                                     PackIconKind="Import"
+                                                                             ControlTitleText="{DynamicResource Text_Feeding_Component}" />
                                 <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding QRCode_Component_Button_IsChecked}"
-                                   UnCheckedKind="QrcodeEdit"
-                                   IsCheckedKind="QrcodeEdit"
-                                UnCheckedTitleText="{DynamicResource Text_QRCode_Component}" />
+                                   PackIconKind="QrcodeEdit"
+                                ControlTitleText="{DynamicResource Text_QRCode_Component}" />
                                 <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Stamping_Component_Button_IsChecked}"
-                                   UnCheckedKind="Stamper"
-                                   IsCheckedKind="Stamper"
-                                UnCheckedTitleText="{DynamicResource Text_Stamping_Component}" />
+                                   PackIconKind="Stamper"
+                                ControlTitleText="{DynamicResource Text_Stamping_Component}" />
                                 <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ShearCut_Component_Button_IsChecked}"
-                                   UnCheckedKind="ScissorsCutting"
-                                   IsCheckedKind="ScissorsCutting"
-                                UnCheckedTitleText="{DynamicResource Text_ShearCut_Component_Hydraulic}" />
+                                   PackIconKind="ScissorsCutting"
+                                ControlTitleText="{DynamicResource Text_ShearCut_Component_Hydraulic}" />
                                 <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Separator_Component_Button_IsChecked}"
-                                   UnCheckedKind="PackageVariantClosed"
-                                   IsCheckedKind="PackageVariantClosed"
-                                UnCheckedTitleText="{DynamicResource Text_Separator_Component}" />
+                                   PackIconKind="PackageVariantClosed"
+                                ControlTitleText="{DynamicResource Text_Separator_Component}" />
 
                                 <GD_Customcontrols:FunctionToggleUserControl x:Name="Custom_Component_TButton"
-                                   UnCheckedKind="Download"
-                                   IsCheckedKind="Download"
-                                UnCheckedTitleText="{DynamicResource Text_Custom_Component}" />
+                                   PackIconKind="Download"
+                                ControlTitleText="{DynamicResource Text_Custom_Component}" />
 
                                 <GD_Popup:NonTopmostPopup
                                     PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
@@ -75,9 +69,8 @@
                                         <Border  Background="{DynamicResource PrimaryHueMidBrush}" Padding="5,0" CornerRadius="10">
                                             <StackPanel>
                                                 <GD_Customcontrols:FunctionToggleUserControl 
-                                                                             UnCheckedKind="BoxCutter"
-                                                                             IsCheckedKind="BoxCutter"
-                                                                             UnCheckedTitleText="{DynamicResource btnDescription_ManualCutting}" >
+                                                                             PackIconKind="BoxCutter"
+                                                                             ControlTitleText="{DynamicResource btnDescription_ManualCutting}" >
                                                     <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
                                                         <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
                                                             <MultiBinding.ConverterParameter>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+
 namespace GD_CommonLibrary.Method
 {
     public class MessageBoxResultShow
@@ -16,7 +17,7 @@ namespace GD_CommonLibrary.Method
            
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-              MessageBoxReturn = WinUIMessageBox.Show(null, MessageString,
+                MessageBoxReturn = WinUIMessageBox.Show(new Window(), MessageString,
                MessageTitle,
                MB_Button,
                MB_Image,

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharactersFormEnum.cs" />
+    <Compile Include="DirectionsEnum.cs" />
     <Compile Include="HorizontalAlignEnum.cs" />
     <Compile Include="MachiningStatusEnum.cs" />
     <Compile Include="Method\EnumDescriptionTypeConverter.cs" />

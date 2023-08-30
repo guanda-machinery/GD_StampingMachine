@@ -1,6 +1,7 @@
 ﻿using GD_MachineConnect.Enums;
 using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using Opc.Ua;
 using System;
@@ -16,12 +17,12 @@ namespace GD_MachineConnect
     {
         private GD_OpcUaHelperClient GD_OpcUaClient = new();
 
-        public bool Connect(string HostPath, int Port, string DataPath , string UserName = null, string Password = null)
+        public bool Connect(string HostPath, int Port, string DataPath, string UserName = null, string Password = null)
         {
             bool Result = false;
             Task.Run(async () =>
             {
-                if(!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
+                if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
                     GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
 
                 Result = await GD_OpcUaClient.OpcuaConnectAsync(HostPath, Port, DataPath);
@@ -33,22 +34,22 @@ namespace GD_MachineConnect
             GD_OpcUaClient.Disconnect();
         }
 
-        public bool FeedingPositionBwd()
+        public bool FeedingPositionBwd(bool Active)
         {
-            //GD_OpcUaClient.WriteNode( , true)
-            throw new NotImplementedException();
+            GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, false);
+            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, Active);
         }
 
-        public bool FeedingPositionFwd()
+        public bool FeedingPositionFwd(bool Active)
         {
-
-            throw new NotImplementedException();
+            GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, false);
+            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, Active);
         }
 
         public bool FeedingPositionReturnToStandby()
         {
-
-            throw new NotImplementedException();
+            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
+            //throw new NotImplementedException();
         }
 
         public bool GetAxisSetting(out AxisSettingModel AxisSetting)
@@ -58,7 +59,7 @@ namespace GD_MachineConnect
         }
         public bool GetFeedingPosition(out float Position)
         {
-            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Feeding1.sv_rFeedingPosition , out Position);
+            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
         }
 
 
@@ -160,13 +161,39 @@ namespace GD_MachineConnect
             throw new NotImplementedException();
         }
 
+        public bool HydraulicPumpMotor(bool Active)
+        {
+           return GD_OpcUaClient.WriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, Active);
+        }
+
+        public bool ManualHydraulicCutControl(DirectionsEnum direction)
+        {
+            var ret = false;
+            if (direction == DirectionsEnum.Up)
+                ret =  GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, true);
+            if (direction == DirectionsEnum.Down)
+                ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, true);
+            else
+            {
+                var O_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
+                var C_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
+                ret = O_ret && C_ret;
+            }
+            return ret;
 
 
-        #region 節點
-        /// <summary>
-        /// 節點對應字串
-        /// </summary>
-        private class StampingOpcUANode
+
+        }
+
+
+
+
+
+    #region 節點
+    /// <summary>
+    /// 節點對應字串
+    /// </summary>
+    private class StampingOpcUANode
         {
             static readonly string NodeHeader = "ns=4;s=APPL";
             /// <summary>
@@ -610,7 +637,6 @@ namespace GD_MachineConnect
                 /// 馬達啟動
                 /// </summary>
                 public static string sv_bButtonMotor => $"{NodeHeader}.{NodeVariable.Motor1}.{BButton.sv_bButtonMotor}";
-
             }
 
             /// <summary>

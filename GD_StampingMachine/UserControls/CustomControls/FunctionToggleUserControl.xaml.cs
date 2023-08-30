@@ -39,12 +39,11 @@ namespace GD_StampingMachine.UserControls.CustomControls
         /// <summary>
         /// <see cref=""/> 註冊為依賴屬性
         /// </summary>
-        public static readonly DependencyProperty IsCheckedTitleTextProperty = DependencyProperty.Register(nameof(IsCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
-        public static readonly DependencyProperty UnCheckedTitleTextProperty = DependencyProperty.Register(nameof(UnCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty ControlTitleTextProperty = DependencyProperty.Register(nameof(ControlTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        //public static readonly DependencyProperty UnCheckedTitleTextProperty = DependencyProperty.Register(nameof(UnCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(FunctionToggleUserControl), new PropertyMetadata());
         
-        public static readonly DependencyProperty IsCheckedKindProperty = DependencyProperty.Register(nameof(IsCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata());
-        public static readonly DependencyProperty UnCheckedKindProperty = DependencyProperty.Register(nameof(UnCheckedKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty PackIconKindProperty = DependencyProperty.Register(nameof(PackIconKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata());
 
         public static readonly DependencyProperty ButtonContentProperty =  DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
@@ -104,16 +103,16 @@ namespace GD_StampingMachine.UserControls.CustomControls
 
 
 
-        public string IsCheckedTitleText
+        public string ControlTitleText
         {
-            get=>(string)GetValue(IsCheckedTitleTextProperty); 
-            set => SetValue(IsCheckedTitleTextProperty, value); 
+            get=>(string)GetValue(ControlTitleTextProperty); 
+            set => SetValue(ControlTitleTextProperty, value); 
         }
-        public string UnCheckedTitleText
+      /*  public string UnCheckedTitleText
         {
             get => (string)GetValue(UnCheckedTitleTextProperty);
             set => SetValue(UnCheckedTitleTextProperty, value);
-        }
+        }*/
 
         public ImageSource ImageSource
         {
@@ -121,15 +120,11 @@ namespace GD_StampingMachine.UserControls.CustomControls
             set { SetValue(ImageSourceProperty, value); }
         }
 
-        public PackIconKind? IsCheckedKind
+
+        public PackIconKind? PackIconKind
         {
-            get { return (PackIconKind?)GetValue(IsCheckedKindProperty); }
-            set { SetValue(IsCheckedKindProperty, value); }
-        }
-        public PackIconKind? UnCheckedKind
-        {
-            get { return (PackIconKind?)GetValue(UnCheckedKindProperty); }
-            set { SetValue(UnCheckedKindProperty, value); }
+            get { return (PackIconKind?)GetValue(PackIconKindProperty); }
+            set { SetValue(PackIconKindProperty, value); }
         }
 
         /// <summary>

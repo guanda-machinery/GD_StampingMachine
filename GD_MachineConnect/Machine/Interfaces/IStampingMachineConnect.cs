@@ -1,4 +1,5 @@
-﻿using GD_StampingMachine.GD_Model;
+﻿using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ namespace GD_MachineConnect.Machine.Interfaces
     /// <summary>
     /// 鋼印機連線行為
     /// </summary>
-    public interface IStampingMachineConnect
+    public partial interface IStampingMachineConnect
     {
         /// <summary>
         /// 連線
@@ -55,7 +56,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="StampingType"></param>
         /// <returns></returns>
-        bool GetSingleStampingType(int Index , out StampingTypeModel StampingType);
+        bool GetSingleStampingType(int Index, out StampingTypeModel StampingType);
         /// <summary>
         /// 設定單一字模
         /// </summary>
@@ -94,12 +95,12 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <returns></returns>
         bool SetSeparateBoxNumber(SeparateBoxModel SeparateBox);
-       
+
         /// <summary>
         /// 取得箱子
         /// </summary>
         /// <returns></returns>
-        bool GetSeparateBoxNumber(int Index ,out SeparateBoxModel SeparateBox);
+        bool GetSeparateBoxNumber(int Index, out SeparateBoxModel SeparateBox);
 
         /// <summary>
         /// 取得分料設定
@@ -125,7 +126,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool SetInputOutput(InputOutputModel InputOutput);        
+        bool SetInputOutput(InputOutputModel InputOutput);
         /// <summary>
         /// 取得工程模式
         /// </summary>
@@ -138,7 +139,11 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
         bool SetEngineerSetting(EngineerSettingModel EngineerSetting);
-
+    }
+ 
+    
+    public partial interface IStampingMachineConnect
+    {
         /// <summary>
         /// 取得馬達目前位置
         /// </summary>
@@ -153,17 +158,28 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <returns></returns>
         bool FeedingPositionReturnToStandby();
         /// <summary>
-        /// 手動前進
+        /// 進料手動前進
         /// </summary>
+        /// <param name="Active">啟用</param>
         /// <returns></returns>
-        bool FeedingPositionFwd();     
+        bool FeedingPositionFwd(bool Active);
         /// <summary>
-        /// 手動後退
+        /// 進料手動後退
         /// </summary>
+        /// <param name="Active">啟用</param>
         /// <returns></returns>
-        bool FeedingPositionBwd();
+        bool FeedingPositionBwd(bool Active);
 
 
+        /// <summary>
+        /// 油壓單元控制
+        /// </summary>
+        bool HydraulicPumpMotor(bool Active);
+
+        /// <summary>
+        /// 切割控制
+        /// </summary>
+        bool ManualHydraulicCutControl(DirectionsEnum direction);
 
 
 
@@ -176,4 +192,9 @@ namespace GD_MachineConnect.Machine.Interfaces
 
 
     }
+
+
+
+
+
 }

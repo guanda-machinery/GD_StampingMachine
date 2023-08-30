@@ -32,7 +32,19 @@
         <Setter Property="materialDesign:ColorZoneAssist.Background" Value="White"/>
         <Setter Property="materialDesign:ColorZoneAssist.Foreground" Value="Black"/>
     </Style>
-
+    
+    <Style TargetType="ComboBox" BasedOn="{StaticResource GD_ComboBox}" x:Key="GD_BlackComboBox">
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="{StaticResource DarkHueDarkBrush}"/>
+        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="White" />
+        <Setter Property="materialDesign:ColorZoneAssist.Mode" Value="Custom"/>
+        <Setter Property="materialDesign:ColorZoneAssist.Background" Value="Black"/>
+        <Setter Property="materialDesign:ColorZoneAssist.Foreground" Value="Black"/>
+    </Style>
+    
+    
+    
     <Style TargetType="{x:Type dxe:ComboBoxEdit}"  x:Key="GD_ComboBoxEdit">
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="Foreground" Value="Black"/>
@@ -98,72 +110,6 @@
     </ControlTemplate>
 
 
-    <Style
-        x:Key="GD_White_ComboBox"
-        BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}"
-        TargetType="ComboBox">
-        <Setter Property="Foreground" Value="{StaticResource solidclr_DimGray}" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="30" />
-                        </Grid.ColumnDefinitions>
-                        <ContentPresenter
-                            Name="ContentSite"
-                            Margin="0,6"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Content="{TemplateBinding SelectionBoxItem}"
-                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                            IsHitTestVisible="False" />
-                        <ToggleButton
-                            HorizontalAlignment="Stretch"
-                            Name="ToggleButton"
-                            Grid.ColumnSpan="2"
-                            ClickMode="Press"
-                            Focusable="false"
-                            IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                            Template="{StaticResource WhiteComboBoxToggleButtonNoBorder}" />
-                        <Popup
-                            Name="Popup"
-                            AllowsTransparency="True"
-                            Focusable="False"
-                            IsOpen="{TemplateBinding IsDropDownOpen}"
-                            Placement="Bottom"
-                            PopupAnimation="Slide">
-                            <Grid
-                                Name="DropDown"
-                                MinWidth="{TemplateBinding ActualWidth}"
-                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                SnapsToDevicePixels="True">
-                                <Border
-                                    x:Name="DropDownBorder"
-                                    Background="{StaticResource solidclr_CreamyGray}"
-                                    BorderBrush="{StaticResource solidclr_SilverGray}"
-                                    BorderThickness="1" />
-                                <dxlc:ScrollBox SnapsToDevicePixels="True">
-                                    <dxlc:ScrollBox.VerticalScrollBarStyle>
-                                        <Style BasedOn="{StaticResource VerticalScrollBar}" TargetType="ScrollBar" />
-                                    </dxlc:ScrollBox.VerticalScrollBarStyle>
-                                    <dxlc:ScrollBox.HorizontalScrollBarStyle>
-                                        <Style BasedOn="{StaticResource HorizontalScrollBar}" TargetType="ScrollBar" />
-                                    </dxlc:ScrollBox.HorizontalScrollBarStyle>
-                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                </dxlc:ScrollBox>
-                            </Grid>
-                        </Popup>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     
     
 </ResourceDictionary>

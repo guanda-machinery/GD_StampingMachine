@@ -79,19 +79,12 @@
                                                 <!--自定義方塊-->
                                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40">
 
-                                                    <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
-                                                        <materialDesign:PackIcon Kind="{Binding IsCheckedKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
+                                                        <materialDesign:PackIcon Kind="{Binding PackIconKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
                                                                              Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"  
                                                                              Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
-                                                                 Visibility="{Binding IsCheckedKind,Converter={dx:NullableToVisibilityConverter}}"/>
+                                                                 Visibility="{Binding PackIconKind,Converter={dx:NullableToVisibilityConverter}}"/>
+                                                   
                                                     </Grid>
-                                                    <Grid Visibility="{Binding IsChecked, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
-                                                        <materialDesign:PackIcon Kind="{Binding UnCheckedKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
-                                                                             Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"  
-                                                                             Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
-                                                                 Visibility="{Binding UnCheckedKind,Converter={dx:NullableToVisibilityConverter}}"/>
-                                                    </Grid>
-                                                </Grid>
                                             </Grid>
                                         </Border>
                                             <ProgressBar Width="40" Height="40"
@@ -130,24 +123,12 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Resources>
-                                            <TextBlock  TextWrapping="WrapWithOverflow" MaxWidth="80" 
-                                                Text="{Binding UnCheckedTitleText,FallbackValue=Text}" >
-                                                <TextBlock.Visibility>
-                                                    <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Union}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                                        <MultiBinding.Bindings>
-                                                            <Binding Path="IsChecked" Converter="{dx:BoolInverseConverter}"/>
-                                                            <Binding Path="IsCheckedTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter}"/>
-                                                        </MultiBinding.Bindings>
-                                                    </MultiBinding>
-                                                </TextBlock.Visibility>
-                                            </TextBlock>
                                             <TextBlock   MaxWidth="80" 
-                                                Text="{Binding IsCheckedTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
+                                                Text="{Binding ControlTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
                                                 <TextBlock.Visibility>
                                                     <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                         <MultiBinding.Bindings>
-                                                            <Binding Path="IsChecked"/>
-                                                            <Binding Path="IsCheckedTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
+                                                            <Binding Path="ControlTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
                                                         </MultiBinding.Bindings>
                                                     </MultiBinding>
                                                 </TextBlock.Visibility>

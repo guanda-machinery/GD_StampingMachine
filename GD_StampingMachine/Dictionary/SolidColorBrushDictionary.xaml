@@ -10,11 +10,11 @@
     <SolidColorBrush x:Key="DarkHueDarkBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="DarkHueDarkForegroundBrush" Color="#f0f0f0"/>
 
-    <SolidColorBrush x:Key="BrightHueLightBrush" Color="Snow"/>
+    <SolidColorBrush x:Key="BrightHueLightBrush" Color="White"/>
     <SolidColorBrush x:Key="BrightHueLightForegroundBrush" Color="#383838"/>
-    <SolidColorBrush x:Key="BrightHueMidBrush" Color="#eaeaea"/>
+    <SolidColorBrush x:Key="BrightHueMidBrush" Color="#e8e8e8"/>
     <SolidColorBrush x:Key="BrightHueMidForegroundBrush" Color="#4b4b4b"/>
-    <SolidColorBrush x:Key="BrightHueDarkBrush" Color="White"/>
+    <SolidColorBrush x:Key="BrightHueDarkBrush" Color="#f7f7f7"/>
     <SolidColorBrush x:Key="BrightHueDarkForegroundBrush" Color="#2c2c2c"/>
 
     <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#383838"/>
@@ -35,7 +35,7 @@
     <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#003c8f"/>
     <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="#FFFFFF"/>
     <!--ACCENT--> 
-    <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#C61922"/>
+    <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#EE2F2F"/>
     <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Black"/>
     
     <SolidColorBrush x:Key="BackgroundColorBrush" Color="#FAFCFB"/>

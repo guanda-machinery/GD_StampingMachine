@@ -234,6 +234,10 @@
       <Project>{0911bde5-d35b-409b-8c14-8d93f4a52cac}</Project>
       <Name>GD_CommonLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj">
+      <Project>{1b72928b-a32a-440a-854b-2ec435881875}</Project>
+      <Name>GD_StampingMachine.GD_Enum</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj">
       <Project>{12b3b748-7a04-4621-955c-463f2eca94b7}</Project>
       <Name>GD_StampingMachine.GD_Model</Name>

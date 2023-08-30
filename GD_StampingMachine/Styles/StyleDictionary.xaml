@@ -449,7 +449,7 @@
         <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
 
         <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="MinWidth" Value="10"/>
         <Setter Property="MinHeight" Value="10"/>
@@ -463,6 +463,10 @@
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="Orange"/>
                 <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Orange"/>
+                <Setter Property="Foreground" Value="Black"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -1036,11 +1040,8 @@
                 Margin="0"
                                  Orientation="{Binding Orientation}"
                                 ImageSource="{Binding ImageSource}"
-                                UnCheckedTitleText="{Binding UnCheckedTitleText}"
-                                IsCheckedTitleText="{Binding IsCheckedTitleText}"
-                                 IsChecked="{Binding IsChecked}"
-                                 IsCheckedKind="{Binding IsCheckedKind}"
-                                 UnCheckedKind="{Binding UnCheckedKind}"
+                                ControlTitleText="{Binding ControlTitleText}"
+                                 PackIconKind="{Binding PackIconKind}"
                                 ImageWidth="{Binding ImageWidth}"
                                 ImageHeight="{Binding ImageHeight}"
                                 />
@@ -1058,7 +1059,23 @@
         <Setter Property="ImageWidth" Value="40"/>
         <Setter Property="ImageHeight" Value="40"/>
     </Style>
-    
+
+    <Style x:Key="FunctionToggleUserControl_Bottom"
+                                    TargetType="GD_Customcontrols:FunctionToggleUserControl" 
+                                       BasedOn="{StaticResource FunctionToggleUserControlKey}">
+        <Setter Property="Foreground" Value="{DynamicResource DarkHueDarkForegroundBrush}"/>
+    </Style>
+
+    <Style x:Key="FunctionToggleUserControl_LeftDrawer"
+                                            TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
+        <Setter Property="Margin" Value="10,5"/>
+        <Setter Property="TextMargin" Value="5,0,10,0"/>
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="IsDragable" Value="True"/>
+        <Setter Property="IsDropable" Value="False"/>
+    </Style>
+
+
     <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
     <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
