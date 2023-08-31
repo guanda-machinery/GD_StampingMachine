@@ -75,10 +75,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
         }
 
-
-        //private bool _opcuaFormBrowseServerOpenIsEnabled = true;
-        //public bool OpcuaFormBrowseServerOpenIsEnabled { get => _opcuaFormBrowseServerOpenIsEnabled; set { _opcuaFormBrowseServerOpenIsEnabled = value; OnPropertyChanged(); } }
-
         private bool _opcuaFormBrowseServerOpenIsChecked = false;
         public bool OpcuaFormBrowseServerOpenIsChecked { get => _opcuaFormBrowseServerOpenIsChecked; set { _opcuaFormBrowseServerOpenIsChecked = value; OnPropertyChanged(); } }
 
@@ -95,9 +91,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         OpcuaFormBrowseServerOpenIsChecked = true;
                         try
                         {
-                            //GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.HostString = "192.168.1.123";
-                            //GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.Port = 4840;
-                            //GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.ServerDataPath = "";
                             await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
 
                         }
@@ -115,7 +108,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-
+        
 
 
         public ICommand OpcuaStartScanCommand

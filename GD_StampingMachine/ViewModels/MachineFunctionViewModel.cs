@@ -12,6 +12,7 @@ using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
 using System.Collections.Generic;
@@ -46,9 +47,19 @@ namespace GD_StampingMachine.ViewModels
                 if (Uindex != -1)
                     SeparateBox_RotateAngle = -DegreeRate * Uindex;
             }
+            //啟用掃描
+            StampMachineData.ScanOpcua();
+
 
 
         }
+
+        /// <summary>
+        /// 從機台端蒐集到的資料
+        /// </summary>
+        public StampMachineDataSingleton StampMachineData { get; set; } = Singletons.StampMachineDataSingleton.Instance;
+
+
 
 
 
@@ -107,46 +118,6 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        private bool _cylinder_1_Up_ReedSwitchIsTriggered = false;
-        /// <summary>
-        /// 氣壓缸1上方磁簧
-        /// </summary>
-        public bool Cylinder_1_Up_ReedSwitchIsTriggered
-        {
-            get => _cylinder_1_Up_ReedSwitchIsTriggered;
-            set { _cylinder_1_Up_ReedSwitchIsTriggered = value; OnPropertyChanged(); }
-        }
-        private bool _cylinder_1_Middle_ReedSwitchIsTriggered = false;
-        /// <summary>
-        /// 氣壓缸1中間磁簧
-        /// </summary>
-        public bool Cylinder_1_Middle_ReedSwitchIsTriggered
-        {
-            get => _cylinder_1_Middle_ReedSwitchIsTriggered;
-            set { _cylinder_1_Middle_ReedSwitchIsTriggered = value; OnPropertyChanged(); }
-        }
-        private bool _cylinder_1_Down_ReedSwitchIsTriggered = false;
-        /// <summary>
-        /// 氣壓缸1下方磁簧
-        /// </summary>
-        public bool Cylinder_1_Down_ReedSwitchIsTriggered
-        {
-            get => _cylinder_1_Down_ReedSwitchIsTriggered;
-            set { _cylinder_1_Down_ReedSwitchIsTriggered = value; OnPropertyChanged(); }
-        }
 
         private bool _cylinder_1_isUp;
         /// <summary>
@@ -212,52 +183,19 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                Cylinder_1_Up_IsEnabled = false;
 
-                Cylinder_1_Up_ReedSwitchIsTriggered = false;
-                Cylinder_1_Middle_ReedSwitchIsTriggered = false;
-                Cylinder_1_Down_ReedSwitchIsTriggered = false;
-                Task.Run(() =>
-                {
-                    Task.Delay(500).Wait();
-                    Cylinder_1_Up_IsEnabled = true;
-                    Cylinder_1_Up_ReedSwitchIsTriggered = true;
-                });
             });
         }
         public ICommand Cylinder_1_Mid_Command
         {
             get => new RelayCommand(() =>
             {
-                Cylinder_1_Middle_IsEnabled = false;
-
-                Cylinder_1_Up_ReedSwitchIsTriggered = false;
-                Cylinder_1_Middle_ReedSwitchIsTriggered = false;
-                Cylinder_1_Down_ReedSwitchIsTriggered = false;
-                Task.Run(() =>
-                {
-                    Task.Delay(500).Wait();
-                    Cylinder_1_Middle_IsEnabled = true;
-                    Cylinder_1_Middle_ReedSwitchIsTriggered = true;
-                });
             });
         }
         public ICommand Cylinder_1_Down_Command
         {
             get => new RelayCommand(() =>
-            {
-                Cylinder_1_Down_IsEnabled = false;
-
-                Cylinder_1_Up_ReedSwitchIsTriggered = false;
-                Cylinder_1_Middle_ReedSwitchIsTriggered = false;
-                Cylinder_1_Down_ReedSwitchIsTriggered = false;
-                Task.Run(() =>
-                {
-                    Task.Delay(500).Wait();
-                    Cylinder_1_Down_IsEnabled = true;
-                    Cylinder_1_Down_ReedSwitchIsTriggered = true;
-                });
-
+            { 
             });
         }
 

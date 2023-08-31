@@ -160,6 +160,18 @@
                                         <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
                                         <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
                                     </MultiTrigger>
+
+                                    <EventTrigger RoutedEvent="DragOver">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard Storyboard.TargetName="MainBorder">
+                                                    <ColorAnimation 
+                                                            Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="Red" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
                                     <EventTrigger RoutedEvent="DragEnter">
                                         <EventTrigger.Actions>
                                             <BeginStoryboard>

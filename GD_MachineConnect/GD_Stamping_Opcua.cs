@@ -161,41 +161,275 @@ namespace GD_MachineConnect
             throw new NotImplementedException();
         }
 
-        public bool HydraulicPumpMotor(bool Active)
-        {
-           return GD_OpcUaClient.WriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, Active);
-        }
 
-        public bool ManualHydraulicCutControl(DirectionsEnum direction)
+
+        public bool Set_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction)
         {
             bool ret;
-            switch (direction)
+            switch (stampingCylinder)
             {
-                case DirectionsEnum.Up:
-                    ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, true);
+                case StampingCylinderType.GuideRod_Move:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, true);
+                            break;
+                        case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, true);
+                            break;
+                        default:
+                            ret = false;
+                            break;
+                    }
                     break;
-                case DirectionsEnum.Down:
-                    ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, true);
+                case StampingCylinderType.GuideRod_Fixed:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, true);
+                            break;
+                        case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, true);
+                            break;
+                        default:
+                            ret = false;
+                            break;
+                    }
                     break;
-                default:
-                    var O_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
-                    var C_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
-                    ret = O_ret && C_ret;
+                case StampingCylinderType.QRStamping:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, true);
+                            break;
+                        case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, true);
+                            break;
+                        default:
+                            ret = false;
+                            break;
+                    }
                     break;
+                case StampingCylinderType.StampingSeat:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, true);
+                            break;
+                        case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, true);
+                            break;
+                        default:
+                            ret = false;
+                            break;
+                    }
+                    break;
+                case StampingCylinderType.BlockingCylinder:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, true);
+                            break;
+                        case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, true);
+                            break;
+                        default:
+                            var O_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
+                            var C_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, false);
+                            ret = O_ret && C_ret;
+                            break;
+                    }
+                    break;
+                case StampingCylinderType.HydraulicCutting:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, true);
+                            break;
+                        case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, true);
+                            break;
+                        default:
+                            ret = false;
+                            break;
+                    }
+                    break;
+                default: throw new NotImplementedException();
             }
-
             return ret;
         }
 
 
+        public bool Get_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction, out bool status)
+        {
+            status = false;
+            bool ret;
+            switch (stampingCylinder)
+            {
+                case StampingCylinderType.GuideRod_Move:
+                    ret = direction switch
+                    {
+                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, out status),
+                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, out status),
+                        _ => false,
+                    };
+                    break;
+                case StampingCylinderType.GuideRod_Fixed:
+                    ret = direction switch
+                    {
+                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, out status),
+                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, out status),
+                        _ => false,
+                    };
+                    break;
+                case StampingCylinderType.QRStamping:
+                    ret = direction switch
+                    {
+                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonUp, out status),
+                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonDown, out status),
+                        _ => false,
+                    };
+                    break;
+                case StampingCylinderType.StampingSeat:
+                    ret = direction switch
+                    {
+                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonUp, out status),
+                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonDown, out status),
+                        _ => false,
+                    };
+                    break;
+                case StampingCylinderType.BlockingCylinder:
+                    ret = direction switch
+                    {
+                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, out status),
+                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, out status),
+                        _ => false,
+                    };
+                    break;
+                case StampingCylinderType.HydraulicCutting:
+                    ret = direction switch
+                    {
+                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, out status),
+                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bButtonClose, out status),
+                        _ => false,
+                    };
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return ret;
+            //throw new NotImplementedException();
+        }
+
+       public bool GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction, out bool singal)
+        {
+            switch (stampingCylinder)
+            {
+                case StampingCylinderType.GuideRod_Move:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureUp, out singal);
+                        case DirectionsEnum.Down:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureDown, out singal);
+                        case DirectionsEnum.None:
+                            singal = false;
+                            return false;
+                        default: throw new NotImplementedException();
+                    }
+
+                case StampingCylinderType.GuideRod_Fixed:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureUp, out singal);
+                        case DirectionsEnum.Down:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureDown, out singal);
+                        case DirectionsEnum.None:
+                            singal = false;
+                            return false;
+                        default: throw new NotImplementedException();
+                    }
+
+                case StampingCylinderType.QRStamping:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture1.sv_bFixtureUp, out singal);
+                        case DirectionsEnum.Down:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture1.sv_bFixtureDown, out singal);
+                        case DirectionsEnum.None:
+                            singal = false;
+                            return false;
+                        default: throw new NotImplementedException();
+                    }
+
+                case StampingCylinderType.StampingSeat:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bFixtureUp, out singal);
+                        case DirectionsEnum.Down:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bFixtureDown, out singal);
+                        case DirectionsEnum.None:
+                            singal = false;
+                            return false;
+                        default: throw new NotImplementedException();
+                    }
+
+                case StampingCylinderType.BlockingCylinder:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, out singal);
+                        case DirectionsEnum.Down:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, out singal);
+                        case DirectionsEnum.None:
+                            singal = false;
+                            return false;
+                        default: throw new NotImplementedException();
+                    }
+
+                case StampingCylinderType.HydraulicCutting:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bCuttingOpen, out singal);
+                        case DirectionsEnum.Down:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bCuttingClosed, out singal);
+                        case DirectionsEnum.None:
+                            singal = false;
+                            return false;
+                        default: throw new NotImplementedException();
+                    }
+
+                default: throw new NotImplementedException();
+            }
+
+        }
 
 
+        public bool HydraulicPumpMotor(bool Active)
+        {
+            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, Active);
+        }
 
-    #region 節點
-    /// <summary>
-    /// 節點對應字串
-    /// </summary>
-    private class StampingOpcUANode
+
+        #region 節點
+        /// <summary>
+        /// 節點對應字串
+        /// </summary>
+        internal class StampingOpcUANode
         {
             static readonly string NodeHeader = "ns=4;s=APPL";
             /// <summary>
@@ -320,11 +554,11 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 磁簧訊號上限
                 /// </summary>
-                bFixtureUp,
+                sv_bFixtureUp,
                 /// <summary>
                 /// 磁簧訊號下限
                 /// </summary>
-                bFixtureDown
+                sv_bFixtureDown
             }
             /// <summary>
             /// 導桿缸磁簧
@@ -461,11 +695,11 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 磁簧訊號上限
                 /// </summary>
-                public static string sv_bGuideRodsFixtureUp => $"{NodeHeader}.{NodeVariable.Fixture1}.{SMagneticSwitch.bFixtureUp}";
+                public static string sv_bFixtureUp => $"{NodeHeader}.{NodeVariable.Fixture1}.{SMagneticSwitch.sv_bFixtureUp}";
                 /// <summary>
                 /// 磁簧訊號下限
                 /// </summary>
-                public static string sv_bGuideRodsFixtureDown => $"{NodeHeader}.{NodeVariable.Fixture1}.{SMagneticSwitch.bFixtureDown}";
+                public static string sv_bFixtureDown => $"{NodeHeader}.{NodeVariable.Fixture1}.{SMagneticSwitch.sv_bFixtureDown}";
                 /// <summary>
                 ///手動氣壓缸升命令
                 /// </summary>
@@ -484,11 +718,11 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 磁簧訊號上限
                 /// </summary>
-                public static string sv_bGuideRodsFixtureUp => $"{NodeHeader}.{NodeVariable.Fixture2}.{SMagneticSwitch.bFixtureUp}";
+                public static string sv_bFixtureUp => $"{NodeHeader}.{NodeVariable.Fixture2}.{SMagneticSwitch.sv_bFixtureUp}";
                 /// <summary>
                 /// 磁簧訊號下限
                 /// </summary>
-                public static string sv_bGuideRodsFixtureDown => $"{NodeHeader}.{NodeVariable.Fixture2}.{SMagneticSwitch.bFixtureDown}";
+                public static string sv_bFixtureDown => $"{NodeHeader}.{NodeVariable.Fixture2}.{SMagneticSwitch.sv_bFixtureDown}";
                 /// <summary>
                 ///手動氣壓缸升命令
                 /// </summary>

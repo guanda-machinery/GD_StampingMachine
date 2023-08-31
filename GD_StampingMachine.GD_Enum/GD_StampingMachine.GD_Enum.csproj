@@ -46,6 +46,7 @@
     <Compile Include="DirectionsEnum.cs" />
     <Compile Include="HorizontalAlignEnum.cs" />
     <Compile Include="MachiningStatusEnum.cs" />
+    <Compile Include="MagneticSwitchType.cs" />
     <Compile Include="Method\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingTypeEnum.cs" />

@@ -1008,47 +1008,9 @@
         <Setter Property="Margin" Value="2"/>
         <Setter Property="Padding" Value="0"/>
     </Style>
-    <!--
-    <Style TargetType="GD_Customcontrols:FunctionToggleButton" >
-        <Setter Property="ProgressBarCollapsed" Value="Collapsed"/>
-        <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Coral"/>
-        <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
-        <Setter Property="dd:DragDrop.IsDropTarget" Value="False"/>
-        <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="False"/>
-        <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="False"/>
-        <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="1"/>
-        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
-        <Setter Property="dd:DragDrop.DragAdornerTemplate" >
-            <Setter.Value>
-                <DataTemplate>
-                    <Border DataContext="{Binding}">
-                        <ToggleButton Style="{StaticResource GD_ToggleButton}" Width="45" Height="45" Padding="0" IsChecked="{Binding IsChecked}">
-                            <TextBlock Text="{Binding ButtonContentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </ToggleButton>
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>-->
 
+    
 
-    <DataTemplate x:Key="FunctionToggleDragAdorner" DataType="DataTemplate" >
-        <Border   
-                               Background="{DynamicResource PrimaryHueDarkBrush}" 
-                                     CornerRadius="10" >
-            <GD_Customcontrols:FunctionToggleUserControl 
-                Margin="0"
-                                 Orientation="{Binding Orientation}"
-                                ImageSource="{Binding ImageSource}"
-                                ControlTitleText="{Binding ControlTitleText}"
-                                 PackIconKind="{Binding PackIconKind}"
-                                ImageWidth="{Binding ImageWidth}"
-                                ImageHeight="{Binding ImageHeight}"
-                                />
-        </Border>
-
-
-    </DataTemplate>
 
 
 
@@ -1089,8 +1051,66 @@
     <Style TargetType="materialDesign:PackIcon">
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
     </Style>
-    
-    
+
+
+    <!--可拖曳式工具列-->
+    <Style TargetType="ItemsControl" x:Key="DragableItemsControl">
+        <Setter Property="dd:DragDrop.DropTargetAdornerBrush" Value="Transparent"/>
+        <Setter Property="dd:DragDrop.UseDefaultEffectDataTemplate" Value="true"/>
+        <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="true"/>
+        <Setter Property="dd:DragDrop.DefaultDragAdornerOpacity" Value="0.9"/>
+        <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
+        <Setter Property="dd:DragDrop.IsDropTarget" Value="True"/>
+    </Style>
+
+    <Style TargetType="ItemsControl" BasedOn="{StaticResource DragableItemsControl}" x:Key="StampingToolbarItemsControl">
+        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
+        <Setter Property="dd:DragDrop.DragAdornerTemplate" >
+            <Setter.Value>
+                <DataTemplate>
+                    <Border DataContext="{Binding}" 
+                                BorderThickness="1.5"
+                                BorderBrush="{DynamicResource PrimaryHueMidBrush}" 
+                                Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5">
+                        <GD_Customcontrols:FunctionToggleUserControl
+                                ControlTitleText ="{Binding ControlTitleText}"      
+                                ImageSource ="{Binding ImageSource}"   
+                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                Orientation="{Binding Orientation}"
+                                PackIconKind="{Binding PackIconKind}"
+                                ImageWidth="{Binding ImageWidth}"
+                                ImageHeight="{Binding ImageHeight}"/>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+
+    <Style TargetType="ItemsControl" BasedOn="{StaticResource DragableItemsControl}" x:Key="StampingToolbarItemsControl_Dark">
+        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
+        <Setter Property="dd:DragDrop.DragAdornerTemplate" >
+            <Setter.Value>
+                <DataTemplate>
+                    <Border DataContext="{Binding}" 
+                                BorderThickness="1.5"
+                                BorderBrush="{DynamicResource DarkHueMidBrush}" 
+                                Background="{DynamicResource DarkHueDarkBrush}" CornerRadius="5">
+                        <GD_Customcontrols:FunctionToggleUserControl
+                                ControlTitleText ="{Binding ControlTitleText}"      
+                                ImageSource ="{Binding ImageSource}"   
+                                Foreground="{DynamicResource DarkHueDarkForegroundBrush}"
+                                Orientation="{Binding Orientation}"
+                                PackIconKind="{Binding PackIconKind}"
+                                ImageWidth="{Binding ImageWidth}"
+                                ImageHeight="{Binding ImageHeight}"/>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
 
 
 </ResourceDictionary>

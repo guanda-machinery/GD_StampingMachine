@@ -170,16 +170,38 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <returns></returns>
         bool FeedingPositionBwd(bool Active);
 
+        /// <summary>
+        /// 取得氣壓/油壓缸實際位置(磁簧訊號)
+        /// </summary>
+        /// <returns></returns>
+        bool GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction ,out bool singal);
+
+
+        /// <summary>
+        /// 氣壓/油壓缸控制命令
+        /// </summary>
+        /// <returns></returns>
+        bool Set_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction);
+
+        /// <summary>
+        /// 取得氣壓/油壓缸控制命令
+        /// </summary>
+        /// <param name="stampingCylinder">氣壓缸類型</param>
+        /// <param name="direction">方向</param>
+        /// <param name="status">現在值</param>
+        /// <returns></returns>
+        bool Get_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction , out bool status);
+
 
         /// <summary>
         /// 油壓單元控制
         /// </summary>
         bool HydraulicPumpMotor(bool Active);
 
-        /// <summary>
-        /// 切割控制
-        /// </summary>
-        bool ManualHydraulicCutControl(DirectionsEnum direction);
+
+
+
+
 
 
 
@@ -192,6 +214,11 @@ namespace GD_MachineConnect.Machine.Interfaces
 
 
     }
+
+
+
+
+
 
 
 

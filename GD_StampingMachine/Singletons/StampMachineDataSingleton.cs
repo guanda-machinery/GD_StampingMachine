@@ -4,6 +4,7 @@ using GD_CommonLibrary.Method;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
@@ -120,11 +121,37 @@ namespace GD_StampingMachine.Singletons
                                 if (GD_Stamping.GetFeedingPosition(out var fPos))
                                     FeedingPosition = fPos;
 
+                                //磁簧開關
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, out bool Fixed_IsUp))
+                                    Cylinder_GuideRod_Fixed_IsUp = Fixed_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, out bool Fixed_IsDown))
+                                    Cylinder_GuideRod_Fixed_IsDown = Fixed_IsDown;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up, out bool Move_IsUp))
+                                    Cylinder_GuideRod_Move_IsUp = Move_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down, out bool Move_IsDown))
+                                    Cylinder_GuideRod_Move_IsDown = Move_IsDown;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Up, out bool QRStamping_IsUp))
+                                    Cylinder_QRStamping_IsUp = QRStamping_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Down, out bool QRStamping_IsDown))
+                                    Cylinder_QRStamping_IsDown = QRStamping_IsDown;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Up, out bool StampingSeat_IsUp))
+                                    Cylinder_StampingSeat_IsUp = StampingSeat_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Down, out bool StampingSeat_IsDown))
+                                    Cylinder_StampingSeat_IsDown = StampingSeat_IsDown;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up, out bool BlockingCylinder_IsUp))
+                                    Cylinder_BlockingCylinder_IsUp = BlockingCylinder_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, out bool BlockingCylindere_IsDown))
+                                    Cylinder_BlockingCylindere_IsDown = BlockingCylindere_IsDown;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, out bool HydraulicCutting_IsUp))
+                                    Cylinder_HydraulicCutting_IsUp = HydraulicCutting_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, out bool HydraulicCutting_IsDown))
+                                    Cylinder_HydraulicCutting_IsDown = HydraulicCutting_IsDown;
 
 
 
 
-                                
+
+
                             }
                         }
                         catch (Exception ex)
@@ -164,30 +191,130 @@ namespace GD_StampingMachine.Singletons
             return;
         }
 
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private float _feedingPosition;
         /// <summary>
-        /// 馬達目前位置
+        /// 進料馬達目前位置
         /// </summary>
         public float FeedingPosition
         {
             get => _feedingPosition; set { _feedingPosition = value; OnPropertyChanged(); }
         }
+
+        private bool _cylinder_GuideRod_Move_IsUp;
+        private bool _cylinder_GuideRod_Move_IsDown;
+        private bool _cylinder_GuideRod_Fixed_IsUp;
+        private bool _cylinder_GuideRod_Fixed_IsDown;
+        private bool _cylinder_QRStamping_IsUp;
+        private bool _cylinder_QRStamping_IsDown;
+        private bool _cylinder_StampingSeat_IsUp;
+        private bool _cylinder_StampingSeat_IsDown;
+        private bool _cylinder_BlockingCylinder_IsUp;
+        private bool _cylinder_BlockingCylindere_IsDown;
+        private bool _cylinder_HydraulicCutting_IsUp;
+        private bool _cylinder_HydraulicCutting_IsDown;
+
+        /// <summary>
+        /// 氣壓缸1上方磁簧
+        /// </summary>
+        public bool Cylinder_GuideRod_Move_IsUp
+        {
+            get => _cylinder_GuideRod_Move_IsUp; set { _cylinder_GuideRod_Move_IsUp = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 氣壓缸1下方磁簧
+        /// </summary>
+        public bool Cylinder_GuideRod_Move_IsDown
+        {
+            get => _cylinder_GuideRod_Move_IsDown; set { _cylinder_GuideRod_Move_IsDown = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 氣壓缸2上方磁簧
+        /// </summary>
+        public bool Cylinder_GuideRod_Fixed_IsUp
+        {
+            get => _cylinder_GuideRod_Fixed_IsUp; set { _cylinder_GuideRod_Fixed_IsUp = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 氣壓缸2下方磁簧
+        /// </summary>
+        public bool Cylinder_GuideRod_Fixed_IsDown
+        {
+            get => _cylinder_GuideRod_Fixed_IsDown; set { _cylinder_GuideRod_Fixed_IsDown = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// QR壓座組上方磁簧
+        /// </summary>
+        public bool Cylinder_QRStamping_IsUp
+        {
+            get => _cylinder_QRStamping_IsUp; set { _cylinder_QRStamping_IsUp = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// QR壓座組下方磁簧
+        /// </summary>
+        public bool Cylinder_QRStamping_IsDown
+        {
+            get => _cylinder_QRStamping_IsDown; set { _cylinder_QRStamping_IsDown = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 鋼印壓座組上方磁簧
+        /// </summary>
+        public bool Cylinder_StampingSeat_IsUp
+        {
+            get => _cylinder_StampingSeat_IsUp; set { _cylinder_StampingSeat_IsUp = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 鋼印壓座組下方磁簧
+        /// </summary>
+        public bool Cylinder_StampingSeat_IsDown
+        {
+            get => _cylinder_StampingSeat_IsDown; set { _cylinder_StampingSeat_IsDown = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 阻擋缸上方磁簧
+        /// </summary>
+        public bool Cylinder_BlockingCylinder_IsUp
+        {
+            get => _cylinder_BlockingCylinder_IsUp; set { _cylinder_BlockingCylinder_IsUp = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 阻擋缸下方磁簧
+        /// </summary>
+        public bool Cylinder_BlockingCylindere_IsDown
+        {
+            get => _cylinder_BlockingCylindere_IsDown; set { _cylinder_BlockingCylindere_IsDown = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 切割油壓缸上方磁簧
+        /// </summary>
+        public bool Cylinder_HydraulicCutting_IsUp
+        {
+            get => _cylinder_HydraulicCutting_IsUp; set { _cylinder_HydraulicCutting_IsUp = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 切割油壓缸下方磁簧
+        /// </summary>
+        public bool Cylinder_HydraulicCutting_IsDown
+        {
+            get => _cylinder_HydraulicCutting_IsDown; set { _cylinder_HydraulicCutting_IsDown = value; OnPropertyChanged(); }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /*馬達目前位置

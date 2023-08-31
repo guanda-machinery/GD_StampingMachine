@@ -42,33 +42,27 @@
         <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}">
 
 
-            <ItemsControl                   
-                dd:DragDrop.DropTargetAdornerBrush ="Transparent"
-                           dd:DragDrop.IsDragSource ="True"
-                           dd:DragDrop.IsDropTarget ="True"
-                           dd:DragDrop.UseDefaultEffectDataTemplate ="True"
-                           dd:DragDrop.UseDefaultDragAdorner ="True"
-                           dd:DragDrop.DefaultDragAdornerOpacity ="1"
-                           dd:DragDrop.DropHandler ="{GD_Method:FunctionToggleButtonControlBaseDropTarget}" Margin="0,10,0,5">
+            <ItemsControl 
+                Style="{StaticResource StampingToolbarItemsControl}"
+                dd:DragDrop.IsDragSource ="True"
+                dd:DragDrop.IsDropTarget ="False"
+                Margin="0,10,0,5">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
-                <GD_Customcontrols:FunctionToggleUserControl
+                <GD_Customcontrols:FunctionToggleUserControl 
                     x:Name="TbtnNumberSetting" 
-                    ImageSource="{StaticResource MainIcon_16_Number_DrawingImage_Mono}"
-                    IsChecked="{Binding TbtnNumberSettingIsChecked , Mode=TwoWay}"
-                    ControlTitleText="{DynamicResource btnNumberSetting}"  >
-
+                    IsChecked="{Binding TbtnNumberSettingIsChecked , Mode=TwoWay}" >
                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
-                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Mono}"      />
+                            <Setter Property="ControlTitleText" Value="{DynamicResource btnNumberSetting}"      />
+                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_16_Number_DrawingImage_Mono}"      />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Blue}"/>
+                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_16_Number_DrawingImage_Blue}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -76,17 +70,15 @@
                 </GD_Customcontrols:FunctionToggleUserControl>
 
                 <GD_Customcontrols:FunctionToggleUserControl 
-                    ImageSource="{StaticResource MainIcon_17_QRIcon_DrawingImage_Mono}"
                                         x:Name="TbtnQRSetting" 
-                                        IsChecked="{Binding TbtnQRSettingIsChecked, Mode=TwoWay}"
-                                        ControlTitleText="{DynamicResource btnQRSetting}"  >
+                                        IsChecked="{Binding TbtnQRSettingIsChecked, Mode=TwoWay}">
                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
-                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Mono}"      />
+                            <Setter Property="ControlTitleText" Value="{DynamicResource btnQRSetting}"      />
+                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_17_QRIcon_DrawingImage_Mono}"      />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Blue}"/>
+                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_17_QRIcon_DrawingImage_Blue}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -94,18 +86,15 @@
                 </GD_Customcontrols:FunctionToggleUserControl>
 
                 <GD_Customcontrols:FunctionToggleUserControl
-                    ImageSource="{StaticResource MainIcon_18_3Axial_DrawingImage_Mono}"
                                         x:Name="TbtnAxisSetting" 
-                    IsChecked="{Binding TbtnAxisSettingSettingIsChecked, Mode=TwoWay}"
-                                       
-                                        ControlTitleText="{DynamicResource btnAxisSetting}"  >
+                    IsChecked="{Binding TbtnAxisSettingSettingIsChecked, Mode=TwoWay}">
                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
-                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Mono}"      />
+                            <Setter Property="ControlTitleText" Value="{DynamicResource btnAxisSetting}"      />
+                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_18_3Axial_DrawingImage_Mono}"      />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Blue}"/>
+                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_18_3Axial_DrawingImage_Blue}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -114,17 +103,14 @@
 
                 <GD_Customcontrols:FunctionToggleUserControl
                     x:Name="TbtnTimimgSetting" 
-                    ImageSource="{StaticResource MainIcon_19_Stopwatch_DrawingImage_Mono}"
-                    IsChecked="{Binding TbtnTimimgSettingIsChecked , Mode=TwoWay}"
-                                       
-                                        ControlTitleText="{DynamicResource btnTimimgSetting}"  >
+                    IsChecked="{Binding TbtnTimimgSettingIsChecked , Mode=TwoWay}">
                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
-                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Mono}"      />
+                            <Setter Property="ControlTitleText" Value="{DynamicResource btnTimimgSetting}"      />
+                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_19_Stopwatch_DrawingImage_Mono}"      />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Blue}"/>
+                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_19_Stopwatch_DrawingImage_Blue}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -132,17 +118,15 @@
                 </GD_Customcontrols:FunctionToggleUserControl>
 
                 <GD_Customcontrols:FunctionToggleUserControl
-                    ImageSource="{StaticResource MainIcon_20_Shunt_DrawingImage_Mono}"
                     x:Name="TbtnSegregationSetting" 
-                    IsChecked="{Binding TbtnSegregationSettingIsChecked, Mode=TwoWay}"           
-                    ControlTitleText="{DynamicResource btnSeparateSetting}"  >
+                    IsChecked="{Binding TbtnSegregationSettingIsChecked, Mode=TwoWay}"           >
                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
-                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Mono}"      />
+                            <Setter Property="ControlTitleText" Value="{DynamicResource btnSeparateSetting}"      />
+                            <Setter Property="ImageSource" Value="{StaticResource MainIcon_20_Shunt_DrawingImage_Mono}"      />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Blue}"/>
+                                    <Setter Property="ImageSource" Value="{StaticResource MainIcon_20_Shunt_DrawingImage_Blue}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
