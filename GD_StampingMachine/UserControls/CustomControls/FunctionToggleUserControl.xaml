@@ -154,7 +154,7 @@
                                         <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
                                     </Trigger>
                                     <Trigger  Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="MainBorder" Property="Background" Value="#575757"/>
+                                        <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=MouseIsOverBackground , ElementName=MainFunctionToggleUserControl}"/>
                                     </Trigger>
 
 
@@ -166,7 +166,7 @@
                                         </MultiTrigger.Conditions>
                                         <Setter TargetName="MainBorder" Property="BorderThickness" Value="0" />
                                         <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
-                                        <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
+                                        <Setter TargetName="MainBorder" Property="Background" Value="DarkGray"/>
                                     </MultiTrigger>
 
                                     <EventTrigger RoutedEvent="DragOver">
@@ -175,7 +175,7 @@
                                                 <Storyboard Storyboard.TargetName="MainBorder">
                                                     <ColorAnimation 
                                                             Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="Orange" />
+                                                        Duration="0:0:0.100" To="Gray" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger.Actions>

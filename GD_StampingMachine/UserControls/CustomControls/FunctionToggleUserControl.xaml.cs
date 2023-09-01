@@ -65,6 +65,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty ProgressVisibilityProperty = DependencyProperty.Register(nameof(ProgressVisibility), typeof(Visibility), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Visibility.Collapsed, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty IsCheckedBackgroundProperty = DependencyProperty.Register(nameof(IsCheckedBackground), typeof(Brush), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Brushes.Transparent, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty MouseIsOverBackgroundProperty = DependencyProperty.Register(nameof(MouseIsOverBackground), typeof(Brush), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Brushes.Gray, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty IsCheckedBorderThicknessProperty = DependencyProperty.Register(nameof(IsCheckedBorderThickness), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(2.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         
 
@@ -258,6 +259,19 @@ namespace GD_StampingMachine.UserControls.CustomControls
                 SetValue(IsCheckedBackgroundProperty, value);
             }
         }
+
+        public Brush MouseIsOverBackground
+        {
+            get
+            {
+                return (Brush)GetValue(MouseIsOverBackgroundProperty);
+            }
+            set
+            {
+                SetValue(MouseIsOverBackgroundProperty, value);
+            }
+        }
+
 
         public double IsCheckedBorderThickness
         {

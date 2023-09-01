@@ -1044,19 +1044,24 @@
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="IsDragable" Value="True"/>
         <Setter Property="IsDropable" Value="False"/>
+        <Setter Property="MouseIsOverBackground" Value="Red "/>
+        <Setter Property="IsCheckedBackground" Value="Transparent"/>
 
         <Style.Triggers>
             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="False">
-                <Setter Property="IsCheckedBackground" Value="#125386"/>
+
+                <Setter Property="MouseIsOverBackground" Value="#125386"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
 
     <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" x:Key="FunctionToggleUserControl_ParameterSetting" BasedOn="{StaticResource FunctionToggleUserControlKey}">
 
+        <Setter Property="MouseIsOverBackground" Value="Red"/>
+        <Setter Property="IsCheckedBackground" Value="Transparent"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="False">
-                <Setter Property="IsCheckedBackground" Value="#125386"/>
+                <Setter Property="MouseIsOverBackground" Value="#125386"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
