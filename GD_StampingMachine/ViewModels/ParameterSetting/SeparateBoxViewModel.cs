@@ -2,7 +2,7 @@
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class SeparateBoxViewModel : BaseViewModelWithLog
+    public class SeparateBoxViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateBoxViewModel");
 

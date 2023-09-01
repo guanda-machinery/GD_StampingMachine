@@ -1,5 +1,7 @@
-﻿using DevExpress.Xpf.Bars;
+﻿using DevExpress.CodeParser;
+using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Scheduling.Themes;
+using GD_CommonLibrary;
 using GD_CommonLibrary.Method;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
@@ -18,6 +20,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GD_StampingMachine.Singletons
@@ -28,6 +31,7 @@ namespace GD_StampingMachine.Singletons
         {
             get => Method.StampingMachineJsonHelper.GetJsonFilePath(Method.StampingMachineJsonHelper.MachineSettingNameEnum.OpcUASetting);
         }*/
+        public const string DataSingletonName = "Name_StampMachineDataSingleton";
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
         protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
@@ -115,21 +119,23 @@ namespace GD_StampingMachine.Singletons
                         IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                         try
                         {
-                            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, "ns=4;s=APPL", OpcUASetting.UserName, OpcUASetting.Password))
+                            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value , OpcUASetting.UserName, OpcUASetting.Password))
                             {
                                 //進料馬達
                                 if (GD_Stamping.GetFeedingPosition(out var fPos))
                                     FeedingPosition = fPos;
 
                                 //磁簧開關
-                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, out bool Fixed_IsUp))
-                                    Cylinder_GuideRod_Fixed_IsUp = Fixed_IsUp;
-                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, out bool Fixed_IsDown))
-                                    Cylinder_GuideRod_Fixed_IsDown = Fixed_IsDown;
                                 if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up, out bool Move_IsUp))
                                     Cylinder_GuideRod_Move_IsUp = Move_IsUp;
                                 if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down, out bool Move_IsDown))
                                     Cylinder_GuideRod_Move_IsDown = Move_IsDown;
+
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, out bool Fixed_IsUp))
+                                    Cylinder_GuideRod_Fixed_IsUp = Fixed_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, out bool Fixed_IsDown))
+                                    Cylinder_GuideRod_Fixed_IsDown = Fixed_IsDown;
+
                                 if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Up, out bool QRStamping_IsUp))
                                     Cylinder_QRStamping_IsUp = QRStamping_IsUp;
                                 if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Down, out bool QRStamping_IsDown))
@@ -147,8 +153,8 @@ namespace GD_StampingMachine.Singletons
                                 if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, out bool HydraulicCutting_IsDown))
                                     Cylinder_HydraulicCutting_IsDown = HydraulicCutting_IsDown;
 
-
-
+                                if (GD_Stamping.GetHydraulicPumpMotor( out bool HPumpIsActive))
+                                    HydraulicPumpIsActive = HPumpIsActive;
 
 
 
@@ -191,6 +197,159 @@ namespace GD_StampingMachine.Singletons
             return;
         }
 
+        /// <summary>
+        /// 進料X軸回歸原點
+        /// </summary>
+        public ICommand Feeding_XAxis_ReturnToStandbyPosition
+        {
+            get => new RelayCommand(() =>
+            {
+                IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
+                if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                {
+                    GD_Stamping.FeedingPositionReturnToStandbyPosition();
+                    GD_Stamping.Disconnect();
+                }
+            });
+        }
+
+        /// <summary>
+        /// 進料X軸移動
+        /// </summary>
+        public ICommand Feeding_XAxis_MoveCommand
+        {
+            get => new RelayParameterizedCommand(async Parameter => 
+            {
+                if(Parameter != null)
+                {
+                    if(float.TryParse(Parameter.ToString(), out var ParameterValue))
+                    {
+                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
+                        if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                        {
+                            if (GD_Stamping.GetFeedingPosition(out var FPosition))
+                            {
+                                GD_Stamping.SetFeedingPosition(FPosition + ParameterValue);
+                               /* if(ParameterValue > 0)
+                                {
+                                    GD_Stamping.FeedingPositionFwd(true);
+                                }
+                                if (ParameterValue < 0)
+                                {
+                                    GD_Stamping.FeedingPositionFwd(false);
+                                }*/
+                                await Task.Delay(2000);
+
+                                GD_Stamping.GetFeedingPosition(out var FPosition2);
+                                var value = FPosition2 - FPosition;
+
+
+                                GD_Stamping.Disconnect(); 
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// 雙導桿缸-可動端 壓座控制 夾緊/放鬆
+        /// </summary>
+        public ICommand CylinderControl_Up_Command
+        {
+            get => new RelayParameterizedCommand(para =>
+            {
+                Task.Run(() =>
+                {
+                    if (para is StampingCylinderType stampingCylinder)
+                    {
+                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
+
+                        if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                        {
+                            if(GD_Stamping.Set_IO_CylinderControl(stampingCylinder, DirectionsEnum.Up))
+                            {
+                                Singletons.LogDataSingleton.Instance.AddLogData(DataSingletonName ,$"{stampingCylinder} " );
+                            }
+                            GD_Stamping.Disconnect();
+                        }
+                    }
+                });
+            });
+        }
+
+
+        public ICommand CylinderControl_Middle_Command
+        {
+            get => new RelayParameterizedCommand(para =>
+            {
+                Task.Run(() =>
+                {
+                    if (para is StampingCylinderType stampingCylinder)
+                    {
+                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
+                        if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                        {
+                            GD_Stamping.Set_IO_CylinderControl(stampingCylinder, DirectionsEnum.Middle);
+                            GD_Stamping.Disconnect();
+                        }
+                    }
+                });
+            });
+        }
+
+        /// <summary>
+        /// 雙導桿缸-固定端 壓座控制 夾緊/放鬆
+        /// </summary>
+        public ICommand CylinderControl_Down_Command
+        {
+            get => new RelayParameterizedCommand(para =>
+            {
+                Task.Run(() =>
+                {
+                    if (para is StampingCylinderType stampingCylinder)
+                    {
+                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Down);
+                    }
+                });
+            });
+        }
+
+        public ICommand ActiveHydraulicPumpMotor
+        {
+            get => new RelayCommand(() =>
+            {
+                Task.Run(() =>
+                {
+                    IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
+                    if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                    {
+                        if(GD_Stamping.GetHydraulicPumpMotor(out var isActive))
+                            GD_Stamping.SetHydraulicPumpMotor(!isActive);
+                        GD_Stamping.Disconnect();
+                    }
+
+                });
+            });
+        }
+
+
+
+
+
+        private void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)
+        {
+            IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction);
+                GD_Stamping.Disconnect();
+            }
+        }
+
+
+
+
 
         private float _feedingPosition;
         /// <summary>
@@ -213,7 +372,7 @@ namespace GD_StampingMachine.Singletons
         private bool _cylinder_BlockingCylindere_IsDown;
         private bool _cylinder_HydraulicCutting_IsUp;
         private bool _cylinder_HydraulicCutting_IsDown;
-
+        private bool _hydraulicPumpIsActive;
         /// <summary>
         /// 氣壓缸1上方磁簧
         /// </summary>
@@ -301,8 +460,14 @@ namespace GD_StampingMachine.Singletons
             get => _cylinder_HydraulicCutting_IsDown; set { _cylinder_HydraulicCutting_IsDown = value; OnPropertyChanged(); }
         }
 
-
-
+        /// <summary>
+        /// 油壓幫浦
+        /// </summary>
+        public bool HydraulicPumpIsActive
+        {
+            get => _hydraulicPumpIsActive; set { _hydraulicPumpIsActive = value; OnPropertyChanged(); }
+        }
+        
 
 
 

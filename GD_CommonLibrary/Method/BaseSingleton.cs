@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +10,10 @@ namespace GD_CommonLibrary
 {
     public abstract class BaseSingleton<T> where T : BaseSingleton<T>
     {
+
+
+
+
         private static readonly Lazy<T> Lazy = new(() => (Activator.CreateInstance(typeof(T), true) as T)!);
         private static readonly object thisLock = new();
         private static T _instance; 
@@ -38,6 +44,12 @@ namespace GD_CommonLibrary
         {
 
         }
+
+
+
+
+
+
 
 
 

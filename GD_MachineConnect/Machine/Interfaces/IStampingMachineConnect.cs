@@ -14,6 +14,7 @@ namespace GD_MachineConnect.Machine.Interfaces
     /// </summary>
     public partial interface IStampingMachineConnect
     {
+
         /// <summary>
         /// 連線
         /// </summary>
@@ -21,14 +22,30 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        bool Connect(string HostPath, int Port, string DataPath, string UserName = null, string Password = null);
+        bool Connect(string HostPath, int Port);
+
+        /// <summary>
+        /// 連線
+        /// </summary>
+        /// <param name="HostPath"></param>
+        /// <param name="Port"></param>
+        /// <param name="DataPath"></param>
+        /// <returns></returns>
+        bool Connect(string HostPath, int Port, string UserName, string Password);
+        /// <summary>
+        /// 連線
+        /// </summary>
+        /// <param name="HostPath"></param>
+        /// <param name="Port"></param>
+        /// <param name="DataPath"></param>
+        /// <returns></returns>
+        bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password );
         /// <summary>
         /// 離線
         /// </summary>
         void Disconnect();
         //在這邊寫取得機台參數等功能
         bool GetMachineStatus(out Enums.MachineStatus Status);
-
 
         /// <summary>
         /// 取得機台設定
@@ -151,12 +168,12 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <summary>
         /// 設定馬達目前位置
         /// </summary>
-        bool SetFeedingPosition(out float Position);
+        bool SetFeedingPosition(float Position);
         /// <summary>
         /// 回歸基準點命令
         /// </summary>
         /// <returns></returns>
-        bool FeedingPositionReturnToStandby();
+        bool FeedingPositionReturnToStandbyPosition();
         /// <summary>
         /// 進料手動前進
         /// </summary>
@@ -196,8 +213,13 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <summary>
         /// 油壓單元控制
         /// </summary>
-        bool HydraulicPumpMotor(bool Active);
+        bool SetHydraulicPumpMotor(bool Active);
 
+
+        /// <summary>
+        /// 取得油壓單元控制
+        /// </summary>
+        bool GetHydraulicPumpMotor(out bool isActive);
 
 
 

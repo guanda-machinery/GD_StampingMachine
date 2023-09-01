@@ -27,7 +27,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MachineFunctionViewModel : BaseViewModelWithLog
+    public class MachineFunctionViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineFunction");
 
@@ -35,6 +35,9 @@ namespace GD_StampingMachine.ViewModels
 
         public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
         public StampingFontChangedViewModel StampingFontChangedVM { get => Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM; }
+
+
+
 
         public MachineFunctionViewModel()
         {
@@ -175,29 +178,6 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
-        /// <summary>
-        /// 氣壓缸1上升
-        /// </summary>
-        public ICommand Cylinder_1_Up_Command
-        {
-            get => new RelayCommand(() =>
-            {
-
-            });
-        }
-        public ICommand Cylinder_1_Mid_Command
-        {
-            get => new RelayCommand(() =>
-            {
-            });
-        }
-        public ICommand Cylinder_1_Down_Command
-        {
-            get => new RelayCommand(() =>
-            { 
-            });
-        }
 
 
 

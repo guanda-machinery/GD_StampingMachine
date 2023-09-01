@@ -31,8 +31,12 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
-    public class ProductSettingViewModel : BaseViewModelWithLog
+
+    public class ProductSettingViewModel : GD_CommonLibrary.BaseViewModel
     {
+
+        StampingMachineJsonHelper JsonHM = new();
+
         public override string ViewModelName => (string)Application.Current.TryFindResource("Name_ProductSettingViewModel");
 
         private bool _addProjectDarggableIsPopup;
@@ -133,7 +137,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                AddLogData((string)Application.Current.TryFindResource("btnAddProject"));
+                Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,(string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
                 //檔案已存在 詢問是否要覆蓋
                 if (ExistedIndex != -1)

@@ -55,7 +55,7 @@ namespace GD_StampingMachine.ViewModels
     /// <summary>
     /// 加工專案
     /// </summary>
-    public class ProjectDistributeViewModel : BaseViewModelWithLog
+    public class ProjectDistributeViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProjectDistributeViewModel");
 

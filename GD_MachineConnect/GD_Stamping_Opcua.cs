@@ -15,16 +15,25 @@ namespace GD_MachineConnect
 {
     public class GD_Stamping_Opcua : IStampingMachineConnect
     {
-        private GD_OpcUaHelperClient GD_OpcUaClient = new();
+        private readonly GD_OpcUaHelperClient GD_OpcUaClient = new();
 
-        public bool Connect(string HostPath, int Port, string DataPath, string UserName = null, string Password = null)
+
+        public bool Connect(string HostPath, int Port)
+        {
+            return this.Connect(HostPath, Port, null, null, null);
+        }
+        public bool Connect(string HostPath, int Port, string UserName , string Password)
+        {
+            return this.Connect(HostPath, Port, null, UserName, Password);
+        }
+
+        public bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password)
         {
             bool Result = false;
             Task.Run(async () =>
             {
                 if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
                     GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
-
                 Result = await GD_OpcUaClient.OpcuaConnectAsync(HostPath, Port, DataPath);
             }).Wait();
             return Result;
@@ -46,7 +55,7 @@ namespace GD_MachineConnect
             return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, Active);
         }
 
-        public bool FeedingPositionReturnToStandby()
+        public bool FeedingPositionReturnToStandbyPosition()
         {
             return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
             //throw new NotImplementedException();
@@ -121,9 +130,9 @@ namespace GD_MachineConnect
             throw new NotImplementedException();
         }
 
-        public bool SetFeedingPosition(out float Position)
+        public bool SetFeedingPosition(float Position)
         {
-            throw new NotImplementedException();
+            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
         }
 
         public bool SetInputOutput(InputOutputModel InputOutput)
@@ -205,11 +214,11 @@ namespace GD_MachineConnect
                     {
                         case DirectionsEnum.Up:
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, true);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, true);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, true);
                             break;
                         default:
                             ret = false;
@@ -236,10 +245,10 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, true);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonUp, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, true);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonDown, true);
                             break;
                         default:
                             var O_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
@@ -419,10 +428,15 @@ namespace GD_MachineConnect
         }
 
 
-        public bool HydraulicPumpMotor(bool Active)
+        public bool SetHydraulicPumpMotor(bool Active)
         {
             return GD_OpcUaClient.WriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, Active);
         }
+        public bool GetHydraulicPumpMotor(out bool isActive)
+        {
+            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Motor1.sv_bButtonMotor , out isActive);
+        }
+
 
 
         #region 節點

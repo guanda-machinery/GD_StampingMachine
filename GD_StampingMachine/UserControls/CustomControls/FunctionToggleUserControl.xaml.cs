@@ -64,7 +64,11 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty IsIndeterminateProperty = DependencyProperty.Register(nameof(IsIndeterminate), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty ProgressVisibilityProperty = DependencyProperty.Register(nameof(ProgressVisibility), typeof(Visibility), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Visibility.Collapsed, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        public static readonly DependencyProperty IsCheckedBackgroundProperty = DependencyProperty.Register(nameof(IsCheckedBackground), typeof(Brush), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Brushes.Transparent, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty IsCheckedBorderThicknessProperty = DependencyProperty.Register(nameof(IsCheckedBorderThickness), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(2.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         
+
+
         public double Progress
         {
             get
@@ -243,9 +247,29 @@ namespace GD_StampingMachine.UserControls.CustomControls
             }
         }
 
+        public Brush IsCheckedBackground
+        {
+            get
+            {
+                return (Brush)GetValue(IsCheckedBackgroundProperty);
+            }
+            set
+            {
+                SetValue(IsCheckedBackgroundProperty, value);
+            }
+        }
 
-
-
+        public double IsCheckedBorderThickness
+        {
+            get
+            {
+                return (double)GetValue(IsCheckedBorderThicknessProperty);
+            }
+            set
+            {
+                SetValue(IsCheckedBorderThicknessProperty, value);
+            }
+        }
 
 
         /*public object ToggleButtonContent

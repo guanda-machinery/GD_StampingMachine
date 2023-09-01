@@ -14,6 +14,8 @@ namespace GD_StampingMachine.ViewModels
 {
     public class SendMachineCommandViewModel :BaseViewModel
     {
+        public override string ViewModelName => throw new NotImplementedException();
+
         public SendMachineCommandViewModel()
         {
 
@@ -218,9 +220,6 @@ namespace GD_StampingMachine.ViewModels
         /// 標記為完成
         /// </summary>
         public double WorkingProgress { get => _workingProgress; set { _workingProgress = value; OnPropertyChanged(); } }
-
-
-
 
     }
 

@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public abstract class BaseViewModelWithLog : BaseViewModel
+    public abstract class BaseViewModelWithLog : GD_CommonLibrary.BaseViewModel
     {
         [JsonIgnore]
         public StampingMachineJsonHelper JsonHM = new();

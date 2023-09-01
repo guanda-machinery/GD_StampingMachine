@@ -32,7 +32,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// <summary>
     /// ABC參數加工型
     /// </summary>
-    public class PartsParameterViewModel : BaseViewModelWithLog
+    public class PartsParameterViewModel : GD_CommonLibrary.BaseViewModel
     {
         [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_PartsParameterViewModel");

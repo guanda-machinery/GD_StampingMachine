@@ -52,7 +52,7 @@ namespace GD_MachineConnectTest
                     }
 
                     IStampingMachineConnect SMachine = new GD_Stamping_Opcua();
-                    if (SMachine.Connect(HostString, Port, ServerDataPath))
+                    if (SMachine.Connect(HostString, Port, ServerDataPath ,null,null))
                     {
 
                         SMachine.GetMachineStatus(out var status);

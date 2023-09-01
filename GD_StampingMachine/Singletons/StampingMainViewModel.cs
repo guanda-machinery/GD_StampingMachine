@@ -26,11 +26,13 @@ namespace GD_StampingMachine.ViewModels
 {
 
 
-    public partial class StampingMainViewModel : BaseViewModelWithLog
+    public partial class StampingMainViewModel : GD_CommonLibrary.BaseViewModel
     {
         /// <summary>
         /// 解構
         /// </summary>
+
+        StampingMachineJsonHelper JsonHM = new();
 
         ~StampingMainViewModel()
         {
@@ -58,13 +60,14 @@ namespace GD_StampingMachine.ViewModels
                 {
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
-                        AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
+                        Singletons.LogDataSingleton.Instance.AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
                         Thread.Sleep(1000);
 
                     }
                 });
             }
 
+            StampingMachineJsonHelper JsonHM = new();
 
             Task.Run(() =>
             {
@@ -77,6 +80,7 @@ namespace GD_StampingMachine.ViewModels
 
             Task.Run(async() =>
             {
+
                 await Task.Delay(5000);
                 //Thread.Sleep(5000);
                 while (true)
@@ -96,7 +100,7 @@ namespace GD_StampingMachine.ViewModels
 
                         JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
 
-                        AddLogData("SaveProjectDistributeListFile");
+                        Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName , "SaveProjectDistributeListFile");
                     }
                     catch (Exception ex)
                     {
@@ -122,7 +126,6 @@ namespace GD_StampingMachine.ViewModels
             });
 
 
-            IsBrightMode = Properties.Settings.Default.IsBrightMode;
 
 
         }
@@ -170,35 +173,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        //private bool _isBrightMode = false;
-        public bool IsBrightMode 
-        {
-            get => Properties.Settings.Default.IsBrightMode;
-            set
-            {
-                Properties.Settings.Default.IsBrightMode = value;
-                if (value)
-                {
-                    Application.Current.Resources["PrimaryHueLightBrush"] = Application.Current.TryFindResource("BrightHueLightBrush");
-                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("BrightHueLightForegroundBrush");
-                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("BrightHueMidBrush");
-                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("BrightHueMidForegroundBrush");
-                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("BrightHueDarkBrush");
-                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("BrightHueDarkForegroundBrush");
-                }
-                else
-                {
-                    Application.Current.Resources["PrimaryHueLightBrush"] = (SolidColorBrush)Application.Current.TryFindResource("DarkHueLightBrush");
-                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("DarkHueLightForegroundBrush");
-                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("DarkHueMidBrush");
-                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("DarkHueMidForegroundBrush");
-                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
-                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
-                }
-                Properties.Settings.Default.Save();
-                OnPropertyChanged();
-            }
-        }
+
 
 
 

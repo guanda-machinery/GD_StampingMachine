@@ -303,17 +303,22 @@
                         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                     </Style>
                 </WrapPanel.Resources>
-                
-                <GroupBox Header="{DynamicResource Text_Feeding_Component}" Visibility="{Binding Feeding_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                    <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
+                        <ToggleButton IsChecked="{Binding StampMachineData.HydraulicPumpIsActive}" Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}"/>
+
+                    </GroupBox>
+                    <GroupBox Header="{DynamicResource Text_Feeding_Component}" Visibility="{Binding Feeding_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <WrapPanel Orientation="Horizontal">
-                        <GroupBox Header="{DynamicResource Text_XAxis_Motor}">
+
+
+                            <GroupBox Header="{DynamicResource Text_XAxis_Motor}">
                                 <StackPanel>
                             <materialDesign:ColorZone CornerRadius="2" Padding="1">
                                 <StackPanel Orientation="Horizontal">
-                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"
+                                            <RepeatButton Style="{StaticResource GD_RepeatButton}" Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="-1.0"
                                              Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}"/>
                                     <Border Margin="5,0"/>
-                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"   
+                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"    Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="1.0"
                                               Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}"/>
                             </StackPanel>
                                     </materialDesign:ColorZone>
@@ -334,14 +339,14 @@
                             <GD_StampingMachine_UserControls:CylinderUserControl 
                                 CylinderUpIsActived="False"
                                 
-                                CylinderMiddleCommand="{Binding Cylinder_1_Mid_Command}" 
-                                CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsUp}" 
+                                CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.GuideRod_Move}"
+                                CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsUp}" 
                                 CylinderMiddleIsActived="True"
                                CylinderMiddle_IsChecked="{Binding Cylinder_1_isMiddle}" 
                                 CylinderMiddle_IsEnabled="{Binding Cylinder_1_Middle_IsEnabled}"
                                 
-                                CylinderDownCommand="{Binding Cylinder_1_Down_Command}" 
-                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsDown}" 
+                               CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.GuideRod_Move}"
+                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsDown}" 
                                 CylinderDownIsActived="True"
                                CylinderDown_IsChecked="{Binding Cylinder_1_isDown}" 
                                 CylinderDown_IsEnabled="{Binding Cylinder_1_Down_IsEnabled}"
@@ -351,11 +356,13 @@
                             <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
                                  CylinderUpIsActived="False"
-                               CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_GuideRod_Move_IsUp}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
+                                     
+                                    CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.GuideRod_Fixed}"
+                               CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsUp}"
                                 
-                               CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
+                                    
+                               CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.GuideRod_Fixed}"
+                               CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsDown}"
 
                                 
                                 CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
@@ -364,12 +371,17 @@
 
                             <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}-2">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
-                                 CylinderUpIsActived="False"
+                           
+                                    
+                                    CylinderUpIsActived="False"
+                                     CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.QRStamping}"
                                CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsUp}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
+                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
+                                    
+                                     CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.QRStamping}"
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
                                 CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
@@ -380,11 +392,14 @@
                             <GroupBox Header="{DynamicResource Text_BlockCylinder}" HeaderStringFormat="{}{0}">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
                                  CylinderUpIsActived="False"
+                                     CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.BlockingCylinder}"
                                CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylinder_IsUp}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
+                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
+                                    
+                                     CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.BlockingCylinder}"
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylindere_IsDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
                                 CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
@@ -511,11 +526,14 @@
                                 <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}">
                                     <GD_StampingMachine_UserControls:CylinderUserControl 
                                  CylinderUpIsActived="False"
+                                        CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.StampingSeat}"
                                CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
+                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
-                               CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_QRStamping_IsDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
+                                        
+                                        CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.StampingSeat}"
+                               CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_StampingSeat_IsDown}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
                                 CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
@@ -530,12 +548,20 @@
                     <StackPanel>
                     <GD_StampingMachine_UserControls:CylinderUserControl 
    
+                        
+                                     CylinderUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderUpCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicCutting}"
                              CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsUp}"
                              CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked, Converter={dx:BoolInverseConverter}}"
                     
+                        
+                        
+                        
+                                     CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Middle_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicCutting}"
                                CylinderIsMiddleSingal_IsTriggered ="False"
                              CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
                         
+                        
+                                     CylinderDownCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicCutting}"
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicCutting_IsDown}"
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
 

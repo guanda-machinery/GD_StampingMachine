@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class OperatingLogViewModel : BaseViewModelWithLog
+    public class OperatingLogViewModel : GD_CommonLibrary.BaseViewModel
     {
         public OperatingLogViewModel(OperatingLogModel OperatingLog)
         {

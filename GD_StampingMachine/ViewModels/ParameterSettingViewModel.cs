@@ -40,8 +40,11 @@ namespace GD_StampingMachine.ViewModels
         public GD_Model.EngineerSettingModel EngineerSetting { get; set; } = new();
     }
 
-    public class ParameterSettingViewModel : BaseViewModelWithLog
+    public class ParameterSettingViewModel : GD_CommonLibrary.BaseViewModel
     {
+
+        StampingMachineJsonHelper JsonHM = new();
+
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ParameterSettingViewModel");
 
         private bool _tbtnNumberSettingIsChecked;

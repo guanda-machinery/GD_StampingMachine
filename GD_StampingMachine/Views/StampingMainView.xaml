@@ -603,7 +603,7 @@
                             </TabControl>
                         </Grid>
                         <!--彈出式按鈕-->
-                        <materialDesign:DrawerHost  Opacity="0.90"
+                        <materialDesign:DrawerHost  Opacity="0.95"
                                                     IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}" LeftDrawerBackground="Transparent"
                                             IsRightDrawerOpen="{Binding ElementName=TBtn_Alarm, Path=IsChecked}" RightDrawerBackground="Transparent"
                                             >
@@ -633,6 +633,22 @@
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="ImageSource" Value="{StaticResource MainIcon_12_About_DrawingImage_Blue}"/>
                                                     </Trigger>
+
+
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_12_About_DrawingImage_Mono_Dark}"/>
+                                                    </MultiDataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="True" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_12_About_DrawingImage_Blue_Dark}"/>
+                                                    </MultiDataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </GD_Customcontrols:FunctionToggleUserControl.Style>
@@ -648,6 +664,22 @@
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="ImageSource" Value="{StaticResource MainIcon_13_MoldFont_DrawingImage_Blue}"/>
                                                     </Trigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_13_MoldFont_DrawingImage_Mono_Dark}"/>
+                                                    </MultiDataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="True" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_13_MoldFont_DrawingImage_Blue_Dark}"/>
+                                                    </MultiDataTrigger>
+
+
                                                 </Style.Triggers>
                                             </Style>
                                         </GD_Customcontrols:FunctionToggleUserControl.Style>
@@ -677,7 +709,24 @@
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="ImageSource" Value="{StaticResource MainIcon_14_Parameter_DrawingImage_Blue}"/>
                                                     </Trigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_14_Parameter_DrawingImage_Mono_Dark}"/>
+                                                    </MultiDataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="True" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_14_Parameter_DrawingImage_Blue_Dark}"/>
+                                                    </MultiDataTrigger>
+
+
                                                 </Style.Triggers>
+
                                             </Style>
                                         </GD_Customcontrols:FunctionToggleUserControl.Style>
                                     </GD_Customcontrols:FunctionToggleUserControl>
@@ -692,6 +741,22 @@
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="ImageSource" Value="{StaticResource MainIcon_15_Update_DrawingImage_Blue}"/>
                                                     </Trigger>
+
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_15_Update_DrawingImage_Mono_Dark}"/>
+                                                    </MultiDataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="True" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="ImageSource" Value="{StaticResource MainIcon_15_Update_DrawingImage_Blue_Dark}"/>
+                                                    </MultiDataTrigger>
+
                                                 </Style.Triggers>
                                             </Style>
                                         </GD_Customcontrols:FunctionToggleUserControl.Style>
@@ -1033,8 +1098,8 @@
                                     </GD_Customcontrols:FunctionToggleUserControl.Style>
 
                                 </GD_Customcontrols:FunctionToggleUserControl>
-                                
-                                <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding IsBrightMode}">
+
+                                <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}">
                                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="PackIconKind" Value="MoonAndStars"/>

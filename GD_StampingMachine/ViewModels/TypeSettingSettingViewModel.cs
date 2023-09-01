@@ -34,8 +34,9 @@ namespace GD_StampingMachine.ViewModels
     /// <summary>
     /// 排版設定
     /// </summary>
-    public class TypeSettingSettingViewModel : BaseViewModelWithLog
+    public class TypeSettingSettingViewModel : GD_CommonLibrary.BaseViewModel
     {
+        StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_TypeSettingSettingViewModel");
 
@@ -65,7 +66,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 return new RelayCommand(() =>
                 {
-                    AddLogData("btnAddProject");
+                    Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,"btnAddProject");
 
                     if(NewProjectDistribute.ProjectDistributeName == null)
                     {

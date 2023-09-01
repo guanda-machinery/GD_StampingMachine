@@ -21,6 +21,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public class QRSettingPageViewModel : PlateSettingPageBaseViewModel//, IStampingPlateVM
     {
+
+        StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
 
 

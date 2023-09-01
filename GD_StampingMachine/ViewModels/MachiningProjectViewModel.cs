@@ -1,4 +1,5 @@
 ﻿using DevExpress.Utils.Drawing;
+using GD_CommonLibrary;
 using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MachiningProjectViewModel : BaseViewModelWithLog
+    public class MachiningProjectViewModel : GD_CommonLibrary.BaseViewModel
     {
         public MachiningProjectViewModel(MachiningProjectModel _machiningProject)
         {

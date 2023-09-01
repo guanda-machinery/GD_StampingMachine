@@ -3,6 +3,7 @@ using DevExpress.Xpf.Core.Native;
 using GD_CommonLibrary;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,8 +19,12 @@ using System.Windows.Markup;
 
 namespace GD_CommonLibrary
 {
-    public class BaseViewModel : MarkupExtension , INotifyPropertyChanged
-    { 
+    public abstract class BaseViewModel : MarkupExtension , INotifyPropertyChanged
+    {
+
+        [JsonIgnore]
+        public abstract string ViewModelName { get; }
+
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
         public override object ProvideValue(IServiceProvider serviceProvider)

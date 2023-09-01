@@ -33,9 +33,12 @@ using Newtonsoft.Json.Linq;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
-    public class ProductProjectViewModel : BaseViewModelWithLog
+    public class ProductProjectViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProductProjectViewModel");
+
+
+        StampingMachineJsonHelper JsonHM = new();
 
         public ProductProjectViewModel(ProductProjectModel ProductProject)
         {

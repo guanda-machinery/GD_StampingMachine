@@ -306,6 +306,10 @@
 
     <sys:String x:Key="Text_Custom_Component">自定義</sys:String>
 
+
+    <sys:String x:Key="Text_OilPressure_Motor">油壓單元</sys:String>
+
+
     <!--Method-->
 
     

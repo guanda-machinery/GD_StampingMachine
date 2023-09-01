@@ -16,6 +16,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
     public class SeparateSettingViewModel : ParameterSettingBaseViewModel
     {
+        StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
+
+
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("NameSeparateSettingViewModel");
         public SeparateSettingViewModel(SeparateSettingModel _SeparateSetting)
         {

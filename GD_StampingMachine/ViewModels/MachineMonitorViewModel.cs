@@ -22,7 +22,7 @@ namespace GD_StampingMachine.ViewModels
         public ProjectDistributeViewModel ProjectDistributeVM { get; set; }
     }
 
-    public class MachineMonitorViewModel : BaseViewModelWithLog
+    public class MachineMonitorViewModel : GD_CommonLibrary.BaseViewModel
     {
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineMonitoring");

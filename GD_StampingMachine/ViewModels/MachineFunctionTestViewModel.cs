@@ -14,8 +14,9 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MachineFunctionTestViewModel : BaseViewModel
+    public class MachineFunctionTestViewModel : GD_CommonLibrary.BaseViewModel
     {
+        public override string ViewModelName => throw new NotImplementedException();
 
         #region 機台移動命令
 
@@ -678,8 +679,11 @@ namespace GD_StampingMachine.ViewModels
 
     }
 
-    public class StampingPlateProcessingSequenceViewModel : BaseViewModel
+    public class StampingPlateProcessingSequenceViewModel : GD_CommonLibrary.BaseViewModel
     {
+        public override string ViewModelName => throw new NotImplementedException();
+
+
         private SteelBeltStampingStatusEnum _steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
 
         /// <summary>
@@ -731,10 +735,6 @@ namespace GD_StampingMachine.ViewModels
         /// 標記為完成
         /// </summary>
         public bool ProcessingIsFinish { get => _processingIsFinish; set { _processingIsFinish = value; OnPropertyChanged(); } }
-
-
-
-
 
     }
 

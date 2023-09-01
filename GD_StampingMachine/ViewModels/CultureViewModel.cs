@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class CultureViewModel : BaseViewModelWithLog
+    public class CultureViewModel : GD_CommonLibrary.BaseViewModel
     {
          public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LanguageSettingViewModel");
 

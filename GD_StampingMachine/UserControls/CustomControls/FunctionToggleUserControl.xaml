@@ -9,14 +9,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              mc:Ignorable="d" 
-             
              FontSize="14" 
 
              x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
         <ToggleButton
-            IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsChecked}"
+           IsChecked="{Binding IsChecked}"
                       IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
                       Content="{Binding ButtonContent, Mode=OneWay}">
             <ToggleButton.Style>
@@ -59,34 +58,34 @@
                                         Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
                                         <Grid >
                                             <Border >
-                                            <Border.Style>
-                                                <Style TargetType="Border">
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="False">
-                                                            <Setter Property="Opacity" Value="0.3"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                            <Grid Margin="5">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.3"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <Grid Margin="5">
 
-                                                <Image 
+                                                    <Image 
                                                     d:Width="40" d:Height="40" 
                                                     Source="{Binding ImageSource ,FallbackValue={StaticResource Logo}}"
                                                     Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"
                                                     Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"/>
-                                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                                <!--自定義方塊-->
-                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40">
+                                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                                    <!--自定義方塊-->
+                                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40">
 
                                                         <materialDesign:PackIcon Kind="{Binding PackIconKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
                                                                              Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"  
                                                                              Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"
                                                                  Visibility="{Binding PackIconKind,Converter={dx:NullableToVisibilityConverter}}"/>
-                                                   
+
                                                     </Grid>
-                                            </Grid>
-                                        </Border>
+                                                </Grid>
+                                            </Border>
                                             <ProgressBar Width="40" Height="40"
                                             Opacity="0.95" Minimum="0" Maximum="100" 
                                                              Style="{StaticResource MaterialDesignCircularProgressBar}"
@@ -138,18 +137,27 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger  Property="IsChecked" Value="True">
-                                        <Setter TargetName="MainBorder" Property="BorderThickness" Value="2" />
+                                        <Setter TargetName="MainBorder" Property="BorderThickness" Value="{Binding Path=IsCheckedBorderThickness , ElementName=MainFunctionToggleUserControl}" />
                                         <Setter TargetName="MainBorder" Property="BorderBrush" Value="#acacac" />
-                                        <Setter TargetName="MainBorder" Property="Background" Value="Gray"/>
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.4
-                                                "/>
+                                        <!--      <Setter TargetName="MainBorder" Property="Background" Value="Gray"/>-->
+                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.4"/>
                                     </Trigger>
+
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsChecked" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=IsCheckedBackground , ElementName=MainFunctionToggleUserControl}"/>
+                                    </MultiTrigger>
+
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
                                     </Trigger>
                                     <Trigger  Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="MainBorder" Property="Background" Value="Orange"/>
+                                        <Setter TargetName="MainBorder" Property="Background" Value="#575757"/>
                                     </Trigger>
+
+
                                     <MultiTrigger>
                                         <MultiTrigger.Conditions>
                                             <Condition Property="IsMouseOver" Value="True" />
@@ -167,7 +175,7 @@
                                                 <Storyboard Storyboard.TargetName="MainBorder">
                                                     <ColorAnimation 
                                                             Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="Red" />
+                                                        Duration="0:0:0.100" To="Orange" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger.Actions>
@@ -178,7 +186,7 @@
                                                 <Storyboard Storyboard.TargetName="MainBorder">
                                                     <ColorAnimation 
                                                             Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="Red" />
+                                                        Duration="0:0:0.100" To="Orange" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger.Actions>
@@ -201,6 +209,5 @@
                 </Style>
             </ToggleButton.Style>
         </ToggleButton>
-
     </Grid>
 </UserControl>

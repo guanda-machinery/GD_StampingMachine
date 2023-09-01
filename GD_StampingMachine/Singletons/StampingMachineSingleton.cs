@@ -13,12 +13,28 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace GD_StampingMachine.Singletons
 {
 
-    public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton>
+    public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton> , INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+        protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            }
+        }
+
+
+
+
         protected override void Init()
         {
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
@@ -185,9 +201,13 @@ namespace GD_StampingMachine.Singletons
             {
 
             };
+
+
+            IsBrightMode = Properties.Settings.Default.IsBrightMode;
+
+
+
         }
-
-
 
         public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; }
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
@@ -211,5 +231,45 @@ namespace GD_StampingMachine.Singletons
                 return Singletons.LogDataSingleton.Instance.DataObservableCollection;
             }
         }
+
+
+        public bool IsBrightMode
+        {
+            get => Properties.Settings.Default.IsBrightMode;
+            set
+            {
+                Properties.Settings.Default.IsBrightMode = value;
+                if (value)
+                {
+                    Application.Current.Resources["PrimaryHueLightBrush"] = Application.Current.TryFindResource("BrightHueLightBrush");
+                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("BrightHueLightForegroundBrush");
+                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("BrightHueMidBrush");
+                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("BrightHueMidForegroundBrush");
+                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("BrightHueDarkBrush");
+                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("BrightHueDarkForegroundBrush");
+                }
+                else
+                {
+                    Application.Current.Resources["PrimaryHueLightBrush"] = (SolidColorBrush)Application.Current.TryFindResource("DarkHueLightBrush");
+                    Application.Current.Resources["PrimaryHueLightForegroundBrush"] = Application.Current.TryFindResource("DarkHueLightForegroundBrush");
+                    Application.Current.Resources["PrimaryHueMidBrush"] = Application.Current.TryFindResource("DarkHueMidBrush");
+                    Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("DarkHueMidForegroundBrush");
+                    Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
+                    Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
+                }
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }
