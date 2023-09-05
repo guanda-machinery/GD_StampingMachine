@@ -14,10 +14,13 @@ namespace GD_CommonLibrary.Method
         protected static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
             MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
-           
+
+            var NewWindow = new Window();
+            NewWindow.Topmost = true;
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                MessageBoxReturn = WinUIMessageBox.Show(new Window(), MessageString,
+                MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
                MessageTitle,
                MB_Button,
                MB_Image,

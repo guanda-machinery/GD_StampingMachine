@@ -17,7 +17,7 @@
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              mc:Ignorable="d" >
     <Grid  Margin="150,0,0,0">
         <Grid.Resources>
@@ -1070,7 +1070,71 @@
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}" DataContext="{Binding InputOutputVM}">
+                    <Grid>
+                        <dxg:GridControl  HorizontalAlignment="Left"
+                                Style="{StaticResource ProjectGridControl}" 
+                                    Background="Transparent"
+                                                  AutoGenerateColumns="None"
+                                                  SelectionMode="Row"
+                                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IO_TableObservableCollection}"
+                                    MaxHeight="100000"    >
 
+                            <dxg:GridControl.View >
+                                <dxg:TableView  
+                                IsColumnMenuEnabled ="False"
+                                AllowSorting="false"
+                                AllowColumnFiltering="False"
+                                AllowColumnMoving="False"
+                                AllowEditing="True"
+                                ShowColumnHeaders="True"
+                                HeaderHorizontalAlignment="Center"
+                                                                
+                                VerticalScrollbarVisibility="Disabled"
+                                HorizontalScrollbarVisibility="Disabled"
+                                ShowHorizontalLines="False"
+                                ShowVerticalLines="False"
+                                ShowGroupPanel="False"
+                                ShowSearchPanelMode="Never"
+                                SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                SearchPanelFindMode="Always"
+                                ShowIndicator="False"
+                                SearchDelay="0"/>
+                            </dxg:GridControl.View>
+
+
+                            <dxg:GridColumn 
+                                                    FieldName="Info"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="BondingCableTerminal">
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="KEBA_Definition">
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="SensorType">
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="IO_Value">
+                            </dxg:GridColumn>
+                            
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center"
+                                                        FieldName="NodeID">
+                            </dxg:GridColumn>
+
+                        </dxg:GridControl>
+                    </Grid>
+                    
+                    
+                    
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}" DataContext="{Binding EngineerSettingVM}">
                     <StackPanel HorizontalAlignment="Left" >

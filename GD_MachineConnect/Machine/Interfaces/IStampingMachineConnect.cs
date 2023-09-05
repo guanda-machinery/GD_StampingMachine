@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.Design;
 
 namespace GD_MachineConnect.Machine.Interfaces
 {
@@ -40,6 +41,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="DataPath"></param>
         /// <returns></returns>
         bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password );
+
         /// <summary>
         /// 離線
         /// </summary>

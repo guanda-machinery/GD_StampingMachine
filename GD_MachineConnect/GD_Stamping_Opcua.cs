@@ -1,4 +1,5 @@
-﻿using GD_MachineConnect.Enums;
+﻿using GD_CommonLibrary.Method;
+using GD_MachineConnect.Enums;
 using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Enum;
@@ -10,6 +11,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace GD_MachineConnect
 {
@@ -27,15 +30,19 @@ namespace GD_MachineConnect
             return this.Connect(HostPath, Port, null, UserName, Password);
         }
 
+        public const int ConntectMillisecondsTimeout = 10000;
+
         public bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password)
         {
             bool Result = false;
-            Task.Run(async () =>
+
+            var ConnectTask = Task.Run(async () =>
             {
                 if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
                     GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
                 Result = await GD_OpcUaClient.OpcuaConnectAsync(HostPath, Port, DataPath);
-            }).Wait();
+            });
+            ConnectTask.Wait(ConntectMillisecondsTimeout);
             return Result;
         }
         public void Disconnect()
@@ -92,6 +99,8 @@ namespace GD_MachineConnect
         public bool GetMachineStatus(out MachineStatus Status)
         {
             Status = Enums.MachineStatus.Disconnect;
+
+            //return GD_OpcUaClient.ReadNode(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
             return false;
         }
 
@@ -132,7 +141,11 @@ namespace GD_MachineConnect
 
         public bool SetFeedingPosition(float Position)
         {
-            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
+            if (CheckHydraulicPumpMotor())
+            {
+                return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
+            }
+            return false;
         }
 
         public bool SetInputOutput(InputOutputModel InputOutput)
@@ -437,15 +450,81 @@ namespace GD_MachineConnect
             return GD_OpcUaClient.ReadNode(StampingOpcUANode.Motor1.sv_bButtonMotor , out isActive);
         }
 
+        /// <summary>
+        /// 檢查油壓馬達 若未開啟則跳出選項詢問是否開啟
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckHydraulicPumpMotor()
+        {
+            if(GetHydraulicPumpMotor(out var MotorIsActived))
+            {
+                if (MotorIsActived)
+                    return true;
+                else
+                {
+                    //詢問後設定
+                    //油壓馬達尚未啟動，是否要啟動油壓馬達？
+
+             
+        
+                    var Result = MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify") , 
+                        (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved") +
+                        "\r\n" +
+                        (string)Application.Current.TryFindResource("Text_AskActiveHydraulicPumpMotor"));
+                    if (Result == MessageBoxResult.Yes)
+                    {
+                        if (SetHydraulicPumpMotor(true))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure"));
+                        }
+                    }
+
+
+                }
+            }
+
+
+
+            return false;
+        }
+
+
+
+        public bool ReadNode<T>(string NodeTreeString, out T ReadValue)
+        {
+            return GD_OpcUaClient.ReadNode(NodeTreeString, out ReadValue);
+        }
+        public bool WriteNode<T>(string NodeTreeString, T WriteValue)
+        {
+            return GD_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+        }
+            
+
+
+
+
+
+
+
+
+
 
 
         #region 節點
         /// <summary>
         /// 節點對應字串
         /// </summary>
-        internal class StampingOpcUANode
+        public class StampingOpcUANode
         {
-            static readonly string NodeHeader = "ns=4;s=APPL";
+            /// <summary>
+            /// ns=4;s=APPL
+            /// </summary>
+            public static readonly string NodeHeader = "ns=4;s=APPL";
             /// <summary>
             /// 節點變數
             /// </summary>

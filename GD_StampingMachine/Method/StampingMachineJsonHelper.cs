@@ -20,8 +20,6 @@ namespace GD_StampingMachine.Method
     public class StampingMachineJsonHelper : GD_CommonLibrary.Method.JsonHelperMethod
     {
 
-
-
         public enum ParameterSettingNameEnum
         {
             AxisSetting,
@@ -36,6 +34,7 @@ namespace GD_StampingMachine.Method
         public enum MachineSettingNameEnum
         {
             OpcUASetting,
+            IO_Table,
             StampingFont
         }
         public enum ProjectSettingEnum

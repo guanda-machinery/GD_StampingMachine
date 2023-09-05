@@ -325,6 +325,7 @@
     <sys:String x:Key="Text_ProjectIsExistedCantCreateProject">專案名稱已存在，不可建立相同名稱的專案</sys:String>
     <sys:String x:Key="Text_ProjectIsLoaded">專案已載入</sys:String>
 
+
     <sys:String x:Key="Text_SaveSuccessful">儲存成功</sys:String>
     <sys:String x:Key="Text_SaveFail">儲存失敗</sys:String>
     <sys:String x:Key="Text_LoadSuccessful">讀取成功</sys:String>
@@ -337,6 +338,12 @@
 
 
     <sys:String x:Key="Text_JsonError">Json檔案讀取錯誤</sys:String>
+
+
+    <!--機台-->
+    <sys:String x:Key="Text_HydraulicPumpMotorIsNotAcitved">液壓馬達未啟動</sys:String>
+    <sys:String x:Key="Text_HydraulicPumpMotorAcitvedFailure">液壓馬達啟動失敗</sys:String>
+    <sys:String x:Key="Text_AskActiveHydraulicPumpMotor">是否要啟動液壓馬達</sys:String>
 
 
 

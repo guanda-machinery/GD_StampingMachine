@@ -1,5 +1,6 @@
 ﻿using DevExpress.CodeParser;
 using DevExpress.Xpf.Bars;
+using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Scheduling.Themes;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Method;
@@ -13,7 +14,9 @@ using GD_StampingMachine.ViewModels;
 using Opc.Ua;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -21,6 +24,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static GD_StampingMachine.Method.StampingMachineJsonHelper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GD_StampingMachine.Singletons
@@ -106,9 +110,60 @@ namespace GD_StampingMachine.Singletons
 
         private bool ContinueScanning = true;
         private bool _isScaning = false;
-        public bool IsScaning { get=> _isScaning; set { _isScaning = value; OnPropertyChanged(); } }
+        public bool IsScaning { get => _isScaning; set { _isScaning = value; OnPropertyChanged(); } }
+      
+        
+        private bool _isConnected = false;
+        public bool IsConnected { get => _isConnected; private set { _isConnected = value; OnPropertyChanged(); } }
         public void ScanOpcua()
         {
+            StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
+            if (JsonHM.ReadJsonSettingByEnum(MachineSettingNameEnum.IO_Table, out ObservableCollection<IO_InfoModel> io_info_Table))
+            {
+                IO_TableObservableCollection = io_info_Table;
+            }
+            else
+            {
+
+                string opcuaNodeHeader = GD_Stamping_Opcua.StampingOpcUANode.NodeHeader;
+
+                //讀取失敗->建立新的io表
+                io_info_Table = new ObservableCollection<IO_InfoModel>();
+                io_info_Table.Add(new IO_InfoModel()
+                {
+                    Info = "氣壓總壓檢知(7kg/cm3 up)",
+                    BondingCableTerminal = "I00",
+                    KEBA_Definition = "DI_00",
+                    SensorType = ioSensorType.DI,
+                    NodeID = $"{opcuaNodeHeader}.system.di_AirPressNotEnough",
+                });
+                io_info_Table.Add(new IO_InfoModel()
+                {
+                    Info = "預留",
+                    BondingCableTerminal = "I01",
+                    KEBA_Definition = "DI_01",
+                    SensorType = ioSensorType.DI,
+                });
+                io_info_Table.Add(new IO_InfoModel()
+                {
+                    Info = "油壓單元液位檢知(低液位)",
+                    BondingCableTerminal = "I02",
+                    KEBA_Definition = "DI_02",
+                    SensorType = ioSensorType.DI,
+                    NodeID = $"{opcuaNodeHeader}.OilMaintenance1.di_OilLevelOk"
+                });
+                io_info_Table.Add(new IO_InfoModel()
+                {
+                    Info = "潤滑壓力檢知",
+                    BondingCableTerminal = "I03",
+                    KEBA_Definition = "DI_03",
+                    SensorType = ioSensorType.DI,
+                    NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubPressureAchieved"
+                });
+                IO_TableObservableCollection = io_info_Table;
+                JsonHM.WriteJsonSettingByEnum(MachineSettingNameEnum.IO_Table, IO_TableObservableCollection);
+            }
+
             if (!IsScaning)
             {
                 IsScaning = true;
@@ -119,9 +174,12 @@ namespace GD_StampingMachine.Singletons
                         IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                         try
                         {
-                            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value , OpcUASetting.UserName, OpcUASetting.Password))
+                            IsConnected = GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password);
+                            if(IsConnected)
                             {
                                 //進料馬達
+
+                                //GD_Stamping.GetMachineStatus
                                 if (GD_Stamping.GetFeedingPosition(out var fPos))
                                     FeedingPosition = fPos;
 
@@ -153,16 +211,39 @@ namespace GD_StampingMachine.Singletons
                                 if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, out bool HydraulicCutting_IsDown))
                                     Cylinder_HydraulicCutting_IsDown = HydraulicCutting_IsDown;
 
-                                if (GD_Stamping.GetHydraulicPumpMotor( out bool HPumpIsActive))
+                                if (GD_Stamping.GetHydraulicPumpMotor(out bool HPumpIsActive))
                                     HydraulicPumpIsActive = HPumpIsActive;
 
 
+                                //取得io資料表
+                                if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
+                                {
+                                    foreach (var IO_Table in IO_TableObservableCollection)
+                                    {
+                                        if (!string.IsNullOrEmpty(IO_Table.NodeID))
+                                        {
+                                            if (GD_StampingOpcua.ReadNode(IO_Table.NodeID, out bool nodeValue))
+                                            {
+                                                IO_Table.IO_Value = nodeValue.TryConvertToDouble();
+                                            }
+                                        }
+                                    }
+                                }
 
                             }
+                            else
+                            {
+                                foreach (var IO_Table in IO_TableObservableCollection)
+                                {
+                                    IO_Table.IO_Value = null;
+                                }
+                            }
+
+
                         }
                         catch (Exception ex)
                         {
-
+                            Debugger.Break();
                         }
                         finally 
                         {
@@ -175,7 +256,6 @@ namespace GD_StampingMachine.Singletons
                     IsScaning = false;
                 });
             }
-            return;
         }
         public async void StopScan()
         {
@@ -196,6 +276,24 @@ namespace GD_StampingMachine.Singletons
             });
             return;
         }
+
+
+        private ObservableCollection<IO_InfoModel> _io_tableObservableCollection;
+        /// <summary>
+        /// IO表
+        /// </summary>
+        public ObservableCollection<IO_InfoModel> IO_TableObservableCollection
+        {
+            get=> _io_tableObservableCollection ??= new ObservableCollection<IO_InfoModel>();
+            set
+            {
+                _io_tableObservableCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
 
         /// <summary>
         /// 進料X軸回歸原點
@@ -229,15 +327,11 @@ namespace GD_StampingMachine.Singletons
                         {
                             if (GD_Stamping.GetFeedingPosition(out var FPosition))
                             {
+
                                 GD_Stamping.SetFeedingPosition(FPosition + ParameterValue);
-                               /* if(ParameterValue > 0)
-                                {
-                                    GD_Stamping.FeedingPositionFwd(true);
-                                }
-                                if (ParameterValue < 0)
-                                {
-                                    GD_Stamping.FeedingPositionFwd(false);
-                                }*/
+
+
+
                                 await Task.Delay(2000);
 
                                 GD_Stamping.GetFeedingPosition(out var FPosition2);

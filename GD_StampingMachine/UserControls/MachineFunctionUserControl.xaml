@@ -304,7 +304,9 @@
                     </Style>
                 </WrapPanel.Resources>
                     <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
-                        <ToggleButton IsChecked="{Binding StampMachineData.HydraulicPumpIsActive}" Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}"/>
+                        <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
+                            
+                        </Button>
 
                     </GroupBox>
                     <GroupBox Header="{DynamicResource Text_Feeding_Component}" Visibility="{Binding Feeding_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
