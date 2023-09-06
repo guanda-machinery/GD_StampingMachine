@@ -1362,10 +1362,8 @@
                                       Style="{StaticResource ProjectGridControl}"
                                       AutoGenerateColumns="None"
                                       SelectedItem="{Binding PartsParameterViewModelSelectItem}"
-           
                                       ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      MinHeight="250" 
-                                      MaxHeight="{Binding ElementName=ProjectGridControl, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"
+                                      MaxHeight="{Binding ElementName=SelectProductProjectMainBorder, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"
                                       >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectedItemChanged">
@@ -1380,7 +1378,7 @@
                         <dxg:GridControl.View >
                             <dxg:TableView   
                                 SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                PageSize="10"
+                                PageSize="25"
                                 AllowPaging="True"
                                 IsColumnMenuEnabled ="False"
                                 AllowSorting="false"
