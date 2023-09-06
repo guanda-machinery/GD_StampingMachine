@@ -299,6 +299,11 @@
     <sys:String x:Key="Text_ShearCut_Component_Hydraulic">裁切組-油壓</sys:String>
 
     <sys:String x:Key="Text_SteelPunchedFont_Component">鋼印字模組</sys:String>
+    <sys:String x:Key="Text_FirstLine">第一行</sys:String>
+    <sys:String x:Key="Text_SecondLine">第二行</sys:String>
+    <sys:String x:Key="Text_ThirdLine">第三行</sys:String>
+    
+    
     <sys:String x:Key="Text_Separator_Component">分料組</sys:String>
     <sys:String x:Key="Text_Feeding_Component">進料組</sys:String>
     

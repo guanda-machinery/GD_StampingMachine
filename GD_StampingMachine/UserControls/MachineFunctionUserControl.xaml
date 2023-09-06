@@ -296,18 +296,33 @@
                         </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
-            <WrapPanel Orientation="Horizontal">
-                <WrapPanel.Resources>
+                <WrapPanel Orientation="Horizontal" IsEnabled="{Binding StampMachineData.IsConnected}">
+                    <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
-                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                    </Style>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.4"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
                 </WrapPanel.Resources>
                     <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
-                        <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
-                            
-                        </Button>
+                        <StackPanel>
+                            <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                        <Style.Triggers>
 
+                                            <DataTrigger Binding="{Binding StampMachineData.HydraulicPumpIsActive}" Value="true">
+                                                <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
                     </GroupBox>
                     <GroupBox Header="{DynamicResource Text_Feeding_Component}" Visibility="{Binding Feeding_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <WrapPanel Orientation="Horizontal">
@@ -338,7 +353,7 @@
                             </GroupBox>
 
                         <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1" >
-                            <GD_StampingMachine_UserControls:CylinderUserControl 
+                            <GD_StampingMachine_UserControls:CylinderUserControl  HorizontalAlignment="left"
                                 CylinderUpIsActived="False"
                                 
                                 CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.GuideRod_Move}"
@@ -352,7 +367,7 @@
                                 CylinderDownIsActived="True"
                                CylinderDown_IsChecked="{Binding Cylinder_1_isDown}" 
                                 CylinderDown_IsEnabled="{Binding Cylinder_1_Down_IsEnabled}"
-                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint"
                                 />
                             </GroupBox>
                             <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
@@ -367,7 +382,7 @@
                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsDown}"
 
                                 
-                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
                             </GroupBox>
 
@@ -386,7 +401,7 @@
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
-                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
                             </GroupBox>
 
@@ -404,7 +419,7 @@
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
-                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
                             </GroupBox>
 
@@ -520,8 +535,7 @@
                                CylinderIsDownSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked}"
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
 
-                                
-                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
                             </GroupBox>
 
@@ -538,11 +552,34 @@
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
-                                CylinderIsSingalPackIconForeground="DarkOrange" CylinderIsSingalPackIcon="AlarmLight"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
                                 </GroupBox>
 
                             </StackPanel>
+
+                            <GroupBox Header="{StaticResource Text_SteelPunchedFontSetting}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{DynamicResource Text_FirstLine }" Margin="2"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{DynamicResource Text_SecondLine}"  Margin="2"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{DynamicResource Text_ThirdLine}"  Margin="2"/>
+
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding StampMachineData.IronPlateName1}"  Margin="2"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding StampMachineData.IronPlateName2}"  Margin="2"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding StampMachineData.IronPlateName3}"  Margin="2"/>
+                                </Grid>
+                            </GroupBox>
+                        
+                        
                     </StackPanel>
                 </GroupBox>
 
@@ -568,7 +605,7 @@
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
 
                                 
-                                CylinderIsSingalPackIconForeground="Red" CylinderIsSingalPackIcon="AlarmLight"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
                         <ToggleButton Margin="5,10" HorizontalAlignment="Left"
                                         Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >

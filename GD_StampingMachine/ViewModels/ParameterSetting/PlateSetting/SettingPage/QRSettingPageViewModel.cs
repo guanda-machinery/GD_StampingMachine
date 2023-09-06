@@ -41,7 +41,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.QRSheetStamping;
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.qrcode;
         /// <summary>
         /// 選擇
         /// </summary>

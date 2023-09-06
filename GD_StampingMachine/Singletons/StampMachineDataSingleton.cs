@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
 using static GD_StampingMachine.Method.StampingMachineJsonHelper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
@@ -115,6 +116,9 @@ namespace GD_StampingMachine.Singletons
         
         private bool _isConnected = false;
         public bool IsConnected { get => _isConnected; private set { _isConnected = value; OnPropertyChanged(); } }
+
+        readonly IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
+
         public void ScanOpcua()
         {
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
@@ -128,38 +132,631 @@ namespace GD_StampingMachine.Singletons
                 string opcuaNodeHeader = GD_Stamping_Opcua.StampingOpcUANode.NodeHeader;
 
                 //讀取失敗->建立新的io表
-                io_info_Table = new ObservableCollection<IO_InfoModel>();
-                io_info_Table.Add(new IO_InfoModel()
+                io_info_Table = new ObservableCollection<IO_InfoModel>
                 {
-                    Info = "氣壓總壓檢知(7kg/cm3 up)",
-                    BondingCableTerminal = "I00",
-                    KEBA_Definition = "DI_00",
-                    SensorType = ioSensorType.DI,
-                    NodeID = $"{opcuaNodeHeader}.system.di_AirPressNotEnough",
-                });
-                io_info_Table.Add(new IO_InfoModel()
-                {
-                    Info = "預留",
-                    BondingCableTerminal = "I01",
-                    KEBA_Definition = "DI_01",
-                    SensorType = ioSensorType.DI,
-                });
-                io_info_Table.Add(new IO_InfoModel()
-                {
-                    Info = "油壓單元液位檢知(低液位)",
-                    BondingCableTerminal = "I02",
-                    KEBA_Definition = "DI_02",
-                    SensorType = ioSensorType.DI,
-                    NodeID = $"{opcuaNodeHeader}.OilMaintenance1.di_OilLevelOk"
-                });
-                io_info_Table.Add(new IO_InfoModel()
-                {
-                    Info = "潤滑壓力檢知",
-                    BondingCableTerminal = "I03",
-                    KEBA_Definition = "DI_03",
-                    SensorType = ioSensorType.DI,
-                    NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubPressureAchieved"
-                });
+                    new IO_InfoModel()
+                    {
+                        Info = "氣壓總壓檢知(7kg/cm3 up)",
+                        BondingCableTerminal = "I00",
+                        KEBA_Definition = "DI_00",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.system.di_AirPressNotEnough",
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "預留",
+                        BondingCableTerminal = "I01",
+                        KEBA_Definition = "DI_01",
+                        SensorType = ioSensorType.DI,
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "油壓單元液位檢知(低液位)",
+                        BondingCableTerminal = "I02",
+                        KEBA_Definition = "DI_02",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.OilMaintenance1.di_OilLevelOk"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "潤滑壓力檢知",
+                        BondingCableTerminal = "I03",
+                        KEBA_Definition = "DI_03",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubPressureAchieved"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "潤滑液位檢知(低液位)",
+                        BondingCableTerminal = "I04",
+                        KEBA_Definition = "DI_04",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubLimitAchieved"
+                    },                  
+                    new IO_InfoModel()
+                    {
+                        Info = "放料卷異常",
+                        BondingCableTerminal = "I05",
+                        KEBA_Definition = "DI_05",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsAbnormal"
+                    },            
+                    new IO_InfoModel()
+                    {
+                        Info ="進料有無料件確認檢知" ,
+                        BondingCableTerminal = "I06",
+                        KEBA_Definition = "DI_06",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Feeding1.di_FeedMaterialConfirm"
+                    },                    new IO_InfoModel()
+                    {
+                        Info = "QRcode壓座組1_氣壓缸上限檢知",
+                        BondingCableTerminal = "I07",
+                        KEBA_Definition = "DI_07",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
+                    },                   
+                    new IO_InfoModel()
+                    {
+                        Info = "QRcode壓座組1_氣壓缸下限檢知",
+                        BondingCableTerminal = "I08",
+                        KEBA_Definition = "DI_08",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
+                    },                  
+                    new IO_InfoModel()
+                    {
+                        Info ="阻擋缸_氣壓缸上限檢知" ,
+                        BondingCableTerminal = "I09",
+                        KEBA_Definition = "DI_09",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
+                    },           
+                    new IO_InfoModel()
+                    {
+                        Info ="阻擋缸_氣壓缸下限檢知" ,
+                        BondingCableTerminal = "I10",
+                        KEBA_Definition = "DI_10",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
+                    },          
+                    new IO_InfoModel()
+                    {
+                        Info = "料品到QR code 位置檢知",
+                        BondingCableTerminal = "I11",
+                        KEBA_Definition = "DI_11",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.QRCode1.di_QRCodeMaterialConfirm"
+                    },             
+                    new IO_InfoModel()
+                    {
+                        Info = "打字輪_Y軸行程 + 極限檢知 0 位置",
+                        BondingCableTerminal = "I12",
+                        KEBA_Definition = "DI_12",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoHome"
+                    },                    new IO_InfoModel()
+                    {
+                        Info = "打字輪_Y軸行程 - 極限檢知 260 位置",
+                        BondingCableTerminal = "I13",
+                        KEBA_Definition = "DI_13",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoPOT"
+                    },                   
+                    new IO_InfoModel()
+                    {
+                        Info = "預留",
+                        BondingCableTerminal = "I14",
+                        KEBA_Definition = "DI_14",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },             
+                    new IO_InfoModel()
+                    {
+                        Info ="預留" ,
+                        BondingCableTerminal = "I15",
+                        KEBA_Definition = "DI_15",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },                    new IO_InfoModel()
+                    {
+                        Info = "料品到字碼刻印位置檢知",
+                        BondingCableTerminal = "I16",
+                        KEBA_Definition = "DI_16",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Engraving1.di_EngravingMaterialConfirm"
+                    },         
+                    
+                    new IO_InfoModel()
+                    {
+                        Info = "進料X軸_原點",
+                        BondingCableTerminal = "I17",
+                        KEBA_Definition = "DI_17",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoHome"
+                    },             
+                    new IO_InfoModel()
+                    {
+                        Info ="進料X軸_負極限" ,
+                        BondingCableTerminal = "I18",
+                        KEBA_Definition = "DI_18",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoNOT"
+                    },
+
+                    new IO_InfoModel()
+                    {
+                        Info = "刻印壓座組2_氣壓缸上限檢知",
+                        BondingCableTerminal = "I00",
+                        KEBA_Definition = "DI_100",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopUp"
+                    },                    
+                    new IO_InfoModel()
+                    {
+                        Info = "刻印壓座組2_氣壓缸下限檢知",
+                        BondingCableTerminal = "I01",
+                        KEBA_Definition = "DI_101",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopDown"
+                    },                 
+                    new IO_InfoModel()
+                    {
+                        Info ="字碼刻印組_Z軸油壓缸刻印位置" ,
+                        BondingCableTerminal = "I02",
+                        KEBA_Definition = "DI_102",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopDown"
+                    },                 
+                    new IO_InfoModel()
+                    {
+                        Info = "字碼刻印組_Z軸油壓缸原點位置",
+                        BondingCableTerminal = "I03",
+                        KEBA_Definition = "DI_103",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopUp"
+                    },               
+                    new IO_InfoModel()
+                    {
+                        Info ="字碼刻印組_刻印轉輪原點位置" ,
+                        BondingCableTerminal = "I04",
+                        KEBA_Definition = "DI_104",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.EngravingRotate1.di_ServoHome"
+                    },              
+                    new IO_InfoModel()
+                    {
+                        Info = "進料導桿缸1_氣壓缸上限檢知",
+                        BondingCableTerminal = "I05",
+                        KEBA_Definition = "DI_105",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopUp"
+                    },          
+                    new IO_InfoModel()
+                    {
+                        Info = "進料導桿缸1_氣壓缸下限檢知",
+                        BondingCableTerminal = "I06",
+                        KEBA_Definition = "DI_106",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopDown"
+                    },                    new IO_InfoModel()
+                    {
+                        Info ="料品到裁切位置檢知" ,
+                        BondingCableTerminal = "I07",
+                        KEBA_Definition = "DI_107",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingMaterialConfirm"
+                    },                    new IO_InfoModel()
+                    {
+                        Info = "裁切模組_位置檢知_上",
+                        BondingCableTerminal = "I08",
+                        KEBA_Definition = "DI_108",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingOrigin"
+                    },                    new IO_InfoModel()
+                    {
+                        Info = "裁切模組_位置檢知_中",
+                        BondingCableTerminal = "I09",
+                        KEBA_Definition = "DI_109",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingStandbyPoint"
+                    },                    new IO_InfoModel()
+                    {
+                        Info = "裁切模組_位置檢知_下",
+                        BondingCableTerminal = "I10",
+                        KEBA_Definition = "DI_110",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingCutPoint"
+                    },              
+                    new IO_InfoModel()
+                    {
+                        Info = "阻擋缸_進退動作-SW",
+                        BondingCableTerminal = "I11",
+                        KEBA_Definition = "DI_111",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "緊急停止-SW",
+                        BondingCableTerminal = "I12",
+                        KEBA_Definition = "DI_112",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.OperationMode1.di_EmergencyStop1"
+                    },                 
+                    new IO_InfoModel()
+                    {
+                        Info ="開機(power on)-SW" ,
+                        BondingCableTerminal = "I13",
+                        KEBA_Definition = "DI_113",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.system.di_PowerON"
+                    },                    new IO_InfoModel()
+                    {
+                        Info ="暫停(pause)-SW" ,
+                        BondingCableTerminal = "I14",
+                        KEBA_Definition = "DI_114",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.system.di_Pause"
+                    },                 
+                    
+                    new IO_InfoModel()
+                    {
+                        Info = "開始加工(start)-SW",
+                        BondingCableTerminal = "I15",
+                        KEBA_Definition = "DI_115",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.system.di_Start"
+                    },               
+                    
+                    new IO_InfoModel()
+                    {
+                        Info ="放料卷方向" ,
+                        BondingCableTerminal = "I16",
+                        KEBA_Definition = "DI_116",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsDirection"
+                    },        
+                    new IO_InfoModel()
+                    {
+                        Info = "原點復歸-SW",
+                        BondingCableTerminal = "I17",
+                        KEBA_Definition = "DI_117",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.system.di_Home"
+                    },          
+                    new IO_InfoModel()
+                    {
+                        Info ="半自動-SW" ,
+                        BondingCableTerminal = "I18",
+                        KEBA_Definition = "DI_118",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonHalfAuto"
+                    },         
+                    
+                    new IO_InfoModel()
+                    {
+                        Info = "全自動",
+                        BondingCableTerminal = "I00",
+                        KEBA_Definition = "DI_200",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonFullAuto"
+                    },                   
+                    new IO_InfoModel()
+                    {
+                        Info = "預留",
+                        BondingCableTerminal = "I01",
+                        KEBA_Definition = "DI_201",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },    
+                    new IO_InfoModel()
+                    {
+                        Info = "進料導桿缸2_氣壓缸上限檢知",
+                        BondingCableTerminal = "I02",
+                        KEBA_Definition = "DI_202",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.di_StopUp"
+                    },    
+                    new IO_InfoModel()
+                    {
+                        Info = "進料導桿缸2_氣壓缸下限檢知",
+                        BondingCableTerminal = "I03",
+                        KEBA_Definition = "DI_203",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.di_StopDown"
+                    },
+
+                    new IO_InfoModel()
+                    {
+                        Info = "鑰匙開關_自動",
+                        BondingCableTerminal = "I04",
+                        KEBA_Definition = "DI_204",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },              
+                    new IO_InfoModel()
+                    {
+                        Info = "鑰匙開關_鎖固",
+                        BondingCableTerminal = "I05",
+                        KEBA_Definition = "DI_205",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },                  
+                    new IO_InfoModel()
+                    {
+                        Info = "鑰匙開關_手動以上兩個訊號沒on為手動",
+                        BondingCableTerminal = "I06",
+                        KEBA_Definition = "DI_206",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },            
+                    new IO_InfoModel()
+                    {
+                        Info = "X+搖桿",
+                        BondingCableTerminal = "I07",
+                        KEBA_Definition = "DI_207",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },            
+                    new IO_InfoModel()
+                    {
+                        Info = "X-搖桿",
+                        BondingCableTerminal = "I08",
+                        KEBA_Definition = "DI_208",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },             
+                    new IO_InfoModel()
+                    {
+                        Info = "Y+搖桿",
+                        BondingCableTerminal = "I09",
+                        KEBA_Definition = "DI_209",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },                    
+                    new IO_InfoModel()
+                    {
+                        Info = "Y-搖桿",
+                        BondingCableTerminal = "I10",
+                        KEBA_Definition = "DI_210",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },                    new IO_InfoModel()
+                    {
+                        Info = "油壓過載",
+                        BondingCableTerminal = "I11",
+                        KEBA_Definition = "DI_211",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Motor1.di_Overload"
+                    },                 
+                    new IO_InfoModel()
+                    {
+                        Info = "刻印Y軸_負極限",
+                        BondingCableTerminal = "I12",
+                        KEBA_Definition = "DI_212",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoNOT"
+                    },                  
+                    new IO_InfoModel()
+                    {
+                        Info = "進料X軸_正極限",
+                        BondingCableTerminal = "I13",
+                        KEBA_Definition = "DI_213",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoPOT"
+                    },
+        
+                    new IO_InfoModel()
+                    {
+                        Info = "字碼刻印組_Z軸油壓缸待命位置",
+                        BondingCableTerminal = "I14",
+                        KEBA_Definition = "DI_214",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $"{opcuaNodeHeader}.Engraving1.di_StandbyPoint"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "搖桿",
+                        BondingCableTerminal = "I15",
+                        KEBA_Definition = "DI_215",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },               
+                    new IO_InfoModel()
+                    {
+                        Info = "搖桿",
+                        BondingCableTerminal = "I16",
+                        KEBA_Definition = "DI_216",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },             
+                    new IO_InfoModel()
+                    {
+                        Info = "搖桿",
+                        BondingCableTerminal = "I17",
+                        KEBA_Definition = "DI_217",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "搖桿",
+                        BondingCableTerminal = "I18",
+                        KEBA_Definition = "DI_218",
+                        SensorType = ioSensorType.DI,
+                        NodeID = $""
+                    },
+
+
+
+
+                    new IO_InfoModel()
+                    {
+                        Info = "油壓單元啟動",
+                        BondingCableTerminal = "O00",
+                        KEBA_Definition = "DO_00",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Motor1.do_MotorOnMain"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "潤滑系統ON/OFF",
+                        BondingCableTerminal = "O01",
+                        KEBA_Definition = "DO_01",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Lubrication1.do_Lubrication"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "壓座組1_氣壓缸動作",
+                        BondingCableTerminal = "O02",
+                        KEBA_Definition = "DO_02",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Fixture1.do_FixtureUp"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "預留",
+                        BondingCableTerminal = "O03",
+                        KEBA_Definition = "DO_03",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $""
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "阻擋缸_氣壓缸推出",
+                        BondingCableTerminal = "O04",
+                        KEBA_Definition = "DO_04",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.BlockingClips1.do_BlockingClipsUp"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "刻印壓座組2_氣壓缸動作",
+                        BondingCableTerminal = "O05",
+                        KEBA_Definition = "DO_05",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Fixture2.do_FixtureUp"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "字碼刻印組_油壓缸上升",
+                        BondingCableTerminal = "O06",
+                        KEBA_Definition = "DO_06",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Engraving1.do_Open"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "字碼刻印組_油壓缸下降",
+                        BondingCableTerminal = "O07",
+                        KEBA_Definition = "DO_07",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Engraving1.do_Close"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "字碼刻印組_制動煞車",
+                        BondingCableTerminal = "O08",
+                        KEBA_Definition = "DO_08",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.EngravingRotate1.do_brake"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "裁切模組_上升",
+                        BondingCableTerminal = "O09",
+                        KEBA_Definition = "DO_09",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Cutting1.do_Open"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "裁切模組_下降",
+                        BondingCableTerminal = "O10",
+                        KEBA_Definition = "DO_10",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.Cutting1.do_Close"
+                    },
+                    new IO_InfoModel()
+                    {
+                        Info = "進料導桿缸1-氣壓缸動作",
+                        BondingCableTerminal = "O11",
+                        KEBA_Definition = "DO_11",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.do_GuideRodsFixtureUp"
+                    },
+  new IO_InfoModel()
+                    {
+                        Info = "進料導桿缸2-氣壓缸動作",
+                        BondingCableTerminal = "O12",
+                        KEBA_Definition = "DO_12",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.do_GuideRodsFixtureUp"
+                    },
+  
+                    new IO_InfoModel()
+                    {
+                        Info = "",
+                        BondingCableTerminal = "O13",
+                        KEBA_Definition = "DO_13",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $""
+                    },
+  
+                    new IO_InfoModel()
+                    {
+                        Info = "",
+                        BondingCableTerminal = "O14",
+                        KEBA_Definition = "DO_14",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $""
+                    },
+  
+                    new IO_InfoModel()
+                    {
+                        Info = "",
+                        BondingCableTerminal = "O15",
+                        KEBA_Definition = "DO_15",
+                        SensorType = ioSensorType.DO,
+                        NodeID = $""
+                    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 IO_TableObservableCollection = io_info_Table;
                 JsonHM.WriteJsonSettingByEnum(MachineSettingNameEnum.IO_Table, IO_TableObservableCollection);
             }
@@ -171,7 +768,6 @@ namespace GD_StampingMachine.Singletons
                 {
                     do
                     {
-                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                         try
                         {
                             IsConnected = GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password);
@@ -214,6 +810,12 @@ namespace GD_StampingMachine.Singletons
                                 if (GD_Stamping.GetHydraulicPumpMotor(out bool HPumpIsActive))
                                     HydraulicPumpIsActive = HPumpIsActive;
 
+                                if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1, out string sIronPlateString1))
+                                    IronPlateName1 = sIronPlateString1; 
+                                if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2, out string sIronPlateString2))
+                                    IronPlateName2 = sIronPlateString2;
+                                if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3, out string sIronPlateString3))
+                                    IronPlateName3 = sIronPlateString3;
 
                                 //取得io資料表
                                 if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
@@ -302,7 +904,6 @@ namespace GD_StampingMachine.Singletons
         {
             get => new RelayCommand(() =>
             {
-                IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                 if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
                 {
                     GD_Stamping.FeedingPositionReturnToStandbyPosition();
@@ -322,7 +923,6 @@ namespace GD_StampingMachine.Singletons
                 {
                     if(float.TryParse(Parameter.ToString(), out var ParameterValue))
                     {
-                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                         if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
                         {
                             if (GD_Stamping.GetFeedingPosition(out var FPosition))
@@ -357,7 +957,6 @@ namespace GD_StampingMachine.Singletons
                 {
                     if (para is StampingCylinderType stampingCylinder)
                     {
-                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
 
                         if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
                         {
@@ -381,7 +980,6 @@ namespace GD_StampingMachine.Singletons
                 {
                     if (para is StampingCylinderType stampingCylinder)
                     {
-                        IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                         if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
                         {
                             GD_Stamping.Set_IO_CylinderControl(stampingCylinder, DirectionsEnum.Middle);
@@ -415,7 +1013,6 @@ namespace GD_StampingMachine.Singletons
             {
                 Task.Run(() =>
                 {
-                    IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
                     if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
                     {
                         if(GD_Stamping.GetHydraulicPumpMotor(out var isActive))
@@ -427,22 +1024,24 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-
-
+        public void SendStampingString()
+        {
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                GD_Stamping.SetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1 ,"DEF");
+                GD_Stamping.Disconnect();
+            }
+        }
 
 
         private void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)
         {
-            IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
             if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
             {
                 GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction);
                 GD_Stamping.Disconnect();
             }
         }
-
-
-
 
 
         private float _feedingPosition;
@@ -561,8 +1160,32 @@ namespace GD_StampingMachine.Singletons
         {
             get => _hydraulicPumpIsActive; set { _hydraulicPumpIsActive = value; OnPropertyChanged(); }
         }
-        
 
+        public string _ironPlateName1;
+        public string _ironPlateName2;
+        public string _ironPlateName3;
+
+        /// <summary>
+        /// 鋼印第一排
+        /// </summary>
+        public string IronPlateName1
+        {
+            get => _ironPlateName1; set { _ironPlateName1 = value;OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 鋼印第二排
+        /// </summary>
+        public string IronPlateName2
+        {
+            get => _ironPlateName2; set { _ironPlateName2 = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 鋼印第三排
+        /// </summary>
+        public string IronPlateName3
+        {
+            get => _ironPlateName3; set { _ironPlateName3 = value; OnPropertyChanged(); }
+        }
 
 
 

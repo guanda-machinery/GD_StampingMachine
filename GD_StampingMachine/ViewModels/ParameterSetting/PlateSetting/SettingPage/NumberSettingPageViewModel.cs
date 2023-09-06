@@ -34,7 +34,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelNormalViewModel");
 
 
-        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.NormalSheetStamping;
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.normal;
 
 
 

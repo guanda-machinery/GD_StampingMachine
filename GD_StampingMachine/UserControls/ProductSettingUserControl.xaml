@@ -1349,7 +1349,8 @@
                         </StackPanel>
                     </Grid>
 
-                <Border  Margin="10" Grid.Row="3"  Grid.RowSpan="2"
+                <Border  Name="SelectProductProjectMainBorder" 
+                    Margin="10" Grid.Row="3"  Grid.RowSpan="2"
                  Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
@@ -1364,8 +1365,8 @@
            
                                       ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       MinHeight="250" 
-                                      Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"
-                                      MaxHeight="100000"    >
+                                      MaxHeight="{Binding ElementName=ProjectGridControl, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"
+                                      >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectedItemChanged">
                                 <i:InvokeCommandAction Command="{Binding PartsParameterViewModelSelectedItemChangedCommand}" PassEventArgsToCommand="True" />

@@ -28,12 +28,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public NumberSettingViewModel()
         {
             this.StampPlateSetting = new StampPlateSettingModel();
-            SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
+            SheetStampingTypeForm = SheetStampingTypeFormEnum.normal;
         }
         public NumberSettingViewModel(StampPlateSettingModel stampPlateSetting)
         {
             this.StampPlateSetting = stampPlateSetting;
-            SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
+            SheetStampingTypeForm = SheetStampingTypeFormEnum.normal;
         }
         //public override StampPlateSettingModel StampPlateSetting { get; set; } = new StampPlateSettingModel();
 

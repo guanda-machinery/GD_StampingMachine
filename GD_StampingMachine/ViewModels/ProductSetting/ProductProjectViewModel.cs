@@ -359,7 +359,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             AddNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson();
 
-                if (this.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+              //  if (this.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
                     AddNumberSettingSavedCollection = AddNumberSettingSavedCollection.ToList()
                         .FindAll(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
                         .ToObservableCollection();
@@ -377,7 +377,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             EditNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson();
             if (EditPartsParameterVM_Cloned != null)
             {
-                if (EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
+                //if (EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
                     EditNumberSettingSavedCollection = EditNumberSettingSavedCollection.ToList()
                         .FindAll(x => x.SheetStampingTypeForm == EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm)
                         .ToObservableCollection();

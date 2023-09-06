@@ -152,7 +152,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                  if (_settingBaseVM == null)
                  {
-                     if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
+                     if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.qrcode)
                          _settingBaseVM = new QRSettingViewModel(PartsParameter.StampingPlate);
                      else
                          _settingBaseVM = new NumberSettingViewModel(PartsParameter.StampingPlate);

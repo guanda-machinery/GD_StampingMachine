@@ -184,7 +184,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 return new SheetStampingTypeFormEnum[]
                 {
-                    SheetStampingTypeFormEnum.NormalSheetStamping, SheetStampingTypeFormEnum.QRSheetStamping
+                    SheetStampingTypeFormEnum.normal, SheetStampingTypeFormEnum.qrcode
                 };
                 return System.Enum.GetValues(typeof(SheetStampingTypeFormEnum));
             }

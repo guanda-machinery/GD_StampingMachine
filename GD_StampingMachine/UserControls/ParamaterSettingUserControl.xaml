@@ -1070,14 +1070,14 @@
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}" DataContext="{Binding InputOutputVM}">
-                    <Grid>
-                        <dxg:GridControl  HorizontalAlignment="Left"
-                                Style="{StaticResource ProjectGridControl}" 
+                    <Grid Name="IO_MainGrid">
+                        <dxg:GridControl 
+                                Style="{StaticResource ProjectGridControl}"  
                                     Background="Transparent"
                                                   AutoGenerateColumns="None"
                                                   SelectionMode="Row"
                                                   ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IO_TableObservableCollection}"
-                                    MaxHeight="100000"    >
+                                    MaxHeight="{Binding ElementName=IO_MainGrid, Path=ActualHeight}"    >
 
                             <dxg:GridControl.View >
                                 <dxg:TableView  
@@ -1089,8 +1089,8 @@
                                 ShowColumnHeaders="True"
                                 HeaderHorizontalAlignment="Center"
                                                                 
-                                VerticalScrollbarVisibility="Disabled"
-                                HorizontalScrollbarVisibility="Disabled"
+                                VerticalScrollbarVisibility="Auto"
+                                HorizontalScrollbarVisibility="Auto"
                                 ShowHorizontalLines="False"
                                 ShowVerticalLines="False"
                                 ShowGroupPanel="False"
@@ -1098,8 +1098,44 @@
                                 SearchPanelNullText="Search Tasks(Ctrl + F)" 
                                 SearchPanelFindMode="Always"
                                 ShowIndicator="False"
-                                SearchDelay="0"/>
+                                SearchDelay="0">
+                                    <dxg:TableView.RowStyle>
+                                        <Style TargetType="{x:Type dxg:RowControl}" >
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Height" Value="40"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                                    <Setter Property="Background" Value="DeepSkyBlue" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
+                                                </DataTrigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="DodgerBlue"/>
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding Row.NodeID}" Value="">
+                                                    <Setter Property="Opacity" Value="0.3" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding Row.NodeID}" Value="{x:Null}">
+                                                    <Setter Property="Opacity" Value="0.3" />
+                                                </DataTrigger>
+
+
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </dxg:TableView.RowStyle>
+                                </dxg:TableView>
                             </dxg:GridControl.View>
+
+
+
+
+
+
+
+
 
 
                             <dxg:GridColumn 

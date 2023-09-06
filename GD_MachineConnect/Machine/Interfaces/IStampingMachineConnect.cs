@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
+using static GD_MachineConnect.GD_Stamping_Opcua;
 
 namespace GD_MachineConnect.Machine.Interfaces
 {
@@ -223,8 +224,14 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         bool GetHydraulicPumpMotor(out bool isActive);
 
-
-
+        /// <summary>
+        /// 取得鋼印字串
+        /// </summary>
+        bool GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, out string StringLine);
+        /// <summary>
+        /// 設定鋼印字串
+        /// </summary>
+        bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
 
 
 

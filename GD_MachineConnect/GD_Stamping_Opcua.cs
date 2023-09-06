@@ -488,10 +488,24 @@ namespace GD_MachineConnect
                 }
             }
 
-
-
             return false;
         }
+
+
+
+        public bool GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, out string StringLine)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName}.{ironPlateType}", out StringLine);
+        }
+        public bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName}.{ironPlateType}", StringLine);
+        }
+
+
+
+
+
 
 
 
@@ -705,6 +719,15 @@ namespace GD_MachineConnect
                 sv_HMIIronPlateName 
             }
 
+            /// <summary>
+            /// 字串1 2 3
+            /// </summary>
+          public  enum sIronPlate
+            {
+                sIronPlateName1,
+                sIronPlateName2,
+                sIronPlateName3
+            }
 
 
             /// <summary>
@@ -934,6 +957,25 @@ namespace GD_MachineConnect
                 /// 進行自動加工時需傳入資料
                 /// </summary>
                 public static string sv_HMIIronPlateName => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}";
+
+                /// <summary>
+                /// 字串1(第一行)
+                /// </summary>
+                public static string sIronPlateName1 => $"{sv_HMIIronPlateName}.{sIronPlate.sIronPlateName1}";
+
+                /// <summary>
+                /// 字串2(第二行)
+                /// </summary>
+                public static string sIronPlateName2 => $"{sv_HMIIronPlateName}.{sIronPlate.sIronPlateName2}";
+
+
+                /// <summary>
+                /// 側邊字串
+                /// </summary>
+                public static string sIronPlateName3 => $"{sv_HMIIronPlateName}.{sIronPlate.sIronPlateName3}";
+
+
+
             }
 
 
