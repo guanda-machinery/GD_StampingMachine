@@ -253,13 +253,13 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        bool GetEngravingZAxisHydraulicUp(out bool IsActived);
+        //bool GetEngravingZAxisHydraulicUp(out bool IsActived);
         /// <summary>
         /// 鋼印油壓缸下降命令
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        bool GetEngravingZAxisHydraulicDown(out bool IsActived);
+        //bool GetEngravingZAxisHydraulicDown(out bool IsActived);
 
         /// <summary>
         /// 鋼印油壓缸升起命令
@@ -267,7 +267,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="position"></param>
         /// <returns></returns>
 
-        bool SetEngravingZAxisHydraulicUp(bool Actived);
+        //bool SetEngravingZAxisHydraulicUp(bool Actived);
 
         /// <summary>
         /// 鋼印油壓缸下降命令
@@ -275,7 +275,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="position"></param>
         /// <returns></returns>
 
-        bool SetEngravingZAxisHydraulicDown(bool Actived);
+        //bool SetEngravingZAxisHydraulicDown(bool Actived);
 
 
 
