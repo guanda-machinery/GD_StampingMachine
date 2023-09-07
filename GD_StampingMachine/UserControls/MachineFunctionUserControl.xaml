@@ -296,7 +296,8 @@
                         </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
-                <WrapPanel Orientation="Horizontal" IsEnabled="{Binding StampMachineData.IsConnected}">
+                <!-- IsEnabled="{Binding StampMachineData.IsConnected}"-->
+                <WrapPanel Orientation="Horizontal">
                     <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -510,12 +511,34 @@
 
                                         <StackPanel Orientation="Horizontal">
 
-                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"   
-                                              Content="{materialDesign:PackIcon Kind=ArrowBottomLeftBoldBoxOutline, Size=30}"/>
-                                            <RepeatButton Style="{StaticResource GD_RepeatButton}" 
+                                                <RepeatButton Style="{StaticResource GD_RepeatButton}" 
+                                              Content="{materialDesign:PackIcon Kind=ArrowBottomLeftBoldBoxOutline, Size=30}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="PreviewMouseDown">
+                                                            <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisFwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                                            <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                        </i:EventTrigger>
+
+                                                    </i:Interaction.Triggers>
+                                                </RepeatButton>
+                                                <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.EngravingYAxisToStandbyPosCommand}" CommandParameter="{StaticResource TrueValue}"
                                              Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
-                                            <RepeatButton Style="{StaticResource GD_RepeatButton}" 
-                                             Content="{materialDesign:PackIcon Kind=ArrowTopRightBoldBoxOutline, Size=30}"/>
+                                            
+                                                <RepeatButton Style="{StaticResource GD_RepeatButton}" 
+                                             Content="{materialDesign:PackIcon Kind=ArrowTopRightBoldBoxOutline, Size=30}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="PreviewMouseDown">
+                                                            <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisBwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                                            <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                        </i:EventTrigger>
+
+                                                    </i:Interaction.Triggers>
+
+                                                </RepeatButton>
 
                                             </StackPanel>
                                         </materialDesign:ColorZone>

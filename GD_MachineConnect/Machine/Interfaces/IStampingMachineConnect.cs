@@ -114,13 +114,13 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// 設定箱子
         /// </summary>
         /// <returns></returns>
-        bool SetSeparateBoxNumber(SeparateBoxModel SeparateBox);
+        bool SetSeparateBoxNumber(int boxIndex);
 
         /// <summary>
-        /// 取得箱子
+        /// 取得箱子編號
         /// </summary>
         /// <returns></returns>
-        bool GetSeparateBoxNumber(int Index, out SeparateBoxModel SeparateBox);
+        bool GetSeparateBoxNumber(out int Index);
 
         /// <summary>
         /// 取得分料設定
@@ -233,9 +233,48 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
 
+        /// <summary>
+        /// 鋼印Y軸現在位置
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        bool GetEngravingYAxisPosition(out float position);
+
+        /// <summary>
+        /// 鋼印Y軸回原點
+        /// </summary>
+        /// <returns></returns>
+        bool SetEngravingYAxisToStandbyPos();
+
+
+        /// <summary>
+        /// 鋼印Y軸後退
+        /// </summary>
+        /// <param name="Active"></param>
+        /// <returns></returns>
+        public bool GetEngravingYAxisBwd(out bool isActived);
+        /// <summary>
+        ///  鋼印Y軸前進
+        /// </summary>
+        /// <param name="Active"></param>
+        /// <returns></returns>
+        public bool GetEngravingYAxisFwd(out bool isActived);
 
 
 
+
+        /// <summary>
+        /// 鋼印Y軸後退
+        /// </summary>
+        /// <param name="Active"></param>
+        /// <returns></returns>
+        public bool SetEngravingYAxisBwd(bool Active);
+        /// <summary>
+        ///  鋼印Y軸前進
+        /// </summary>
+        /// <param name="Active"></param>
+        /// <returns></returns>
+        public bool SetEngravingYAxisFwd(bool Active);
 
 
 

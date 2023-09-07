@@ -140,6 +140,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I00",
                         KEBA_Definition = "DI_00",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_AirPressNotEnough",
                     },
                     new IO_InfoModel()
@@ -148,6 +149,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I01",
                         KEBA_Definition = "DI_01",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                     },
                     new IO_InfoModel()
                     {
@@ -155,6 +157,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I02",
                         KEBA_Definition = "DI_02",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OilMaintenance1.di_OilLevelOk"
                     },
                     new IO_InfoModel()
@@ -163,6 +166,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I03",
                         KEBA_Definition = "DI_03",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubPressureAchieved"
                     },
                     new IO_InfoModel()
@@ -171,6 +175,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I04",
                         KEBA_Definition = "DI_04",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubLimitAchieved"
                     },                  
                     new IO_InfoModel()
@@ -179,6 +184,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I05",
                         KEBA_Definition = "DI_05",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsAbnormal"
                     },            
                     new IO_InfoModel()
@@ -187,13 +193,16 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I06",
                         KEBA_Definition = "DI_06",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_FeedMaterialConfirm"
-                    },                    new IO_InfoModel()
+                    },             
+                    new IO_InfoModel()
                     {
                         Info = "QRcode壓座組1_氣壓缸上限檢知",
                         BondingCableTerminal = "I07",
                         KEBA_Definition = "DI_07",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
                     },                   
                     new IO_InfoModel()
@@ -202,6 +211,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I08",
                         KEBA_Definition = "DI_08",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
                     },                  
                     new IO_InfoModel()
@@ -210,6 +220,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I09",
                         KEBA_Definition = "DI_09",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
                     },           
                     new IO_InfoModel()
@@ -218,6 +229,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I10",
                         KEBA_Definition = "DI_10",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
                     },          
                     new IO_InfoModel()
@@ -226,6 +238,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I11",
                         KEBA_Definition = "DI_11",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.QRCode1.di_QRCodeMaterialConfirm"
                     },             
                     new IO_InfoModel()
@@ -234,13 +247,16 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I12",
                         KEBA_Definition = "DI_12",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoHome"
-                    },                    new IO_InfoModel()
+                    },               
+                    new IO_InfoModel()
                     {
                         Info = "打字輪_Y軸行程 - 極限檢知 260 位置",
                         BondingCableTerminal = "I13",
                         KEBA_Definition = "DI_13",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoPOT"
                     },                   
                     new IO_InfoModel()
@@ -249,6 +265,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I14",
                         KEBA_Definition = "DI_14",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },             
                     new IO_InfoModel()
@@ -257,13 +274,16 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I15",
                         KEBA_Definition = "DI_15",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
-                    },                    new IO_InfoModel()
+                    },         
+                    new IO_InfoModel()
                     {
                         Info = "料品到字碼刻印位置檢知",
                         BondingCableTerminal = "I16",
                         KEBA_Definition = "DI_16",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_EngravingMaterialConfirm"
                     },         
                     
@@ -273,6 +293,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I17",
                         KEBA_Definition = "DI_17",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoHome"
                     },             
                     new IO_InfoModel()
@@ -281,6 +302,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I18",
                         KEBA_Definition = "DI_18",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoNOT"
                     },
 
@@ -290,6 +312,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I00",
                         KEBA_Definition = "DI_100",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopUp"
                     },                    
                     new IO_InfoModel()
@@ -298,6 +321,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I01",
                         KEBA_Definition = "DI_101",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopDown"
                     },                 
                     new IO_InfoModel()
@@ -306,6 +330,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I02",
                         KEBA_Definition = "DI_102",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopDown"
                     },                 
                     new IO_InfoModel()
@@ -314,6 +339,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I03",
                         KEBA_Definition = "DI_103",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopUp"
                     },               
                     new IO_InfoModel()
@@ -322,6 +348,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I04",
                         KEBA_Definition = "DI_104",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingRotate1.di_ServoHome"
                     },              
                     new IO_InfoModel()
@@ -330,6 +357,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I05",
                         KEBA_Definition = "DI_105",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopUp"
                     },          
                     new IO_InfoModel()
@@ -338,34 +366,43 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I06",
                         KEBA_Definition = "DI_106",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopDown"
-                    },                    new IO_InfoModel()
+                    },            
+                    new IO_InfoModel()
                     {
                         Info ="料品到裁切位置檢知" ,
                         BondingCableTerminal = "I07",
                         KEBA_Definition = "DI_107",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingMaterialConfirm"
-                    },                    new IO_InfoModel()
+                    },           
+                    new IO_InfoModel()
                     {
                         Info = "裁切模組_位置檢知_上",
                         BondingCableTerminal = "I08",
                         KEBA_Definition = "DI_108",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingOrigin"
-                    },                    new IO_InfoModel()
+                    },                  
+                    new IO_InfoModel()
                     {
                         Info = "裁切模組_位置檢知_中",
                         BondingCableTerminal = "I09",
                         KEBA_Definition = "DI_109",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingStandbyPoint"
-                    },                    new IO_InfoModel()
+                    },       
+                    new IO_InfoModel()
                     {
                         Info = "裁切模組_位置檢知_下",
                         BondingCableTerminal = "I10",
                         KEBA_Definition = "DI_110",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingCutPoint"
                     },              
                     new IO_InfoModel()
@@ -374,6 +411,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I11",
                         KEBA_Definition = "DI_111",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },
                     new IO_InfoModel()
@@ -382,6 +420,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I12",
                         KEBA_Definition = "DI_112",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_EmergencyStop1"
                     },                 
                     new IO_InfoModel()
@@ -390,13 +429,16 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I13",
                         KEBA_Definition = "DI_113",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_PowerON"
-                    },                    new IO_InfoModel()
+                    },             
+                    new IO_InfoModel()
                     {
                         Info ="暫停(pause)-SW" ,
                         BondingCableTerminal = "I14",
                         KEBA_Definition = "DI_114",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_Pause"
                     },                 
                     
@@ -406,6 +448,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I15",
                         KEBA_Definition = "DI_115",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_Start"
                     },               
                     
@@ -415,6 +458,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I16",
                         KEBA_Definition = "DI_116",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsDirection"
                     },        
                     new IO_InfoModel()
@@ -423,6 +467,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I17",
                         KEBA_Definition = "DI_117",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_Home"
                     },          
                     new IO_InfoModel()
@@ -431,6 +476,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I18",
                         KEBA_Definition = "DI_118",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonHalfAuto"
                     },         
                     
@@ -440,6 +486,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I00",
                         KEBA_Definition = "DI_200",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonFullAuto"
                     },                   
                     new IO_InfoModel()
@@ -448,6 +495,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I01",
                         KEBA_Definition = "DI_201",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },    
                     new IO_InfoModel()
@@ -456,6 +504,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I02",
                         KEBA_Definition = "DI_202",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.di_StopUp"
                     },    
                     new IO_InfoModel()
@@ -464,6 +513,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I03",
                         KEBA_Definition = "DI_203",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.di_StopDown"
                     },
 
@@ -473,6 +523,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I04",
                         KEBA_Definition = "DI_204",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },              
                     new IO_InfoModel()
@@ -481,6 +532,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I05",
                         KEBA_Definition = "DI_205",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },                  
                     new IO_InfoModel()
@@ -489,6 +541,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I06",
                         KEBA_Definition = "DI_206",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },            
                     new IO_InfoModel()
@@ -497,6 +550,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I07",
                         KEBA_Definition = "DI_207",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },            
                     new IO_InfoModel()
@@ -505,6 +559,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I08",
                         KEBA_Definition = "DI_208",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },             
                     new IO_InfoModel()
@@ -513,6 +568,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I09",
                         KEBA_Definition = "DI_209",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },                    
                     new IO_InfoModel()
@@ -521,13 +577,16 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I10",
                         KEBA_Definition = "DI_210",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
-                    },                    new IO_InfoModel()
+                    },            
+                    new IO_InfoModel()
                     {
                         Info = "油壓過載",
                         BondingCableTerminal = "I11",
                         KEBA_Definition = "DI_211",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Motor1.di_Overload"
                     },                 
                     new IO_InfoModel()
@@ -536,6 +595,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I12",
                         KEBA_Definition = "DI_212",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoNOT"
                     },                  
                     new IO_InfoModel()
@@ -544,6 +604,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I13",
                         KEBA_Definition = "DI_213",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoPOT"
                     },
         
@@ -553,6 +614,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I14",
                         KEBA_Definition = "DI_214",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StandbyPoint"
                     },
                     new IO_InfoModel()
@@ -561,6 +623,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I15",
                         KEBA_Definition = "DI_215",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },               
                     new IO_InfoModel()
@@ -569,6 +632,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I16",
                         KEBA_Definition = "DI_216",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },             
                     new IO_InfoModel()
@@ -577,6 +641,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I17",
                         KEBA_Definition = "DI_217",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },
                     new IO_InfoModel()
@@ -585,6 +650,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "I18",
                         KEBA_Definition = "DI_218",
                         SensorType = ioSensorType.DI,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },
 
@@ -597,6 +663,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O00",
                         KEBA_Definition = "DO_00",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Motor1.do_MotorOnMain"
                     },
                     new IO_InfoModel()
@@ -605,6 +672,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O01",
                         KEBA_Definition = "DO_01",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Lubrication1.do_Lubrication"
                     },
                     new IO_InfoModel()
@@ -613,6 +681,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O02",
                         KEBA_Definition = "DO_02",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.do_FixtureUp"
                     },
                     new IO_InfoModel()
@@ -621,6 +690,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O03",
                         KEBA_Definition = "DO_03",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },
                     new IO_InfoModel()
@@ -629,6 +699,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O04",
                         KEBA_Definition = "DO_04",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.BlockingClips1.do_BlockingClipsUp"
                     },
                     new IO_InfoModel()
@@ -637,6 +708,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O05",
                         KEBA_Definition = "DO_05",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.do_FixtureUp"
                     },
                     new IO_InfoModel()
@@ -645,6 +717,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O06",
                         KEBA_Definition = "DO_06",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.do_Open"
                     },
                     new IO_InfoModel()
@@ -653,6 +726,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O07",
                         KEBA_Definition = "DO_07",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.do_Close"
                     },
                     new IO_InfoModel()
@@ -661,6 +735,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O08",
                         KEBA_Definition = "DO_08",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingRotate1.do_brake"
                     },
                     new IO_InfoModel()
@@ -669,6 +744,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O09",
                         KEBA_Definition = "DO_09",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.do_Open"
                     },
                     new IO_InfoModel()
@@ -677,6 +753,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O10",
                         KEBA_Definition = "DO_10",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.do_Close"
                     },
                     new IO_InfoModel()
@@ -685,6 +762,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O11",
                         KEBA_Definition = "DO_11",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.do_GuideRodsFixtureUp"
                     },
   new IO_InfoModel()
@@ -693,6 +771,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O12",
                         KEBA_Definition = "DO_12",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.do_GuideRodsFixtureUp"
                     },
   
@@ -702,6 +781,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O13",
                         KEBA_Definition = "DO_13",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },
   
@@ -711,6 +791,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O14",
                         KEBA_Definition = "DO_14",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },
   
@@ -720,6 +801,7 @@ namespace GD_StampingMachine.Singletons
                         BondingCableTerminal = "O15",
                         KEBA_Definition = "DO_15",
                         SensorType = ioSensorType.DO,
+                        ValueType = typeof(bool),
                         NodeID = $""
                     },
 
@@ -817,16 +899,36 @@ namespace GD_StampingMachine.Singletons
                                 if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3, out string sIronPlateString3))
                                     IronPlateName3 = sIronPlateString3;
 
+                                if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
+                                {
+                                    SeparateBoxIndex = boxIndex;
+                                }
+
+
+
                                 //取得io資料表
                                 if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
                                 {
                                     foreach (var IO_Table in IO_TableObservableCollection)
                                     {
+                                   
                                         if (!string.IsNullOrEmpty(IO_Table.NodeID))
                                         {
-                                            if (GD_StampingOpcua.ReadNode(IO_Table.NodeID, out bool nodeValue))
+                                            if (IO_Table.ValueType == typeof(bool) && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out bool nodeboolValue))
                                             {
-                                                IO_Table.IO_Value = nodeValue.TryConvertToDouble();
+                                                IO_Table.IO_Value = nodeboolValue;
+                                            }
+                                            else if (IO_Table.ValueType == typeof( float) &&  GD_StampingOpcua.ReadNode(IO_Table.NodeID, out float nodefloatValue))
+                                            {
+                                                IO_Table.IO_Value = nodefloatValue;
+                                            }
+                                            else if (IO_Table.ValueType is object && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out object nodeobjectValue))
+                                            {
+                                                IO_Table.IO_Value = nodeobjectValue;
+                                            }
+                                            else
+                                            {
+                                                IO_Table.IO_Value = null;
                                             }
                                         }
                                     }
@@ -1044,6 +1146,109 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+        public bool SetSeparateBoxNumber(int Index)
+        {
+            var ret = false;
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                ret = GD_Stamping.SetSeparateBoxNumber(Index);
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+
+
+        public ICommand EngravingYAxisFwdCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                Task.Run(() =>
+                {
+                    if (obj is bool IsActived)
+                        SetEngravingYAxisFwd(IsActived);
+                });
+            });
+        }
+
+        public ICommand EngravingYAxisToStandbyPosCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                Task.Run(() =>
+                {
+                    if (obj is bool IsActived)
+                       SetEngravingYAxisToStandbyPos();
+                });
+            });
+        }
+        public ICommand EngravingYAxisBwdCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                Task.Run(() =>
+                {
+                    if (obj is bool IsActived)
+                        SetEngravingYAxisBwd(IsActived);
+                });
+
+            });
+        }
+
+
+        /// <summary>
+        /// 鋼印Y軸回歸原點
+        /// </summary>
+        /// <returns></returns>
+        public bool SetEngravingYAxisToStandbyPos()
+        {
+            var ret = false;
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                ret = GD_Stamping.SetEngravingYAxisBwd(false);
+                ret = GD_Stamping.SetEngravingYAxisFwd(false);
+                ret = GD_Stamping.SetEngravingYAxisToStandbyPos();
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 鋼印Y軸前進
+        /// </summary>
+        /// <returns></returns>
+        public bool SetEngravingYAxisFwd(bool IsMove)
+        {
+            var ret = false;
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                ret = GD_Stamping.SetEngravingYAxisBwd(false);
+                ret = GD_Stamping.SetEngravingYAxisFwd(IsMove);
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 鋼印Y軸後退
+        /// </summary>
+        /// <returns></returns>
+        public bool SetEngravingYAxisBwd(bool IsMove)
+        {
+            var ret = false;
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                ret = GD_Stamping.SetEngravingYAxisFwd(false);
+                ret = GD_Stamping.SetEngravingYAxisBwd(IsMove);
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+
+
+
+
+
+
         private float _feedingPosition;
         /// <summary>
         /// 進料馬達目前位置
@@ -1185,6 +1390,16 @@ namespace GD_StampingMachine.Singletons
         public string IronPlateName3
         {
             get => _ironPlateName3; set { _ironPlateName3 = value; OnPropertyChanged(); }
+        }
+
+        private int _separateBoxIndex = -1;
+
+        /// <summary>
+        /// 分料盒編號
+        /// </summary>
+        public int SeparateBoxIndex
+        {
+            get => _separateBoxIndex; set { _separateBoxIndex = value; OnPropertyChanged(); }
         }
 
 

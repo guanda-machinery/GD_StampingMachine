@@ -34,9 +34,13 @@ namespace GD_StampingMachine.GD_Model
         /// i/o類別
         /// </summary>
         public GD_Enum.ioSensorType SensorType { get; set; }
-        
+        /// <summary>
+        /// 資料格式
+        /// </summary>
+        public Type ValueType { get; set; }
+
         [JsonIgnore]
-        public double? IO_Value { get; set; }
+        public object IO_Value { get; set; }
 
 
     }

@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
 
 namespace GD_MachineConnect
 {
@@ -25,14 +26,14 @@ namespace GD_MachineConnect
         {
             return this.Connect(HostPath, Port, null, null, null);
         }
-        public bool Connect(string HostPath, int Port, string UserName , string Password)
+        public bool Connect(string HostPath, int Port, string UserName, string Password)
         {
             return this.Connect(HostPath, Port, null, UserName, Password);
         }
 
         public const int ConntectMillisecondsTimeout = 10000;
 
-        public bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password)
+        public bool Connect(string HostPath, int Port, string DataPath, string UserName, string Password)
         {
             bool Result = false;
 
@@ -104,9 +105,9 @@ namespace GD_MachineConnect
             return false;
         }
 
-        public bool GetSeparateBoxNumber(int Index, out SeparateBoxModel SeparateBox)
+        public bool GetSeparateBoxNumber(out int Index)
         {
-            throw new NotImplementedException();
+            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Stacking1.sv_iThisStation, out Index);
         }
 
         public bool GetSeparateSetting(out SeparateSettingModel SeparateSetting)
@@ -158,9 +159,9 @@ namespace GD_MachineConnect
             throw new NotImplementedException();
         }
 
-        public bool SetSeparateBoxNumber(SeparateBoxModel SeparateBox)
+        public bool SetSeparateBoxNumber(int boxIndex)
         {
-            throw new NotImplementedException();
+            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Stacking1.sv_iThisStation, boxIndex);
         }
 
         public bool SetSeparateSetting(SeparateSettingModel SeparateSetting)
@@ -353,7 +354,7 @@ namespace GD_MachineConnect
             //throw new NotImplementedException();
         }
 
-       public bool GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction, out bool singal)
+        public bool GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction, out bool singal)
         {
             switch (stampingCylinder)
             {
@@ -447,7 +448,7 @@ namespace GD_MachineConnect
         }
         public bool GetHydraulicPumpMotor(out bool isActive)
         {
-            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Motor1.sv_bButtonMotor , out isActive);
+            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Motor1.sv_bButtonMotor, out isActive);
         }
 
         /// <summary>
@@ -456,7 +457,7 @@ namespace GD_MachineConnect
         /// <returns></returns>
         public bool CheckHydraulicPumpMotor()
         {
-            if(GetHydraulicPumpMotor(out var MotorIsActived))
+            if (GetHydraulicPumpMotor(out var MotorIsActived))
             {
                 if (MotorIsActived)
                     return true;
@@ -465,9 +466,9 @@ namespace GD_MachineConnect
                     //詢問後設定
                     //油壓馬達尚未啟動，是否要啟動油壓馬達？
 
-             
-        
-                    var Result = MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify") , 
+
+
+                    var Result = MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"),
                         (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved") +
                         "\r\n" +
                         (string)Application.Current.TryFindResource("Text_AskActiveHydraulicPumpMotor"));
@@ -502,6 +503,37 @@ namespace GD_MachineConnect
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName}.{ironPlateType}", StringLine);
         }
 
+
+        public bool GetEngravingYAxisPosition(out float position)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_rEngravingFeedingPosition}", out position);
+        }
+
+
+
+        public bool SetEngravingYAxisToStandbyPos()
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rServoStandbyPos}", true);
+        }
+        
+
+        public bool GetEngravingYAxisBwd(out bool isActived)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", out isActived);
+        }
+        public bool GetEngravingYAxisFwd(out bool isActived)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", out isActived);
+        }
+
+        public bool SetEngravingYAxisBwd(bool Active)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
+        }
+        public bool SetEngravingYAxisFwd(bool Active)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
+        }
 
 
 
@@ -886,7 +918,7 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 回歸基準點命令
                 /// </summary>
-                public static string rServoStandbyPos => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{SServoMove.sv_rServoStandbyPos}";
+                public static string sv_rServoStandbyPos => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{SServoMove.sv_rServoStandbyPos}";
 
                 /// <summary>
                 /// 手動前進
@@ -977,7 +1009,6 @@ namespace GD_MachineConnect
 
 
             }
-
 
             /// <summary>
             /// 分料組

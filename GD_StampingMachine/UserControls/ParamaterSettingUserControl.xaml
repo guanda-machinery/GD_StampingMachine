@@ -1158,7 +1158,7 @@
                                                         FieldName="SensorType">
                             </dxg:GridColumn>
 
-                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center"
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center" AllowEditing="false"
                                                         FieldName="IO_Value">
                             </dxg:GridColumn>
                             

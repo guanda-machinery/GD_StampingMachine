@@ -133,6 +133,20 @@
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Style>
                         </StackPanel.Resources>
+                        <materialDesign:PackIcon Width="30" Height="{Binding}" Foreground="#99cff9">
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Kind" Value="LanDisconnect"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
+                                            <Setter Property="Kind"  Value="LanConnect"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+
+                            </materialDesign:PackIcon.Style>
+                            </materialDesign:PackIcon>
+
                         <TextBlock Text="{Binding DateTimeNow,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:hh:mm tt}' }" Margin="15,0" />
                         <materialDesign:PackIcon Kind="InformationOutline" Width="30" Height="{Binding}" Foreground="#99cff9"/>
                     </StackPanel>

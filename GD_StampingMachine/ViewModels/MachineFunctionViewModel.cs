@@ -1,10 +1,10 @@
 ﻿using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
-using DevExpress.Mvvm.Native;
 using DevExpress.Office.Utils;
 using DevExpress.Utils.Extensions;
 using DevExpress.Utils.StructuredStorage.Internal;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpo.DB.Helpers;
 using DevExpress.XtraRichEdit.Import.Doc;
 using DevExpress.XtraScheduler.Native;
 using GD_CommonLibrary;
@@ -43,19 +43,41 @@ namespace GD_StampingMachine.ViewModels
         {
 
             var DegreeRate = 0;
-            if (ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count != 0)
+           /* if (ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count != 0)
             {
                 DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count;
                 var Uindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
                 if (Uindex != -1)
                     SeparateBox_RotateAngle = -DegreeRate * Uindex;
-            }
+            }*/
             //啟用掃描
             StampMachineData.ScanOpcua();
 
-
+            //檢查分料組值
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    var index = StampMachineData.SeparateBoxIndex;
+                    if(index != -1 && index != SeparateBoxIndexNow && !IsRotating)
+                    {
+                        DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count;
+                        SeparateBox_RotateAngle = -DegreeRate * index;
+                        SeparateBoxIndexNow = index;
+                    }
+                    await Task.Delay(1000);
+                }
+            });
 
         }
+
+        private int SeparateBoxIndexNow =-1;
+
+
+
+
+
+
 
         /// <summary>
         /// 從機台端蒐集到的資料
@@ -186,15 +208,28 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
+
                 try
                 {
-                    SeparateBox_Rotate(1);
+                    // var Index = StampMachineDataSingleton.Instance.SeparateBoxIndex;
+                    var Index = SeparateBoxIndexNow;
+                    var LocationIndex = Index + 1;
+                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
+                        LocationIndex = 0;
+                    if (LocationIndex < 0)
+                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
+                    //SeparateBox_Rotate(LocationIndex, 1);
+                    Task.Run(() =>
+                    {
+                        if (StampMachineDataSingleton.Instance.SetSeparateBoxNumber(LocationIndex))
+                            SeparateBox_Rotate(LocationIndex, 1);
+                    });
+                    //SeparateBoxIndexNow = LocationIndex;
                 }
                 catch (Exception ex)
                 {
 
                 }
-
             });
         }
 
@@ -202,14 +237,29 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                try
+                Task.Run(() =>
                 {
-                    SeparateBox_Rotate(-1);
-                }
-                catch (Exception ex)
-                {
+                    try
+                    {
+                        // var Index = StampMachineDataSingleton.Instance.SeparateBoxIndex;
+                        var Index = SeparateBoxIndexNow;
+                        var LocationIndex = Index - 1;
+                        if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
+                            LocationIndex = 0;
+                        if (LocationIndex < 0)
+                            LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
+                        //SeparateBox_Rotate(LocationIndex, 1);
+                        Task.Run(() =>
+                        {
+                            if (StampMachineDataSingleton.Instance.SetSeparateBoxNumber(LocationIndex))
+                                SeparateBox_Rotate(LocationIndex, -1);
+                        });
+                    }
+                    catch (Exception ex)
+                    {
 
-                }
+                    }
+                });
 
             });
         }
@@ -225,12 +275,15 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private void SeparateBox_Rotate(int step)
+        /// <summary>
+        /// 可計算轉盤上 下一個要轉的目標位置
+        /// </summary>
+        /// <param name="step"></param>
+        /// <returns></returns>
+        private int NextSeparateBox_Rotate(int step)
         {
             var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);
             var Maxindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
-
-
             var IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
             if (IsUsingindex == -1)
             {
@@ -243,7 +296,7 @@ namespace GD_StampingMachine.ViewModels
                     IsUsingindex = Maxindex;
                 }
                 ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
-                return;
+                return IsUsingindex;
             }
             else
                 ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;
@@ -262,9 +315,20 @@ namespace GD_StampingMachine.ViewModels
                 IsUsingindex = MinIndex;
                 //最小的可用index
             }
+            return IsUsingindex;
+        }
 
+
+        private void SeparateBox_Rotate(int IsUsingindex , int step) 
+        {
             if (IsUsingindex != -1)
             {
+
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ForEach(obj =>
+                {
+                    obj.IsUsing = false;
+                });
+
                 ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
                 //取得
 
@@ -284,14 +348,15 @@ namespace GD_StampingMachine.ViewModels
                     var endRotatePoint = 360 - DegreeRate * IsUsingindex;
                     while (true)
                     {
-                        if (step > 0)
+                        /*if (step > 0)
                         {
                             SeparateBox_RotateAngle -= 1;
                         }
                         else
                         {
                             SeparateBox_RotateAngle += 1;
-                        }
+                        }*/
+                        SeparateBox_RotateAngle -= step;
 
                         if (Math.Abs(SeparateBox_RotateAngle - endRotatePoint) < 2 || Math.Abs(SeparateBox_RotateAngle - endRotatePoint) > 360)
                             break;
