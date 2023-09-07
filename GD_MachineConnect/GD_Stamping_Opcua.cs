@@ -503,11 +503,53 @@ namespace GD_MachineConnect
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName}.{ironPlateType}", StringLine);
         }
 
-
         public bool GetEngravingYAxisPosition(out float position)
         {
             return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_rEngravingFeedingPosition}", out position);
         }
+
+        public bool GetEngravingZAxisPosition(out float position)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Engraving1.sv_rEngravingPosition}", out position);            
+        }
+
+
+       /* public bool GetEngravingZAxisHydraulicUp(out bool IsActived)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", out IsActived);
+        }
+
+        public bool GetEngravingZAxisHydraulicDown(out bool IsActived)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", out IsActived);
+        }
+        public bool SetEngravingZAxisHydraulicUp(bool Actived)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", Actived);
+        }
+
+        public bool SetEngravingZAxisHydraulicDown(bool Actived)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", Actived);
+        }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -915,6 +957,8 @@ namespace GD_MachineConnect
                 /// Y軸馬達目前位置
                 /// </summary>
                 public static string sv_rEngravingFeedingPosition => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{REngraving.sv_rEngravingFeedingPosition}";
+           
+
                 /// <summary>
                 /// 回歸基準點命令
                 /// </summary>

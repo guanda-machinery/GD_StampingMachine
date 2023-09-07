@@ -900,10 +900,14 @@ namespace GD_StampingMachine.Singletons
                                     IronPlateName3 = sIronPlateString3;
 
                                 if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
-                                {
                                     SeparateBoxIndex = boxIndex;
-                                }
 
+                                if (GD_Stamping.GetEngravingYAxisPosition(out float EngravingYposition))
+                                    EngravingYAxisPosition = EngravingYposition;
+
+                                if (GD_Stamping.GetEngravingZAxisPosition(out float EngravingZposition))
+                                    EngravingZAxisPosition = EngravingZposition;
+                                
 
 
                                 //取得io資料表
@@ -1195,6 +1199,7 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+
         /// <summary>
         /// 鋼印Y軸回歸原點
         /// </summary>
@@ -1243,7 +1248,6 @@ namespace GD_StampingMachine.Singletons
             }
             return ret;
         }
-
 
 
 
@@ -1366,9 +1370,7 @@ namespace GD_StampingMachine.Singletons
             get => _hydraulicPumpIsActive; set { _hydraulicPumpIsActive = value; OnPropertyChanged(); }
         }
 
-        public string _ironPlateName1;
-        public string _ironPlateName2;
-        public string _ironPlateName3;
+        private string _ironPlateName1, _ironPlateName2, _ironPlateName3;
 
         /// <summary>
         /// 鋼印第一排
@@ -1402,8 +1404,20 @@ namespace GD_StampingMachine.Singletons
             get => _separateBoxIndex; set { _separateBoxIndex = value; OnPropertyChanged(); }
         }
 
+        private float _engravingYAxisPosition, _EngravingZAxisPosition = 0;
+        /// <summary>
+        /// 鋼印字模Y軸位置
+        /// </summary>
+        public float EngravingYAxisPosition
+        {
+            get => _engravingYAxisPosition; set { _engravingYAxisPosition = value; OnPropertyChanged(); }
+        }
+        public float EngravingZAxisPosition
+        {
+            get => _EngravingZAxisPosition; set { _EngravingZAxisPosition = value; OnPropertyChanged(); }
+        }
 
-
+        
 
 
 

@@ -239,6 +239,46 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="position"></param>
         /// <returns></returns>
         bool GetEngravingYAxisPosition(out float position);
+        
+        /// <summary>
+        /// 鋼印Z軸現在位置
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        bool GetEngravingZAxisPosition(out float position);
+
+
+        /// <summary>
+        /// 鋼印油壓缸升起命令
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        bool GetEngravingZAxisHydraulicUp(out bool IsActived);
+        /// <summary>
+        /// 鋼印油壓缸下降命令
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        bool GetEngravingZAxisHydraulicDown(out bool IsActived);
+
+        /// <summary>
+        /// 鋼印油壓缸升起命令
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+
+        bool SetEngravingZAxisHydraulicUp(bool Actived);
+
+        /// <summary>
+        /// 鋼印油壓缸下降命令
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+
+        bool SetEngravingZAxisHydraulicDown(bool Actived);
+
+
+
 
         /// <summary>
         /// 鋼印Y軸回原點
