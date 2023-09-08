@@ -147,10 +147,10 @@
 
                     </Grid>
                     <Grid Grid.ColumnSpan="2"    Grid.Row="3">
-                        <Border Background="Red" Height="50"/>
+                        <Border Background="White" />
 
                         <ListBox
-                            MinHeight="40"  
+                            MinHeight="200"  
                             ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled" >
                             <ListBox.ItemContainerStyle>
@@ -174,8 +174,8 @@
                                                                                       Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
                                                             <Grid.LayoutTransform>
-                                                                <ScaleTransform ScaleX="{c:Binding StampWidth/350}"
-                                                                                                        ScaleY="{c:Binding StampWidth/350}" />
+                                                                <ScaleTransform ScaleX="0.2"
+                                                                                                        ScaleY="0.2" />
                                                             </Grid.LayoutTransform>
                                                             <Grid DataContext="{Binding SettingBaseVM}">
                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
@@ -261,8 +261,8 @@
                                                         SearchPanelFindMode="Always"
                                                         ShowIndicator="False"
                                                         SearchDelay="0"                            
-                                                        AllowDragDrop="True"
-                                                        AllowDrop="True"
+                                                        AllowDragDrop="False"
+                                                        AllowDrop="False"
                                                         ShowDragDropHint="False"
                                                     >
                         </dxg:TableView>
