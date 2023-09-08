@@ -951,7 +951,7 @@ namespace GD_StampingMachine.Singletons
                         }
                         catch (Exception ex)
                         {
-                            Debugger.Break();
+                            //Debugger.Break();
                         }
                         finally 
                         {

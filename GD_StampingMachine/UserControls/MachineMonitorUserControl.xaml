@@ -7,28 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800" 
                       
+               xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-             
-             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"                
-             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
+             xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+             xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
-             xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
-             xmlns:sys="clr-namespace:System;assembly=System.Runtime" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
-             d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineMonitorViewModel}">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding GridControlRefreshCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+             
+             xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
+             
+             xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" 
+             xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineMonitorViewModel}"
+             
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             >
+
 
         <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MinHeight="50" MaxHeight="400"/>
+            <RowDefinition Height="auto" MinHeight="50" />
             <RowDefinition Height="*" MinHeight="50"/>
         </Grid.RowDefinitions>
         <materialDesign:ColorZone  Mode="PrimaryDark"  >
@@ -52,9 +55,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
                 <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/-->
                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                     <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
@@ -138,15 +142,105 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
-                </Grid>
-                <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
-                                        Grid.Row="3" 
+
+
+
+                    </Grid>
+                    <Grid Grid.ColumnSpan="2"    Grid.Row="3">
+                        <Border Background="Red" Height="50"/>
+
+                        <ListBox
+                            MinHeight="40"  
+                            ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                                             ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" >
+                                    <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistanceAnimation}"/>
+
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border  Margin="5,0,2,0"
+                                                                                        BorderThickness="0.5" BorderBrush="Black" CornerRadius="5"
+                                                                                        HorizontalAlignment="Center" Background="{Binding SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
+                                                                                        >
+                                                        <Grid Opacity="1"  
+                                                                                     d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
+                                                                                      Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
+                                                                                    ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
+                                                            <Grid.LayoutTransform>
+                                                                <ScaleTransform ScaleX="{c:Binding StampWidth/350}"
+                                                                                                        ScaleY="{c:Binding StampWidth/350}" />
+                                                            </Grid.LayoutTransform>
+                                                            <Grid DataContext="{Binding SettingBaseVM}">
+                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
+                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                    
+                                                                                             PlateRowBackground="Transparent"       
+                                                                                                    RedMeasurementLineVisibility="Collapsed" />
+                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
+                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                               
+                                                                                             PlateRowBackground="Transparent"         
+                                                                                                    RedMeasurementLineVisibility="Collapsed" />
+                                                            </Grid>
+
+
+                                                        </Grid>
+                                                    </Border>
+                                                    <materialDesign:Card Grid.Column="1" Width="10" Margin="0,5" 
+                                                                                            Background="Transparent"  
+                                                                                                UniformCornerRadius="0">
+                                                        <ProgressBar Width="auto" Height="auto" 
+                                                                                                         Visibility="{Binding IsFinish , Converter={dx:BooleanToVisibilityConverter Invert=True}}"
+                                                                                                         Background="Transparent"     
+                                                                                                    Foreground="{Binding WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
+                                            Opacity="0.9" Minimum="0" Maximum="100"  Value="{Binding WorkingProgress}"
+                                                             Style="{StaticResource  MaterialDesignLinearProgressBar}" 
+                                                             IsIndeterminate="False">
+                                                            <ProgressBar.LayoutTransform>
+                                                                <RotateTransform Angle="270"/>
+                                                            </ProgressBar.LayoutTransform>
+                                                            <i:Interaction.Behaviors>
+                                                                <GD_Common:ProgresBarAnimateBehavior />
+                                                            </i:Interaction.Behaviors>
+
+                                                        </ProgressBar>
+
+                                                    </materialDesign:Card>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas IsItemsHost="True"  >
+                                        <Canvas.LayoutTransform>
+                                            <RotateTransform Angle="90"/>
+                                        </Canvas.LayoutTransform>
+                                    </Canvas>
+
+                                    <!--  <WrapPanel FlowDirection="RightToLeft"/>-->
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+
+                    </Grid>
+                    <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
+                                        Grid.Row="4" 
                                     Grid.Column="0" Margin="10,0"
-                                    Background="Transparent"  MinHeight="50" 
+                                    Background="Transparent"  Height="100" 
                                     Style="{StaticResource ProjectGridControl}"
-                                    AutoGenerateColumns="None"
-                                    ItemsSource="{Binding MachiningPartsVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    MaxHeight="2000"    >
+                                    AutoGenerateColumns="None"  
+                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                    MaxHeight="100"    >
                     <dxg:GridControl.View >
                         <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -215,7 +309,7 @@
         </materialDesign:ColorZone>
         <Grid Grid.Row="1" Margin="0,5"   >
             <GD_StampingMachine_UserControls:StampingBoxPartsUserControl Margin="10"
-                    DataContext="{Binding StampingBoxPartsVM}" HorizontalAlignment="Left"/>
+                      DataContext="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM}"  HorizontalAlignment="Left"/>
         </Grid>
         </Grid>
 </UserControl>

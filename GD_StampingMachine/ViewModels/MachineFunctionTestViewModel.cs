@@ -611,16 +611,21 @@ namespace GD_StampingMachine.ViewModels
                 var returnOriginValue = SendMachineCommandVMObservableCollection.Min(x => x.AbsoluteMoveDistance);
                 returnOriginValue = returnOriginValue - QR_Stamping_Distance - Fonts_Stamping_Distance;
 
+                foreach (var item in SendMachineCommandVMObservableCollection)
+                {
+                    item.AbsoluteMoveDistance -= returnOriginValue;
+                    item.SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
+                    item.IsFinish = false;
+                }
+
                 foreach (var item in StampingPlateProcessingSequenceVMObservableCollection)
                 {
                     item.ProcessingAbsoluteDistance -= returnOriginValue;
                     item.ProcessingIsFinish = false;// true;
                     item.SendMachineCommandVM.WorkingProgress = 0;
-                    //item.SteelBeltStampingStatus
-                    item.SendMachineCommandVM.AbsoluteMoveDistance -= returnOriginValue;
-                    item.SendMachineCommandVM.SteelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
-                    item.SendMachineCommandVM.IsFinish = false;
                 }
+
+
 
             });
         }

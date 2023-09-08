@@ -83,7 +83,7 @@
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
                             <Border BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
                                     BorderThickness="0,0,0,1.5">
-                                <TextBlock Text="{Binding MachineMonitorVM.ProjectDistributeVMSelected.ProjectDistributeName}" Margin="4,1"/>
+                                <TextBlock Text="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM.ProjectDistributeName}" Margin="4,1"/>
                             </Border>
                         </ToggleButton>
 
@@ -103,8 +103,11 @@
 
                                 <Grid MinWidth="100" MinHeight="50" Margin="10">
                                     <ComboBox  
-                                              ItemsSource="{Binding MachineMonitorVM.ProjectDistributeVMObservableCollection}"
-                                              SelectedValue="{Binding MachineMonitorVM.ProjectDistributeVMSelected}">
+                                              ItemsSource="{Binding TypeSettingSettingVM.ProjectDistributeVMObservableCollection}"
+                                              SelectedValue="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM}">
+                                        <dxmvvm:Interaction.Behaviors>
+                                            <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=ProjectDistributeVMChangeCommand}" PassEventArgsToCommand="True"/>
+                                        </dxmvvm:Interaction.Behaviors>
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ProjectDistributeName}" ></TextBlock>
@@ -932,7 +935,10 @@
 
 
                                 <GD_Customcontrols:FunctionToggleUserControl 
-                                    IsEnabled="{Binding MachineMonitorVM.ProjectDistributeVMSelected, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                    IsEnabled="{Binding  
+                                    Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, 
+                                    Path=SelectedProjectDistributeVM,            
+                                    Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
                                 x:Name="TBtn_MachineMonitor" >
                                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                                     <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">

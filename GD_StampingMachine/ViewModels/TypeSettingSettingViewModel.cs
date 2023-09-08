@@ -96,8 +96,8 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 切換工程號
         /// </summary>
-        [JsonIgnore]
-        public ICommand ChangeProjectDistributeCommand{get => Singletons.StampingMachineSingleton.Instance.MachineMonitorVM.ProjectDistributeVMChangeCommand; }
+        //[JsonIgnore]
+        //public ICommand ChangeProjectDistributeCommand{get => Singletons.StampingMachineSingleton.Instance.MachineMonitorVM.ProjectDistributeVMChangeCommand; }
 
         /// <summary>
         /// 刪除排版專案 並將盒子內的所有東西釋放回專案

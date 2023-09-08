@@ -35,6 +35,21 @@ namespace GD_StampingMachine.ViewModels
 
         public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
         public StampingFontChangedViewModel StampingFontChangedVM { get => Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM; }
+     
+        /// <summary>
+        /// 已選擇的加工專案
+        /// </summary>
+        public ProjectDistributeViewModel ProjectDistributeVMSelected
+        {
+            get => StampingMachineSingleton.Instance.SelectedProjectDistributeVM;
+            set
+            {
+                StampingMachineSingleton.Instance.SelectedProjectDistributeVM = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
 
 

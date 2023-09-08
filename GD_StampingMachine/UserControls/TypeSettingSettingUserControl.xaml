@@ -16,6 +16,8 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
            
+             
+             xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
               xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              mc:Ignorable="d" 
@@ -139,7 +141,8 @@
                                       MaxHeight="2000">
                     <dxg:GridControl.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="{Binding ChangeProjectDistributeCommand}"
+                            <!--Command="{Binding ChangeProjectDistributeCommand}"-->
+                            <MenuItem Command="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=ProjectDistributeVMChangeCommand}"
                                       CommandParameter="{Binding ProjectDistributeSelectedItems}"
                                                 Header="{DynamicResource Text_ChangeConstructionNumber}"/>
                             <MenuItem Command="{Binding DeleteProjectDistributeCommand}"
@@ -523,6 +526,7 @@
                             </dxg:GridControl>
                         </Grid>
                         <dxg:GridControl Background="Transparent"    Grid.Column="2"  Margin="10,0"
+                                         CustomRowFilterCommand="{Binding ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMCollection_Unassigned_RowFilterCommand}"
                                          IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.IsFinish, Converter={dx:BoolInverseConverter}}"    
                                          Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="MultipleRow"

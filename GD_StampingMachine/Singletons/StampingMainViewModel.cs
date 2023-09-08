@@ -218,7 +218,7 @@ namespace GD_StampingMachine.ViewModels
 
         private MachineFunctionTestViewModel _machineFunctionTestVM;
         public MachineFunctionTestViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTestViewModel(); set => _machineFunctionTestVM = value; }
-
+        
 
         /// <summary>
         /// 機台警報

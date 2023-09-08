@@ -28,8 +28,8 @@ namespace GD_StampingMachine.ViewModels
        
         [JsonIgnore]
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
-        [JsonIgnore]
-        public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
+       // [JsonIgnore]
+        //public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
 
         public bool GridControl_MachiningStatusColumnVisible { get; set; } = true;
     }
@@ -158,7 +158,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (SelectedSeparateBoxVM != null)
                     {
-                        if (PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex)
+                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex)
                             args.Visible = true;
                         else
                             args.Visible = false;
@@ -213,7 +213,7 @@ namespace GD_StampingMachine.ViewModels
                                 {
                                     PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
                                     PartsParameterVM.BoxIndex = SelectedSeparateBoxVM.BoxIndex;
-                                    e.Effects = System.Windows.DragDropEffects.Move;
+                                    e.Effects = System.Windows.DragDropEffects.Copy;
                                 }
                             }
                         }

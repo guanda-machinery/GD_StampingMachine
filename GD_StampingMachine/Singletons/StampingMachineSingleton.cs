@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -191,7 +192,7 @@ namespace GD_StampingMachine.Singletons
             }
 
 
-            MachineMonitorVM = new MachineMonitorViewModel(new MachineMonitorModel())
+            MachineMonitorVM = new MachineMonitorViewModel()
             {
 
             };
@@ -264,12 +265,68 @@ namespace GD_StampingMachine.Singletons
 
 
 
+        private ProjectDistributeViewModel _selectedProjectDistributeVM;
+         /// <summary>
+         /// 目前選定的加工專案
+         /// </summary>
+        public ProjectDistributeViewModel SelectedProjectDistributeVM { get => _selectedProjectDistributeVM; set { _selectedProjectDistributeVM = value; OnPropertyChanged(); } }
+
+        public ICommand ProjectDistributeVMChangeCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                if (obj is ObservableCollection<ProjectDistributeViewModel> NewProjectDistributeVMObser)
+                {
+                    SelectedProjectDistributeVM = NewProjectDistributeVMObser.FirstOrDefault(); ;
+                }
+                if (obj is ProjectDistributeViewModel NewProjectDistributeVM)
+                {
+                    SelectedProjectDistributeVM = NewProjectDistributeVM;
+                }
+
+
+                try
+                {
+                    if (SelectedProjectDistributeVM != null)
+                    {
+                       /* SelectedProjectDistributeVM.StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
+                        {
+                            ProjectDistributeName = SelectedProjectDistributeVM.ProjectDistributeName,
+                            ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
+                            ProductProjectVMObservableCollection = SelectedProjectDistributeVM.ProductProjectVMObservableCollection,
+                            SeparateBoxVMObservableCollection = SelectedProjectDistributeVM.SeparateBoxVMObservableCollection,
+                            GridControl_MachiningStatusColumnVisible = true,
+                        });*/
+
+                        //MachiningPartsVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+
+                        /*StampingBoxPartsVM.ProductProjectVMObservableCollection.ForEach(x =>
+                        {
+                            x.PartsParameterVMObservableCollection.ForEach(y =>
+                            {
+                                if (y.DistributeName == StampingBoxPartsVM.ProjectDistributeName && y.MachiningStatus == MachiningStatusEnum.Run)
+                                    MachiningPartsVMObservableCollection.Add(y);
+                            });
+                        });*/
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
 
 
 
 
 
 
+
+
+
+
+            });
+        }
 
     }
 }

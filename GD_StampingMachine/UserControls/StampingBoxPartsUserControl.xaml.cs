@@ -1,4 +1,5 @@
 ﻿using GD_StampingMachine.UserControls.NumberSettingSchematicDiagram;
+using Petzold.Media2D;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,26 @@ namespace GD_StampingMachine.UserControls
             InitializeComponent();
         }
 
+        public bool BoxPartsParameterGridControlAllowDragDrop
+        {
+            set { SetValue(BoxPartsParameterGridControlAllowDragDropProperty, value); }
+            get { return (bool)GetValue(BoxPartsParameterGridControlAllowDragDropProperty); }
+        }
+        public static readonly DependencyProperty BoxPartsParameterGridControlAllowDragDropProperty = DependencyProperty.Register(nameof(BoxPartsParameterGridControlAllowDragDrop),
+                typeof(bool), 
+                typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata());
+       
+        public bool BoxPartsParameterGridControlAllowDrop
+        {
+            set { SetValue(BoxPartsParameterGridControlAllowDropProperty, value); }
+            get { return (bool)GetValue(BoxPartsParameterGridControlAllowDropProperty); }
+        }
+        public static readonly DependencyProperty BoxPartsParameterGridControlAllowDropProperty = DependencyProperty.Register(nameof(BoxPartsParameterGridControlAllowDrop),
+                typeof(bool),
+                typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata());
 
+
+        
 
 
         /*public bool GridControl_MachiningStatusIsVisible

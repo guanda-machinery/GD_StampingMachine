@@ -38,7 +38,12 @@
     xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" 
              
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionTestViewModel}"
+             
+             
+             >
     <Grid>
 
         <Grid Grid.Column="1"

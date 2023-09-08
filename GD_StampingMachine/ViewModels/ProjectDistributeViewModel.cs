@@ -64,12 +64,13 @@ namespace GD_StampingMachine.ViewModels
             if (_projectDistribute == null)
                 _projectDistribute = new ProjectDistributeModel();
             ProjectDistribute = _projectDistribute;
-            StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel
+
+            StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
             {
-                ProjectDistributeName = ProjectDistribute.ProjectDistributeName,
-                SeparateBoxVMObservableCollection = _projectDistribute.SeparateBoxVMObservableCollection,
-                ProductProjectVMObservableCollection = _projectDistribute.ProductProjectVMObservableCollection,
-                GridControl_MachiningStatusColumnVisible = false
+                ProjectDistributeName = this.ProjectDistributeName,
+                ProductProjectVMObservableCollection = this.ProductProjectVMObservableCollection,
+                SeparateBoxVMObservableCollection = this.SeparateBoxVMObservableCollection,
+                GridControl_MachiningStatusColumnVisible = true,
             });
 
             if (_projectDistribute.ProductProjectNameList != null)
@@ -84,7 +85,6 @@ namespace GD_StampingMachine.ViewModels
                     }
                 }
             }
-            
             foreach (var obj in ProductProjectVMObservableCollection)
             {
                 var Index = obj.PartsParameterVMObservableCollection.FindIndex(x => x.DistributeName == this.ProjectDistributeName);
@@ -94,7 +94,6 @@ namespace GD_StampingMachine.ViewModels
                         ReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
                 }
             }
-
             foreach (var obj in ProductProjectVMObservableCollection)
             {
                 if (!ReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
@@ -122,17 +121,25 @@ namespace GD_StampingMachine.ViewModels
         public DateTime CreatedDate { get => ProjectDistribute.CreatedDate; set { ProjectDistribute.CreatedDate = value; OnPropertyChanged(); } }
         public DateTime? EditDate { get => ProjectDistribute.EditDate; set { ProjectDistribute.EditDate = value; OnPropertyChanged(); } }
 
+
         /// <summary>
         /// 盒子與專案
         /// </summary>
-        public StampingBoxPartsViewModel StampingBoxPartsVM { get; set; }
-       
-       /* [JsonIgnore]
-        public ICommand RefreshStampingBoxCommand
-        {
-            get => StampingBoxPartsVM.BoxPartsParameterVMObservableCollectionRefreshCommand;
-        }*/
+        private StampingBoxPartsViewModel _stampingBoxPartsVM;
 
+        /// <summary>
+        /// 盒子與專案
+        /// </summary>
+        public StampingBoxPartsViewModel StampingBoxPartsVM 
+        {
+            get=> _stampingBoxPartsVM; 
+            set 
+            { 
+                _stampingBoxPartsVM = value;
+                OnPropertyChanged(); 
+            } 
+        }
+       
 
 
         private bool _IsInDistributePage = false;
@@ -205,8 +212,8 @@ namespace GD_StampingMachine.ViewModels
             if (ReadyToTypeSettingProductProjectVMSelected != null)
             {
                 var NotInBoxList = ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == null && x.DistributeName == null);
-                    
-                foreach(var obj in NotInBoxList)
+
+                foreach (var obj in NotInBoxList)
                 {
                     PartsParameterVMObservableCollection.Add(obj);
                 }
@@ -251,21 +258,6 @@ namespace GD_StampingMachine.ViewModels
             {
                 NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(BFinishindex);
             }
-
-            //把已完成的從移除未準備中移除
-
-
-            //加入model清單
-           /* this.ProductProjectNameList = new ObservableCollection<string>();
-
-            foreach(var obj in ReadyToTypeSettingProductProjectVMObservableCollection)
-            {
-                ProductProjectNameList.Add(obj.ProductProjectName);
-            }*/
-
-
-
-
 
 
         }
