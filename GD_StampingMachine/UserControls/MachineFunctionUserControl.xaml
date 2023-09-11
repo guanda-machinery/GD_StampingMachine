@@ -101,7 +101,7 @@
 
 
                             </StackPanel>
-                            <Grid RenderTransformOrigin="0.5,0.5">
+                            <Grid RenderTransformOrigin="0.5,0.5" Name="MachineOverviewGrid">
                                 <Grid.LayoutTransform >
                                     <ScaleTransform ScaleX="1.0" ScaleY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ScaleX}"/>
                                 </Grid.LayoutTransform>
@@ -293,7 +293,7 @@
                             </Grid>
 
                             <!--       CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"-->
-                            <dxg:GridControl 
+                            <dxg:GridControl MaxHeight="{Binding ElementName=MachineOverviewGrid,Path=ActualHeight}"
                                 IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ItemsSource, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
                                 Margin="10,0"
                                 Grid.Column="1"
@@ -301,7 +301,7 @@
                                 Background="Transparent"  MinHeight="200"
                                 Style="{StaticResource ProjectGridControl}" 
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
-                                MaxHeight="2000"    >
+                                  >
                                 <dxg:GridControl.View >
                                     <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

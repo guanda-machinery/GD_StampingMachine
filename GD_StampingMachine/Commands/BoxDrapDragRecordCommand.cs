@@ -1,14 +1,16 @@
-﻿using GD_CommonLibrary;
+﻿using DevExpress.Mvvm.Xpf;
+using GD_CommonLibrary;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.Commands
+namespace GD_StampingMachine
 {
-    public static partial class GD_Command
+    public partial class GD_Command
     {
         public static RelayParameterizedCommand Box_OnDragRecordOverCommand
         {
@@ -26,6 +28,23 @@ namespace GD_StampingMachine.Commands
                     }
                 });
             }
+        }
+        //篩選器
+        /// <summary>
+        /// 篩選無註冊的零件
+        /// </summary>
+        public static DevExpress.Mvvm.ICommand<RowFilterArgs> PartsParameterVMCollection_Unassigned_RowFilterCommand
+        {
+            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
+            {
+                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PartsParameterVM)
+                {
+                    if (PartsParameterVM.BoxIndex == null && PartsParameterVM.DistributeName == null)
+                        args.Visible = true;
+                    else
+                        args.Visible = false;
+                }
+            });
         }
     }
 }

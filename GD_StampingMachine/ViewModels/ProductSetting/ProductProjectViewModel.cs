@@ -590,24 +590,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        //篩選器
-        /// <summary>
-        /// 篩選無註冊的零件
-        /// </summary>
-        [JsonIgnore]
-        public DevExpress.Mvvm.ICommand<RowFilterArgs> PartsParameterVMCollection_Unassigned_RowFilterCommand
-        {
-            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
-            {
-                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PartsParameterVM)
-                {
-                    if(PartsParameterVM.BoxIndex ==null && PartsParameterVM.DistributeName == null)
-                        args.Visible = true;
-                    else
-                        args.Visible = false;
-                }
-            });
-        }
+
 
 
 

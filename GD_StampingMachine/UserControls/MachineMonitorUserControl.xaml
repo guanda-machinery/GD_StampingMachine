@@ -35,32 +35,29 @@
             <RowDefinition Height="*" MinHeight="50"/>
         </Grid.RowDefinitions>
         <materialDesign:ColorZone  Mode="PrimaryDark"  >
-                <materialDesign:ColorZone.Effect>
-                    <DropShadowEffect  ShadowDepth="2"
+            <materialDesign:ColorZone.Effect>
+                <DropShadowEffect  ShadowDepth="2"
       Direction="270"
       Color="Black"
       Opacity="0.5"
      BlurRadius="6"/>
-                </materialDesign:ColorZone.Effect>
+            </materialDesign:ColorZone.Effect>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
                 <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/-->
-                <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <StackPanel Grid.Row="1"  Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="50,0">
                     <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
                         <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
                     </Border>
@@ -97,8 +94,9 @@
                         <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
                     </Border>
                 </StackPanel>
+                    
                 <Border Grid.Row="2" Margin="10" Background="{DynamicResource PrimaryHueLightForegroundBrush}"/>
-                <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
+                <Grid Grid.ColumnSpan="3" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
                     <Border Background="{DynamicResource PrimaryHueLightForegroundBrush}" Margin="0,0,115,0"/>
                     <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
                         <ListBox.ItemContainerStyle>
@@ -146,95 +144,110 @@
 
 
                     </Grid>
-                    <Grid Grid.ColumnSpan="2"    Grid.Row="3">
-                        <Border Background="White" />
 
-                        <ListBox
-                            MinHeight="200"  
-                            ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                    <Border    Grid.Row="3"   Background="Gray" />
+                <Grid Grid.ColumnSpan="2"    Grid.Row="3" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="95"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="Gray"  />
+                        <Border Background="Gray" Grid.Column="1" Margin="-1,0,0,0" Width="50" HorizontalAlignment="Left" />
+                    </Grid>
+                    <ListBox Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=ActualWidth }" HorizontalAlignment="Right" 
+                            MinHeight="120"     
+                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled" >
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem" >
-                                    <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistanceAnimation}"/>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" >
+                                <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistanceAnimation}"/>
 
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListBoxItem">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border  Margin="5,0,2,0"
-                                                                                        BorderThickness="0.5" BorderBrush="Black" CornerRadius="5"
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border  Margin="5,0,2,0"
+                                                                                        BorderThickness="1" BorderBrush="Black" CornerRadius="5"
                                                                                         HorizontalAlignment="Center" Background="{Binding SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
                                                                                         >
-                                                        <Grid Opacity="1"  
+                                                    <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
                                                                                      d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
                                                                                       Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
-                                                            <Grid.LayoutTransform>
-                                                                <ScaleTransform ScaleX="0.2"
-                                                                                                        ScaleY="0.2" />
-                                                            </Grid.LayoutTransform>
-                                                            <Grid DataContext="{Binding SettingBaseVM}">
-                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
+                                                        <Grid.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0.11"
+                                                                                                        ScaleY="0.11" />
+                                                        </Grid.LayoutTransform>
+                                                        <Grid DataContext="{Binding SettingBaseVM}">
+                                                            <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
                                                                                                                                  Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                                                     
                                                                                              PlateRowBackground="Transparent"       
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
-                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
+                                                            <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
                                                                                                                                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                                                                                                                
                                                                                              PlateRowBackground="Transparent"         
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
-                                                            </Grid>
-
-
                                                         </Grid>
-                                                    </Border>
-                                                    <materialDesign:Card Grid.Column="1" Width="10" Margin="0,5" 
+
+
+                                                    </Grid>
+                                                </Border>
+                                                <materialDesign:Card Grid.Column="1" Width="10" Margin="0,5" 
                                                                                             Background="Transparent"  
                                                                                                 UniformCornerRadius="0">
-                                                        <ProgressBar Width="auto" Height="auto" 
+                                                    <ProgressBar Width="auto" Height="auto" 
                                                                                                          Visibility="{Binding IsFinish , Converter={dx:BooleanToVisibilityConverter Invert=True}}"
                                                                                                          Background="Transparent"     
                                                                                                     Foreground="{Binding WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
                                             Opacity="0.9" Minimum="0" Maximum="100"  Value="{Binding WorkingProgress}"
                                                              Style="{StaticResource  MaterialDesignLinearProgressBar}" 
                                                              IsIndeterminate="False">
-                                                            <ProgressBar.LayoutTransform>
-                                                                <RotateTransform Angle="270"/>
-                                                            </ProgressBar.LayoutTransform>
-                                                            <i:Interaction.Behaviors>
-                                                                <GD_Common:ProgresBarAnimateBehavior />
-                                                            </i:Interaction.Behaviors>
+                                                        <ProgressBar.LayoutTransform>
+                                                            <RotateTransform Angle="270"/>
+                                                        </ProgressBar.LayoutTransform>
+                                                        <i:Interaction.Behaviors>
+                                                            <GD_Common:ProgresBarAnimateBehavior />
+                                                        </i:Interaction.Behaviors>
 
-                                                        </ProgressBar>
+                                                    </ProgressBar>
 
-                                                    </materialDesign:Card>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Canvas IsItemsHost="True"  >
-                                        <Canvas.LayoutTransform>
-                                            <RotateTransform Angle="90"/>
-                                        </Canvas.LayoutTransform>
-                                    </Canvas>
+                                                </materialDesign:Card>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas IsItemsHost="True"  >
+                                    <Canvas.LayoutTransform>
+                                        <RotateTransform Angle="90"/>
+                                    </Canvas.LayoutTransform>
+                                </Canvas>
 
-                                    <!--  <WrapPanel FlowDirection="RightToLeft"/>-->
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                                <!--  <WrapPanel FlowDirection="RightToLeft"/>-->
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
+                    <Button Command="{Binding SoftSendMachineCommand}" Content="test1"/>
+                    <Button Command="{Binding SoftSendMachineCommand}" Content="test1"/>
+                </StackPanel>
 
-                    </Grid>
-                    <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
-                                        Grid.Row="4" 
+
+
+
+                <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
+                                        Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="100" 
                                     Style="{StaticResource ProjectGridControl}"
@@ -303,9 +316,6 @@
                 </Grid>
 
                     
-                    
-                    
-            </Grid>
         </materialDesign:ColorZone>
         <Grid Grid.Row="1" Margin="0,5"   >
             <GD_StampingMachine_UserControls:StampingBoxPartsUserControl Margin="10"

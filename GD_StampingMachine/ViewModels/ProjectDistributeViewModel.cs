@@ -514,7 +514,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand
         {
-            get => Commands.GD_Command.Box_OnDragRecordOverCommand;
+            get => GD_Command.Box_OnDragRecordOverCommand;
         }
 
 

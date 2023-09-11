@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
+    /// <summary>
+    /// 傳送給機台使用的資料
+    /// </summary>
     public class SendMachineCommandViewModel :BaseViewModel
     {
         public override string ViewModelName => throw new NotImplementedException();

@@ -85,21 +85,24 @@ namespace GD_StampingMachine.ViewModels
         private ObservableCollection<StampingSteelBeltViewModel> _stampingSteelBeltVMObservableCollection = new();
         public ObservableCollection<StampingSteelBeltViewModel> StampingSteelBeltVMObservableCollection { get => _stampingSteelBeltVMObservableCollection; set { _stampingSteelBeltVMObservableCollection = value; OnPropertyChanged(); } }
 
-        //private ObservableCollection<PartsParameterViewModel> _machiningPartsVMObservableCollection = new();
-        //public ObservableCollection<PartsParameterViewModel> MachiningPartsVMObservableCollection { get => _machiningPartsVMObservableCollection; set { _machiningPartsVMObservableCollection = value; OnPropertyChanged(); } }// = new();
+
+        public double StampWidth { get; set; } = 50;
 
 
+        public ICommand SoftSendMachineCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                var boxPartsParameterVMObservableCollection =  StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
 
-
- 
-
-
-
-
-
-
-
-
+                for (int i = 1; i < boxPartsParameterVMObservableCollection.Count; i++)
+                {
+                    //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + boxPartsParameterVMObservableCollection[i - 1].StampWidth;
+                    //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + StampWidth;
+                    boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance + StampWidth*i;
+                }
+            });
+        }
 
 
 
