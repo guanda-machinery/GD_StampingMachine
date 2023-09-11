@@ -89,18 +89,34 @@ namespace GD_StampingMachine.ViewModels
         public double StampWidth { get; set; } = 50;
 
 
+
+        private ObservableCollection<PartsParameterViewModel>  _boxPartsParameterVMObservableCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+
         public ICommand SoftSendMachineCommand
         {
             get => new RelayCommand(() =>
             {
-                var boxPartsParameterVMObservableCollection =  StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
-
-                for (int i = 1; i < boxPartsParameterVMObservableCollection.Count; i++)
+                for (int i = 1; i < _boxPartsParameterVMObservableCollection.Count; i++)
                 {
                     //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + boxPartsParameterVMObservableCollection[i - 1].StampWidth;
                     //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + StampWidth;
-                    boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance + StampWidth*i;
+                    _boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = _boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance + StampWidth*i;
                 }
+            });
+        }
+
+        public ICommand SetSendMachineCommand
+        {
+            get => new RelayCommand(() =>
+            {
+               /* for (int i = 0; i < _boxPartsParameterVMObservableCollection.Count; i++)
+                {
+                    //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + boxPartsParameterVMObservableCollection[i - 1].StampWidth;
+                    //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + StampWidth;
+                    _boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = _boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance + StampWidth * i;
+                }*/
+
+
             });
         }
 
@@ -109,7 +125,5 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
-
-    }
+            }
 }
