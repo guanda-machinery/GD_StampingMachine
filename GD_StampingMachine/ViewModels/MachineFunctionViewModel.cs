@@ -157,63 +157,11 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-
-
-        private bool _cylinder_1_isUp;
-        /// <summary>
-        /// 氣壓缸1上io觸發
-        /// </summary>
-        public bool Cylinder_1_isUp
+        private bool _isManualMode = false;
+        public bool IsManualMode
         {
-            get => _cylinder_1_isUp;
-            set { _cylinder_1_isUp = value; OnPropertyChanged(); }
+            get => _isManualMode; set { _isManualMode = value; OnPropertyChanged(); }
         }
-
-        private bool _cylinder_1_isMiddle;
-        /// <summary>
-        /// 氣壓缸1上io觸發
-        /// </summary>
-        public bool Cylinder_1_isMiddle
-        {
-            get => _cylinder_1_isMiddle;
-            set { _cylinder_1_isMiddle = value; OnPropertyChanged(); }
-        }
-        private bool _cylinder_1_isDown;
-        /// <summary>
-        /// 氣壓缸1上io觸發
-        /// </summary>
-        public bool Cylinder_1_isDown
-        {
-            get => _cylinder_1_isDown;
-            set { _cylinder_1_isDown = value; OnPropertyChanged(); }
-        }
-
-        private bool _cylinder_1_Up_IsEnabled = true;
-        public bool Cylinder_1_Up_IsEnabled
-        {
-            get => _cylinder_1_Up_IsEnabled;
-            set { _cylinder_1_Up_IsEnabled = value; OnPropertyChanged(); }
-        }
-        private bool _cylinder_1_Middle_IsEnabled = true;
-        public bool Cylinder_1_Middle_IsEnabled
-        {
-            get => _cylinder_1_Middle_IsEnabled;
-            set { _cylinder_1_Middle_IsEnabled = value; OnPropertyChanged(); }
-        }
-
-        private bool _cylinder_1_Down_IsEnabled = true;
-        public bool Cylinder_1_Down_IsEnabled
-        {
-            get => _cylinder_1_Down_IsEnabled;
-            set { _cylinder_1_Down_IsEnabled = value; OnPropertyChanged(); }
-        }
-
-
-
-
-
-
-
 
 
 

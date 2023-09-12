@@ -477,6 +477,7 @@
                             </Style.Triggers>
                         </Style>
                 </WrapPanel.Resources>
+                    <StackPanel>
                     <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
                         <StackPanel>
                             <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
@@ -493,6 +494,11 @@
                             </Button>
                         </StackPanel>
                     </GroupBox>
+
+                        <GroupBox Header="{DynamicResource Text_ManualMode}">
+                            <ToggleButton IsChecked="{Binding IsManualMode}" />
+                        </GroupBox>
+                    </StackPanel>
                     <GroupBox Header="{DynamicResource Text_Feeding_Component}" Visibility="{Binding Feeding_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <WrapPanel Orientation="Horizontal">
 
@@ -662,7 +668,8 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Header="{DynamicResource Text_Stamping_Component}" Visibility="{Binding Stamping_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                    <GroupBox
+                        Header="{DynamicResource Text_Stamping_Component}" Visibility="{Binding Stamping_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <StackPanel>
                         
                     <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
@@ -715,19 +722,29 @@
                                     </StackPanel>
                                 </GroupBox>
 
-                            <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}">
+                            <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}" IsEnabled="{Binding IsManualMode}">
+                                    <StackPanel Orientation="Horizontal">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
    
-                             CylinderIsUpSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked}"
-                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked, Converter={dx:BoolInverseConverter}}"
+                                      CylinderUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderUpCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
+                                    
+                             CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.HydraulicEngraving_IsUp}"
+                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsUpSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                     
+                                    CylinderMiddleIsActived="False"
                                CylinderIsMiddleSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked}"
                              CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
-                               CylinderIsDownSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
+                                    
+                                    
+                             CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
+                                    
+                               CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.HydraulicEngraving_IsDown}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
+                                        <TextBlock Text="{Binding StampMachineData.EngravingZAxisPosition}"/>
+                                    </StackPanel>
                             </GroupBox>
 
                                 <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}">
@@ -749,6 +766,34 @@
 
                             </StackPanel>
 
+                            <GroupBox Header="{DynamicResource Text_Stamping_Rotate_Component}">
+                                <Border Background="White" HorizontalAlignment="Left" CornerRadius="5">
+                                <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.SetEngravingRotateClockwiseCommand}" 
+                                   >
+                                            <Grid>
+                                                <materialDesign:PackIcon Kind="ArrowURightTop" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <materialDesign:PackIcon Kind="CheckboxBlankOutline" Width="30" Height="30"/>
+                                            </Grid>
+                                            
+                                            
+                                        </Button>
+                                        <Button Style="{StaticResource GD_RepeatButton}" 
+                                             Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
+                                    
+                                        <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.SetEngravingRotateCounterClockwiseCommand}"
+                                            >
+                                            <Grid>
+                                                <materialDesign:PackIcon Kind="ArrowULeftTop" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <materialDesign:PackIcon Kind="CheckboxBlankOutline" Width="30" Height="30"/>
+                                            </Grid>
+                                        </Button>
+
+                                        <TextBlock Text="{Binding StampMachineData.EngravingRotateStation}" Foreground="Black" VerticalAlignment="Center"/>
+
+                                    </StackPanel>
+                                </Border>
+                            </GroupBox>
                             <GroupBox Header="{StaticResource Text_SteelPunchedFontSetting}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -769,9 +814,8 @@
                                     <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding StampMachineData.IronPlateName3}"  Margin="2"/>
                                 </Grid>
                             </GroupBox>
-                        
-                        
-                    </StackPanel>
+
+                        </StackPanel>
                 </GroupBox>
 
                 <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Visibility="{Binding ShearCut_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">

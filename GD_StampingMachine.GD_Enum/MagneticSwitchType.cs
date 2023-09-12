@@ -28,7 +28,10 @@ namespace GD_StampingMachine.GD_Enum
         /// 阻擋缸
         /// </summary>
         BlockingCylinder,
-
+        /// <summary>
+        /// Z軸油壓缸
+        /// </summary>
+        HydraulicEngraving,
         /// <summary>
         /// 裁切
         /// </summary>

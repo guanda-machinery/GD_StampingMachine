@@ -271,6 +271,22 @@ namespace GD_MachineConnect
                             break;
                     }
                     break;
+                case StampingCylinderType.HydraulicEngraving:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, true);
+                            break;
+                        case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
+                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, true);
+                            break;
+                        default:
+                            ret = false;
+                            break;
+                    }
+                    break;
                 case StampingCylinderType.HydraulicCutting:
                     switch (direction)
                     {
@@ -417,6 +433,19 @@ namespace GD_MachineConnect
                             return GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, out singal);
                         case DirectionsEnum.Down:
                             return GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, out singal);
+                        case DirectionsEnum.None:
+                            singal = false;
+                            return false;
+                        default: throw new NotImplementedException();
+                    }
+
+                case StampingCylinderType.HydraulicEngraving:
+                    switch (direction)
+                    {
+                        case DirectionsEnum.Up:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, out singal);
+                        case DirectionsEnum.Down:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.sv_bButtonClose, out singal);
                         case DirectionsEnum.None:
                             singal = false;
                             return false;
@@ -577,6 +606,49 @@ namespace GD_MachineConnect
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
         }
 
+
+
+
+        public bool GetEngravingRotateStation(out int Station)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_iTargetAStation}", out Station);
+        }
+
+        public bool SetEngravingRotateStation(int Station)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station);
+        }
+
+        public bool SetEngravingRotateCW()
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", true);
+        }
+
+        public bool SetEngravingRotateCCW()
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", true);
+        }
+
+
+
+        public bool GetSpeed(out double SpeedValue)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup.Velocity.Output.rOutputValue}", out SpeedValue);
+        }
+
+        public bool SetSpeed(double SpeedValue)
+        {
+            //設定模式前進速度
+            //EngravingFeeding1.sv_ConstFwdSetup.Velocity.Output.rOutputValue
+            //設定模式後退速度
+            //EngravingFeeding1.sv_ConstBwdSetup.Velocity.Output.rOutputValue
+
+            //手動/自動前進速度
+            // EngravingFeeding1.sv_ConstFwd.Velocity.Output.rOutputValue
+            //手動/自動後退速度
+            // EngravingFeeding1.sv_ConstBwd.Velocity.Output.rOutputValue
+            return false;
+        }
 
 
 
@@ -953,6 +1025,19 @@ namespace GD_MachineConnect
             /// </summary>
             public class EngravingFeeding1
             {
+                public class sv_ConstFwdSetup
+                {
+                    public class Velocity
+                    {
+                        public class Output
+                        {
+                            public static string rOutputValue => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.sv_ConstFwdSetup.Velocity.Output.rOutputValue";
+                        }
+                    }
+                }
+
+
+
                 /// <summary>
                 /// Y軸馬達目前位置
                 /// </summary>

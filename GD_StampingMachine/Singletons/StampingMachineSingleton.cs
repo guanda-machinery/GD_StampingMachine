@@ -18,6 +18,7 @@ using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using DevExpress.Data.Extensions;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -192,22 +193,16 @@ namespace GD_StampingMachine.Singletons
             }
 
 
-            MachineMonitorVM = new MachineMonitorViewModel()
-            {
+            MachineMonitorVM = new();
 
-            };
-
-
-            MachineFunctionVM = new MachineFunctionViewModel()
-            {
-
-            };
+            MachineFunctionVM = new();
 
 
             IsBrightMode = Properties.Settings.Default.IsBrightMode;
 
-
-
+            var index_projectDistributeVM = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FindIndex(x => x.ProjectDistributeName == Properties.Settings.Default.SelectedProjectDistributeName);
+            if (index_projectDistributeVM != -1)
+                SelectedProjectDistributeVM = TypeSettingSettingVM.ProjectDistributeVMObservableCollection[index_projectDistributeVM];
         }
 
         public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; }
@@ -269,7 +264,20 @@ namespace GD_StampingMachine.Singletons
          /// <summary>
          /// 目前選定的加工專案
          /// </summary>
-        public ProjectDistributeViewModel SelectedProjectDistributeVM { get => _selectedProjectDistributeVM; set { _selectedProjectDistributeVM = value; OnPropertyChanged(); } }
+        public ProjectDistributeViewModel SelectedProjectDistributeVM
+        {
+            get => _selectedProjectDistributeVM; 
+            set
+            { 
+                _selectedProjectDistributeVM = value;
+                if(value!= null)
+                    Properties.Settings.Default.SelectedProjectDistributeName = value.ProjectDistributeName;
+                else
+                    Properties.Settings.Default.SelectedProjectDistributeName = string.Empty;
+                Properties.Settings.Default.Save();
+               OnPropertyChanged();
+            }
+        }
 
         public ICommand ProjectDistributeVMChangeCommand
         {
@@ -282,38 +290,6 @@ namespace GD_StampingMachine.Singletons
                 if (obj is ProjectDistributeViewModel NewProjectDistributeVM)
                 {
                     SelectedProjectDistributeVM = NewProjectDistributeVM;
-                }
-
-
-                try
-                {
-                    if (SelectedProjectDistributeVM != null)
-                    {
-                       /* SelectedProjectDistributeVM.StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
-                        {
-                            ProjectDistributeName = SelectedProjectDistributeVM.ProjectDistributeName,
-                            ProjectDistributeVMObservableCollection = TypeSettingSettingVM.ProjectDistributeVMObservableCollection,
-                            ProductProjectVMObservableCollection = SelectedProjectDistributeVM.ProductProjectVMObservableCollection,
-                            SeparateBoxVMObservableCollection = SelectedProjectDistributeVM.SeparateBoxVMObservableCollection,
-                            GridControl_MachiningStatusColumnVisible = true,
-                        });*/
-
-                        //MachiningPartsVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-
-                        /*StampingBoxPartsVM.ProductProjectVMObservableCollection.ForEach(x =>
-                        {
-                            x.PartsParameterVMObservableCollection.ForEach(y =>
-                            {
-                                if (y.DistributeName == StampingBoxPartsVM.ProjectDistributeName && y.MachiningStatus == MachiningStatusEnum.Run)
-                                    MachiningPartsVMObservableCollection.Add(y);
-                            });
-                        });*/
-
-                    }
-                }
-                catch (Exception ex)
-                {
-
                 }
 
 

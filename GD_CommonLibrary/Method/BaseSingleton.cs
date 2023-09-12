@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -28,8 +29,15 @@ namespace GD_CommonLibrary
                     {
                         if (_instance == null)
                         {
-                            _instance = Lazy.Value;
-                            _instance.Init();
+                            try
+                            {
+                                _instance = Lazy.Value;
+                                _instance.Init();
+                            }
+                            catch (Exception ex)
+                            {
+                                Debugger.Break();
+                            }
                         }
                     }
                 }

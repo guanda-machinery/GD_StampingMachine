@@ -9,7 +9,10 @@
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              d:DataContext="{d:DesignInstance Type= GD_ParameterSettingViewModels:NumberSettingViewModel}"
-             mc:Ignorable="d" >
+             mc:Ignorable="d"
+                                      x:Name="MainDiagramBaseUserControl"      
+                                      
+                                      >
     <Grid  HorizontalAlignment="Left">
 
 
@@ -44,14 +47,14 @@
             <!--底-->
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0" Width="25" Height="20" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Grid Grid.Row="1" Grid.Column="1" Width="20" Height="25" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Grid Grid.Row="2" Height="25" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Grid Grid.Row="3" Grid.Column="5" Width="20" Height="20" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Grid Grid.Row="7" Height="25" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Grid Grid.Row="0" Grid.Column="0" Width="25" Height="20" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
+        <Grid Grid.Row="1" Grid.Column="1" Width="20" Height="25" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
+        <Grid Grid.Row="2" Height="25" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
+        <Grid Grid.Row="3" Grid.Column="5" Width="20" Height="20" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
+        <Grid Grid.Row="7" Height="25" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
 
         <Border  Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="3" Width="900" Height="350" 
-            Background="{DynamicResource PlateRowBackground}" CornerRadius="10" 
+            Background="{Binding ElementName=MainDiagramBaseUserControl ,Path=PlateRowBackground}" CornerRadius="10" 
                                                          HorizontalAlignment="Stretch" />
         <Border Background="White" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Width="40" HorizontalAlignment="Left" Height="40" CornerRadius="20" VerticalAlignment="Top" Margin="15,12"/>
 
@@ -62,11 +65,12 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Width="70" Height="110" 
-                            Background="#55534d" Margin="12.5" >
-                            <TextBlock Text="{Binding .}" Foreground="White"  Width="auto" Margin="0" Padding="0" 
+                            Background="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}" Margin="12.5" >
+                            <TextBlock  Foreground="White"
+                                Text="{Binding .}"  Width="auto" Margin="0" Padding="0" 
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontSize="50"/>
+                                               FontSize="100"/>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -78,39 +82,39 @@
             </ItemsControl>
         </Grid>
         <TextBlock
-            Text="A" Foreground="Red" Grid.Column="2" FontSize="30" VerticalAlignment="Top" Visibility="{DynamicResource RedMeasurementLineVisibility}" />
+            Text="A" Foreground="Red" Grid.Column="2" FontSize="30" VerticalAlignment="Top" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}" />
         <Border
-            BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+            BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
 
 
-        <TextBlock Text="B" Foreground="Red" Grid.Row="2" FontSize="30" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="B" Foreground="Red" Grid.Row="2" FontSize="30" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
 
 
-        <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Row="3">
+        <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}" Grid.Row="3">
             <TextBlock Text="D" Foreground="Red"  FontSize="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsNullable=True}}"/>
         </Grid>
-        <TextBlock Text="E" Foreground="Red" Grid.Column="4" FontSize="30" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <TextBlock Text="E" Foreground="Red" Grid.Column="4" FontSize="30" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
 
 
 
-        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="7" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0,0,0" BorderBrush="Red" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,1" BorderBrush="Red" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="7" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
 
-        <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center">
+        <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center">
             <Border BorderThickness="1,0,0,0" BorderBrush="Red"  Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
         </Grid>
-        <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="7">
+        <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="7">
             <Border BorderThickness="0,1" BorderBrush="Red" Height="30" Visibility="{Binding SpecialSequence,ConverterParameter={x:Static GD_Enum:SpecialSequenceEnum.TwoRow} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter  IsNullable=True}}"/>
         </Grid>
-        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="4" Grid.Row="1" VerticalAlignment="Center" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
-        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="4" Grid.Row="1" Grid.RowSpan="7" Visibility="{DynamicResource RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Red" Grid.Column="4" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
+        <Border BorderThickness="1,0" BorderBrush="Red" Grid.Column="4" Grid.Row="1" Grid.RowSpan="7" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"/>
 
 
         <Grid HorizontalAlignment="Center" 
             Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
-            <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}">
+            <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}">
                 <TextBlock Text="C" Foreground="Red" FontSize="30"   
                        Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"    />
 
@@ -123,7 +127,7 @@
         <Grid HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="5"  Width="25"
             Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=2}"
             Grid.Column="3"  >
-            <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}">
+            <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}">
                 <Border BorderThickness="1,0"  BorderBrush="Red"  Width="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter Invert=True}, ConverterParameter=3}"/>
             </Grid>
@@ -132,17 +136,17 @@
 
 
 
-        <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}"  Grid.Column="3" >
+        <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}"  Grid.Column="3" >
             <TextBlock Text="C" Foreground="Red" FontSize="30" Width="25" HorizontalAlignment="Left" Margin="168,0,0,0"  Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}" />
         </Grid>
 
 
-        <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.Column="3" Grid.Row="1" >
+        <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}" Grid.Column="3" Grid.Row="1" >
             <Border BorderThickness="0,0,0,1" BorderBrush="Red" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="165,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
         </Grid>
 
 
-        <Grid Visibility="{DynamicResource RedMeasurementLineVisibility}" Grid.RowSpan="8" Grid.Column="3" Grid.Row="1" >
+        <Grid Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}" Grid.RowSpan="8" Grid.Column="3" Grid.Row="1" >
             <Border BorderThickness="1,0"  BorderBrush="Red"  HorizontalAlignment="Left"   Margin="165,0,0,0" Width="25" Visibility="{Binding SequenceCount, Converter={GD_Common:ValueMoreThanPrarameterThanEqualToVisibilityConverter}, ConverterParameter=3}"/>
         </Grid>
 

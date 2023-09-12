@@ -296,6 +296,7 @@
 
     <sys:String x:Key="Text_Stamping_Component">鋼印組</sys:String>
     <sys:String x:Key="Text_Stamping_ZAxis_Component">鋼印組Z軸</sys:String>
+    <sys:String x:Key="Text_Stamping_Rotate_Component">鋼印旋轉</sys:String>
     <sys:String x:Key="Text_ShearCut_Component_Hydraulic">裁切組-油壓</sys:String>
 
     <sys:String x:Key="Text_SteelPunchedFont_Component">鋼印字模組</sys:String>
@@ -314,6 +315,7 @@
 
     <sys:String x:Key="Text_OilPressure_Motor">油壓單元</sys:String>
 
+    <sys:String x:Key="Text_ManualMode">手動模式</sys:String>
 
     <!--Method-->
 

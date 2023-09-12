@@ -889,6 +889,18 @@ namespace GD_StampingMachine.Singletons
                                 if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, out bool HydraulicCutting_IsDown))
                                     Cylinder_HydraulicCutting_IsDown = HydraulicCutting_IsDown;
 
+
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, out bool _hydraEngraving_IsUp))
+                                    HydraulicEngraving_IsUp = _hydraEngraving_IsUp;
+                                if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, out bool _hydraEngraving_IsDown))
+                                    HydraulicEngraving_IsDown = _hydraEngraving_IsDown;
+
+                                
+
+
+
+
+
                                 if (GD_Stamping.GetHydraulicPumpMotor(out bool HPumpIsActive))
                                     HydraulicPumpIsActive = HPumpIsActive;
 
@@ -902,13 +914,14 @@ namespace GD_StampingMachine.Singletons
                                 if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
                                     SeparateBoxIndex = boxIndex;
 
-                                if (GD_Stamping.GetEngravingYAxisPosition(out float EngravingYposition))
-                                    EngravingYAxisPosition = EngravingYposition;
+                                if (GD_Stamping.GetEngravingYAxisPosition(out float engravingYposition))
+                                    EngravingYAxisPosition = engravingYposition;
 
-                                if (GD_Stamping.GetEngravingZAxisPosition(out float EngravingZposition))
-                                    EngravingZAxisPosition = EngravingZposition;
-                                
+                                if (GD_Stamping.GetEngravingZAxisPosition(out float engravingZposition))
+                                    EngravingZAxisPosition = engravingZposition;
 
+                                if (GD_Stamping.GetEngravingRotateStation(out int engravingRStation))
+                                    EngravingRotateStation = engravingRStation;
 
                                 //取得io資料表
                                 if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
@@ -1199,6 +1212,36 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+        
+
+        public ICommand SetEngravingRotateClockwiseCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                Task.Run(() =>
+                {
+                   // if (obj is bool IsActived)
+                        SetEngravingRotateClockwise();
+                });
+
+            });
+        }
+        public ICommand SetEngravingRotateCounterClockwiseCommand
+        {
+            get => new RelayParameterizedCommand(obj =>
+            {
+                Task.Run(() =>
+                {
+                  //  if (obj is bool IsActived)
+                        SetEngravingRotateCounterClockwise();
+                });
+
+            });
+        }
+
+
+
+
 
         /// <summary>
         /// 鋼印Y軸回歸原點
@@ -1222,7 +1265,7 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印Y軸前進
         /// </summary>
         /// <returns></returns>
-        public bool SetEngravingYAxisFwd(bool IsMove)
+        private bool SetEngravingYAxisFwd(bool IsMove)
         {
             var ret = false;
             if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
@@ -1237,7 +1280,7 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印Y軸後退
         /// </summary>
         /// <returns></returns>
-        public bool SetEngravingYAxisBwd(bool IsMove)
+        private bool SetEngravingYAxisBwd(bool IsMove)
         {
             var ret = false;
             if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
@@ -1248,6 +1291,41 @@ namespace GD_StampingMachine.Singletons
             }
             return ret;
         }
+
+
+        /// <summary>
+        /// 鋼印旋轉 順時針
+        /// </summary>
+        /// <returns></returns>
+        private bool SetEngravingRotateClockwise()
+        {
+            var ret = false;
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                ret = GD_Stamping.SetEngravingRotateCW();
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 鋼印旋轉 逆時針
+        /// </summary>
+        /// <returns></returns>
+        private bool SetEngravingRotateCounterClockwise()
+        {
+            var ret = false;
+            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            {
+                ret = GD_Stamping.SetEngravingRotateCCW();
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+
+
+
+
 
 
 
@@ -1268,12 +1346,18 @@ namespace GD_StampingMachine.Singletons
         private bool _cylinder_GuideRod_Fixed_IsDown;
         private bool _cylinder_QRStamping_IsUp;
         private bool _cylinder_QRStamping_IsDown;
+
+
         private bool _cylinder_StampingSeat_IsUp;
         private bool _cylinder_StampingSeat_IsDown;
         private bool _cylinder_BlockingCylinder_IsUp;
         private bool _cylinder_BlockingCylindere_IsDown;
         private bool _cylinder_HydraulicCutting_IsUp;
         private bool _cylinder_HydraulicCutting_IsDown;
+
+        private bool _hydraulicEngraving_IsUp;
+        private bool _hydraulicEngraving_IsDown;
+
         private bool _hydraulicPumpIsActive;
         /// <summary>
         /// 氣壓缸1上方磁簧
@@ -1319,6 +1403,22 @@ namespace GD_StampingMachine.Singletons
             get => _cylinder_QRStamping_IsDown; set { _cylinder_QRStamping_IsDown = value; OnPropertyChanged(); }
         }
         /// <summary>
+        /// 鋼印壓座組Z軸上方磁簧
+        /// </summary>
+        public bool HydraulicEngraving_IsUp
+        {
+            get => _hydraulicEngraving_IsUp; set { _hydraulicEngraving_IsUp = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 鋼印壓座組Z軸下方磁簧
+        /// </summary>
+        public bool HydraulicEngraving_IsDown
+        {
+            get => _hydraulicEngraving_IsDown; set { _hydraulicEngraving_IsDown = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
         /// 鋼印壓座組上方磁簧
         /// </summary>
         public bool Cylinder_StampingSeat_IsUp
@@ -1362,6 +1462,10 @@ namespace GD_StampingMachine.Singletons
             get => _cylinder_HydraulicCutting_IsDown; set { _cylinder_HydraulicCutting_IsDown = value; OnPropertyChanged(); }
         }
 
+
+
+
+
         /// <summary>
         /// 油壓幫浦
         /// </summary>
@@ -1404,7 +1508,8 @@ namespace GD_StampingMachine.Singletons
             get => _separateBoxIndex; set { _separateBoxIndex = value; OnPropertyChanged(); }
         }
 
-        private float _engravingYAxisPosition, _EngravingZAxisPosition = 0;
+        private float _engravingYAxisPosition, _engravingZAxisPosition  = 0;
+        private int _engravingRotateStation = 0;
         /// <summary>
         /// 鋼印字模Y軸位置
         /// </summary>
@@ -1414,10 +1519,16 @@ namespace GD_StampingMachine.Singletons
         }
         public float EngravingZAxisPosition
         {
-            get => _EngravingZAxisPosition; set { _EngravingZAxisPosition = value; OnPropertyChanged(); }
+            get => _engravingZAxisPosition; set { _engravingZAxisPosition = value; OnPropertyChanged(); }
         }
 
-        
+        /// <summary>
+        /// 目前旋轉位置
+        /// </summary>
+        public int EngravingRotateStation
+        {
+            get => _engravingRotateStation; set { _engravingRotateStation = value; OnPropertyChanged(); }
+        }
 
 
 

@@ -46,5 +46,17 @@ namespace GD_StampingMachine.Properties {
                 this["IsBrightMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectedProjectDistributeName {
+            get {
+                return ((string)(this["SelectedProjectDistributeName"]));
+            }
+            set {
+                this["SelectedProjectDistributeName"] = value;
+            }
+        }
     }
 }

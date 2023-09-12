@@ -316,10 +316,41 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <returns></returns>
         public bool SetEngravingYAxisFwd(bool Active);
 
+        /// <summary>
+        /// 鋼印目前選定的字元
+        /// </summary>
+        /// <param name="Station"></param>
+        /// <returns></returns>
+        bool GetEngravingRotateStation(out int Station);
+        /// <summary>
+        /// 變更鋼印目前選定的字元命令
+        /// </summary>
+        /// <param name="Station"></param>
+        /// <returns></returns>
+        bool SetEngravingRotateStation(int Station);
+        /// <summary>
+        /// 鋼印轉盤順時針旋轉
+        /// </summary>
+        /// <returns></returns>
+        bool SetEngravingRotateCW();
+        /// <summary>
+        /// 鋼印轉盤逆時針旋轉
+        /// </summary>
+        /// <returns></returns>
+        bool SetEngravingRotateCCW();
 
-
-
-
+        /// <summary>
+        /// 取得速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool GetSpeed(out double SpeedValue);
+        /// <summary>
+        /// 設定速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool SetSpeed(double SpeedValue);
 
 
 
