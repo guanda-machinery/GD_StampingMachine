@@ -292,10 +292,10 @@
                 </dxg:GridColumn.CellTemplate>
             </dxg:GridColumn>
             <dxg:GridColumn Visible="{Binding MachiningStatusIsVisible}"
-                HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
-                        <Border Background="{Binding Row.MachiningStatus, Converter={local:EnumToBrushesConverter}}"  
+                        <Border Background="{Binding Row.SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"  
                                 Width="20" 
                                 Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
                                 CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>

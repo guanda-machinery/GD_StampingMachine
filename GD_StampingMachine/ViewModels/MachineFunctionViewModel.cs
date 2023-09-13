@@ -171,28 +171,29 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-
-                try
+                Task.Run(() =>
                 {
-                    // var Index = StampMachineDataSingleton.Instance.SeparateBoxIndex;
-                    var Index = SeparateBoxIndexNow;
-                    var LocationIndex = Index + 1;
-                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
-                        LocationIndex = 0;
-                    if (LocationIndex < 0)
-                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
-                    //SeparateBox_Rotate(LocationIndex, 1);
-                    Task.Run(() =>
+                    try
                     {
+                        // var Index = StampMachineDataSingleton.Instance.SeparateBoxIndex;
+                        var Index = SeparateBoxIndexNow;
+                        var LocationIndex = Index + 1;
+                        if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
+                            LocationIndex = 0;
+                        if (LocationIndex < 0)
+                            LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
+                        //SeparateBox_Rotate(LocationIndex, 1);
+
                         if (StampMachineDataSingleton.Instance.SetSeparateBoxNumber(LocationIndex))
                             SeparateBox_Rotate(LocationIndex, 1);
-                    });
-                    //SeparateBoxIndexNow = LocationIndex;
-                }
-                catch (Exception ex)
-                {
 
-                }
+                        //SeparateBoxIndexNow = LocationIndex;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                });
             });
         }
 
@@ -212,11 +213,10 @@ namespace GD_StampingMachine.ViewModels
                         if (LocationIndex < 0)
                             LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
                         //SeparateBox_Rotate(LocationIndex, 1);
-                        Task.Run(() =>
-                        {
-                            if (StampMachineDataSingleton.Instance.SetSeparateBoxNumber(LocationIndex))
-                                SeparateBox_Rotate(LocationIndex, -1);
-                        });
+
+                        if (StampMachineDataSingleton.Instance.SetSeparateBoxNumber(LocationIndex))
+                            SeparateBox_Rotate(LocationIndex, -1);
+
                     }
                     catch (Exception ex)
                     {

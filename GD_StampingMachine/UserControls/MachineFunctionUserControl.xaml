@@ -507,10 +507,10 @@
                                 <StackPanel>
                             <materialDesign:ColorZone CornerRadius="2" Padding="1">
                                 <StackPanel Orientation="Horizontal">
-                                            <RepeatButton Style="{StaticResource GD_RepeatButton}" Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="-1.0"
+                                            <Button Style="{StaticResource GD_RepeatButton}" Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="-1.0"
                                              Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}"/>
                                     <Border Margin="5,0"/>
-                                            <RepeatButton Style="{StaticResource GD_RepeatButton}"    Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="1.0"
+                                            <Button Style="{StaticResource GD_RepeatButton}"    Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="1.0"
                                               Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}"/>
                             </StackPanel>
                                     </materialDesign:ColorZone>
@@ -686,7 +686,7 @@
 
                                         <StackPanel Orientation="Horizontal">
 
-                                                <RepeatButton Style="{StaticResource GD_RepeatButton}" 
+                                                <Button Style="{StaticResource GD_RepeatButton}" 
                                               Content="{materialDesign:PackIcon Kind=ArrowBottomLeftBoldBoxOutline, Size=30}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseDown">
@@ -697,11 +697,11 @@
                                                         </i:EventTrigger>
 
                                                     </i:Interaction.Triggers>
-                                                </RepeatButton>
+                                                </Button>
                                                 <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.EngravingYAxisToStandbyPosCommand}" CommandParameter="{StaticResource TrueValue}"
                                              Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
                                             
-                                                <RepeatButton Style="{StaticResource GD_RepeatButton}" 
+                                                <Button Style="{StaticResource GD_RepeatButton}" 
                                              Content="{materialDesign:PackIcon Kind=ArrowTopRightBoldBoxOutline, Size=30}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseDown">
@@ -713,10 +713,11 @@
 
                                                     </i:Interaction.Triggers>
 
-                                                </RepeatButton>
+                                                </Button>
 
                                             </StackPanel>
                                         </materialDesign:ColorZone>
+                                        <TextBlock Text="{Binding Path=StampMachineData.EngravingYAxisPosition}" Margin="0,2"/>
                                         <TextBox Text="123" Margin="0,2"/>
                                         <ToggleButton/>
                                     </StackPanel>
@@ -749,11 +750,12 @@
 
                                 <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}">
                                     <GD_StampingMachine_UserControls:CylinderUserControl 
-                                 CylinderUpIsActived="False"
-                                        CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.StampingSeat}"
-                               CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
-                                
+
+                                        CylinderUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderUpCommandParameter="{x:Static GD_Enum:StampingCylinderType.StampingSeat}"
+                               CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp}"
+                             CylinderUp_IsEnabled ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp, Converter={dx:BoolInverseConverter}}"
+                                                               
+                                        CylinderMiddleIsActived="False"
                                         
                                         CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.StampingSeat}"
                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_StampingSeat_IsDown}"
@@ -932,14 +934,14 @@
                         </ListBox>
                             </Grid>
                             <Grid IsEnabled="{Binding IsRotating, Converter={dx:BoolInverseConverter}}">
-                                <RepeatButton Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding SeparateBox_CounterClockwiseRotateCommand}"
+                                <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding SeparateBox_CounterClockwiseRotateCommand}"
                                         Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowURightTop" Width="auto" Height="auto"/>
-                            </RepeatButton>
-                                <RepeatButton Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SeparateBox_ClockwiseRotateCommand}"
+                            </Button>
+                                <Button Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SeparateBox_ClockwiseRotateCommand}"
                                         Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowULeftTop" Width="auto" Height="auto"/>
-                            </RepeatButton>
+                            </Button>
                         </Grid>
                     </StackPanel>
                 </GroupBox>

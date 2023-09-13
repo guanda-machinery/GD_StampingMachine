@@ -173,7 +173,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Border  Margin="5,0,2,0"
                                                                                         BorderThickness="1" BorderBrush="Black" CornerRadius="5"
-                                                                                        HorizontalAlignment="Center"  Background="{Binding SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
+                                                                                        HorizontalAlignment="Center"  Background="{Binding WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
                                                                                         >
                                                     <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
                                                                                      d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
@@ -239,7 +239,7 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
                     <Button Command="{Binding SoftSendMachineCommand}" Content="test1"/>
                     <Button Command="{Binding SetStatusSendMachineCommand}" Content="test2"/>
-                    <Button Command="{Binding SetStatusSendMachineCommand}" Content="test3"/>
+                    <Button Command="{Binding MoveSendMachineCommand}" Content="test3"/>
                 </StackPanel>
 
 
@@ -304,12 +304,35 @@
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSetting.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
 
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center" Header="{DynamicResource Text_MachiningStatus}"  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Background="{Binding Row.SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"  
+                                Width="20" 
+                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                                CornerRadius="{c:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>
+                            </DataTemplate>
+                        </dxg:GridColumn.CellTemplate>
+                    </dxg:GridColumn>
+                    
+                    
+                    
+
+                    
                 </dxg:GridControl>
 
                 </Grid>

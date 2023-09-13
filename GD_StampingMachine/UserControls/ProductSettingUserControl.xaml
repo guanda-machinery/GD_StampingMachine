@@ -408,6 +408,7 @@
                     <dxg:GridControl  Background="Transparent"  
                     CustomRowFilterCommand="{Binding ProductProjectRowFilterCommand }"
                     Style="{StaticResource ProjectGridControl}" 
+    
                     AutoGenerateColumns="None"
                     SelectionMode="Row"
                     ItemsSource="{Binding ProductProjectVMObservableCollection}"
@@ -421,7 +422,7 @@
                                 RowDoubleClickCommand="{Binding RowDoubleClickCommand}"                  
                                 AllowMergedGrouping="True"
                                 AllowMoveColumnToDropArea="False"
-                                AllowColumnFiltering="False"
+           
                                 AllowSorting="True"
                                 AllowColumnMoving="True"
                                 AllowEditing="False"

@@ -90,17 +90,23 @@ namespace GD_StampingMachine.ViewModels
         public double StampWidth { get; set; } = 50;
 
 
-        
+        ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection
+        {
+            get
+            {
+                if (StampingMachineSingleton.Instance.SelectedProjectDistributeVM != null)
+                    return StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+                return new ObservableCollection<PartsParameterViewModel>();
+            }
+        }
         public ICommand SoftSendMachineCommand
         {
             get => new RelayCommand(() =>
             {
-                ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+              
                 if (_boxPartsParameterVMObservableCollection != null)
                     for (int i = 1; i < _boxPartsParameterVMObservableCollection.Count; i++)
                     {
-                        //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + boxPartsParameterVMObservableCollection[i - 1].StampWidth;
-                        //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + StampWidth;
                         _boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = _boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance + StampWidth * i;
                     }
             });
@@ -110,22 +116,20 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+                //ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
                 if (_boxPartsParameterVMObservableCollection != null)
                     for (int i = 0; i < _boxPartsParameterVMObservableCollection.Count; i++)
                     {
-                        //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + boxPartsParameterVMObservableCollection[i - 1].StampWidth;
-                        //boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = boxPartsParameterVMObservableCollection[i - 1].AbsoluteMoveDistance + StampWidth;
                         var steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
                         if (i<3)
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
                         }
-                        else if (i<6)
+                        else if (i<9)
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping;
                         }
-                        else if(i<10)
+                        else if(i<14)
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
                         }
@@ -133,8 +137,101 @@ namespace GD_StampingMachine.ViewModels
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
                         }
+                        
+                        _boxPartsParameterVMObservableCollection[i].WorkingSteelBeltStampingStatus = steelBeltStampingStatus;
                         _boxPartsParameterVMObservableCollection[i].SteelBeltStampingStatus = steelBeltStampingStatus;
                     }
+
+
+            });
+        }
+        public ICommand MoveSendMachineCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                Task.Run(async() =>
+                {
+                    while(true)
+                    {
+                        var cutableBoxPartsCollection = _boxPartsParameterVMObservableCollection.ToList().FindAll(x => x.AbsoluteMoveDistance > 0);
+                        if (cutableBoxPartsCollection.Count>0)
+                        {
+                            var mincutableBox = cutableBoxPartsCollection.MinBy(x => x.AbsoluteMoveDistance);
+                            //var minIndex = _boxPartsParameterVMObservableCollection.FindIndex(x=>x ==  mincutableBox);
+                            var minDistance = mincutableBox.AbsoluteMoveDistance;
+                            
+                            Parallel.ForEach(_boxPartsParameterVMObservableCollection, obj =>
+                            {
+                                obj.AbsoluteMoveDistance -= minDistance;
+                            });
+
+
+
+                            /* var moveDistance = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
+                             double moveStep = -0.5;
+                             while (StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance >= Math.Abs(moveStep))
+                             {
+
+                                 //StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance-= moveStep;
+                                 //須重構成function 與移動指令共用
+
+                                        foreach (var smc in SendMachineCommandVMObservableCollection)
+             {
+                 smc.AbsoluteMoveDistance += moveStep;
+             }
+
+
+                                 await Task.Delay(10);
+                             }
+                             //最後一階
+                             var LastMove = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
+                             AbsoluteMoveDistance(-LastMove);
+                             StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance = 0;*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            int triggeredIndex = -1;
+                            do
+                            {
+                                triggeredIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x.AbsoluteMoveDistanceAnimationIsTriggered);
+                                await Task.Delay(10);
+                            }
+                            while (triggeredIndex != -1);
+
+                            for(int i=0;i<=100; i++)
+                            {
+                                mincutableBox.WorkingProgress = i;
+                                await Task.Delay(10);
+                            }
+                            mincutableBox.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
+                            mincutableBox.FinishProgress = 100;
+
+                             await Task.Delay(500);
+
+                        }
+                        else
+                        {
+                            break; 
+                        }
+
+                    }
+                });
+
 
 
             });
@@ -145,5 +242,6 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-            }
+
+     }
 }

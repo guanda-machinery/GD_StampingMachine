@@ -599,10 +599,18 @@ namespace GD_MachineConnect
 
         public bool SetEngravingYAxisBwd(bool Active)
         {
+            //檢查油壓
+            if (Active && !CheckHydraulicPumpMotor())
+                return false;
+
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
         }
         public bool SetEngravingYAxisFwd(bool Active)
         {
+            //檢查油壓
+            if (Active && !CheckHydraulicPumpMotor())
+                return false;
+
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
         }
 

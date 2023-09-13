@@ -26,6 +26,7 @@ using System.Xml.Linq;
 using GD_StampingMachine.Model;
 using GD_CommonLibrary.Extensions;
 using Microsoft.Xaml.Behaviors;
+using DevExpress.CodeParser;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -55,6 +56,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             private set => _partsParameter = value;
         }
 
+        /// <summary>
+        /// 加工進程
+        /// </summary>
         public float FinishProgress
         {
             get => PartsParameter.Processing;
@@ -239,7 +243,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
         private object AbsoluteMoveDistanceAnimationLock = new object();
-        private bool AbsoluteMoveDistanceAnimationIsTriggered;
+        private bool _absoluteMoveDistanceAnimationIsTriggered;
+        public bool AbsoluteMoveDistanceAnimationIsTriggered { get => _absoluteMoveDistanceAnimationIsTriggered; private set { _absoluteMoveDistanceAnimationIsTriggered = value; OnPropertyChanged(); } }
 
         /// <summary>
         /// 工作需要移動的絕對距離(目前位置離加工位置多遠)
@@ -251,7 +256,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 SendMachineCommand.AbsoluteMoveDistance = value;
 
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
                     AbsoluteMoveDistanceAnimationIsTriggered = false;
                     if (AbsoluteMoveDistanceAnimation.HasValue)
@@ -265,9 +270,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                             var AbsDiff = Math.Abs(Diff);
                             double MoveDiff = 10;
-                            /*if (AbsDiff != 0)
-                                MoveDiff = MoveDiff / AbsDiff;*/
-                            //依照不同值給不同速度
                             if (AbsDiff > 100)
                             {
                                 MoveDiff = 250;
@@ -285,7 +287,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 MoveDiff = 1;
                             }
 
-
                             var PercentDiff = Diff / MoveDiff;
                             //計算要跑幾次
                             // while (Math.Abs(Diff) > Math.Abs(PercentDiff * 3))
@@ -293,6 +294,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             {
                                 AbsoluteMoveDistanceAnimation += PercentDiff;
                                 System.Threading.Thread.Sleep(10);
+
                                 //如果被重複觸發 立刻放棄上次的移動
                                 if (!AbsoluteMoveDistanceAnimationIsTriggered)
                                     return;
@@ -386,7 +388,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private double _workingProgress = 0;
         /// <summary>
-        /// 標記為完成
+        /// 正在加工的圖標
         /// </summary>
         public double WorkingProgress { get => _workingProgress; set { _workingProgress = value; OnPropertyChanged(); } }
 
