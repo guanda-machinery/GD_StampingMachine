@@ -161,7 +161,7 @@
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled" >
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" >
-                                <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistanceAnimation}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistance}"/>
 
                                 <Setter Property="Template">
                                     <Setter.Value>

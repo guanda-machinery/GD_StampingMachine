@@ -143,6 +143,8 @@
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
                                             <Setter Property="Kind"  Value="LanConnect"/>
+                                            
+                                            
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

@@ -9,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -31,12 +33,19 @@ namespace GD_MachineConnect
             return this.Connect(HostPath, Port, null, UserName, Password);
         }
 
-        public const int ConntectMillisecondsTimeout = 10000;
+        public const int ConntectMillisecondsTimeout = 5000;
 
         public bool Connect(string HostPath, int Port, string DataPath, string UserName, string Password)
         {
             bool Result = false;
-
+       
+            Ping myPing = new Ping();
+            PingReply reply = myPing.Send("192.168.1.3", 1000);
+            if (reply == null)
+            { 
+                return false;
+            }
+         
             var ConnectTask = Task.Run(async () =>
             {
                 if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
@@ -272,18 +281,87 @@ namespace GD_MachineConnect
                     }
                     break;
                 case StampingCylinderType.HydraulicEngraving:
+                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool IsStandby);
+                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool IsUp);
+                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool IsDown);
+                    bool readTaskIsReading = true;
+                    var TimeTask = Task.Run(async () =>
+                    {
+                        await Task.Delay(5000);
+                    });
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
+                            if (IsStandby)
+                                return true;
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, true);
+                            if (ret)
+                            {
+                                //開始運作 偵測是否到下一個節點
+                                var ReadTask =Task.Run(() =>
+                                {
+                                    while (readTaskIsReading)
+                                    {
+                                        if (IsUp)
+                                        {
+                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool _rIsStandby);
+                                            if (_rIsStandby)
+                                                break;
+                                        }
+                                        else if (IsDown)
+                                        {
+                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
+                                            if (_rIsUp)
+                                                break;
+                                        }
+                                    }
+                                });
+                                Task.WaitAny(TimeTask, ReadTask);
+                                readTaskIsReading = false;
+                            }
+                            //等待到點
                             break;
                         case DirectionsEnum.Down:
+                            ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool isDown);
+                            if (isDown)
+                                return true;
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, true);
+                            if (ret)
+                            {
+                                var ReadTask = Task.Run(() =>
+                                {
+                                    while (readTaskIsReading)
+                                    {
+                                        if (IsStandby)
+                                        {
+                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
+                                            if (_rIsUp)
+                                                break;
+                                        }
+                                        else if (IsDown)
+                                        {
+                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool _rIsDown);
+                                            if (_rIsDown)
+                                                break;
+                                        }
+                                    }
+                                });
+                                Task.WaitAny(TimeTask, ReadTask);
+                                readTaskIsReading = false;
+                            }
+                            //等待到點
                             break;
                         default:
                             ret = false;
+                            break;
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
+                        ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
+                        if (ret)
                             break;
                     }
                     break;
@@ -443,9 +521,11 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, out singal);
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out singal);
+                        case DirectionsEnum.Middle:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out singal);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.sv_bButtonClose, out singal);
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out singal);
                         case DirectionsEnum.None:
                             singal = false;
                             return false;
@@ -780,6 +860,8 @@ namespace GD_MachineConnect
                 sv_bCuttingClosed,
             }
 
+
+
             /// <summary>
             /// 伺服控制
             /// </summary>
@@ -1085,6 +1167,32 @@ namespace GD_MachineConnect
                 /// 手動油壓缸降命令 
                 /// </summary>
                 public static string sv_bButtonOpen => $"{NodeHeader}.{NodeVariable.Engraving1}.{BButton.sv_bButtonOpen}";
+
+                /// <summary>
+                /// 油壓缸上升降狀態 
+                /// </summary>
+                public static string sv_bEngravingClosed => $"{NodeHeader}.{NodeVariable.Engraving1}.sv_bEngravingClosed";
+                /// <summary>
+                /// 油壓缸下降狀態 
+                /// </summary>
+                public static string sv_bEngravingOpen => $"{NodeHeader}.{NodeVariable.Engraving1}.sv_bEngravingOpen";
+
+                /// <summary>
+                /// DI_刻印z軸原點位置
+                /// </summary>
+                public static string di_StopUp => $"{NodeHeader}.{NodeVariable.Engraving1}.di_StopUp";
+                /// <summary>
+                /// DI_刻印z軸待命位置
+                /// </summary>
+                public static string di_StandbyPoint => $"{NodeHeader}.{NodeVariable.Engraving1}.di_StandbyPoint";
+                /// <summary>
+                /// DI_刻印z軸刻印位置
+                /// </summary>
+                public static string di_StopDown => $"{NodeHeader}.{NodeVariable.Engraving1}.di_StopDown";
+
+                
+                    
+                    
 
             }
 

@@ -22,6 +22,7 @@
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="FontSize" Value="24"/>
+                <Setter Property="FontFamily" Value="微軟正黑體"/>
             </Style>
             <Style TargetType="Border" x:Key="TransparentBorder">
                 <Setter Property="Width" Value="30"/>
@@ -67,10 +68,9 @@
                         <Border Width="70" Height="110" 
                             Background="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}" Margin="12.5" >
                             <TextBlock  Foreground="White"
-                                Text="{Binding .}"  Width="auto" Margin="0" Padding="0" 
-                                               HorizontalAlignment="Center"
+                                Text="{Binding .}"  Width="auto" Margin="0" Padding="0"   FontWeight="DemiBold"  
                                                VerticalAlignment="Center"
-                                               FontSize="100"/>
+                                               FontSize="60"/>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

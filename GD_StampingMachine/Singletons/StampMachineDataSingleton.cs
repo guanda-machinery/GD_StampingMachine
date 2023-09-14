@@ -879,7 +879,9 @@ namespace GD_StampingMachine.Singletons
 
 
                                     if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, out bool _hydraEngraving_IsUp))
-                                        HydraulicEngraving_IsUp = _hydraEngraving_IsUp;
+                                        HydraulicEngraving_IsUp = _hydraEngraving_IsUp; 
+                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Middle, out bool _hydraEngraving_IsMiddle))
+                                        HydraulicEngraving_IsMiddle = _hydraEngraving_IsMiddle;
                                     if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, out bool _hydraEngraving_IsDown))
                                         HydraulicEngraving_IsDown = _hydraEngraving_IsDown;
 
@@ -1114,8 +1116,6 @@ namespace GD_StampingMachine.Singletons
 
 
 
-
-
         /// <summary>
         /// 雙導桿缸-可動端 壓座控制 夾緊/放鬆
         /// </summary>
@@ -1134,7 +1134,10 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-
+        
+        /// <summary>
+        /// 雙導桿缸-可動端 壓座控制 夾緊/放鬆
+        /// </summary>
         public ICommand CylinderControl_Middle_Command
         {
             get => new RelayParameterizedCommand(para =>
@@ -1415,7 +1418,8 @@ namespace GD_StampingMachine.Singletons
         private bool _cylinder_HydraulicCutting_IsDown;
 
         private bool _hydraulicEngraving_IsUp;
-        private bool _hydraulicEngraving_IsDown;
+        private bool _hydraulicEngraving_IsMiddle;
+        private bool _hydraulicEngraving_IsDown; 
 
         private bool _hydraulicPumpIsActive;
         /// <summary>
@@ -1461,6 +1465,10 @@ namespace GD_StampingMachine.Singletons
         {
             get => _cylinder_QRStamping_IsDown; set { _cylinder_QRStamping_IsDown = value; OnPropertyChanged(); }
         }
+
+
+
+
         /// <summary>
         /// 鋼印壓座組Z軸上方磁簧
         /// </summary>
@@ -1468,6 +1476,17 @@ namespace GD_StampingMachine.Singletons
         {
             get => _hydraulicEngraving_IsUp; set { _hydraulicEngraving_IsUp = value; OnPropertyChanged(); }
         }
+
+        /// <summary>
+        /// 鋼印壓座組中間
+        /// </summary>
+        public bool HydraulicEngraving_IsMiddle
+        {
+            get => _hydraulicEngraving_IsMiddle; set { _hydraulicEngraving_IsMiddle = value; OnPropertyChanged(); }
+        }
+
+
+
 
         /// <summary>
         /// 鋼印壓座組Z軸下方磁簧

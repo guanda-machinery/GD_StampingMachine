@@ -728,13 +728,14 @@
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
    
                                       CylinderUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderUpCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
-                                    
                              CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.HydraulicEngraving_IsUp}"
-                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsUpSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
+                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsUpSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"                      
+                                    
+                                    
+                            CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Middle_Command}"    CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
+                             CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.HydraulicEngraving_IsMiddle}"
+                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                     
-                                    CylinderMiddleIsActived="False"
-                               CylinderIsMiddleSingal_IsTriggered ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
                                     
                                     
                              CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"

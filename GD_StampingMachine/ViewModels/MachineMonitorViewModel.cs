@@ -153,82 +153,60 @@ namespace GD_StampingMachine.ViewModels
                 {
                     while(true)
                     {
-                        var cutableBoxPartsCollection = _boxPartsParameterVMObservableCollection.ToList().FindAll(x => x.AbsoluteMoveDistance > 0);
-                        if (cutableBoxPartsCollection.Count>0)
+                        try
                         {
-                            var mincutableBox = cutableBoxPartsCollection.MinBy(x => x.AbsoluteMoveDistance);
-                            //var minIndex = _boxPartsParameterVMObservableCollection.FindIndex(x=>x ==  mincutableBox);
-                            var minDistance = mincutableBox.AbsoluteMoveDistance;
-                            
-                            Parallel.ForEach(_boxPartsParameterVMObservableCollection, obj =>
+                            var cutableBoxPartsCollection = _boxPartsParameterVMObservableCollection.ToList().FindAll(x => x.AbsoluteMoveDistance > 0);
+                            if (cutableBoxPartsCollection.Count > 0)
                             {
-                                obj.AbsoluteMoveDistance -= minDistance;
-                            });
+                                var mincutableBox = cutableBoxPartsCollection.MinBy(x => x.AbsoluteMoveDistance);
+                                var minIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x == mincutableBox);
+                                var minDistance = mincutableBox.AbsoluteMoveDistance;
 
+                                /*Parallel.ForEach(_boxPartsParameterVMObservableCollection, obj =>
+                                {
+                                    obj.AbsoluteMoveDistance -= minDistance;
+                                });*/
 
+                                double moveStep = 0.1;
+                                while (_boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance > 0)
+                                {
+                                    if (moveStep > _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance)
+                                        moveStep = _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance;
 
-                            /* var moveDistance = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
-                             double moveStep = -0.5;
-                             while (StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance >= Math.Abs(moveStep))
-                             {
+                                    foreach (var smc in _boxPartsParameterVMObservableCollection)
+                                    {
+                                        smc.AbsoluteMoveDistance -= moveStep;
+                                    }
+                                    await Task.Delay(2);
+                                }
 
-                                 //StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance-= moveStep;
-                                 //須重構成function 與移動指令共用
+                                /*int triggeredIndex = -1;
+                                do
+                                {
+                                    triggeredIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x.AbsoluteMoveDistanceAnimationIsTriggered);
+                                    await Task.Delay(10);
+                                }
+                                while (triggeredIndex != -1);*/
 
-                                        foreach (var smc in SendMachineCommandVMObservableCollection)
-             {
-                 smc.AbsoluteMoveDistance += moveStep;
-             }
+                                for (int i = 0; i <= 100; i++)
+                                {
+                                    mincutableBox.WorkingProgress = i;
+                                    await Task.Delay(10);
+                                }
+                                mincutableBox.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
+                                mincutableBox.FinishProgress = 100;
 
+                                await Task.Delay(500);
 
-                                 await Task.Delay(10);
-                             }
-                             //最後一階
-                             var LastMove = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
-                             AbsoluteMoveDistance(-LastMove);
-                             StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance = 0;*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            int triggeredIndex = -1;
-                            do
-                            {
-                                triggeredIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x.AbsoluteMoveDistanceAnimationIsTriggered);
-                                await Task.Delay(10);
                             }
-                            while (triggeredIndex != -1);
-
-                            for(int i=0;i<=100; i++)
+                            else
                             {
-                                mincutableBox.WorkingProgress = i;
-                                await Task.Delay(10);
+                                break;
                             }
-                            mincutableBox.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
-                            mincutableBox.FinishProgress = 100;
-
-                             await Task.Delay(500);
+                        }catch(Exception ex)
+                        {
 
                         }
-                        else
-                        {
-                            break; 
-                        }
-
                     }
                 });
 
