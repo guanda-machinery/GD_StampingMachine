@@ -49,38 +49,53 @@ namespace GD_MachineConnect.Machine
             }
             catch (Exception ex)
             {
-                ClientUtils.HandleException("Connected Failed", ex);
+                /*
+                await System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    ClientUtils.HandleException("Connected Failed", ex);
+                });*/
                 return false;
             }
         }
-        
+
+        private const int retryCounter = 5;
+
+
         public bool WriteNode<T>( string NodeTreeString , T WriteValue)
         {
-            try
+            bool ret = false;
+            for (int i = 0; i < retryCounter; i++)
             {
-                return m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+                    if (ret)
+                        break;
+                }
+                catch (Exception ex)
+                {
 
+                }
             }
-            return false;
+            return ret;
         }
 
         public bool ReadNode<T>(string NodeID ,out T NodeValue)
         {
             NodeValue = default;
-            try
+            for (int i = 0; i < retryCounter; i++)
             {
-                NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
-                return true;
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
+                    return true;
+                }
+                catch (Exception ex)
+                {
 
+                }
             }
             return false;
-
         }
 
         public void ReadNoteAttributes(string NodeTreeString)

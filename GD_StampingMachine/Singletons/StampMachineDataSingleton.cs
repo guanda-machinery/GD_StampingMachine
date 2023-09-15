@@ -32,10 +32,6 @@ namespace GD_StampingMachine.Singletons
 {
     public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>, INotifyPropertyChanged
     {
-        /*private string OpcUASettingFilePath
-        {
-            get => Method.StampingMachineJsonHelper.GetJsonFilePath(Method.StampingMachineJsonHelper.MachineSettingNameEnum.OpcUASetting);
-        }*/
         public const string DataSingletonName = "Name_StampMachineDataSingleton";
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
@@ -47,35 +43,53 @@ namespace GD_StampingMachine.Singletons
             }
         }
 
+        private IStampingMachineConnect GD_Stamping;
+
         protected override void Init()
         {
             var JsonHM = new StampingMachineJsonHelper();
 
-            if(JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.OpcUASetting, out OpcUASettingModel OpcUASettingJson))
+            if(JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.CommunicationSetting, out CommunicationSettingModel CSettingJson))
             {
-                OpcUASetting = OpcUASettingJson;
+                CommunicationSetting = CSettingJson;
             }
             else
             {
                 //如果沒找到 產出一個新檔案後寫入
-                OpcUASetting = new OpcUASettingModel()
+                CommunicationSetting = new CommunicationSettingModel()
                 {
                     MachineName="GuandaStamping",
-                    HostString = @"opc.tcp://192.168.1.123",
+                    HostString = @"192.168.1.123",
                     Port = 4842,
                     ServerDataPath= null,
                     UserName= "Administrator",
-                    Password = "pass"               
+                    Password = "pass",
+                    Protocol = CommunicationProtocolEnum.Opcua,
                 };
-                JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.OpcUASetting, OpcUASetting);
+                JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.CommunicationSetting, CommunicationSetting);
             }
+
+            switch (CommunicationSetting.Protocol)
+            {
+                case CommunicationProtocolEnum.Opcua:
+                    GD_Stamping = new GD_Stamping_Opcua();
+                    break;
+
+                default:
+                    GD_Stamping = new GD_Stamping_Opcua();
+                    break;
+            }
+
         }
 
-        private OpcUASettingModel _opcUASetting;
-        public OpcUASettingModel OpcUASetting
+
+
+
+        private CommunicationSettingModel _communicationSetting;
+        public CommunicationSettingModel CommunicationSetting
         {
-            get=>_opcUASetting ??= new OpcUASettingModel();            
-            set=> _opcUASetting = value;
+            get=> _communicationSetting ??= new CommunicationSettingModel();            
+            set=> _communicationSetting = value;
         }
 
 
@@ -117,7 +131,6 @@ namespace GD_StampingMachine.Singletons
         private bool _isConnected = false;
         public bool IsConnected { get => _isConnected; private set { _isConnected = value; OnPropertyChanged(); } }
 
-        readonly IStampingMachineConnect GD_Stamping = new GD_Stamping_Opcua();
 
         public void ScanOpcua()
         {
@@ -825,7 +838,7 @@ namespace GD_StampingMachine.Singletons
                         //初始化
                         while (ContinueScanning)
                         {
-                            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                             {
                                 if (GD_Stamping.GetSpeed(out double axisSpeed))
                                     FeedingSpeed = axisSpeed;
@@ -840,7 +853,7 @@ namespace GD_StampingMachine.Singletons
                         {
                             try
                             {
-                                IsConnected = GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password);
+                                IsConnected = GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password);
                                 if (IsConnected)
                                 {
                                     //進料馬達
@@ -902,7 +915,11 @@ namespace GD_StampingMachine.Singletons
                                         IronPlateName3 = sIronPlateString3;
 
                                     if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
+                                    {
                                         SeparateBoxIndex = boxIndex;
+                                    }
+
+
 
                                     if (GD_Stamping.GetEngravingYAxisPosition(out float engravingYposition))
                                         EngravingYAxisPosition = engravingYposition;
@@ -1022,7 +1039,7 @@ namespace GD_StampingMachine.Singletons
         {
             get => new RelayCommand(() =>
             {
-                if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                 {
                     GD_Stamping.FeedingPositionReturnToStandbyPosition();
                     GD_Stamping.Disconnect();
@@ -1041,7 +1058,7 @@ namespace GD_StampingMachine.Singletons
                 {
                     if(float.TryParse(Parameter.ToString(), out var ParameterValue))
                     {
-                        if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                        if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                         {
                             if (ParameterValue > 0)
                             {
@@ -1090,7 +1107,7 @@ namespace GD_StampingMachine.Singletons
                     {
                         try
                         {
-                            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                             {
                                 var ret1 = GD_Stamping.FeedingPositionFwd(false);
                                 var ret2 =GD_Stamping.FeedingPositionBwd(false);
@@ -1175,7 +1192,7 @@ namespace GD_StampingMachine.Singletons
             {
                 Task.Run(() =>
                 {
-                    if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                    if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                     {
                         if(GD_Stamping.GetHydraulicPumpMotor(out var isActive))
                             GD_Stamping.SetHydraulicPumpMotor(!isActive);
@@ -1188,7 +1205,7 @@ namespace GD_StampingMachine.Singletons
 
         public void SendStampingString()
         {
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 GD_Stamping.SetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1 ,"DEF");
                 GD_Stamping.Disconnect();
@@ -1198,7 +1215,7 @@ namespace GD_StampingMachine.Singletons
 
         private void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)
         {
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction);
                 GD_Stamping.Disconnect();
@@ -1209,9 +1226,21 @@ namespace GD_StampingMachine.Singletons
         public bool SetSeparateBoxNumber(int Index)
         {
             var ret = false;
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetSeparateBoxNumber(Index);
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+
+        public bool GetSeparateBoxNumber(out int Index)
+        {
+            var ret = false;
+            Index = -1;
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            {
+                ret = GD_Stamping.GetSeparateBoxNumber(out Index);
                 GD_Stamping.Disconnect();
             }
             return ret;
@@ -1293,7 +1322,7 @@ namespace GD_StampingMachine.Singletons
         public bool SetEngravingYAxisToStandbyPos()
         {
             var ret = false;
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetEngravingYAxisBwd(false);
                 ret = GD_Stamping.SetEngravingYAxisFwd(false);
@@ -1311,7 +1340,7 @@ namespace GD_StampingMachine.Singletons
         private bool SetEngravingYAxisFwd(bool IsMove)
         {
             var ret = false;
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetEngravingYAxisBwd(false);
                 ret = GD_Stamping.SetEngravingYAxisFwd(IsMove);
@@ -1326,7 +1355,7 @@ namespace GD_StampingMachine.Singletons
         private bool SetEngravingYAxisBwd(bool IsMove)
         {
             var ret = false;
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetEngravingYAxisFwd(false);
                 ret = GD_Stamping.SetEngravingYAxisBwd(IsMove);
@@ -1343,7 +1372,7 @@ namespace GD_StampingMachine.Singletons
         private bool SetEngravingRotateClockwise()
         {
             var ret = false;
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetEngravingRotateCW();
                 GD_Stamping.Disconnect();
@@ -1358,7 +1387,7 @@ namespace GD_StampingMachine.Singletons
         private bool SetEngravingRotateCounterClockwise()
         {
             var ret = false;
-            if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetEngravingRotateCCW();
                 GD_Stamping.Disconnect();
@@ -1380,7 +1409,7 @@ namespace GD_StampingMachine.Singletons
 
                 Task.Run(() =>
                 {
-                    if (GD_Stamping.Connect(OpcUASetting.HostString, OpcUASetting.Port.Value, OpcUASetting.UserName, OpcUASetting.Password))
+                    if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                     {
                         GD_Stamping.SetSpeed(_feedingSpeed);
                         GD_Stamping.Disconnect();
@@ -1583,8 +1612,145 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public int SeparateBoxIndex
         {
-            get => _separateBoxIndex; set { _separateBoxIndex = value; OnPropertyChanged(); }
+            get => _separateBoxIndex; set 
+            {
+                try
+                {
+                    if (value != -1 && value != _separateBoxIndex && !IsRotating && ParameterSettingVM != null)
+                    {
+                        int step;
+                        if (value == 0 && _separateBoxIndex == ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1)
+                        {
+                            step = 1;
+                        }
+                        else if (_separateBoxIndex == 0 && value == ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1)
+                        {
+                            step = -1;
+                        }
+                        else if (value - _separateBoxIndex > 0)
+                        {
+                            step = 1;
+                        }
+                        else
+                        {
+                            step = -1;
+                        }
+                        SeparateBox_Rotate(value, step);
+                    }
+                }
+                catch(Exception ex)
+                {
+
+                }
+
+                _separateBoxIndex = value;
+                OnPropertyChanged(); 
+            }
         }
+
+
+        ParameterSettingViewModel ParameterSettingVM = Singletons.StampingMachineSingleton.Instance.ParameterSettingVM;
+
+        private void SeparateBox_Rotate(int IsUsingindex, int step)
+        {
+            if (IsUsingindex != -1)
+            {
+                Parallel.ForEach(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection , obj=>
+                {
+                    obj.IsUsing = false;
+                });
+
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
+                //取得
+
+                IsRotating = false;
+
+                Task.Run(async () =>
+                {
+                    IsRotating = true;
+
+                    //角度比例
+                    var DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count;
+                    //目標
+
+                    //先取得目前的位置
+                    var tempRotate = SeparateBox_RotateAngle;
+                    //檢查正反轉
+                    var endRotatePoint = 360 - DegreeRate * IsUsingindex;
+
+                    if (step != 0)
+                        while (true)
+                        {
+                            SeparateBox_RotateAngle -= step;
+                            if (Math.Abs(SeparateBox_RotateAngle - endRotatePoint) < 2 || Math.Abs(SeparateBox_RotateAngle - endRotatePoint) > 360)
+                                break;
+
+                            if (!IsRotating)
+                                break;
+                            await Task.Delay(1);
+                        }
+                    if (IsRotating)
+                    {
+                        SeparateBox_RotateAngle = endRotatePoint;
+                        IsRotating = false;
+                    }
+                });
+            }
+        }
+
+        private double _separateBox_RotateAngle = 0;
+        /// <summary>
+        /// 旋轉角
+        /// </summary>
+        public double SeparateBox_RotateAngle
+        {
+            get => _separateBox_RotateAngle;
+            set
+            {
+                _separateBox_RotateAngle = value; OnPropertyChanged();
+            }
+        }
+
+        object SeparateBox_Rotatelock = new();
+        private bool _isRotating = false;
+        public bool IsRotating
+        {
+            get => _isRotating; set { _isRotating = value; OnPropertyChanged(); }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private float _engravingYAxisPosition, _engravingZAxisPosition  = 0;
         private int _engravingRotateStation = 0;

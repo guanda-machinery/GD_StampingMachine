@@ -159,6 +159,9 @@
                             MinHeight="120"     
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+                        <ListBox.RenderTransform>
+                            <TranslateTransform X="0" Y="0" />
+                        </ListBox.RenderTransform>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" >
                                 <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistance}"/>

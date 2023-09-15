@@ -33,7 +33,7 @@ namespace GD_StampingMachine.Method
         }
         public enum MachineSettingNameEnum
         {
-            OpcUASetting,
+            CommunicationSetting,
             IO_Table,
             StampingFont
         }

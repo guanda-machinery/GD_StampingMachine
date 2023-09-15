@@ -2,6 +2,7 @@
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Editors.ExpressionEditor;
+using DevExpress.Xpf.Editors.Helpers;
 using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
@@ -103,12 +104,27 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-              
+
                 if (_boxPartsParameterVMObservableCollection != null)
-                    for (int i = 1; i < _boxPartsParameterVMObservableCollection.Count; i++)
+                {
+                    if (_boxPartsParameterVMObservableCollection.Count != 0)
                     {
-                        _boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = _boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance + StampWidth * i;
+                        _boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance = 0;
+
+                        for (int i = 1; i < _boxPartsParameterVMObservableCollection.Count; i++)
+                        {
+                            _boxPartsParameterVMObservableCollection[i].AbsoluteMoveDistance = _boxPartsParameterVMObservableCollection[0].AbsoluteMoveDistance + StampWidth * i;
+                        }
+
+                        for (int i = 1; i < _boxPartsParameterVMObservableCollection.Count; i++)
+                        {
+                            _boxPartsParameterVMObservableCollection[i].RelativeMoveDistance = _boxPartsParameterVMObservableCollection[0].RelativeMoveDistance + StampWidth * i;
+                        }
+                        StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.StripSteelLength = _boxPartsParameterVMObservableCollection.MaxOrDefault(x=>x.RelativeMoveDistance) + StampWidth+100;
                     }
+
+                    StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.StripSteelPosition = 0;
+                }
             });
         }
 
@@ -118,18 +134,19 @@ namespace GD_StampingMachine.ViewModels
             {
                 //ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
                 if (_boxPartsParameterVMObservableCollection != null)
+                {
                     for (int i = 0; i < _boxPartsParameterVMObservableCollection.Count; i++)
                     {
                         var steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
-                        if (i<3)
+                        if (i < 3)
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
                         }
-                        else if (i<9)
+                        else if (i < 9)
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping;
                         }
-                        else if(i<14)
+                        else if (i < 14)
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
                         }
@@ -137,10 +154,12 @@ namespace GD_StampingMachine.ViewModels
                         {
                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
                         }
-                        
+
                         _boxPartsParameterVMObservableCollection[i].WorkingSteelBeltStampingStatus = steelBeltStampingStatus;
                         _boxPartsParameterVMObservableCollection[i].SteelBeltStampingStatus = steelBeltStampingStatus;
                     }
+                }
+
 
 
             });
@@ -149,7 +168,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                Task.Run(async() =>
+                Task.Run(() =>
                 {
                     while(true)
                     {
@@ -162,10 +181,7 @@ namespace GD_StampingMachine.ViewModels
                                 var minIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x == mincutableBox);
                                 var minDistance = mincutableBox.AbsoluteMoveDistance;
 
-                                /*Parallel.ForEach(_boxPartsParameterVMObservableCollection, obj =>
-                                {
-                                    obj.AbsoluteMoveDistance -= minDistance;
-                                });*/
+
 
                                 double moveStep = 0.1;
                                 while (_boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance > 0)
@@ -173,11 +189,15 @@ namespace GD_StampingMachine.ViewModels
                                     if (moveStep > _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance)
                                         moveStep = _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance;
 
-                                    foreach (var smc in _boxPartsParameterVMObservableCollection)
-                                    {
-                                        smc.AbsoluteMoveDistance -= moveStep;
-                                    }
-                                    await Task.Delay(2);
+                                    // foreach (var smc in _boxPartsParameterVMObservableCollection)
+                                    Parallel.ForEach(_boxPartsParameterVMObservableCollection, smc =>
+                                     {
+                                         smc.AbsoluteMoveDistance -= moveStep;
+
+                                     });
+                                    //await Task.Delay(2);
+                                    StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.StripSteelPosition -= moveStep;
+                                    System.Threading.Thread.Sleep(2);
                                 }
 
                                 /*int triggeredIndex = -1;
@@ -191,13 +211,14 @@ namespace GD_StampingMachine.ViewModels
                                 for (int i = 0; i <= 100; i++)
                                 {
                                     mincutableBox.WorkingProgress = i;
-                                    await Task.Delay(10);
+                                    //await Task.Delay(10);
+                                    System.Threading.Thread.Sleep(10);
                                 }
                                 mincutableBox.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
                                 mincutableBox.FinishProgress = 100;
 
-                                await Task.Delay(500);
-
+                                //await Task.Delay(500);
+                                System.Threading.Thread.Sleep(500);
                             }
                             else
                             {

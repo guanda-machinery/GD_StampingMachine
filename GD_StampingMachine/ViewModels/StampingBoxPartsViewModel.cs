@@ -1,4 +1,5 @@
 ﻿
+using DevExpress.CodeParser;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.Core;
@@ -186,6 +187,26 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
+        private double _stripSteelPosition;
+        /// <summary>
+        /// 鋼捲位置
+        /// </summary>
+        public double StripSteelPosition
+        {
+            get => _stripSteelPosition; set { _stripSteelPosition= value; OnPropertyChanged(); }
+        }
+
+        private double _stripSteelLength;
+        /// <summary>
+        /// 鋼捲長度
+        /// </summary>
+        public double StripSteelLength
+        {
+            get => _stripSteelLength; set { _stripSteelLength = value; OnPropertyChanged(); }
+        }
+        
 
 
         /*private ObservableCollection<PartsParameterMachiningViewModel> _boxPartsParameterVMObservableCollection;

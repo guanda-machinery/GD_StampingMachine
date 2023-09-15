@@ -8,7 +8,9 @@ using Opc.Ua;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
@@ -33,26 +35,52 @@ namespace GD_MachineConnect
             return this.Connect(HostPath, Port, null, UserName, Password);
         }
 
-        public const int ConntectMillisecondsTimeout = 5000;
+        public const int ConntectMillisecondsTimeout = 30000;
+        public const int MoveTimeout = 10000;
 
-        public bool Connect(string HostPath, int Port, string DataPath, string UserName, string Password)
+        public bool Connect(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
             bool Result = false;
-       
-            Ping myPing = new Ping();
-            PingReply reply = myPing.Send("192.168.1.3", 1000);
-            if (reply == null)
-            { 
-                return false;
-            }
-         
-            var ConnectTask = Task.Run(async () =>
+            try
             {
-                if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
-                    GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
-                Result = await GD_OpcUaClient.OpcuaConnectAsync(HostPath, Port, DataPath);
-            });
-            ConnectTask.Wait(ConntectMillisecondsTimeout);
+                if (IPAddress.TryParse(HostIP, out var ipAddress))
+                {
+                    Ping myPing = new();
+                    PingReply reply = myPing.Send(ipAddress, 1000);
+                    if (reply == null)
+                    {
+                        return false;
+                    }
+                }
+
+                string _hostPath = HostIP;
+                if (!_hostPath.Contains(@"opc.tcp://"))
+                {
+                    _hostPath = @"opc.tcp://" + _hostPath;
+                }
+
+
+              
+
+                CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                CancellationToken token = cancellationToken.Token;
+                var ConnectTask = new Task(async () =>
+                {
+                    if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
+                        GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
+
+                    Result = await GD_OpcUaClient.OpcuaConnectAsync(_hostPath, Port, DataPath);
+                }, token);
+                ConnectTask.Start();
+                ConnectTask.Wait(ConntectMillisecondsTimeout);
+                if(ConnectTask.Status == TaskStatus.Running)
+                    cancellationToken.Cancel();
+            }
+            catch (Exception ex)
+            {
+                Debugger.Break();
+            }
+
             return Result;
         }
         public void Disconnect()
@@ -281,77 +309,101 @@ namespace GD_MachineConnect
                     }
                     break;
                 case StampingCylinderType.HydraulicEngraving:
-                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool IsStandby);
                     ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool IsUp);
+                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool IsStandby);
                     ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool IsDown);
-                    bool readTaskIsReading = true;
-                    var TimeTask = Task.Run(async () =>
-                    {
-                        await Task.Delay(5000);
-                    });
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            if (IsStandby)
+                            if (IsUp)
                                 return true;
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, true);
                             if (ret)
                             {
+                                CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                                CancellationToken token = cancellationToken.Token;
                                 //開始運作 偵測是否到下一個節點
-                                var ReadTask =Task.Run(() =>
+                                var ReadTask =new Task(async() =>
                                 {
-                                    while (readTaskIsReading)
+                                    while (true)
                                     {
-                                        if (IsUp)
+                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
+                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool _rIsStand);
+                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool _rIsDown);
+                                     //從中間往上
+                                        if(IsStandby)
                                         {
-                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool _rIsStandby);
-                                            if (_rIsStandby)
+                                            if(_rIsUp)
                                                 break;
                                         }
+                                        //從下面往中或上
                                         else if (IsDown)
                                         {
-                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
-                                            if (_rIsUp)
+                                            if(_rIsUp || _rIsStand)
                                                 break;
                                         }
+                                        //未知初始位置 看到東西就停
+                                        else
+                                        {
+                                            if (_rIsUp || _rIsStand || _rIsDown)
+                                                break;
+                                        }
+                                        await Task.Delay(10);
                                     }
-                                });
-                                Task.WaitAny(TimeTask, ReadTask);
-                                readTaskIsReading = false;
+                                }, token);
+
+                                ReadTask.Start();
+                                ReadTask.Wait(MoveTimeout);
+                                if (ReadTask.Status == TaskStatus.Running)
+                                    cancellationToken.Cancel();
+
                             }
                             //等待到點
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool isDown);
-                            if (isDown)
+                            if (IsDown)
                                 return true;
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
                             ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, true);
                             if (ret)
                             {
-                                var ReadTask = Task.Run(() =>
+                                CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                                CancellationToken token = cancellationToken.Token;
+                                var ReadTask = new Task(async() =>
                                 {
-                                    while (readTaskIsReading)
+                                    while (true)
                                     {
+                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
+                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool _rIsStand);
+                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool _rIsDown);
+                                        //從中間往下
                                         if (IsStandby)
                                         {
-                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
-                                            if (_rIsUp)
-                                                break;
-                                        }
-                                        else if (IsDown)
-                                        {
-                                            GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool _rIsDown);
                                             if (_rIsDown)
                                                 break;
                                         }
+                                        //從上面往中或下
+                                        else if (IsUp)
+                                        {
+                                            if ( _rIsStand || _rIsDown)
+                                                break;
+                                        }
+                                        //未知初始位置 看到東西就停
+                                        else
+                                        {
+                                            if (_rIsUp || _rIsStand || _rIsDown)
+                                                break;
+                                        }
+                                        await Task.Delay(10);
                                     }
-                                });
-                                Task.WaitAny(TimeTask, ReadTask);
-                                readTaskIsReading = false;
+                                },token);
+
+                                ReadTask.Start();
+                                ReadTask.Wait(MoveTimeout);
+                                if (ReadTask.Status == TaskStatus.Running)
+                                    cancellationToken.Cancel();
                             }
-                            //等待到點
                             break;
                         default:
                             ret = false;
@@ -521,9 +573,9 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out singal);
-                        case DirectionsEnum.Middle:
                             return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out singal);
+                        case DirectionsEnum.Middle:
+                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out singal);
                         case DirectionsEnum.Down:
                             return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out singal);
                         case DirectionsEnum.None:

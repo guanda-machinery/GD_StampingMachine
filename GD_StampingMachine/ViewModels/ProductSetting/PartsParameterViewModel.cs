@@ -256,7 +256,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 SendMachineCommand.AbsoluteMoveDistance = value;
 
-                Task.Run(async() =>
+                Task.Run(() =>
                 {
                     AbsoluteMoveDistanceAnimationIsTriggered = false;
                     if (AbsoluteMoveDistanceAnimation.HasValue)
@@ -309,6 +309,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
+
+        public double RelativeMoveDistance
+        {
+            get => SendMachineCommand.RelativeMoveDistance;
+            set
+            {
+                SendMachineCommand.RelativeMoveDistance = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
+
+
 
         private double? _absoluteMoveDistanceAnimation;
         public double? AbsoluteMoveDistanceAnimation

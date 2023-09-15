@@ -48,7 +48,7 @@
     <Compile Include="IO_InfoModel.cs" />
     <Compile Include="MachiningProjectModel.cs" />
     <Compile Include="MechanicalSpecificationModel.cs" />
-    <Compile Include="OpcUASettingModel.cs" />
+    <Compile Include="CommunicationSettingModel.cs" />
     <Compile Include="OperatingLogModel.cs" />
     <Compile Include="ParameterSetting\AxisSettingModel.cs" />
     <Compile Include="ParameterSetting\EngineerSettingModel.cs" />

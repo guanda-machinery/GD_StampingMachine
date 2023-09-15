@@ -928,18 +928,20 @@
                                         d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
                                         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
                                         RotationDirection="Clockwise"
-                                        StartAngle="90" RotateAngle="{Binding SeparateBox_RotateAngle}"  RoundAngle="360"
+                                        StartAngle="90" RotateAngle="{Binding StampMachineData.SeparateBox_RotateAngle}"  RoundAngle="360"
                                         ItemRotateAngle="-90"  />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         </ListBox>
                             </Grid>
                             <Grid IsEnabled="{Binding IsRotating, Converter={dx:BoolInverseConverter}}">
-                                <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding SeparateBox_CounterClockwiseRotateCommand}"
+                                <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                        Command="{Binding SeparateBox_CounterClockwiseRotateCommand}" IsEnabled="{Binding SeparateBox_CounterClockwiseRotateButtonIsEnabled}"
                                         Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowURightTop" Width="auto" Height="auto"/>
                             </Button>
-                                <Button Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SeparateBox_ClockwiseRotateCommand}"
+                                <Button Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                        Command="{Binding SeparateBox_ClockwiseRotateCommand}" IsEnabled="{Binding SeparateBox_ClockwiseRotateButtonIsEnabled}"
                                         Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowULeftTop" Width="auto" Height="auto"/>
                             </Button>
