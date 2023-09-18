@@ -67,7 +67,7 @@
                     <DataTemplate>
                         <Border Width="70" Height="110" 
                             Background="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}" Margin="12.5" >
-                            <TextBlock  Foreground="White"
+                            <TextBlock  Foreground="White" HorizontalAlignment="Center"
                                 Text="{Binding .}"  Width="auto" Margin="0" Padding="0"   FontWeight="DemiBold"  
                                                VerticalAlignment="Center"
                                                FontSize="60"/>

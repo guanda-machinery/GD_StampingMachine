@@ -145,15 +145,15 @@
 
                     </Grid>
 
-                    <Border    Grid.Row="3"   Background="Gray" />
                 <Grid Grid.ColumnSpan="2"    Grid.Row="3" >
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="95"/>
                         </Grid.ColumnDefinitions>
-                        <Border Background="Gray"  />
-                        <Border Background="Gray" Grid.Column="1" Margin="-1,0,0,0" Width="50" HorizontalAlignment="Left" />
+                        <Border Background="White" Grid.ColumnSpan="2" Margin="0,0,0,0" />
+
+                        <Border Background="Gray" Grid.Column="1" Margin="-1,0,0,0" Width="50"  HorizontalAlignment="Right" />
                     </Grid>
                     <ListBox Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=ActualWidth }" HorizontalAlignment="Right" 
                             MinHeight="120"     

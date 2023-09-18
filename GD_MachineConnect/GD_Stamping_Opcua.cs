@@ -35,8 +35,8 @@ namespace GD_MachineConnect
             return this.Connect(HostPath, Port, null, UserName, Password);
         }
 
-        public const int ConntectMillisecondsTimeout = 30000;
-        public const int MoveTimeout = 10000;
+        public const int ConntectMillisecondsTimeout = 5000;
+        public const int MoveTimeout = 5000;
 
         public bool Connect(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
@@ -58,23 +58,27 @@ namespace GD_MachineConnect
                 {
                     _hostPath = @"opc.tcp://" + _hostPath;
                 }
-
-
-              
-
                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
                 CancellationToken token = cancellationToken.Token;
-                var ConnectTask = new Task(async () =>
+
+
+                var ConnectTask = Task.Run(async () =>
                 {
                     if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
                         GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
 
                     Result = await GD_OpcUaClient.OpcuaConnectAsync(_hostPath, Port, DataPath);
                 }, token);
-                ConnectTask.Start();
-                ConnectTask.Wait(ConntectMillisecondsTimeout);
-                if(ConnectTask.Status == TaskStatus.Running)
+
+                //if (Task.WhenAny(ConnectTask, Task.Delay(MoveTimeout)) == ConnectTask)
+                if (Task.WaitAny(ConnectTask, Task.Delay(ConntectMillisecondsTimeout)) == 0)
+                {
+                    ConnectTask.Wait();
+                }
+                else
+                {
                     cancellationToken.Cancel();
+                }
             }
             catch (Exception ex)
             {
@@ -85,7 +89,14 @@ namespace GD_MachineConnect
         }
         public void Disconnect()
         {
-            GD_OpcUaClient.Disconnect();
+            try
+            {
+                GD_OpcUaClient.Disconnect();
+            }
+            catch
+            {
+
+            }
         }
 
         public bool FeedingPositionBwd(bool Active)
@@ -324,7 +335,7 @@ namespace GD_MachineConnect
                                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
                                 CancellationToken token = cancellationToken.Token;
                                 //開始運作 偵測是否到下一個節點
-                                var ReadTask =new Task(async() =>
+                                var ReadTask = Task.Run (async() =>
                                 {
                                     while (true)
                                     {
@@ -353,11 +364,15 @@ namespace GD_MachineConnect
                                     }
                                 }, token);
 
-                                ReadTask.Start();
-                                ReadTask.Wait(MoveTimeout);
-                                if (ReadTask.Status == TaskStatus.Running)
-                                    cancellationToken.Cancel();
 
+                                if (Task.WaitAny(ReadTask, Task.Delay(MoveTimeout)) == 0)
+                                {
+                                    ReadTask.Wait();
+                                }
+                                else
+                                {
+                                    cancellationToken.Cancel();
+                                }
                             }
                             //等待到點
                             break;
@@ -370,7 +385,7 @@ namespace GD_MachineConnect
                             {
                                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
                                 CancellationToken token = cancellationToken.Token;
-                                var ReadTask = new Task(async() =>
+                                var ReadTask = Task.Run(async() =>
                                 {
                                     while (true)
                                     {
@@ -399,10 +414,16 @@ namespace GD_MachineConnect
                                     }
                                 },token);
 
-                                ReadTask.Start();
-                                ReadTask.Wait(MoveTimeout);
-                                if (ReadTask.Status == TaskStatus.Running)
+
+                                if (Task.WaitAny(ReadTask, Task.Delay(MoveTimeout)) == 0)
+                                {
+                                    ReadTask.Wait();
+                                }
+                                else
+                                {
                                     cancellationToken.Cancel();
+                                }
+
                             }
                             break;
                         default:
@@ -1303,6 +1324,11 @@ namespace GD_MachineConnect
                 /// </summary>
                 public static string sIronPlateName3 => $"{sv_HMIIronPlateName}.{sIronPlate.sIronPlateName3}";
 
+
+                /// <summary>
+                /// 鐵片下一片資訊-交握訊號
+                /// </summary>
+                public static string sv_bRequestDatabit => $"{sv_HMIIronPlateName}.sv_bRequestDatabit";
 
 
             }

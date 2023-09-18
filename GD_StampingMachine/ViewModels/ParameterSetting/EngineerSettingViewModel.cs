@@ -128,9 +128,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => new RelayCommand(() =>
             {
                 GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScan();
-
-
-
             });
         }
 

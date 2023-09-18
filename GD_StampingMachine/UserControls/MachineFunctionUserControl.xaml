@@ -515,7 +515,7 @@
                             </StackPanel>
                                     </materialDesign:ColorZone>
 
-                                    <TextBlock Text="{Binding Path=StampMachineData.FeedingPosition}" Margin="0,2"/>
+                                    <TextBlock Text="{Binding Path=StampMachineData.FeedingPosition , StringFormat={}{0:F3} }" Margin="0,2"/>
                                     <TextBox Text="123" Margin="0,2"/>
                                     <ToggleButton Style="{StaticResource GD_ToggleButton_White}">
                                         <materialDesign:PackIcon Kind="AxisYArrow" Height="30" Width="30"/>
@@ -801,20 +801,37 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{DynamicResource Text_FirstLine }" Margin="2"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{DynamicResource Text_SecondLine}"  Margin="2"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{DynamicResource Text_ThirdLine}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Text="{DynamicResource Text_FirstLine }" Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Text="{DynamicResource Text_SecondLine}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Text="{DynamicResource Text_ThirdLine}"  Margin="2"/>
 
-                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding StampMachineData.IronPlateName1}"  Margin="2"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding StampMachineData.IronPlateName2}"  Margin="2"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding StampMachineData.IronPlateName3}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding StampMachineData.IronPlateName1}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Text="{Binding StampMachineData.IronPlateName2}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Text="{Binding StampMachineData.IronPlateName3}"  Margin="2"/>
+
+                                    <TextBox Grid.Column="2" Grid.Row="0" Name="SetIronPlateName1TextBox" />
+                                    <TextBox Grid.Column="2" Grid.Row="1" Name="SetIronPlateName2TextBox"/>
+                                    <TextBox Grid.Column="2" Grid.Row="2" Name="SetIronPlateName3TextBox"/>
+
+
+                                    <Button 
+                                        Grid.Column="3" Grid.Row="0" Command="{Binding StampMachineData.SetIronPlateName1Command}" CommandParameter="{Binding ElementName=SetIronPlateName1TextBox ,Path=Text}"/>
+                                    <Button
+                                        Grid.Column="3" Grid.Row="1" Command="{Binding StampMachineData.SetIronPlateName2Command}" CommandParameter="{Binding ElementName=SetIronPlateName2TextBox ,Path=Text}"/>
+                                    <Button 
+                                        Grid.Column="3" Grid.Row="2" Command="{Binding StampMachineData.SetIronPlateName3Command}" CommandParameter="{Binding ElementName=SetIronPlateName3TextBox ,Path=Text}"/>
+
+
+
                                 </Grid>
                             </GroupBox>
 

@@ -2,6 +2,7 @@
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Scheduling.Themes;
+using DevExpress.XtraPrinting.Native.Extensions;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Method;
 using GD_MachineConnect;
@@ -49,7 +50,7 @@ namespace GD_StampingMachine.Singletons
         {
             var JsonHM = new StampingMachineJsonHelper();
 
-            if(JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.CommunicationSetting, out CommunicationSettingModel CSettingJson))
+            if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.CommunicationSetting, out CommunicationSettingModel CSettingJson))
             {
                 CommunicationSetting = CSettingJson;
             }
@@ -58,11 +59,11 @@ namespace GD_StampingMachine.Singletons
                 //如果沒找到 產出一個新檔案後寫入
                 CommunicationSetting = new CommunicationSettingModel()
                 {
-                    MachineName="GuandaStamping",
+                    MachineName = "GuandaStamping",
                     HostString = @"192.168.1.123",
                     Port = 4842,
-                    ServerDataPath= null,
-                    UserName= "Administrator",
+                    ServerDataPath = null,
+                    UserName = "Administrator",
                     Password = "pass",
                     Protocol = CommunicationProtocolEnum.Opcua,
                 };
@@ -88,15 +89,15 @@ namespace GD_StampingMachine.Singletons
         private CommunicationSettingModel _communicationSetting;
         public CommunicationSettingModel CommunicationSetting
         {
-            get=> _communicationSetting ??= new CommunicationSettingModel();            
-            set=> _communicationSetting = value;
+            get => _communicationSetting ??= new CommunicationSettingModel();
+            set => _communicationSetting = value;
         }
 
 
 
-        private bool _opcuaTestIsOpen= false;
+        private bool _opcuaTestIsOpen = false;
         public bool OpcuaTestIsOpen { get => _opcuaTestIsOpen; private set { _opcuaTestIsOpen = value; OnPropertyChanged(); } }
-     
+
         OpcuaTest _opcuaTest = new OpcuaTest();
         internal async Task TestConnect()
         {
@@ -107,9 +108,9 @@ namespace GD_StampingMachine.Singletons
                     try
                     {
                         OpcuaTestIsOpen = true;
-                         _opcuaTest.OpenFormBrowseServer(null);
+                        _opcuaTest.OpenFormBrowseServer(null);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
 
                     }
@@ -123,14 +124,23 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        private bool ContinueScanning = true;
+        //private bool ContinueScanning = true;
         private bool _isScaning = false;
-        public bool IsScaning { get => _isScaning; set { _isScaning = value; OnPropertyChanged(); } }
-      
-        
+        public bool IsScaning
+        {
+            get => _isScaning; 
+            set 
+            {
+                _isScaning = value; OnPropertyChanged(); 
+            } 
+        }
+
+
         private bool _isConnected = false;
         public bool IsConnected { get => _isConnected; private set { _isConnected = value; OnPropertyChanged(); } }
 
+
+        CancellationTokenSource scanCancellationToken = new CancellationTokenSource();
 
         public void ScanOpcua()
         {
@@ -190,7 +200,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubLimitAchieved"
-                    },                  
+                    },
                     new IO_InfoModel()
                     {
                         Info = "放料卷異常",
@@ -199,7 +209,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsAbnormal"
-                    },            
+                    },
                     new IO_InfoModel()
                     {
                         Info ="進料有無料件確認檢知" ,
@@ -208,7 +218,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_FeedMaterialConfirm"
-                    },             
+                    },
                     new IO_InfoModel()
                     {
                         Info = "QRcode壓座組1_氣壓缸上限檢知",
@@ -217,7 +227,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
-                    },                   
+                    },
                     new IO_InfoModel()
                     {
                         Info = "QRcode壓座組1_氣壓缸下限檢知",
@@ -226,7 +236,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
-                    },                  
+                    },
                     new IO_InfoModel()
                     {
                         Info ="阻擋缸_氣壓缸上限檢知" ,
@@ -235,7 +245,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
-                    },           
+                    },
                     new IO_InfoModel()
                     {
                         Info ="阻擋缸_氣壓缸下限檢知" ,
@@ -244,7 +254,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
-                    },          
+                    },
                     new IO_InfoModel()
                     {
                         Info = "料品到QR code 位置檢知",
@@ -253,7 +263,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.QRCode1.di_QRCodeMaterialConfirm"
-                    },             
+                    },
                     new IO_InfoModel()
                     {
                         Info = "打字輪_Y軸行程 + 極限檢知 0 位置",
@@ -262,7 +272,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoHome"
-                    },               
+                    },
                     new IO_InfoModel()
                     {
                         Info = "打字輪_Y軸行程 - 極限檢知 260 位置",
@@ -271,7 +281,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoPOT"
-                    },                   
+                    },
                     new IO_InfoModel()
                     {
                         Info = "預留",
@@ -280,7 +290,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },             
+                    },
                     new IO_InfoModel()
                     {
                         Info ="預留" ,
@@ -289,7 +299,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },         
+                    },
                     new IO_InfoModel()
                     {
                         Info = "料品到字碼刻印位置檢知",
@@ -298,8 +308,8 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_EngravingMaterialConfirm"
-                    },         
-                    
+                    },
+
                     new IO_InfoModel()
                     {
                         Info = "進料X軸_原點",
@@ -308,7 +318,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoHome"
-                    },             
+                    },
                     new IO_InfoModel()
                     {
                         Info ="進料X軸_負極限" ,
@@ -327,7 +337,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopUp"
-                    },                    
+                    },
                     new IO_InfoModel()
                     {
                         Info = "刻印壓座組2_氣壓缸下限檢知",
@@ -336,7 +346,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopDown"
-                    },                 
+                    },
                     new IO_InfoModel()
                     {
                         Info ="字碼刻印組_Z軸油壓缸刻印位置" ,
@@ -345,7 +355,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopDown"
-                    },                 
+                    },
                     new IO_InfoModel()
                     {
                         Info = "字碼刻印組_Z軸油壓缸原點位置",
@@ -354,7 +364,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopUp"
-                    },               
+                    },
                     new IO_InfoModel()
                     {
                         Info ="字碼刻印組_刻印轉輪原點位置" ,
@@ -363,7 +373,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingRotate1.di_ServoHome"
-                    },              
+                    },
                     new IO_InfoModel()
                     {
                         Info = "進料導桿缸1_氣壓缸上限檢知",
@@ -372,7 +382,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopUp"
-                    },          
+                    },
                     new IO_InfoModel()
                     {
                         Info = "進料導桿缸1_氣壓缸下限檢知",
@@ -381,7 +391,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopDown"
-                    },            
+                    },
                     new IO_InfoModel()
                     {
                         Info ="料品到裁切位置檢知" ,
@@ -390,7 +400,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingMaterialConfirm"
-                    },           
+                    },
                     new IO_InfoModel()
                     {
                         Info = "裁切模組_位置檢知_上",
@@ -399,7 +409,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingOrigin"
-                    },                  
+                    },
                     new IO_InfoModel()
                     {
                         Info = "裁切模組_位置檢知_中",
@@ -408,7 +418,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingStandbyPoint"
-                    },       
+                    },
                     new IO_InfoModel()
                     {
                         Info = "裁切模組_位置檢知_下",
@@ -417,7 +427,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingCutPoint"
-                    },              
+                    },
                     new IO_InfoModel()
                     {
                         Info = "阻擋缸_進退動作-SW",
@@ -435,7 +445,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_EmergencyStop1"
-                    },                 
+                    },
                     new IO_InfoModel()
                     {
                         Info ="開機(power on)-SW" ,
@@ -444,7 +454,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_PowerON"
-                    },             
+                    },
                     new IO_InfoModel()
                     {
                         Info ="暫停(pause)-SW" ,
@@ -453,8 +463,8 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_Pause"
-                    },                 
-                    
+                    },
+
                     new IO_InfoModel()
                     {
                         Info = "開始加工(start)-SW",
@@ -463,8 +473,8 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_Start"
-                    },               
-                    
+                    },
+
                     new IO_InfoModel()
                     {
                         Info ="放料卷方向" ,
@@ -473,7 +483,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsDirection"
-                    },        
+                    },
                     new IO_InfoModel()
                     {
                         Info = "原點復歸-SW",
@@ -482,7 +492,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_Home"
-                    },          
+                    },
                     new IO_InfoModel()
                     {
                         Info ="半自動-SW" ,
@@ -491,8 +501,8 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonHalfAuto"
-                    },         
-                    
+                    },
+
                     new IO_InfoModel()
                     {
                         Info = "全自動",
@@ -501,7 +511,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonFullAuto"
-                    },                   
+                    },
                     new IO_InfoModel()
                     {
                         Info = "預留",
@@ -510,7 +520,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },    
+                    },
                     new IO_InfoModel()
                     {
                         Info = "進料導桿缸2_氣壓缸上限檢知",
@@ -519,7 +529,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.di_StopUp"
-                    },    
+                    },
                     new IO_InfoModel()
                     {
                         Info = "進料導桿缸2_氣壓缸下限檢知",
@@ -538,7 +548,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },              
+                    },
                     new IO_InfoModel()
                     {
                         Info = "鑰匙開關_鎖固",
@@ -547,7 +557,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },                  
+                    },
                     new IO_InfoModel()
                     {
                         Info = "鑰匙開關_手動以上兩個訊號沒on為手動",
@@ -556,7 +566,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },            
+                    },
                     new IO_InfoModel()
                     {
                         Info = "X+搖桿",
@@ -565,7 +575,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },            
+                    },
                     new IO_InfoModel()
                     {
                         Info = "X-搖桿",
@@ -574,7 +584,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },             
+                    },
                     new IO_InfoModel()
                     {
                         Info = "Y+搖桿",
@@ -583,7 +593,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },                    
+                    },
                     new IO_InfoModel()
                     {
                         Info = "Y-搖桿",
@@ -592,7 +602,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },            
+                    },
                     new IO_InfoModel()
                     {
                         Info = "油壓過載",
@@ -601,7 +611,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Motor1.di_Overload"
-                    },                 
+                    },
                     new IO_InfoModel()
                     {
                         Info = "刻印Y軸_負極限",
@@ -610,7 +620,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoNOT"
-                    },                  
+                    },
                     new IO_InfoModel()
                     {
                         Info = "進料X軸_正極限",
@@ -620,7 +630,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoPOT"
                     },
-        
+
                     new IO_InfoModel()
                     {
                         Info = "字碼刻印組_Z軸油壓缸待命位置",
@@ -638,7 +648,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },               
+                    },
                     new IO_InfoModel()
                     {
                         Info = "搖桿",
@@ -647,7 +657,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                         NodeID = $""
-                    },             
+                    },
                     new IO_InfoModel()
                     {
                         Info = "搖桿",
@@ -787,7 +797,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.do_GuideRodsFixtureUp"
                     },
-  
+
                     new IO_InfoModel()
                     {
                         Info = "",
@@ -797,7 +807,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-  
+
                     new IO_InfoModel()
                     {
                         Info = "",
@@ -807,7 +817,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-  
+
                     new IO_InfoModel()
                     {
                         Info = "",
@@ -826,190 +836,224 @@ namespace GD_StampingMachine.Singletons
                 JsonHM.WriteJsonSettingByEnum(MachineSettingNameEnum.IO_Table, IO_TableObservableCollection);
             }
 
+
             if (!IsScaning)
             {
-                IsScaning = true;
                 Task.Run(async () =>
                 {
-                    try
+                    scanCancellationToken = new CancellationTokenSource();
+                    CancellationToken cancelToken = scanCancellationToken.Token;
+                    var ScanTask = Task.Run(async () =>
                     {
-
-
-                        //初始化
-                        while (ContinueScanning)
+                        IsScaning = true;
+                        try
                         {
-                            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+                            //如果初始化失敗 不執行掃描
+                            //初始化 若初始化失敗則跳出
+                            bool IsInit = false;
+                            for (int i = 0; i < 5; i++)
                             {
-                                if (GD_Stamping.GetSpeed(out double axisSpeed))
-                                    FeedingSpeed = axisSpeed;
-                                GD_Stamping.Disconnect();
-                                break;
-                            }
-                            await Task.Delay(100);
-                        }
+                                if (cancelToken.IsCancellationRequested)
+                                    cancelToken.ThrowIfCancellationRequested();
 
-
-                        while (ContinueScanning)
-                        {
-                            try
-                            {
-                                IsConnected = GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password);
-                                if (IsConnected)
+                                    if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                                 {
-                                    //進料馬達
+                                    if (GD_Stamping.GetSpeed(out double axisSpeed))
+                                        FeedingSpeed = axisSpeed;
+                                    GD_Stamping.Disconnect();
+                                    IsInit = true;
+                                    break;
+                                }
+                                await Task.Delay(100);
+                            }
 
-                                    //GD_Stamping.GetMachineStatus
-                                    if (GD_Stamping.GetFeedingPosition(out var fPos))
-                                        FeedingPosition = fPos;
-
-                                    //磁簧開關
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up, out bool Move_IsUp))
-                                        Cylinder_GuideRod_Move_IsUp = Move_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down, out bool Move_IsDown))
-                                        Cylinder_GuideRod_Move_IsDown = Move_IsDown;
-
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, out bool Fixed_IsUp))
-                                        Cylinder_GuideRod_Fixed_IsUp = Fixed_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, out bool Fixed_IsDown))
-                                        Cylinder_GuideRod_Fixed_IsDown = Fixed_IsDown;
-
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Up, out bool QRStamping_IsUp))
-                                        Cylinder_QRStamping_IsUp = QRStamping_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Down, out bool QRStamping_IsDown))
-                                        Cylinder_QRStamping_IsDown = QRStamping_IsDown;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Up, out bool StampingSeat_IsUp))
-                                        Cylinder_StampingSeat_IsUp = StampingSeat_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Down, out bool StampingSeat_IsDown))
-                                        Cylinder_StampingSeat_IsDown = StampingSeat_IsDown;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up, out bool BlockingCylinder_IsUp))
-                                        Cylinder_BlockingCylinder_IsUp = BlockingCylinder_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, out bool BlockingCylindere_IsDown))
-                                        Cylinder_BlockingCylindere_IsDown = BlockingCylindere_IsDown;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, out bool HydraulicCutting_IsUp))
-                                        Cylinder_HydraulicCutting_IsUp = HydraulicCutting_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, out bool HydraulicCutting_IsDown))
-                                        Cylinder_HydraulicCutting_IsDown = HydraulicCutting_IsDown;
-
-
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, out bool _hydraEngraving_IsUp))
-                                        HydraulicEngraving_IsUp = _hydraEngraving_IsUp; 
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Middle, out bool _hydraEngraving_IsMiddle))
-                                        HydraulicEngraving_IsMiddle = _hydraEngraving_IsMiddle;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, out bool _hydraEngraving_IsDown))
-                                        HydraulicEngraving_IsDown = _hydraEngraving_IsDown;
-
-
-
-
-
-
-
-                                    if (GD_Stamping.GetHydraulicPumpMotor(out bool HPumpIsActive))
-                                        HydraulicPumpIsActive = HPumpIsActive;
-
-                                    if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1, out string sIronPlateString1))
-                                        IronPlateName1 = sIronPlateString1;
-                                    if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2, out string sIronPlateString2))
-                                        IronPlateName2 = sIronPlateString2;
-                                    if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3, out string sIronPlateString3))
-                                        IronPlateName3 = sIronPlateString3;
-
-                                    if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
+                            if (IsInit)
+                            {
+                                while (true)
+                                {
+                                    if (cancelToken.IsCancellationRequested)
+                                        cancelToken.ThrowIfCancellationRequested();
+                                    try
                                     {
-                                        SeparateBoxIndex = boxIndex;
-                                    }
-
-
-
-                                    if (GD_Stamping.GetEngravingYAxisPosition(out float engravingYposition))
-                                        EngravingYAxisPosition = engravingYposition;
-
-                                    if (GD_Stamping.GetEngravingZAxisPosition(out float engravingZposition))
-                                        EngravingZAxisPosition = engravingZposition;
-
-                                    if (GD_Stamping.GetEngravingRotateStation(out int engravingRStation))
-                                        EngravingRotateStation = engravingRStation;
-
-                                    //取得io資料表
-                                    if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
-                                    {
-                                        foreach (var IO_Table in IO_TableObservableCollection)
+                                        IsConnected = GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password);
+                                        if (IsConnected)
                                         {
+                                            //進料馬達
 
-                                            if (!string.IsNullOrEmpty(IO_Table.NodeID))
+                                            //GD_Stamping.GetMachineStatus
+                                            if (GD_Stamping.GetFeedingPosition(out var fPos))
+                                                FeedingPosition = fPos;
+
+                                            //磁簧開關
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up, out bool Move_IsUp))
+                                                Cylinder_GuideRod_Move_IsUp = Move_IsUp;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down, out bool Move_IsDown))
+                                                Cylinder_GuideRod_Move_IsDown = Move_IsDown;
+
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, out bool Fixed_IsUp))
+                                                Cylinder_GuideRod_Fixed_IsUp = Fixed_IsUp;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, out bool Fixed_IsDown))
+                                                Cylinder_GuideRod_Fixed_IsDown = Fixed_IsDown;
+
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Up, out bool QRStamping_IsUp))
+                                                Cylinder_QRStamping_IsUp = QRStamping_IsUp;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Down, out bool QRStamping_IsDown))
+                                                Cylinder_QRStamping_IsDown = QRStamping_IsDown;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Up, out bool StampingSeat_IsUp))
+                                                Cylinder_StampingSeat_IsUp = StampingSeat_IsUp;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Down, out bool StampingSeat_IsDown))
+                                                Cylinder_StampingSeat_IsDown = StampingSeat_IsDown;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up, out bool BlockingCylinder_IsUp))
+                                                Cylinder_BlockingCylinder_IsUp = BlockingCylinder_IsUp;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, out bool BlockingCylindere_IsDown))
+                                                Cylinder_BlockingCylindere_IsDown = BlockingCylindere_IsDown;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, out bool HydraulicCutting_IsUp))
+                                                Cylinder_HydraulicCutting_IsUp = HydraulicCutting_IsUp;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, out bool HydraulicCutting_IsDown))
+                                                Cylinder_HydraulicCutting_IsDown = HydraulicCutting_IsDown;
+
+
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, out bool _hydraEngraving_IsUp))
+                                                HydraulicEngraving_IsUp = _hydraEngraving_IsUp;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Middle, out bool _hydraEngraving_IsMiddle))
+                                                HydraulicEngraving_IsMiddle = _hydraEngraving_IsMiddle;
+                                            if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, out bool _hydraEngraving_IsDown))
+                                                HydraulicEngraving_IsDown = _hydraEngraving_IsDown;
+
+
+
+
+
+
+
+                                            if (GD_Stamping.GetHydraulicPumpMotor(out bool HPumpIsActive))
+                                                HydraulicPumpIsActive = HPumpIsActive;
+
+                                            if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1, out string sIronPlateString1))
+                                                IronPlateName1 = sIronPlateString1;
+                                            if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2, out string sIronPlateString2))
+                                                IronPlateName2 = sIronPlateString2;
+                                            if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3, out string sIronPlateString3))
+                                                IronPlateName3 = sIronPlateString3;
+
+                                            if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
                                             {
-                                                if (IO_Table.ValueType == typeof(bool) && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out bool nodeboolValue))
+                                                SeparateBoxIndex = boxIndex;
+                                            }
+
+
+
+                                            if (GD_Stamping.GetEngravingYAxisPosition(out float engravingYposition))
+                                                EngravingYAxisPosition = engravingYposition;
+
+                                            if (GD_Stamping.GetEngravingZAxisPosition(out float engravingZposition))
+                                                EngravingZAxisPosition = engravingZposition;
+
+                                            if (GD_Stamping.GetEngravingRotateStation(out int engravingRStation))
+                                                EngravingRotateStation = engravingRStation;
+
+                                            //取得io資料表
+                                            if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
+                                            {
+                                                foreach (var IO_Table in IO_TableObservableCollection)
                                                 {
-                                                    IO_Table.IO_Value = nodeboolValue;
-                                                }
-                                                else if (IO_Table.ValueType == typeof(float) && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out float nodefloatValue))
-                                                {
-                                                    IO_Table.IO_Value = nodefloatValue;
-                                                }
-                                                else if (IO_Table.ValueType is object && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out object nodeobjectValue))
-                                                {
-                                                    IO_Table.IO_Value = nodeobjectValue;
-                                                }
-                                                else
-                                                {
-                                                    IO_Table.IO_Value = null;
+
+                                                    if (!string.IsNullOrEmpty(IO_Table.NodeID))
+                                                    {
+                                                        if (IO_Table.ValueType == typeof(bool) && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out bool nodeboolValue))
+                                                        {
+                                                            IO_Table.IO_Value = nodeboolValue;
+                                                        }
+                                                        else if (IO_Table.ValueType == typeof(float) && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out float nodefloatValue))
+                                                        {
+                                                            IO_Table.IO_Value = nodefloatValue;
+                                                        }
+                                                        else if (IO_Table.ValueType is object && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out object nodeobjectValue))
+                                                        {
+                                                            IO_Table.IO_Value = nodeobjectValue;
+                                                        }
+                                                        else
+                                                        {
+                                                            IO_Table.IO_Value = null;
+                                                        }
+                                                    }
                                                 }
                                             }
+
                                         }
-                                    }
+                                        else
+                                        {
+                                            foreach (var IO_Table in IO_TableObservableCollection)
+                                            {
+                                                IO_Table.IO_Value = null;
+                                            }
+                                        }
 
-                                }
-                                else
-                                {
-                                    foreach (var IO_Table in IO_TableObservableCollection)
+
+                                    }
+                                    catch (Exception ex)
                                     {
-                                        IO_Table.IO_Value = null;
+                                        //Debugger.Break();
                                     }
+                                    finally
+                                    {
+                                        GD_Stamping.Disconnect();
+                                    }
+                                    await Task.Delay(100);
+
                                 }
-
-
                             }
-                            catch (Exception ex)
-                            {
-                                //Debugger.Break();
-                            }
-                            finally
-                            {
-                                GD_Stamping.Disconnect();
-                            }
-
-                            await Task.Delay(100);
+                        }
+                        catch (OperationCanceledException e)
+                        {
+                            Console.WriteLine("工作已取消");
+                        }
+                        catch (Exception ex)
+                        {
 
                         }
-                    }
-                    catch (Exception ex)
-                    {
+                        finally
+                        {
+                            GD_Stamping.Disconnect();
+                            IsScaning = false;
+                        }
+                    }, cancelToken);
 
+                    try
+                    {
+                        await ScanTask;
                     }
                     finally
                     {
-                        GD_Stamping.Disconnect();
-                        IsScaning = false;
+
                     }
+
                 });
             }
+
+
+
         }
-        public async void StopScan()
+
+
+
+
+
+
+
+
+
+
+        public void StopScan()
         {
             if (!IsScaning)
                 return;
 
-            await Task.Run(async () => 
+            Task.Run(() => 
             {
-                ContinueScanning = false;
-               //等待掃描解除
-                while(IsScaning)
-                {
-                    await Task.Delay(100);
-                }
-
+                //等待掃描解除
+                scanCancellationToken.Cancel();
                 //回復狀態
-                ContinueScanning = true;
             });
             return;
         }
@@ -1186,6 +1230,9 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
+        /// <summary>
+        /// 啟用液壓馬達
+        /// </summary>
         public ICommand ActiveHydraulicPumpMotor
         {
             get => new RelayCommand(() =>
@@ -1203,13 +1250,59 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-        public void SendStampingString()
+
+
+        /// <summary>
+        /// 第一排字設定
+        /// </summary>
+        public ICommand SetIronPlateName1Command
         {
+            get => new RelayParameterizedCommand(para =>
+            {
+                if (para is string ParaString)
+                    SendStampingString(sIronPlate.sIronPlateName1, ParaString);
+            });
+        }
+
+        /// <summary>
+        /// 第二排字設定
+        /// </summary>
+        public ICommand SetIronPlateName2Command
+        {
+            get => new RelayParameterizedCommand(para =>
+            {
+                if (para is string ParaString)
+                    SendStampingString(sIronPlate.sIronPlateName2, ParaString);
+            });
+        }
+
+        /// <summary>
+        /// 第三排字設定
+        /// </summary>
+        public ICommand SetIronPlateName3Command
+        {
+            get => new RelayParameterizedCommand(para =>
+            {
+                if (para is string ParaString)
+                    SendStampingString(sIronPlate.sIronPlateName3, ParaString);
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="PlateName">字串位置</param>
+        /// <param name="FontString"></param>
+        /// <returns></returns>
+        public bool SendStampingString(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate PlateName , string FontString)
+        {
+            bool ret = false; 
             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
-                GD_Stamping.SetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1 ,"DEF");
+                ret = GD_Stamping.SetIronPlateName(PlateName, FontString);
                 GD_Stamping.Disconnect();
             }
+            return ret;
         }
 
 

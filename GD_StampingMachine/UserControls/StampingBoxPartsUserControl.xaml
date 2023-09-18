@@ -35,7 +35,6 @@
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
                 </dxmvvm:Interaction.Behaviors>
-
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
@@ -136,11 +135,11 @@
                         </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
-
             </ListBox>
         </ScrollViewer>
 
         <dxg:GridControl 
+    
             IsEnabled="{Binding SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
             Grid.Column="1"
@@ -151,6 +150,7 @@
             MaxHeight="2000"    >
             <dxg:GridControl.View >
                 <dxg:TableView   
+                    
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"

@@ -130,7 +130,12 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayParameterizedCommand(obj =>
             {
-                if (obj is System.Windows.Controls.SelectionChangedEventArgs e)
+                OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+
+
+
+
+               /* if (obj is System.Windows.Controls.SelectionChangedEventArgs e)
                 {
                     if (e.AddedItems.Count > 0)
                     {
@@ -140,7 +145,7 @@ namespace GD_StampingMachine.ViewModels
                             //BoxPartsParameterVMObservableCollectionRefresh(NewSeparateBoxVM.BoxIndex);
                         }
                     }
-                }
+                }*/
             });
         }
 
