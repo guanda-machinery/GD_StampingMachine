@@ -39,7 +39,7 @@ namespace GD_CommonLibrary.Method
 
         public static void ShowOK(string MessageTitle, string MessageString , MessageBoxImage BoxImage = MessageBoxImage.Information)
         {
-             Show(MessageTitle, MessageString,
+           Show(MessageTitle, MessageString,
                 MessageBoxButton.OK, BoxImage);
         }
 

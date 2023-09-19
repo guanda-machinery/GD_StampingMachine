@@ -101,7 +101,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand SaveSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => new RelayCommand(async() =>
             {
                 var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                 if (FIndex != -1)

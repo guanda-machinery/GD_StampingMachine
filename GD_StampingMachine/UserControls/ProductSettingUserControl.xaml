@@ -53,7 +53,7 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"  Margin="10">
                     <TextBlock  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="{DynamicResource Text_Search}" FontSize="20"  />
-                    <TextBox BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}" Width="300"  
+                    <TextBox BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}" Width="300"  Text="{x:Null}"
                                      materialDesign:HintAssist.Hint="Search Tasks(Ctrl + F)"
                                      materialDesign:HintAssist.Foreground="Blue"                   
                                      Margin="5,0"  Padding="5,1" Name="SearchTextBox" 

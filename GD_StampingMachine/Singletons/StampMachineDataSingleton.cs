@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
 using static GD_StampingMachine.Method.StampingMachineJsonHelper;
@@ -1288,6 +1289,44 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
+        public ICommand SendMachiningDataCommand
+        {
+            get => new RelayCommand(async () => 
+            {
+                await SendMachiningData();
+
+
+            });
+        }
+
+
+        private async Task< bool> SendMachiningData()
+        {
+            bool ret = false;
+            await Task.Run(() =>
+            {
+                if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+                {
+                    ret = GD_Stamping.GetRequestDatabit(out var databit);
+                    if (ret && databit)
+                    {
+                        //GD_Stamping.GetMachineStatus
+                        //ret = GD_Stamping.SetIronPlateName( databit);
+                       // ret = GD_Stamping.SetIronPlateName( databit);
+                       // ret = GD_Stamping.SetIronPlateName(  databit);
+                        ret = GD_Stamping.SetRequestDatabit(false);
+                    }
+                    GD_Stamping.Disconnect();
+                }
+            });
+
+            return ret;
+        }
+
+
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -1405,6 +1444,43 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+        private bool CheckHydraulicPumpMotor()
+        {
+            if (GD_Stamping.GetHydraulicPumpMotor(out var MotorIsActived))
+            {
+                if (MotorIsActived)
+                    return true;
+                else
+                {
+                    //詢問後設定
+                    //油壓馬達尚未啟動，是否要啟動油壓馬達？
+                    var Result = MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"),
+                        (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved") +
+                        "\r\n" +
+                        (string)Application.Current.TryFindResource("Text_AskActiveHydraulicPumpMotor"));
+
+
+                    if (Result == MessageBoxResult.Yes)
+                    {
+                        if (GD_Stamping.SetHydraulicPumpMotor(true))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure"));
+                        }
+                    }
+
+
+                }
+            }
+
+            return false;
+        }
+
+
 
 
 
@@ -1456,6 +1532,10 @@ namespace GD_StampingMachine.Singletons
             }
             return ret;
         }
+
+
+
+
 
 
         /// <summary>
@@ -1709,7 +1789,7 @@ namespace GD_StampingMachine.Singletons
             {
                 try
                 {
-                    if (value != -1 && value != _separateBoxIndex && !IsRotating && ParameterSettingVM != null)
+                    if (value != -1 && value != _separateBoxIndex && ParameterSettingVM != null)
                     {
                         int step;
                         if (value == 0 && _separateBoxIndex == ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1)
@@ -1728,6 +1808,7 @@ namespace GD_StampingMachine.Singletons
                         {
                             step = -1;
                         }
+
                         SeparateBox_Rotate(value, step);
                     }
                 }
@@ -1742,13 +1823,16 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+        private CancellationTokenSource cts = new CancellationTokenSource();
+        private Task RorateTask;
+
         ParameterSettingViewModel ParameterSettingVM = Singletons.StampingMachineSingleton.Instance.ParameterSettingVM;
 
-        private void SeparateBox_Rotate(int IsUsingindex, int step)
+        private async void SeparateBox_Rotate(int IsUsingindex, int step)
         {
             if (IsUsingindex != -1)
             {
-                Parallel.ForEach(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection , obj=>
+                Parallel.ForEach(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection, obj =>
                 {
                     obj.IsUsing = false;
                 });
@@ -1756,12 +1840,14 @@ namespace GD_StampingMachine.Singletons
                 ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
                 //取得
 
-                IsRotating = false;
+                if (cts != null)
+                    cts.Cancel();
 
-                Task.Run(async () =>
+                if (RorateTask != null)
+                    await RorateTask;
+
+                RorateTask = Task.Run(async () =>
                 {
-                    IsRotating = true;
-
                     //角度比例
                     var DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count;
                     //目標
@@ -1772,21 +1858,21 @@ namespace GD_StampingMachine.Singletons
                     var endRotatePoint = 360 - DegreeRate * IsUsingindex;
 
                     if (step != 0)
+                    {
                         while (true)
                         {
                             SeparateBox_RotateAngle -= step;
                             if (Math.Abs(SeparateBox_RotateAngle - endRotatePoint) < 2 || Math.Abs(SeparateBox_RotateAngle - endRotatePoint) > 360)
                                 break;
 
-                            if (!IsRotating)
+                            if (cts.IsCancellationRequested)
                                 break;
                             await Task.Delay(1);
                         }
-                    if (IsRotating)
-                    {
-                        SeparateBox_RotateAngle = endRotatePoint;
-                        IsRotating = false;
                     }
+
+                    if (!cts.IsCancellationRequested)
+                        SeparateBox_RotateAngle = endRotatePoint;
                 });
             }
         }
@@ -1804,12 +1890,12 @@ namespace GD_StampingMachine.Singletons
             }
         }
 
-        object SeparateBox_Rotatelock = new();
+        /*object SeparateBox_Rotatelock = new();
         private bool _isRotating = false;
         public bool IsRotating
         {
             get => _isRotating; set { _isRotating = value; OnPropertyChanged(); }
-        }
+        }*/
 
 
 

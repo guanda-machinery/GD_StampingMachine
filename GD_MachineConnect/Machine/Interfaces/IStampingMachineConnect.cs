@@ -224,6 +224,22 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         bool GetHydraulicPumpMotor(out bool isActive);
 
+
+
+        /// <summary>
+        /// 鐵片下一片資訊-交握訊號
+        /// </summary>
+        /// <param name="databit"></param>
+        /// <returns></returns>
+        bool GetRequestDatabit(out bool databit);
+
+        /// <summary>
+        /// 鐵片下一片資訊-交握訊號
+        /// </summary>
+        /// <param name="databit"></param>
+        /// <returns></returns>
+        bool SetRequestDatabit(bool databit);
+
         /// <summary>
         /// 取得鋼印字串
         /// </summary>

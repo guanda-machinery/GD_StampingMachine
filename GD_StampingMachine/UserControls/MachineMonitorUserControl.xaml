@@ -155,17 +155,22 @@
 
                         <Border Background="Gray" Grid.Column="1" Margin="-1,0,0,0" Width="50"  HorizontalAlignment="Right" />
                     </Grid>
-                    <ListBox Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=ActualWidth }" HorizontalAlignment="Right" 
+                    <ListBox  HorizontalAlignment="Right" 
                             MinHeight="120"     
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
-                                                             ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+                                                             ScrollViewer.VerticalScrollBarVisibility="Disabled"  >
                         <ListBox.RenderTransform>
                             <TranslateTransform X="0" Y="0" />
                         </ListBox.RenderTransform>
+
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" >
-                                <Setter Property="Canvas.Top" Value="{Binding AbsoluteMoveDistance}"/>
-
+                                <Setter Property="Canvas.Right" Value="{Binding AbsoluteMoveDistanceAnimation}"/>
+                                <Setter Property="LayoutTransform" >
+                                    <Setter.Value>
+                                        <RotateTransform Angle="90"/>
+                                    </Setter.Value>
+                                </Setter>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
@@ -228,12 +233,7 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Canvas IsItemsHost="True"  >
-                                    <Canvas.LayoutTransform>
-                                        <RotateTransform Angle="90"/>
-                                    </Canvas.LayoutTransform>
-                                </Canvas>
-
+                                <Canvas Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid},Path=ActualWidth }"/>
                                 <!--  <WrapPanel FlowDirection="RightToLeft"/>-->
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
@@ -243,6 +243,8 @@
                     <Button Command="{Binding SoftSendMachineCommand}" Content="test1"/>
                     <Button Command="{Binding SetStatusSendMachineCommand}" Content="test2"/>
                     <Button Command="{Binding MoveSendMachineCommand}" Content="test3"/>
+                    <Button Command="{Binding MoveSendMachineCommand}" Content="run"/>
+                    <Button Command="{Binding MoveSendMachineCommand}" Content="stop"/>
                 </StackPanel>
 
 

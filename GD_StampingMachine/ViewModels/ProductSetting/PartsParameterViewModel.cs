@@ -27,6 +27,8 @@ using GD_StampingMachine.Model;
 using GD_CommonLibrary.Extensions;
 using Microsoft.Xaml.Behaviors;
 using DevExpress.CodeParser;
+using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -199,7 +201,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public RelayParameterizedCommand ProjectDeleteCommand
         {
-            get => new (obj =>
+            get => new (async obj =>
             {
                 if (obj is GridControl ObjGridControl)
                 {
@@ -242,9 +244,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private object AbsoluteMoveDistanceAnimationLock = new object();
-        private bool _absoluteMoveDistanceAnimationIsTriggered;
-        public bool AbsoluteMoveDistanceAnimationIsTriggered { get => _absoluteMoveDistanceAnimationIsTriggered; private set { _absoluteMoveDistanceAnimationIsTriggered = value; OnPropertyChanged(); } }
+
+
+        private CancellationTokenSource cts = new CancellationTokenSource();
+        private Task MoveTask;
 
         /// <summary>
         /// 工作需要移動的絕對距離(目前位置離加工位置多遠)
@@ -255,32 +258,34 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 SendMachineCommand.AbsoluteMoveDistance = value;
-
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
-                    AbsoluteMoveDistanceAnimationIsTriggered = false;
-                    if (AbsoluteMoveDistanceAnimation.HasValue)
-                    {
-                        lock (AbsoluteMoveDistanceAnimationLock)
-                        {
-                            AbsoluteMoveDistanceAnimationIsTriggered = true;
+                    if (cts != null)
+                        cts.Cancel();
 
+                    if (MoveTask != null)
+                        await MoveTask;
+
+                    cts = new CancellationTokenSource();
+                    MoveTask = Task.Run(async () =>
+                    {
+                        if (AbsoluteMoveDistanceAnimation.HasValue)
+                        {
                             var absAnimationValue = AbsoluteMoveDistanceAnimation.Value;
                             var Diff = value - absAnimationValue;
-
                             var AbsDiff = Math.Abs(Diff);
                             double MoveDiff = 10;
-                            if (AbsDiff > 100)
+                            if (AbsDiff > 10)
                             {
-                                MoveDiff = 250;
+                                MoveDiff = 25;
                             }
                             else if (AbsDiff > 10)
                             {
-                                MoveDiff = 100;
+                                MoveDiff = 10;
                             }
                             else if (AbsDiff >= 5)
                             {
-                                MoveDiff = 50;
+                                MoveDiff = 5;
                             }
                             else if (AbsDiff >= 0)
                             {
@@ -288,27 +293,33 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             }
 
                             var PercentDiff = Diff / MoveDiff;
-                            //計算要跑幾次
-                            // while (Math.Abs(Diff) > Math.Abs(PercentDiff * 3))
                             for (double i = 0; i < Math.Abs(Diff); i += Math.Abs(PercentDiff))
                             {
+                                if (!AbsoluteMoveDistanceAnimation.HasValue)
+                                    AbsoluteMoveDistanceAnimation = 0;
                                 AbsoluteMoveDistanceAnimation += PercentDiff;
-                                System.Threading.Thread.Sleep(10);
-
-                                //如果被重複觸發 立刻放棄上次的移動
-                                if (!AbsoluteMoveDistanceAnimationIsTriggered)
-                                    return;
+                                await Task.Delay(0);
+                                if (cts.IsCancellationRequested)
+                                {
+                                    break;
+                                }
                             }
                         }
-                    }
-
-                    AbsoluteMoveDistanceAnimation = value;
-                    AbsoluteMoveDistanceAnimationIsTriggered = false;
+                        AbsoluteMoveDistanceAnimation = value;
+                    }, cts.Token);
                 });
+
 
                 OnPropertyChanged();
             }
         }
+
+
+
+
+
+
+
 
         public double RelativeMoveDistance
         {
@@ -319,11 +330,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
-
-
-
-
-
 
         private double? _absoluteMoveDistanceAnimation;
         public double? AbsoluteMoveDistanceAnimation

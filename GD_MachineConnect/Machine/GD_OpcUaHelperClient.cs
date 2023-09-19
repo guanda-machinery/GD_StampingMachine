@@ -98,6 +98,9 @@ namespace GD_MachineConnect.Machine
             return false;
         }
 
+
+
+
         public void ReadNoteAttributes(string NodeTreeString)
         {
             OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);

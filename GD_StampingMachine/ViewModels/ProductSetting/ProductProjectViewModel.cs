@@ -187,7 +187,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         // private RelayParameterizedCommand _projectDeleteCommand;
         public RelayParameterizedCommand ProjectDeleteCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new(obj =>
             {
                 if (obj is GridControl ObjGridControl)
                 {
@@ -777,7 +777,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand CloseTypeSettingCommand
         {
-            get => _closeTypeSettingCommand??= new RelayParameterizedCommand(obj =>
+            get => _closeTypeSettingCommand??= new RelayParameterizedCommand(async obj =>
             {
                 if (obj == null)
                 {
@@ -803,7 +803,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             }
 
                             //詢問是否要關閉
-                            if (!MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))
+                            if (!(MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName)))
                                 return;
 
                             //將資料清除

@@ -168,9 +168,9 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    while(true)
+                    while (true)
                     {
                         try
                         {
@@ -180,9 +180,6 @@ namespace GD_StampingMachine.ViewModels
                                 var mincutableBox = cutableBoxPartsCollection.MinBy(x => x.AbsoluteMoveDistance);
                                 var minIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x == mincutableBox);
                                 var minDistance = mincutableBox.AbsoluteMoveDistance;
-
-
-
                                 double moveStep = 0.1;
                                 while (_boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance > 0)
                                 {
@@ -195,9 +192,9 @@ namespace GD_StampingMachine.ViewModels
                                          smc.AbsoluteMoveDistance -= moveStep;
 
                                      });
-                                    //await Task.Delay(2);
+                                    await Task.Delay(2);
                                     StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.StripSteelPosition -= moveStep;
-                                    System.Threading.Thread.Sleep(2);
+                                    //System.Threading.Thread.Sleep(2);
                                 }
 
                                 /*int triggeredIndex = -1;
@@ -211,28 +208,27 @@ namespace GD_StampingMachine.ViewModels
                                 for (int i = 0; i <= 100; i++)
                                 {
                                     mincutableBox.WorkingProgress = i;
-                                    //await Task.Delay(10);
-                                    System.Threading.Thread.Sleep(10);
+                                    await Task.Delay(10);
+                                    //.Threading.Thread.Sleep(10);
+                                    // await
                                 }
                                 mincutableBox.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
                                 mincutableBox.FinishProgress = 100;
 
-                                //await Task.Delay(500);
-                                System.Threading.Thread.Sleep(500);
+                                await Task.Delay(500);
+                                //System.Threading.Thread.Sleep(500);
                             }
                             else
                             {
                                 break;
                             }
-                        }catch(Exception ex)
+                        }
+                        catch (Exception ex)
                         {
 
                         }
                     }
                 });
-
-
-
             });
         }
 

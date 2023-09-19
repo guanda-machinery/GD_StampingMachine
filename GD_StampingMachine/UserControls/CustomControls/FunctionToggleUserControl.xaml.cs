@@ -43,7 +43,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
         //public static readonly DependencyProperty UnCheckedTitleTextProperty = DependencyProperty.Register(nameof(UnCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(FunctionToggleUserControl), new PropertyMetadata());
         
-        public static readonly DependencyProperty PackIconKindProperty = DependencyProperty.Register(nameof(PackIconKind), typeof(PackIconKind?), typeof(FunctionToggleUserControl), new PropertyMetadata());
+        public static readonly DependencyProperty PackIconKindProperty = DependencyProperty.Register(nameof(PackIconKind), typeof(PackIconKind), typeof(FunctionToggleUserControl), new PropertyMetadata(PackIconKind.None));
 
         public static readonly DependencyProperty ButtonContentProperty =  DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
@@ -88,6 +88,7 @@ namespace GD_StampingMachine.UserControls.CustomControls
             }
             set 
             {
+               
                 SetValue(IsIndeterminateProperty, value);
             }
         }
@@ -126,9 +127,9 @@ namespace GD_StampingMachine.UserControls.CustomControls
         }
 
 
-        public PackIconKind? PackIconKind
+        public PackIconKind PackIconKind
         {
-            get { return (PackIconKind?)GetValue(PackIconKindProperty); }
+            get { return (PackIconKind)GetValue(PackIconKindProperty); }
             set { SetValue(PackIconKindProperty, value); }
         }
 

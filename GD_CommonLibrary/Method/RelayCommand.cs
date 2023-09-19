@@ -24,6 +24,14 @@ namespace GD_CommonLibrary
             _canExecute = canExecute;
         }
 
+       /* public RelayCommand(Action<T> execute, Predicate<T> canExecute)
+        {
+            // 簡化寫法 if(execute == null) throw new ArgumentNullException("execute");
+            _execute = execute ?? throw new ArgumentNullException("execute");
+            _canExecute = canExecute;
+        }*/
+
+
         // 當_canExecute發生變更時，加入或是移除Action觸發事件
         public event EventHandler CanExecuteChanged
         {
@@ -37,14 +45,9 @@ namespace GD_CommonLibrary
             }
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return true; 
-        }
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
 
-        public void Execute(object parameter)
-        {
-            _execute();
-        }
+        public void Execute(object parameter)=> _execute();
+        
     }
 }

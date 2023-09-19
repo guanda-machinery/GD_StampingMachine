@@ -135,7 +135,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand CreateProjectCommand
         {
-            get => new RelayCommand(() =>
+            get => new RelayCommand(async () =>
             {
                 Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,(string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);

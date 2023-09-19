@@ -58,26 +58,23 @@ namespace GD_MachineConnect
                 {
                     _hostPath = @"opc.tcp://" + _hostPath;
                 }
-                CancellationTokenSource cancellationToken = new CancellationTokenSource();
-                CancellationToken token = cancellationToken.Token;
+                //CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                //CancellationToken token = cancellationToken.Token;
 
+                if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
+                    GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
 
-                var ConnectTask = Task.Run(async () =>
-                {
-                    if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
-                        GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
-
-                    Result = await GD_OpcUaClient.OpcuaConnectAsync(_hostPath, Port, DataPath);
-                }, token);
+                var ConnectTask = GD_OpcUaClient.OpcuaConnectAsync(_hostPath, Port, DataPath);
 
                 //if (Task.WhenAny(ConnectTask, Task.Delay(MoveTimeout)) == ConnectTask)
                 if (Task.WaitAny(ConnectTask, Task.Delay(ConntectMillisecondsTimeout)) == 0)
                 {
                     ConnectTask.Wait();
+                    Result =  ConnectTask.Result;
                 }
                 else
                 {
-                    cancellationToken.Cancel();
+                   // cancellationToken.Cancel();
                 }
             }
             catch (Exception ex)
@@ -149,7 +146,9 @@ namespace GD_MachineConnect
         {
             Status = Enums.MachineStatus.Disconnect;
 
-            //return GD_OpcUaClient.ReadNode(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
+           // sv_iActState
+
+           // return GD_OpcUaClient.ReadNode(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
             return false;
         }
 
@@ -190,11 +189,7 @@ namespace GD_MachineConnect
 
         public bool SetFeedingPosition(float Position)
         {
-            if (CheckHydraulicPumpMotor())
-            {
-                return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
-            }
-            return false;
+            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
         }
 
         public bool SetInputOutput(InputOutputModel InputOutput)
@@ -634,51 +629,28 @@ namespace GD_MachineConnect
         }
 
         /// <summary>
-        /// 檢查油壓馬達 若未開啟則跳出選項詢問是否開啟
+        /// 取得鐵片下一片資訊-交握訊號
         /// </summary>
+        /// <param name="databit"></param>
         /// <returns></returns>
-        public bool CheckHydraulicPumpMotor()
+        public bool GetRequestDatabit(out bool databit)
         {
-            if (GetHydraulicPumpMotor(out var MotorIsActived))
-            {
-                if (MotorIsActived)
-                    return true;
-                else
-                {
-                    //詢問後設定
-                    //油壓馬達尚未啟動，是否要啟動油壓馬達？
-
-
-
-                    var Result = MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"),
-                        (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved") +
-                        "\r\n" +
-                        (string)Application.Current.TryFindResource("Text_AskActiveHydraulicPumpMotor"));
-                    if (Result == MessageBoxResult.Yes)
-                    {
-                        if (SetHydraulicPumpMotor(true))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure"));
-                        }
-                    }
-
-
-                }
-            }
-
-            return false;
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_bRequestDatabit}", out databit);
         }
-
-
+        /// <summary>
+        /// 設定鐵片下一片資訊-交握訊號
+        /// </summary>
+        /// <param name="databit"></param>
+        /// <returns></returns>
+        public bool SetRequestDatabit(bool databit)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_bRequestDatabit}", databit);
+        }
 
         public bool GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, out string StringLine)
         {
             return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName}.{ironPlateType}", out StringLine);
+
         }
         public bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
         {
@@ -752,18 +724,10 @@ namespace GD_MachineConnect
 
         public bool SetEngravingYAxisBwd(bool Active)
         {
-            //檢查油壓
-            if (Active && !CheckHydraulicPumpMotor())
-                return false;
-
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
         }
         public bool SetEngravingYAxisFwd(bool Active)
         {
-            //檢查油壓
-            if (Active && !CheckHydraulicPumpMotor())
-                return false;
-
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
         }
 
@@ -1038,7 +1002,6 @@ namespace GD_MachineConnect
                 sIronPlateName3
             }
 
-
             /// <summary>
             /// 進料X軸馬達
             /// </summary>
@@ -1232,6 +1195,8 @@ namespace GD_MachineConnect
                 /// </summary>
                 public static string sv_rEngravingPosition => $"{NodeHeader}.{NodeVariable.Engraving1}.{REngraving.sv_rEngravingPosition}";
 
+
+
                 /// <summary>
                 /// 手動油壓缸升命令 
                 /// </summary>
@@ -1304,31 +1269,37 @@ namespace GD_MachineConnect
                 public static string sv_iTargetAStation => $"{NodeHeader}.{NodeVariable.system}.{TargetStation.sv_iTargetAStation}";
 
                 /// <summary>
-                /// 進行自動加工時需傳入資料
+                /// 進行自動加工時需傳入資料 鐵片下一片資訊
                 /// </summary>
                 public static string sv_HMIIronPlateName => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}";
-
-                /// <summary>
-                /// 字串1(第一行)
-                /// </summary>
-                public static string sIronPlateName1 => $"{sv_HMIIronPlateName}.{sIronPlate.sIronPlateName1}";
-
-                /// <summary>
-                /// 字串2(第二行)
-                /// </summary>
-                public static string sIronPlateName2 => $"{sv_HMIIronPlateName}.{sIronPlate.sIronPlateName2}";
-
-
-                /// <summary>
-                /// 側邊字串
-                /// </summary>
-                public static string sIronPlateName3 => $"{sv_HMIIronPlateName}.{sIronPlate.sIronPlateName3}";
-
-
                 /// <summary>
                 /// 鐵片下一片資訊-交握訊號
                 /// </summary>
-                public static string sv_bRequestDatabit => $"{sv_HMIIronPlateName}.sv_bRequestDatabit";
+                public static string sv_bRequestDatabit => $"{NodeHeader}.{NodeVariable.system}.sv_bRequestDatabit";
+                /* public class sv_HMIIronPlateName
+                 {
+                     /// <summary>
+                     /// 字串1(第一行)
+                     /// </summary>
+                     public static string sIronPlateName1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName1}";
+
+                     /// <summary>
+                     /// 字串2(第二行)
+                     /// </summary>
+                     public static string sIronPlateName2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName2}";
+
+
+                     /// <summary>
+                     /// 側邊字串
+                     /// </summary>
+                     public static string sIronPlateName3 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName3}";
+
+                     /// <summary>
+                     /// 鐵片下一片資訊-交握訊號
+                     /// </summary>
+                     public static string sv_bRequestDatabit => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.sv_bRequestDatabit";
+                 }*/
+
 
 
             }
