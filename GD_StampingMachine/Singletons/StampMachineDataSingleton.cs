@@ -1,4 +1,5 @@
-﻿using DevExpress.CodeParser;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.CodeParser;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Scheduling.Themes;
@@ -1076,7 +1077,6 @@ namespace GD_StampingMachine.Singletons
 
 
 
-
         /// <summary>
         /// 進料X軸回歸原點
         /// </summary>
@@ -1097,7 +1097,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand Feeding_XAxis_MoveCommand
         {
-            get => new RelayParameterizedCommand(async Parameter => 
+            get => new RelayCommand<object>(async Parameter => 
             {
                 if(Parameter != null)
                 {
@@ -1183,7 +1183,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand CylinderControl_Up_Command
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 Task.Run(() =>
                 {
@@ -1202,7 +1202,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand CylinderControl_Middle_Command
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 Task.Run(() =>
                 {
@@ -1219,7 +1219,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand CylinderControl_Down_Command
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 Task.Run(() =>
                 {
@@ -1258,7 +1258,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand SetIronPlateName1Command
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 if (para is string ParaString)
                     SendStampingString(sIronPlate.sIronPlateName1, ParaString);
@@ -1270,7 +1270,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand SetIronPlateName2Command
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 if (para is string ParaString)
                     SendStampingString(sIronPlate.sIronPlateName2, ParaString);
@@ -1282,7 +1282,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand SetIronPlateName3Command
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 if (para is string ParaString)
                     SendStampingString(sIronPlate.sIronPlateName3, ParaString);
@@ -1381,7 +1381,7 @@ namespace GD_StampingMachine.Singletons
 
         public ICommand EngravingYAxisFwdCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 Task.Run(() =>
                 {
@@ -1393,7 +1393,7 @@ namespace GD_StampingMachine.Singletons
 
         public ICommand EngravingYAxisToStandbyPosCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 Task.Run(() =>
                 {
@@ -1404,7 +1404,7 @@ namespace GD_StampingMachine.Singletons
         }
         public ICommand EngravingYAxisBwdCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 Task.Run(() =>
                 {
@@ -1420,7 +1420,7 @@ namespace GD_StampingMachine.Singletons
 
         public ICommand SetEngravingRotateClockwiseCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 Task.Run(() =>
                 {
@@ -1432,7 +1432,7 @@ namespace GD_StampingMachine.Singletons
         }
         public ICommand SetEngravingRotateCounterClockwiseCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 Task.Run(() =>
                 {

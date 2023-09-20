@@ -32,7 +32,13 @@
                 <StackPanel >
                     <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
                 Style="{StaticResource GD_WhiteComboBox}" SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
-                ItemsSource="{Binding StampingTypeVMObservableCollection}" />
+                ItemsSource="{Binding StampingTypeVMObservableCollection}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding Stamping_SelectionChangedCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
                     <dxe:ComboBoxEdit   Width="150" Foreground="Red" EditValue="{Binding Direction, UpdateSourceTrigger=PropertyChanged}"   >
                         <dxmvvm:Interaction.Behaviors>
                             <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type SweepDirection}"/>

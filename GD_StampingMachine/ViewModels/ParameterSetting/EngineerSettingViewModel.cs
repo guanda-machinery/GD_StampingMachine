@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Scheduling.Themes;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Xpf.Scheduling.Themes;
 using DevExpress.XtraRichEdit.Printing;
 using GD_CommonLibrary;
 using GD_MachineConnect.Machine;
@@ -116,9 +117,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => new RelayCommand(() =>
             {
                 GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.ScanOpcua();
-                
-
-
             });
         }
 

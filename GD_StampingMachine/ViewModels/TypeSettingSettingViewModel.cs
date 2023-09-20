@@ -16,6 +16,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Data.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels
 {

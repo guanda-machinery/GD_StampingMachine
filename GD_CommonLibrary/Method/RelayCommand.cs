@@ -17,6 +17,7 @@ namespace GD_CommonLibrary
         {
         }
         // 建構子(傳入參數)
+
         public RelayCommand(Action execute, Func<bool> canExecute)
         {
             // 簡化寫法 if(execute == null) throw new ArgumentNullException("execute");

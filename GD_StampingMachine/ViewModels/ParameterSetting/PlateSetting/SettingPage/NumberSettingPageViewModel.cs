@@ -21,6 +21,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using GD_StampingMachine.Model;
 using Newtonsoft.Json.Linq;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -101,7 +102,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand SaveSettingCommand
         {
-            get => new RelayCommand(async() =>
+            get => new RelayCommand(() =>
             {
                 var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                 if (FIndex != -1)

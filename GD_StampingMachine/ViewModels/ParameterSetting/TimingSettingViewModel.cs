@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GD_CommonLibrary;
 using GD_StampingMachine.Method;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {

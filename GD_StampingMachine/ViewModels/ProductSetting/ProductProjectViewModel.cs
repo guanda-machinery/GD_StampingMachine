@@ -31,6 +31,7 @@ using System.Windows.Input;
 using GD_StampingMachine.Model;
 using Newtonsoft.Json.Linq;
 using DevExpress.Mvvm.Xpf;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -175,21 +176,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        //private RelayParameterizedCommand _projectEditCommand;
+        //private RelayCommand<object> _projectEditCommand;
         [JsonIgnore]
-        public RelayParameterizedCommand ProjectEditCommand
+        public RelayCommand ProjectEditCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand(() =>
             {
                 EditProjectDarggableIsPopup = true;
             });
         }
-        // private RelayParameterizedCommand _projectDeleteCommand;
-        public RelayParameterizedCommand ProjectDeleteCommand
+        // private RelayCommand<object> _projectDeleteCommand;
+        public RelayCommand<GridControl> ProjectDeleteCommand
         {
-            get => new(obj =>
+            get => new(ObjGridControl =>
             {
-                if (obj is GridControl ObjGridControl)
+                if (ObjGridControl is not null)
                 {
                     if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
                     {
@@ -412,7 +413,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public ICommand PartsParameterViewModelSelectedItemChangedCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 EditPartsParameterVM_Cloned = PartsParameterViewModelSelectItem.DeepCloneByJson();
                 RefreshNumberSettingSavedCollection();
@@ -718,14 +719,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ICommand _addTypeSettingCommand;
+       // private ICommand _addTypeSettingCommand;
         /// <summary>
         /// 新增排版專案
         /// </summary>
         [JsonIgnore]
         public ICommand AddTypeSettingCommand
         {
-            get => _addTypeSettingCommand??= new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj == null)
                 {
@@ -765,19 +766,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     }
                 }
             });
-            set => _addTypeSettingCommand = value;
         }
 
 
 
-        private ICommand _closeTypeSettingCommand;
         /// <summary>
         /// 關閉排版專案
         /// </summary>
         [JsonIgnore]
         public ICommand CloseTypeSettingCommand
         {
-            get => _closeTypeSettingCommand??= new RelayParameterizedCommand(async obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj == null)
                 {
@@ -823,7 +822,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
 
             });
-            set => _closeTypeSettingCommand= value;
         }
 
         //[JsonIgnore]

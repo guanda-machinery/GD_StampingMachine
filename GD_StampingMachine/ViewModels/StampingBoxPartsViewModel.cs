@@ -1,4 +1,5 @@
 ﻿
+using CommunityToolkit.Mvvm.Input;
 using DevExpress.CodeParser;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
@@ -128,7 +129,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
 
@@ -241,7 +242,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand Box_OnDropRecordCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                 {

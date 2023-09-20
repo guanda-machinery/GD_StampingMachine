@@ -28,6 +28,7 @@ using static DevExpress.XtraEditors.Mask.MaskSettings;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.XtraScheduler.Commands;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -117,7 +118,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand SetProjectFolder
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 var sfd = new System.Windows.Forms.SaveFileDialog()
                 {
@@ -135,7 +136,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand CreateProjectCommand
         {
-            get => new RelayCommand(async () =>
+            get => new RelayCommand(() =>
             {
                 Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,(string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
@@ -339,7 +340,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand DragDropCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj is DragEventArgs e)
                 {
@@ -354,7 +355,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand PreviewDragOverCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj is DragEventArgs e)
                 {
@@ -368,7 +369,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand PreviewDragEnterCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj is DragEventArgs e)
                 {

@@ -1,4 +1,5 @@
-﻿using DevExpress.Data.Extensions;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Grid;
 using GD_CommonLibrary;
@@ -117,7 +118,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public ICommand SendMachineCommand
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 bool _scheduler_FontStamping = false;
                 bool _scheduler_QRStamping = false;
@@ -207,7 +208,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public ICommand DeleteSendMachineCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj is GridControl ProjectGridControl)
                 {
@@ -257,7 +258,7 @@ namespace GD_StampingMachine.ViewModels
 
         public ICommand X_axisMoveSendMachineCommand
         {
-            get => new RelayParameterizedCommand(para =>
+            get => new RelayCommand<object>(para =>
             {
                 double MoveStep = 1;
                 if (para is double doublepara)

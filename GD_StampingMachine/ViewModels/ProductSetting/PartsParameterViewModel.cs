@@ -29,6 +29,7 @@ using Microsoft.Xaml.Behaviors;
 using DevExpress.CodeParser;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -199,13 +200,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         [JsonIgnore]
-        public RelayParameterizedCommand ProjectDeleteCommand
+        public RelayCommand<GridControl> ProjectDeleteCommand
         {
-            get => new (async obj =>
+            get => new (obj =>
             {
-                if (obj is GridControl ObjGridControl)
+                if (obj is not null)
                 {
-                    if (ObjGridControl.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
+                    if (obj.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                     {
                         if (SettingBaseVM != null)
                         {

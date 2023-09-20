@@ -1,4 +1,5 @@
-﻿using DevExpress.CodeParser;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Editors.ExpressionEditor;
@@ -15,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -164,72 +166,96 @@ namespace GD_StampingMachine.ViewModels
 
             });
         }
-        public ICommand MoveSendMachineCommand
+
+
+
+        private AsyncRelayCommand _moveSendMachineCommand;
+        public AsyncRelayCommand MoveSendMachineCommand
         {
-            get => new RelayCommand(() =>
+            get => _moveSendMachineCommand ??= new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                Task.Run(async() =>
+                try
                 {
-                    while (true)
+                    await Task.Run(async() =>
                     {
-                        try
+                        while (true)
                         {
-                            var cutableBoxPartsCollection = _boxPartsParameterVMObservableCollection.ToList().FindAll(x => x.AbsoluteMoveDistance > 0);
-                            if (cutableBoxPartsCollection.Count > 0)
+                            try
                             {
-                                var mincutableBox = cutableBoxPartsCollection.MinBy(x => x.AbsoluteMoveDistance);
-                                var minIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x == mincutableBox);
-                                var minDistance = mincutableBox.AbsoluteMoveDistance;
-                                double moveStep = 0.1;
-                                while (_boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance > 0)
+
+                                var cutableBoxPartsCollection = _boxPartsParameterVMObservableCollection.ToList().FindAll(x => x.AbsoluteMoveDistance > 0);
+                                if (token.IsCancellationRequested)
                                 {
-                                    if (moveStep > _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance)
-                                        moveStep = _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance;
-
-                                    // foreach (var smc in _boxPartsParameterVMObservableCollection)
-                                    Parallel.ForEach(_boxPartsParameterVMObservableCollection, smc =>
-                                     {
-                                         smc.AbsoluteMoveDistance -= moveStep;
-
-                                     });
-                                    await Task.Delay(2);
-                                    StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.StripSteelPosition -= moveStep;
-                                    //System.Threading.Thread.Sleep(2);
+                                    break;
                                 }
-
-                                /*int triggeredIndex = -1;
-                                do
+                                else if (cutableBoxPartsCollection.Count > 0)
                                 {
-                                    triggeredIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x.AbsoluteMoveDistanceAnimationIsTriggered);
-                                    await Task.Delay(10);
-                                }
-                                while (triggeredIndex != -1);*/
+                                    var mincutableBox = cutableBoxPartsCollection.MinBy(x => x.AbsoluteMoveDistance);
+                                    var minIndex = _boxPartsParameterVMObservableCollection.FindIndex(x => x == mincutableBox);
+                                    var minDistance = mincutableBox.AbsoluteMoveDistance;
+                                    double moveStep = 0.1;
+                                    while (_boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance > 0)
+                                    {
+                                        token.ThrowIfCancellationRequested();
 
-                                for (int i = 0; i <= 100; i++)
+                                        if (moveStep > _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance)
+                                            moveStep = _boxPartsParameterVMObservableCollection[minIndex].AbsoluteMoveDistance;
+                                        // foreach (var smc in _boxPartsParameterVMObservableCollection)
+                                        Parallel.ForEach(_boxPartsParameterVMObservableCollection, smc =>
+                                        {
+                                            smc.AbsoluteMoveDistance -= moveStep;
+
+                                        });
+                                        await Task.Delay(2);
+                                        StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.StripSteelPosition -= moveStep;
+                                        //System.Threading.Thread.Sleep(2);
+                                    }
+
+                                    for (int i = 0; i <= 100; i++)
+                                    {
+                                        token.ThrowIfCancellationRequested();
+
+                                        mincutableBox.WorkingProgress = i;
+                                        await Task.Delay(10);
+                                    }
+
+
+                                    mincutableBox.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
+                                    mincutableBox.FinishProgress = 100;
+
+                                    await Task.Delay(500);
+                                    //System.Threading.Thread.Sleep(500);
+                                }
+                                else
                                 {
-                                    mincutableBox.WorkingProgress = i;
-                                    await Task.Delay(10);
-                                    //.Threading.Thread.Sleep(10);
-                                    // await
+                                    break;
                                 }
-                                mincutableBox.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
-                                mincutableBox.FinishProgress = 100;
-
-                                await Task.Delay(500);
-                                //System.Threading.Thread.Sleep(500);
                             }
-                            else
+                            catch (OperationCanceledException)
                             {
-                                break;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
 
-                        }
-                    }
-                });
-            });
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+
+                            }
+                    }, token);
+                }
+                catch (OperationCanceledException)
+                {
+
+                }
+            }, () => !_moveSendMachineCommand.IsRunning);
+        }
+
+        public ICommand StopMoveSendMachineCommand
+        {
+
+            get => MoveSendMachineCommand.CreateCancelCommand();
         }
 
 
@@ -238,5 +264,6 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-     }
+
+    }
 }

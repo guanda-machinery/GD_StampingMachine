@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DevExpress.Data.Extensions;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -281,7 +282,7 @@ namespace GD_StampingMachine.Singletons
 
         public ICommand ProjectDistributeVMChangeCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj is ObservableCollection<ProjectDistributeViewModel> NewProjectDistributeVMObser)
                 {

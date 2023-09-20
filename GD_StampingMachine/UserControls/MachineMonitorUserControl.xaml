@@ -244,7 +244,7 @@
                     <Button Command="{Binding SetStatusSendMachineCommand}" Content="test2"/>
                     <Button Command="{Binding MoveSendMachineCommand}" Content="test3"/>
                     <Button Command="{Binding MoveSendMachineCommand}" Content="run"/>
-                    <Button Command="{Binding MoveSendMachineCommand}" Content="stop"/>
+                    <Button Command="{Binding StopMoveSendMachineCommand}" Content="stop"/>
                 </StackPanel>
 
 

@@ -18,6 +18,7 @@ using GD_CommonLibrary;
 using Newtonsoft.Json;
 using DevExpress.Mvvm.Native;
 using DevExpress.Data.Extensions;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -417,7 +418,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                return new RelayParameterizedCommand(obj =>
+                return new RelayCommand<object>(obj =>
                 {
                     if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                     {
@@ -444,7 +445,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand NoneBox_OnDragRecordOverCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<DevExpress.Xpf.Core.DragRecordOverEventArgs>(obj =>
             {
                 if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
                 {
@@ -485,7 +486,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand Box_OnDropRecordCommand
         {
-            get => new RelayParameterizedCommand(obj =>
+            get => new RelayCommand<object>(obj =>
             {
                 if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                 {

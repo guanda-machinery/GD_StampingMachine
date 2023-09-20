@@ -1,4 +1,5 @@
-﻿using DevExpress.Mvvm.Native;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Mvvm.Native;
 using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
@@ -194,7 +195,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public ICommand SetAllSeparateBoxIsEnabled
         {
-            get => new RelayParameterizedCommand(Parameter =>
+            get => new RelayCommand<object>(Parameter =>
             {
                 if(Parameter is bool ParameterBoolean)
                 {

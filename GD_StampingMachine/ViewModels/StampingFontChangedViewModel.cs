@@ -22,6 +22,8 @@ using System.Windows.Media;
 using GD_CommonLibrary;
 using Newtonsoft.Json;
 using System.Threading;
+using CommunityToolkit.Mvvm.Input;
+using DevExpress.XtraPrinting.Preview;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -239,8 +241,6 @@ namespace GD_StampingMachine.ViewModels
                         _stampingTypeModel_readyStamping = _stampingTypeVMObservableCollection.FirstOrDefault();
                     }
                 }
-
-
                 return _stampingTypeModel_readyStamping;
             }
             set
@@ -361,6 +361,47 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
+        public AsyncRelayCommand<SelectionChangedEventArgs> _stamping_SelectionChangedCommand;
+        public AsyncRelayCommand<SelectionChangedEventArgs> Stamping_SelectionChangedCommand
+        {
+            get => _stamping_SelectionChangedCommand ??= new AsyncRelayCommand<SelectionChangedEventArgs>(ExecuteMyCommandAsync
+                
+                
+                
+                
+                , 
+                e=> !_stamping_SelectionChangedCommand.IsRunning);
+        }
+        private async Task ExecuteMyCommandAsync(SelectionChangedEventArgs e, CancellationToken cancellationToken)
+        {
+            // 取消之前的操作（如果有的话）。
+           // _cancellationTokenSource?.Cancel();
+         //   _cancellationTokenSource = new CancellationTokenSource();
+
+            try
+            {
+                //cancellationToken.IsCancellationRequested
+                // 在异步操作中使用 cancellationToken 来检查取消请求。
+                //await Task.Delay(1000, cancellationToken); // 模拟一个异步操作
+                //cancellationToken.ThrowIfCancellationRequested(); // 检查是否有取消请求
+            }
+            catch (OperationCanceledException)
+            {
+                // 在取消请求时处理操作取消的情况。
+                //Result = "Command was canceled.";
+            }
+            finally
+            {
+                //_cancellationTokenSource.Dispose();
+               // _cancellationTokenSource = null;
+            }
+        }
+
+
+
+
 
 
 

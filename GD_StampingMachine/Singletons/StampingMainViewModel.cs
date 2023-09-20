@@ -21,6 +21,7 @@ using DevExpress.Mvvm;
 using System.Windows.Controls;
 using System.Windows.Media;
 using GD_CommonLibrary.Method;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -239,13 +240,12 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand DownloadAndUpdatedCommand
         {
-            get => new RelayParameterizedCommand(Parameter =>
+            get => new RelayCommand<object>(Parameter =>
             {
                 if (Parameter is Button)
                 {
                     (Parameter as Button).IsEnabled = false;
                 }
-
 
                 var ManagerVM = new DXSplashScreenViewModel
                 {

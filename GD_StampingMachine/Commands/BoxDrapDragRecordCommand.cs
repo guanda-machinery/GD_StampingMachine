@@ -1,4 +1,5 @@
-﻿using DevExpress.Mvvm.Xpf;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Mvvm.Xpf;
 using GD_CommonLibrary;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
@@ -12,11 +13,11 @@ namespace GD_StampingMachine
 {
     public partial class GD_Command
     {
-        public static RelayParameterizedCommand Box_OnDragRecordOverCommand
+        public static RelayCommand<object> Box_OnDragRecordOverCommand
         {
             get
             {
-                return new RelayParameterizedCommand(obj =>
+                return new RelayCommand<object>(obj =>
                 {
                     if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
                     {
