@@ -156,7 +156,7 @@
                         <Border Background="Gray" Grid.Column="1" Margin="-1,0,0,0" Width="50"  HorizontalAlignment="Right" />
                     </Grid>
                     <ListBox  HorizontalAlignment="Right" 
-                            MinHeight="120"     
+                            MinHeight="120"    
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"  >
                         <ListBox.RenderTransform>
@@ -165,7 +165,7 @@
 
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" >
-                                <Setter Property="Canvas.Right" Value="{Binding AbsoluteMoveDistanceAnimation}"/>
+                                <Setter Property="Canvas.Right" Value="{Binding SendMachineCommandVM.AbsoluteMoveDistanceAnimation}"/>
                                 <Setter Property="LayoutTransform" >
                                     <Setter.Value>
                                         <RotateTransform Angle="90"/>
@@ -181,11 +181,10 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Border  Margin="5,0,2,0"
                                                                                         BorderThickness="1" BorderBrush="Black" CornerRadius="5"
-                                                                                        HorizontalAlignment="Center"  Background="{Binding WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
+                                                                                        HorizontalAlignment="Center"  Background="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
                                                                                         >
                                                     <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
-                                                                                     d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
-                                                                                      Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
+                                                                                      Visibility="{Binding SendMachineCommandVM.AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
                                                         <Grid.LayoutTransform>
                                                             <ScaleTransform ScaleX="0.11"
@@ -242,9 +241,9 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
                     <Button Command="{Binding SoftSendMachineCommand}" Content="test1"/>
                     <Button Command="{Binding SetStatusSendMachineCommand}" Content="test2"/>
-                    <Button Command="{Binding MoveSendMachineCommand}" Content="test3"/>
                     <Button Command="{Binding MoveSendMachineCommand}" Content="run"/>
                     <Button Command="{Binding StopMoveSendMachineCommand}" Content="stop"/>
+                    <Button Command="{Binding StopMoveSendMachineCommand}" Content="Machining"/>
                 </StackPanel>
 
 
@@ -333,11 +332,16 @@
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>
                     </dxg:GridColumn>
-                    
-                    
-                    
 
-                    
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="AbsoluteMoveDistanceAnimation"  Width="auto" AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;0.0"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+
+
+
+
                 </dxg:GridControl>
 
                 </Grid>

@@ -8,6 +8,7 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
@@ -48,9 +49,9 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private object AbsoluteMoveDistanceAnimationLock = new object();
-        private bool AbsoluteMoveDistanceAnimationIsTriggered;
 
+
+        private CancellationTokenSource cts = new CancellationTokenSource();
         /// <summary>
         /// 工作需要移動的絕對距離(目前位置離加工位置多遠)
         /// </summary>
@@ -60,62 +61,75 @@ namespace GD_StampingMachine.ViewModels
             set
             {
                 SendMachineCommand.AbsoluteMoveDistance = value;
-
-                Task.Run(() =>
-                {
-                    AbsoluteMoveDistanceAnimationIsTriggered = false;
-                    if (AbsoluteMoveDistanceAnimation.HasValue)
-                    {
-                        lock (AbsoluteMoveDistanceAnimationLock)
-                        {
-                            AbsoluteMoveDistanceAnimationIsTriggered = true;
-
-                            var absAnimationValue = AbsoluteMoveDistanceAnimation.Value;
-                            var Diff = value - absAnimationValue;
-
-                            var AbsDiff = Math.Abs(Diff);
-                            double MoveDiff = 10;
-                            /*if (AbsDiff != 0)
-                                MoveDiff = MoveDiff / AbsDiff;*/
-                            //依照不同值給不同速度
-                            if (AbsDiff > 100)
-                            {
-                                MoveDiff = 250;
-                            }
-                            else if (AbsDiff > 10)
-                            {
-                                MoveDiff = 100;
-                            }
-                            else if (AbsDiff >= 5)
-                            {
-                                MoveDiff = 50;
-                            }
-                            else if (AbsDiff >= 0)
-                            {
-                                MoveDiff = 1;
-                            }
-
-
-                            var PercentDiff = Diff / MoveDiff;
-                            //計算要跑幾次
-                            // while (Math.Abs(Diff) > Math.Abs(PercentDiff * 3))
-                            for (double i = 0; i < Math.Abs(Diff); i += Math.Abs(PercentDiff))
-                            {
-                                AbsoluteMoveDistanceAnimation += PercentDiff;
-                                System.Threading.Thread.Sleep(10);
-                                //如果被重複觸發 立刻放棄上次的移動
-                                if (!AbsoluteMoveDistanceAnimationIsTriggered)
-                                    return;
-                            }
-                        }
-                    }
-
-                    AbsoluteMoveDistanceAnimation = value;
-                    AbsoluteMoveDistanceAnimationIsTriggered = false;
-                });
-
                 OnPropertyChanged();
+                
+                Task.Run(async () =>
+                {
+                    cts?.Cancel();
+                    await Task.Run(async () =>
+                    {
+                        try
+                        {
+                            if (AbsoluteMoveDistanceAnimation.HasValue)
+                            {
+                                var absAnimationValue = AbsoluteMoveDistanceAnimation.Value;
+                                var Diff = value - absAnimationValue;
+                                var AbsDiff = Math.Abs(Diff);
+                                double MoveDiff = 10;
+                                if (AbsDiff > 10)
+                                {
+                                    MoveDiff = 25;
+                                }
+                                else if (AbsDiff > 10)
+                                {
+                                    MoveDiff = 10;
+                                }
+                                else if (AbsDiff >= 5)
+                                {
+                                    MoveDiff = 5;
+                                }
+                                else if (AbsDiff >= 0)
+                                {
+                                    MoveDiff = 1;
+                                }
+
+                                var PercentDiff = Diff / MoveDiff;
+                                for (double i = 0; i < Math.Abs(Diff); i += Math.Abs(PercentDiff))
+                                {
+                                    if (!AbsoluteMoveDistanceAnimation.HasValue)
+                                        AbsoluteMoveDistanceAnimation = 0;
+                                    AbsoluteMoveDistanceAnimation = AbsoluteMoveDistanceAnimation+ PercentDiff;
+                                    await Task.Delay(1);
+                                    cts.Token.ThrowIfCancellationRequested();
+                                }
+                            }
+
+                        }
+                        catch (OperationCanceledException)
+                        {
+
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        finally
+                        {
+                            AbsoluteMoveDistanceAnimation = value;
+                        }
+                    }, cts.Token);
+                    cts = new CancellationTokenSource();
+                });
             } 
+        }
+        public double RelativeMoveDistance
+        {
+            get => SendMachineCommand.RelativeMoveDistance;
+            set
+            {
+                SendMachineCommand.RelativeMoveDistance = value;
+                OnPropertyChanged();
+            }
         }
 
         private double? _absoluteMoveDistanceAnimation;
@@ -175,7 +189,6 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public bool WorkScheduler_FontStamping
         {
-
             get => SendMachineCommand.WorkScheduler_FontStamping; set { SendMachineCommand.WorkScheduler_FontStamping = value; OnPropertyChanged(); }
         }
 

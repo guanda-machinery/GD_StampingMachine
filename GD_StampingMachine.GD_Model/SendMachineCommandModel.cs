@@ -42,20 +42,20 @@ namespace GD_StampingMachine.GD_Model
         /// <summary>
         /// 加工需求 QR加工 true會進行加工
         /// </summary>
-        public bool WorkScheduler_QRStamping { get; set; }
+        public bool WorkScheduler_QRStamping { get; set; } = true;
         //public double WorkScheduler_QRStamping_XOffset { get; set; }
 
 
         /// <summary>
         /// 加工需求 鋼印加工 true會進行加工
         /// </summary>
-        public bool WorkScheduler_FontStamping { get; set; }
+        public bool WorkScheduler_FontStamping { get; set; } = true;
         //public double WorkScheduler_FontStamping_XOffset { get; set; }
 
         /// <summary>
         /// 加工需求 剪斷 true會進行加工
         /// </summary>
-        public bool WorkScheduler_Shearing { get; set; }
+        public bool WorkScheduler_Shearing { get; set; } = true;
         //public double WorkScheduler_Shearing_XOffset { get; set; }when
 
         public bool IsFinish { get; set; }

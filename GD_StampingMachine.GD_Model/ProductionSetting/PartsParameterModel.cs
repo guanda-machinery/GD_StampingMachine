@@ -50,6 +50,17 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// 鐵牌
         /// </summary>
         public StampPlateSettingModel StampingPlate { get; set; } = new StampPlateSettingModel();
+   
+        /// <summary>
+        /// 機台命令
+        /// </summary>
+        public SendMachineCommandModel SendMachineCommand { get; set; } = new SendMachineCommandModel();
+
+
+
+
+
+
     }
 
 

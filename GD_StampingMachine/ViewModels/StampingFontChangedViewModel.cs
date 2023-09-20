@@ -225,10 +225,6 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private CancellationTokenSource cts;
-
-        private Task RotateTask;
-
         private StampingTypeViewModel _stampingTypeModel_readyStamping;
         public StampingTypeViewModel StampingTypeModel_ReadyStamping
         {
@@ -246,170 +242,124 @@ namespace GD_StampingMachine.ViewModels
             set
             {
                 _stampingTypeModel_readyStamping = value;
-                Task.Run(async () =>
-                {
-                    if (cts != null)
-                        cts.Cancel();
-
-                    if (RotateTask != null)
-                        await RotateTask;
-
-                    cts = new CancellationTokenSource();
-
-                    RotateTask = Task.Run(async () =>
-                    {
-                        var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
-                        if (FIndex != -1)
-                        {
-                            StampingTypeModelMartix = new();
-                            //離原點差距的角度-以逆時針計算
-
-                            double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
-                            int ClockDirection = 1;
-                            if (Direction == null)
-                            {
-                                int ReverseInt = 1;
-                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) > 180)
-                                {
-                                    ReverseInt = -1;
-                                }
-
-                                if (TargetAngle - StampingFontTurntable_RorateAngle > 0)
-                                    ClockDirection = 1 * ReverseInt;
-                                else
-                                    ClockDirection = -1 * ReverseInt;
-                            }
-                            if (Direction == SweepDirection.Clockwise)
-                            {
-                                ClockDirection = -1;
-                            }
-                            if (Direction == SweepDirection.Counterclockwise)
-                            {
-                                ClockDirection = 1;
-                            }
-                            try
-                            {
-                                StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
-                                StampingTypeModelMartix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
-                                double RotateGap = StampingTypeVMObservableCollection.Count / 4;
-
-                                var LeftIndex = FIndex + RotateGap * 1;
-                                while (LeftIndex >= StampingTypeVMObservableCollection.Count)
-                                {
-                                    LeftIndex -= StampingTypeVMObservableCollection.Count;
-                                }
-                                StampingTypeModelMartix.LeftStampingTypeModel = StampingTypeVMObservableCollection[(int)LeftIndex];
-
-                                var TopIndex = FIndex + RotateGap * 2;
-                                while (TopIndex >= StampingTypeVMObservableCollection.Count)
-                                {
-                                    TopIndex -= StampingTypeVMObservableCollection.Count;
-                                }
-                                StampingTypeModelMartix.TopStampingTypeModel = StampingTypeVMObservableCollection[(int)TopIndex];
-
-                                var RightIndex = FIndex + RotateGap * 3;
-                                while (RightIndex >= StampingTypeVMObservableCollection.Count)
-                                {
-                                    RightIndex -= StampingTypeVMObservableCollection.Count;
-                                }
-                                StampingTypeModelMartix.RightStampingTypeModel = StampingTypeVMObservableCollection[(int)RightIndex];
-
-
-                            }
-                            catch (Exception ex)
-                            {
-
-                            }
-
-                            while (true)
-                            {
-                                if (cts.IsCancellationRequested)
-                                {
-                                    break;
-                                }
-
-                                if (StampingFontTurntable_RorateAngle > 360)
-                                {
-                                    StampingFontTurntable_RorateAngle -= 360;
-                                }
-                                if (StampingFontTurntable_RorateAngle < -360)
-                                {
-                                    StampingFontTurntable_RorateAngle += 360;
-                                }
-
-
-                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
-                                    Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 1.2)
-                                {
-                                    break;
-                                }
-                                StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
-                                await Task.Delay(5);
-                            }
-
-                            if (!cts.IsCancellationRequested)
-                            {
-                                StampingFontTurntable_RorateAngle = TargetAngle;
-                                StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
-                                StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
-                            }
-                        }
-
-                    }, cts.Token);
-
-                });
                 OnPropertyChanged();
             }
         }
 
 
-        public AsyncRelayCommand<SelectionChangedEventArgs> _stamping_SelectionChangedCommand;
+        private AsyncRelayCommand<SelectionChangedEventArgs> _stamping_SelectionChangedCommand;
+        [JsonIgnore]
         public AsyncRelayCommand<SelectionChangedEventArgs> Stamping_SelectionChangedCommand
         {
-            get => _stamping_SelectionChangedCommand ??= new AsyncRelayCommand<SelectionChangedEventArgs>(ExecuteMyCommandAsync
-                
-                
-                
-                
-                , 
-                e=> !_stamping_SelectionChangedCommand.IsRunning);
+            get => _stamping_SelectionChangedCommand ??= new AsyncRelayCommand<SelectionChangedEventArgs>(async(e, token) =>
+            {
+                try
+                {
+                    var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
+                    if (FIndex != -1)
+                    {
+                        StampingTypeModelMartix = new();
+                        //離原點差距的角度-以逆時針計算
+
+                        double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
+                        int ClockDirection = 1;
+                        if (Direction == null)
+                        {
+                            int ReverseInt = 1;
+                            if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) > 180)
+                            {
+                                ReverseInt = -1;
+                            }
+
+                            if (TargetAngle - StampingFontTurntable_RorateAngle > 0)
+                                ClockDirection = 1 * ReverseInt;
+                            else
+                                ClockDirection = -1 * ReverseInt;
+                        }
+                        if (Direction == SweepDirection.Clockwise)
+                        {
+                            ClockDirection = -1;
+                        }
+                        if (Direction == SweepDirection.Counterclockwise)
+                        {
+                            ClockDirection = 1;
+                        }
+                        try
+                        {
+                            StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
+                            StampingTypeModelMartix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
+                            double RotateGap = StampingTypeVMObservableCollection.Count / 4;
+
+                            var LeftIndex = FIndex + RotateGap * 1;
+                            while (LeftIndex >= StampingTypeVMObservableCollection.Count)
+                            {
+                                LeftIndex -= StampingTypeVMObservableCollection.Count;
+                            }
+                            StampingTypeModelMartix.LeftStampingTypeModel = StampingTypeVMObservableCollection[(int)LeftIndex];
+
+                            var TopIndex = FIndex + RotateGap * 2;
+                            while (TopIndex >= StampingTypeVMObservableCollection.Count)
+                            {
+                                TopIndex -= StampingTypeVMObservableCollection.Count;
+                            }
+                            StampingTypeModelMartix.TopStampingTypeModel = StampingTypeVMObservableCollection[(int)TopIndex];
+
+                            var RightIndex = FIndex + RotateGap * 3;
+                            while (RightIndex >= StampingTypeVMObservableCollection.Count)
+                            {
+                                RightIndex -= StampingTypeVMObservableCollection.Count;
+                            }
+                            StampingTypeModelMartix.RightStampingTypeModel = StampingTypeVMObservableCollection[(int)RightIndex];
+
+
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+                        while (true)
+                        {
+                            token.ThrowIfCancellationRequested();
+
+
+                            if (StampingFontTurntable_RorateAngle > 360)
+                            {
+                                StampingFontTurntable_RorateAngle -= 360;
+                            }
+                            if (StampingFontTurntable_RorateAngle < -360)
+                            {
+                                StampingFontTurntable_RorateAngle += 360;
+                            }
+
+
+                            if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
+                                Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 1.2)
+                            {
+                                break;
+                            }
+                            StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
+                            await Task.Delay(1);
+                        }
+
+
+                        StampingFontTurntable_RorateAngle = TargetAngle;
+                        StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
+                        StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
+
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            , e=> !_stamping_SelectionChangedCommand.IsRunning);
         }
-        private async Task ExecuteMyCommandAsync(SelectionChangedEventArgs e, CancellationToken cancellationToken)
-        {
-            // 取消之前的操作（如果有的话）。
-           // _cancellationTokenSource?.Cancel();
-         //   _cancellationTokenSource = new CancellationTokenSource();
-
-            try
-            {
-                //cancellationToken.IsCancellationRequested
-                // 在异步操作中使用 cancellationToken 来检查取消请求。
-                //await Task.Delay(1000, cancellationToken); // 模拟一个异步操作
-                //cancellationToken.ThrowIfCancellationRequested(); // 检查是否有取消请求
-            }
-            catch (OperationCanceledException)
-            {
-                // 在取消请求时处理操作取消的情况。
-                //Result = "Command was canceled.";
-            }
-            finally
-            {
-                //_cancellationTokenSource.Dispose();
-               // _cancellationTokenSource = null;
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -30,7 +30,8 @@
         </Grid.RowDefinitions>
         <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
                 <StackPanel >
-                    <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
+                    <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150"
+                               IsEnabled="{Binding Stamping_SelectionChangedCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}"
                 Style="{StaticResource GD_WhiteComboBox}" SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
                 ItemsSource="{Binding StampingTypeVMObservableCollection}" >
                         <i:Interaction.Triggers>

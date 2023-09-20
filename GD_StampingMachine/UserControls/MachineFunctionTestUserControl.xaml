@@ -277,6 +277,8 @@
                                         <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="N1"/>
                                     </dxg:GridColumn.EditSettings>
                                 </dxg:GridColumn>
+                                                                
+
 
                                 <dxg:GridColumn Header="相對位置"
                                                 FieldName="ProcessingRelativeDistance"  Width="auto" AllowMoving="false"  IsSmart="True">

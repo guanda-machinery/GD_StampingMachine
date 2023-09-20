@@ -111,7 +111,6 @@ namespace GD_CommonLibrary.GD_Popup
 
             base.CommandBindings.Add(new CommandBinding(ClosePopupCommand, ClosePopupHandler, ClosePopupCanExecute));
             base.CommandBindings.Add(new CommandBinding(OpenPopupCommand, OpenPopupHandler, OpenPopupCanExecute));
-
         }
 
 

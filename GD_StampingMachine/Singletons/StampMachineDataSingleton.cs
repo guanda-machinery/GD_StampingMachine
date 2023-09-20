@@ -1183,16 +1183,13 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand CylinderControl_Up_Command
         {
-            get => new RelayCommand<object>(para =>
+            get => new AsyncRelayCommand<object>(para =>
             {
-                Task.Run(() =>
+                if (para is StampingCylinderType stampingCylinder)
                 {
-                    if (para is StampingCylinderType stampingCylinder)
-                    {
-                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Up);
-                    }
-
-                });
+                    Set_CylinderControl(stampingCylinder, DirectionsEnum.Up);
+                }
+                return Task.CompletedTask;
             });
         }
 
@@ -1202,15 +1199,13 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand CylinderControl_Middle_Command
         {
-            get => new RelayCommand<object>(para =>
+            get => new AsyncRelayCommand<object>(para =>
             {
-                Task.Run(() =>
+                if (para is StampingCylinderType stampingCylinder)
                 {
-                    if (para is StampingCylinderType stampingCylinder)
-                    {
-                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Middle);
-                    }
-                });
+                    Set_CylinderControl(stampingCylinder, DirectionsEnum.Middle);
+                }
+                return Task.CompletedTask;
             });
         }
 
@@ -1219,15 +1214,13 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ICommand CylinderControl_Down_Command
         {
-            get => new RelayCommand<object>(para =>
+            get => new AsyncRelayCommand<object>(para =>
             {
-                Task.Run(() =>
+                if (para is StampingCylinderType stampingCylinder)
                 {
-                    if (para is StampingCylinderType stampingCylinder)
-                    {
-                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Down);
-                    }
-                });
+                    Set_CylinderControl(stampingCylinder, DirectionsEnum.Down);
+                }
+                return Task.CompletedTask;
             });
         }
 
