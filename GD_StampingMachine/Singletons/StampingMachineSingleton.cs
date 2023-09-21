@@ -82,16 +82,18 @@ namespace GD_StampingMachine.Singletons
 
             };
 
-            if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.StampingFont, out StampingFontChangedViewModel SReadSFC))
+            StampingFontChangedVM = new StampingFontChangedViewModel();
+
+
+       
+            if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UseStampingFont, out ObservableCollection<StampingTypeViewModel> SReaduse))
             {
-                StampingFontChangedVM = SReadSFC;
+                StampingFontChangedVM.StampingTypeVMObservableCollection = SReaduse;
             }
             else
             {
-                StampingFontChangedVM = new StampingFontChangedViewModel
-                {
-                    StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
-                };
+                StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>();
+
                 for (int i = 1; i <= 40; i++)
                 {
                     // char
@@ -106,6 +108,15 @@ namespace GD_StampingMachine.Singletons
                             })
                         );
                 }
+            }
+
+
+             if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UnUseStampingFont, out ObservableCollection<StampingTypeViewModel> SReadunuse))
+            {
+                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = SReadunuse;
+            }
+            else
+            {
                 StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
                 {
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0}) ,

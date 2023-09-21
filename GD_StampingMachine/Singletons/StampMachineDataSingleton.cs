@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.CodeParser;
+using DevExpress.Data.Extensions;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Scheduling.Themes;
@@ -922,9 +923,14 @@ namespace GD_StampingMachine.Singletons
                                             if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, out bool _hydraEngraving_IsDown))
                                                 HydraulicEngraving_IsDown = _hydraEngraving_IsDown;
 
-
-
-
+                                            //旋轉字模
+                                            if(GD_Stamping.GetSeparateBoxNumber(out var Index))
+                                            {
+                                                if(Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(Index, out var stamptype))
+                                                {
+                                                    Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
+                                                }
+                                            }
 
 
 

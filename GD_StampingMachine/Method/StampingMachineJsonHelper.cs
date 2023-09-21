@@ -35,7 +35,8 @@ namespace GD_StampingMachine.Method
         {
             CommunicationSetting,
             IO_Table,
-            StampingFont
+            UseStampingFont,
+            UnUseStampingFont
         }
         public enum ProjectSettingEnum
         {

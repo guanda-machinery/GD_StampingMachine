@@ -25,8 +25,7 @@
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineMonitorViewModel}"
              
-              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             >
+              xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary">
 
 
         <Grid>
@@ -210,8 +209,8 @@
                                                     <ProgressBar Width="auto" Height="auto" 
                                                                                                          Visibility="{Binding IsFinish , Converter={dx:BooleanToVisibilityConverter Invert=True}}"
                                                                                                          Background="Transparent"     
-                                                                                                    Foreground="{Binding WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
-                                            Opacity="0.9" Minimum="0" Maximum="100"  Value="{Binding WorkingProgress}"
+                                                                                                    Foreground="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
+                                            Opacity="0.9" Minimum="0" Maximum="100"  Value="{Binding SendMachineCommandVM.WorkingProgress}"
                                                              Style="{StaticResource  MaterialDesignLinearProgressBar}" 
                                                              IsIndeterminate="False">
                                                         <ProgressBar.LayoutTransform>
@@ -243,7 +242,272 @@
                     <Button Command="{Binding SetStatusSendMachineCommand}" Content="test2"/>
                     <Button Command="{Binding MoveSendMachineCommand}" Content="run"/>
                     <Button Command="{Binding StopMoveSendMachineCommand}" Content="stop"/>
-                    <Button Command="{Binding StopMoveSendMachineCommand}" Content="Machining"/>
+                    <Button Command="{Binding SendWorkMachineCommand}" Content="Machining"/>
+
+                    <Button
+                        Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
+                                          CommandParameter="{StaticResource TrueValue}"
+                                           CommandTarget="{Binding ElementName=WorkControlDraggablePopup}"
+                            
+                            >
+
+                    </Button>
+                    <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup" 
+                                              AllowsTransparency="True" Margin="16"   
+                                             PlacementRectangle="0,40,0,0"
+                                             Placement="RelativePoint"
+                                             PlacementTarget="{Binding ElementName=AddProjectDistributeToggleButton}"
+                                             >
+                        <Border MinWidth="100" 
+                                                CornerRadius="10"
+                                               Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.Resources>
+                                        <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="White"/>
+                                        <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#383838"/>
+                                        <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#e8e8e8"/>
+                                        <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#4b4b4b"/>
+                                        <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#f7f7f7"/>
+                                        <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#2c2c2c"/>
+                                    </StackPanel.Resources>
+
+                                    <dxg:GridControl Name="NotArrangeWorkGridControl"
+                                        HorizontalAlignment="Left"     Grid.ColumnSpan="2"  
+                                        Grid.Row="5" 
+                                    Grid.Column="0" Margin="10,0"
+                                    Background="Transparent"  Height="300"      
+                                     CustomRowFilterCommand="{Binding NotArrangeWorkRowFilterCommand}"
+                                    Style="{StaticResource ProjectGridControl}"
+                                    AutoGenerateColumns="None"  
+                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                               >
+                                        <dxg:GridControl.View >
+                                            <dxg:TableView   
+                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        IsColumnMenuEnabled ="False"
+                                                        AllowSorting="false"
+                                                        AllowColumnFiltering="False"
+                                                        AllowColumnMoving="False"
+                                                        AllowEditing="False"
+                                                        ShowColumnHeaders="True"
+                                                        HeaderHorizontalAlignment="Center"
+                                                        VerticalScrollbarVisibility="Auto"
+                                                        HorizontalScrollbarVisibility="Auto"
+                                                        ShowHorizontalLines="False"     
+                                                        ShowVerticalLines="False"
+                                                        ShowGroupPanel="False"
+                                                        ShowSearchPanelMode="Never"
+                                                        SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                                        SearchPanelFindMode="Always"
+                                                        ShowIndicator="False"
+                                                        SearchDelay="0"                            
+                                                        AllowDragDrop="False"
+                                                        AllowDrop="False"
+                                                        ShowDragDropHint="False"
+                                                    >
+
+
+                                            </dxg:TableView>
+                                        </dxg:GridControl.View>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center" Header="{DynamicResource Text_MachiningStatus}"  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                            <dxg:GridColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{Binding Row.SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"  
+                                Width="20" 
+                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                                CornerRadius="{c:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>
+                                                </DataTemplate>
+                                            </dxg:GridColumn.CellTemplate>
+                                        </dxg:GridColumn>
+
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="AbsoluteMoveDistanceAnimation"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;0.0"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+
+
+
+
+                                    </dxg:GridControl>
+
+                                    <StackPanel>
+                                        <Button Command="{Binding ArrangeWorkCommand}"
+                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowRightBold}"/>
+                                        <Button Command="{Binding ArrangeWorkCommand}"
+                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferRight}"/>
+
+                                        <Button Command="{Binding CancelArrangeWorkCommand}"
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowLeftBold}"/>
+                                        <Button Command="{Binding CancelArrangeWorkCommand}"
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferLeft}"/>
+
+                                    </StackPanel>
+
+                                    <dxg:GridControl Name="ArrangeWorkGridControl" HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
+                                        Grid.Row="5" 
+                                    Grid.Column="0" Margin="10,0"
+                                    Background="Transparent"  Height="300" 
+                                                     
+                                     CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
+                                    Style="{StaticResource ProjectGridControl}"
+                                    AutoGenerateColumns="None" 
+                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                     >
+                                        <dxg:GridControl.View >
+                                            <dxg:TableView  
+                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        IsColumnMenuEnabled ="False"
+                                                        AllowSorting="False"
+                                                        AllowColumnFiltering="False"
+                                                        AllowColumnMoving="False"
+                                                        AllowEditing="False"
+                                                        ShowColumnHeaders="True"
+                                                        HeaderHorizontalAlignment="Center"
+                                                        VerticalScrollbarVisibility="Auto"
+                                                        HorizontalScrollbarVisibility="Auto"
+                                                        ShowHorizontalLines="False"     
+                                                        ShowVerticalLines="False"
+                                                        ShowGroupPanel="False"
+                                                        ShowSearchPanelMode="Never"
+                                                        SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                                        SearchPanelFindMode="Always"
+                                                        ShowIndicator="False"
+                                                        SearchDelay="0"                            
+                                                        AllowDragDrop="False"
+                                                        AllowDrop="False"
+                                                        ShowDragDropHint="False"
+                                                    >
+                                            </dxg:TableView>
+                                        </dxg:GridControl.View>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center" Header="{DynamicResource Text_MachiningStatus}"  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                            </dxg:GridColumn.EditSettings>
+                                            <dxg:GridColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Border Background="{Binding Row.SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"  
+                                Width="20" 
+                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                                CornerRadius="{c:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>
+                                                </DataTemplate>
+                                            </dxg:GridColumn.CellTemplate>
+                                        </dxg:GridColumn>
+
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.AbsoluteMoveDistance"  
+                                                         Binding="{Binding SendMachineCommandVM.AbsoluteMoveDistance}"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+
+
+                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.WorkIndex"  
+                                                         Binding="{Binding SendMachineCommandVM.WorkIndex}"   SortOrder="Ascending"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                            <dxg:GridColumn.EditSettings>
+                                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0;0"/>
+                                            </dxg:GridColumn.EditSettings>
+                                        </dxg:GridColumn>
+
+
+
+
+                                    </dxg:GridControl>
+
+
+
+
+
+
+
+                                </StackPanel>
+                                
+                                <Button Grid.Row="1"  HorizontalAlignment="Right"
+                                    Content="{DynamicResource btnExit}"
+                        Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  />
+                            </Grid>
+                            
+                            
+                        </Border>
+                    </GD_Popup:DraggablePopup>
+
                 </StackPanel>
 
 

@@ -55,72 +55,71 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 工作需要移動的絕對距離(目前位置離加工位置多遠)
         /// </summary>
-        public double AbsoluteMoveDistance 
-        { 
-            get => SendMachineCommand.AbsoluteMoveDistance; 
+        public double AbsoluteMoveDistance
+        {
+            get => SendMachineCommand.AbsoluteMoveDistance;
             set
             {
                 SendMachineCommand.AbsoluteMoveDistance = value;
                 OnPropertyChanged();
-                
+
+                cts?.Cancel();
+                cts = new CancellationTokenSource();
                 Task.Run(async () =>
                 {
-                    cts?.Cancel();
-                    await Task.Run(async () =>
+                    try
                     {
-                        try
+                        if (AbsoluteMoveDistanceAnimation.HasValue)
                         {
-                            if (AbsoluteMoveDistanceAnimation.HasValue)
+                            var absAnimationValue = AbsoluteMoveDistanceAnimation.Value;
+                            var Diff = value - absAnimationValue;
+                            var AbsDiff = Math.Abs(Diff);
+                            double MoveDiff = 10;
+                            if (AbsDiff > 10)
                             {
-                                var absAnimationValue = AbsoluteMoveDistanceAnimation.Value;
-                                var Diff = value - absAnimationValue;
-                                var AbsDiff = Math.Abs(Diff);
-                                double MoveDiff = 10;
-                                if (AbsDiff > 10)
-                                {
-                                    MoveDiff = 25;
-                                }
-                                else if (AbsDiff > 10)
-                                {
-                                    MoveDiff = 10;
-                                }
-                                else if (AbsDiff >= 5)
-                                {
-                                    MoveDiff = 5;
-                                }
-                                else if (AbsDiff >= 0)
-                                {
-                                    MoveDiff = 1;
-                                }
-
-                                var PercentDiff = Diff / MoveDiff;
-                                for (double i = 0; i < Math.Abs(Diff); i += Math.Abs(PercentDiff))
-                                {
-                                    if (!AbsoluteMoveDistanceAnimation.HasValue)
-                                        AbsoluteMoveDistanceAnimation = 0;
-                                    AbsoluteMoveDistanceAnimation = AbsoluteMoveDistanceAnimation+ PercentDiff;
-                                    await Task.Delay(1);
-                                    cts.Token.ThrowIfCancellationRequested();
-                                }
+                                MoveDiff = 25;
+                            }
+                            else if (AbsDiff > 10)
+                            {
+                                MoveDiff = 10;
+                            }
+                            else if (AbsDiff >= 5)
+                            {
+                                MoveDiff = 5;
+                            }
+                            else if (AbsDiff >= 0)
+                            {
+                                MoveDiff = 1;
                             }
 
+                            var PercentDiff = Diff / MoveDiff;
+                            for (double i = 0; i < Math.Abs(Diff); i += Math.Abs(PercentDiff))
+                            {
+                                if (!AbsoluteMoveDistanceAnimation.HasValue)
+                                    AbsoluteMoveDistanceAnimation = 0;
+                                AbsoluteMoveDistanceAnimation = AbsoluteMoveDistanceAnimation + PercentDiff;
+                                await Task.Delay(1);
+                                //cts.Token.ThrowIfCancellationRequested();
+                                if (cts.Token.IsCancellationRequested)
+                                    break;
+                            }
                         }
-                        catch (OperationCanceledException)
-                        {
 
-                        }
-                        catch (Exception ex)
-                        {
+                    }
+                    catch (OperationCanceledException)
+                    {
 
-                        }
-                        finally
-                        {
-                            AbsoluteMoveDistanceAnimation = value;
-                        }
-                    }, cts.Token);
-                    cts = new CancellationTokenSource();
-                });
-            } 
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    finally
+                    {
+                        AbsoluteMoveDistanceAnimation = value;
+                    }
+                }, cts.Token);
+            }
         }
         public double RelativeMoveDistance
         {
@@ -207,12 +206,19 @@ namespace GD_StampingMachine.ViewModels
             get => SendMachineCommand.IsFinish; set { SendMachineCommand.IsFinish = value; OnPropertyChanged(); }
         }
 
-
-        private bool _isWorking = false;
+        //private bool _isWorking = false;
         /// <summary>
         /// 標記為正在加工
         /// </summary>
-        public bool IsWorking { get => _isWorking; set { _isWorking = value; OnPropertyChanged(); } }
+        public bool IsWorking { get => SendMachineCommand.IsWorking; set { SendMachineCommand.IsWorking = value; OnPropertyChanged(); } }
+
+
+
+        //private int _workIndex = false;
+        /// <summary>
+        /// 加工順序標記
+        /// </summary>
+        public int WorkIndex { get => SendMachineCommand.WorkIndex; set { SendMachineCommand.WorkIndex = value; OnPropertyChanged(); } }
 
 
 
@@ -231,11 +237,18 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+
+
+
         private double _workingProgress = 0;
         /// <summary>
         /// 標記為完成
         /// </summary>
         public double WorkingProgress { get => _workingProgress; set { _workingProgress = value; OnPropertyChanged(); } }
+
+
+
+
 
     }
 

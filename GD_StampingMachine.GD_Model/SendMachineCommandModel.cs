@@ -57,9 +57,26 @@ namespace GD_StampingMachine.GD_Model
         /// </summary>
         public bool WorkScheduler_Shearing { get; set; } = true;
         //public double WorkScheduler_Shearing_XOffset { get; set; }when
-
+        /// <summary>
+        /// 標記為完成
+        /// </summary>
         public bool IsFinish { get; set; }
+        /// <summary>
+        /// 正在加工
+        /// </summary>
+        public bool IsWorking { get; set; }
 
+
+        /// <summary>
+        /// 加工順序
+        /// </summary>
+        public int WorkIndex { get; set; } = -1;
+
+
+
+        /// <summary>
+        /// 紀錄已經做過的工序
+        /// </summary>
         public SteelBeltStampingStatusEnum MachiningStatus { get; set; }
 
 

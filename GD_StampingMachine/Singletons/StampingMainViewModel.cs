@@ -111,7 +111,11 @@ namespace GD_StampingMachine.ViewModels
 
                     try
                     {
-                        if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.StampingFont, StampingFontChangedVM))
+                        if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UseStampingFont, StampingFontChangedVM.StampingTypeVMObservableCollection))
+                        {
+
+                        }
+                        if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UnUseStampingFont, StampingFontChangedVM.UnusedStampingTypeVMObservableCollection))
                         {
 
                         }

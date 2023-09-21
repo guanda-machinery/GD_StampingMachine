@@ -17,6 +17,7 @@ using DevExpress.Data.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
 using CommunityToolkit.Mvvm.Input;
+using System.Threading;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -61,21 +62,19 @@ namespace GD_StampingMachine.ViewModels
 
 
         [JsonIgnore]
-        public ICommand CreateProjectDistributeCommand
+        public AsyncRelayCommand CreateProjectDistributeCommand
         {
             get
             {
-                return new RelayCommand(() =>
+                return new AsyncRelayCommand(async (CancellationToken token) =>
                 {
                     Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,"btnAddProject");
-
                     if(NewProjectDistribute.ProjectDistributeName == null)
                     {
                         MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmpty();
                         return;
                     }
-               
-                    if(ProjectDistributeVMObservableCollection.FindIndex(x=>x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) !=-1)
+                    if (ProjectDistributeVMObservableCollection.FindIndex(x=>x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) !=-1)
                     {
                         MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName); 
                         return;
@@ -88,11 +87,19 @@ namespace GD_StampingMachine.ViewModels
                     ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                     //存檔
-                    JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+                    await Task.Run(() =>
+                    {
+                        JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+                    });
 
-                });
+                } , ()=> !CreateProjectDistributeCommand.IsRunning);
             }
         }
+
+
+
+
+
 
         /// <summary>
         /// 切換工程號

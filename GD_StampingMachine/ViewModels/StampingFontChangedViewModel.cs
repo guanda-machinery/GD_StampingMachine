@@ -36,14 +36,13 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                if (_stampingTypeVMObservableCollection == null)
-                    _stampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>();
+                _stampingTypeVMObservableCollection ??= new ObservableCollection<StampingTypeViewModel>();
                 return _stampingTypeVMObservableCollection;
             }
             set
             {
                 _stampingTypeVMObservableCollection = value;
-                OnPropertyChanged(nameof(StampingTypeVMObservableCollection));
+                OnPropertyChanged();
             }
         }
 
@@ -53,8 +52,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                if (_unusedStampingTypeVMObservableCollection == null)
-                    _unusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>();
+                _unusedStampingTypeVMObservableCollection ??= new ObservableCollection<StampingTypeViewModel>();
                 return _unusedStampingTypeVMObservableCollection;
             }
             set
@@ -69,6 +67,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 鋼印機上的字模
         /// </summary>
+        
         public StampingTypeViewModel StampingFontSelected
         {
             get
@@ -214,7 +213,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         private SweepDirection? _direction;
-
+        [JsonIgnore]
         public SweepDirection? Direction
         {
             get=> _direction; 
@@ -226,6 +225,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
         private StampingTypeViewModel _stampingTypeModel_readyStamping;
+        [JsonIgnore]
         public StampingTypeViewModel StampingTypeModel_ReadyStamping
         {
             get
@@ -437,7 +437,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
+        [JsonIgnore]
         /// <summary>
         /// DropDarg
         /// </summary>
@@ -447,12 +447,14 @@ namespace GD_StampingMachine.ViewModels
 
     public class StampingTypeModelMartixViewModel : GD_CommonLibrary.BaseViewModel
     {
+        [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingFontChangedViewModel");
         private StampingTypeViewModel _bottomStampingTypeModel;
         private StampingTypeViewModel _rightStampingTypeModel;
         private StampingTypeViewModel _topStampingTypeModel;
         private StampingTypeViewModel _leftStampingTypeModel;
 
+        [JsonIgnore]
         public StampingTypeViewModel BottomStampingTypeModel
         {
             get=> _bottomStampingTypeModel;
@@ -462,6 +464,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(BottomStampingTypeModel));
             }
         }
+        [JsonIgnore]
         public StampingTypeViewModel RightStampingTypeModel
         {
             get => _rightStampingTypeModel;
@@ -471,6 +474,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(RightStampingTypeModel));
             }
         }
+        [JsonIgnore]
         public StampingTypeViewModel TopStampingTypeModel
         {
             get => _topStampingTypeModel;
@@ -480,6 +484,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(TopStampingTypeModel));
             }
         }
+        [JsonIgnore]
         public StampingTypeViewModel LeftStampingTypeModel
         {
             get => _leftStampingTypeModel; set

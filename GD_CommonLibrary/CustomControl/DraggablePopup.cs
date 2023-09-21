@@ -243,7 +243,8 @@ namespace GD_CommonLibrary.GD_Popup
         {
             if (!executedRoutedEventArgs.Handled)
             {
-                InternalOpen(executedRoutedEventArgs.Parameter);
+                //InternalOpen(executedRoutedEventArgs.Parameter);
+                InternalOpen(true);
                 executedRoutedEventArgs.Handled = true;
             }
         }
@@ -251,18 +252,25 @@ namespace GD_CommonLibrary.GD_Popup
         {
             if (!executedRoutedEventArgs.Handled)
             {
-                InternalOpen(executedRoutedEventArgs.Parameter);
+                InternalOpen(false);
+                //InternalOpen(executedRoutedEventArgs.Parameter);
+
                 executedRoutedEventArgs.Handled = true;
             }
         }
 
         internal void InternalOpen(object parameter)
         {
-            if (bool.TryParse(parameter.ToString(), out var BooleanParameter))
-            {
-                this.IsOpen = BooleanParameter;
-            }
+            if (parameter != null)
+                if (bool.TryParse(parameter.ToString(), out var BooleanParameter))
+                    InternalOpen(BooleanParameter);  
         }
+        internal void InternalOpen(bool BooleanParameter)
+        {
+            this.IsOpen = BooleanParameter;
+        }
+
+
 
 
         private void OpenPopupCanExecute(object sender, CanExecuteRoutedEventArgs canExecuteRoutedEventArgs)

@@ -345,6 +345,7 @@
     <Compile Include="Extensions\PathCheckMethod.cs" />
     <Compile Include="Extensions\ScrollViewerExtension.cs" />
     <Compile Include="Behaviors\ProgresBarAnimateBehavior.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Method\BaseMultiValueConverter.cs" />
     <Compile Include="Method\BaseSingleton.cs" />
     <Compile Include="Method\BaseValueConverter.cs" />
