@@ -1214,17 +1214,12 @@
                             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 
                                 <GD_Customcontrols:FunctionToggleUserControl              
-                                    IsEnabled="{Binding StampMachineData.OpcuaTestIsOpen,Mode=OneWay,Converter={dx:BoolInverseConverter}}"
-                                   IsChecked="{Binding OpcuaFormBrowseServerOpenIsChecked}"
-                                    ProgressVisibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, Converter={dx:BooleanToVisibilityConverter}}"
+                                   Command="{Binding OpcuaFormBrowseServerOpenCommand}"
+                                    IsChecked="{Binding OpcuaFormBrowseServerOpenCommand.IsRunning, Mode=OneWay,Converter={dx:BoolInverseConverter}}"
+                                    ProgressVisibility="{Binding OpcuaFormBrowseServerOpenCommand.IsRunning,Mode=OneWay, Converter={dx:BooleanToVisibilityConverter}}"
                                     ControlTitleText="OPCUA"                 
                                     PackIconKind="Gear"
                                     >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PreviewMouseUp">
-                                            <i:InvokeCommandAction Command="{Binding OpcuaFormBrowseServerOpenCommand}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
                                 </GD_Customcontrols:FunctionToggleUserControl>
 
 

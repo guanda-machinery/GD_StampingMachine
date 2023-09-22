@@ -28,6 +28,8 @@ namespace GD_StampingMachine.ViewModels
         public SendMachineCommandViewModel(SendMachineCommandModel sendMachineCommand)
         {
             SendMachineCommand = sendMachineCommand;
+            if (AbsoluteMoveDistance != 0)
+                AbsoluteMoveDistanceAnimation = AbsoluteMoveDistance;
         }
 
         [JsonIgnore]

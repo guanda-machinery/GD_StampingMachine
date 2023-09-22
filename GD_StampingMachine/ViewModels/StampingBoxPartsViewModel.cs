@@ -30,8 +30,6 @@ namespace GD_StampingMachine.ViewModels
 
         [JsonIgnore]
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
-        // [JsonIgnore]
-        //public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }
 
         public bool GridControl_MachiningStatusColumnVisible { get; set; } = true;
     }
@@ -183,8 +181,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                if (_boxPartsParameterVMObservableCollection == null)
-                    _boxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+                _boxPartsParameterVMObservableCollection ??= new ObservableCollection<PartsParameterViewModel>();
                 return _boxPartsParameterVMObservableCollection;
             }
             set
@@ -195,42 +192,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private double _stripSteelPosition;
-        /// <summary>
-        /// 鋼捲位置
-        /// </summary>
-        public double StripSteelPosition
-        {
-            get => _stripSteelPosition; set { _stripSteelPosition= value; OnPropertyChanged(); }
-        }
 
-        private double _stripSteelLength;
-        /// <summary>
-        /// 鋼捲長度
-        /// </summary>
-        public double StripSteelLength
-        {
-            get => _stripSteelLength; set { _stripSteelLength = value; OnPropertyChanged(); }
-        }
-        
-
-
-        /*private ObservableCollection<PartsParameterMachiningViewModel> _boxPartsParameterVMObservableCollection;
-
-        public ObservableCollection<PartsParameterMachiningViewModel> BoxPartsParameterVMObservableCollection
-        {
-            get
-            {
-                if (_boxPartsParameterVMObservableCollection == null)
-                    _boxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterMachiningViewModel>();
-                return _boxPartsParameterVMObservableCollection;
-            }
-            set
-            {
-                _boxPartsParameterVMObservableCollection = value;
-                OnPropertyChanged();
-            }
-        }*/
 
 
         [JsonIgnore]

@@ -33,7 +33,7 @@ namespace GD_MachineConnect.Machine
 
         public async Task<bool> OpcuaConnectAsync(string HostPath, int? Port, string DataPath = null)
         {
-            if(Port.HasValue)
+            if (Port.HasValue)
                 return await OpcuaConnectAsync($"{HostPath}:{Port}", DataPath);
             else
                 return await OpcuaConnectAsync($"{HostPath}", DataPath);

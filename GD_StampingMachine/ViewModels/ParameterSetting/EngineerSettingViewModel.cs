@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -76,57 +77,56 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
         }
 
-        private bool _opcuaFormBrowseServerOpenIsChecked = false;
-        public bool OpcuaFormBrowseServerOpenIsChecked { get => _opcuaFormBrowseServerOpenIsChecked; set { _opcuaFormBrowseServerOpenIsChecked = value; OnPropertyChanged(); } }
 
 
-        public ICommand OpcuaFormBrowseServerOpenCommand
+        private AsyncRelayCommand _opcuaFormBrowseServerOpenCommand;
+        public AsyncRelayCommand OpcuaFormBrowseServerOpenCommand
         {
-            get => new RelayCommand(() =>
+            get => _opcuaFormBrowseServerOpenCommand ??= new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                OpcuaFormBrowseServerOpenIsChecked = false;
-                Task.Run(async () =>
+                try
                 {
-                    if (!GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.OpcuaTestIsOpen)
+                   await Task.Run(async () =>
                     {
-                        OpcuaFormBrowseServerOpenIsChecked = true;
                         try
                         {
                             await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
-
                         }
-                        catch (Exception ex)
+                        catch(Exception ex)
                         {
 
                         }
-                        finally
-                        {
-                            OpcuaFormBrowseServerOpenIsChecked = false;
-                        }
-                    }
-                    return;
-                });
-            });
-        }
+                    },token);
+                }
+                catch (Exception ex)
+                {
 
-        
-
-
-        public ICommand OpcuaStartScanCommand
-        {
-            get => new RelayCommand(() =>
-            {
-                GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.ScanOpcua();
-            });
+                }
+            },()=>!_opcuaFormBrowseServerOpenCommand.IsRunning);
         }
 
 
-        public ICommand OpcuaStopScanCommand
+
+
+
+
+
+
+        public AsyncRelayCommand OpcuaStartScanCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScan();
-            });
+                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+            } ,()=> !OpcuaStartScanCommand.IsRunning);
+        }
+
+
+        public AsyncRelayCommand OpcuaStopScanCommand
+        {
+            get => new AsyncRelayCommand(async () =>
+            {
+               await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
+            }, () => !OpcuaStopScanCommand.IsRunning);
         }
 
 

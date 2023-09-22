@@ -15,9 +15,12 @@
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
         <ToggleButton
+            Command="{Binding Command}"
+            CommandTarget="{Binding CommandTarget}"
+            CommandParameter="{Binding CommandParameter}"          
            IsChecked="{Binding IsChecked}"
-                      IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
-                      Content="{Binding ButtonContent, Mode=OneWay}">
+            IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
+            Content="{Binding ButtonContent, Mode=OneWay}">
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton">
                     <Setter Property="Background" Value="Transparent"/>

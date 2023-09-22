@@ -35,7 +35,7 @@ namespace GD_MachineConnect
             return this.Connect(HostPath, Port, null, UserName, Password);
         }
 
-        public const int ConntectMillisecondsTimeout = 5000;
+        public const int ConntectMillisecondsTimeout = 1000;
         public const int MoveTimeout = 5000;
 
         public bool Connect(string HostIP, int Port, string DataPath, string UserName, string Password)
@@ -63,7 +63,7 @@ namespace GD_MachineConnect
 
                 if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
                     GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
-
+                
                 var ConnectTask = GD_OpcUaClient.OpcuaConnectAsync(_hostPath, Port, DataPath);
 
                 //if (Task.WhenAny(ConnectTask, Task.Delay(MoveTimeout)) == ConnectTask)

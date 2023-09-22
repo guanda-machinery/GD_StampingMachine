@@ -51,6 +51,20 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         [JsonIgnore]
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
+
+
+
+
+        /// <summary>
+        /// 鋼捲位置
+        /// </summary>
+        public double StripSteelPosition = 0;
+        /// <summary>
+        /// 鋼捲長度
+        /// </summary>
+        public double StripSteelLength = 300000;
+
+
     }
 
     /// <summary>
@@ -123,11 +137,8 @@ namespace GD_StampingMachine.ViewModels
         public DateTime? EditDate { get => ProjectDistribute.EditDate; set { ProjectDistribute.EditDate = value; OnPropertyChanged(); } }
 
 
-        /// <summary>
-        /// 盒子與專案
-        /// </summary>
+ 
         private StampingBoxPartsViewModel _stampingBoxPartsVM;
-
         /// <summary>
         /// 盒子與專案
         /// </summary>
@@ -140,7 +151,30 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(); 
             } 
         }
-       
+
+
+
+
+        /// <summary>
+        /// 鋼捲位置
+        /// </summary>
+        public double StripSteelPosition
+        {
+            get => ProjectDistribute.StripSteelPosition; set { ProjectDistribute. StripSteelPosition = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 鋼捲長度
+        /// </summary>
+        public double StripSteelLength
+        {
+            get => ProjectDistribute.StripSteelLength; set { ProjectDistribute.StripSteelLength = value; OnPropertyChanged(); }
+        }
+
+
+
+
+
 
 
         private bool _IsInDistributePage = false;

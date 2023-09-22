@@ -1,5 +1,6 @@
 ﻿
 using DevExpress.CodeParser;
+using DevExpress.Utils.MVVM;
 using DevExpress.Xpf.Core.Internal;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json.Linq;
@@ -67,7 +68,10 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty IsCheckedBackgroundProperty = DependencyProperty.Register(nameof(IsCheckedBackground), typeof(Brush), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Brushes.Transparent, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty MouseIsOverBackgroundProperty = DependencyProperty.Register(nameof(MouseIsOverBackground), typeof(Brush), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Brushes.Gray, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty IsCheckedBorderThicknessProperty = DependencyProperty.Register(nameof(IsCheckedBorderThickness), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(2.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        
+
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
 
 
         public double Progress
@@ -88,7 +92,6 @@ namespace GD_StampingMachine.UserControls.CustomControls
             }
             set 
             {
-               
                 SetValue(IsIndeterminateProperty, value);
             }
         }
@@ -104,6 +107,8 @@ namespace GD_StampingMachine.UserControls.CustomControls
                 SetValue(ProgressVisibilityProperty, value);
             }
         }
+
+
 
 
 
@@ -287,17 +292,52 @@ namespace GD_StampingMachine.UserControls.CustomControls
         }
 
 
-        /*public object ToggleButtonContent
+
+        [Bindable(true)]
+        [Category("Action")]
+        [Localizability(LocalizationCategory.NeverLocalize)]
+        public ICommand Command
         {
             get
             {
-                return (object)GetValue(ToggleButtonContentProperty);
+                return (ICommand)GetValue(CommandProperty);
             }
             set
             {
-                SetValue(ToggleButtonContentProperty, value);
+                SetValue(CommandProperty, value);
             }
-        }*/
+        }
+
+        [Bindable(true)]
+        [Category("Action")]
+        [Localizability(LocalizationCategory.NeverLocalize)]
+        public object CommandParameter
+        {
+            get
+            {
+                return GetValue(CommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CommandParameterProperty, value);
+            }
+        }
+
+        [Bindable(true)]
+        [Category("Action")]
+        public IInputElement CommandTarget
+        {
+            get
+            {
+                return (IInputElement)GetValue(CommandTargetProperty);
+            }
+            set
+            {
+                SetValue(CommandTargetProperty, value);
+            }
+        }
+
+
 
 
 

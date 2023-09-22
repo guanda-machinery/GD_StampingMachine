@@ -224,6 +224,9 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+        CancellationTokenSource cancellationToken = new CancellationTokenSource();
+        object _lock = new object();
+
         private StampingTypeViewModel _stampingTypeModel_readyStamping;
         [JsonIgnore]
         public StampingTypeViewModel StampingTypeModel_ReadyStamping
@@ -243,6 +246,106 @@ namespace GD_StampingMachine.ViewModels
             {
                 _stampingTypeModel_readyStamping = value;
                 OnPropertyChanged();
+
+                CancellationToken token = cancellationToken.Token;
+                Task.Run(async() =>
+                {
+                    cancellationToken.Cancel();
+                    lock (_lock)
+                    {
+                        var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
+                        if (FIndex != -1)
+                        {
+                            StampingTypeModelMartix = new();
+                            //離原點差距的角度-以逆時針計算
+
+                            double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
+                            int ClockDirection = 1;
+                            if (Direction == null)
+                            {
+                                int ReverseInt = 1;
+                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) > 180)
+                                {
+                                    ReverseInt = -1;
+                                }
+
+                                if (TargetAngle - StampingFontTurntable_RorateAngle > 0)
+                                    ClockDirection = 1 * ReverseInt;
+                                else
+                                    ClockDirection = -1 * ReverseInt;
+                            }
+                            if (Direction == SweepDirection.Clockwise)
+                            {
+                                ClockDirection = -1;
+                            }
+                            if (Direction == SweepDirection.Counterclockwise)
+                            {
+                                ClockDirection = 1;
+                            }
+                            try
+                            {
+                                StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
+                                StampingTypeModelMartix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
+                                double RotateGap = StampingTypeVMObservableCollection.Count / 4;
+
+                                var LeftIndex = FIndex + RotateGap * 1;
+                                while (LeftIndex >= StampingTypeVMObservableCollection.Count)
+                                {
+                                    LeftIndex -= StampingTypeVMObservableCollection.Count;
+                                }
+                                StampingTypeModelMartix.LeftStampingTypeModel = StampingTypeVMObservableCollection[(int)LeftIndex];
+
+                                var TopIndex = FIndex + RotateGap * 2;
+                                while (TopIndex >= StampingTypeVMObservableCollection.Count)
+                                {
+                                    TopIndex -= StampingTypeVMObservableCollection.Count;
+                                }
+                                StampingTypeModelMartix.TopStampingTypeModel = StampingTypeVMObservableCollection[(int)TopIndex];
+
+                                var RightIndex = FIndex + RotateGap * 3;
+                                while (RightIndex >= StampingTypeVMObservableCollection.Count)
+                                {
+                                    RightIndex -= StampingTypeVMObservableCollection.Count;
+                                }
+                                StampingTypeModelMartix.RightStampingTypeModel = StampingTypeVMObservableCollection[(int)RightIndex];
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                            while (true)
+                            {
+                                token.ThrowIfCancellationRequested();
+                                if (StampingFontTurntable_RorateAngle > 360)
+                                {
+                                    StampingFontTurntable_RorateAngle -= 360;
+                                }
+                                if (StampingFontTurntable_RorateAngle < -360)
+                                {
+                                    StampingFontTurntable_RorateAngle += 360;
+                                }
+
+
+                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
+                                    Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 1.2)
+                                {
+                                    break;
+                                }
+                                StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
+                                Thread.Sleep(1);
+                            }
+
+                            StampingFontTurntable_RorateAngle = TargetAngle;
+                            StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
+                            StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
+
+                        }
+                        cancellationToken = new CancellationTokenSource();
+                    }
+                },token);
             }
         }
 
@@ -254,7 +357,7 @@ namespace GD_StampingMachine.ViewModels
             get => _stamping_SelectionChangedCommand ??= new AsyncRelayCommand<SelectionChangedEventArgs>(async(e, token) =>
             {
                 try
-                {
+                {/*
                     var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
                     if (FIndex != -1)
                     {
@@ -321,8 +424,6 @@ namespace GD_StampingMachine.ViewModels
                         while (true)
                         {
                             token.ThrowIfCancellationRequested();
-
-
                             if (StampingFontTurntable_RorateAngle > 360)
                             {
                                 StampingFontTurntable_RorateAngle -= 360;
@@ -347,7 +448,7 @@ namespace GD_StampingMachine.ViewModels
                         StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
                         StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
 
-                    }
+                    }*/
                 }
                 catch (OperationCanceledException)
                 {

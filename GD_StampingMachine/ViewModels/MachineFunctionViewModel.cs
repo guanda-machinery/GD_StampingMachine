@@ -60,7 +60,10 @@ namespace GD_StampingMachine.ViewModels
 
             var DegreeRate = 0;
             //啟用掃描
-            StampMachineData.ScanOpcua();
+            Task.Run(async () =>
+            {
+               await StampMachineData.StartScanOpcua();
+            });
 
         }
 
