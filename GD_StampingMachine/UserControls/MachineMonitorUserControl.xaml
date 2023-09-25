@@ -168,8 +168,14 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem" >
                                     <Setter Property="Canvas.Right" Value="{Binding SendMachineCommandVM.AbsoluteMoveDistanceAnimation , UpdateSourceTrigger=PropertyChanged}"/>
-                                    <Setter Property="Visibility" Value="{Binding SendMachineCommandVM.WorkIndex, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
-                                    ConverterParameter={StaticResource MinusOne}}"/>
+                                    <Setter Property="Visibility">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
+                                                <Binding Path="SendMachineCommandVM.WorkIndex" Converter="{GD_Common:ObjectIsEqualToBooleanConverter Invert=True}" ConverterParameter="{StaticResource MinusOne}"/>
+                                                <Binding Path="SendMachineCommandVM.IsFinish"  Converter="{GD_Common:InvertBooleanConverter}"/>
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Setter Property="LayoutTransform" >
                                         <Setter.Value>
                                             <RotateTransform Angle="90"/>
@@ -637,7 +643,9 @@
 
                         <Button Command="{Binding CancelMachiningCommand}" Content="StopTest"/>
 
-                        <Button Command="{Binding AlltoZero}"/>
+                        <Button Command="{Binding AlltoZero}" Content="set to zero"/>
+
+                        <Button Command="{Binding SendMachiningCommand}" Content="SendData"/>
 
                     </StackPanel>
 

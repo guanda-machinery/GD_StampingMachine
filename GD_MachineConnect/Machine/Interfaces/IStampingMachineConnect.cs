@@ -250,6 +250,32 @@ namespace GD_MachineConnect.Machine.Interfaces
         bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
 
         /// <summary>
+        /// 取得鐵片群資訊
+        /// </summary>
+        /// <param name="ironPlateType"></param>
+        /// <param name="StringLine"></param>
+        /// <returns></returns>
+        //bool GetIronPlateGroup(out List<object> PlateGroup);
+
+
+        /// <summary>
+        /// 設定打點位置
+        /// </summary>
+        /// <param name="AxisPos"></param>
+        /// <param name="Pos"></param>
+        /// <returns></returns>
+        public bool SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos);
+        /// <summary>
+        /// 取得打點位置
+        /// </summary>
+        /// <param name="AxisPos"></param>
+        /// <param name="Pos"></param>
+        /// <returns></returns>
+        public bool GetAxisPos(StampingOpcUANode.AxisPos AxisPos, out string Pos);
+
+
+
+        /// <summary>
         /// 鋼印Y軸現在位置
         /// </summary>
         /// <param name="position"></param>

@@ -96,6 +96,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         {
 
                         }
+
                     },token);
                 }
                 catch (Exception ex)

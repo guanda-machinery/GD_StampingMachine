@@ -357,6 +357,51 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+        public AsyncRelayCommand SendMachiningCommand
+        {
+            get => new AsyncRelayCommand(async (CancellationToken token) =>
+            {
+                //開始依序傳送資料
+
+                if (token.IsCancellationRequested)
+                    token.ThrowIfCancellationRequested();
+                while (true)
+                {
+                    var readyMachiningCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex)
+                    .ToList().FindAll(x =>
+                     !x.SendMachineCommandVM.IsFinish
+                    && x.SendMachineCommandVM.WorkIndex >= 0);
+                    if (readyMachiningCollection.Count == 0)
+                        break;
+
+                    var readymachining =  readyMachiningCollection.First();
+                    if (readymachining == null)
+                        break;
+
+                    //將兩行字上傳到機器
+                    if(await  GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.AsyncSendMachiningData(readymachining.SettingBaseVM))
+                    {
+                        //成功上傳 等待他加工完成
+                        //等待數秒後當作加工完成
+                        readymachining.SendMachineCommandVM.WorkingProgress = 0;
+
+                        await Task.Delay(5000);
+                        readymachining.SendMachineCommandVM.IsFinish = true;
+                    }
+
+
+
+
+
+                }
+
+
+
+
+            }, ()=>!SendMachiningCommand.IsRunning);
+        }
+
+
 
 
 

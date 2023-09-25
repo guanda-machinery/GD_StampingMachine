@@ -46,11 +46,16 @@ namespace GD_MachineConnect
                 if (IPAddress.TryParse(HostIP, out var ipAddress))
                 {
                     Ping myPing = new();
-                    PingReply reply = myPing.Send(ipAddress, 1000);
+                    PingReply reply = myPing.Send(ipAddress, 5000);
                     if (reply == null)
                     {
                         return false;
                     }
+                    else if(reply.Status != IPStatus.Success)
+                    {
+                        return false;
+                    }
+
                 }
 
                 string _hostPath = HostIP;
@@ -65,7 +70,6 @@ namespace GD_MachineConnect
                     GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
                 
                 var ConnectTask = GD_OpcUaClient.OpcuaConnectAsync(_hostPath, Port, DataPath);
-
                 //if (Task.WhenAny(ConnectTask, Task.Delay(MoveTimeout)) == ConnectTask)
                 if (Task.WaitAny(ConnectTask, Task.Delay(ConntectMillisecondsTimeout)) == 0)
                 {
@@ -647,15 +651,68 @@ namespace GD_MachineConnect
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_bRequestDatabit}", databit);
         }
 
+        /// <summary>
+        /// 取得下一片資訊
+        /// </summary>
+        /// <param name="ironPlateType"></param>
+        /// <param name="StringLine"></param>
+        /// <returns></returns>
         public bool GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, out string StringLine)
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName}.{ironPlateType}", out StringLine);
-
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", out StringLine);
         }
+
+        /// <summary>
+        /// 設定下一片資訊
+        /// </summary>
+        /// <param name="ironPlateType"></param>
+        /// <param name="StringLine"></param>
+        /// <returns></returns>
         public bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName}.{ironPlateType}", StringLine);
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", StringLine);
         }
+
+        /// <summary>
+        /// 取得鐵片群資訊
+        /// </summary>
+        /// <param name="ironPlateType"></param>
+        /// <param name="StringLine"></param>
+        /// <returns></returns>
+       /* public bool GetIronPlateGroup(out List<object> PlateGroup)
+        {
+            PlateGroup = new List<object> { };
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", out PlateGroup);
+        }*/
+
+
+        /// <summary>
+        /// 設定打點位置
+        /// </summary>
+        /// <param name="AxisPos"></param>
+        /// <param name="StringLine"></param>
+        /// <returns></returns>
+        public bool SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos)
+        {
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}", Pos);
+        }
+
+        /// <summary>
+        ///取得打點位置
+        /// </summary>
+        /// <param name="AxisPos"></param>
+        /// <param name="StringLine"></param>
+        /// <returns></returns>
+        public bool GetAxisPos(StampingOpcUANode.AxisPos AxisPos, out string Pos)
+        {
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}",out Pos);
+        }
+
+
+
+
+
+
 
         public bool GetEngravingYAxisPosition(out float position)
         {
@@ -736,12 +793,14 @@ namespace GD_MachineConnect
 
         public bool GetEngravingRotateStation(out int Station)
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_iTargetAStation}", out Station);
+            
+            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingRotate1.sv_rEngravingPosition}", out Station);
         }
 
         public bool SetEngravingRotateStation(int Station)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station);
+            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_rEngravingPosition}",  Station);
+            //return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station);
         }
 
         public bool SetEngravingRotateCW()
@@ -1185,6 +1244,13 @@ namespace GD_MachineConnect
                 public static string sv_bButtonBwd => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{BButton.sv_bButtonBwd}";
             }
 
+            public enum AxisPos
+            {
+                rXAxisPos1, rYAxisPos1,
+                rXAxisPos2, rYAxisPos2,
+            }
+
+
             /// <summary>
             /// 鋼印
             /// </summary>
@@ -1271,34 +1337,37 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 進行自動加工時需傳入資料 鐵片下一片資訊
                 /// </summary>
-                public static string sv_HMIIronPlateName => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}";
+                //public static string sv_HMIIronPlateName => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}";
                 /// <summary>
                 /// 鐵片下一片資訊-交握訊號
                 /// </summary>
                 public static string sv_bRequestDatabit => $"{NodeHeader}.{NodeVariable.system}.sv_bRequestDatabit";
-                /* public class sv_HMIIronPlateName
+                 public class sv_HMIIronPlateName
                  {
-                     /// <summary>
-                     /// 字串1(第一行)
-                     /// </summary>
-                     public static string sIronPlateName1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName1}";
+                    public static string NodeName => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}";
+                    /// <summary>
+                    /// 字串1(第一行)
+                    /// </summary>
+                    //public static string sIronPlateName1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName1}";
 
-                     /// <summary>
-                     /// 字串2(第二行)
-                     /// </summary>
-                     public static string sIronPlateName2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName2}";
+                    /// <summary>
+                    /// 字串2(第二行)
+                    /// </summary>
+                    //public static string sIronPlateName2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName2}";
 
 
-                     /// <summary>
-                     /// 側邊字串
-                     /// </summary>
-                     public static string sIronPlateName3 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName3}";
+                    /// <summary>
+                    /// 側邊字串
+                    /// </summary>
+                    // public static string sIronPlateName3 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName3}";
 
-                     /// <summary>
-                     /// 鐵片下一片資訊-交握訊號
-                     /// </summary>
-                     public static string sv_bRequestDatabit => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.sv_bRequestDatabit";
-                 }*/
+
+
+                    //public static string rXAxisPos1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rXAxisPos1}";
+                    //public static string  rYAxisPos1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rYAxisPos1}";
+                    //public static string rXAxisPos2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rXAxisPos2}";
+                    //public static string  rYAxisPos2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rYAxisPos2}";
+                }
 
 
 
