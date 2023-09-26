@@ -111,6 +111,8 @@ namespace GD_CommonLibrary.GD_Popup
 
             base.CommandBindings.Add(new CommandBinding(ClosePopupCommand, ClosePopupHandler, ClosePopupCanExecute));
             base.CommandBindings.Add(new CommandBinding(OpenPopupCommand, OpenPopupHandler, OpenPopupCanExecute));
+            //這邊寫一個綁定isopen的function->也就是關閉時為打開 打開時為關閉
+            base.CommandBindings.Add(new CommandBinding(PopupCommand, PopupHandler, PopupCanExecute));
         }
 
 
@@ -119,6 +121,7 @@ namespace GD_CommonLibrary.GD_Popup
         {
             ClosePopupCommand = new RoutedCommand();
             OpenPopupCommand = new RoutedCommand();
+            PopupCommand = new RoutedCommand();
         }
 
 
@@ -244,7 +247,13 @@ namespace GD_CommonLibrary.GD_Popup
             if (!executedRoutedEventArgs.Handled)
             {
                 //InternalOpen(executedRoutedEventArgs.Parameter);
-                InternalOpen(true);
+                if(executedRoutedEventArgs.Parameter is bool parameterBoolean)
+                {
+                    InternalOpen(parameterBoolean);
+                }
+                else
+                    InternalOpen(true);
+
                 executedRoutedEventArgs.Handled = true;
             }
         }
@@ -253,8 +262,6 @@ namespace GD_CommonLibrary.GD_Popup
             if (!executedRoutedEventArgs.Handled)
             {
                 InternalOpen(false);
-                //InternalOpen(executedRoutedEventArgs.Parameter);
-
                 executedRoutedEventArgs.Handled = true;
             }
         }

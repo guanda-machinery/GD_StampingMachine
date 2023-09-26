@@ -130,13 +130,39 @@
                             <TextBlock Text="Machinery" Foreground="{DynamicResource SecondaryAccentBrush}"  FontFamily="{StaticResource MaterialDesignFont}"  FontWeight="Bold" FontSize="18"/>
                     </StackPanel>
                 </StackPanel>
+                
+                
+                
+                
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0">
                         <StackPanel.Resources>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Style>
                         </StackPanel.Resources>
-                        <materialDesign:PackIcon Width="30" Height="{Binding}" Foreground="#99cff9">
+                        <Button Name="StampingWarningButton"    
+                                Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}" 
+                                CommandParameter="{Binding ElementName=StampingWarningDraggablePopup ,Path=IsOpen , Converter={GD_Common:InvertBooleanConverter}}"
+                                CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"                   
+                            Margin="0" Padding="0" Width="30" Height="30" Content="{materialDesign:PackIcon Kind=PostageStamp, Size=30}" Foreground="Red">
+
+                        </Button>
+                        <GD_Popup:DraggablePopup  Name="StampingWarningDraggablePopup"
+                                    PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
+                                    Placement="Right"  
+                                    PlacementTarget="{Binding ElementName=StampingWarningButton}"
+                                                          HorizontalAlignment="Center" >
+                            <Grid>
+                                <Border Width="50" Height="50" Background="Red"/>
+
+                            </Grid>
+                        </GD_Popup:DraggablePopup>
+
+
+
+
+
+                        <materialDesign:PackIcon Width="30" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="#99cff9">
                             <materialDesign:PackIcon.Style>
                                 <Style TargetType="materialDesign:PackIcon">
                                     <Setter Property="Kind" Value="LanDisconnect"/>

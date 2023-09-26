@@ -16,7 +16,10 @@ namespace GD_MachineConnect.Machine.Interfaces
     /// </summary>
     public partial interface IStampingMachineConnect
     {
-
+        /// <summary>
+        /// 是否已連接
+        /// </summary>
+        bool IsConnected { get; }
         /// <summary>
         /// 連線
         /// </summary>
@@ -359,17 +362,54 @@ namespace GD_MachineConnect.Machine.Interfaces
         public bool SetEngravingYAxisFwd(bool Active);
 
         /// <summary>
+        /// 鋼印目前選定的字元「位置」（非字元）
+        /// </summary>
+        /// <param name="Station"></param>
+        /// <returns></returns>
+        bool GetEngravingRotateStation(out int stationIndex);
+      
+        /// <summary>
         /// 鋼印目前選定的字元
         /// </summary>
         /// <param name="Station"></param>
         /// <returns></returns>
-        bool GetEngravingRotateStation(out int Station);
+        bool GetEngravingRotateStationChar(out char stationChar);
+
+
+
+
+
+
         /// <summary>
         /// 變更鋼印目前選定的字元命令
         /// </summary>
         /// <param name="Station"></param>
         /// <returns></returns>
         bool SetEngravingRotateStation(int Station);
+
+
+        /// <summary>
+        /// 取得轉盤上所有的字模
+        /// </summary>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        bool GetRotatingTurntableInfo(out List<char> fonts);
+        /// <summary>
+        /// 設定轉盤上單一字模
+        /// </summary>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        bool SetRotatingTurntableInfo(int index, char font);
+        /// <summary>
+        /// 設定轉盤上所有的字模
+        /// </summary>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        bool SetRotatingTurntableInfo(List<char> font);
+
+
+
+
         /// <summary>
         /// 鋼印轉盤順時針旋轉
         /// </summary>

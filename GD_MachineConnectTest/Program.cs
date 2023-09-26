@@ -11,6 +11,7 @@ using GD_MachineConnect.Machine.Interfaces;
 using Opc.Ua;
 using OpcUaHelper;
 using static System.Net.Mime.MediaTypeNames;
+using static GD_MachineConnect.Machine.GD_OpcUaHelperClient;
 
 namespace GD_MachineConnectTest
 {
@@ -37,7 +38,7 @@ namespace GD_MachineConnectTest
                 try
                 {
                     var Opcua = new GD_OpcUaHelperClient();
-                    Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
+                    /*Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                     if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                     {
                         Opcua.ReadNode("ns=4;s=APPL.Feeding1.sv_rFeedingPosition", out float Pos);
@@ -49,13 +50,16 @@ namespace GD_MachineConnectTest
                         Console.WriteLine("------------------------------------");
                         //Opcua.ReadAllReference("ns=5;i=1");
                         Opcua.Disconnect();
-                    }
+                    }*/
 
-                    IStampingMachineConnect SMachine = new GD_Stamping_Opcua();
+                    GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua();
                     if (SMachine.Connect(HostString, Port, ServerDataPath ,null,null))
                     {
-
                         SMachine.GetMachineStatus(out var status);
+                        SMachine.GetEngravingRotateStation(out var a);
+                        SMachine.GetRotatingTurntableInfo(out var b);
+
+                        // SMachine.ReadAllReference("ns=4;s=APPL.EngravingRotate1", out _);
                         SMachine.Disconnect();
                     }
                 }
@@ -68,6 +72,7 @@ namespace GD_MachineConnectTest
 
             });
 
+            Console.ReadKey();
             //opc.tcp://127.0.0.1:62541/SharpNodeSettings/OpcUaServer
             OpcUaHelper.Forms.FormBrowseServer formBrowseServer = new OpcUaHelper.Forms.FormBrowseServer(ServerUrl);
             formBrowseServer.ShowDialog();
@@ -80,22 +85,24 @@ namespace GD_MachineConnectTest
 
             while (true)
             {
-                Console.WriteLine("請輸入temp1的值(short)");
-                var shortstring = Console.ReadLine();
+                 Console.WriteLine("...");
+                // Console.WriteLine("請輸入temp1的值(short)");
+                //var shortstring = Console.ReadLine();
 
-                if (shortstring.ToLower() == "exit")
-                    break;
+                //if (shortstring.ToLower() == "exit")
+                   // break;
 
-                if (short.TryParse(shortstring, out input))
+              //  if (short.TryParse(shortstring, out input))
                 {
                     Task.Run(async () =>
                         {
                             await Task.Delay(1000);
                             var Opcua = new GD_OpcUaHelperClient();
+                            Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                             if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                             {
+                                Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1", out _);
 
-                            
                                 //var allR = Opcua.ReadAllReference();
                                 //var newid = new NodeId("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1");
 
@@ -104,7 +111,8 @@ namespace GD_MachineConnectTest
 
                                 //Opcua.ReadNode_TEST();
                                 // Opcua.ReadReference_Test();
-                                //Opcua.ReadAllReference();
+                                 List<NodeTypeValue> Listdata = new List<NodeTypeValue>();
+                                Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1" ,out Listdata);
                                 Opcua.Disconnect();
                             }
                         });

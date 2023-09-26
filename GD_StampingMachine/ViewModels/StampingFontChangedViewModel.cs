@@ -24,12 +24,16 @@ using Newtonsoft.Json;
 using System.Threading;
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.XtraPrinting.Preview;
+using GD_StampingMachine.Singletons;
 
 namespace GD_StampingMachine.ViewModels
 {
     public class StampingFontChangedViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingFontChangedViewModel");
+
+        public StampMachineDataSingleton StampMachineData { get; } = StampMachineDataSingleton.Instance;
+
 
         private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
         public ObservableCollection<StampingTypeViewModel> StampingTypeVMObservableCollection
@@ -225,7 +229,6 @@ namespace GD_StampingMachine.ViewModels
         }
 
         CancellationTokenSource cancellationToken = new CancellationTokenSource();
-        object _lock = new object();
 
         private StampingTypeViewModel _stampingTypeModel_readyStamping;
         [JsonIgnore]
@@ -244,14 +247,16 @@ namespace GD_StampingMachine.ViewModels
             }
             set
             {
+                //如果沒動則不須刷新
                 _stampingTypeModel_readyStamping = value;
                 OnPropertyChanged();
-
-                CancellationToken token = cancellationToken.Token;
-                Task.Run(async() =>
+                Task.Run(async () =>
                 {
                     cancellationToken.Cancel();
-                    lock (_lock)
+                    await Task.Delay(100);
+                    cancellationToken = new CancellationTokenSource();
+                    CancellationToken token = cancellationToken.Token;
+                    await Task.Run(async () =>
                     {
                         var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
                         if (FIndex != -1)
@@ -318,7 +323,8 @@ namespace GD_StampingMachine.ViewModels
 
                             while (true)
                             {
-                                token.ThrowIfCancellationRequested();
+                                if (token.IsCancellationRequested)
+                                    break;
                                 if (StampingFontTurntable_RorateAngle > 360)
                                 {
                                     StampingFontTurntable_RorateAngle -= 360;
@@ -335,7 +341,8 @@ namespace GD_StampingMachine.ViewModels
                                     break;
                                 }
                                 StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
-                                Thread.Sleep(1);
+                                //Thread.Sleep(1);
+                                await Task.Delay(1);
                             }
 
                             StampingFontTurntable_RorateAngle = TargetAngle;
@@ -343,9 +350,8 @@ namespace GD_StampingMachine.ViewModels
                             StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
 
                         }
-                        cancellationToken = new CancellationTokenSource();
-                    }
-                },token);
+                    }, token);
+                });
             }
         }
 
@@ -357,7 +363,9 @@ namespace GD_StampingMachine.ViewModels
             get => _stamping_SelectionChangedCommand ??= new AsyncRelayCommand<SelectionChangedEventArgs>(async(e, token) =>
             {
                 try
-                {/*
+                {
+                    
+                    /*
                     var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
                     if (FIndex != -1)
                     {

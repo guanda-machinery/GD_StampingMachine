@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
+using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Scheduling.Themes;
@@ -771,8 +772,19 @@ namespace GD_StampingMachine.Singletons
                 _ => new GD_Stamping_Opcua(),
             };
         }
-        
 
+        ~StampMachineDataSingleton()
+        {
+            try
+            {
+                GD_Stamping.Disconnect();
+            }
+            catch 
+            {
+
+            }
+
+        }
 
 
 
@@ -839,16 +851,29 @@ namespace GD_StampingMachine.Singletons
                         {
                             if (cancelToken.IsCancellationRequested)
                                 cancelToken.ThrowIfCancellationRequested();
-
+                            
                             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                             {
                                 if (GD_Stamping.GetSpeed(out double axisSpeed))
                                     FeedingSpeed = axisSpeed;
-                                GD_Stamping.Disconnect();
+
+                                if (GD_Stamping.GetRotatingTurntableInfo(out var rotatingTurntableInfo))
+                                {
+                                    RotatingTurntableInfo = rotatingTurntableInfo.ToObservableCollection();
+                                }
+
+                                 
                                 IsInit = true;
                                 break;
                             }
                             await Task.Delay(100);
+
+
+
+
+
+
+
                         }
                         if (IsInit)
                         {
@@ -904,14 +929,18 @@ namespace GD_StampingMachine.Singletons
                                         if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, out bool _hydraEngraving_IsDown))
                                             HydraulicEngraving_IsDown = _hydraEngraving_IsDown;
 
-                                        //旋轉字模
-                                        if (GD_Stamping.GetSeparateBoxNumber(out var Index))
+                                  
+
+                                        if (GD_Stamping.GetEngravingRotateStation(out var engravingRotateStation))
                                         {
-                                            if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(Index, out var stamptype))
+                                            if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(engravingRotateStation, out var stamptype))
                                             {
                                                 Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
                                             }
                                         }
+
+
+
 
 
 
@@ -924,7 +953,8 @@ namespace GD_StampingMachine.Singletons
                                             IronPlateName2 = sIronPlateString2;
                                         if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3, out string sIronPlateString3))
                                             IronPlateName3 = sIronPlateString3;
-
+                                        
+                                        //箱子
                                         if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
                                         {
                                             SeparateBoxIndex = boxIndex;
@@ -984,11 +1014,12 @@ namespace GD_StampingMachine.Singletons
                                 }
                                 finally
                                 {
-                                    GD_Stamping.Disconnect();
+                                     
                                 }
                                 await Task.Delay(100);
                             }
                         }
+                        await Task.Delay(1000);
                     }
                 }
                 catch (OperationCanceledException e)
@@ -1026,6 +1057,7 @@ namespace GD_StampingMachine.Singletons
                 if(ScanTask!=null)
                     if (ScanTask.Status == TaskStatus.Running)
                         await ScanTask;
+
                 //回復狀態
             });
             return;
@@ -1058,7 +1090,7 @@ namespace GD_StampingMachine.Singletons
                 if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                 {
                     GD_Stamping.FeedingPositionReturnToStandbyPosition();
-                    GD_Stamping.Disconnect();
+                     
                 }
             });
         }
@@ -1105,7 +1137,7 @@ namespace GD_StampingMachine.Singletons
                                 var value = FPosition2 - FPosition;
 
 
-                                GD_Stamping.Disconnect(); 
+                                  
                             }*/
                         }
                     }
@@ -1128,7 +1160,7 @@ namespace GD_StampingMachine.Singletons
                                 var ret1 = GD_Stamping.FeedingPositionFwd(false);
                                 var ret2 =GD_Stamping.FeedingPositionBwd(false);
                                 
-                                GD_Stamping.Disconnect();
+                                 
 
                                 if (ret1 && ret2)
                                     break;
@@ -1208,7 +1240,7 @@ namespace GD_StampingMachine.Singletons
                     {
                         if(GD_Stamping.GetHydraulicPumpMotor(out var isActive))
                             GD_Stamping.SetHydraulicPumpMotor(!isActive);
-                        GD_Stamping.Disconnect();
+                         
                     }
 
                 });
@@ -1318,7 +1350,7 @@ namespace GD_StampingMachine.Singletons
                         ret = GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName2, secondLine);
                         ret = GD_Stamping.SetRequestDatabit(false);
                     }
-                    GD_Stamping.Disconnect();
+                     
                     return ret;
                 }
                 else
@@ -1343,7 +1375,7 @@ namespace GD_StampingMachine.Singletons
             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetIronPlateName(PlateName, FontString);
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1354,7 +1386,7 @@ namespace GD_StampingMachine.Singletons
             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction);
-                GD_Stamping.Disconnect();
+                 
             }
         }
 
@@ -1365,7 +1397,7 @@ namespace GD_StampingMachine.Singletons
             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetSeparateBoxNumber(Index);
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1377,7 +1409,7 @@ namespace GD_StampingMachine.Singletons
             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.GetSeparateBoxNumber(out Index);
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1500,7 +1532,7 @@ namespace GD_StampingMachine.Singletons
                 ret = GD_Stamping.SetEngravingYAxisBwd(false);
                 ret = GD_Stamping.SetEngravingYAxisFwd(false);
                 ret = GD_Stamping.SetEngravingYAxisToStandbyPos();
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1517,7 +1549,7 @@ namespace GD_StampingMachine.Singletons
             {
                 ret = GD_Stamping.SetEngravingYAxisBwd(false);
                 ret = GD_Stamping.SetEngravingYAxisFwd(IsMove);
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1532,7 +1564,7 @@ namespace GD_StampingMachine.Singletons
             {
                 ret = GD_Stamping.SetEngravingYAxisFwd(false);
                 ret = GD_Stamping.SetEngravingYAxisBwd(IsMove);
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1552,7 +1584,7 @@ namespace GD_StampingMachine.Singletons
             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetEngravingRotateCW();
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1567,7 +1599,7 @@ namespace GD_StampingMachine.Singletons
             if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
             {
                 ret = GD_Stamping.SetEngravingRotateCCW();
-                GD_Stamping.Disconnect();
+                 
             }
             return ret;
         }
@@ -1589,7 +1621,7 @@ namespace GD_StampingMachine.Singletons
                     if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                     {
                         GD_Stamping.SetSpeed(_feedingSpeed);
-                        GD_Stamping.Disconnect();
+                         
                     }
                 });
                 OnPropertyChanged();
@@ -1597,6 +1629,15 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+
+        private ObservableCollection<char> _rotatingTurntableInfo;
+        /// <summary>
+        /// 字模轉盤上的字
+        /// </summary>
+        public ObservableCollection<char> RotatingTurntableInfo
+        {
+            get => _rotatingTurntableInfo;set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
+        }
 
 
         private float _feedingPosition;

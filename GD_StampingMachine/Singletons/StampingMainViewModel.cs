@@ -70,12 +70,12 @@ namespace GD_StampingMachine.ViewModels
 
             StampingMachineJsonHelper JsonHM = new();
 
-            Task.Run(() =>
+            Task.Run(async() =>
             {
                 while (true)
                 {
-                    OnPropertyChanged(nameof(DateTimeNow));
-                    Thread.Sleep(100);
+                    DateTimeNow = DateTime.Now;
+                    await Task.Delay(100);
                 }
             });
 
@@ -135,11 +135,11 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-        //private DateTime _dateTimeNow = new DateTime();
+        private DateTime _dateTimeNow = new DateTime();
         [JsonIgnore]
         public DateTime DateTimeNow
         {
-            get => DateTime.Now;
+            get => _dateTimeNow; set { _dateTimeNow =value; OnPropertyChanged(); } 
         }
      
         [JsonIgnore]

@@ -217,16 +217,37 @@ namespace GD_StampingMachine.Singletons
                 SelectedProjectDistributeVM = TypeSettingSettingVM.ProjectDistributeVMObservableCollection[index_projectDistributeVM];
         }
 
+        /// <summary>
+        /// 機台規格
+        /// </summary>
         public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; }
+        /// <summary>
+        /// 字模
+        /// </summary>
         public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
+        /// <summary>
+        /// 參數設定
+        /// </summary>
         public ParameterSettingViewModel ParameterSettingVM { get; set; }
+        /// <summary>
+        /// 製品設定
+        /// </summary>
         public ProductSettingViewModel ProductSettingVM { get; set; }
+        /// <summary>
+        /// 生產設定
+        /// </summary>
         public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
+        /// <summary>
+        /// 機台監控
+        /// </summary>
         public MachineMonitorViewModel MachineMonitorVM
         {
             get;
             set;
         }
+        /// <summary>
+        /// 機台功能
+        /// </summary>
         public MachineFunctionViewModel MachineFunctionVM
         {
             get;

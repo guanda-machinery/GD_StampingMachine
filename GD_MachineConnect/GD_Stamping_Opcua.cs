@@ -1,10 +1,12 @@
-﻿using GD_CommonLibrary.Method;
+﻿using GD_CommonLibrary.Extensions;
+using GD_CommonLibrary.Method;
 using GD_MachineConnect.Enums;
 using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using Opc.Ua;
+using OpcUaHelper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,19 +14,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
+using static GD_MachineConnect.Machine.GD_OpcUaHelperClient;
 
 namespace GD_MachineConnect
 {
     public class GD_Stamping_Opcua : IStampingMachineConnect
     {
+        /// <summary>
+        /// 實作長連接
+        /// </summary>
         private readonly GD_OpcUaHelperClient GD_OpcUaClient = new();
-
+        ~GD_Stamping_Opcua()
+        {
+            Disconnect();
+        }
 
         public bool Connect(string HostPath, int Port)
         {
@@ -40,9 +50,11 @@ namespace GD_MachineConnect
 
         public bool Connect(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
-            bool Result = false;
             try
             {
+                if (IsConnected)
+                    return true;
+
                 if (IPAddress.TryParse(HostIP, out var ipAddress))
                 {
                     Ping myPing = new();
@@ -74,10 +86,10 @@ namespace GD_MachineConnect
                 if (Task.WaitAny(ConnectTask, Task.Delay(ConntectMillisecondsTimeout)) == 0)
                 {
                     ConnectTask.Wait();
-                    Result =  ConnectTask.Result;
                 }
                 else
                 {
+                    Disconnect();
                    // cancellationToken.Cancel();
                 }
             }
@@ -86,13 +98,17 @@ namespace GD_MachineConnect
                 Debugger.Break();
             }
 
-            return Result;
+            return IsConnected;
         }
+
+        public bool IsConnected => GD_OpcUaClient.IsConnected;
+
         public void Disconnect()
         {
             try
             {
-                GD_OpcUaClient.Disconnect();
+                if(GD_OpcUaClient.IsConnected)
+                    GD_OpcUaClient.Disconnect();
             }
             catch
             {
@@ -117,6 +133,16 @@ namespace GD_MachineConnect
             return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
             //throw new NotImplementedException();
         }
+
+        public bool GetIronPlateData(int index , out object IronPlateData)
+        {
+            IronPlateData = null;
+            // return GD_OpcUaClient.ReadNode(StampingOpcUANode.system.sv_IronPlateData, out IronPlateData);
+            return false;
+        }
+            //ns=4;s=APPL.system.[1]
+
+
 
         public bool GetAxisSetting(out AxisSettingModel AxisSetting)
         {
@@ -792,16 +818,88 @@ namespace GD_MachineConnect
 
 
         public bool GetEngravingRotateStation(out int Station)
-        {
-            
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingRotate1.sv_rEngravingPosition}", out Station);
+        { 
+            Station = -1;
+            var ret = GD_OpcUaClient.ReadNode<int>($"{StampingOpcUANode.EngravingRotate1.sv_rEngravingPosition}", out var StationIndex);
+            if (ret)
+            {
+                //※須注意 目前使用的函式回傳index時是1為起始 所以需-1才能符合其他位置
+                Station = StationIndex - 1;
+            }
+            return ret;
         }
+
+        public bool GetEngravingRotateStationChar(out char stationChar)
+        {
+            stationChar = new char();
+            if (GetEngravingRotateStation(out int index) && GetRotatingTurntableInfo(out var tableInfo))
+            {
+                try
+                {
+                    stationChar = tableInfo[index];
+                    return true;
+                }
+                catch
+                {
+                   
+                }
+            }
+            return false;
+
+
+        }
+
+
 
         public bool SetEngravingRotateStation(int Station)
         {
             return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_rEngravingPosition}",  Station);
             //return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station);
         }
+
+        private bool GetRotatingTurntableInfoINT(out int[] fonts) 
+            =>  GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", out fonts);
+        
+        private bool SetRotatingTurntableInfoINT(int[] fonts)     
+            => GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", fonts);
+        
+
+
+
+        public bool GetRotatingTurntableInfo(out List<char> fonts)
+        {
+            fonts = new();
+            var ret = GetRotatingTurntableInfoINT(out var codeInfoArray);
+            if(ret)
+            {
+                fonts= codeInfoArray.ToCharList();
+            }
+            return ret;
+        }
+
+
+        public bool SetRotatingTurntableInfo(int index , char font)
+        {
+            var ret = GetRotatingTurntableInfoINT(out int[] codeInfoArray);
+            if (ret)
+            {
+               //確認沒超出範圍
+               if (codeInfoArray.ToList().Count > index)
+                {
+                    codeInfoArray[index] = font.ToInt();
+                    return SetRotatingTurntableInfoINT(codeInfoArray);
+                }
+            }
+
+            return false;
+        }
+
+        public bool SetRotatingTurntableInfo(List<char> fonts)
+            => SetRotatingTurntableInfoINT(fonts.ToIntList().ToArray());
+
+
+
+
 
         public bool SetEngravingRotateCW()
         {
@@ -834,7 +932,7 @@ namespace GD_MachineConnect
             return false;
         }
 
-
+        
 
 
 
@@ -847,7 +945,17 @@ namespace GD_MachineConnect
         {
             return GD_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
         }
-            
+
+        public bool ReadAllReference(string NodeTreeString, out List<NodeTypeValue> NodeValue)
+        {
+          return  GD_OpcUaClient.ReadAllReference(NodeTreeString, out  NodeValue);
+        }
+
+
+
+
+
+
 
 
 
@@ -1342,7 +1450,29 @@ namespace GD_MachineConnect
                 /// 鐵片下一片資訊-交握訊號
                 /// </summary>
                 public static string sv_bRequestDatabit => $"{NodeHeader}.{NodeVariable.system}.sv_bRequestDatabit";
-                 public class sv_HMIIronPlateName
+
+                public static string sv_IronPlateData => $"{NodeHeader}.{NodeVariable.system}.sv_IronPlateData";
+               /// <summary>
+               /// 特定鐵片
+               /// </summary>
+               /// <param name="index"></param>
+               /// <returns></returns>
+                public static string sv_IronPlateDataOfIndex(int index) =>   $"{NodeHeader}.{NodeVariable.system}.sv_IronPlateData.[{index}]";
+
+                /// <summary>
+                /// 人機上直接輸入對應字碼的ascii code滿共40格
+                /// </summary>
+                public static string sv_RotateCodeDefinition => $"{NodeHeader}.{NodeVariable.system}.sv_RotateCodeDefinition";
+                /// <summary>
+                /// 人機上直接輸入對應字碼的ascii code滿共40格
+                /// </summary>
+                /// <param name="index"></param>
+                /// <returns></returns>
+                public static string sv_RotateCodeDefinitionOfIndex(int index) => $"{NodeHeader}.{NodeVariable.system}.sv_RotateCodeDefinition[{index}]";
+                
+
+
+                public class sv_HMIIronPlateName
                  {
                     public static string NodeName => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}";
                     /// <summary>

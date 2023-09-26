@@ -31,6 +31,8 @@ namespace GD_MachineConnect.Machine
             set => m_OpcUaClient.UserIdentity = value;
         }
 
+        public bool IsConnected => m_OpcUaClient.Connected;
+
         public async Task<bool> OpcuaConnectAsync(string HostPath, int? Port, string DataPath = null)
         {
             if (Port.HasValue)
@@ -40,6 +42,9 @@ namespace GD_MachineConnect.Machine
         }
         public async Task<bool> OpcuaConnectAsync(string HostPath, string DataPath = null)
         {
+            if (!HostPath.Contains("opc.tcp://"))
+                HostPath = "opc.tcp://" + HostPath;
+
             var BaseUrl = new Uri(HostPath);
             var CombineUrl = new Uri(BaseUrl, DataPath);
             try
@@ -132,13 +137,20 @@ namespace GD_MachineConnect.Machine
                     var NextSearchList = new List<string>();
                     foreach (var NodeIDString in NodeSearchList)
                     {
-                        ReferenceDescription[] references = m_OpcUaClient.BrowseNodeReference(NodeIDString);
-                        foreach (var Ref in references)
+                        try
                         {
+                            ReferenceDescription[] references = m_OpcUaClient.BrowseNodeReference(NodeIDString);
+                            foreach (var Ref in references)
+                            {
 
-                            //展開
-                            NextSearchList.Add(Ref.NodeId.ToString());
-                            referencesList.Add(Ref);
+                                //展開
+                                NextSearchList.Add(Ref.NodeId.ToString());
+                                referencesList.Add(Ref);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
                         }
                     }
                     ExistedNodeIDStringList.AddRange(NodeSearchList);
@@ -152,20 +164,27 @@ namespace GD_MachineConnect.Machine
                 var GetNodeValue = new List<NodeTypeValue>();
                 referencesList.ForEach(reference =>
                 {
-                    //ReadNoteAttributes(reference.NodeId.ToString());
-                    ReadNode(reference.NodeId.ToString(), out object NValue);
-
-                    GetNodeValue.Add(new NodeTypeValue()
+                    try
                     {
-                        NodeID = reference.NodeId,
-                        NodeDisplayName = reference.DisplayName,
-                        NodeValue = NValue
-                    });
+                        //ReadNoteAttributes(reference.NodeId.ToString());
+                        ReadNode(reference.NodeId.ToString(), out object NValue);
 
+                        GetNodeValue.Add(new NodeTypeValue()
+                        {
+                            NodeID = reference.NodeId,
+                            NodeDisplayName = reference.DisplayName,
+                            NodeValue = NValue
+                        });
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 });
                 //印出節點資料
                 GetNodeValue.ForEach(NValue =>
                 {
+                    try { 
                     Type NodeType = null;
                     if (NValue.NodeValue != null)
                         NodeType = NValue.NodeValue.GetType();
@@ -179,7 +198,14 @@ namespace GD_MachineConnect.Machine
                     Console.Write(string.Format("{0,-20}", nameof(NValue.NodeValue)));
                     Console.WriteLine(string.Format("{0,0}", NValue.NodeValue));
                     Console.WriteLine("".PadLeft(50, '-'));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+
                 });
+
 
                 NodeValue = GetNodeValue;
                 return true;
