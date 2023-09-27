@@ -134,12 +134,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
         public override ICommand SaveSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
                 var FIndex = QRSettingModelCollection.ToList().FindIndex(x => x.NumberSettingMode == QRSettingVM.NumberSettingMode);
                 if (FIndex != -1)
                 {
-                    if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                     {
                         QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
                     }

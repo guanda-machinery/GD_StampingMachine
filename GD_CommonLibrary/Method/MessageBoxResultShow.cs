@@ -11,14 +11,13 @@ namespace GD_CommonLibrary.Method
 {
     public class MessageBoxResultShow
     {
-        protected static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
+        public static async Task<MessageBoxResult> Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
             MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
-
             var NewWindow = new Window();
             NewWindow.Topmost = true;
 
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
                MessageTitle,
@@ -27,25 +26,27 @@ namespace GD_CommonLibrary.Method
                MessageBoxResult.None,
                MessageBoxOptions.None,
                DevExpress.Xpf.Core.FloatingMode.Window);
-            })).Wait();
+            }));
             return MessageBoxReturn;
         }
 
-        public static MessageBoxResult ShowYesNo(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)
+
+
+        public static async Task<MessageBoxResult> ShowYesNo(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)
         {
-            return Show(MessageTitle, MessageString,
+            return await Show(MessageTitle, MessageString,
                 MessageBoxButton.YesNo, BoxImage);
         }
 
-        public static void ShowOK(string MessageTitle, string MessageString , MessageBoxImage BoxImage = MessageBoxImage.Information)
+        public static async Task ShowOK(string MessageTitle, string MessageString , MessageBoxImage BoxImage = MessageBoxImage.Information)
         {
-           Show(MessageTitle, MessageString,
+            await Show(MessageTitle, MessageString,
                 MessageBoxButton.OK, BoxImage);
         }
 
-        public static void ShowException(Exception ex)
+        public static async Task ShowException(Exception ex)
         {
-            Show(
+            await Show(
                          (string)Application.Current.TryFindResource("Text_notify"),
                          ex.Message,
                          MessageBoxButton.OK, MessageBoxImage.Warning);

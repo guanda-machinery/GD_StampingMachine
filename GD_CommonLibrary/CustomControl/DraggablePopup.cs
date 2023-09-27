@@ -242,6 +242,7 @@ namespace GD_CommonLibrary.GD_Popup
 
         public static readonly RoutedCommand OpenPopupCommand;
         public static readonly RoutedCommand ClosePopupCommand;
+        public static readonly RoutedCommand PopupCommand;
         private void OpenPopupHandler(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
         {
             if (!executedRoutedEventArgs.Handled)
@@ -262,6 +263,15 @@ namespace GD_CommonLibrary.GD_Popup
             if (!executedRoutedEventArgs.Handled)
             {
                 InternalOpen(false);
+                executedRoutedEventArgs.Handled = true;
+            }
+        }
+
+        private void PopupHandler(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
+        {
+            if (!executedRoutedEventArgs.Handled)
+            {
+                InternalOpen(!IsOpen);
                 executedRoutedEventArgs.Handled = true;
             }
         }
@@ -290,6 +300,10 @@ namespace GD_CommonLibrary.GD_Popup
             canExecuteRoutedEventArgs.CanExecute = this.IsOpen;
         }
 
+        private void PopupCanExecute(object sender, CanExecuteRoutedEventArgs canExecuteRoutedEventArgs)
+        {
+            canExecuteRoutedEventArgs.CanExecute = true;
+        }
 
 
 

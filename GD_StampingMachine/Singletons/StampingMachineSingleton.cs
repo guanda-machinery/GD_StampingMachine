@@ -38,7 +38,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        protected override void Init()
+        protected override async void Init()
         {
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 

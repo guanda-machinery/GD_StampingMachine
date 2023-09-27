@@ -206,9 +206,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         [JsonIgnore]
-        public RelayCommand<GridControl> ProjectDeleteCommand
+        public AsyncRelayCommand<GridControl> ProjectDeleteCommand
         {
-            get => new (obj =>
+            get => new (async obj =>
             {
                 if (obj is not null)
                 {
@@ -216,7 +216,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         if (SettingBaseVM != null)
                         {
-                            if (MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.NumberSettingMode))
+                            if (await MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.NumberSettingMode))
                             {
                                 GridItemSource.Remove(this);
                             }

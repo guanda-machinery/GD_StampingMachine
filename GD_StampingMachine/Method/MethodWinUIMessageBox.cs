@@ -13,15 +13,15 @@ namespace GD_StampingMachine.Method
     {
 
 
-        public static bool AskOverwriteOrNot()
+        public static async Task<bool> AskOverwriteOrNot()
         {
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"));
-            return MessageBoxReturn == MessageBoxResult.Yes;
+            return await MessageBoxReturn == MessageBoxResult.Yes;
         }
 
-        public static bool AskDelProject(string NumberSetting)
+        public static async Task<bool> AskDelProject(string NumberSetting)
         {
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -29,14 +29,14 @@ namespace GD_StampingMachine.Method
                 "\r\n" +
                 $"{NumberSetting}" +
                 "?");
-            return MessageBoxReturn == MessageBoxResult.Yes;
+            return await MessageBoxReturn == MessageBoxResult.Yes;
         }
         /// <summary>
         /// 詢問關閉專案
         /// </summary>
         /// <param name="NumberSetting"></param>
         /// <returns></returns>
-        public static bool AskCloseProject(string ProjectName)
+        public static async Task<bool> AskCloseProject(string ProjectName)
         {
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -47,14 +47,14 @@ namespace GD_StampingMachine.Method
                 $"{ProjectName}" +
                 "?");
 
-            return MessageBoxReturn == MessageBoxResult.Yes;
+            return await MessageBoxReturn == MessageBoxResult.Yes;
         }
 
         /// <summary>
         /// 儲存成功
         /// </summary>
         /// <param name="IsSuccessful"></param>
-        public static void SaveSuccessful(string Path  ,bool IsSuccessful)
+        public static async Task SaveSuccessful(string Path  ,bool IsSuccessful)
         {
             string _message = string.Empty;
             if (!string.IsNullOrEmpty(Path))
@@ -70,7 +70,7 @@ namespace GD_StampingMachine.Method
             {
                 _message +=  (string)Application.Current.TryFindResource("Text_SaveFail");
             }
-            ShowOK(
+       await     ShowOK(
                        (string)Application.Current.TryFindResource("Text_notify"),
                        _message);
         }
@@ -79,7 +79,7 @@ namespace GD_StampingMachine.Method
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="IsSuccessful"></param>
-        public static void LoadSuccessful(string Path , bool IsSuccessful)
+        public static async Task LoadSuccessful(string Path , bool IsSuccessful)
         {
             string _message = Path;
             if (IsSuccessful)
@@ -90,28 +90,28 @@ namespace GD_StampingMachine.Method
             {
                 _message += "\r\n" + (string)Application.Current.TryFindResource("Text_LoadFail");
             }
-            ShowOK(
+            await ShowOK(
                        (string)Application.Current.TryFindResource("Text_notify"),
                        _message);
         }
 
 
 
-        public static void CanNotCloseProject()
+        public static async Task CanNotCloseProject()
         {
-            ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
+           await ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
         }
 
-        public static void CanNotDeleteProject()
+        public static async Task CanNotDeleteProject()
         {
-            ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"));
+            await ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"));
         }
 
 
 
-        public static void ProjectIsExisted_CantOpenProject()
+        public static async Task ProjectIsExisted_CantOpenProject()
         {
-            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
                 , MessageBoxImage.Warning);
         }
@@ -120,9 +120,9 @@ namespace GD_StampingMachine.Method
         /// <summary>
         /// 無法建立專案
         /// </summary>
-        public static void CanNotCreateProjectFileNameIsEmpty()
+        public static async Task CanNotCreateProjectFileNameIsEmpty()
         {
-            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty") 
                 , MessageBoxImage.Warning);
         }
@@ -130,22 +130,22 @@ namespace GD_StampingMachine.Method
         /// <summary>
         /// 無法建立專案
         /// </summary>
-        public static void CanNotCreateProject(string ProjectName =null)
+        public async static Task CanNotCreateProject(string ProjectName =null)
         {
             string AddMessage = "";
             if (ProjectName != null)
                 AddMessage = "\r\n" + ProjectName;
 
-            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantCreateProject")+ AddMessage
                 , MessageBoxImage.Warning);
         }
 
 
 
-        public static void ProjectIsLoaded()
+        public async static Task ProjectIsLoaded()
         {
-            ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsLoaded")
                 , MessageBoxImage.Warning);
         }

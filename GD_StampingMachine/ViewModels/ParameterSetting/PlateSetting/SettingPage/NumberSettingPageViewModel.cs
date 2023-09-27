@@ -102,12 +102,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand SaveSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
                 var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                 if (FIndex != -1)
                 {
-                    if (Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                     {
                         NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
                     }

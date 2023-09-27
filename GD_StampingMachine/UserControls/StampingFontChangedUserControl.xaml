@@ -47,9 +47,15 @@
                     </dxe:ComboBoxEdit>
 
 
-                    <ComboBox  Style="{StaticResource GD_WhiteComboBox}" Background="White"  Width="150" ItemsSource="{Binding StampMachineData.RotatingTurntableInfo}">
-                        
+                    <ComboBox Name="RotatingTurntableInfoComboBox" Style="{StaticResource GD_WhiteComboBox}" Background="White"  Width="150" ItemsSource="{Binding StampMachineData.RotatingTurntableInfoCollection}">
+
                     </ComboBox>
+
+
+                    <Button Content="Set Rotate" Command="{Binding StampMachineData.EngravingRotateCommand}"
+                        CommandParameter="{Binding ElementName=RotatingTurntableInfoComboBox, Path=SelectedIndex}"/>
+                    <Button Content="Test software←machine" Command="{Binding StampingFontCollectionData_MachineToSoftware_Command}"/>
+                    <Button Content="Test software→machine" Command="{Binding StampingFontCollectionData_SoftwareToMachine_Command}"/>
                     <!--提示 若機台的數值和本機設定不同時需跳出提示-->
 
                 </StackPanel>

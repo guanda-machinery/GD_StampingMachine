@@ -19,7 +19,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <summary>
         /// 是否已連接
         /// </summary>
-        bool IsConnected { get; }
+       // bool IsConnected { get; }
         /// <summary>
         /// 連線
         /// </summary>
@@ -421,18 +421,195 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <returns></returns>
         bool SetEngravingRotateCCW();
 
+
+
         /// <summary>
-        /// 取得速度
+        /// 取得進料x軸 homeing前進速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetSpeed(out double SpeedValue);
+        bool GetFeedingXHomeFwdVelocity(out float SpeedPercent);
         /// <summary>
-        /// 設定速度
+        /// 取得進料x軸 homeing後退速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool SetSpeed(double SpeedValue);
+        bool GetFeedingXHomeBwdVelocity(out float SpeedPercent);
+
+        /// <summary>
+        /// 設定進料x軸 homeing前進速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool SetFeedingXHomeFwdVelocity(float SpeedPercent);
+        /// <summary>
+        /// 設定進料x軸 homein後退速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetFeedingXHomeBwdVelocity(float SpeedPercent);
+
+
+        /// <summary>
+        /// 取得進料x軸 設定模式前進速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool GetFeedingXFwdSetupVelocity(out float SpeedPercent);
+        /// <summary>
+        /// 取得進料x軸 設定模式後退速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool GetFeedingXBwdSetupVelocity(out float SpeedPercent);
+
+        /// <summary>
+        /// 設定進料x軸 設定模式前進速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool SetFeedingXFwdSetupVelocity(float SpeedPercent);
+        /// <summary>
+        /// 設定進料x軸 設定模式後退速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetFeedingXBwdSetupVelocity(float SpeedPercent);
+
+
+
+        /// <summary>
+        /// 取得進料x軸 手動/自動前進速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool GetFeedingXFwdVelocity(out float SpeedPercent);
+        /// <summary>
+        /// 取得進料x軸 手動/自動後退速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool GetFeedingXBwdVelocity(out float SpeedPercent);
+
+        /// <summary>
+        /// 設定進料x軸 手動/自動前進速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetFeedingXFwdVelocity(float SpeedPercent);
+        /// <summary>
+        /// 設定進料x軸 手動/自動後退速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetFeedingXBwdVelocity(float SpeedPercent);
+
+
+
+
+
+        /// <summary>
+        /// 取得字碼刻印y軸 設定模式前進速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool GetEngravingFeedingYFwdSetupVelocity(out float SpeedPercent);
+        /// <summary>
+        /// 取得字碼刻印y軸 設定模式後退速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool GetEngravingFeedingYBwdSetupVelocity(out float SpeedPercent);
+
+        /// <summary>
+        /// 設定字碼刻印y軸 設定模式前進速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent);
+        /// <summary>
+        /// 設定字碼刻印y軸 設定模式後退速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent);
+
+
+
+        /// <summary>
+        /// 取得字碼刻印y軸 手動/自動前進速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool GetEngravingFeedingYFwdVelocity(out float SpeedPercent);
+        /// <summary>
+        /// 取得字碼刻印y軸 手動/自動後退速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool GetEngravingFeedingYBwdVelocity(out float SpeedPercent);
+
+        /// <summary>
+        /// 設定字碼刻印y軸 手動/自動前進速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetEngravingFeedingYFwdVelocity(float SpeedPercent);
+        /// <summary>
+        /// 設定字碼刻印y軸 手動/自動後退速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetEngravingFeedingYBwdVelocity(float SpeedPercent);
+
+
+
+
+
+
+        /// <summary>
+        /// 取得字碼刻印A軸(旋轉) 設定模式移動速度
+        /// </summary>
+        /// <param name="SpeedValue"></param>
+        /// <returns></returns>
+        bool GetEngravingFeedingASetupVelocity(out float SpeedPercent);
+        /// <summary>
+        /// 設定字碼刻印A軸(旋轉) 設定模式移動速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetEngravingFeedingASetupVelocity(float SpeedPercent);
+
+
+
+        /// <summary>
+        /// 取得字碼刻印y軸 手動/自動正轉速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool GetEngravingFeedingA_CW_Velocity(out float SpeedPercent);
+        /// <summary>
+        /// 取得字碼刻印y軸 手動/自動逆轉速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool GetEngravingFeedingA_CCW_Velocity(out float SpeedPercent);
+
+        /// <summary>
+        /// 設定字碼刻印A軸(旋轉) 手動/自動正轉速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetEngravingFeedingA_CW_Velocity(float SpeedPercent);
+        /// <summary>
+        /// 設定字碼刻印A軸(旋轉) 手動/自動逆轉速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        bool SetEngravingFeedingA_CCW_Velocity(float SpeedPercent);
+
+        //
+
 
 
 

@@ -186,9 +186,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
         // private RelayCommand<object> _projectDeleteCommand;
-        public RelayCommand<GridControl> ProjectDeleteCommand
+        public AsyncRelayCommand<GridControl> ProjectDeleteCommand
         {
-            get => new(ObjGridControl =>
+            get => new(async ObjGridControl =>
             {
                 if (ObjGridControl is not null)
                 {
@@ -197,10 +197,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
                         {
                             if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
-                                MethodWinUIMessageBox.CanNotCloseProject();
+                                await MethodWinUIMessageBox.CanNotCloseProject();
                             else
                             {
-                                if (MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
+                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
                                     GridItemSource.Remove(CurrentItem);
                             }
 
@@ -776,7 +776,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand CloseTypeSettingCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => new AsyncRelayCommand<object>(async obj =>
             {
                 if (obj == null)
                 {
@@ -797,12 +797,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             //有已完成的 不可關閉
                             if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
                             {
-                                MethodWinUIMessageBox.CanNotCloseProject();
+                                await MethodWinUIMessageBox.CanNotCloseProject();
                                 return;
                             }
 
                             //詢問是否要關閉
-                            if (!(MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName)))
+                            if (!(await MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName)))
                                 return;
 
                             //將資料清除

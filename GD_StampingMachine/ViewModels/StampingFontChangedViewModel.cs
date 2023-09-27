@@ -25,6 +25,8 @@ using System.Threading;
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.XtraPrinting.Preview;
 using GD_StampingMachine.Singletons;
+using System.Drawing;
+using GD_CommonLibrary.Method;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -36,6 +38,9 @@ namespace GD_StampingMachine.ViewModels
 
 
         private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
+        /// <summary>
+        /// 使用的轉盤
+        /// </summary>
         public ObservableCollection<StampingTypeViewModel> StampingTypeVMObservableCollection
         {
             get
@@ -470,6 +475,64 @@ namespace GD_StampingMachine.ViewModels
             , e=> !_stamping_SelectionChangedCommand.IsRunning);
         }
 
+
+
+        private bool IsStampingFontDataTransferable()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// 將機台的資訊轉移到
+        /// </summary>
+        public AsyncRelayCommand StampingFontCollectionData_MachineToSoftware_Command
+        {
+            get => new(async() => 
+            {
+
+                for(int i=0;i< StampMachineData.RotatingTurntableInfoCollection.Count;i++)
+                {
+                    var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
+                    if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
+                    {
+                        stamptypeVM.StampingTypeString = rFont.ToString();
+                    }
+                    else
+                    {
+                        StampingTypeVMObservableCollection.Add(new StampingTypeViewModel()
+                        {
+                            StampingTypeNumber = i + 1,
+                            StampingTypeString = rFont.ToString(), StampingTypeUseCount = 0,
+                            IsNewAddStamping = false,
+                            StampingIsUsing = false
+                        });
+                    }
+                }
+                //去除掉超出邊界的字元
+                int CollectionDiff = StampingTypeVMObservableCollection.Count - StampingTypeVMObservableCollection.Count;
+                if (CollectionDiff>0)
+                {
+                    var stampingTypeList = StampingTypeVMObservableCollection.ToList();
+                    stampingTypeList.RemoveRange(StampingTypeVMObservableCollection.Count -1 , CollectionDiff);
+                    StampingTypeVMObservableCollection = stampingTypeList.ToObservableCollection();
+                }
+            }, ()=> IsStampingFontDataTransferable() && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
+        }
+        public AsyncRelayCommand StampingFontCollectionData_SoftwareToMachine_Command
+        {
+            get => new(async () =>
+            {
+
+               // MessageBoxResultShow.Show
+                //StampingTypeVMObservableCollection
+                //StampMachineData.RotatingTurntableInfoCollection
+
+                //  StampMachineData.RotatingTurntableInfoCollection
+
+
+
+            }, () => IsStampingFontDataTransferable() && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
+        }
 
 
         /*動起來很好看 所以保留在這裡*/

@@ -57,13 +57,13 @@ namespace GD_StampingMachine.ViewModels
             //測試模式
             if (Debugger.IsAttached)
             {
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
                         Singletons.LogDataSingleton.Instance.AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
-                        Thread.Sleep(1000);
-
+                       // Thread.Sleep(1000);
+                        await Task.Delay(1000);
                     }
                 });
             }

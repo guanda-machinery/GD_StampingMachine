@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -31,7 +32,7 @@ namespace GD_MachineConnect.Machine
             set => m_OpcUaClient.UserIdentity = value;
         }
 
-        public bool IsConnected => m_OpcUaClient.Connected;
+        //public bool IsConnected => m_OpcUaClient.Connected;
 
         public async Task<bool> OpcuaConnectAsync(string HostPath, int? Port, string DataPath = null)
         {
@@ -66,10 +67,10 @@ namespace GD_MachineConnect.Machine
         private const int retryCounter = 5;
 
 
-        public bool WriteNode<T>( string NodeTreeString , T WriteValue)
+        public bool WriteNode<T>(string NodeTreeString, T WriteValue)
         {
             bool ret = false;
-            for (int i = 0; i < retryCounter; i++)
+            for (int i = 0; i < 5; i++)
             {
                 try
                 {
@@ -85,13 +86,17 @@ namespace GD_MachineConnect.Machine
             return ret;
         }
 
-        public bool ReadNode<T>(string NodeID ,out T NodeValue)
+        public bool ReadNode<T>(string NodeID, out T NodeValue)
         {
             NodeValue = default;
-            for (int i = 0; i < retryCounter; i++)
+
+            for (int i = 0; i < 5; i++)
             {
                 try
                 {
+                   if(Debugger.IsAttached)
+                        ReadNoteAttributes(NodeID);
+
                     NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
                     return true;
                 }

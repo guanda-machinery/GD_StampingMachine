@@ -71,12 +71,12 @@ namespace GD_StampingMachine.ViewModels
                     Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,"btnAddProject");
                     if(NewProjectDistribute.ProjectDistributeName == null)
                     {
-                        MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmpty();
+                        await MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmpty();
                         return;
                     }
                     if (ProjectDistributeVMObservableCollection.FindIndex(x=>x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) !=-1)
                     {
-                        MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName); 
+                        await MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName); 
                         return;
                     }
 

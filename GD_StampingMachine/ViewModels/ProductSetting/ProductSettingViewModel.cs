@@ -136,14 +136,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand CreateProjectCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
                 Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,(string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
                 //檔案已存在 詢問是否要覆蓋
                 if (ExistedIndex != -1)
                 {
-                    if (!MethodWinUIMessageBox.AskOverwriteOrNot())
+                    if (await MethodWinUIMessageBox.AskOverwriteOrNot())
                         return;
                 }
 
@@ -164,7 +164,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                 }
             });
-
         }
 
         /// <summary>
@@ -210,7 +209,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand LoadProductSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async() =>
             {
            
                 if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
@@ -219,9 +218,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if(ExisedIndex != -1)
                     {
                         if(ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
-                            MethodWinUIMessageBox.ProjectIsLoaded();
+                            await MethodWinUIMessageBox.ProjectIsLoaded();
                         else
-                            MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
+                            await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
                         return;
                     }
 
@@ -231,26 +230,26 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
         [JsonIgnore]
-        public ICommand SaveProductSettingCommand
+        public AsyncRelayCommand SaveProductSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
                 ProductProjectVMObservableCollection.ForEach(obj =>
                 {
                     obj.SaveProductProject();
                 });
-                var Result = SaveProductListSetting();
-                MethodWinUIMessageBox.SaveSuccessful(null, Result);
+                var Result = await SaveProductListSetting();
+                await MethodWinUIMessageBox.SaveSuccessful(null, Result);
             });
         }
 
         [JsonIgnore]
         public ICommand SaveProductListSettingCommand
         {
-            get => new RelayCommand(() => { SaveProductListSetting(); });
+            get => new AsyncRelayCommand(async () => {await SaveProductListSetting(); });
         }
 
-        private bool SaveProductListSetting()
+        private async Task<bool> SaveProductListSetting()
         {
             //儲存一份路徑清單
             List<ProjectModel> PathList = new List<ProjectModel>();
@@ -264,8 +263,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     ProjectPath = obj.ProductProjectPath
                 });
             });
-
-            return JsonHM.WriteProjectSettingJson(PathList);
+            return await Task.Run(()=> JsonHM.WriteProjectSettingJson(PathList));
         }
 
 
