@@ -186,7 +186,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         try
                         {
-                            if (StampMachineData.SetSeparateBoxNumber(LocationIndex))
+                            if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
                             {
                                 // SeparateBox_Rotate(LocationIndex, 1);
                             }
@@ -215,9 +215,9 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        public ICommand SeparateBox_CounterClockwiseRotateCommand
+        public AsyncRelayCommand SeparateBox_CounterClockwiseRotateCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
                 SeparateBox_CounterClockwiseRotateButtonIsEnabled = false;
 
@@ -231,25 +231,23 @@ namespace GD_StampingMachine.ViewModels
                     if (LocationIndex < 0)
                         LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
                     //SeparateBox_Rotate(LocationIndex, 1);
-                    Task.Run(async () =>
+
+                    try
                     {
-                        try
-                        {
-                            if (StampMachineData.SetSeparateBoxNumber(LocationIndex))
-                            {
-
-                            }
-                        }
-                        catch (Exception ex)
+                        if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
                         {
 
                         }
-                        finally
-                        {
-                            await Task.Delay(500);
-                            SeparateBox_ClockwiseRotateButtonIsEnabled = true;
-                        }
-            });
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    finally
+                    {
+                        await Task.Delay(500);
+                        SeparateBox_ClockwiseRotateButtonIsEnabled = true;
+                    }
                 }
                 catch (Exception ex)
                 {

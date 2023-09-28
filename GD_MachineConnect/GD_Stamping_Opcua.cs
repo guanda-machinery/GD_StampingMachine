@@ -30,14 +30,17 @@ namespace GD_MachineConnect
         /// <summary>
         /// 實作長連接
         /// </summary>
-        private readonly GD_OpcUaHelperClient GD_OpcUaClient = new();
+        private readonly GD_OpcUaHelperClient GD_OpcUaClient;
         ~GD_Stamping_Opcua()
         {
-            Disconnect();
+            GD_OpcUaClient.Disconnect();
         }
 
         public const int ConntectMillisecondsTimeout = 1000;
         public const int MoveTimeout = 5000;
+
+
+
 
         public GD_Stamping_Opcua(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
@@ -49,161 +52,142 @@ namespace GD_MachineConnect
             IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
             GD_OpcUaClient = new GD_OpcUaHelperClient(HostIP, null, DataPath, UserIdentity);
         }
-
-        public bool IsConnectSuccessfuConnection
+        public async Task<bool> AsyncConnect()
         {
-            get
-            {
-                return GD_OpcUaClient.
-            }
+           return await GD_OpcUaClient.AsyncConnect();
+        }
+        public void  Disconnect()
+        {
+            GD_OpcUaClient.Disconnect();
+        }
+
+
+        public async Task<bool> FeedingPositionBwd(bool Active)
+        {
+            await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, false);
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, Active);
+        }
+
+        public async Task<bool> FeedingPositionFwd(bool Active)
+        {
+            await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, false);
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, Active);
+        }
+
+        public async Task<bool> FeedingPositionReturnToStandbyPosition()
+        {
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
         }
 
 
 
-        public bool FeedingPositionBwd(bool Active)
+        public async Task<(bool, AxisSettingModel)> GetAxisSetting()
         {
-            GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, false);
-            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, Active);
+           throw new NotImplementedException();
         }
-
-        public bool FeedingPositionFwd(bool Active)
+        public async Task<(bool, float)> GetFeedingPosition()
         {
-            GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, false);
-            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, Active);
-        }
-
-        public bool FeedingPositionReturnToStandbyPosition()
-        {
-            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
-            //throw new NotImplementedException();
-        }
-
-        public bool GetIronPlateData(int index , out object IronPlateData)
-        {
-            IronPlateData = null;
-            // return GD_OpcUaClient.ReadNode(StampingOpcUANode.system.sv_IronPlateData, out IronPlateData);
-            return false;
-        }
-            //ns=4;s=APPL.system.[1]
-
-
-
-        public bool GetAxisSetting(out AxisSettingModel AxisSetting)
-        {
-
-            throw new NotImplementedException();
-        }
-        public bool GetFeedingPosition(out float Position)
-        {
-            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
+            return await GD_OpcUaClient.AsyncReadNode<float> (StampingOpcUANode.Feeding1.sv_rFeedingPosition) ;
         }
 
 
-        public bool GetEngineerSetting(out EngineerSettingModel EngineerSetting)
+        public async Task<(bool, EngineerSettingModel)> GetEngineerSetting( )
         {
             throw new NotImplementedException();
         }
 
 
 
-        public bool GetInputOutput(out InputOutputModel InputOutput)
+        public async Task<(bool, InputOutputModel)> GetInputOutput()
         {
             throw new NotImplementedException();
         }
 
-        public bool GetMachanicalSpecification(out MachanicalSpecificationModel MachanicalSpecification)
+        public async Task<(bool, MachanicalSpecificationModel)> GetMachanicalSpecification()
         {
             throw new NotImplementedException();
         }
 
-        public bool GetMachineStatus(out MachineStatus Status)
+        public async Task<(bool, MachineStatus)> GetMachineStatus()
         {
-            Status = Enums.MachineStatus.Disconnect;
+            var Status = Enums.MachineStatus.Disconnect;
 
            // sv_iActState
 
-           // return GD_OpcUaClient.ReadNode(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
-            return false;
+           // return GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
+            return (false,Status);
         }
 
-        public bool GetSeparateBoxNumber(out int Index)
+        public async Task<(bool, int)> GetSeparateBoxNumber()
         {
-            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Stacking1.sv_iThisStation, out Index);
+            return await GD_OpcUaClient.AsyncReadNode<int>(StampingOpcUANode.Stacking1.sv_iThisStation);
         }
 
-        public bool GetSeparateSetting(out SeparateSettingModel SeparateSetting)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool GetSingleStampingType(int Index, out StampingTypeModel StampingType)
+        public async Task<(bool, SeparateSettingModel)> GetSeparateSetting()
         {
             throw new NotImplementedException();
         }
 
-        public bool GetStampingTypeList(out ObservableCollection<StampingTypeModel> StampingTypeList)
+        public async Task<(bool, StampingTypeModel)> GetSingleStampingType(int Index)
         {
             throw new NotImplementedException();
         }
 
-        public bool GetTimingSetting(out TimingSettingModel TimingSetting)
+
+        public async Task<(bool, TimingSettingModel)> GetTimingSetting()
         {
             throw new NotImplementedException();
         }
 
-        public bool SetAxisSetting(AxisSettingModel AxisSetting)
+        public async Task<bool> SetAxisSetting(AxisSettingModel AxisSetting)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetEngineerSetting(EngineerSettingModel EngineerSetting)
+        public async Task<bool> SetEngineerSetting(EngineerSettingModel EngineerSetting)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetFeedingPosition(float Position)
+        public async Task<bool> SetFeedingPosition(float Position)
         {
-            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
         }
 
-        public bool SetInputOutput(InputOutputModel InputOutput)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SetMachanicalSpecification(MachanicalSpecificationModel MachanicalSpecification)
+        public async Task<bool> SetInputOutput(InputOutputModel InputOutput)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetSeparateBoxNumber(int boxIndex)
-        {
-            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Stacking1.sv_iThisStation, boxIndex);
-        }
-
-        public bool SetSeparateSetting(SeparateSettingModel SeparateSetting)
+        public async Task<bool> SetMachanicalSpecification(MachanicalSpecificationModel MachanicalSpecification)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetSingleStampingTypeList(int Index, StampingTypeModel StampingType)
+        public async Task<bool> SetSeparateBoxNumber(int boxIndex)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Stacking1.sv_iThisStation, boxIndex);
+        }
+
+        public async Task<bool> SetSeparateSetting(SeparateSettingModel SeparateSetting)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetStampingTypeList(ObservableCollection<StampingTypeModel> StampingTypeList)
+        public async Task<bool> SetSingleStampingTypeList(int Index, StampingTypeModel StampingType)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetTimingSetting(TimingSettingModel TimingSetting)
+
+        public async Task<bool> SetTimingSetting(TimingSettingModel TimingSetting)
         {
             throw new NotImplementedException();
         }
 
 
 
-        public bool Set_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction)
+        public async Task<bool> Set_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction)
         {
             bool ret;
             switch (stampingCylinder)
@@ -212,12 +196,12 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, true);
                             break;
                         default:
                             ret = false;
@@ -228,12 +212,12 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, true);
                             break;
                         default:
                             ret = false;
@@ -244,12 +228,12 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, true);
                             break;
                         default:
                             ret = false;
@@ -260,12 +244,12 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, true);
                             break;
                         default:
                             ret = false;
@@ -276,29 +260,29 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonUp, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonUp, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonDown, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonDown, true);
                             break;
                         default:
-                            var O_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
-                            var C_ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, false);
-                            ret = O_ret && C_ret;
+                            var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
+                            var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, false);
+                            ret = await O_ret && await C_ret;
                             break;
                     }
                     break;
                 case StampingCylinderType.HydraulicEngraving:
-                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool IsUp);
-                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool IsStandby);
-                    ret = GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool IsDown);
+                    var IsUp = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopUp);
+                    var IsStandby = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StandbyPoint);
+                    var IsDown = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopDown);
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            if (IsUp)
+                            if (IsUp.Item2)
                                 return true;
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, true);
                             if (ret)
                             {
                                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
@@ -308,25 +292,25 @@ namespace GD_MachineConnect
                                 {
                                     while (true)
                                     {
-                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
-                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool _rIsStand);
-                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool _rIsDown);
-                                     //從中間往上
-                                        if(IsStandby)
+                                        var _rIsUp = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopUp);
+                                        var _rIsStand = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StandbyPoint);
+                                        var _rIsDown = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopDown);
+                                        //從中間往上
+                                        if (IsStandby.Item2)
                                         {
-                                            if(_rIsUp)
+                                            if(_rIsUp.Item2)
                                                 break;
                                         }
                                         //從下面往中或上
-                                        else if (IsDown)
+                                        else if (IsDown.Item2)
                                         {
-                                            if(_rIsUp || _rIsStand)
+                                            if(_rIsUp.Item2 || _rIsStand.Item2)
                                                 break;
                                         }
                                         //未知初始位置 看到東西就停
                                         else
                                         {
-                                            if (_rIsUp || _rIsStand || _rIsDown)
+                                            if (_rIsUp.Item2 || _rIsStand.Item2 || _rIsDown.Item2)
                                                 break;
                                         }
                                         await Task.Delay(10);
@@ -346,10 +330,10 @@ namespace GD_MachineConnect
                             //等待到點
                             break;
                         case DirectionsEnum.Down:
-                            if (IsDown)
+                            if (IsDown.Item2)
                                 return true;
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, true);
                             if (ret)
                             {
                                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
@@ -358,25 +342,25 @@ namespace GD_MachineConnect
                                 {
                                     while (true)
                                     {
-                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out bool _rIsUp);
-                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out bool _rIsStand);
-                                        GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out bool _rIsDown);
+                                        var _rIsUp = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopUp);
+                                        var _rIsStand = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StandbyPoint);
+                                        var _rIsDown = await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopDown);
                                         //從中間往下
-                                        if (IsStandby)
+                                        if (IsStandby.Item2)
                                         {
-                                            if (_rIsDown)
+                                            if (_rIsDown.Item2)
                                                 break;
                                         }
                                         //從上面往中或下
-                                        else if (IsUp)
+                                        else if (IsUp.Item2)
                                         {
-                                            if ( _rIsStand || _rIsDown)
+                                            if ( _rIsStand.Item2 || _rIsDown.Item2)
                                                 break;
                                         }
                                         //未知初始位置 看到東西就停
                                         else
                                         {
-                                            if (_rIsUp || _rIsStand || _rIsDown)
+                                            if (_rIsUp.Item2 || _rIsStand.Item2 || _rIsDown.Item2)
                                                 break;
                                         }
                                         await Task.Delay(10);
@@ -401,8 +385,8 @@ namespace GD_MachineConnect
                     }
                     for (int i = 0; i < 5; i++)
                     {
-                        ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
-                        ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
+                        ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
+                        ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
                         if (ret)
                             break;
                     }
@@ -411,12 +395,12 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, true);
                             break;
                         case DirectionsEnum.Down:
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
-                            ret = GD_OpcUaClient.WriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, true);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
+                            ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, true);
                             break;
                         default:
                             ret = false;
@@ -429,58 +413,57 @@ namespace GD_MachineConnect
         }
 
 
-        public bool Get_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction, out bool status)
+        public async Task<(bool,bool)> Get_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction)
         {
-            status = false;
-            bool ret;
+            (bool,bool) ret;
             switch (stampingCylinder)
             {
                 case StampingCylinderType.GuideRod_Move:
                     ret = direction switch
                     {
-                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, out status),
-                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, out status),
-                        _ => false,
+                        DirectionsEnum.Up => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp),
+                        DirectionsEnum.Down => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown),
+                        _ => (false, false),
                     };
                     break;
                 case StampingCylinderType.GuideRod_Fixed:
                     ret = direction switch
                     {
-                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, out status),
-                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, out status),
-                        _ => false,
+                        DirectionsEnum.Up => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp),
+                        DirectionsEnum.Down => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown),
+                        _ => (false, false),
                     };
                     break;
                 case StampingCylinderType.QRStamping:
                     ret = direction switch
                     {
-                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonUp, out status),
-                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonDown, out status),
-                        _ => false,
+                        DirectionsEnum.Up => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture2.sv_bButtonUp),
+                        DirectionsEnum.Down => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture2.sv_bButtonDown),
+                        _ => (false, false),
                     };
                     break;
                 case StampingCylinderType.StampingSeat:
                     ret = direction switch
                     {
-                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonUp, out status),
-                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bButtonDown, out status),
-                        _ => false,
+                        DirectionsEnum.Up => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture2.sv_bButtonUp),
+                        DirectionsEnum.Down => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture2.sv_bButtonDown),
+                        _ => (false, false),
                     };
                     break;
                 case StampingCylinderType.BlockingCylinder:
                     ret = direction switch
                     {
-                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, out status),
-                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, out status),
-                        _ => false,
+                        DirectionsEnum.Up => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp),
+                        DirectionsEnum.Down => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown),
+                        _ => (false,false),
                     };
                     break;
                 case StampingCylinderType.HydraulicCutting:
                     ret = direction switch
                     {
-                        DirectionsEnum.Up => GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, out status),
-                        DirectionsEnum.Down => GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bButtonClose, out status),
-                        _ => false,
+                        DirectionsEnum.Up => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Cutting1.sv_bButtonOpen),
+                        DirectionsEnum.Down => await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Cutting1.sv_bButtonClose),
+                        _ => (false, false),
                     };
                     break;
                 default:
@@ -490,7 +473,7 @@ namespace GD_MachineConnect
             //throw new NotImplementedException();
         }
 
-        public bool GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction, out bool singal)
+        public async Task<(bool, bool)> GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction)
         {
             switch (stampingCylinder)
             {
@@ -498,12 +481,11 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureUp, out singal);
+                            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureUp);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureDown, out singal);
+                            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureDown);
                         case DirectionsEnum.None:
-                            singal = false;
-                            return false;
+                            return (false, false);
                         default: throw new NotImplementedException();
                     }
 
@@ -511,12 +493,11 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureUp, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureUp);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureDown, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureDown);
                         case DirectionsEnum.None:
-                            singal = false;
-                            return false;
+                            return (false, false);
                         default: throw new NotImplementedException();
                     }
 
@@ -524,12 +505,11 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture1.sv_bFixtureUp, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture1.sv_bFixtureUp);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture1.sv_bFixtureDown, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture1.sv_bFixtureDown);
                         case DirectionsEnum.None:
-                            singal = false;
-                            return false;
+                            return (false,false);
                         default: throw new NotImplementedException();
                     }
 
@@ -537,12 +517,11 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bFixtureUp, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture2.sv_bFixtureUp);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Fixture2.sv_bFixtureDown, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Fixture2.sv_bFixtureDown);
                         case DirectionsEnum.None:
-                            singal = false;
-                            return false;
+                            return (false, false);
                         default: throw new NotImplementedException();
                     }
 
@@ -550,12 +529,11 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, out singal);
+                            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, out singal);
+                            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown);
                         case DirectionsEnum.None:
-                            singal = false;
-                            return false;
+                            return (false,false);
                         default: throw new NotImplementedException();
                     }
 
@@ -563,14 +541,13 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopUp, out singal);
+                            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopUp);
                         case DirectionsEnum.Middle:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StandbyPoint, out singal);
+                            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StandbyPoint);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Engraving1.di_StopDown, out singal);
+                            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopDown);
                         case DirectionsEnum.None:
-                            singal = false;
-                            return false;
+                            return (false, false);
                         default: throw new NotImplementedException();
                     }
 
@@ -578,12 +555,11 @@ namespace GD_MachineConnect
                     switch (direction)
                     {
                         case DirectionsEnum.Up:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bCuttingOpen, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Cutting1.sv_bCuttingOpen);
                         case DirectionsEnum.Down:
-                            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Cutting1.sv_bCuttingClosed, out singal);
+                       return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Cutting1.sv_bCuttingClosed);
                         case DirectionsEnum.None:
-                            singal = false;
-                            return false;
+                            return (false, false);
                         default: throw new NotImplementedException();
                     }
 
@@ -593,13 +569,13 @@ namespace GD_MachineConnect
         }
 
 
-        public bool SetHydraulicPumpMotor(bool Active)
+        public async Task<bool> SetHydraulicPumpMotor(bool Active)
         {
-            return GD_OpcUaClient.WriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, Active);
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, Active);
         }
-        public bool GetHydraulicPumpMotor(out bool isActive)
+        public async Task<(bool, bool)> GetHydraulicPumpMotor()
         {
-            return GD_OpcUaClient.ReadNode(StampingOpcUANode.Motor1.sv_bButtonMotor, out isActive);
+            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Motor1.sv_bButtonMotor);
         }
 
         /// <summary>
@@ -607,18 +583,18 @@ namespace GD_MachineConnect
         /// </summary>
         /// <param name="databit"></param>
         /// <returns></returns>
-        public bool GetRequestDatabit(out bool databit)
+        public async Task<(bool, bool)> GetRequestDatabit()
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_bRequestDatabit}", out databit);
+            return await GD_OpcUaClient.AsyncReadNode<bool>($"{StampingOpcUANode.system.sv_bRequestDatabit}");
         }
         /// <summary>
         /// 設定鐵片下一片資訊-交握訊號
         /// </summary>
         /// <param name="databit"></param>
         /// <returns></returns>
-        public bool SetRequestDatabit(bool databit)
+        public async Task<bool> SetRequestDatabit(bool databit)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_bRequestDatabit}", databit);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_bRequestDatabit}", databit);
         }
 
         /// <summary>
@@ -627,9 +603,9 @@ namespace GD_MachineConnect
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        public bool GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, out string StringLine)
+        public async Task<(bool,string)> GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType)
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", out StringLine);
+            return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}");
         }
 
         /// <summary>
@@ -638,9 +614,9 @@ namespace GD_MachineConnect
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        public bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
+        public async Task<bool> SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", StringLine);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", StringLine);
         }
 
         /// <summary>
@@ -649,10 +625,10 @@ namespace GD_MachineConnect
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-       /* public bool GetIronPlateGroup(out List<object> PlateGroup)
+       /* public async Task<bool> GetIronPlateGroup(out List<object> PlateGroup)
         {
             PlateGroup = new List<object> { };
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", out PlateGroup);
+       return await GD_OpcUaClient.AsyncReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", out PlateGroup);
         }*/
 
 
@@ -662,9 +638,9 @@ namespace GD_MachineConnect
         /// <param name="AxisPos"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        public bool SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos)
+        public async Task<bool> SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}", Pos);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}", Pos);
         }
 
         /// <summary>
@@ -673,9 +649,9 @@ namespace GD_MachineConnect
         /// <param name="AxisPos"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        public bool GetAxisPos(StampingOpcUANode.AxisPos AxisPos, out string Pos)
+        public async Task<(bool, string)> GetAxisPos(StampingOpcUANode.AxisPos AxisPos)
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}",out Pos);
+            return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}");
         }
 
 
@@ -684,34 +660,34 @@ namespace GD_MachineConnect
 
 
 
-        public bool GetEngravingYAxisPosition(out float position)
+        public async Task<(bool, float)> GetEngravingYAxisPosition()
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_rEngravingFeedingPosition}", out position);
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rEngravingFeedingPosition}");
         }
 
-        public bool GetEngravingZAxisPosition(out float position)
+        public async Task<(bool, float)> GetEngravingZAxisPosition()
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Engraving1.sv_rEngravingPosition}", out position);            
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Engraving1.sv_rEngravingPosition}");            
         }
 
 
-       /* public bool GetEngravingZAxisHydraulicUp(out bool IsActived)
+       /* public async Task<bool> GetEngravingZAxisHydraulicUp(out bool IsActived)
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", out IsActived);
+       return await GD_OpcUaClient.AsyncReadNode($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", out IsActived);
         }
 
-        public bool GetEngravingZAxisHydraulicDown(out bool IsActived)
+        public async Task<bool> GetEngravingZAxisHydraulicDown(out bool IsActived)
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", out IsActived);
+       return await GD_OpcUaClient.AsyncReadNode($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", out IsActived);
         }
-        public bool SetEngravingZAxisHydraulicUp(bool Actived)
+        public async Task<bool> SetEngravingZAxisHydraulicUp(bool Actived)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", Actived);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", Actived);
         }
 
-        public bool SetEngravingZAxisHydraulicDown(bool Actived)
+        public async Task<bool> SetEngravingZAxisHydraulicDown(bool Actived)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", Actived);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", Actived);
         }*/
 
 
@@ -734,111 +710,117 @@ namespace GD_MachineConnect
 
 
 
-        public bool SetEngravingYAxisToStandbyPos()
+        public async Task<bool> SetEngravingYAxisToStandbyPos()
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rServoStandbyPos}", true);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rServoStandbyPos}", true);
         }
         
 
-        public bool GetEngravingYAxisBwd(out bool isActived)
+        public async Task<(bool, bool)> GetEngravingYAxisBwd()
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", out isActived);
+       return await GD_OpcUaClient.AsyncReadNode<bool>($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}");
         }
-        public bool GetEngravingYAxisFwd(out bool isActived)
+        public async Task<(bool, bool)> GetEngravingYAxisFwd()
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", out isActived);
-        }
-
-        public bool SetEngravingYAxisBwd(bool Active)
-        {
-            return WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
-        }
-        public bool SetEngravingYAxisFwd(bool Active)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
+       return await GD_OpcUaClient.AsyncReadNode<bool>($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}");
         }
 
+        public async Task<bool> SetEngravingYAxisBwd(bool Active)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
+        }
+        public async Task<bool> SetEngravingYAxisFwd(bool Active)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
+        }
 
 
 
-        public bool GetEngravingRotateStation(out int Station)
+
+        public async Task<(bool,int)> GetEngravingRotateStation()
         { 
-            Station = -1;
-            var ret = GD_OpcUaClient.ReadNode<int>($"{StampingOpcUANode.system.sv_iTargetAStation}", out var StationIndex);
+            int Station = -1;
+            var ret = await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.system.sv_iTargetAStation}");
 
-            if (ret)
+            if (ret.Item1)
             {
                 //※須注意 目前使用的函式回傳index時是1為起始 所以需-1才能符合其他位置
+                var StationIndex = ret.Item2;
                 Station = StationIndex - 1;
             }
 
-            return ret;
+            return (ret.Item1 , Station);
         }
 
-        public bool GetEngravingRotateStationChar(out char stationChar)
+        public async Task<(bool,char)> GetEngravingRotateStationChar()
         {
-            stationChar = new char();
-            if (GetEngravingRotateStation(out int index) && GetRotatingTurntableInfo(out var tableInfo))
+           var  stationChar = new char();
+            var ret1 = await GetEngravingRotateStation();
+            var ret2 = await GetRotatingTurntableInfo();
+
+            if (ret1.Item1 && ret2.Item1)
             {
                 try
                 {
+                    var index = ret1.Item2;
+                    var tableInfo = ret2.Item2;
+
                     stationChar = tableInfo[index];
-                    return true;
+                    return (true ,stationChar);
                 }
                 catch
                 {
                    
                 }
             }
-            return false;
-
+            return (false ,stationChar);
 
         }
 
 
 
-        public bool SetEngravingRotateStation(int Station)
+        public async Task<bool> SetEngravingRotateStation(int Station)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
-            //return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
+            //return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
         }
 
-        private bool GetRotatingTurntableInfoINT(out int[] fonts) 
-            =>  GD_OpcUaClient.ReadNode($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", out fonts);
+        private async Task<(bool,int[])> GetRotatingTurntableInfoINT() 
+            =>await  GD_OpcUaClient.AsyncReadNode<int[]>($"{StampingOpcUANode.system.sv_RotateCodeDefinition}");
         
-        private bool SetRotatingTurntableInfoINT(int[] fonts)     
-            => GD_OpcUaClient.WriteNode($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", fonts);
+        private async Task<bool> SetRotatingTurntableInfoINT(int[] fonts)     
+            => await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", fonts);
         
 
 
 
-        public bool GetRotatingTurntableInfo(out List<char> fonts)
+        public async Task<(bool,List<char>)> GetRotatingTurntableInfo()
         {
-            fonts = new();
-            var ret = GetRotatingTurntableInfoINT(out var codeInfoArray);
-            if(ret)
+            var ret =await GetRotatingTurntableInfoINT();
+            if(ret.Item1)
             {
-                fonts= codeInfoArray.ToCharList();
+                return (true , ret.Item2.ToCharList());
             }
-            return ret;
+            return (false , new List<char>()) ;
         }
 
-        public bool SetRotatingTurntableInfo(List<char> fonts)
+        public async Task<bool> SetRotatingTurntableInfo(List<char> fonts)
         { 
-            return SetRotatingTurntableInfoINT(fonts.ToIntList().ToArray());
+            return await SetRotatingTurntableInfoINT(fonts.ToIntList().ToArray());
         }
 
 
-        public bool SetRotatingTurntableInfo(int index , char font)
+        public async Task<bool> SetRotatingTurntableInfo(int index , char font)
         {
-            var ret = GetRotatingTurntableInfoINT(out int[] codeInfoArray);
-            if (ret)
+            var ret = await GetRotatingTurntableInfoINT();
+            if (ret.Item1)
             {
+                var codeInfoArray = ret.Item2;
                //確認沒超出範圍
                if (codeInfoArray.ToList().Count > index)
                 {
                     codeInfoArray[index] = font.ToInt();
-                    return SetRotatingTurntableInfoINT(codeInfoArray);
+                    return await SetRotatingTurntableInfoINT(codeInfoArray);
                 }
             }
 
@@ -848,185 +830,180 @@ namespace GD_MachineConnect
 
 
 
-        public bool SetEngravingRotateCW()
+        public async Task<bool> SetEngravingRotateCW()
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", true);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", true);
         }
 
-        public bool SetEngravingRotateCCW()
+        public async Task<bool> SetEngravingRotateCCW()
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", true);
-        }
-
-
-
-        public bool GetFeedingXHomeFwdVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}", out SpeedPercent);
-        }
-
-
-        public bool GetFeedingXHomeBwdVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}", out SpeedPercent);
-        }
-
-
-        public bool SetFeedingXHomeFwdVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}", SpeedPercent);
-        }
-
-
-        public bool SetFeedingXHomeBwdVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}", SpeedPercent);
-        }
-
-        public bool GetFeedingXFwdSetupVelocity(out float SpeedPercent)
-        {
-
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}", out SpeedPercent);
-        }
-
-        public bool GetFeedingXBwdSetupVelocity(out float SpeedPercent)
-        {
-
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}", out SpeedPercent);
-        }
-
-        public bool SetFeedingXFwdSetupVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}", SpeedPercent);
-        }
-
-
-        public bool SetFeedingXBwdSetupVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}", SpeedPercent);
-
-        }
-
-        public bool GetFeedingXFwdVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Feeding1.sv_ConstFwd}", out SpeedPercent);
-        }
-
-        public bool GetFeedingXBwdVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.Feeding1.sv_ConstBwd}", out SpeedPercent);
-        }
-
-        public bool SetFeedingXFwdVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwd}", SpeedPercent);
-        }
-
-        public bool SetFeedingXBwdVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwd}", SpeedPercent);
-        }
-
-        public bool GetEngravingFeedingYFwdSetupVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}", out SpeedPercent);
-
-        }
-
-        public bool GetEngravingFeedingYBwdSetupVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}", out SpeedPercent);
-
-        }
-
-        public bool SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}",  SpeedPercent);
-
-        }
-
-        public bool SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}",  SpeedPercent);
-
-        }
-
-        public bool GetEngravingFeedingYFwdVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}", out SpeedPercent);
-
-        }
-
-        public bool GetEngravingFeedingYBwdVelocity(out float SpeedPercent)
-        {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}", out SpeedPercent);
-        }
-
-        public bool SetEngravingFeedingYFwdVelocity(float SpeedPercent)
-        {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}", SpeedPercent);
-
-        }
-
-        public bool SetEngravingFeedingYBwdVelocity(float SpeedPercent)
-        {
-
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}", SpeedPercent);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", true);
         }
 
 
 
-        public bool GetEngravingFeedingASetupVelocity(out float SpeedPercent)
+        public async Task<(bool, float)> GetFeedingXHomeFwdVelocity()
         {
-
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateSetup}", out SpeedPercent);
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}");
         }
 
-        public bool SetEngravingFeedingASetupVelocity(float SpeedPercent)
+
+        public async Task<(bool, float)> GetFeedingXHomeBwdVelocity()
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateSetup}", SpeedPercent);
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}");
+        }
+
+
+        public async Task<bool> SetFeedingXHomeFwdVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}", SpeedPercent);
+        }
+
+
+        public async Task<bool> SetFeedingXHomeBwdVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}", SpeedPercent);
+        }
+
+        public async Task<(bool,float)> GetFeedingXFwdSetupVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}");
+        }
+
+        public async Task<(bool, float)> GetFeedingXBwdSetupVelocity()
+        {
+
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}");
+        }
+
+        public async Task<bool> SetFeedingXFwdSetupVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}", SpeedPercent);
+        }
+
+
+        public async Task<bool> SetFeedingXBwdSetupVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}", SpeedPercent);
 
         }
 
-        public bool GetEngravingFeedingA_CW_Velocity(out float SpeedPercent)
+        public async Task<(bool,float)> GetFeedingXFwdVelocity()
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}", out SpeedPercent);
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstFwd}");
+        }
+
+        public async Task<(bool, float)> GetFeedingXBwdVelocity()
+        {
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstBwd}");
+        }
+
+        public async Task<bool> SetFeedingXFwdVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwd}", SpeedPercent);
+        }
+
+        public async Task<bool> SetFeedingXBwdVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwd}", SpeedPercent);
+        }
+
+        public async Task<(bool, float)> GetEngravingFeedingYFwdSetupVelocity()
+        {
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}");
 
         }
 
-        public bool GetEngravingFeedingA_CCW_Velocity(out float SpeedPercent)
+        public async Task<(bool, float)> GetEngravingFeedingYBwdSetupVelocity()
         {
-            return GD_OpcUaClient.ReadNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}", out SpeedPercent);
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}");
 
         }
 
-        public bool SetEngravingFeedingA_CW_Velocity(float SpeedPercent)
+        public async Task<bool> SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}", SpeedPercent);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}",  SpeedPercent);
+
         }
 
-        public bool SetEngravingFeedingA_CCW_Velocity(float SpeedPercent)
+        public async Task<bool> SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}",  SpeedPercent);
+        }
+
+        public async Task<(bool, float)> GetEngravingFeedingYFwdVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}");
+        }
+
+        public async Task<(bool, float)> GetEngravingFeedingYBwdVelocity()
+        {
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}");
+        }
+
+        public async Task<bool> SetEngravingFeedingYFwdVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}", SpeedPercent);
+
+        }
+
+        public async Task<bool> SetEngravingFeedingYBwdVelocity(float SpeedPercent)
         {
 
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}", SpeedPercent);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}", SpeedPercent);
+        }
+
+
+
+        public async Task<(bool,float)> GetEngravingFeedingASetupVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateSetup}");
+        }
+
+        public async Task<bool> SetEngravingFeedingASetupVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateSetup}", SpeedPercent);
+
+        }
+
+        public async Task<(bool, float)> GetEngravingFeedingA_CW_Velocity( )
+        {
+       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}");
+
+        }
+
+        public async Task<(bool, float)> GetEngravingFeedingA_CCW_Velocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}");
+        }
+
+        public async Task<bool> SetEngravingFeedingA_CW_Velocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}", SpeedPercent);
+        }
+
+        public async Task<bool> SetEngravingFeedingA_CCW_Velocity(float SpeedPercent)
+        {
+
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}", SpeedPercent);
         }
 
 
 
 
-        public bool ReadNode<T>(string NodeTreeString, out T ReadValue)
+        public async Task<(bool,T)> ReadNode<T>(string NodeTreeString)
         {
-            return GD_OpcUaClient.ReadNode(NodeTreeString, out ReadValue);
+            return await GD_OpcUaClient.AsyncReadNode<T>(NodeTreeString);
         }
-        public bool WriteNode<T>(string NodeTreeString, T WriteValue)
+        public async Task<bool> WriteNode<T>(string NodeTreeString, T WriteValue)
         {
-          //  return GD_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+            return await GD_OpcUaClient.AsyncWriteNode(NodeTreeString, WriteValue);
         }
 
-        public bool ReadAllReference(string NodeTreeString, out List<GD_OpcUaHelperClient.NodeTypeValue> NodeValue)
+      /*  public async Task<bool> ReadAllReference(string NodeTreeString, out List<GD_OpcUaHelperClient.NodeTypeValue> NodeValue)
         {
-          //  return GD_OpcUaClient.ReadAllReference(NodeTreeString, out NodeValue);
-        }
+            return GD_OpcUaClient.ReadAllReference(NodeTreeString, out NodeValue);
+        }*/
 
 
 

@@ -72,16 +72,49 @@ namespace GD_MachineConnect.Machine
         private const int retryCounter = 5;
 
 
-        public async bool WriteNode<T>(string NodeTreeString, T WriteValue)
+        public async Task<bool> AsyncConnect()
         {
-            var ret = false;
-            for (int i = 0; i < 5; i++)
+            if (m_OpcUaClient.Connected)
+                return true;
+
+            for (int i = 0; i < retryCounter; i++)
             {
                 try
                 {
-                    await  m_OpcUaClient.ConnectServer(CombineUrl.ToString());
+                    await m_OpcUaClient.ConnectServer(CombineUrl.ToString());
+                    return true;
+                }
+                catch
+                {
+
+                }
+            }
+            return false;
+        }
+        public void Disconnect()
+        {
+            m_OpcUaClient.Disconnect();
+        } 
+
+        /// <summary>
+        /// 寫入
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="NodeTreeString"></param>
+        /// <param name="WriteValue"></param>
+        /// <returns></returns>
+        public async Task<bool> AsyncWriteNode<T>(string NodeTreeString, T WriteValue)
+        {
+            var ret = false;
+            for (int i = 0; i < retryCounter; i++)
+            {
+                try
+                {
+                    if (!m_OpcUaClient.Connected)
+                    {
+                       await AsyncConnect();
+                    }
                     ret = await m_OpcUaClient.WriteNodeAsync(NodeTreeString, WriteValue);
-                 
                     if (ret)
                     {
                         break;
@@ -91,37 +124,41 @@ namespace GD_MachineConnect.Machine
                 {
 
                 }
-                finally
-                {
-                    m_OpcUaClient.Disconnect();
-                }
             }
             return ret;
         }
-
-        public Task<T> ReadNode<T>(string NodeID)
+        
+        /// <summary>
+        /// 讀取點
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="NodeID"></param>
+        /// <returns></returns>
+        public async Task<(bool , T)> AsyncReadNode<T>(string NodeID)
         {
-            Task<T> NodeValue = default;
+            T NodeValue = default(T);
+            bool IsSucessful = false;
             for (int i = 0; i < 5; i++)
             {
                 try
                 {
-                    m_OpcUaClient.ConnectServer(CombineUrl.ToString()).Wait();
-                    if (Debugger.IsAttached)
-                        ReadNoteAttributes(NodeID);
-                    NodeValue = m_OpcUaClient.ReadNodeAsync<T>(NodeID);
+                    if (!m_OpcUaClient.Connected)
+                    {
+                       await AsyncConnect();
+                    }
+                    NodeValue = await m_OpcUaClient.ReadNodeAsync<T>(NodeID);
+                    IsSucessful = true;
                     break;
                 }
                 catch (Exception ex)
                 {
-
-                }
-                finally
-                { 
-                    m_OpcUaClient.Disconnect(); 
+                    IsSucessful = false;
                 }
             }
-            return NodeValue;
+
+
+            return (IsSucessful, NodeValue);
+
         }
 
 

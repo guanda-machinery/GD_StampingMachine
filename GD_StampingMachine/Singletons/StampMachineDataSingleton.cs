@@ -800,7 +800,7 @@ namespace GD_StampingMachine.Singletons
         OpcuaTest _opcuaTest = new OpcuaTest();
         internal async Task TestConnect()
         {
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 try
                 {
@@ -893,15 +893,17 @@ namespace GD_StampingMachine.Singletons
                         {
 
                         }*/
-
-                        if (GD_Stamping.GetRotatingTurntableInfo(out var rotatingTurntableInfoList))
+                        if (await GD_Stamping.AsyncConnect())
                         {
-                            RotatingTurntableInfoCollection = rotatingTurntableInfoList.ToObservableCollection();
-                        }
-
+                            var rotatingTurntableInfoList = await GD_Stamping.GetRotatingTurntableInfo();
+                            if (rotatingTurntableInfoList.Item1)
+                            {
+                                RotatingTurntableInfoCollection = rotatingTurntableInfoList.Item2.ToObservableCollection();
+                            }
+                            GD_Stamping.Disconnect();
                             IsInit = true;
                             break;
-                        
+                        }
                         await Task.Delay(100);
                     }
                     if (IsInit)
@@ -913,14 +915,14 @@ namespace GD_StampingMachine.Singletons
                                 if (cancelToken.IsCancellationRequested)
                                     cancelToken.ThrowIfCancellationRequested();
 
-                                IsConnected = GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password);
-                                if (IsConnected)
+                                if (await GD_Stamping.AsyncConnect())
                                 {
                                     //進料馬達
 
                                     //GD_Stamping.GetMachineStatus
-                                    if (GD_Stamping.GetFeedingPosition(out var fPos))
-                                        FeedingPosition = fPos;
+                                    var fPos = await GD_Stamping.GetFeedingPosition();
+                                    if (fPos.Item1)
+                                        FeedingPosition = fPos.Item2;
 
                                     //磁簧開關
                                     /*var Move_IsUp = Task.Run(() => 
@@ -931,84 +933,110 @@ namespace GD_StampingMachine.Singletons
                                             return false;
                                     });
                                     Cylinder_GuideRod_Move_IsUp = await Move_IsUp;*/
+                                    var Move_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up);
+                                    if ((await Move_IsUp).Item1)
+                                        Cylinder_GuideRod_Move_IsUp = (await Move_IsUp).Item2;
 
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up, out var Move_IsUp))
-                                        Cylinder_GuideRod_Move_IsUp = Move_IsUp;
+                                    var Move_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down);
+                                    if ((await Move_IsDown).Item1)
+                                        Cylinder_GuideRod_Move_IsDown = (await Move_IsDown).Item2;
 
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down, out bool Move_IsDown))
-                                        Cylinder_GuideRod_Move_IsDown = Move_IsDown;
+                                    var Fixed_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up);
+                                    if((await Fixed_IsUp).Item1)
+                                        Cylinder_GuideRod_Fixed_IsUp = (await Fixed_IsUp).Item2;
 
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, out bool Fixed_IsUp))
-                                        Cylinder_GuideRod_Fixed_IsUp = Fixed_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, out bool Fixed_IsDown))
-                                        Cylinder_GuideRod_Fixed_IsDown = Fixed_IsDown;
+                                    var Fixed_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down);
+                                    if((await Fixed_IsDown).Item1)
+                                        Cylinder_GuideRod_Fixed_IsDown = (await Fixed_IsDown).Item2;
 
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Up, out bool QRStamping_IsUp))
-                                        Cylinder_QRStamping_IsUp = QRStamping_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Down, out bool QRStamping_IsDown))
-                                        Cylinder_QRStamping_IsDown = QRStamping_IsDown;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Up, out bool StampingSeat_IsUp))
-                                        Cylinder_StampingSeat_IsUp = StampingSeat_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Down, out bool StampingSeat_IsDown))
-                                        Cylinder_StampingSeat_IsDown = StampingSeat_IsDown;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up, out bool BlockingCylinder_IsUp))
-                                        Cylinder_BlockingCylinder_IsUp = BlockingCylinder_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, out bool BlockingCylindere_IsDown))
-                                        Cylinder_BlockingCylindere_IsDown = BlockingCylindere_IsDown;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, out bool HydraulicCutting_IsUp))
-                                        Cylinder_HydraulicCutting_IsUp = HydraulicCutting_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, out bool HydraulicCutting_IsDown))
-                                        Cylinder_HydraulicCutting_IsDown = HydraulicCutting_IsDown;
+                                    var QRStamping_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Up);
+                                    if((await QRStamping_IsUp).Item1)
+                                        Cylinder_QRStamping_IsUp = (await QRStamping_IsUp).Item2;
+
+                                    var QRStamping_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Down);
+                                    if ((await QRStamping_IsDown).Item1)
+                                        Cylinder_QRStamping_IsDown = (await QRStamping_IsDown).Item2;
+
+                                    var StampingSeat_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Up);
+                                    if((await StampingSeat_IsUp).Item1)
+                                        Cylinder_StampingSeat_IsUp = (await StampingSeat_IsUp).Item2;
+
+                                    var StampingSeat_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Down);
+                                    if((await StampingSeat_IsDown).Item1)
+                                        Cylinder_StampingSeat_IsDown = (await StampingSeat_IsDown).Item2;
+
+                                    var BlockingCylinder_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up);
+                                    if((await BlockingCylinder_IsUp).Item1)
+                                        Cylinder_BlockingCylinder_IsUp = (await BlockingCylinder_IsUp).Item2;
+
+                                    var BlockingCylindere_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down);
+                                    if ((await BlockingCylindere_IsDown).Item1) 
+                                        Cylinder_BlockingCylindere_IsDown = (await BlockingCylindere_IsDown).Item2;
+
+                                    var HydraulicCutting_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up);
+                                    if ((await HydraulicCutting_IsUp).Item1)
+                                        Cylinder_HydraulicCutting_IsUp = (await HydraulicCutting_IsUp).Item2;
+
+                                    var HydraulicCutting_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down);
+                                    if((await HydraulicCutting_IsDown).Item1)
+                                        Cylinder_HydraulicCutting_IsDown = (await HydraulicCutting_IsDown).Item2;
 
 
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, out bool _hydraEngraving_IsUp))
-                                        HydraulicEngraving_IsUp = _hydraEngraving_IsUp;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Middle, out bool _hydraEngraving_IsMiddle))
-                                        HydraulicEngraving_IsMiddle = _hydraEngraving_IsMiddle;
-                                    if (GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, out bool _hydraEngraving_IsDown))
-                                        HydraulicEngraving_IsDown = _hydraEngraving_IsDown;
+                                    var _hydraEngraving_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up);
+                                    if ((await _hydraEngraving_IsUp).Item1)
+                                        HydraulicEngraving_IsUp = (await _hydraEngraving_IsUp).Item2;
+
+                                    var _hydraEngraving_IsMiddle = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Middle);
+                                    if((await _hydraEngraving_IsMiddle).Item2)
+                                        HydraulicEngraving_IsMiddle = (await _hydraEngraving_IsMiddle).Item2;
+                                  
+                                    var _hydraEngraving_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down);
+                                    if((await _hydraEngraving_IsDown).Item1)
+                                        HydraulicEngraving_IsDown = (await _hydraEngraving_IsDown).Item2;
 
 
-
-                                    if (GD_Stamping.GetEngravingRotateStation(out var engravingRotateStation))
+                                    var engravingRotateStation = GD_Stamping.GetEngravingRotateStation();
+                                    if ((await engravingRotateStation).Item1)
                                     {
-                                        if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(engravingRotateStation, out var stamptype))
+                                        if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue((await engravingRotateStation).Item2, out var stamptype))
                                         {
                                             Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
                                         }
                                     }
 
+                                    var HPumpIsActive = GD_Stamping.GetHydraulicPumpMotor();
+                                    if ((await HPumpIsActive).Item1)
+                                        HydraulicPumpIsActive = (await HPumpIsActive).Item2;
 
-
-
-
-
-                                    if (GD_Stamping.GetHydraulicPumpMotor(out bool HPumpIsActive))
-                                        HydraulicPumpIsActive = HPumpIsActive;
-
-                                    if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1, out string sIronPlateString1))
-                                        IronPlateName1 = sIronPlateString1;
-                                    if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2, out string sIronPlateString2))
-                                        IronPlateName2 = sIronPlateString2;
-                                    if (GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3, out string sIronPlateString3))
-                                        IronPlateName3 = sIronPlateString3;
+                                    var sIronPlateString1 = GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1);
+                                    if ((await sIronPlateString1).Item1)
+                                        IronPlateName1 = (await sIronPlateString1).Item2;
+                                    var sIronPlateString2 = GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2);
+                                    if ((await sIronPlateString1).Item1)
+                                        IronPlateName2 = (await sIronPlateString2).Item2;
+                                    var sIronPlateString3 = GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3);
+                                    if ((await sIronPlateString1).Item1)
+                                        IronPlateName3 = (await sIronPlateString3).Item2;
 
                                     //箱子
-                                    if (GD_Stamping.GetSeparateBoxNumber(out int boxIndex))
+                                    var boxIndex = GD_Stamping.GetSeparateBoxNumber();
+                                    if((await boxIndex).Item1)
                                     {
-                                        SeparateBoxIndex = boxIndex;
+                                        SeparateBoxIndex = (await boxIndex).Item2;
                                     }
 
+                                    var engravingYposition = GD_Stamping.GetEngravingYAxisPosition();
+                                    if ((await engravingYposition).Item1)
+                                        EngravingYAxisPosition = (await engravingYposition).Item2;
 
+                                    var engravingZposition = GD_Stamping.GetEngravingZAxisPosition();
+                                    if ((await engravingZposition).Item1)
+                                        EngravingZAxisPosition = (await engravingZposition).Item2;
 
-                                    if (GD_Stamping.GetEngravingYAxisPosition(out float engravingYposition))
-                                        EngravingYAxisPosition = engravingYposition;
+                                    var engravingAStation = GD_Stamping.GetEngravingRotateStation();
+                                    if ((await engravingAStation).Item1)
+                                        EngravingRotateStation = (await engravingAStation).Item2;
 
-                                    if (GD_Stamping.GetEngravingZAxisPosition(out float engravingZposition))
-                                        EngravingZAxisPosition = engravingZposition;
-
-                                    if (GD_Stamping.GetEngravingRotateStation(out int engravingAStation))
-                                        EngravingRotateStation = engravingAStation;
 
                                     //取得io資料表
                                     if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
@@ -1018,17 +1046,23 @@ namespace GD_StampingMachine.Singletons
 
                                             if (!string.IsNullOrEmpty(IO_Table.NodeID))
                                             {
-                                                if (IO_Table.ValueType == typeof(bool) && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out bool nodeboolValue))
+                                                if (IO_Table.ValueType == typeof(bool))
                                                 {
-                                                    IO_Table.IO_Value = nodeboolValue;
+                                                    var nodeboolValue = await GD_StampingOpcua.ReadNode<bool>(IO_Table.NodeID);
+                                                    if(nodeboolValue.Item1)
+                                                        IO_Table.IO_Value = nodeboolValue.Item2;
                                                 }
-                                                else if (IO_Table.ValueType == typeof(float) && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out float nodefloatValue))
+                                                else if (IO_Table.ValueType == typeof(float))
                                                 {
-                                                    IO_Table.IO_Value = nodefloatValue;
+                                                    var nodefloatValue = await GD_StampingOpcua.ReadNode<float>(IO_Table.NodeID);
+                                                    if (nodefloatValue.Item1)
+                                                        IO_Table.IO_Value = nodefloatValue.Item2;
                                                 }
-                                                else if (IO_Table.ValueType is object && GD_StampingOpcua.ReadNode(IO_Table.NodeID, out object nodeobjectValue))
+                                                else if (IO_Table.ValueType is object  )
                                                 {
-                                                    IO_Table.IO_Value = nodeobjectValue;
+                                                    var nodeobjectValue = await GD_StampingOpcua.ReadNode<object>(IO_Table.NodeID);
+                                                    if (nodeobjectValue.Item1)
+                                                        IO_Table.IO_Value = nodeobjectValue.Item2;
                                                 }
                                                 else
                                                 {
@@ -1123,9 +1157,10 @@ namespace GD_StampingMachine.Singletons
         {
             get => new(async token=>
             {
-                if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+                if (await GD_Stamping.AsyncConnect())
                 {
-                    GD_Stamping.FeedingPositionReturnToStandbyPosition();
+                    await GD_Stamping.FeedingPositionReturnToStandbyPosition();
+                    GD_Stamping.Disconnect();
                 }
             }, ()=> !Feeding_XAxis_ReturnToStandbyPosition.IsRunning);
         }
@@ -1141,19 +1176,19 @@ namespace GD_StampingMachine.Singletons
                 {
                     if(float.TryParse(Parameter.ToString(), out var ParameterValue))
                     {
-                        if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+                        if (await GD_Stamping.AsyncConnect())
                         {
                             if (ParameterValue > 0)
                             {
-                                GD_Stamping.FeedingPositionFwd(true);
+                                await GD_Stamping.FeedingPositionFwd(true);
                                 await Task.Delay(500);
-                                GD_Stamping.FeedingPositionFwd(false);
+                                await GD_Stamping.FeedingPositionFwd(false);
                             }
                             else if (ParameterValue < 0)
                             {
-                                GD_Stamping.FeedingPositionBwd(true);
+                                await GD_Stamping.FeedingPositionBwd(true);
                                 await Task.Delay(500);
-                                GD_Stamping.FeedingPositionBwd(false);
+                                await GD_Stamping.FeedingPositionBwd(false);
                             }
                             else
                             {
@@ -1188,16 +1223,12 @@ namespace GD_StampingMachine.Singletons
                 {
                     try
                     {
-                        if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+                        if (await GD_Stamping.AsyncConnect())
                         {
-                            var ret1 = GD_Stamping.FeedingPositionFwd(false);
-                            var ret2 = GD_Stamping.FeedingPositionBwd(false);
-
-
-
+                            var ret1 = await GD_Stamping.FeedingPositionFwd(false);
+                            var ret2 = await GD_Stamping.FeedingPositionBwd(false);
                             if (ret1 && ret2)
                                 break;
-
                         }
                     }
                     catch (Exception ex)
@@ -1257,22 +1288,18 @@ namespace GD_StampingMachine.Singletons
         }
 
         /// <summary>
-        /// 啟用液壓馬達
+        /// 啟用/禁用液壓馬達
         /// </summary>
-        public ICommand ActiveHydraulicPumpMotor
+        public AsyncRelayCommand ActiveHydraulicPumpMotor
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
-                Task.Run(() =>
+                if (await GD_Stamping.AsyncConnect())
                 {
-                    if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
-                    {
-                        if(GD_Stamping.GetHydraulicPumpMotor(out var isActive))
-                            GD_Stamping.SetHydraulicPumpMotor(!isActive);
-                         
-                    }
-
-                });
+                    var isActive = await GD_Stamping.GetHydraulicPumpMotor();
+                    if(isActive.Item1)
+                        await GD_Stamping.SetHydraulicPumpMotor(!isActive.Item2);
+                }
             });
         }
 
@@ -1281,36 +1308,36 @@ namespace GD_StampingMachine.Singletons
         /// <summary>
         /// 第一排字設定
         /// </summary>
-        public ICommand SetIronPlateName1Command
+        public AsyncRelayCommand<object> SetIronPlateName1Command
         {
-            get => new RelayCommand<object>(para =>
+            get => new AsyncRelayCommand<object>(async para =>
             {
                 if (para is string ParaString)
-                    SendStampingString(sIronPlate.sIronPlateName1, ParaString);
+                    await  SendStampingString(sIronPlate.sIronPlateName1, ParaString);
             });
         }
 
         /// <summary>
         /// 第二排字設定
         /// </summary>
-        public ICommand SetIronPlateName2Command
+        public AsyncRelayCommand<object> SetIronPlateName2Command
         {
-            get => new RelayCommand<object>(para =>
+            get => new AsyncRelayCommand<object>(async para =>
             {
                 if (para is string ParaString)
-                    SendStampingString(sIronPlate.sIronPlateName2, ParaString);
+                   await SendStampingString(sIronPlate.sIronPlateName2, ParaString);
             });
         }
 
         /// <summary>
         /// 第三排字設定
         /// </summary>
-        public ICommand SetIronPlateName3Command
+        public AsyncRelayCommand<object> SetIronPlateName3Command
         {
-            get => new RelayCommand<object>(para =>
+            get => new AsyncRelayCommand<object>(async para =>
             {
                 if (para is string ParaString)
-                    SendStampingString(sIronPlate.sIronPlateName3, ParaString);
+                    await SendStampingString(sIronPlate.sIronPlateName3, ParaString);
             });
         }
 
@@ -1349,7 +1376,7 @@ namespace GD_StampingMachine.Singletons
                     spiltString.TryGetValue(1, out secondLine);
                 }
 
-                if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+                if ( await GD_Stamping.AsyncConnect())
                 {
 
                     var databit = Task<bool>.Run(async ()=>
@@ -1360,10 +1387,10 @@ namespace GD_StampingMachine.Singletons
                         {
                             while (!token.IsCancellationRequested)
                             {
-                                ret = GD_Stamping.GetRequestDatabit(out var Rdatabit);
-                                if (ret)
+                               var Rdatabit = await GD_Stamping.GetRequestDatabit();
+                                if (Rdatabit.Item1)
                                 {
-                                    return Rdatabit;
+                                    return Rdatabit.Item2;
                                 }
                                 await Task.Delay(100);
                             }
@@ -1386,9 +1413,9 @@ namespace GD_StampingMachine.Singletons
 
                     if (await databit)
                     {
-                        ret = GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName1, firstLine);
-                        ret = GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName2, secondLine);
-                        ret = GD_Stamping.SetRequestDatabit(false);
+                        ret = await GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName1, firstLine);
+                        ret = await  GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName2, secondLine);
+                        ret = await GD_Stamping.SetRequestDatabit(false);
                     }
 
                     GD_Stamping.Disconnect();
@@ -1409,46 +1436,45 @@ namespace GD_StampingMachine.Singletons
         /// <param name="PlateName">字串位置</param>
         /// <param name="FontString"></param>
         /// <returns></returns>
-        public bool SendStampingString(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate PlateName , string FontString)
+        public async Task<bool> SendStampingString(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate PlateName , string FontString)
         {
             bool ret = false; 
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            if (await GD_Stamping.AsyncConnect())
             {
-                ret = GD_Stamping.SetIronPlateName(PlateName, FontString);
+                ret = await GD_Stamping.SetIronPlateName(PlateName, FontString);
                 GD_Stamping.Disconnect();
             }
             return ret;
         }
 
 
-        private void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)
+        private async void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)
         {
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            if (await GD_Stamping.AsyncConnect())
             {
-                GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction);
+                await GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction);
                 GD_Stamping.Disconnect();
             }
         }
 
 
-        public bool SetSeparateBoxNumber(int Index)
+        public async Task<bool> SetSeparateBoxNumber(int Index)
         {
             var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            if (await GD_Stamping.AsyncConnect())
             {
-                ret = GD_Stamping.SetSeparateBoxNumber(Index);
+                ret = await GD_Stamping.SetSeparateBoxNumber(Index);
                 GD_Stamping.Disconnect();
             }
             return ret;
         }
 
-        public bool GetSeparateBoxNumber(out int Index)
+        public async Task<(bool, int)> GetSeparateBoxNumber()
         {
-            var ret = false;
-            Index = -1;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            var ret = (false, -1);
+            if (await GD_Stamping.AsyncConnect())
             {
-                ret = GD_Stamping.GetSeparateBoxNumber(out Index);
+                ret =await GD_Stamping.GetSeparateBoxNumber();
                 GD_Stamping.Disconnect();
             }
             return ret;
@@ -1467,54 +1493,42 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-        public ICommand EngravingYAxisToStandbyPosCommand
+        public AsyncRelayCommand<object> EngravingYAxisToStandbyPosCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => new AsyncRelayCommand<object>(async obj =>
             {
-                Task.Run(() =>
-                {
-                    if (obj is bool IsActived)
-                       SetEngravingYAxisToStandbyPos();
-                });
+                if (obj is bool IsActived)
+                    await SetEngravingYAxisToStandbyPos();
             });
         }
-        public ICommand EngravingYAxisBwdCommand
+        public AsyncRelayCommand<object> EngravingYAxisBwdCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => new AsyncRelayCommand<object>(async obj =>
             {
-                Task.Run(() =>
-                {
-                    if (obj is bool IsActived)
-                        SetEngravingYAxisBwd(IsActived);
-                });
-
+                if (obj is bool IsActived)
+                    await SetEngravingYAxisBwd(IsActived);
             });
         }
 
 
         
 
-        public ICommand SetEngravingRotateClockwiseCommand
+        public AsyncRelayCommand<object> SetEngravingRotateClockwiseCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => new AsyncRelayCommand<object>(async obj =>
             {
-                Task.Run(() =>
-                {
                    // if (obj is bool IsActived)
-                        SetEngravingRotateClockwise();
-                });
+                      await  SetEngravingRotateClockwise();
 
             });
         }
-        public ICommand SetEngravingRotateCounterClockwiseCommand
+        public AsyncRelayCommand<object> SetEngravingRotateCounterClockwiseCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => new AsyncRelayCommand<object>(async obj =>
             {
-                Task.Run(() =>
-                {
                   //  if (obj is bool IsActived)
-                        SetEngravingRotateCounterClockwise();
-                });
+                 await       SetEngravingRotateCounterClockwise();
+ 
 
             });
         }
@@ -1522,9 +1536,10 @@ namespace GD_StampingMachine.Singletons
 
         private async Task<bool> CheckHydraulicPumpMotor()
         {
-            if (GD_Stamping.GetHydraulicPumpMotor(out var MotorIsActived))
+            var MotorIsActived = await GD_Stamping.GetHydraulicPumpMotor();
+            if (MotorIsActived.Item1)
             {
-                if (MotorIsActived)
+                if (MotorIsActived.Item2)
                     return true;
                 else
                 {
@@ -1538,7 +1553,7 @@ namespace GD_StampingMachine.Singletons
 
                     if (await Result == MessageBoxResult.Yes)
                     {
-                        if (GD_Stamping.SetHydraulicPumpMotor(true))
+                        if ( await GD_Stamping.SetHydraulicPumpMotor(true))
                         {
                             return true;
                         }
@@ -1564,14 +1579,16 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印Y軸回歸原點
         /// </summary>
         /// <returns></returns>
-        public bool SetEngravingYAxisToStandbyPos()
+        public async Task<bool> SetEngravingYAxisToStandbyPos()
         {
             var ret = false;
 
-                ret = GD_Stamping.SetEngravingYAxisBwd(false);
-                ret = GD_Stamping.SetEngravingYAxisFwd(false);
-                ret = GD_Stamping.SetEngravingYAxisToStandbyPos();
-                 
+            if (await GD_Stamping.AsyncConnect())
+            {
+                ret = await GD_Stamping.SetEngravingYAxisBwd(false);
+                ret = await GD_Stamping.SetEngravingYAxisFwd(false);
+                ret = await GD_Stamping.SetEngravingYAxisToStandbyPos();
+            }
             
             return ret;
         }
@@ -1581,27 +1598,28 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印Y軸前進
         /// </summary>
         /// <returns></returns>
-        private bool SetEngravingYAxisFwd(bool IsMove)
+        private async Task<bool> SetEngravingYAxisFwd(bool IsMove)
         {
             var ret = false;
-
-                ret = GD_Stamping.SetEngravingYAxisBwd(false);
-                ret = GD_Stamping.SetEngravingYAxisFwd(IsMove);
-
+            if (await GD_Stamping.AsyncConnect())
+            {
+                ret = await GD_Stamping.SetEngravingYAxisBwd(false);
+                ret = await GD_Stamping.SetEngravingYAxisFwd(IsMove);
+            }
             return ret;
         }
         /// <summary>
         /// 鋼印Y軸後退
         /// </summary>
         /// <returns></returns>
-        private bool SetEngravingYAxisBwd(bool IsMove)
+        private async Task<bool> SetEngravingYAxisBwd(bool IsMove)
         {
             var ret = false;
-
-                ret = GD_Stamping.SetEngravingYAxisFwd(false);
-                ret = GD_Stamping.SetEngravingYAxisBwd(IsMove);
-
-            
+            if (await GD_Stamping.AsyncConnect())
+            {
+                ret = await GD_Stamping.SetEngravingYAxisFwd(false);
+                ret = await GD_Stamping.SetEngravingYAxisBwd(IsMove);
+            }
             return ret;
         }
 
@@ -1614,12 +1632,12 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印旋轉 順時針
         /// </summary>
         /// <returns></returns>
-        private bool SetEngravingRotateClockwise()
+        private async Task<bool> SetEngravingRotateClockwise()
         {
             var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            if (await GD_Stamping.AsyncConnect())
             {
-                ret = GD_Stamping.SetEngravingRotateCW();
+                ret = await GD_Stamping.SetEngravingRotateCW();
                 GD_Stamping.Disconnect();
             }
             return ret;
@@ -1629,10 +1647,14 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印旋轉 逆時針
         /// </summary>
         /// <returns></returns>
-        private bool SetEngravingRotateCounterClockwise()
+        private async Task<bool> SetEngravingRotateCounterClockwise()
         {
-            var ret = GD_Stamping.SetEngravingRotateCCW();
-
+            var ret = false;
+            if (await GD_Stamping.AsyncConnect())
+            {
+                ret = await GD_Stamping.SetEngravingRotateCCW();
+                GD_Stamping.Disconnect();
+            }
             return ret;
         }
 
@@ -1970,13 +1992,12 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         /// <param name="Info"></param>
         /// <returns></returns>
-        public bool GetRotatingTurntableInfo(out List<char> Info)
+        public async Task<(bool, List<char>)> GetRotatingTurntableInfo()
         {
-            Info= new List<char>();
-            var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            var ret = (false, new List<char>());
+            if (await GD_Stamping.AsyncConnect())
             {
-                 ret = GD_Stamping.GetRotatingTurntableInfo(out Info);
+                ret= await GD_Stamping.GetRotatingTurntableInfo();
                 GD_Stamping.Disconnect();
             }
             return ret;
@@ -1986,12 +2007,12 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         /// <param name="Info"></param>
         /// <returns></returns>
-        public bool SetRotatingTurntableInfo(List<char> Info)
+        public async Task<bool> SetRotatingTurntableInfo(List<char> Info)
         {
             var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            if (await GD_Stamping.AsyncConnect())
             {
-                ret = GD_Stamping.SetRotatingTurntableInfo(Info);
+                ret =await GD_Stamping.SetRotatingTurntableInfo(Info);
                 GD_Stamping.Disconnect();
             }
             return ret;
@@ -2058,7 +2079,7 @@ namespace GD_StampingMachine.Singletons
                 if (para is int paraInt)
                     if (paraInt >= 0)
                     {
-                       var ret = GD_Stamping.SetEngravingRotateStation(paraInt);
+                       var ret = await GD_Stamping.SetEngravingRotateStation(paraInt);
                     }
 
             }, para =>!EngravingRotateCommand.IsRunning);
@@ -2068,14 +2089,14 @@ namespace GD_StampingMachine.Singletons
         {
             get => new AsyncRelayCommand<object>(async (para, token) =>
             {
-                GD_Stamping.SetEngravingRotateCW();
+                await GD_Stamping.SetEngravingRotateCW();
             }); 
         }
         public AsyncRelayCommand<object> EngravingRotateCCWCommand
         {
             get => new AsyncRelayCommand<object>(async (para, token) =>
             {
-                GD_Stamping.SetEngravingRotateCCW();
+              await  GD_Stamping.SetEngravingRotateCCW();
             });
         }
 

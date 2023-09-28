@@ -549,7 +549,7 @@ namespace GD_StampingMachine.ViewModels
                     else
                         FontsCollection.Add(new char());
                 }
-                if(StampMachineData.SetRotatingTurntableInfo(FontsCollection))             
+                if(await StampMachineData.SetRotatingTurntableInfo(FontsCollection))             
                     await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
                 else
                     await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));

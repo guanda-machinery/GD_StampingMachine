@@ -19,7 +19,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <summary>
         /// 是否已連接
         /// </summary>
-       // bool IsConnected { get; }
+       // Task<bool>IsConnected { get; }
         /// <summary>
         /// 連線
         /// </summary>
@@ -27,7 +27,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        //bool Connect(string HostPath, int Port);
+        //Task<bool>Connect(string HostPath, int Port);
 
         /// <summary>
         /// 連線
@@ -36,7 +36,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        //bool Connect(string HostPath, int Port, string UserName, string Password);
+        //Task<bool>Connect(string HostPath, int Port, string UserName, string Password);
         /// <summary>
         /// 連線
         /// </summary>
@@ -44,170 +44,159 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        //bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password );
+        //Task<bool>Connect(string HostPath, int Port, string DataPath, string UserName , string Password );
 
-
-        bool IsConnectSuccessfuConnection { get; }
 
         /// <summary>
         /// 離線
         /// </summary>
         //void Disconnect();
         //在這邊寫取得機台參數等功能
-        bool GetMachineStatus(out Enums.MachineStatus Status);
+        Task<(bool, Enums.MachineStatus)> GetMachineStatus();
 
         /// <summary>
         /// 取得機台設定
         /// </summary>
         /// <param name="MachanicalSpecification"></param>
         /// <returns></returns>
-        bool GetMachanicalSpecification(out MachanicalSpecificationModel MachanicalSpecification);
-        bool SetMachanicalSpecification(MachanicalSpecificationModel MachanicalSpecification);
+        Task<(bool, MachanicalSpecificationModel)> GetMachanicalSpecification();
+        Task<bool>SetMachanicalSpecification(MachanicalSpecificationModel MachanicalSpecification);
 
-        /// <summary>
-        /// 取得所有鋼印字模
-        /// </summary>
-        /// <param name="StampingType"></param>
-        /// <returns></returns>
-        bool GetStampingTypeList(out ObservableCollection<StampingTypeModel> StampingTypeList);
-        /// <summary>
-        /// 設定所有鋼印字模
-        /// </summary>
-        /// <param name="StampingTypeList"></param>
-        /// <returns></returns>
-        bool SetStampingTypeList(ObservableCollection<StampingTypeModel> StampingTypeList);
 
         /// <summary>
         /// 取得單一字模
         /// </summary>
         /// <param name="StampingType"></param>
         /// <returns></returns>
-        bool GetSingleStampingType(int Index, out StampingTypeModel StampingType);
+        Task<(bool, StampingTypeModel)> GetSingleStampingType(int Index);
         /// <summary>
         /// 設定單一字模
         /// </summary>
         /// <param name="StampingType"></param>
         /// <returns></returns>
-        bool SetSingleStampingTypeList(int Index, StampingTypeModel StampingType);
+        Task<bool>SetSingleStampingTypeList(int Index, StampingTypeModel StampingType);
 
         /// <summary>
         /// 取得軸向設定
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool GetAxisSetting(out AxisSettingModel AxisSetting);
+        Task<(bool, AxisSettingModel)> GetAxisSetting();
         /// <summary>
         /// 設定軸向設定
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool SetAxisSetting(AxisSettingModel AxisSetting);
+        Task<bool>SetAxisSetting(AxisSettingModel AxisSetting);
 
         /// <summary>
         /// 取得計時設定
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool GetTimingSetting(out TimingSettingModel TimingSetting);
+        Task<(bool, TimingSettingModel)> GetTimingSetting();
         /// <summary>
         /// 設定計時設定
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool SetTimingSetting(TimingSettingModel TimingSetting);
+        Task<bool>SetTimingSetting(TimingSettingModel TimingSetting);
 
         /// <summary>
         /// 設定箱子
         /// </summary>
         /// <returns></returns>
-        bool SetSeparateBoxNumber(int boxIndex);
+        Task<bool>SetSeparateBoxNumber(int boxIndex);
 
         /// <summary>
         /// 取得箱子編號
         /// </summary>
         /// <returns></returns>
-        bool GetSeparateBoxNumber(out int Index);
+        Task<(bool,int)>GetSeparateBoxNumber();
 
         /// <summary>
         /// 取得分料設定
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool GetSeparateSetting(out SeparateSettingModel SeparateSetting);
+        Task<(bool, SeparateSettingModel)> GetSeparateSetting();
         /// <summary>
         /// 設定分料設定
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool SetSeparateSetting(SeparateSettingModel SeparateSetting);
+        Task<bool>SetSeparateSetting(SeparateSettingModel SeparateSetting);
 
         /// <summary>
         /// 取得InputOutput
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool GetInputOutput(out InputOutputModel InputOutput);
+        Task<(bool, InputOutputModel)> GetInputOutput();
         /// <summary>
         /// 設定InputOutput
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool SetInputOutput(InputOutputModel InputOutput);
+        Task<bool>SetInputOutput(InputOutputModel InputOutput);
         /// <summary>
         /// 取得工程模式
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool GetEngineerSetting(out EngineerSettingModel EngineerSetting);
+        Task<(bool, EngineerSettingModel)> GetEngineerSetting();
         /// <summary>
         /// 設定工程模式
         /// </summary>
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
-        bool SetEngineerSetting(EngineerSettingModel EngineerSetting);
+        Task<bool>SetEngineerSetting(EngineerSettingModel EngineerSetting);
     }
  
     
     public partial interface IStampingMachineConnect
     {
+
+        Task<bool> AsyncConnect();
+        void Disconnect();
         /// <summary>
         /// 取得馬達目前位置
         /// </summary>
-        bool GetFeedingPosition(out float Position);
+        Task<(bool, float)> GetFeedingPosition();
         /// <summary>
         /// 設定馬達目前位置
         /// </summary>
-        bool SetFeedingPosition(float Position);
+        Task<bool>SetFeedingPosition(float Position);
         /// <summary>
         /// 回歸基準點命令
         /// </summary>
         /// <returns></returns>
-        bool FeedingPositionReturnToStandbyPosition();
+        Task<bool>FeedingPositionReturnToStandbyPosition();
         /// <summary>
         /// 進料手動前進
         /// </summary>
         /// <param name="Active">啟用</param>
         /// <returns></returns>
-        bool FeedingPositionFwd(bool Active);
+        Task<bool>FeedingPositionFwd(bool Active);
         /// <summary>
         /// 進料手動後退
         /// </summary>
         /// <param name="Active">啟用</param>
         /// <returns></returns>
-        bool FeedingPositionBwd(bool Active);
+        Task<bool>FeedingPositionBwd(bool Active);
 
         /// <summary>
         /// 取得氣壓/油壓缸實際位置(磁簧訊號)
         /// </summary>
         /// <returns></returns>
-        bool GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction ,out bool singal);
+        Task<(bool,bool)>GetCylinderActualPosition(StampingCylinderType stampingCylinder, DirectionsEnum direction);
 
 
         /// <summary>
         /// 氣壓/油壓缸控制命令
         /// </summary>
         /// <returns></returns>
-        bool Set_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction);
+        Task<bool>Set_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction);
 
         /// <summary>
         /// 取得氣壓/油壓缸控制命令
@@ -216,19 +205,19 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="direction">方向</param>
         /// <param name="status">現在值</param>
         /// <returns></returns>
-        bool Get_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction , out bool status);
+        Task<(bool,bool)>Get_IO_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum direction);
 
 
         /// <summary>
         /// 油壓單元控制
         /// </summary>
-        bool SetHydraulicPumpMotor(bool Active);
+        Task<bool>SetHydraulicPumpMotor(bool Active);
 
 
         /// <summary>
         /// 取得油壓單元控制
         /// </summary>
-        bool GetHydraulicPumpMotor(out bool isActive);
+       Task<(bool, bool)> GetHydraulicPumpMotor();
 
 
 
@@ -237,23 +226,23 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="databit"></param>
         /// <returns></returns>
-        bool GetRequestDatabit(out bool databit);
+        Task<(bool, bool)> GetRequestDatabit();
 
         /// <summary>
         /// 鐵片下一片資訊-交握訊號
         /// </summary>
         /// <param name="databit"></param>
         /// <returns></returns>
-        bool SetRequestDatabit(bool databit);
+        Task<bool>SetRequestDatabit(bool databit);
 
         /// <summary>
         /// 取得鋼印字串
         /// </summary>
-        bool GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, out string StringLine);
+        Task<(bool, string)> GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType);
         /// <summary>
         /// 設定鋼印字串
         /// </summary>
-        bool SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
+        Task<bool>SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
 
         /// <summary>
         /// 取得鐵片群資訊
@@ -261,7 +250,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        //bool GetIronPlateGroup(out List<object> PlateGroup);
+        //Task<bool>GetIronPlateGroup(out List<object> PlateGroup);
 
 
         /// <summary>
@@ -270,14 +259,14 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="AxisPos"></param>
         /// <param name="Pos"></param>
         /// <returns></returns>
-        public bool SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos);
+        public Task<bool>SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos);
         /// <summary>
         /// 取得打點位置
         /// </summary>
         /// <param name="AxisPos"></param>
         /// <param name="Pos"></param>
         /// <returns></returns>
-        public bool GetAxisPos(StampingOpcUANode.AxisPos AxisPos, out string Pos);
+        public Task<(bool, string)> GetAxisPos(StampingOpcUANode.AxisPos AxisPos);
 
 
 
@@ -286,14 +275,14 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        bool GetEngravingYAxisPosition(out float position);
+        Task<(bool, float)> GetEngravingYAxisPosition();
         
         /// <summary>
         /// 鋼印Z軸現在位置
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        bool GetEngravingZAxisPosition(out float position);
+        Task<(bool, float)> GetEngravingZAxisPosition();
 
 
         /// <summary>
@@ -301,13 +290,13 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        //bool GetEngravingZAxisHydraulicUp(out bool IsActived);
+        //Task<bool>GetEngravingZAxisHydraulicUp(out Task<bool>IsActived);
         /// <summary>
         /// 鋼印油壓缸下降命令
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        //bool GetEngravingZAxisHydraulicDown(out bool IsActived);
+        //Task<bool>GetEngravingZAxisHydraulicDown(out Task<bool>IsActived);
 
         /// <summary>
         /// 鋼印油壓缸升起命令
@@ -315,7 +304,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="position"></param>
         /// <returns></returns>
 
-        //bool SetEngravingZAxisHydraulicUp(bool Actived);
+        //Task<bool>SetEngravingZAxisHydraulicUp(bool Actived);
 
         /// <summary>
         /// 鋼印油壓缸下降命令
@@ -323,7 +312,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="position"></param>
         /// <returns></returns>
 
-        //bool SetEngravingZAxisHydraulicDown(bool Actived);
+        //Task<bool>SetEngravingZAxisHydraulicDown(bool Actived);
 
 
 
@@ -332,7 +321,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// 鋼印Y軸回原點
         /// </summary>
         /// <returns></returns>
-        bool SetEngravingYAxisToStandbyPos();
+        Task<bool>SetEngravingYAxisToStandbyPos();
 
 
         /// <summary>
@@ -340,13 +329,13 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="Active"></param>
         /// <returns></returns>
-        public bool GetEngravingYAxisBwd(out bool isActived);
+        public Task<(bool,bool)>GetEngravingYAxisBwd();
         /// <summary>
         ///  鋼印Y軸前進
         /// </summary>
         /// <param name="Active"></param>
         /// <returns></returns>
-        public bool GetEngravingYAxisFwd(out bool isActived);
+        public Task<(bool, bool)> GetEngravingYAxisFwd();
 
 
 
@@ -356,27 +345,27 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="Active"></param>
         /// <returns></returns>
-        public bool SetEngravingYAxisBwd(bool Active);
+        public Task<bool>SetEngravingYAxisBwd(bool Active);
         /// <summary>
         ///  鋼印Y軸前進
         /// </summary>
         /// <param name="Active"></param>
         /// <returns></returns>
-        public bool SetEngravingYAxisFwd(bool Active);
+        public Task<bool>SetEngravingYAxisFwd(bool Active);
 
         /// <summary>
         /// 鋼印目前選定的字元「位置」（非字元）
         /// </summary>
         /// <param name="Station"></param>
         /// <returns></returns>
-        bool GetEngravingRotateStation(out int stationIndex);
+        Task<(bool, int)> GetEngravingRotateStation();
       
         /// <summary>
         /// 鋼印目前選定的字元
         /// </summary>
         /// <param name="Station"></param>
         /// <returns></returns>
-        bool GetEngravingRotateStationChar(out char stationChar);
+        Task<(bool, char)> GetEngravingRotateStationChar();
 
 
 
@@ -388,7 +377,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="Station"></param>
         /// <returns></returns>
-        bool SetEngravingRotateStation(int Station);
+        Task<bool>SetEngravingRotateStation(int Station);
 
 
         /// <summary>
@@ -396,19 +385,19 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="font"></param>
         /// <returns></returns>
-        bool GetRotatingTurntableInfo(out List<char> fonts);
+        Task<(bool, List<char>)> GetRotatingTurntableInfo();
         /// <summary>
         /// 設定轉盤上單一字模
         /// </summary>
         /// <param name="font"></param>
         /// <returns></returns>
-        bool SetRotatingTurntableInfo(int index, char font);
+        Task<bool>SetRotatingTurntableInfo(int index, char font);
         /// <summary>
         /// 設定轉盤上所有的字模
         /// </summary>
         /// <param name="font"></param>
         /// <returns></returns>
-        bool SetRotatingTurntableInfo(List<char> font);
+        Task<bool>SetRotatingTurntableInfo(List<char> font);
 
 
 
@@ -417,12 +406,12 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// 鋼印轉盤順時針旋轉
         /// </summary>
         /// <returns></returns>
-        bool SetEngravingRotateCW();
+        Task<bool>SetEngravingRotateCW();
         /// <summary>
         /// 鋼印轉盤逆時針旋轉
         /// </summary>
         /// <returns></returns>
-        bool SetEngravingRotateCCW();
+        Task<bool>SetEngravingRotateCCW();
 
 
 
@@ -431,26 +420,26 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetFeedingXHomeFwdVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetFeedingXHomeFwdVelocity();
         /// <summary>
         /// 取得進料x軸 homeing後退速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetFeedingXHomeBwdVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetFeedingXHomeBwdVelocity();
 
         /// <summary>
         /// 設定進料x軸 homeing前進速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool SetFeedingXHomeFwdVelocity(float SpeedPercent);
+        Task<bool>SetFeedingXHomeFwdVelocity(float SpeedPercent);
         /// <summary>
         /// 設定進料x軸 homein後退速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetFeedingXHomeBwdVelocity(float SpeedPercent);
+        Task<bool>SetFeedingXHomeBwdVelocity(float SpeedPercent);
 
 
         /// <summary>
@@ -458,26 +447,26 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetFeedingXFwdSetupVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetFeedingXFwdSetupVelocity();
         /// <summary>
         /// 取得進料x軸 設定模式後退速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetFeedingXBwdSetupVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetFeedingXBwdSetupVelocity();
 
         /// <summary>
         /// 設定進料x軸 設定模式前進速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool SetFeedingXFwdSetupVelocity(float SpeedPercent);
+        Task<bool>SetFeedingXFwdSetupVelocity(float SpeedPercent);
         /// <summary>
         /// 設定進料x軸 設定模式後退速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetFeedingXBwdSetupVelocity(float SpeedPercent);
+        Task<bool>SetFeedingXBwdSetupVelocity(float SpeedPercent);
 
 
 
@@ -486,26 +475,26 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool GetFeedingXFwdVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetFeedingXFwdVelocity();
         /// <summary>
         /// 取得進料x軸 手動/自動後退速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool GetFeedingXBwdVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetFeedingXBwdVelocity();
 
         /// <summary>
         /// 設定進料x軸 手動/自動前進速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetFeedingXFwdVelocity(float SpeedPercent);
+        Task<bool>SetFeedingXFwdVelocity(float SpeedPercent);
         /// <summary>
         /// 設定進料x軸 手動/自動後退速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetFeedingXBwdVelocity(float SpeedPercent);
+        Task<bool>SetFeedingXBwdVelocity(float SpeedPercent);
 
 
 
@@ -516,26 +505,26 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetEngravingFeedingYFwdSetupVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetEngravingFeedingYFwdSetupVelocity();
         /// <summary>
         /// 取得字碼刻印y軸 設定模式後退速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetEngravingFeedingYBwdSetupVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetEngravingFeedingYBwdSetupVelocity();
 
         /// <summary>
         /// 設定字碼刻印y軸 設定模式前進速度
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent);
+        Task<bool>SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent);
         /// <summary>
         /// 設定字碼刻印y軸 設定模式後退速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent);
+        Task<bool>SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent);
 
 
 
@@ -544,26 +533,26 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool GetEngravingFeedingYFwdVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetEngravingFeedingYFwdVelocity();
         /// <summary>
         /// 取得字碼刻印y軸 手動/自動後退速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool GetEngravingFeedingYBwdVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetEngravingFeedingYBwdVelocity();
 
         /// <summary>
         /// 設定字碼刻印y軸 手動/自動前進速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetEngravingFeedingYFwdVelocity(float SpeedPercent);
+        Task<bool>SetEngravingFeedingYFwdVelocity(float SpeedPercent);
         /// <summary>
         /// 設定字碼刻印y軸 手動/自動後退速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetEngravingFeedingYBwdVelocity(float SpeedPercent);
+        Task<bool>SetEngravingFeedingYBwdVelocity(float SpeedPercent);
 
 
 
@@ -575,13 +564,13 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="SpeedValue"></param>
         /// <returns></returns>
-        bool GetEngravingFeedingASetupVelocity(out float SpeedPercent);
+        Task<(bool, float)> GetEngravingFeedingASetupVelocity();
         /// <summary>
         /// 設定字碼刻印A軸(旋轉) 設定模式移動速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetEngravingFeedingASetupVelocity(float SpeedPercent);
+        Task<bool>SetEngravingFeedingASetupVelocity(float SpeedPercent);
 
 
 
@@ -590,26 +579,26 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool GetEngravingFeedingA_CW_Velocity(out float SpeedPercent);
+        Task<(bool, float)> GetEngravingFeedingA_CW_Velocity();
         /// <summary>
         /// 取得字碼刻印y軸 手動/自動逆轉速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool GetEngravingFeedingA_CCW_Velocity(out float SpeedPercent);
+        Task<(bool, float)> GetEngravingFeedingA_CCW_Velocity();
 
         /// <summary>
         /// 設定字碼刻印A軸(旋轉) 手動/自動正轉速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetEngravingFeedingA_CW_Velocity(float SpeedPercent);
+        Task<bool>SetEngravingFeedingA_CW_Velocity(float SpeedPercent);
         /// <summary>
         /// 設定字碼刻印A軸(旋轉) 手動/自動逆轉速度
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        bool SetEngravingFeedingA_CCW_Velocity(float SpeedPercent);
+        Task<bool>SetEngravingFeedingA_CCW_Velocity(float SpeedPercent);
 
         //
 
