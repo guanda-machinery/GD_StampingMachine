@@ -482,15 +482,25 @@ namespace GD_StampingMachine.ViewModels
             return true;
         }
 
+
+        string SteelPunchedFontSettingTitle => (string)Application.Current.TryFindResource("Text_SteelPunchedFontSetting");
+
         /// <summary>
         /// 將機台的資訊轉移到
         /// </summary>
         public AsyncRelayCommand StampingFontCollectionData_MachineToSoftware_Command
         {
-            get => new(async() => 
+            get => new(async() =>
             {
 
-                for(int i=0;i< StampMachineData.RotatingTurntableInfoCollection.Count;i++)
+
+                if (await MessageBoxResultShow.ShowYesNo (SteelPunchedFontSettingTitle, 
+                    (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware"))  != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
+                for (int i=0;i< StampMachineData.RotatingTurntableInfoCollection.Count;i++)
                 {
                     var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
                     if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
@@ -522,14 +532,27 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new(async () =>
             {
+                if (await MessageBoxResultShow.ShowYesNo (SteelPunchedFontSettingTitle,
+                    (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromSoftwareToMachine"))  != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                List<char> FontsCollection = new ();
 
-               // MessageBoxResultShow.Show
-                //StampingTypeVMObservableCollection
-                //StampMachineData.RotatingTurntableInfoCollection
-
-                //  StampMachineData.RotatingTurntableInfoCollection
-
-
+                for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
+                {
+                    var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
+                    if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
+                    {
+                        FontsCollection.Add(rFont);
+                    }
+                    else
+                        FontsCollection.Add(new char());
+                }
+                if(StampMachineData.SetRotatingTurntableInfo(FontsCollection))             
+                    await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
+                else
+                    await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));
 
             }, () => IsStampingFontDataTransferable() && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text;
@@ -19,100 +20,116 @@ namespace GD_MachineConnect.Machine
 
     public class GD_OpcUaHelperClient
     {
-        readonly OpcUaClient  m_OpcUaClient;
-        public GD_OpcUaHelperClient()
+        readonly OpcUaClient  m_OpcUaClient = new OpcUaClient();
+        public GD_OpcUaHelperClient(string hostPath , int port =0 , string dataPath = null, IUserIdentity userIdentity = null)
         {
-            m_OpcUaClient = new OpcUaClient();
+            HostPath = hostPath;
+            if(Port !=0)
+                Port = port;
+            else
+                Port = null;
+            DataPath = dataPath;
+            UserIdentity = userIdentity;
         }
-        //X509憑證 X509Certificate2 Certificate
-        //m_OpcUaClient.UserIdentity ??= new UserIdentity(Certificate);
+        public GD_OpcUaHelperClient(string hostPath, int? port = null, string dataPath = null, IUserIdentity userIdentity =null)
+        {
+            HostPath = hostPath;
+            Port = port;
+            DataPath = dataPath;
+            UserIdentity = userIdentity;
+        }
+
+
         public IUserIdentity UserIdentity
         {
             get=> m_OpcUaClient.UserIdentity; 
             set => m_OpcUaClient.UserIdentity = value;
         }
 
-        //public bool IsConnected => m_OpcUaClient.Connected;
+        public string HostPath { get; set; }
+        public int? Port { get; set; }
+        public string DataPath { get; set; } = null;
 
-        public async Task<bool> OpcuaConnectAsync(string HostPath, int? Port, string DataPath = null)
-        {
-            if (Port.HasValue)
-                return await OpcuaConnectAsync($"{HostPath}:{Port}", DataPath);
-            else
-                return await OpcuaConnectAsync($"{HostPath}", DataPath);
-        }
-        public async Task<bool> OpcuaConnectAsync(string HostPath, string DataPath = null)
-        {
-            if (!HostPath.Contains("opc.tcp://"))
-                HostPath = "opc.tcp://" + HostPath;
+        public int ConntectMillisecondsTimeout = 1000;
 
-            var BaseUrl = new Uri(HostPath);
-            var CombineUrl = new Uri(BaseUrl, DataPath);
-            try
+
+        private Uri CombineUrl 
+        {
+            get 
             {
-                await m_OpcUaClient.ConnectServer(CombineUrl.ToString());
-                return true;
-            }
-            catch (Exception ex)
-            {
-                /*
-                await System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    ClientUtils.HandleException("Connected Failed", ex);
-                });*/
-                return false;
-            }
+                var hostPath = HostPath;
+                if (!hostPath.Contains("opc.tcp://"))
+                    hostPath = "opc.tcp://" + hostPath;
+
+                if (Port.HasValue)
+                    hostPath += $":{Port}";
+
+                var BaseUrl = new Uri(hostPath);
+                return new Uri(BaseUrl, DataPath);
+            } 
         }
 
         private const int retryCounter = 5;
 
 
-        public bool WriteNode<T>(string NodeTreeString, T WriteValue)
+        public async bool WriteNode<T>(string NodeTreeString, T WriteValue)
         {
-            bool ret = false;
+            var ret = false;
             for (int i = 0; i < 5; i++)
             {
                 try
                 {
-                    ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+                    await  m_OpcUaClient.ConnectServer(CombineUrl.ToString());
+                    ret = await m_OpcUaClient.WriteNodeAsync(NodeTreeString, WriteValue);
+                 
                     if (ret)
+                    {
                         break;
+                    }
                 }
                 catch (Exception ex)
                 {
 
+                }
+                finally
+                {
+                    m_OpcUaClient.Disconnect();
                 }
             }
             return ret;
         }
 
-        public bool ReadNode<T>(string NodeID, out T NodeValue)
+        public Task<T> ReadNode<T>(string NodeID)
         {
-            NodeValue = default;
-
+            Task<T> NodeValue = default;
             for (int i = 0; i < 5; i++)
             {
                 try
                 {
-                   if(Debugger.IsAttached)
+                    m_OpcUaClient.ConnectServer(CombineUrl.ToString()).Wait();
+                    if (Debugger.IsAttached)
                         ReadNoteAttributes(NodeID);
-
-                    NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
-                    return true;
+                    NodeValue = m_OpcUaClient.ReadNodeAsync<T>(NodeID);
+                    break;
                 }
                 catch (Exception ex)
                 {
 
                 }
+                finally
+                { 
+                    m_OpcUaClient.Disconnect(); 
+                }
             }
-            return false;
+            return NodeValue;
         }
 
 
 
 
-        public void ReadNoteAttributes(string NodeTreeString)
+        /*public void ReadNoteAttributes(string NodeTreeString)
         {
+            this.OpcuaConnectAsync();
             OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
             foreach (var item in nodeAttributes)
             {
@@ -122,13 +139,18 @@ namespace GD_MachineConnect.Machine
                 Console.WriteLine(string.Format("{0,20}", item.Value));
             }
             Console.WriteLine("-------------------------------------");
-        }
+
+            m_OpcUaClient.Disconnect();
+
+        }*/
 
 
 
-        public bool ReadAllReference(string NodeTreeString , out List<NodeTypeValue> NodeValue)
+        /*public bool ReadAllReference(string NodeTreeString , out List<NodeTypeValue> NodeValue)
         {
             NodeValue = new List<NodeTypeValue>();
+
+            m_OpcUaClient.ConnectServer();
             //取得所有節點
             try
             {
@@ -220,8 +242,12 @@ namespace GD_MachineConnect.Machine
             {
 
             }
+            finally 
+            {
+                m_OpcUaClient.Disconnect();
+            }
             return false;
-        }
+        }*/
 
         public class NodeTypeValue
         {
@@ -229,10 +255,7 @@ namespace GD_MachineConnect.Machine
             public LocalizedText NodeDisplayName { get; set; }
             public object NodeValue { get; set; }
         }
-        public void Disconnect()
-        {
-            m_OpcUaClient.Disconnect();
-        }
+
 
     }
 }

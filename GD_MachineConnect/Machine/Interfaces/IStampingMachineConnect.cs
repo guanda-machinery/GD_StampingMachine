@@ -27,7 +27,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        bool Connect(string HostPath, int Port);
+        //bool Connect(string HostPath, int Port);
 
         /// <summary>
         /// 連線
@@ -36,7 +36,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        bool Connect(string HostPath, int Port, string UserName, string Password);
+        //bool Connect(string HostPath, int Port, string UserName, string Password);
         /// <summary>
         /// 連線
         /// </summary>
@@ -44,12 +44,15 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="Port"></param>
         /// <param name="DataPath"></param>
         /// <returns></returns>
-        bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password );
+        //bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password );
+
+
+        bool IsConnectSuccessfuＣonnection { get; }
 
         /// <summary>
         /// 離線
         /// </summary>
-        void Disconnect();
+        //void Disconnect();
         //在這邊寫取得機台參數等功能
         bool GetMachineStatus(out Enums.MachineStatus Status);
 

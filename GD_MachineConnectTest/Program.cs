@@ -31,7 +31,9 @@ namespace GD_MachineConnectTest
             var BaseUrl = new Uri($"opc.tcp://{HostString}:{Port}");
             var CombineUrl = new Uri(BaseUrl, ServerDataPath);
             var ServerUrl = CombineUrl.ToString();
-
+            
+            OpcUaHelper.Forms.FormBrowseServer formBrowseServer = new OpcUaHelper.Forms.FormBrowseServer(ServerUrl);
+            formBrowseServer.ShowDialog();
 
             Task.Run(async () =>
             {
@@ -58,9 +60,6 @@ namespace GD_MachineConnectTest
                         SMachine.GetMachineStatus(out var status);
                         SMachine.GetEngravingRotateStation(out var a);
                         SMachine.GetRotatingTurntableInfo(out var b);
-
-                        // SMachine.ReadAllReference("ns=4;s=APPL.EngravingRotate1", out _);
-                        SMachine.Disconnect();
                     }
                 }
                 catch (Exception ex)
@@ -74,8 +73,7 @@ namespace GD_MachineConnectTest
 
             Console.ReadKey();
             //opc.tcp://127.0.0.1:62541/SharpNodeSettings/OpcUaServer
-            OpcUaHelper.Forms.FormBrowseServer formBrowseServer = new OpcUaHelper.Forms.FormBrowseServer(ServerUrl);
-            formBrowseServer.ShowDialog();
+
 
 
 

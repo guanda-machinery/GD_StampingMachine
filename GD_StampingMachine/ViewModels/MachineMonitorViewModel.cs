@@ -379,7 +379,7 @@ namespace GD_StampingMachine.ViewModels
                         break;
 
                     //將兩行字上傳到機器
-                    if(await  GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.AsyncSendMachiningData(readymachining.SettingBaseVM))
+                    if(await  GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.AsyncSendMachiningData(readymachining.SettingBaseVM , int.MaxValue))
                     {
                         //成功上傳 等待他加工完成
                         //等待數秒後當作加工完成

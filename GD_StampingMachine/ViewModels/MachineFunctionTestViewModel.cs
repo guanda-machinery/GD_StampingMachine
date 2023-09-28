@@ -464,8 +464,8 @@ namespace GD_StampingMachine.ViewModels
                  && !x.ProcessingIsFinish) != -1)
                     {
                         //有無法加工到的工序 需先倒轉鋼帶或忽略無法加工的工序
-                        GD_CommonLibrary.Method.MessageBoxResultShow.ShowYesNo("", $"\r\n;");
-
+                        if (await GD_CommonLibrary.Method.MessageBoxResultShow.ShowYesNo("", $"\r\n;") != System.Windows.MessageBoxResult.Yes)
+                            return;
                     }
 
                     //  while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance >= 0 && !x.IsFinish) != -1)

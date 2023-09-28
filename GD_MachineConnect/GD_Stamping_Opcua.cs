@@ -36,73 +36,29 @@ namespace GD_MachineConnect
             Disconnect();
         }
 
-        public bool Connect(string HostPath, int Port)
-        {
-            return this.Connect(HostPath, Port, null, null, null);
-        }
-        public bool Connect(string HostPath, int Port, string UserName, string Password)
-        {
-            return this.Connect(HostPath, Port, null, UserName, Password);
-        }
-
         public const int ConntectMillisecondsTimeout = 1000;
         public const int MoveTimeout = 5000;
 
-        public bool Connect(string HostIP, int Port, string DataPath, string UserName, string Password)
+        public GD_Stamping_Opcua(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
-            try
-            {
-                if (IPAddress.TryParse(HostIP, out var ipAddress))
-                {
-                    Ping myPing = new();
-                    PingReply reply = myPing.Send(ipAddress, 5000);
-                    if (reply == null)
-                    {
-                        return false;
-                    }
-                    else if(reply.Status != IPStatus.Success)
-                    {
-                        return false;
-                    }
-
-                }
-
-                string _hostPath = HostIP;
-                if (!_hostPath.Contains(@"opc.tcp://"))
-                {
-                    _hostPath = @"opc.tcp://" + _hostPath;
-                }
-
-                if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
-                    GD_OpcUaClient.UserIdentity = new UserIdentity(UserName, Password);
-                
-                var ConnectTask = GD_OpcUaClient.OpcuaConnectAsync(_hostPath, Port, DataPath);
-                if (Task.WaitAny(ConnectTask, Task.Delay(ConntectMillisecondsTimeout)) == 0)
-                {
-                    ConnectTask.Wait();
-                    return ConnectTask.Result;
-                }
-                else
-                {
-                    Disconnect();
-                   // cancellationToken.Cancel();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debugger.Break();
-            }
-
-            return false;
+            IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
+            GD_OpcUaClient = new GD_OpcUaHelperClient(HostIP, Port, DataPath, UserIdentity);
         }
+        public GD_Stamping_Opcua(string HostIP, string DataPath, string UserName, string Password)
+        {
+            IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
+            GD_OpcUaClient = new GD_OpcUaHelperClient(HostIP, null, DataPath, UserIdentity);
+        }
+
+
+
 
         //public bool IsConnected => GD_OpcUaClient.IsConnected;
 
-        public void Disconnect()
+        private void Disconnect()
         {
             try
             {
-                //if(GD_OpcUaClient.IsConnected)
                     GD_OpcUaClient.Disconnect();
             }
             catch
@@ -802,7 +758,7 @@ namespace GD_MachineConnect
 
         public bool SetEngravingYAxisBwd(bool Active)
         {
-            return GD_OpcUaClient.WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
+            return WriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
         }
         public bool SetEngravingYAxisFwd(bool Active)
         {
@@ -874,6 +830,11 @@ namespace GD_MachineConnect
             return ret;
         }
 
+        public bool SetRotatingTurntableInfo(List<char> fonts)
+        { 
+            return SetRotatingTurntableInfoINT(fonts.ToIntList().ToArray());
+        }
+
 
         public bool SetRotatingTurntableInfo(int index , char font)
         {
@@ -890,10 +851,6 @@ namespace GD_MachineConnect
 
             return false;
         }
-
-        public bool SetRotatingTurntableInfo(List<char> fonts)
-            => SetRotatingTurntableInfoINT(fonts.ToIntList().ToArray());
-
 
 
 
@@ -1070,12 +1027,12 @@ namespace GD_MachineConnect
         }
         public bool WriteNode<T>(string NodeTreeString, T WriteValue)
         {
-            return GD_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+          //  return GD_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
         }
 
         public bool ReadAllReference(string NodeTreeString, out List<GD_OpcUaHelperClient.NodeTypeValue> NodeValue)
         {
-            return GD_OpcUaClient.ReadAllReference(NodeTreeString, out NodeValue);
+          //  return GD_OpcUaClient.ReadAllReference(NodeTreeString, out NodeValue);
         }
 
 

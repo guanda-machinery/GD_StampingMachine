@@ -352,6 +352,8 @@
     <sys:String x:Key="Text_HydraulicPumpMotorAcitvedFailure">液壓馬達啟動失敗</sys:String>
     <sys:String x:Key="Text_AskActiveHydraulicPumpMotor">是否要啟動液壓馬達</sys:String>
 
+    <sys:String x:Key="Text_AskWritePunchedFontsData_FromMachineToSoftware">是否要將字模資料從機台寫入軟體</sys:String>
+    <sys:String x:Key="Text_AskWritePunchedFontsData_FromSoftwareToMachine">是否要將字模資料從軟體寫入機台</sys:String>
 
 
 

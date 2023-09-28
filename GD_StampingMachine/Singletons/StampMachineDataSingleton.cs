@@ -769,22 +769,21 @@ namespace GD_StampingMachine.Singletons
 
             GD_Stamping = CommunicationSetting.Protocol switch
             {
-                CommunicationProtocolEnum.Opcua => new GD_Stamping_Opcua(),
-                _ => new GD_Stamping_Opcua(),
-            };
+                CommunicationProtocolEnum.Opcua => new GD_Stamping_Opcua(CommunicationSetting.HostString, CommunicationSetting.Port.Value, null, CommunicationSetting.UserName, CommunicationSetting.Password),
+                _ => throw new NotImplementedException()
+            }; 
         }
 
         ~StampMachineDataSingleton()
         {
             try
             {
-                GD_Stamping.Disconnect();
+                //GD_Stamping.Disconnect();
             }
             catch 
             {
 
             }
-
         }
 
 
@@ -853,7 +852,7 @@ namespace GD_StampingMachine.Singletons
                         {
 
 
-                            if (GD_Stamping.GetManualFwdSpd(out float feedingXHomeFwdVelocity))
+                            /*if (GD_Stamping.GetManualFwdSpd(out float feedingXHomeFwdVelocity))
                             {
 
                             }
@@ -868,7 +867,7 @@ namespace GD_StampingMachine.Singletons
                             if (GD_Stamping.GetSetupFwdSpd(out float feedingXHomeFwdVelocity))
                             {
 
-                            }
+                            }*/
 
                             /*
 
@@ -913,7 +912,7 @@ namespace GD_StampingMachine.Singletons
                             {
                                 RotatingTurntableInfoCollection = rotatingTurntableInfoList.ToObservableCollection();
                             }
-                            GD_Stamping.Disconnect();
+
                             IsInit = true;
                             break;
                         }
@@ -1084,7 +1083,6 @@ namespace GD_StampingMachine.Singletons
                 }
                 finally
                 {
-                    GD_Stamping.Disconnect();
                     IsScaning = false;
                 }
             }, cancelToken);
@@ -1142,7 +1140,6 @@ namespace GD_StampingMachine.Singletons
                 if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                 {
                     GD_Stamping.FeedingPositionReturnToStandbyPosition();
-                    GD_Stamping.Disconnect();
                 }
             }, ()=> !Feeding_XAxis_ReturnToStandbyPosition.IsRunning);
         }
@@ -1348,7 +1345,7 @@ namespace GD_StampingMachine.Singletons
         /// <returns>若連接成功會等待指定毫秒數內進行加工，若無法連接或超時皆回傳false</returns>
         public async Task<bool> AsyncSendMachiningData(SettingBaseViewModel settingBaseVM, int timeout = 5000)
         {
-            bool sendret = await Task<bool>.Run(() =>
+            return await Task<bool>.Run(async () =>
             {
                 var ret = false;
                 var spiltString = settingBaseVM.PlateNumber.SpiltByLength(settingBaseVM.SequenceCount);
@@ -1368,41 +1365,52 @@ namespace GD_StampingMachine.Singletons
 
                 if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
                 {
-                    CancellationTokenSource tokenSource = new();
-                    var token = tokenSource.Token;
-                    bool databit = false;
-                    var GetRequestDatabitTask = Task.Run(() =>
+
+                    var databit = Task<bool>.Run(async ()=>
                     {
-                        while (true)
+                        CancellationTokenSource tokenSource = new();
+                        var token = tokenSource.Token;
+                        var getRequestDatabitTask = Task<bool>.Run(async () =>
                         {
-                            ret = GD_Stamping.GetRequestDatabit(out databit);
-                            if (ret && databit)
-                                break;
+                            while (!token.IsCancellationRequested)
+                            {
+                                ret = GD_Stamping.GetRequestDatabit(out var Rdatabit);
+                                if (ret)
+                                {
+                                    return Rdatabit;
+                                }
+                                await Task.Delay(100);
+                            }
+                            return false;
+
+                        },token);
+
+                        if(Task.WaitAny(Task.Delay(timeout)  ,getRequestDatabitTask) == 0)
+                        {
+                            //超時
+                            tokenSource.Cancel();
                         }
-                    }, token);
+                        else
+                        {
 
-                    //若超時則回傳false
-                    if (Task.WaitAny(Task.Delay(timeout), GetRequestDatabitTask) == 0)
-                    {
-                        tokenSource.Cancel();
-                        //超時
-                        return false;
-                    }
+                        }
+                            
+                        return await getRequestDatabitTask ;
+                    });
 
-                    if (databit)
+                    if (await databit)
                     {
-                        //GD_Stamping.GetMachineStatus
                         ret = GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName1, firstLine);
                         ret = GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName2, secondLine);
                         ret = GD_Stamping.SetRequestDatabit(false);
                     }
-                     
+
+                    GD_Stamping.Disconnect();
                     return ret;
                 }
                 else
                     return false;
             });
-            return sendret;
         }
 
 
@@ -1550,7 +1558,7 @@ namespace GD_StampingMachine.Singletons
                         }
                         else
                         {
-                            MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                         await   MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                                 (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure"));
                         }
                     }
@@ -1573,13 +1581,12 @@ namespace GD_StampingMachine.Singletons
         public bool SetEngravingYAxisToStandbyPos()
         {
             var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
-            {
+
                 ret = GD_Stamping.SetEngravingYAxisBwd(false);
                 ret = GD_Stamping.SetEngravingYAxisFwd(false);
                 ret = GD_Stamping.SetEngravingYAxisToStandbyPos();
                  
-            }
+            
             return ret;
         }
 
@@ -1591,12 +1598,10 @@ namespace GD_StampingMachine.Singletons
         private bool SetEngravingYAxisFwd(bool IsMove)
         {
             var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
-            {
+
                 ret = GD_Stamping.SetEngravingYAxisBwd(false);
                 ret = GD_Stamping.SetEngravingYAxisFwd(IsMove);
-                GD_Stamping.Disconnect();
-            }
+
             return ret;
         }
         /// <summary>
@@ -1606,12 +1611,11 @@ namespace GD_StampingMachine.Singletons
         private bool SetEngravingYAxisBwd(bool IsMove)
         {
             var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
-            {
+
                 ret = GD_Stamping.SetEngravingYAxisFwd(false);
                 ret = GD_Stamping.SetEngravingYAxisBwd(IsMove);
-                GD_Stamping.Disconnect();
-            }
+
+            
             return ret;
         }
 
@@ -1641,12 +1645,8 @@ namespace GD_StampingMachine.Singletons
         /// <returns></returns>
         private bool SetEngravingRotateCounterClockwise()
         {
-            var ret = false;
-            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
-            {
-                ret = GD_Stamping.SetEngravingRotateCCW();
-                GD_Stamping.Disconnect();
-            }
+            var ret = GD_Stamping.SetEngravingRotateCCW();
+
             return ret;
         }
 
@@ -1979,10 +1979,37 @@ namespace GD_StampingMachine.Singletons
             get => _isRotating; set { _isRotating = value; OnPropertyChanged(); }
         }*/
 
-
-
-
-
+        /// <summary>
+        /// 取得字模
+        /// </summary>
+        /// <param name="Info"></param>
+        /// <returns></returns>
+        public bool GetRotatingTurntableInfo(out List<char> Info)
+        {
+            Info= new List<char>();
+            var ret = false;
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            {
+                 ret = GD_Stamping.GetRotatingTurntableInfo(out Info);
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 設定字模
+        /// </summary>
+        /// <param name="Info"></param>
+        /// <returns></returns>
+        public bool SetRotatingTurntableInfo(List<char> Info)
+        {
+            var ret = false;
+            if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+            {
+                ret = GD_Stamping.SetRotatingTurntableInfo(Info);
+                GD_Stamping.Disconnect();
+            }
+            return ret;
+        }
 
 
 
