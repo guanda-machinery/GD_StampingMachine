@@ -47,7 +47,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         //bool Connect(string HostPath, int Port, string DataPath, string UserName , string Password );
 
 
-        bool IsConnectSuccessfuＣonnection { get; }
+        bool IsConnectSuccessfuConnection { get; }
 
         /// <summary>
         /// 離線

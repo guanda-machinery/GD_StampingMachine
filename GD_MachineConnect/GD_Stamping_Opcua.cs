@@ -50,22 +50,15 @@ namespace GD_MachineConnect
             GD_OpcUaClient = new GD_OpcUaHelperClient(HostIP, null, DataPath, UserIdentity);
         }
 
-
-
-
-        //public bool IsConnected => GD_OpcUaClient.IsConnected;
-
-        private void Disconnect()
+        public bool IsConnectSuccessfuConnection
         {
-            try
+            get
             {
-                    GD_OpcUaClient.Disconnect();
-            }
-            catch
-            {
-
+                return GD_OpcUaClient.
             }
         }
+
+
 
         public bool FeedingPositionBwd(bool Active)
         {

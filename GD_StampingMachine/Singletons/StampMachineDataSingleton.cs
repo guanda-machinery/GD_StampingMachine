@@ -848,74 +848,60 @@ namespace GD_StampingMachine.Singletons
                     {
                         if (cancelToken.IsCancellationRequested)
                             cancelToken.ThrowIfCancellationRequested();
-                        if (GD_Stamping.Connect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, CommunicationSetting.UserName, CommunicationSetting.Password))
+
+
+                        /*if (GD_Stamping.GetManualFwdSpd(out float feedingXHomeFwdVelocity))
                         {
 
+                        }
+                        if (GD_Stamping.GetManualBwdSpd(out float feedingXHomeFwdVelocity))
+                        {
 
-                            /*if (GD_Stamping.GetManualFwdSpd(out float feedingXHomeFwdVelocity))
-                            {
+                        }
+                        if (GD_Stamping.GetSetupFwdSpd(out float feedingXHomeFwdVelocity))
+                        {
 
-                            }
-                            if (GD_Stamping.GetManualBwdSpd(out float feedingXHomeFwdVelocity))
-                            {
+                        }
+                        if (GD_Stamping.GetSetupFwdSpd(out float feedingXHomeFwdVelocity))
+                        {
 
-                            }
-                            if (GD_Stamping.GetSetupFwdSpd(out float feedingXHomeFwdVelocity))
-                            {
+                        }*/
 
-                            }
-                            if (GD_Stamping.GetSetupFwdSpd(out float feedingXHomeFwdVelocity))
-                            {
+                        /*
 
-                            }*/
+                        if (GD_Stamping.GetFeedingXHomeFwdVelocity(out float feedingXHomeFwdVelocity))
+                        {
 
-                            /*
+                        }
 
-                            if (GD_Stamping.GetFeedingXHomeFwdVelocity(out float feedingXHomeFwdVelocity))
-                            {
+                        if (GD_Stamping.GetFeedingXHomeBwdVelocity(out float feedingXHomeBwdVelocity))
+                        {
 
-                            }
-
-                            if (GD_Stamping.GetFeedingXHomeBwdVelocity(out float feedingXHomeBwdVelocity))
-                            {
-
-                            }
+                        }
 
 
-                            if (GD_Stamping.GetEngravingFeedingYFwdSetupVelocity(out float engravingFeedingYFwdSetupVelocity))
-                            {
+                        if (GD_Stamping.GetEngravingFeedingYFwdSetupVelocity(out float engravingFeedingYFwdSetupVelocity))
+                        {
 
-                            }
+                        }
 
-                            if (GD_Stamping.GetEngravingFeedingYBwdSetupVelocity(out float engravingFeedingYBwdSetupVelocity))
-                            {
+                        if (GD_Stamping.GetEngravingFeedingYBwdSetupVelocity(out float engravingFeedingYBwdSetupVelocity))
+                        {
 
-                            }
+                        }
+                        if (GD_Stamping.GetEngravingFeedingASetupVelocity(out float engravingFeedingASetupVelocity))
+                        {
 
+                        }*/
 
-
-                            if (GD_Stamping.GetEngravingFeedingASetupVelocity(out float engravingFeedingASetupVelocity))
-                            {
-
-                            }*/
-
-
-
-
-
-
-
-
-
-
-                            if (GD_Stamping.GetRotatingTurntableInfo(out var rotatingTurntableInfoList))
-                            {
-                                RotatingTurntableInfoCollection = rotatingTurntableInfoList.ToObservableCollection();
-                            }
+                        if (GD_Stamping.GetRotatingTurntableInfo(out var rotatingTurntableInfoList))
+                        {
+                            RotatingTurntableInfoCollection = rotatingTurntableInfoList.ToObservableCollection();
+                        }
 
                             IsInit = true;
                             break;
-                        }
+                        
                         await Task.Delay(100);
                     }
                     if (IsInit)
