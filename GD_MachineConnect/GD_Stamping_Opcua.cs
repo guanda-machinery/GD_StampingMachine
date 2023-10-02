@@ -25,7 +25,7 @@ using System.Windows.Input;
 
 namespace GD_MachineConnect
 {
-    public class GD_Stamping_Opcua : IStampingMachineConnect
+    public class GD_Stamping_Opcua : IStampingMachineConnect , IDisposable
     {
         /// <summary>
         /// 實作長連接
@@ -33,7 +33,39 @@ namespace GD_MachineConnect
         private readonly GD_OpcUaHelperClient GD_OpcUaClient;
         ~GD_Stamping_Opcua()
         {
-            GD_OpcUaClient.Disconnect();
+            Dispose();
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private bool disposed = false;
+        public void Dispose(bool disposing)
+        {
+            if (!this.disposed)      //如果Dispose沒有成功執行過
+            {
+                try
+                {
+                    if (disposing)   //釋放Managed
+                    {
+
+                    }
+                    this.Disconnect();
+                    //釋放Unmanaged資源
+                    disposed = true;
+                    GC.SuppressFinalize(this);
+                }
+                catch (Exception ex)
+                {
+
+                }
+                finally
+                {
+
+                }
+
+            }
         }
 
         public const int ConntectMillisecondsTimeout = 1000;
@@ -56,7 +88,9 @@ namespace GD_MachineConnect
         {
            return await GD_OpcUaClient.AsyncConnect();
         }
-        public void  Disconnect()
+        public Exception ConnectException { get => GD_OpcUaClient.ConnectException; }
+
+        public void Disconnect()
         {
             GD_OpcUaClient.Disconnect();
         }
@@ -752,9 +786,9 @@ namespace GD_MachineConnect
             return (ret.Item1 , Station);
         }
 
-        public async Task<(bool,char)> GetEngravingRotateStationChar()
+        public async Task<(bool, StampingTypeModel)> GetEngravingRotateStationChar()
         {
-           var  stationChar = new char();
+            StampingTypeModel stampingType = new();
             var ret1 = await GetEngravingRotateStation();
             var ret2 = await GetRotatingTurntableInfo();
 
@@ -765,15 +799,15 @@ namespace GD_MachineConnect
                     var index = ret1.Item2;
                     var tableInfo = ret2.Item2;
 
-                    stationChar = tableInfo[index];
-                    return (true ,stationChar);
+                    stampingType = tableInfo[index];
+                    return (true , stampingType);
                 }
                 catch
                 {
                    
                 }
             }
-            return (false ,stationChar);
+            return (false , stampingType);
 
         }
 
@@ -794,19 +828,46 @@ namespace GD_MachineConnect
 
 
 
-        public async Task<(bool,List<char>)> GetRotatingTurntableInfo()
+
+        public async Task<(bool, object[])> GetIronPlateDataCollection()
+            =>await GD_OpcUaClient.AsyncReadNode<object[]>($"{StampingOpcUANode.system.sv_IronPlateData}");
+        
+
+
+
+
+
+        public async Task<(bool,List<StampingTypeModel>)> GetRotatingTurntableInfo()
         {
             var ret =await GetRotatingTurntableInfoINT();
-            if(ret.Item1)
+            var turntableInfoList = new List<StampingTypeModel>();
+            if (ret.Item1)
             {
-                return (true , ret.Item2.ToCharList());
+                for (int i = 0; i < ret.Item2.Length; i++)
+                {
+                    turntableInfoList.Add(new StampingTypeModel()
+                    {
+                        StampingTypeNumber = i +1,
+                        StampingTypeString = ret.Item2[i].ToChar().ToString()
+                    });
+                }
             }
-            return (false , new List<char>()) ;
+            return (ret.Item1, turntableInfoList) ;
         }
 
-        public async Task<bool> SetRotatingTurntableInfo(List<char> fonts)
-        { 
-            return await SetRotatingTurntableInfoINT(fonts.ToIntList().ToArray());
+        public async Task<bool> SetRotatingTurntableInfo(List<StampingTypeModel> fonts)
+        {
+            List<char>charList = new List<char>();
+            foreach(var font in fonts)
+            {
+                var charArray = font.StampingTypeString.ToCharArray();
+                if(charArray.Length>0)
+                    charList.Add(charArray[0]);
+                else
+                    charList.Add(new char());
+            }
+
+            return await SetRotatingTurntableInfoINT(charList.ToIntList().ToArray());
         }
 
 
@@ -1602,6 +1663,9 @@ namespace GD_MachineConnect
                 /// </summary>
                 public static string sv_bRequestDatabit => $"{NodeHeader}.{NodeVariable.system}.sv_bRequestDatabit";
 
+                /// <summary>
+                /// 鐵片陣列
+                /// </summary>
                 public static string sv_IronPlateData => $"{NodeHeader}.{NodeVariable.system}.sv_IronPlateData";
                /// <summary>
                /// 特定鐵片

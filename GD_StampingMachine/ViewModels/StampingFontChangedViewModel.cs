@@ -27,6 +27,7 @@ using DevExpress.XtraPrinting.Preview;
 using GD_StampingMachine.Singletons;
 using System.Drawing;
 using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Model;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -537,17 +538,17 @@ namespace GD_StampingMachine.ViewModels
                 {
                     return;
                 }
-                List<char> FontsCollection = new ();
+                List<StampingTypeModel> FontsCollection = new ();
 
                 for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
                 {
                     var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
                     if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
                     {
-                        FontsCollection.Add(rFont);
+                        FontsCollection.Add(rFont.StampingType);
                     }
                     else
-                        FontsCollection.Add(new char());
+                        FontsCollection.Add(new StampingTypeModel());
                 }
                 if(await StampMachineData.SetRotatingTurntableInfo(FontsCollection))             
                     await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));

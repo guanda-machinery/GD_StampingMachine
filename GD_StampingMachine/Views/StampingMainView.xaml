@@ -148,11 +148,51 @@
                         </Button>
                         <GD_Popup:DraggablePopup  Name="StampingWarningDraggablePopup"
                                     PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="True"
-                                    Placement="Right"  
+                                    Placement="Bottom"  
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
                             <Grid>
-                                <Border Width="50" Height="50" Background="Red"/>
+                                <Border Width="500" Height="500" Background="Red">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                                            <ListBox Margin="10,0" 
+                         ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}"      
+                                          
+                         ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
+                          >
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Margin="5,0"/>
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                            </ListBox>
+                                        </GroupBox>
+
+                                        <Grid Grid.Row="1">
+                                            
+                                        </Grid>
+                                        
+                                        <GroupBox Grid.Row="2" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                                            <ListBox    Margin="10,0"  
+                         ItemsSource="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection}"          
+                         ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
+                          >
+
+
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Margin="5,0"/>
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                            </ListBox>
+                                        </GroupBox>
+                                    </Grid>
+                                </Border>
 
                             </Grid>
                         </GD_Popup:DraggablePopup>

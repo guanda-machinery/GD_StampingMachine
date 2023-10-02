@@ -39,7 +39,7 @@ namespace GD_MachineConnectTest
             {
                 try
                 {
-                    var Opcua = new GD_OpcUaHelperClient();
+                    //var Opcua = new GD_OpcUaHelperClient();
                     /*Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                     if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                     {
@@ -54,12 +54,13 @@ namespace GD_MachineConnectTest
                         Opcua.Disconnect();
                     }*/
 
-                    GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua();
-                    if (SMachine.Connect(HostString, Port, ServerDataPath ,null,null))
+                    GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua(HostString, Port, ServerDataPath, null, null);
+                    if (await SMachine.AsyncConnect())
                     {
-                        SMachine.GetMachineStatus(out var status);
-                        SMachine.GetEngravingRotateStation(out var a);
-                        SMachine.GetRotatingTurntableInfo(out var b);
+                        var status = await SMachine.GetMachineStatus();
+                        var a = await SMachine.GetEngravingRotateStation();
+                        var b = await SMachine.GetRotatingTurntableInfo();
+                        SMachine.Disconnect();
                     }
                 }
                 catch (Exception ex)
@@ -99,18 +100,18 @@ namespace GD_MachineConnectTest
                             Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                             if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                             {
-                                Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1", out _);
+                                //Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1", out _);
 
                                 //var allR = Opcua.ReadAllReference();
                                 //var newid = new NodeId("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1");
 
-                                Opcua.ReadNode<short>("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1", out var vae);
-                                Opcua.WriteNode("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1", (short)input);
+                           await     Opcua.AsyncReadNode<short>("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1");
+                     await           Opcua.AsyncWriteNode("ns=2;s=Devices/M1/FAC1/TEST Device1/Temp1", (short)input);
 
                                 //Opcua.ReadNode_TEST();
                                 // Opcua.ReadReference_Test();
                                  List<NodeTypeValue> Listdata = new List<NodeTypeValue>();
-                                Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1" ,out Listdata);
+                                //Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1" ,out Listdata);
                                 Opcua.Disconnect();
                             }
                         });

@@ -48,8 +48,6 @@ namespace GD_StampingMachine
 
             Task.Run(() =>
             {
-
-
                 Thread.Sleep(100);
                 SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
                 manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);

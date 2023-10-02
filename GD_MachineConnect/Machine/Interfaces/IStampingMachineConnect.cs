@@ -158,6 +158,7 @@ namespace GD_MachineConnect.Machine.Interfaces
     {
 
         Task<bool> AsyncConnect();
+         Exception ConnectException { get; }
         void Disconnect();
         /// <summary>
         /// 取得馬達目前位置
@@ -361,11 +362,11 @@ namespace GD_MachineConnect.Machine.Interfaces
         Task<(bool, int)> GetEngravingRotateStation();
       
         /// <summary>
-        /// 鋼印目前選定的字元
+        /// 取得鋼印目前選定的字元
         /// </summary>
         /// <param name="Station"></param>
         /// <returns></returns>
-        Task<(bool, char)> GetEngravingRotateStationChar();
+        Task<(bool, StampingTypeModel)> GetEngravingRotateStationChar();
 
 
 
@@ -381,11 +382,11 @@ namespace GD_MachineConnect.Machine.Interfaces
 
 
         /// <summary>
-        /// 取得轉盤上所有的字模
+        /// 取得轉盤上所有的字模 編號-字元
         /// </summary>
         /// <param name="font"></param>
         /// <returns></returns>
-        Task<(bool, List<char>)> GetRotatingTurntableInfo();
+        Task<(bool, List<StampingTypeModel>)> GetRotatingTurntableInfo();
         /// <summary>
         /// 設定轉盤上單一字模
         /// </summary>
@@ -397,10 +398,10 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// </summary>
         /// <param name="font"></param>
         /// <returns></returns>
-        Task<bool>SetRotatingTurntableInfo(List<char> font);
+        Task<bool>SetRotatingTurntableInfo(List<StampingTypeModel> font);
 
 
-
+         Task<(bool, object[])> GetIronPlateDataCollection();
 
         /// <summary>
         /// 鋼印轉盤順時針旋轉

@@ -11,5 +11,11 @@
     <Setting Name="SelectedProjectDistributeName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Version" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alpha 23.4.24</Value>
+    </Setting>
+    <Setting Name="Copyright" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Copyright © 2022 GUANDA</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

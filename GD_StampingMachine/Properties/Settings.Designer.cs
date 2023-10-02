@@ -58,5 +58,29 @@ namespace GD_StampingMachine.Properties {
                 this["SelectedProjectDistributeName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alpha 23.4.24")]
+        public string Version {
+            get {
+                return ((string)(this["Version"]));
+            }
+            set {
+                this["Version"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Copyright © 2022 GUANDA")]
+        public string Copyright {
+            get {
+                return ((string)(this["Copyright"]));
+            }
+            set {
+                this["Copyright"] = value;
+            }
+        }
     }
 }

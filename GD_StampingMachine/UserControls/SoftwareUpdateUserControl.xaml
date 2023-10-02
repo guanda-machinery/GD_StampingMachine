@@ -66,6 +66,8 @@
                 </StackPanel>
             </Border>
         </Grid>
-        <Button Content="{DynamicResource Text_DownloadAndInstall}" Command="{Binding DownloadAndUpdatedCommand}"  CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Width="auto" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+        <Button Content="{DynamicResource Text_DownloadAndInstall}" Command="{Binding DownloadAndUpdatedCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                Width="auto" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
     </StackPanel>
 </UserControl>

@@ -62,7 +62,7 @@ namespace GD_StampingMachine.ViewModels
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
                         Singletons.LogDataSingleton.Instance.AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
-                       // Thread.Sleep(1000);
+                        // Thread.Sleep(1000);
                         await Task.Delay(1000);
                     }
                 });
@@ -70,7 +70,7 @@ namespace GD_StampingMachine.ViewModels
 
             StampingMachineJsonHelper JsonHM = new();
 
-            Task.Run(async() =>
+            Task.Run(async () =>
             {
                 while (true)
                 {
@@ -79,7 +79,7 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
 
-            Task.Run(async() =>
+            Task.Run(async () =>
             {
 
                 await Task.Delay(5000);
@@ -101,7 +101,7 @@ namespace GD_StampingMachine.ViewModels
 
                         JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
 
-                        Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName , "SaveProjectDistributeListFile");
+                        Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "SaveProjectDistributeListFile");
                     }
                     catch (Exception ex)
                     {
@@ -139,9 +139,9 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public DateTime DateTimeNow
         {
-            get => _dateTimeNow; set { _dateTimeNow =value; OnPropertyChanged(); } 
+            get => _dateTimeNow; set { _dateTimeNow = value; OnPropertyChanged(); }
         }
-     
+
         [JsonIgnore]
         public RelayCommand OpenProjectFileCommand
         {
@@ -200,8 +200,9 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public ParameterSettingViewModel ParameterSettingVM
         {
-            get => stampingMain.ParameterSettingVM; 
-            set => stampingMain.ParameterSettingVM = value; }
+            get => stampingMain.ParameterSettingVM;
+            set => stampingMain.ParameterSettingVM = value;
+        }
         /// <summary>
         /// 製品設定
         /// </summary>
@@ -223,7 +224,7 @@ namespace GD_StampingMachine.ViewModels
 
         private MachineFunctionTestViewModel _machineFunctionTestVM;
         public MachineFunctionTestViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTestViewModel(); set => _machineFunctionTestVM = value; }
-        
+
 
         /// <summary>
         /// 機台警報
@@ -242,23 +243,18 @@ namespace GD_StampingMachine.ViewModels
 
 
         [JsonIgnore]
-        public ICommand DownloadAndUpdatedCommand
+        public AsyncRelayCommand DownloadAndUpdatedCommand
         {
-            get => new RelayCommand<object>(Parameter =>
+            get => new AsyncRelayCommand(async () =>
             {
-                if (Parameter is Button)
-                {
-                    (Parameter as Button).IsEnabled = false;
-                }
-
                 var ManagerVM = new DXSplashScreenViewModel
                 {
                     Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
                     Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
                     Progress = 0,
                     IsIndeterminate = false,
-                    Subtitle = "Alpha 23.4.24",
-                    Copyright = "Copyright © 2022 GUANDA",
+                    Subtitle = Properties.Settings.Default.Version,
+                    Copyright =Properties.Settings.Default.Copyright,
                 };
 
                 SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
@@ -266,38 +262,23 @@ namespace GD_StampingMachine.ViewModels
                 ManagerVM.IsIndeterminate = false;
 
                 //等待結束 
-                Task.Run(() =>
+
+                for (double i = 10000; i < 0; i--)
                 {
-                    try
-                    {
-                        for (double i = 10000; i < 0; i--)
-                        {
-                            ManagerVM.Progress = i / 10000;
-                        }
-                        Thread.Sleep(100);
+                    ManagerVM.Progress = i / 10000;
+                }
+                //Thread.Sleep(100);
+                await Task.Delay(100);
 
-                        System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                        {
-                            manager.Close();
-                            if (Parameter is Button)
-                            {
-                                (Parameter as Button).IsEnabled = true;
-                            }
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                });
+                manager.Close();
 
 
 
 
-            });
+            }, ()=> !DownloadAndUpdatedCommand.IsRunning);
         }
 
-        
+
 
 
 

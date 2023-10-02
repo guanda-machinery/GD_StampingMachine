@@ -362,11 +362,11 @@ namespace GD_StampingMachine.ViewModels
             get => new AsyncRelayCommand(async (CancellationToken token) =>
             {
                 //開始依序傳送資料
-
-                if (token.IsCancellationRequested)
-                    token.ThrowIfCancellationRequested();
                 while (true)
                 {
+                    if (token.IsCancellationRequested)
+                        token.ThrowIfCancellationRequested();
+
                     var readyMachiningCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex)
                     .ToList().FindAll(x =>
                      !x.SendMachineCommandVM.IsFinish

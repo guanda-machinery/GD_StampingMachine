@@ -346,6 +346,16 @@
 
     <sys:String x:Key="Text_JsonError">Json檔案讀取錯誤</sys:String>
 
+    
+    <!--連線-->
+
+
+    <sys:String x:Key="Connection_Error">連線錯誤</sys:String>
+    <sys:String x:Key="Connection_TryConnect">嘗試連線</sys:String>
+    <sys:String x:Key="Connection_IsSucessful">連線成功</sys:String>
+
+
+
 
     <!--機台-->
     <sys:String x:Key="Text_HydraulicPumpMotorIsNotAcitved">液壓馬達未啟動</sys:String>

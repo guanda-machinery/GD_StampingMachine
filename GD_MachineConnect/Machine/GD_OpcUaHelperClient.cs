@@ -42,8 +42,7 @@ namespace GD_MachineConnect.Machine
 
         public IUserIdentity UserIdentity
         {
-            get=> m_OpcUaClient.UserIdentity; 
-            set => m_OpcUaClient.UserIdentity = value;
+            get;set;
         }
 
         public string HostPath { get; set; }
@@ -53,44 +52,52 @@ namespace GD_MachineConnect.Machine
         public int ConntectMillisecondsTimeout = 1000;
 
 
-        private Uri CombineUrl 
+        private Uri CombineUrl(string hostPath , int? port ,string dataPath)
         {
-            get 
-            {
-                var hostPath = HostPath;
-                if (!hostPath.Contains("opc.tcp://"))
-                    hostPath = "opc.tcp://" + hostPath;
-
-                if (Port.HasValue)
-                    hostPath += $":{Port}";
-
-                var BaseUrl = new Uri(hostPath);
-                return new Uri(BaseUrl, DataPath);
-            } 
+            //var hostPath = HostPath;
+            if (!hostPath.Contains("opc.tcp://"))
+                hostPath = "opc.tcp://" + hostPath;
+            if (port.HasValue)
+                hostPath += $":{port}";
+            var BaseUrl = new Uri(hostPath);
+            return new Uri(BaseUrl, dataPath);
         }
 
         private const int retryCounter = 5;
 
 
+
         public async Task<bool> AsyncConnect()
+        {
+            return await AsyncConnect(HostPath,Port,DataPath,UserIdentity);
+        }
+
+        public async Task<bool> AsyncConnect(string hostPath, int? port, string dataPath, IUserIdentity userIdentity)
         {
             if (m_OpcUaClient.Connected)
                 return true;
 
-            for (int i = 0; i < retryCounter; i++)
+            try
             {
-                try
-                {
-                    await m_OpcUaClient.ConnectServer(CombineUrl.ToString());
-                    return true;
-                }
-                catch
-                {
-
-                }
+                m_OpcUaClient.UserIdentity = userIdentity;
+                var baseUrl = CombineUrl(hostPath, port, dataPath);
+                await m_OpcUaClient.ConnectServer(baseUrl.ToString());
+                ConnectException = null;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ConnectException = ex;
             }
             return false;
         }
+
+        public Exception ConnectException { get;private set; }
+
+
+
+
+
         public void Disconnect()
         {
             m_OpcUaClient.Disconnect();
