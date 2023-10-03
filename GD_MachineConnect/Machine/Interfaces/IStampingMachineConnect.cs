@@ -1,5 +1,6 @@
 ﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.GD_Model.KEBA_Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -151,11 +152,11 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="AxisSetting"></param>
         /// <returns></returns>
         Task<bool>SetEngineerSetting(EngineerSettingModel EngineerSetting);
-    }
+  //  }
  
     
-    public partial interface IStampingMachineConnect
-    {
+    //public partial interface IStampingMachineConnect
+   // {
 
         Task<bool> AsyncConnect();
          Exception ConnectException { get; }
@@ -401,7 +402,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         Task<bool>SetRotatingTurntableInfo(List<StampingTypeModel> font);
 
 
-         Task<(bool, object[])> GetIronPlateDataCollection();
+         Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection();
 
         /// <summary>
         /// 鋼印轉盤順時針旋轉

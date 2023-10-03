@@ -506,14 +506,15 @@ namespace GD_StampingMachine.ViewModels
                     var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
                     if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
                     {
-                        stamptypeVM.StampingTypeString = rFont.ToString();
+                        stamptypeVM.StampingTypeString = rFont.StampingTypeString.ToString();
                     }
                     else
                     {
                         StampingTypeVMObservableCollection.Add(new StampingTypeViewModel()
                         {
                             StampingTypeNumber = i + 1,
-                            StampingTypeString = rFont.ToString(), StampingTypeUseCount = 0,
+                            StampingTypeString = rFont.StampingTypeString.ToString(),
+                            StampingTypeUseCount = 0,
                             IsNewAddStamping = false,
                             StampingIsUsing = false
                         });

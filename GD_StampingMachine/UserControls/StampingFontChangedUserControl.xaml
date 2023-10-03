@@ -47,8 +47,8 @@
                     </dxe:ComboBoxEdit>
 
 
-                    <ComboBox          Style="{StaticResource GD_WhiteComboBox}" 
-                        Name="RotatingTurntableInfoComboBox" Style="{StaticResource GD_WhiteComboBox}" Background="White"  Width="150" ItemsSource="{Binding StampMachineData.RotatingTurntableInfoCollection}">
+                    <ComboBox  DisplayMemberPath="StampingTypeString"         Style="{StaticResource GD_WhiteComboBox}" 
+                        Name="RotatingTurntableInfoComboBox"  Background="White"  Width="150" ItemsSource="{Binding StampMachineData.RotatingTurntableInfoCollection}">
 
                     </ComboBox>
 

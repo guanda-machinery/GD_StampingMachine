@@ -5,6 +5,7 @@ using GD_MachineConnect.Machine;
 using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.GD_Model.KEBA_Model;
 using Opc.Ua;
 using OpcUaHelper;
 using Org.BouncyCastle.Crypto.Tls;
@@ -824,14 +825,33 @@ namespace GD_MachineConnect
         
         private async Task<bool> SetRotatingTurntableInfoINT(int[] fonts)     
             => await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", fonts);
-        
 
 
 
 
-        public async Task<(bool, object[])> GetIronPlateDataCollection()
-            =>await GD_OpcUaClient.AsyncReadNode<object[]>($"{StampingOpcUANode.system.sv_IronPlateData}");
-        
+
+        public async Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection()
+        {
+            for(int i = 0; i < 25; i++)
+            {
+                var a = await GD_OpcUaClient.AsyncReadNode<object>($"{StampingOpcUANode.system.sv_IronPlateData}.[{i+1}]");
+
+
+
+
+                var c = await GD_OpcUaClient.AsyncReadNode<IronPlateDataModel>($"{StampingOpcUANode.system.sv_IronPlateData}[{i + 1}]");
+
+                var newIronPlateData = new IronPlateDataModel();
+
+
+
+
+
+
+                
+            }
+            return (false, null); 
+        }
 
 
 
@@ -1672,7 +1692,7 @@ namespace GD_MachineConnect
                /// </summary>
                /// <param name="index"></param>
                /// <returns></returns>
-                public static string sv_IronPlateDataOfIndex(int index) =>   $"{NodeHeader}.{NodeVariable.system}.sv_IronPlateData.[{index}]";
+                //public static string sv_IronPlateData_Index(int index) =>   $"{NodeHeader}.{NodeVariable.system}.sv_IronPlateData[{index}]";
 
                 /// <summary>
                 /// 人機上直接輸入對應字碼的ascii code滿共40格

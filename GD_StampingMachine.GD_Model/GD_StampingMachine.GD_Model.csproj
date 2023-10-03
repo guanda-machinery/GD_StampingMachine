@@ -45,7 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ERP\ERP_IronPlateModel.cs" />
-    <Compile Include="IO_InfoModel.cs" />
+    <Compile Include="KEBA_Model\IO_InfoModel.cs" />
+    <Compile Include="KEBA_Model\IronPlateDataModel.cs" />
     <Compile Include="MachiningProjectModel.cs" />
     <Compile Include="MechanicalSpecificationModel.cs" />
     <Compile Include="CommunicationSettingModel.cs" />

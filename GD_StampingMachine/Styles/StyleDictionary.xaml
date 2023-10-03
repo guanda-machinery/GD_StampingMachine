@@ -248,6 +248,11 @@
         </Setter>
     </Style>
 
+    <Style x:Key="SiegCustomButton_Transparent" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+
     <Style x:Key="SiegCustomButton_Dark" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="Foreground"
                             Value="WhiteSmoke" />

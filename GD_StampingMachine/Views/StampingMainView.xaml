@@ -140,10 +140,11 @@
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Button Name="StampingWarningButton"    
+                        <Button Name="StampingWarningButton"    Style="{StaticResource SiegCustomButton_Transparent}"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
-                                CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"                   
-                            Margin="0" Padding="0" Width="30" Height="30" Content="{materialDesign:PackIcon Kind=PostageStamp, Size=30}" Foreground="Red">
+                                CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"       
+                                MinWidth="10"  BorderThickness="0"
+                            Margin="0" Padding="0" Width="30" Height="30" Content="{materialDesign:PackIcon Kind=PushNotification, Size=30}" Foreground="Red">
 
                         </Button>
                         <GD_Popup:DraggablePopup  Name="StampingWarningDraggablePopup"
@@ -152,7 +153,7 @@
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
                             <Grid>
-                                <Border Width="500" Height="500" Background="Red">
+                                <Border Width="690" Height="auto" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -173,9 +174,10 @@
                                             </ListBox>
                                         </GroupBox>
 
-                                        <Grid Grid.Row="1">
-                                            
-                                        </Grid>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="Test software↑machine" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
+                                            <Button Content="Test software↓machine" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
+                                        </StackPanel>
                                         
                                         <GroupBox Grid.Row="2" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
                                             <ListBox    Margin="10,0"  

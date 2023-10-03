@@ -656,6 +656,8 @@
                                         Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="150" 
+                                 
+                                     CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
@@ -736,16 +738,19 @@
                         </dxg:GridColumn.CellTemplate>
                     </dxg:GridColumn>
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="AbsoluteMoveDistanceAnimation"  Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;0.0"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
+
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.AbsoluteMoveDistance"  
+                                                         Binding="{Binding SendMachineCommandVM.AbsoluteMoveDistance}"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
 
 
 
-
-                </dxg:GridControl>
+                    </dxg:GridControl>
 
             </Grid>
 
