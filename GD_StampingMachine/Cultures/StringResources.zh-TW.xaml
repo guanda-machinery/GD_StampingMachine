@@ -74,8 +74,8 @@
     <sys:String x:Key="Text_RecorderCount">記錄次數</sys:String>
 
     <sys:String x:Key="Text_AddSteelPunchedFont">新增字模</sys:String>
-    
-    <sys:String x:Key="Text_SteelPunchedFont">鋼印字模</sys:String>
+
+    <sys:String x:Key="Text_SteelPunchedFont_Machine">機台字模</sys:String>
     
     <!--#endregion-->
 
