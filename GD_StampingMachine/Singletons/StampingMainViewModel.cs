@@ -22,6 +22,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using GD_CommonLibrary.Method;
 using CommunityToolkit.Mvvm.Input;
+using GD_StampingMachine.Singletons;
+using Opc.Ua;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -37,6 +39,29 @@ namespace GD_StampingMachine.ViewModels
 
         ~StampingMainViewModel()
         {
+            Dispose(disposing: false);
+        }
+        private bool disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    SaveStampingMachineJson();
+                    // TODO: 處置受控狀態 (受控物件)
+                }
+
+                // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
+                // TODO: 將大型欄位設為 Null
+                disposedValue = true;
+            }
+        }
+
+
+        private void SaveStampingMachineJson()
+        {
             if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
                 JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
 
@@ -48,7 +73,37 @@ namespace GD_StampingMachine.ViewModels
 
             if (ParameterSettingVM.SeparateSettingVM.SeparateSetting != null)
                 JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, ParameterSettingVM.SeparateSettingVM.SeparateSetting);
+
+            try
+            {
+                var Model_IEnumerable = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                //定期存檔
+                JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+                Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "SaveProjectDistributeListFile");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Debugger.Break();
+            }
+            try
+            {
+                if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UseStampingFont, StampingFontChangedVM.StampingTypeVMObservableCollection))
+                {
+
+                }
+                if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UnUseStampingFont, StampingFontChangedVM.UnusedStampingTypeVMObservableCollection))
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Debugger.Break();
+            }
         }
+
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
 
@@ -81,52 +136,12 @@ namespace GD_StampingMachine.ViewModels
 
             Task.Run(async () =>
             {
-
                 await Task.Delay(5000);
                 //Thread.Sleep(5000);
                 while (true)
                 {
-                    //定期存檔
-                    /*if (StampingFontChangedVM != null)
-                    {
-                        if (JsonHM.WriteMachineSettingJson(GD_JsonHelperMethod.MachineSettingNameEnum.StampingFont, StampingFontChangedVM))
-                        {
-
-                        }
-                    }*/
-                    try
-                    {
-                        var Model_IEnumerable = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-                        //定期存檔
-
-                        JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
-
-                        Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "SaveProjectDistributeListFile");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        Debugger.Break();
-                    }
-
-                    try
-                    {
-                        if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UseStampingFont, StampingFontChangedVM.StampingTypeVMObservableCollection))
-                        {
-
-                        }
-                        if (JsonHM.WriteMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UnUseStampingFont, StampingFontChangedVM.UnusedStampingTypeVMObservableCollection))
-                        {
-
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        Debugger.Break();
-                    }
-
-                    await Task.Delay(5000);
+                    SaveStampingMachineJson();
+                    await Task.Delay(10000);
                 }
             });
 
@@ -271,11 +286,16 @@ namespace GD_StampingMachine.ViewModels
                 await Task.Delay(100);
 
                 manager.Close();
-
-
-
-
             }, ()=> !DownloadAndUpdatedCommand.IsRunning);
+        }
+
+
+        public RelayCommand JumpToEngineeringModeCommand
+        {
+            get=> new RelayCommand(()=>
+            {
+                StampingMachineSingleton.Instance.ParameterSettingVM.TbtnSeEngineeringModeIsChecked = true;
+            });
         }
 
 

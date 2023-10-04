@@ -229,6 +229,10 @@
       <Project>{f76dd2a1-5bf2-488b-b481-274da19e51e6}</Project>
       <Name>GD_MachineConnect</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj">
+      <Project>{12B3B748-7A04-4621-955C-463F2ECA94B7}</Project>
+      <Name>GD_StampingMachine.GD_Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

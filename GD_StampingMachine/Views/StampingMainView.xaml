@@ -160,7 +160,7 @@
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                                        <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFont}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
                                             <ListBox Margin="10,0" 
                          ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}"      
                                           
@@ -174,12 +174,12 @@
                                             </ListBox>
                                         </GroupBox>
 
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button Content="Test software↑machine" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
-                                            <Button Content="Test software↓machine" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}">
+                                            <Button Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
+                                            <Button Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
                                         </StackPanel>
-                                        
-                                        <GroupBox Grid.Row="2" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+
+                                        <GroupBox Grid.Row="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
                                             <ListBox    Margin="10,0"  
                          ItemsSource="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection}"          
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
@@ -202,23 +202,24 @@
 
 
 
+                        <ToggleButton Command="{Binding JumpToEngineeringModeCommand}"
+                            MinWidth="0" MinHeight="0" Width="30" Height="30" Style="{StaticResource SiegCustomButton_Transparent}" Padding="0" BorderThickness="0" Margin="0" >
+                        <materialDesign:PackIcon Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="#99cff9">
+                                <materialDesign:PackIcon.Style>
+                                    <Style TargetType="materialDesign:PackIcon">
+                                        <Setter Property="Kind" Value="LanDisconnect"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
+                                                <Setter Property="Kind"  Value="LanConnect"/>
 
-                        <materialDesign:PackIcon Width="30" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="#99cff9">
-                            <materialDesign:PackIcon.Style>
-                                <Style TargetType="materialDesign:PackIcon">
-                                    <Setter Property="Kind" Value="LanDisconnect"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
-                                            <Setter Property="Kind"  Value="LanConnect"/>
-                                            
-                                            
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
 
-                            </materialDesign:PackIcon.Style>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+
+                                </materialDesign:PackIcon.Style>
                             </materialDesign:PackIcon>
-
+                </ToggleButton>
                         <TextBlock Text="{Binding DateTimeNow,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:hh:mm tt}' }" Margin="15,0" />
                         <materialDesign:PackIcon Kind="InformationOutline" Width="30" Height="{Binding}" Foreground="#99cff9"/>
                     </StackPanel>

@@ -4,6 +4,7 @@ using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.Xpf;
+using DevExpress.Pdf.Native;
 using DevExpress.Xpf.Editors.ExpressionEditor;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.XtraEditors.Filtering;
@@ -23,6 +24,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static DevExpress.Utils.Drawing.Helpers.NativeMethods;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -389,10 +391,6 @@ namespace GD_StampingMachine.ViewModels
                         readymachining.SendMachineCommandVM.IsFinish = true;
                     }
 
-
-
-
-
                 }
 
 
@@ -403,6 +401,48 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+        public AsyncRelayCommand SendMachiningCommand2
+        {
+            get => new AsyncRelayCommand(async (CancellationToken token) =>
+            {
+                if (token.IsCancellationRequested)
+                    token.ThrowIfCancellationRequested();
+                var StampMachineData = GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
+                var a = await StampMachineData.GetHMIIronPlateData();
+                var b = await StampMachineData.GetIronPlateDataCollection();
+
+                List<IronPlateDataModel> ironPlateDataList = new();
+                BoxPartsParameterVMObservableCollection.ForEach(Bpp =>
+                {
+                    int boxIndex = 1;
+                    if (Bpp.BoxIndex != null)
+                        boxIndex = Bpp.BoxIndex.Value;
+
+                    var SpiltPlate = Bpp.SettingBaseVM.PlateNumber.SpiltByLength(Bpp.SettingBaseVM.SequenceCount);
+                    SpiltPlate.TryGetValue(0, out string plateFirstValue);
+                    SpiltPlate.TryGetValue(1, out string plateSecondValue);
+
+                    ironPlateDataList.Add(new IronPlateDataModel()
+                    {
+                        bEngravingFinish = false,
+                        bDataMatrixFinish = false,
+                        iIronPlateID=1,
+                        iStackingID = boxIndex,
+                        rXAxisPos1 = 10 ,
+                        rYAxisPos1 = 119, 
+                        rXAxisPos2 = 25,
+                        rYAxisPos2 = 119,
+                        sIronPlateName1 = plateFirstValue,
+                        sIronPlateName2 = plateSecondValue
+                    });
+
+                });
+
+                var setBool  = await StampMachineData.SetIronPlateDataCollection2(ironPlateDataList);
+                //var c = await StampMachineData.SetIronPlateDataCollection();
+
+            }, () => !SendMachiningCommand.IsRunning);
+        }
 
 
         //篩選器

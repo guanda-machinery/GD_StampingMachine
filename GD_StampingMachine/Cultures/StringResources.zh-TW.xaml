@@ -368,6 +368,7 @@
     <sys:String x:Key="Text_AskWritePunchedFontsData_FromSoftwareToMachine">是否要將字模資料從軟體寫入機台</sys:String>
 
 
+    <sys:String x:Key="Notify_PunchedFontsDataIsDifferent">機台與軟體的字模資料不符合！</sys:String>
 
     <!--enum-->
     <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>

@@ -1,6 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
-using GD_StampingMachine.GD_Model.KEBA_Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -237,14 +236,31 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <returns></returns>
         Task<bool>SetRequestDatabit(bool databit);
 
+
+
+
+
+
         /// <summary>
-        /// 取得鋼印字串
+        /// 取得下一個鋼印字串
         /// </summary>
-        Task<(bool, string)> GetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType);
+        Task<(bool, string)> GetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType);
         /// <summary>
-        /// 設定鋼印字串
+        /// 設定下一個鋼印字串
         /// </summary>
-        Task<bool>SetIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
+        Task<bool>SetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
+
+        /// <summary>
+        /// 取得下一個鋼印
+        /// </summary>
+
+        Task<(bool, IronPlateDataModel)> GetHMIIronPlate();
+        /// <summary>
+        /// 設定下一個鋼印
+        /// </summary>
+        Task<bool> SetHMIIronPlate(IronPlateDataModel ironPlateDataList);
+
+
 
         /// <summary>
         /// 取得鐵片群資訊
@@ -252,7 +268,23 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        //Task<bool>GetIronPlateGroup(out List<object> PlateGroup);
+        Task<(bool, List<IronPlateDataModel>) >GetIronPlateDataCollection();
+        /// <summary>
+        /// 設定鐵片群資訊
+        /// </summary>
+        /// <param name="ironPlateType"></param>
+        /// <param name="StringLine"></param>
+        /// <returns></returns>
+        Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList);
+
+        /// <summary>
+        /// 設定鐵片群資訊 可回傳是否傳送成功
+        /// </summary>
+        /// <param name="ironPlateDataList"></param>
+        /// <returns>每個傳送的值是否成功</returns>
+        Task<List<bool>> SetIronPlateDataCollection2(List<IronPlateDataModel> ironPlateDataList);
+
+
 
 
         /// <summary>
@@ -402,7 +434,6 @@ namespace GD_MachineConnect.Machine.Interfaces
         Task<bool>SetRotatingTurntableInfo(List<StampingTypeModel> font);
 
 
-         Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection();
 
         /// <summary>
         /// 鋼印轉盤順時針旋轉

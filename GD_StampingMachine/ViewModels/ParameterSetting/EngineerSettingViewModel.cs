@@ -124,7 +124,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public AsyncRelayCommand OpcuaStopScanCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => new(async () =>
             {
                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
             }, () => !OpcuaStopScanCommand.IsRunning);

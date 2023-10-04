@@ -252,7 +252,7 @@
                     <Button Command="{Binding SortWorkMachineCommand}" Content="Sort"/>
 
                     <Button Content="popup"
-                        Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
+                        Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}"  
                                            CommandTarget="{Binding ElementName=WorkControlDraggablePopup}"
                             
                             >
@@ -646,6 +646,8 @@
                         <Button Command="{Binding AlltoZero}" Content="set to zero"/>
 
                         <Button Command="{Binding SendMachiningCommand}" Content="SendData"/>
+                    
+                        <Button Command="{Binding SendMachiningCommand2}" Content="SendData2"/>
 
                     </StackPanel>
 

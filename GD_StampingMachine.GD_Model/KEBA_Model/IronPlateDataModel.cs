@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GD_StampingMachine.GD_Model.KEBA_Model
+namespace GD_StampingMachine.GD_Model
 {
     public class IronPlateDataModel
     {
@@ -40,28 +40,28 @@ namespace GD_StampingMachine.GD_Model.KEBA_Model
         /// <summary>
         /// 字串3的x座標
         /// </summary>
-        public float rXAxisPos3 { get; set; }
+        //public float rXAxisPos3 { get; set; }
         /// <summary>
         /// 字串3的y座標
         /// </summary>
-        public float rYAxisPos3 { get; set; }
+        //public float rYAxisPos3 { get; set; }
         /// <summary>
         /// 字串3的內容
         /// </summary>
-        public string sIronPlateName3 { get; set; }
+        //public string sIronPlateName3 { get; set; }
         /// <summary>
         /// QR Code的字串
         /// </summary>
-        public string sQRCodeName1 { get; set; }
+        //public string sQRCodeName1 { get; set; }
 
         /// <summary>
         ///  QR Code的x座標
         /// </summary>
-        public float rQRcodeXAxisPos { get; set; }
+        //public float rQRcodeXAxisPos { get; set; }
         /// <summary>
         /// QR Code前字串
         /// </summary>
-        public string sQRCodeName2 { get; set; }
+        //public string sQRCodeName2 { get; set; }
         /// <summary>
         /// 分料盒
         /// </summary>
@@ -69,11 +69,15 @@ namespace GD_StampingMachine.GD_Model.KEBA_Model
         /// <summary>
         /// QRCode完成
         /// </summary>
-        public bool bQRCodeFinish { get; set; }
+        //public bool bQRCodeFinish { get; set; }
         /// <summary>
         /// 刻碼完成
         /// </summary>
         public bool bEngravingFinish { get; set; }
+        /// <summary>
+        /// QRCode完成?
+        /// </summary>
+        public bool bDataMatrixFinish { get; set; }
 
 
     }

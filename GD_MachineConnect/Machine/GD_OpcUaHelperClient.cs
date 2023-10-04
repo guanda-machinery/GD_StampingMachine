@@ -129,7 +129,7 @@ namespace GD_MachineConnect.Machine
                 }
                 catch (Exception ex)
                 {
-
+                    Debugger.Break();
                 }
             }
             return ret;
@@ -171,22 +171,31 @@ namespace GD_MachineConnect.Machine
 
 
 
-        /*public void ReadNoteAttributes(string NodeTreeString)
+        public bool ReadNoteAttributes(string NodeTreeString , out List<OpcNodeAttribute> nodeAttributesList)
         {
-            this.OpcuaConnectAsync();
-            OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
-            foreach (var item in nodeAttributes)
+            nodeAttributesList = new List<OpcNodeAttribute>() ;
+            //this.OpcuaConnectAsync();
+            try
             {
-                Console.Write(string.Format("{0,-30}", item.Name));
-                Console.Write(string.Format("{0,-20}", item.Type));
-                Console.Write(string.Format("{0,-20}", item.StatusCode));
-                Console.WriteLine(string.Format("{0,20}", item.Value));
+                OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
+                //nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
+                foreach (var item in nodeAttributes)
+                {
+                    Console.Write(string.Format("{0,-30}", item.Name));
+                    Console.Write(string.Format("{0,-20}", item.Type));
+                    Console.Write(string.Format("{0,-20}", item.StatusCode));
+                    Console.WriteLine(string.Format("{0,20}", item.Value));
+                }
+                Console.WriteLine("-------------------------------------");
+
+                nodeAttributesList =  nodeAttributes.ToList();
+                return true;
+            }catch (Exception ex)
+            {
+                return false;
             }
-            Console.WriteLine("-------------------------------------");
 
-            m_OpcUaClient.Disconnect();
-
-        }*/
+        }
 
 
 

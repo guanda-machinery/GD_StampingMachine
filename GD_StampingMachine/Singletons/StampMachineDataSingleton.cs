@@ -43,18 +43,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GD_StampingMachine.Singletons
 {
-    public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>, INotifyPropertyChanged, IDisposable
+    public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>, INotifyPropertyChanged
     {
         public const string DataSingletonName = "Name_StampMachineDataSingleton";
 
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
-        protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
-            }
-        }
 
         private IStampingMachineConnect GD_Stamping;
 
@@ -771,6 +763,12 @@ namespace GD_StampingMachine.Singletons
                 JsonHM.WriteJsonSettingByEnum(MachineSettingNameEnum.IO_Table, IO_TableObservableCollection);
             }
 
+            init_Stamping();
+        }
+
+
+        private void init_Stamping()
+        {
             GD_Stamping = CommunicationSetting.Protocol switch
             {
                 CommunicationProtocolEnum.Opcua => new GD_Stamping_Opcua(CommunicationSetting.HostString, CommunicationSetting.Port.Value, null, CommunicationSetting.UserName, CommunicationSetting.Password),
@@ -779,43 +777,31 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+
         ~StampMachineDataSingleton()
         {
             this.Dispose(false);
         }
 
-        public void Dispose()
+        private bool disposedValue;
+        protected override void Dispose(bool disposing)
         {
-            Dispose(true);
-        }
-
-        private bool disposed = false;
-        public void Dispose(bool disposing)
-        {
-            if (!this.disposed)      //如果Dispose沒有成功執行過
+            if(!disposedValue)
             {
-                try
+                if (disposing)
                 {
-                    if (disposing)   //釋放Managed
-                    {
-
-                    }
                     GD_Stamping.Disconnect();
-                    //釋放Unmanaged資源
-                    disposed = true;
-                    GC.SuppressFinalize(this);
-                }
-                catch (Exception ex)
-                {
 
-                }
-                finally
-                {
-
+                    // TODO: 處置受控狀態 (受控物件)
                 }
 
+                GD_Stamping = null;
+                // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
+                // TODO: 將大型欄位設為 Null
+                disposedValue = true;
             }
         }
+
 
 
 
@@ -889,9 +875,8 @@ namespace GD_StampingMachine.Singletons
             {
                 manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_TryConnect");
-                while (!cancelToken.IsCancellationRequested)
+                while (true)
                 {
-
                     if (cancelToken.IsCancellationRequested)
                     {
                         cancelToken.ThrowIfCancellationRequested();
@@ -954,32 +939,67 @@ namespace GD_StampingMachine.Singletons
                                     rotatingStampingTypeVMObservableCollection.Add(new StampingTypeViewModel(stamp));
                                 });
                                 RotatingTurntableInfoCollection = rotatingStampingTypeVMObservableCollection;
-                            }
+                          
+                                
+                                
+                                //比較鋼印字模/機台字模的字元是否相同 -> 若不同則跳出一個視窗提示
+                               bool isSameCount = StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.Count == RotatingTurntableInfoCollection.Count;
+                                bool hasSameContent = true;
+                                if(isSameCount)
+                                {
+                                    //
+                                    for(int i =0; i< RotatingTurntableInfoCollection.Count; i++)
+                                    {
+                                      if(StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection[i].StampingTypeString != RotatingTurntableInfoCollection[i].StampingTypeString)
+                                        {
+                                            hasSameContent = false;
+                                            break;
+                                        }
+                                    }
 
-                            var b = await GD_Stamping.GetIronPlateDataCollection();
+                                }
+
+                                if(!isSameCount || !hasSameContent)
+                                {
+                                    //跳出提示
+                                    _ = Task.Run(async () =>
+                                    {
+                                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                                                  (string)Application.Current.TryFindResource("Notify_PunchedFontsDataIsDifferent"));
+
+                                    });
+                                 }
+
+
+
+                            }
 
 
                             //GD_Stamping.Disconnect();
-                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
+                            ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                             await Task.Delay(1000);
                             manager.Close();
                             break;
                         }
                         else
                         {
-                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_TryConnect") + "(" + GD_Stamping.ConnectException.Message + ")";
+                            ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Connection_TryConnect");
+                            ManagerVM.Status = GD_Stamping.ConnectException.Message;
+                            init_Stamping();
                             //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                         }
 
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Error");
+                        ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Connection_Error");
+                        ManagerVM.Status = ex.Message;
+
                     }
 
                     await Task.Delay(500);
                 }
-                while (!cancelToken.IsCancellationRequested)
+                while (true)
                 {
                     if (cancelToken.IsCancellationRequested)
                         cancelToken.ThrowIfCancellationRequested();
@@ -1004,6 +1024,12 @@ namespace GD_StampingMachine.Singletons
                                     return false;
                             });
                             Cylinder_GuideRod_Move_IsUp = await Move_IsUp;*/
+
+
+                            var b = await GD_Stamping.GetIronPlateDataCollection();
+
+
+
                             var Move_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up);
                             if ((await Move_IsUp).Item1)
                                 Cylinder_GuideRod_Move_IsUp = (await Move_IsUp).Item2;
@@ -1079,13 +1105,13 @@ namespace GD_StampingMachine.Singletons
                             if ((await HPumpIsActive).Item1)
                                 HydraulicPumpIsActive = (await HPumpIsActive).Item2;
 
-                            var sIronPlateString1 = GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1);
+                            var sIronPlateString1 = GD_Stamping.GetHMIIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1);
                             if ((await sIronPlateString1).Item1)
                                 IronPlateName1 = (await sIronPlateString1).Item2;
-                            var sIronPlateString2 = GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2);
+                            var sIronPlateString2 = GD_Stamping.GetHMIIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2);
                             if ((await sIronPlateString1).Item1)
                                 IronPlateName2 = (await sIronPlateString2).Item2;
-                            var sIronPlateString3 = GD_Stamping.GetIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3);
+                            var sIronPlateString3 = GD_Stamping.GetHMIIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3);
                             if ((await sIronPlateString1).Item1)
                                 IronPlateName3 = (await sIronPlateString3).Item2;
 
@@ -1114,7 +1140,6 @@ namespace GD_StampingMachine.Singletons
                             {
                                 foreach (var IO_Table in IO_TableObservableCollection)
                                 {
-
                                     if (!string.IsNullOrEmpty(IO_Table.NodeID))
                                     {
                                         if (IO_Table.ValueType == typeof(bool))
@@ -1177,6 +1202,7 @@ namespace GD_StampingMachine.Singletons
                 GD_Stamping.Disconnect();
                 try
                 {
+                    IsConnected = false;
                     manager.Close();
                 }
                 catch
@@ -1385,6 +1411,37 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+        public async Task<bool> SetHMIIronPlateData(IronPlateDataModel ironPlateData)
+        {
+            await GD_Stamping.AsyncConnect();
+            return await GD_Stamping.SetHMIIronPlate(ironPlateData);
+        }
+        public async Task<(bool, IronPlateDataModel)> GetHMIIronPlateData()
+        {
+            await GD_Stamping.AsyncConnect();
+            return await GD_Stamping.GetHMIIronPlate();
+        }
+
+        public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)
+        {
+            await GD_Stamping.AsyncConnect();
+            return await GD_Stamping.SetIronPlateDataCollection(ironPlateDataList);
+        }
+
+        public async Task<List<bool>> SetIronPlateDataCollection2(List<IronPlateDataModel> ironPlateDataList)
+        {
+            await GD_Stamping.AsyncConnect();
+            return await GD_Stamping.SetIronPlateDataCollection2(ironPlateDataList);
+        }
+        public async Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection()
+        {
+            await GD_Stamping.AsyncConnect();
+            return await GD_Stamping.GetIronPlateDataCollection();
+        }
+
+
+
+
 
         /// <summary>
         /// 第一排字設定
@@ -1494,9 +1551,19 @@ namespace GD_StampingMachine.Singletons
 
                     if (await databit)
                     {
-                        ret = await GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName1, firstLine);
-                        ret = await  GD_Stamping.SetIronPlateName(sIronPlate.sIronPlateName2, secondLine);
+
+                        var ret2 = await GD_Stamping.GetHMIIronPlate();
+                        //var ret3 = await GD_Stamping.SetHMIIronPlate();
+
+                        ret = await GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName1, firstLine);
+                        ret = await  GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName2, secondLine);
                         ret = await GD_Stamping.SetRequestDatabit(false);
+
+
+
+
+
+                         ret2 = await GD_Stamping.GetHMIIronPlate();
                     }
 
                     //GD_Stamping.Disconnect();
@@ -1522,7 +1589,7 @@ namespace GD_StampingMachine.Singletons
             bool ret = false; 
             if (await GD_Stamping.AsyncConnect())
             {
-                ret = await GD_Stamping.SetIronPlateName(PlateName, FontString);
+                ret = await GD_Stamping.SetHMIIronPlateName(PlateName, FontString);
                 //GD_Stamping.Disconnect();
             }
             return ret;
@@ -1562,16 +1629,15 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        public ICommand EngravingYAxisFwdCommand
+        public AsyncRelayCommand<object> EngravingYAxisFwdCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => new(async obj =>
             {
-                Task.Run(() =>
-                {
+
                     if (obj is bool IsActived)
-                        SetEngravingYAxisFwd(IsActived);
-                });
-            });
+                      await  SetEngravingYAxisFwd(IsActived);
+
+            }, obj=> IsConnected);
         }
 
         public AsyncRelayCommand<object> EngravingYAxisToStandbyPosCommand
@@ -1580,7 +1646,7 @@ namespace GD_StampingMachine.Singletons
             {
                 if (obj is bool IsActived)
                     await SetEngravingYAxisToStandbyPos();
-            });
+            }, obj => IsConnected);
         }
         public AsyncRelayCommand<object> EngravingYAxisBwdCommand
         {
@@ -1588,7 +1654,7 @@ namespace GD_StampingMachine.Singletons
             {
                 if (obj is bool IsActived)
                     await SetEngravingYAxisBwd(IsActived);
-            });
+            }, obj => IsConnected);
         }
 
 

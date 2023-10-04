@@ -96,9 +96,9 @@ namespace GD_MachineConnectTest
                     Task.Run(async () =>
                         {
                             await Task.Delay(1000);
-                            var Opcua = new GD_OpcUaHelperClient();
+                            var Opcua = new GD_OpcUaHelperClient(HostString, Port, ServerDataPath);
                             Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
-                            if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
+                            if (await Opcua.AsyncConnect())
                             {
                                 //Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1", out _);
 

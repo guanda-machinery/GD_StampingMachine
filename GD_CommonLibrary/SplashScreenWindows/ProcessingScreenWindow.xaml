@@ -28,7 +28,6 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <ProgressBar BorderThickness="0" Grid.Row="0" Padding="0"  Margin="10" Grid.RowSpan="2" VerticalAlignment="Center"
@@ -54,13 +53,21 @@
                        FontSize="20"
                    Style="{ StaticResource MaterialDesignBody1TextBlock }"/>
             </StackPanel>
-
-            <TextBlock  Margin="0,5,0,0" Grid.Row="0" Grid.Column="1" 
+            <StackPanel  Grid.Row="0" Grid.Column="1" >
+            <TextBlock  Margin="0,0,0,0" Padding="0"
                    FontSize="20"
-                   Text="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
+                   Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                   ToolTip="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
                    HorizontalAlignment="Left"
                    Style="{ StaticResource MaterialDesignBody1TextBlock }" />
-            <ProgressBar BorderThickness="0"  Grid.Row="1" Grid.Column="1" Padding="0"  Margin="0,0,10,10"
+                <TextBlock  Margin="0,0,0,0"   Padding="0"
+                   FontSize="12"
+                   Text="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
+                   ToolTip="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalAlignment="Left"
+                   Style="{ StaticResource MaterialDesignBody1TextBlock }" />
+            </StackPanel>
+            <ProgressBar BorderThickness="0"  Grid.Row="2" Grid.Column="1" Padding="0"  Margin="0,0,10,10"
                      Foreground="{StaticResource SecondaryHueLightBrush}"
                      VerticalAlignment="Bottom"
                      Value="{Binding Progress}"

@@ -478,10 +478,6 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private bool IsStampingFontDataTransferable()
-        {
-            return true;
-        }
 
 
         string SteelPunchedFontSettingTitle => (string)Application.Current.TryFindResource("Text_SteelPunchedFontSetting");
@@ -528,7 +524,7 @@ namespace GD_StampingMachine.ViewModels
                     stampingTypeList.RemoveRange(StampingTypeVMObservableCollection.Count -1 , CollectionDiff);
                     StampingTypeVMObservableCollection = stampingTypeList.ToObservableCollection();
                 }
-            }, ()=> IsStampingFontDataTransferable() && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
+            }, () => StampMachineData.IsConnected && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }
         public AsyncRelayCommand StampingFontCollectionData_SoftwareToMachine_Command
         {
@@ -556,7 +552,7 @@ namespace GD_StampingMachine.ViewModels
                 else
                     await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));
 
-            }, () => IsStampingFontDataTransferable() && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
+            }, () => StampMachineData.IsConnected && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }
 
 
