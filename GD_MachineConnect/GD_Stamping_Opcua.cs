@@ -679,8 +679,9 @@ namespace GD_MachineConnect
         /// </summary>
         public async Task<bool> SetHMIIronPlate(IronPlateDataModel ironPlateDataList)
         {
-            var node = $"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}";
-            return await SetIronPlate(node, ironPlateDataList);
+            var wNodeTrees = IronPlateDataTreeNode(StampingOpcUANode.system.sv_HMIIronPlateName.NodeName, ironPlateDataList);
+            //return await SetIronPlates(ironPlateDataList);
+            return await GD_OpcUaClient.AsyncWriteNodes(wNodeTrees);
         }
 
 
@@ -738,94 +739,30 @@ namespace GD_MachineConnect
             }
             return (false, ironPlateDataList);
         }
-        /// <summary>
-        /// 設定鐵片群資訊
-        /// </summary>
-        /// <param name="ironPlateType"></param>
-        /// <param name="StringLine"></param>
-        /// <returns></returns>
-        public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList) 
+
+
+
+        private async Task<(bool, IronPlateDataModel)> GetIronPlate(string rootNode)
         {
-            List<bool> setIronPlateData = await SetIronPlateDataCollection2(ironPlateDataList);
-            return setIronPlateData.Contains(true);
-        }
-
-        public async Task<List<bool>> SetIronPlateDataCollection2(List<IronPlateDataModel> ironPlateDataList)
-        {           
-            //取得目前的陣列
-
-            var GetIronPlateGroupTask = this.GetIronPlateDataCollection();
-            if ((await GetIronPlateGroupTask).Item1)
-            {
-                var IronPlateGroupExisted = (await GetIronPlateGroupTask).Item2;
-                for (int i = 0; i < IronPlateGroupExisted.Count; i++)
-                {
-                    if (i < ironPlateDataList.Count)
-                    {
-                        IronPlateGroupExisted[i] = ironPlateDataList[i];
-                    }
-                    else
-                    {
-                        IronPlateGroupExisted[i].sIronPlateName1 = null;
-                        IronPlateGroupExisted[i].sIronPlateName2 = null;
-                        IronPlateGroupExisted[i].iStackingID = 0;
-                        IronPlateGroupExisted[i].iIronPlateID = 0;
-                        IronPlateGroupExisted[i].bEngravingFinish = false;
-                        IronPlateGroupExisted[i].bDataMatrixFinish = false;
-                    }
-                }
-
-                List<bool> setIronPlateCompletedList = new();
-                for (int i = 0; i < IronPlateGroupExisted.Count; i++)
-                {
-                    var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i + 1}]";
-                    setIronPlateCompletedList.Add(await SetIronPlate(node, IronPlateGroupExisted[i]));
-                }
-               // var IsSucessfulList = await Task.WhenAll(setIronPlateTaskList);
-                //var sList = IsSucessfulList.ToList();
-            
-
-                //if(sList.Count < ironPlateDataList.Count)
-                for(int i = setIronPlateCompletedList.Count;i < ironPlateDataList.Count;i++)
-                {
-                    setIronPlateCompletedList.Add(false);
-                }
-
-               // return IsSucessfulList.ToList();
-                return setIronPlateCompletedList;
-            }
-            else
-            {
-                List<bool> trueList = new List<bool>();
-                for (int i = 0; i < ironPlateDataList.Count; i++)
-                {
-                    trueList.Add(false);
-                }
-                return trueList;
-            }
-        }
-
-
-
-        private async Task<(bool, IronPlateDataModel)> GetIronPlate(string node)
-        {
-            var getTask_iIronPlateID = GD_OpcUaClient.AsyncReadNode<int>(node + "." + "iIronPlateID");
-            var getTask_rXAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rXAxisPos1");
-            var getTask_rYAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rYAxisPos1");
-            var getTask_rXAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rXAxisPos2");
-            var getTask_rYAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rYAxisPos2");
+            var getTask_iIronPlateID = GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iIronPlateID");
+            var getTask_rXAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos1");
+            var getTask_rYAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos1");
+            var getTask_rXAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos2");
+            var getTask_rYAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos2");
             //var getTask_rXAxisPos3 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rXAxisPos3");
             //var getTask_rYAxisPos3 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rYAxisPos3");
-            var getTask_sIronPlateName1 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sIronPlateName1");
-            var getTask_sIronPlateName2 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sIronPlateName2");
+            var getTask_sIronPlateName1 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName1");
+            var getTask_sIronPlateName2 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName2");
             //var getTask_sIronPlateName3 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sIronPlateName3");
             //var getTask_rQRcodeXAxisPos = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rQRcodeXAxisPos");
             //var getTask_sQRCodeName1 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sQRCodeName1");
             //var getTask_sQRCodeName2 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sQRCodeName2");
-            var getTask_iStackingID = GD_OpcUaClient.AsyncReadNode<int>(node + "." + "iStackingID");
+            var getTask_iStackingID = GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iStackingID");
             //var getTask_bQRCodeFinish = GD_OpcUaClient.AsyncReadNode<bool>(node + "." + "bQRCodeFinish");
-            var getTask_bEngravingFinish = GD_OpcUaClient.AsyncReadNode<bool>(node + "." + "bEngravingFinish");
-            var getTask_bDataMatrixFinish = GD_OpcUaClient.AsyncReadNode<bool>(node + "." + "bDataMatrixFinish");
+            var getTask_bEngravingFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bEngravingFinish");
+            var getTask_bDataMatrixFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bDataMatrixFinish");
+
+
 
             var ret = ((await getTask_iIronPlateID).Item1 &&
                 (await getTask_rXAxisPos1).Item1 &&
@@ -884,46 +821,78 @@ namespace GD_MachineConnect
             };
             return (ret, newIronPlateData);
         }
-        private async Task<bool> SetIronPlate(string node , IronPlateDataModel ironPlateData)
-        {
-            var getTask_iIronPlateID =await GD_OpcUaClient.AsyncWriteNode<int>(node + "." + "iIronPlateID" , ironPlateData.iIronPlateID);
-            var getTask_rXAxisPos1 = await GD_OpcUaClient.AsyncWriteNode<float>(node + "." + "rXAxisPos1", ironPlateData.rXAxisPos1);
-            var getTask_rYAxisPos1 = await GD_OpcUaClient.AsyncWriteNode<float>(node + "." + "rYAxisPos1", ironPlateData.rYAxisPos1);
-            var getTask_rXAxisPos2 = await GD_OpcUaClient.AsyncWriteNode<float>(node + "." + "rXAxisPos2", ironPlateData.rXAxisPos2);
-            var getTask_rYAxisPos2 = await GD_OpcUaClient.AsyncWriteNode<float>(node + "." + "rYAxisPos2", ironPlateData.rYAxisPos2);
-            //var getTask_rXAxisPos3 = GD_OpcUaClient.AsyncWriteNode<float>(node + "." + "rXAxisPos3");
-            //var getTask_rYAxisPos3 = GD_OpcUaClient.AsyncWriteNode<float>(node + "." + "rYAxisPos3");
-            var getTask_sIronPlateName1 = await GD_OpcUaClient.AsyncWriteNode<string>(node + "." + "sIronPlateName1", ironPlateData.sIronPlateName1);
-            var getTask_sIronPlateName2 = await GD_OpcUaClient.AsyncWriteNode<string>(node + "." + "sIronPlateName2", ironPlateData.sIronPlateName2);
-            //var getTask_sIronPlateName3 = GD_OpcUaClient.AsyncWriteNode<string>(node + "." + "sIronPlateName3");
-            //var getTask_rQRcodeXAxisPos = GD_OpcUaClient.AsyncWriteNode<float>(node + "." + "rQRcodeXAxisPos");
-            //var getTask_sQRCodeName1 = GD_OpcUaClient.AsyncWriteNode<string>(node + "." + "sQRCodeName1");
-            //var getTask_sQRCodeName2 = GD_OpcUaClient.AsyncWriteNode<string>(node + "." + "sQRCodeName2");
-            var getTask_iStackingID = await GD_OpcUaClient.AsyncWriteNode<int>(node + "." + "iStackingID", ironPlateData.iStackingID);
-            //var getTask_bQRCodeFinish = GD_OpcUaClient.AsyncWriteNode<bool>(node + "." + "bQRCodeFinish");
-            var getTask_bEngravingFinish = await GD_OpcUaClient.AsyncWriteNode<bool>(node + "." + "bEngravingFinish", ironPlateData.bEngravingFinish);
-            var getTask_bDataMatrixFinish = await GD_OpcUaClient.AsyncWriteNode<bool>(node + "." + "bDataMatrixFinish", ironPlateData.bDataMatrixFinish);
 
-            var ret = ((getTask_iIronPlateID) &&
-                (getTask_rXAxisPos1) &&
-                (getTask_rYAxisPos1) &&
-                (getTask_sIronPlateName1) &&
-                (getTask_rXAxisPos2) &&
-                (getTask_rYAxisPos2) &&
-                (getTask_sIronPlateName2) &&
-                //(await getTask_rXAxisPos3). &&
-                //(await getTask_rYAxisPos3). &&
-                //(await getTask_sIronPlateName3). &&
-                //(await getTask_sQRCodeName1). &&
-                //(await getTask_rQRcodeXAxisPos). &&
-                //(await getTask_sQRCodeName2). &&
-                (getTask_iStackingID) &&
-                //(await getTask_bQRCodeFinish) &&
-                (getTask_bEngravingFinish) &&
-                (getTask_bDataMatrixFinish)
-                );
-            return ret;
+
+        /// <summary>
+        /// 設定鐵片群資訊
+        /// </summary>
+        /// <param name="ironPlateDataList"></param>
+        /// <returns></returns>
+        public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)
+        {
+            int ExistedDataCollectionCount = int.MaxValue;
+            //取得舊有的鐵片群資訊
+            var getIronPlateDataCollectionTuple = await GetIronPlateDataCollection();
+            if (getIronPlateDataCollectionTuple.Item1)
+            {
+                var existedIronPlateDataCollection = getIronPlateDataCollectionTuple.Item2;
+                ExistedDataCollectionCount = existedIronPlateDataCollection.Count;
+                //超出範圍的不寫
+            }
+
+
+            List<bool> WritedList = new();
+            for (int i = 0; i < ironPlateDataList.Count; i++)
+            {
+                Dictionary<string, object> wNodeTrees = new();
+                //超出範圍則中斷迴圈 並開始寫入
+                if (i >= ExistedDataCollectionCount)
+                {
+                    Debugger.Break();
+                    break;
+                }
+
+                string node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i + 1}]";
+                IronPlateDataModel ironPlateData = ironPlateDataList[i];
+                var pNodes = IronPlateDataTreeNode(node, ironPlateData);
+                foreach (var pNode in pNodes)
+                {
+                    wNodeTrees[pNode.Key] = pNode.Value;
+                }
+
+                bool WriteBoolean = await GD_OpcUaClient.AsyncWriteNodes(wNodeTrees);
+                WritedList.Add(WriteBoolean);
+            }
+
+            return !WritedList.Contains(false);
+          //  return await GD_OpcUaClient.AsyncWriteNodes(wNodeTrees);
+
+
+
         }
+
+
+        private Dictionary<string, object> IronPlateDataTreeNode(string node , IronPlateDataModel ironPlateData)
+        {
+            return new Dictionary<string, object>
+            {
+                [node + "." + "iIronPlateID"] = ironPlateData.iIronPlateID,
+                [node + "." + "rXAxisPos1"] = ironPlateData.rXAxisPos1,
+                [node + "." + "rYAxisPos1"] = ironPlateData.rYAxisPos1,
+                [node + "." + "rXAxisPos2"] = ironPlateData.rXAxisPos2,
+                [node + "." + "rYAxisPos2"] = ironPlateData.rYAxisPos2,
+                [node + "." + "sIronPlateName1"] = ironPlateData.sIronPlateName1,
+                [node + "." + "sIronPlateName2"] = ironPlateData.sIronPlateName2,
+                [node + "." + "iStackingID"] = ironPlateData.iStackingID,
+                [node + "." + "bEngravingFinish"] = ironPlateData.bEngravingFinish,
+                [node + "." + "bDataMatrixFinish"] = ironPlateData.bDataMatrixFinish
+            };
+        }
+
+
+
+
+
 
 
         /// <summary>

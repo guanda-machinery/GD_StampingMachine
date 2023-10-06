@@ -190,23 +190,26 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new(async ObjGridControl =>
             {
-                if (ObjGridControl is not null)
+                await Task.Run(async () =>
                 {
-                    if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
+                    if (ObjGridControl is not null)
                     {
-                        if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
+                        if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
                         {
-                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
-                                await MethodWinUIMessageBox.CanNotCloseProject();
-                            else
+                            if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
                             {
-                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
-                                    GridItemSource.Remove(CurrentItem);
-                            }
+                                if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
+                                    await MethodWinUIMessageBox.CanNotCloseProject();
+                                else
+                                {
+                                    if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
+                                        GridItemSource.Remove(CurrentItem);
+                                }
 
+                            }
                         }
                     }
-                }
+                });
             });
         }
         /// <summary>
@@ -778,49 +781,51 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand<object>(async obj =>
             {
-                if (obj == null)
+                await Task.Run(async () =>
                 {
-                    throw new Exception();
-                }
-
-                //新寫法
-                if (obj is GD_StampingMachine.ViewModels.ProjectDistributeViewModel ProjectDistributeVM)
-                {
-                    if (ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem != null)
+                    if (obj == null)
                     {
-                        var CollectionWithThisDistributeName = ProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
-                        
-                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
-                        //箱子內有專案
-                        if (CollectionWithThisDistributeName.Count > 0)
+                        throw new Exception();
+                    }
+
+                    //新寫法
+                    if (obj is GD_StampingMachine.ViewModels.ProjectDistributeViewModel ProjectDistributeVM)
+                    {
+                        if (ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem != null)
                         {
-                            //有已完成的 不可關閉
-                            if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
+                            var CollectionWithThisDistributeName = ProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+
+                            //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                            //箱子內有專案
+                            if (CollectionWithThisDistributeName.Count > 0)
                             {
-                                await MethodWinUIMessageBox.CanNotCloseProject();
-                                return;
+                                //有已完成的 不可關閉
+                                if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
+                                {
+                                    await MethodWinUIMessageBox.CanNotCloseProject();
+                                    return;
+                                }
+
+                                //詢問是否要關閉
+                                if (!(await MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName)))
+                                    return;
+
+                                //將資料清除
+                                CollectionWithThisDistributeName.ForEach(Eobj =>
+                                {
+                                    Eobj.DistributeName = null;
+                                    Eobj.BoxIndex = null;
+                                });
+                                ProjectDistributeVM.StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollection();
+                                //  ProjectDistributeVM.StampingBoxPartsVM.ProductProjectVMObservableCollection
                             }
 
-                            //詢問是否要關閉
-                            if (!(await MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName)))
-                                return;
-
-                            //將資料清除
-                            CollectionWithThisDistributeName.ForEach(Eobj =>
-                            {
-                                Eobj.DistributeName = null;
-                                Eobj.BoxIndex = null;
-                            });
-                            ProjectDistributeVM.StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollection();
-                          //  ProjectDistributeVM.StampingBoxPartsVM.ProductProjectVMObservableCollection
+                            ProjectDistributeVM.ProjectDistribute.ProductProjectNameList.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
+                            ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMObservableCollection.Add(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
+                            ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
                         }
-
-                        ProjectDistributeVM.ProjectDistribute.ProductProjectNameList.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
-                        ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMObservableCollection.Add(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
-                        ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
                     }
-                }
-
+                });
             });
         }
 

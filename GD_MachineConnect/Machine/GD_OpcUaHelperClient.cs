@@ -121,7 +121,7 @@ namespace GD_MachineConnect.Machine
                     {
                        await AsyncConnect();
                     }
-                    ret = await m_OpcUaClient.WriteNodeAsync(NodeTreeString, WriteValue);
+                    ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
                     if (ret)
                     {
                         break;
@@ -134,7 +134,53 @@ namespace GD_MachineConnect.Machine
             }
             return ret;
         }
-        
+
+
+        /// <summary>
+        /// 寫入數列組
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="NodeTreeString"></param>
+        /// <param name="WriteValue"></param>
+        /// <returns></returns>
+        public async Task<bool> AsyncWriteNodes(Dictionary<string,object> NodeTrees)
+        {
+            if (NodeTrees.Count == 0)
+                return false;
+
+            var ret = false;
+            for (int i = 0; i < retryCounter; i++)
+            {
+                try
+                {
+                    if (!m_OpcUaClient.Connected)
+                    {
+                        await AsyncConnect();
+                    }
+
+                    var tags = NodeTrees.Keys.ToArray();
+                    var values = NodeTrees.Values.ToArray();
+                    ret = m_OpcUaClient.WriteNodes(tags, values);
+
+                    if (ret)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debugger.Break();
+                }
+            }
+            return ret;
+        }
+
+
+
+
+
+
+
         /// <summary>
         /// 讀取點
         /// </summary>
@@ -153,7 +199,9 @@ namespace GD_MachineConnect.Machine
                     {
                        await AsyncConnect();
                     }
-                    NodeValue = await m_OpcUaClient.ReadNodeAsync<T>(NodeID);
+                    NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
+
+
                     IsSucessful = true;
                     break;
                 }

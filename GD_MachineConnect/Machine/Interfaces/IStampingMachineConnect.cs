@@ -277,15 +277,6 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <returns></returns>
         Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList);
 
-        /// <summary>
-        /// 設定鐵片群資訊 可回傳是否傳送成功
-        /// </summary>
-        /// <param name="ironPlateDataList"></param>
-        /// <returns>每個傳送的值是否成功</returns>
-        Task<List<bool>> SetIronPlateDataCollection2(List<IronPlateDataModel> ironPlateDataList);
-
-
-
 
         /// <summary>
         /// 設定打點位置

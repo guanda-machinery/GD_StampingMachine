@@ -138,31 +138,34 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,(string)Application.Current.TryFindResource("btnAddProject"));
-                var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
-                //檔案已存在 詢問是否要覆蓋
-                if (ExistedIndex != -1)
+                await Task.Run(async () =>
                 {
-                    if (await MethodWinUIMessageBox.AskOverwriteOrNot())
-                        return;
-                }
-
-                if (CreatedProjectVM.SaveProductProject())
-                {
-                    //若不clone會導致資料互相繫結
+                    Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
+                    var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
+                    //檔案已存在 詢問是否要覆蓋
                     if (ExistedIndex != -1)
                     {
-                        //ProductProjectVMObservableCollection.RemoveAt(ExistedIndex);
-                        ProductProjectVMObservableCollection[ExistedIndex] = CreatedProjectVM.DeepCloneByJson();
+                        if (await MethodWinUIMessageBox.AskOverwriteOrNot())
+                            return;
                     }
-                    else
+
+                    if (CreatedProjectVM.SaveProductProject())
                     {
-                        ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
+                        //若不clone會導致資料互相繫結
+                        if (ExistedIndex != -1)
+                        {
+                            //ProductProjectVMObservableCollection.RemoveAt(ExistedIndex);
+                            ProductProjectVMObservableCollection[ExistedIndex] = CreatedProjectVM.DeepCloneByJson();
+                        }
+                        else
+                        {
+                            ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
+                        }
+
+                        SaveProductListSetting();
+
                     }
-
-                    SaveProductListSetting();
-
-                }
+                });
             });
         }
 
@@ -211,22 +214,24 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand(async() =>
             {
-           
-                if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
+                await Task.Run(async () =>
                 {
-                    var ExisedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
-                    if(ExisedIndex != -1)
+                    if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
                     {
-                        if(ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
-                            await MethodWinUIMessageBox.ProjectIsLoaded();
-                        else
-                            await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
-                        return;
-                    }
+                        var ExisedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
+                        if (ExisedIndex != -1)
+                        {
+                            if (ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
+                                await MethodWinUIMessageBox.ProjectIsLoaded();
+                            else
+                                await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
+                            return;
+                        }
 
-                    ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
-                    SaveProductListSetting();
-                }
+                        ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
+                        SaveProductListSetting();
+                    }
+                });
             });
         }
         [JsonIgnore]
@@ -234,19 +239,28 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                ProductProjectVMObservableCollection.ForEach(obj =>
+                await Task.Run(async () =>
+                {
+                    ProductProjectVMObservableCollection.ForEach(obj =>
                 {
                     obj.SaveProductProject();
                 });
-                var Result = await SaveProductListSetting();
-                await MethodWinUIMessageBox.SaveSuccessful(null, Result);
+                    var Result = await SaveProductListSetting();
+                    await MethodWinUIMessageBox.SaveSuccessful(null, Result);
+                });
             });
         }
 
         [JsonIgnore]
         public ICommand SaveProductListSettingCommand
         {
-            get => new AsyncRelayCommand(async () => {await SaveProductListSetting(); });
+            get => new AsyncRelayCommand(async () =>
+            {
+                await Task.Run(async () =>
+                {
+                    await SaveProductListSetting();
+                });
+            });
         }
 
         private async Task<bool> SaveProductListSetting()

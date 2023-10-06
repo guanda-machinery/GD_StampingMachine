@@ -368,110 +368,113 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _stamping_SelectionChangedCommand ??= new AsyncRelayCommand<SelectionChangedEventArgs>(async(e, token) =>
             {
-                try
+                await Task.Run(() =>
                 {
-                    
-                    /*
-                    var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
-                    if (FIndex != -1)
+                    try
                     {
-                        StampingTypeModelMartix = new();
-                        //離原點差距的角度-以逆時針計算
 
-                        double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
-                        int ClockDirection = 1;
-                        if (Direction == null)
+                        /*
+                        var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
+                        if (FIndex != -1)
                         {
-                            int ReverseInt = 1;
-                            if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) > 180)
+                            StampingTypeModelMartix = new();
+                            //離原點差距的角度-以逆時針計算
+
+                            double TargetAngle = -360 * FIndex / StampingTypeVMObservableCollection.Count;
+                            int ClockDirection = 1;
+                            if (Direction == null)
                             {
-                                ReverseInt = -1;
+                                int ReverseInt = 1;
+                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) > 180)
+                                {
+                                    ReverseInt = -1;
+                                }
+
+                                if (TargetAngle - StampingFontTurntable_RorateAngle > 0)
+                                    ClockDirection = 1 * ReverseInt;
+                                else
+                                    ClockDirection = -1 * ReverseInt;
+                            }
+                            if (Direction == SweepDirection.Clockwise)
+                            {
+                                ClockDirection = -1;
+                            }
+                            if (Direction == SweepDirection.Counterclockwise)
+                            {
+                                ClockDirection = 1;
+                            }
+                            try
+                            {
+                                StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
+                                StampingTypeModelMartix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
+                                double RotateGap = StampingTypeVMObservableCollection.Count / 4;
+
+                                var LeftIndex = FIndex + RotateGap * 1;
+                                while (LeftIndex >= StampingTypeVMObservableCollection.Count)
+                                {
+                                    LeftIndex -= StampingTypeVMObservableCollection.Count;
+                                }
+                                StampingTypeModelMartix.LeftStampingTypeModel = StampingTypeVMObservableCollection[(int)LeftIndex];
+
+                                var TopIndex = FIndex + RotateGap * 2;
+                                while (TopIndex >= StampingTypeVMObservableCollection.Count)
+                                {
+                                    TopIndex -= StampingTypeVMObservableCollection.Count;
+                                }
+                                StampingTypeModelMartix.TopStampingTypeModel = StampingTypeVMObservableCollection[(int)TopIndex];
+
+                                var RightIndex = FIndex + RotateGap * 3;
+                                while (RightIndex >= StampingTypeVMObservableCollection.Count)
+                                {
+                                    RightIndex -= StampingTypeVMObservableCollection.Count;
+                                }
+                                StampingTypeModelMartix.RightStampingTypeModel = StampingTypeVMObservableCollection[(int)RightIndex];
+
+
+                            }
+                            catch (Exception ex)
+                            {
+
                             }
 
-                            if (TargetAngle - StampingFontTurntable_RorateAngle > 0)
-                                ClockDirection = 1 * ReverseInt;
-                            else
-                                ClockDirection = -1 * ReverseInt;
-                        }
-                        if (Direction == SweepDirection.Clockwise)
-                        {
-                            ClockDirection = -1;
-                        }
-                        if (Direction == SweepDirection.Counterclockwise)
-                        {
-                            ClockDirection = 1;
-                        }
-                        try
-                        {
+                            while (true)
+                            {
+                                token.ThrowIfCancellationRequested();
+                                if (StampingFontTurntable_RorateAngle > 360)
+                                {
+                                    StampingFontTurntable_RorateAngle -= 360;
+                                }
+                                if (StampingFontTurntable_RorateAngle < -360)
+                                {
+                                    StampingFontTurntable_RorateAngle += 360;
+                                }
+
+
+                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
+                                    Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 1.2)
+                                {
+                                    break;
+                                }
+                                StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
+                                await Task.Delay(1);
+                            }
+
+
+                            StampingFontTurntable_RorateAngle = TargetAngle;
                             StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
-                            StampingTypeModelMartix.BottomStampingTypeModel = StampingTypeVMObservableCollection[FIndex];
-                            double RotateGap = StampingTypeVMObservableCollection.Count / 4;
+                            StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
 
-                            var LeftIndex = FIndex + RotateGap * 1;
-                            while (LeftIndex >= StampingTypeVMObservableCollection.Count)
-                            {
-                                LeftIndex -= StampingTypeVMObservableCollection.Count;
-                            }
-                            StampingTypeModelMartix.LeftStampingTypeModel = StampingTypeVMObservableCollection[(int)LeftIndex];
+                        }*/
+                    }
+                    catch (OperationCanceledException)
+                    {
 
-                            var TopIndex = FIndex + RotateGap * 2;
-                            while (TopIndex >= StampingTypeVMObservableCollection.Count)
-                            {
-                                TopIndex -= StampingTypeVMObservableCollection.Count;
-                            }
-                            StampingTypeModelMartix.TopStampingTypeModel = StampingTypeVMObservableCollection[(int)TopIndex];
+                    }
+                    catch (Exception ex)
+                    {
 
-                            var RightIndex = FIndex + RotateGap * 3;
-                            while (RightIndex >= StampingTypeVMObservableCollection.Count)
-                            {
-                                RightIndex -= StampingTypeVMObservableCollection.Count;
-                            }
-                            StampingTypeModelMartix.RightStampingTypeModel = StampingTypeVMObservableCollection[(int)RightIndex];
-
-
-                        }
-                        catch (Exception ex)
-                        {
-
-                        }
-
-                        while (true)
-                        {
-                            token.ThrowIfCancellationRequested();
-                            if (StampingFontTurntable_RorateAngle > 360)
-                            {
-                                StampingFontTurntable_RorateAngle -= 360;
-                            }
-                            if (StampingFontTurntable_RorateAngle < -360)
-                            {
-                                StampingFontTurntable_RorateAngle += 360;
-                            }
-
-
-                            if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
-                                Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 1.2)
-                            {
-                                break;
-                            }
-                            StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
-                            await Task.Delay(1);
-                        }
-
-
-                        StampingFontTurntable_RorateAngle = TargetAngle;
-                        StampingTypeVMObservableCollection.ForEach(x => { x.StampingIsUsing = false; });
-                        StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
-
-                    }*/
-                }
-                catch (OperationCanceledException)
-                {
-
-                }
-                catch (Exception ex)
-                {
-
-                }
+                    }
+                });
             }
             , e=> !_stamping_SelectionChangedCommand.IsRunning);
         }
@@ -489,70 +492,87 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new(async() =>
             {
-
-
-                if (await MessageBoxResultShow.ShowYesNo (SteelPunchedFontSettingTitle, 
-                    (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware"))  != MessageBoxResult.Yes)
+                await Task.Run(async () =>
                 {
-                    return;
-                }
-
-                for (int i=0;i< StampMachineData.RotatingTurntableInfoCollection.Count;i++)
-                {
-                    var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
-                    if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
+                    if (await MessageBoxResultShow.ShowYesNo(SteelPunchedFontSettingTitle,
+                    (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware")) != MessageBoxResult.Yes)
                     {
-                        stamptypeVM.StampingTypeString = rFont.StampingTypeString.ToString();
+                        return;
                     }
-                    else
+
+                    for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
                     {
-                        StampingTypeVMObservableCollection.Add(new StampingTypeViewModel()
+                        var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
+                        if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
                         {
-                            StampingTypeNumber = i + 1,
-                            StampingTypeString = rFont.StampingTypeString.ToString(),
-                            StampingTypeUseCount = 0,
-                            IsNewAddStamping = false,
-                            StampingIsUsing = false
-                        });
+                            stamptypeVM.StampingTypeString = rFont.StampingTypeString.ToString();
+                        }
+                        else
+                        {
+                            StampingTypeVMObservableCollection.Add(new StampingTypeViewModel()
+                            {
+                                StampingTypeNumber = i + 1,
+                                StampingTypeString = rFont.StampingTypeString.ToString(),
+                                StampingTypeUseCount = 0,
+                                IsNewAddStamping = false,
+                                StampingIsUsing = false
+                            });
+                        }
                     }
-                }
-                //去除掉超出邊界的字元
-                int CollectionDiff = StampingTypeVMObservableCollection.Count - StampingTypeVMObservableCollection.Count;
-                if (CollectionDiff>0)
-                {
-                    var stampingTypeList = StampingTypeVMObservableCollection.ToList();
-                    stampingTypeList.RemoveRange(StampingTypeVMObservableCollection.Count -1 , CollectionDiff);
-                    StampingTypeVMObservableCollection = stampingTypeList.ToObservableCollection();
-                }
-            }, () => StampMachineData.IsConnected && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
+                    //去除掉超出邊界的字元
+                    int CollectionDiff = StampingTypeVMObservableCollection.Count - StampingTypeVMObservableCollection.Count;
+                    if (CollectionDiff > 0)
+                    {
+                        var stampingTypeList = StampingTypeVMObservableCollection.ToList();
+                        stampingTypeList.RemoveRange(StampingTypeVMObservableCollection.Count - 1, CollectionDiff);
+                        StampingTypeVMObservableCollection = stampingTypeList.ToObservableCollection();
+                    }
+                });
+            }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }
         public AsyncRelayCommand StampingFontCollectionData_SoftwareToMachine_Command
         {
             get => new(async () =>
             {
-                if (await MessageBoxResultShow.ShowYesNo (SteelPunchedFontSettingTitle,
-                    (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromSoftwareToMachine"))  != MessageBoxResult.Yes)
+                await Task.Run(async () =>
                 {
-                    return;
-                }
-                List<StampingTypeModel> FontsCollection = new ();
-
-                for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
-                {
-                    var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
-                    if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
+                    if (await MessageBoxResultShow.ShowYesNo(SteelPunchedFontSettingTitle,
+                    (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromSoftwareToMachine")) != MessageBoxResult.Yes)
                     {
-                        FontsCollection.Add(rFont.StampingType);
+                        return;
                     }
-                    else
-                        FontsCollection.Add(new StampingTypeModel());
-                }
-                if(await StampMachineData.SetRotatingTurntableInfo(FontsCollection))             
-                    await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
-                else
-                    await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));
+                    List<StampingTypeModel> FontsCollection = new();
 
-            }, () => StampMachineData.IsConnected && !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
+                    for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
+                    {
+                        var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
+                        if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
+                        {
+                            FontsCollection.Add(rFont.StampingType);
+                        }
+                        else
+                            FontsCollection.Add(new StampingTypeModel());
+                    }
+                    if (await StampMachineData.SetRotatingTurntableInfo(FontsCollection))
+                        await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
+                    else
+                        await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));
+                });
+            }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
+        }
+
+        /// <summary>
+        /// 比較鋼印與機台字模的差別
+        /// </summary>
+        public AsyncRelayCommand CompareFontsSettingBetweenMachineAndSoftwareCommand
+        {
+            get => new(async () =>
+            {
+                await Task.Run(async() =>
+                {
+                    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware();
+                });
+            });
         }
 
 

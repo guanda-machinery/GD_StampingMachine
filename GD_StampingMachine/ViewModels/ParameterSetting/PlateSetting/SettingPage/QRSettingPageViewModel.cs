@@ -136,24 +136,27 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                var FIndex = QRSettingModelCollection.ToList().FindIndex(x => x.NumberSettingMode == QRSettingVM.NumberSettingMode);
-                if (FIndex != -1)
+                await Task.Run(async () =>
                 {
-                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                    var FIndex = QRSettingModelCollection.ToList().FindIndex(x => x.NumberSettingMode == QRSettingVM.NumberSettingMode);
+                    if (FIndex != -1)
                     {
-                        QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
+                        if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                        {
+                            QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                     else
                     {
-                        return;
+                        QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
                     }
-                }
-                else
-                {
-                    QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
-                }
 
-                this.JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
+                    this.JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
+                });
             });
         }
         public override ICommand DeleteSettingCommand

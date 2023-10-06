@@ -104,24 +104,27 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
-                if (FIndex != -1)
+                await Task.Run(async () =>
                 {
-                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                    var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
+                    if (FIndex != -1)
                     {
-                        NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
+                        if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                        {
+                            NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                     else
                     {
-                        return;
+                        NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
                     }
-                }
-                else
-                {
-                    NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
-                }
 
-                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
+                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
+                });
             });
         }
         public override ICommand DeleteSettingCommand

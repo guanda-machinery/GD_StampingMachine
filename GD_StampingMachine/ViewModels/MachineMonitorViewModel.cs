@@ -89,6 +89,8 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
+        StampMachineDataSingleton StampMachineData = GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
+
 
         /// <summary>
         /// 鋼帶捲集合
@@ -151,31 +153,33 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    var StampingPlateProcessingSequenceViewModelList = new List<StampingPlateProcessingSequenceViewModel>();
-                    //先排序 並將已經加工完成的物件去掉
-                    var smcCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList().FindAll(
-                        x => !x.SendMachineCommandVM.IsFinish && x.SendMachineCommandVM.WorkIndex >= 0 &&
-                        (x.SendMachineCommandVM.WorkScheduler_QRStamping || x.SendMachineCommandVM.WorkScheduler_FontStamping || x.SendMachineCommandVM.WorkScheduler_Shearing));
-
-                    //將加工物進行排序
-
-                    if (smcCollection.Count > 0)
+                    await Task.Run(() =>
                     {
-                        smcCollection[0].SendMachineCommandVM.AbsoluteMoveDistance = 50;
+                        var StampingPlateProcessingSequenceViewModelList = new List<StampingPlateProcessingSequenceViewModel>();
+                        //先排序 並將已經加工完成的物件去掉
+                        var smcCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList().FindAll(
+                            x => !x.SendMachineCommandVM.IsFinish && x.SendMachineCommandVM.WorkIndex >= 0 &&
+                            (x.SendMachineCommandVM.WorkScheduler_QRStamping || x.SendMachineCommandVM.WorkScheduler_FontStamping || x.SendMachineCommandVM.WorkScheduler_Shearing));
 
-                        for (int i = 1; i < smcCollection.Count; i++)
+                        //將加工物進行排序
+
+                        if (smcCollection.Count > 0)
                         {
-                            smcCollection[i].SendMachineCommandVM.AbsoluteMoveDistance = smcCollection[0].SendMachineCommandVM.AbsoluteMoveDistance + StampWidth * i;
-                            smcCollection[i].SendMachineCommandVM.RelativeMoveDistance = smcCollection[0].SendMachineCommandVM.RelativeMoveDistance + StampWidth * i;
+                            smcCollection[0].SendMachineCommandVM.AbsoluteMoveDistance = 50;
+
+                            for (int i = 1; i < smcCollection.Count; i++)
+                            {
+                                smcCollection[i].SendMachineCommandVM.AbsoluteMoveDistance = smcCollection[0].SendMachineCommandVM.AbsoluteMoveDistance + StampWidth * i;
+                                smcCollection[i].SendMachineCommandVM.RelativeMoveDistance = smcCollection[0].SendMachineCommandVM.RelativeMoveDistance + StampWidth * i;
+
+                            }
+
+                            StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StripSteelPosition = 0;
+                            StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StripSteelLength = smcCollection.MaxOrDefault(x => x.SendMachineCommandVM.RelativeMoveDistance) + StampWidth + 100;
+
 
                         }
-                            
-                        StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StripSteelPosition = 0;
-                        StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StripSteelLength = smcCollection.MaxOrDefault(x => x.SendMachineCommandVM.RelativeMoveDistance) + StampWidth + 100;
-
-
-                    }
-
+                    });
                 }
                 catch (Exception ex)
                 { 
@@ -194,156 +198,160 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _workMachiningCommand ??= new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                try
+                await Task.Run(async () =>
                 {
-                    //產出加工列表->依照300-qr/160-鋼印/10-切割的位置
-                    double QR_Stamping_Distance = 300;
-                    double Fonts_Stamping_Distance = 160;
-                    double Cut_Stamping_Distance = 10;
-                    var smcCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.AbsoluteMoveDistance)
-                    .ToList().FindAll(x =>
-                    x.SendMachineCommandVM.AbsoluteMoveDistance > 0
-                    && x.SendMachineCommandVM.WorkIndex >= 0);
-
-                    var StampingPlateProcessingSequenceViewModelList = new List<StampingPlateProcessingSequenceViewModel>();
-                    //產出加工工序
-                    foreach (var smc in smcCollection)
+                    try
                     {
-                        try
+                        //產出加工列表->依照300-qr/160-鋼印/10-切割的位置
+                        double QR_Stamping_Distance = 300;
+                        double Fonts_Stamping_Distance = 160;
+                        double Cut_Stamping_Distance = 10;
+                        var smcCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.AbsoluteMoveDistance)
+                        .ToList().FindAll(x =>
+                        x.SendMachineCommandVM.AbsoluteMoveDistance > 0
+                        && x.SendMachineCommandVM.WorkIndex >= 0);
+
+                        var StampingPlateProcessingSequenceViewModelList = new List<StampingPlateProcessingSequenceViewModel>();
+                        //產出加工工序
+                        foreach (var smc in smcCollection)
                         {
-                            //有QR加工需求
-                            if (smc.SendMachineCommandVM.WorkScheduler_QRStamping)
+                            try
                             {
-                                StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                                //有QR加工需求
+                                if (smc.SendMachineCommandVM.WorkScheduler_QRStamping)
                                 {
-                                    SteelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving,
-                                    SendMachineCommandVM = smc.SendMachineCommandVM,
-                                    ProcessingAbsoluteDistance = smc.SendMachineCommandVM.AbsoluteMoveDistance - QR_Stamping_Distance
-                                });
-                            }
-
-                            //有字模加工需求
-                            if (smc.SendMachineCommandVM.WorkScheduler_FontStamping)
-                            {
-                                //將字分割成上下兩排
-
-                                var SpiltPlate = smc.SettingBaseVM.PlateNumber.SpiltByLength(smc.SettingBaseVM.SequenceCount);
-                                SpiltPlate.TryGetValue(0, out string plateFirstValue);
-                                SpiltPlate.TryGetValue(1, out string plateSecondValue);
-
-                                switch (smc.SettingBaseVM.SpecialSequence)
-                                {
-                                    default:
-                                    case SpecialSequenceEnum.OneRow:
-                                        // plateFirstValue
-                                        break;
-                                    case SpecialSequenceEnum.TwoRow:
-                                        // plateFirstValue
-                                        // plateSecondValue
-                                        break;
-                                }
-                            }
-
-                            //有切斷需求
-                            if (smc.SendMachineCommandVM.WorkScheduler_Shearing)
-                            {
-                                StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
-                                {
-                                    SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing,
-                                    SendMachineCommandVM = smc.SendMachineCommandVM,
-                                    ProcessingAbsoluteDistance = smc.SendMachineCommandVM.AbsoluteMoveDistance - Cut_Stamping_Distance
-                                });
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                        }
-                    }
-
-                    while (true)
-                    {
-                        try
-                        {
-                            if (token.IsCancellationRequested)
-                            {
-                                break;
-                            }
-                            var smcMachingCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.AbsoluteMoveDistance)
-                            .ToList().FindAll(x =>
-                            x.SendMachineCommandVM.AbsoluteMoveDistance > 0
-                            && x.SendMachineCommandVM.WorkIndex >= 0);
-
-                            if (smcMachingCollection.Count > 0)
-                            {
-                                var mincutableBox = smcMachingCollection.MinBy(x => x.SendMachineCommandVM.AbsoluteMoveDistance);
-                                var minIndex = smcMachingCollection.FindIndex(x => x == mincutableBox);
-
-                                var minDistance = mincutableBox.SendMachineCommandVM.AbsoluteMoveDistance;
-                                double moveStep = 0.1;
-
-                                while (smcMachingCollection[minIndex].SendMachineCommandVM.AbsoluteMoveDistance > 0)
-                                {
-                                    token.ThrowIfCancellationRequested();
-
-                                    if (moveStep > smcMachingCollection[minIndex].SendMachineCommandVM.AbsoluteMoveDistance)
-                                        moveStep = smcMachingCollection[minIndex].SendMachineCommandVM.AbsoluteMoveDistance;
-
-                                    Parallel.ForEach(smcMachingCollection, smc =>
+                                    StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
                                     {
-                                        try
-                                        {
-                                            smc.SendMachineCommandVM.AbsoluteMoveDistance -= moveStep;
-                                        }
-                                        catch
-                                        {
-
-                                        }
+                                        SteelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving,
+                                        SendMachineCommandVM = smc.SendMachineCommandVM,
+                                        ProcessingAbsoluteDistance = smc.SendMachineCommandVM.AbsoluteMoveDistance - QR_Stamping_Distance
                                     });
-
-
-                                    await Task.Delay(2);
-                                    StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StripSteelPosition -= moveStep;
-                                    //System.Threading.Thread.Sleep(2);
                                 }
 
-                                for (int i = 0; i <= 100; i++)
+                                //有字模加工需求
+                                if (smc.SendMachineCommandVM.WorkScheduler_FontStamping)
                                 {
-                                    token.ThrowIfCancellationRequested();
+                                    //將字分割成上下兩排
 
-                                    mincutableBox.SendMachineCommandVM.WorkingProgress = i;
-                                    await Task.Delay(10);
+                                    var SpiltPlate = smc.SettingBaseVM.PlateNumber.SpiltByLength(smc.SettingBaseVM.SequenceCount);
+                                    SpiltPlate.TryGetValue(0, out string plateFirstValue);
+                                    SpiltPlate.TryGetValue(1, out string plateSecondValue);
+
+                                    switch (smc.SettingBaseVM.SpecialSequence)
+                                    {
+                                        default:
+                                        case SpecialSequenceEnum.OneRow:
+                                            // plateFirstValue
+                                            break;
+                                        case SpecialSequenceEnum.TwoRow:
+                                            // plateFirstValue
+                                            // plateSecondValue
+                                            break;
+                                    }
                                 }
 
-
-                                mincutableBox.SendMachineCommandVM.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
-                                mincutableBox.FinishProgress = 100;
-                                mincutableBox.SendMachineCommandVM.AbsoluteMoveDistance = -100;
-                                mincutableBox.SendMachineCommandVM.IsFinish = true;
-
-                                await Task.Delay(500);
+                                //有切斷需求
+                                if (smc.SendMachineCommandVM.WorkScheduler_Shearing)
+                                {
+                                    StampingPlateProcessingSequenceViewModelList.Add(new StampingPlateProcessingSequenceViewModel()
+                                    {
+                                        SteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing,
+                                        SendMachineCommandVM = smc.SendMachineCommandVM,
+                                        ProcessingAbsoluteDistance = smc.SendMachineCommandVM.AbsoluteMoveDistance - Cut_Stamping_Distance
+                                    });
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                break;
                             }
                         }
-                        catch (OperationCanceledException)
-                        {
 
-                        }
-                        catch (Exception ex)
+                        while (true)
                         {
+                            try
+                            {
+                                if (token.IsCancellationRequested)
+                                {
+                                    break;
+                                }
+                                var smcMachingCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.AbsoluteMoveDistance)
+                                .ToList().FindAll(x =>
+                                x.SendMachineCommandVM.AbsoluteMoveDistance > 0
+                                && x.SendMachineCommandVM.WorkIndex >= 0);
 
+                                if (smcMachingCollection.Count > 0)
+                                {
+                                    var mincutableBox = smcMachingCollection.MinBy(x => x.SendMachineCommandVM.AbsoluteMoveDistance);
+                                    var minIndex = smcMachingCollection.FindIndex(x => x == mincutableBox);
+
+                                    var minDistance = mincutableBox.SendMachineCommandVM.AbsoluteMoveDistance;
+                                    double moveStep = 0.1;
+
+                                    while (smcMachingCollection[minIndex].SendMachineCommandVM.AbsoluteMoveDistance > 0)
+                                    {
+                                        token.ThrowIfCancellationRequested();
+
+                                        if (moveStep > smcMachingCollection[minIndex].SendMachineCommandVM.AbsoluteMoveDistance)
+                                            moveStep = smcMachingCollection[minIndex].SendMachineCommandVM.AbsoluteMoveDistance;
+
+                                        Parallel.ForEach(smcMachingCollection, smc =>
+                                        {
+                                            try
+                                            {
+                                                smc.SendMachineCommandVM.AbsoluteMoveDistance -= moveStep;
+                                            }
+                                            catch
+                                            {
+
+                                            }
+                                        });
+
+
+                                        await Task.Delay(2);
+                                        StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StripSteelPosition -= moveStep;
+                                        //System.Threading.Thread.Sleep(2);
+                                    }
+
+                                    for (int i = 0; i <= 100; i++)
+                                    {
+                                        token.ThrowIfCancellationRequested();
+
+                                        mincutableBox.SendMachineCommandVM.WorkingProgress = i;
+                                        await Task.Delay(10);
+                                    }
+
+
+                                    mincutableBox.SendMachineCommandVM.WorkingSteelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
+                                    mincutableBox.FinishProgress = 100;
+                                    mincutableBox.SendMachineCommandVM.AbsoluteMoveDistance = -100;
+                                    mincutableBox.SendMachineCommandVM.IsFinish = true;
+
+                                    await Task.Delay(500);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            catch (OperationCanceledException)
+                            {
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
                         }
+
                     }
+                    catch (Exception ex)
+                    {
 
-                }
-                catch (Exception ex)
-                {
-
-                }
+                    }
+                });
             }, () => !_workMachiningCommand.IsRunning);
         }
+
 
 
 
@@ -363,40 +371,42 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                //開始依序傳送資料
-                while (true)
+                await Task.Run(async () =>
                 {
-                    if (token.IsCancellationRequested)
-                        token.ThrowIfCancellationRequested();
-
-                    var readyMachiningCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex)
-                    .ToList().FindAll(x =>
-                     !x.SendMachineCommandVM.IsFinish
-                    && x.SendMachineCommandVM.WorkIndex >= 0);
-                    if (readyMachiningCollection.Count == 0)
-                        break;
-
-                    var readymachining =  readyMachiningCollection.First();
-                    if (readymachining == null)
-                        break;
-
-                    //將兩行字上傳到機器
-                    if(await  GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.AsyncSendMachiningData(readymachining.SettingBaseVM , int.MaxValue))
+                    //開始依序傳送資料
+                    while (true)
                     {
-                        //成功上傳 等待他加工完成
-                        //等待數秒後當作加工完成
-                        readymachining.SendMachineCommandVM.WorkingProgress = 0;
+                        if (token.IsCancellationRequested)
+                            token.ThrowIfCancellationRequested();
 
-                        await Task.Delay(5000);
-                        readymachining.SendMachineCommandVM.IsFinish = true;
+                        var readyMachiningCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex)
+                        .ToList().FindAll(x =>
+                         !x.SendMachineCommandVM.IsFinish
+                        && x.SendMachineCommandVM.WorkIndex >= 0);
+                        if (readyMachiningCollection.Count == 0)
+                            break;
+
+                        var readymachining = readyMachiningCollection.First();
+                        if (readymachining == null)
+                            break;
+
+                        //將兩行字上傳到機器
+                        if (await StampMachineData.AsyncSendMachiningData(readymachining.SettingBaseVM, int.MaxValue))
+                        {
+                            //成功上傳 等待他加工完成
+                            //等待數秒後當作加工完成
+                            readymachining.SendMachineCommandVM.WorkingProgress = 0;
+
+                            await Task.Delay(5000);
+                            readymachining.SendMachineCommandVM.IsFinish = true;
+                        }
+
                     }
-
-                }
-
+                });
 
 
 
-            }, ()=>!SendMachiningCommand.IsRunning);
+            }, ()=> StampMachineData.IsConnected && !SendMachiningCommand.IsRunning);
         }
 
 
@@ -405,43 +415,45 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                if (token.IsCancellationRequested)
-                    token.ThrowIfCancellationRequested();
-                var StampMachineData = GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
-                var a = await StampMachineData.GetHMIIronPlateData();
-                var b = await StampMachineData.GetIronPlateDataCollection();
-
-                List<IronPlateDataModel> ironPlateDataList = new();
-                BoxPartsParameterVMObservableCollection.ForEach(Bpp =>
+                await Task.Run(async () =>
                 {
-                    int boxIndex = 1;
-                    if (Bpp.BoxIndex != null)
-                        boxIndex = Bpp.BoxIndex.Value;
+                    if (token.IsCancellationRequested)
+                        token.ThrowIfCancellationRequested();
+                    var a = await StampMachineData.GetHMIIronPlateData();
+                    var b = await StampMachineData.GetIronPlateDataCollection();
 
-                    var SpiltPlate = Bpp.SettingBaseVM.PlateNumber.SpiltByLength(Bpp.SettingBaseVM.SequenceCount);
-                    SpiltPlate.TryGetValue(0, out string plateFirstValue);
-                    SpiltPlate.TryGetValue(1, out string plateSecondValue);
-
-                    ironPlateDataList.Add(new IronPlateDataModel()
+                    List<IronPlateDataModel> ironPlateDataList = new();
+                    BoxPartsParameterVMObservableCollection.ForEach(Bpp =>
                     {
-                        bEngravingFinish = false,
-                        bDataMatrixFinish = false,
-                        iIronPlateID=1,
-                        iStackingID = boxIndex,
-                        rXAxisPos1 = 10 ,
-                        rYAxisPos1 = 119, 
-                        rXAxisPos2 = 25,
-                        rYAxisPos2 = 119,
-                        sIronPlateName1 = plateFirstValue,
-                        sIronPlateName2 = plateSecondValue
+                        int boxIndex = 1;
+                        if (Bpp.BoxIndex != null)
+                            boxIndex = Bpp.BoxIndex.Value;
+
+                        var SpiltPlate = Bpp.SettingBaseVM.PlateNumber.SpiltByLength(Bpp.SettingBaseVM.SequenceCount);
+                        SpiltPlate.TryGetValue(0, out string plateFirstValue);
+                        SpiltPlate.TryGetValue(1, out string plateSecondValue);
+
+                        ironPlateDataList.Add(new IronPlateDataModel()
+                        {
+                            bEngravingFinish = false,
+                            bDataMatrixFinish = false,
+                            iIronPlateID = 1,
+                            iStackingID = boxIndex,
+                            rXAxisPos1 = 10,
+                            rYAxisPos1 = 119,
+                            rXAxisPos2 = 25,
+                            rYAxisPos2 = 119,
+                            sIronPlateName1 = plateFirstValue,
+                            sIronPlateName2 = plateSecondValue
+                        });
                     });
 
+                    var setBool = StampMachineData.SetIronPlateDataCollection(ironPlateDataList);
+                    await setBool;
+
+                    //var c = await StampMachineData.SetIronPlateDataCollection();
                 });
-
-                var setBool  = await StampMachineData.SetIronPlateDataCollection2(ironPlateDataList);
-                //var c = await StampMachineData.SetIronPlateDataCollection();
-
-            }, () => !SendMachiningCommand.IsRunning);
+            }, () => StampMachineData.IsConnected && !SendMachiningCommand.IsRunning);
         }
 
 
@@ -501,31 +513,33 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new AsyncRelayCommand<object>(async (e, token) =>
             {
-                //全選
-                if (e is IList<PartsParameterViewModel> Itemsource)
+                await Task.Run(async () =>
                 {
-                    foreach(var partsParameter in Itemsource)
+                    //全選
+                    if (e is IList<PartsParameterViewModel> Itemsource)
                     {
-                        if(!partsParameter.SendMachineCommandVM.IsFinish)
+                        foreach (var partsParameter in Itemsource)
                         {
-                            if (partsParameter.SendMachineCommandVM.WorkIndex < 0)
-                                SetPartsParameterWork(partsParameter);
+                            if (!partsParameter.SendMachineCommandVM.IsFinish)
+                            {
+                                if (partsParameter.SendMachineCommandVM.WorkIndex < 0)
+                                    SetPartsParameterWork(partsParameter);
+                            }
                         }
                     }
-                }               
-                //部分
-               else if (e is IList<object> eList)
-               {
-                    foreach(var item in eList)
+                    //部分
+                    else if (e is IList<object> eList)
                     {
-                        if(item is PartsParameterViewModel partsParameter)
+                        foreach (var item in eList)
                         {
-                            if(partsParameter.SendMachineCommandVM.WorkIndex < 0)
-                                SetPartsParameterWork(partsParameter);
+                            if (item is PartsParameterViewModel partsParameter)
+                            {
+                                if (partsParameter.SendMachineCommandVM.WorkIndex < 0)
+                                    SetPartsParameterWork(partsParameter);
+                            }
                         }
                     }
-                }
-
+                });
                 OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
                 OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
@@ -558,24 +572,27 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new AsyncRelayCommand<object>(async (e, token) =>
             {                //全選
-                if (e is IList<PartsParameterViewModel> Itemsource)
+                await Task.Run(() =>
                 {
-                    foreach (var item in Itemsource)
+                    if (e is IList<PartsParameterViewModel> Itemsource)
                     {
-                        CancelPartsParameterWork(item);
-                    }
-                }
-                //部分
-                else if (e is IList<object> eList)
-                {
-                    foreach (var item in eList)
-                    {
-                        if (item is PartsParameterViewModel partsParameter)
+                        foreach (var item in Itemsource)
                         {
-                            CancelPartsParameterWork(partsParameter);
+                            CancelPartsParameterWork(item);
                         }
                     }
-                }
+                    //部分
+                    else if (e is IList<object> eList)
+                    {
+                        foreach (var item in eList)
+                        {
+                            if (item is PartsParameterViewModel partsParameter)
+                            {
+                                CancelPartsParameterWork(partsParameter);
+                            }
+                        }
+                    }
+                });
                 OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
                 OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
             }, e => !CancelArrangeWorkCommand.IsRunning);

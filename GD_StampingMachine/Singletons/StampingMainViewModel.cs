@@ -262,30 +262,29 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new AsyncRelayCommand(async () =>
             {
-                var ManagerVM = new DXSplashScreenViewModel
+                await Task.Run(async() =>
                 {
-                    Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
-                    Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
-                    Progress = 0,
-                    IsIndeterminate = false,
-                    Subtitle = Properties.Settings.Default.Version,
-                    Copyright =Properties.Settings.Default.Copyright,
-                };
-
-                SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-                manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
-                ManagerVM.IsIndeterminate = false;
-
-                //等待結束 
-
-                for (double i = 10000; i < 0; i--)
-                {
-                    ManagerVM.Progress = i / 10000;
-                }
-                //Thread.Sleep(100);
-                await Task.Delay(100);
-
-                manager.Close();
+                    var ManagerVM = new DXSplashScreenViewModel
+                    {
+                        Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                        Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
+                        Progress = 0,
+                        IsIndeterminate = false,
+                        Subtitle = Properties.Settings.Default.Version,
+                        Copyright = Properties.Settings.Default.Copyright,
+                    };
+                    SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+                    manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
+                    ManagerVM.IsIndeterminate = false;
+                    //等待結束 
+                    for (double i = 10000; i < 0; i--)
+                    {
+                        ManagerVM.Progress = i / 10000;
+                    }
+                    //Thread.Sleep(100);
+                    await Task.Delay(100);
+                    manager.Close();
+                });
             }, ()=> !DownloadAndUpdatedCommand.IsRunning);
         }
 

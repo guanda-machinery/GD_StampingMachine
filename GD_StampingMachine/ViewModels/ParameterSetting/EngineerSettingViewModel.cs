@@ -84,25 +84,28 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _opcuaFormBrowseServerOpenCommand ??= new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                try
+                await Task.Run(async () =>
                 {
-                   await Task.Run(async () =>
+                    try
                     {
-                        try
-                        {
-                            await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
-                        }
-                        catch(Exception ex)
-                        {
+                        await Task.Run(async () =>
+                         {
+                             try
+                             {
+                                 await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
+                             }
+                             catch (Exception ex)
+                             {
 
-                        }
+                             }
 
-                    },token);
-                }
-                catch (Exception ex)
-                {
+                         }, token);
+                    }
+                    catch (Exception ex)
+                    {
 
-                }
+                    }
+                });
             },()=>!_opcuaFormBrowseServerOpenCommand.IsRunning);
         }
 
@@ -117,7 +120,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new AsyncRelayCommand(async (CancellationToken token) =>
             {
-                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+                await Task.Run(async () =>
+                {
+                    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+                });
             } ,()=> !OpcuaStartScanCommand.IsRunning);
         }
 
@@ -126,9 +132,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new(async () =>
             {
-               await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
+                await Task.Run(async () =>
+                {
+                    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
+                });
             }, () => !OpcuaStopScanCommand.IsRunning);
         }
+
 
 
 

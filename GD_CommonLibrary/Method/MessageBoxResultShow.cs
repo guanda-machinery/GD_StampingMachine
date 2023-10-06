@@ -14,13 +14,13 @@ namespace GD_CommonLibrary.Method
         public static async Task<MessageBoxResult> Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
             MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
-            var NewWindow = new Window
-            {
-                Topmost = true
-            };
-
             await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
+                var NewWindow = new Window
+                {
+                    Topmost = true
+                };
+
                 MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
                     MessageTitle,
                     MB_Button,

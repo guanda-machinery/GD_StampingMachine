@@ -58,9 +58,8 @@ namespace GD_StampingMachine.Singletons
                 {
                     lock (thisLock)
                     {
-                        System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                       System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
-
                             var LogSource = ((string)System.Windows.Application.Current.TryFindResource(SourceName));
                             if (string.IsNullOrEmpty(LogSource))
                                 LogSource = SourceName;

@@ -27,7 +27,7 @@
                 <ColumnDefinition  Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <ProgressBar BorderThickness="0" Grid.Row="0" Padding="0"  Margin="10" Grid.RowSpan="2" VerticalAlignment="Center"
@@ -53,20 +53,24 @@
                        FontSize="20"
                    Style="{ StaticResource MaterialDesignBody1TextBlock }"/>
             </StackPanel>
-            <StackPanel  Grid.Row="0" Grid.Column="1" >
-            <TextBlock  Margin="0,0,0,0" Padding="0"
-                   FontSize="20"
-                   Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-                   ToolTip="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-                   HorizontalAlignment="Left"
-                   Style="{ StaticResource MaterialDesignBody1TextBlock }" />
-                <TextBlock  Margin="0,0,0,0"   Padding="0"
-                   FontSize="12"
+            <Grid  Grid.Row="0" Grid.Column="1" Margin="0,2,0,0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+            <TextBlock  Margin="0,0,0,0" Padding="0"  VerticalAlignment="Center"
+                   FontSize="20" 
                    Text="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
                    ToolTip="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
                    HorizontalAlignment="Left"
                    Style="{ StaticResource MaterialDesignBody1TextBlock }" />
-            </StackPanel>
+                <TextBlock  Margin="0,-2,0,0"   Padding="0" Grid.Row="1"   VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter={local:ObjectIsNullToVisibilityConverter}}"
+                   FontSize="12"
+                   Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}"
+                   ToolTip="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalAlignment="Left"
+                   Style="{ StaticResource MaterialDesignBody1TextBlock }" />
+            </Grid>
             <ProgressBar BorderThickness="0"  Grid.Row="2" Grid.Column="1" Padding="0"  Margin="0,0,10,10"
                      Foreground="{StaticResource SecondaryHueLightBrush}"
                      VerticalAlignment="Bottom"

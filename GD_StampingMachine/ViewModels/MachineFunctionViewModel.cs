@@ -58,12 +58,6 @@ namespace GD_StampingMachine.ViewModels
         public MachineFunctionViewModel()
         {
 
-            var DegreeRate = 0;
-            //啟用掃描
-            Task.Run(async () =>
-            {
-               await StampMachineData.StartScanOpcua();
-            });
 
         }
 
@@ -220,23 +214,34 @@ namespace GD_StampingMachine.ViewModels
             get => new AsyncRelayCommand(async () =>
             {
                 SeparateBox_CounterClockwiseRotateButtonIsEnabled = false;
-
-                try
+                await Task.Run(async () =>
                 {
-                    var Index = StampMachineData.SeparateBoxIndex;
-                    // var Index = SeparateBoxIndexNow;
-                    var LocationIndex = Index - 1;
-                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
-                        LocationIndex = 0;
-                    if (LocationIndex < 0)
-                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
-                    //SeparateBox_Rotate(LocationIndex, 1);
-
                     try
                     {
-                        if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
-                        {
+                        var Index = StampMachineData.SeparateBoxIndex;
+                        // var Index = SeparateBoxIndexNow;
+                        var LocationIndex = Index - 1;
+                        if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
+                            LocationIndex = 0;
+                        if (LocationIndex < 0)
+                            LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
+                        //SeparateBox_Rotate(LocationIndex, 1);
 
+                        try
+                        {
+                            if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
+                            {
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debugger.Break();
+                        }
+                        finally
+                        {
+                            await Task.Delay(500);
+                            SeparateBox_ClockwiseRotateButtonIsEnabled = true;
                         }
                     }
                     catch (Exception ex)
@@ -245,18 +250,9 @@ namespace GD_StampingMachine.ViewModels
                     }
                     finally
                     {
-                        await Task.Delay(500);
-                        SeparateBox_ClockwiseRotateButtonIsEnabled = true;
+                        SeparateBox_CounterClockwiseRotateButtonIsEnabled = true;
                     }
-                }
-                catch (Exception ex)
-                {
-
-                }
-                finally
-                {
-                    SeparateBox_CounterClockwiseRotateButtonIsEnabled = true;
-                }
+                });
             });
         }
 

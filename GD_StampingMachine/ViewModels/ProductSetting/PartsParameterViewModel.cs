@@ -210,22 +210,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new (async obj =>
             {
-                if (obj is not null)
+                await Task.Run(async () =>
                 {
-                    if (obj.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
+                    if (obj is not null)
                     {
-                        if (SettingBaseVM != null)
+                        if (obj.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                         {
-                            if (await MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.NumberSettingMode))
+                            if (SettingBaseVM != null)
                             {
-                                GridItemSource.Remove(this);
+                                if (await MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.NumberSettingMode))
+                                {
+                                    GridItemSource.Remove(this);
+                                }
                             }
-                        }
-                        else
-                            GridItemSource.Remove(this);
+                            else
+                                GridItemSource.Remove(this);
 
+                        }
                     }
-                }
+                });
             });
         }
 

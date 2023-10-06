@@ -68,28 +68,31 @@ namespace GD_StampingMachine.ViewModels
             {
                 return new AsyncRelayCommand(async (CancellationToken token) =>
                 {
-                    Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName,"btnAddProject");
-                    if(NewProjectDistribute.ProjectDistributeName == null)
+                    await Task.Run(async () =>
                     {
-                        await MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmpty();
-                        return;
-                    }
-                    if (ProjectDistributeVMObservableCollection.FindIndex(x=>x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) !=-1)
-                    {
-                        await MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName); 
-                        return;
-                    }
+                        Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "btnAddProject");
+                        if (NewProjectDistribute.ProjectDistributeName == null)
+                        {
+                            await MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmpty();
+                            return;
+                        }
+                        if (ProjectDistributeVMObservableCollection.FindIndex(x => x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) != -1)
+                        {
+                            await MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName);
+                            return;
+                        }
 
-                    NewProjectDistribute.CreatedDate = DateTime.Now;
-                    var Clone = NewProjectDistribute.DeepCloneByJson();
-                    Clone.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
-                    Clone.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
-                    ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
-                    var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-                    //存檔
-                    await Task.Run(() =>
-                    {
-                        JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+                        NewProjectDistribute.CreatedDate = DateTime.Now;
+                        var Clone = NewProjectDistribute.DeepCloneByJson();
+                        Clone.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
+                        Clone.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
+                        ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
+                        var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                        //存檔
+                        await Task.Run(() =>
+                        {
+                            JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+                        });
                     });
 
                 } , ()=> !CreateProjectDistributeCommand.IsRunning);

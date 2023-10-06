@@ -174,9 +174,12 @@
                                             </ListBox>
                                         </GroupBox>
 
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}">
-                                            <Button Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
-                                            <Button Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+                                            <Button IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}"
+                                                Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
+                                            <Button IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}"
+                                                Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
+                                            <Button Content="{materialDesign:PackIcon Kind=ConnectWithoutContact, Size=22}" Command="{Binding StampingFontChangedVM.CompareFontsSettingBetweenMachineAndSoftwareCommand}"/>
                                         </StackPanel>
 
                                         <GroupBox Grid.Row="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
