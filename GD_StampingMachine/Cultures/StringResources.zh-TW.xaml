@@ -351,9 +351,11 @@
     
     <!--連線-->
 
+    <sys:String x:Key="Connection_Init">連線初始化</sys:String>
 
     <sys:String x:Key="Connection_Error">連線錯誤</sys:String>
     <sys:String x:Key="Connection_TryConnect">嘗試連線</sys:String>
+    <sys:String x:Key="Connection_RetryConnect">連線失敗，正在嘗試重新連線</sys:String>
     <sys:String x:Key="Connection_IsSucessful">連線成功</sys:String>
 
 
@@ -370,6 +372,7 @@
 
     <sys:String x:Key="Notify_PunchedFontsDataIsDifferent">機台與軟體的字模於編號「{0}」的資料不符合，需進行同步處理！</sys:String>
     <sys:String x:Key="Notify_PunchedFontsCountIsDifferent">機台字模數「{0}」與軟體字模數「{1}」的字模數量不符合！</sys:String>
+    <sys:String x:Key="Notify_PunchedFontsIsCompared">機台字模與軟體字模無異常</sys:String>
 
     <!--enum-->
     <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>

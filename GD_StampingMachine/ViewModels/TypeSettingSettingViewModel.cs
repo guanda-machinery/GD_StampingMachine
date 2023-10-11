@@ -68,8 +68,6 @@ namespace GD_StampingMachine.ViewModels
             {
                 return new AsyncRelayCommand(async (CancellationToken token) =>
                 {
-                    await Task.Run(async () =>
-                    {
                         Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "btnAddProject");
                         if (NewProjectDistribute.ProjectDistributeName == null)
                         {
@@ -93,8 +91,6 @@ namespace GD_StampingMachine.ViewModels
                         {
                             JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
                         });
-                    });
-
                 } , ()=> !CreateProjectDistributeCommand.IsRunning);
             }
         }

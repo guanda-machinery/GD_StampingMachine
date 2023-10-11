@@ -570,7 +570,12 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(async() =>
                 {
-                    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware();
+                    if(await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware())
+                    {
+                        //
+                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                            (string)Application.Current.TryFindResource("Notify_PunchedFontsIsCompared"));
+                    }
                 });
             });
         }

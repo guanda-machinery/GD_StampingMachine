@@ -244,15 +244,13 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 機台警報
         /// </summary>
-        public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
+       /* public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
         {
             get
             {
                 return Singletons.LogDataSingleton.Instance.DataObservableCollection;
             }
-        }
-
-
+        }*/
 
         #endregion
 
@@ -260,7 +258,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public AsyncRelayCommand DownloadAndUpdatedCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => new(async () =>
             {
                 await Task.Run(async() =>
                 {
@@ -279,10 +277,10 @@ namespace GD_StampingMachine.ViewModels
                     //等待結束 
                     for (double i = 10000; i < 0; i--)
                     {
-                        ManagerVM.Progress = i / 10000;
+                        ManagerVM.Progress = i / 100;
+                        await Task.Delay(100);
                     }
-                    //Thread.Sleep(100);
-                    await Task.Delay(100);
+
                     manager.Close();
                 });
             }, ()=> !DownloadAndUpdatedCommand.IsRunning);
@@ -291,7 +289,7 @@ namespace GD_StampingMachine.ViewModels
 
         public RelayCommand JumpToEngineeringModeCommand
         {
-            get=> new RelayCommand(()=>
+            get=> new(()=>
             {
                 StampingMachineSingleton.Instance.ParameterSettingVM.TbtnSeEngineeringModeIsChecked = true;
             });

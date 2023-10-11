@@ -97,7 +97,6 @@ namespace GD_StampingMachine.Singletons
                 for (int i = 1; i <= 40; i++)
                 {
                     // char
-
                     StampingFontChangedVM.StampingTypeVMObservableCollection.Add(
                         new StampingTypeViewModel(
                             new StampingTypeModel()
@@ -253,13 +252,7 @@ namespace GD_StampingMachine.Singletons
             get;
             set;
         }
-        public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
-        {
-            get
-            {
-                return Singletons.LogDataSingleton.Instance.DataObservableCollection;
-            }
-        }
+
 
 
         public bool IsBrightMode

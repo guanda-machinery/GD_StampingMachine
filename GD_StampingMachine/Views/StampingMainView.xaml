@@ -153,14 +153,14 @@
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
                             <Grid>
-                                <Border Width="690" Height="auto" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
+                                <Border  MaxHeight="500" MaxWidth="600" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
                                     <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <GroupBox Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFont}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <GroupBox Grid.Column="0" Header="{DynamicResource Text_SteelPunchedFont}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
                                             <ListBox Margin="10,0" 
                          ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}"      
                                           
@@ -174,16 +174,19 @@
                                             </ListBox>
                                         </GroupBox>
 
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+                                        <StackPanel Visibility="{Binding ElementName=RotatingTurntableInfoFontsListBox, Path=HasItems,Converter={dx:BooleanToVisibilityConverter}}"
+                                            Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <Button IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}"
-                                                Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
+                                                Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
                                             <Button IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}"
-                                                Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
+                                                Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
                                             <Button Content="{materialDesign:PackIcon Kind=ConnectWithoutContact, Size=22}" Command="{Binding StampingFontChangedVM.CompareFontsSettingBetweenMachineAndSoftwareCommand}"/>
                                         </StackPanel>
 
-                                        <GroupBox Grid.Row="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                                            <ListBox    Margin="10,0"  
+                                        <GroupBox  Visibility="{Binding ElementName=RotatingTurntableInfoFontsListBox, Path=HasItems,Converter={dx:BooleanToVisibilityConverter}}"
+                                            Grid.Column="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                                            <ListBox      Name="RotatingTurntableInfoFontsListBox"
+                                                Margin="10,0"  
                          ItemsSource="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection}"          
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
@@ -864,7 +867,7 @@
                                     Background="Transparent"
                                                   AutoGenerateColumns="None"
                                                   SelectionMode="Row"
-                                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=LogDataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
+                                                  ItemsSource="{Binding Source={x:Static GD_Singletons:LogDataSingleton.Instance}, Path=DataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
                                     MaxHeight="100000"    >
 
                                             <dxg:GridControl.View >

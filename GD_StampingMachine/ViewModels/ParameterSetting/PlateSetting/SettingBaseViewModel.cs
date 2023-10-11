@@ -85,8 +85,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _plateNumber = value;
-                var plateNumberInput = _plateNumber;
                 // if (!string.IsNullOrEmpty(_plateNumber))
+                /*
                 if (_plateNumber != null)
                 {
                     //第一排放不下才須尋找
@@ -139,9 +139,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                     PlateNumberList.ForEach(p => p = null);
-
+                */
 
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(PlateNumberList));
             }
         } 
 
@@ -152,8 +153,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                 _plateNumberList ??= new ObservableCollection<string>();
-                
+                _plateNumberList ??= new ObservableCollection<string>();
+
                 int RowCount;
                 _ = SpecialSequence switch
                 {
@@ -183,6 +184,61 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         _plateNumberList.RemoveAt(ListCount);
                     }
                 }
+
+                if (PlateNumber != null)
+                {
+                    var plateNumberInput = PlateNumber;
+                    //第一排放不下才須尋找
+                    if (SpecialSequence == SpecialSequenceEnum.TwoRow)
+                    {
+                        //找第一排是否有-
+                        int MinusIndex;
+                        if (PlateNumber.Length > SequenceCount)
+                        {
+                            //起始搜尋點(從後面開始找)
+                            //跑循環去定位minus的位置
+                            var SearchIndexStart = PlateNumber.Length - 1;
+                            var SearchCount = SequenceCount;
+                            do
+                            {
+                                MinusIndex = PlateNumber.LastIndexOf('-', SearchIndexStart, SearchCount);
+                                if (MinusIndex != -1)
+                                {
+                                    SearchIndexStart = MinusIndex - 1;
+                                    SearchCount = MinusIndex - 1;
+                                    //將字串切開後 是否會落到第二排 
+                                    //會落到第二排且第二排能放得下整串字串的 才移動到第二排
+                                    var FirstPlateNumber = _plateNumber.Substring(0, MinusIndex + 1);
+                                    var SubPlateNumber = _plateNumber.Substring(MinusIndex + 1);
+                                    if (FirstPlateNumber.Length <= SequenceCount && SubPlateNumber.Length <= SequenceCount)
+                                    {
+                                        //補空白
+                                        plateNumberInput = FirstPlateNumber.PadRight(SequenceCount) + SubPlateNumber;
+                                    }
+                                }
+                            } while (MinusIndex != -1);
+                        }
+                    }
+                    for (int i = 0; i < _plateNumberList.Count; i++)
+                    {
+                        //如果字段不夠長 留白
+                        if (i < plateNumberInput.Length)
+                        {
+                            if (string.IsNullOrWhiteSpace(plateNumberInput[i].ToString()))
+                            {
+                                _plateNumberList[i] = null;
+                            }
+                            else
+                                _plateNumberList[i] = plateNumberInput[i].ToString();
+                        }
+                        else
+                            _plateNumberList[i] = null;
+                    }
+                }
+                else
+                    _plateNumberList.ForEach(p => p = null);
+
+
 
 
                 return _plateNumberList;

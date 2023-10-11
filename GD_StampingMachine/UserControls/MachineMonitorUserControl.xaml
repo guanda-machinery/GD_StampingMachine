@@ -610,7 +610,8 @@
                                         </dxg:GridColumn>
 
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsFinish"  FieldName="SendMachineCommandVM.IsFinish"  AllowEditing="true"
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsFinish" 
+                                                                          Binding="{Binding SendMachineCommandVM.IsFinish}"  AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                                                 </dxg:GridColumn>
 
@@ -639,7 +640,7 @@
                         </GD_Popup:DraggablePopup>
 
 
-                        <Button Command="{Binding WorkMachiningCommand}" Content="TestMachining"/>
+                        <Button Command="{Binding WorkMachiningCommand}" Content="WorkMachining"/>
 
                         <Button Command="{Binding CancelMachiningCommand}" Content="StopTest"/>
 

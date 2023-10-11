@@ -867,7 +867,7 @@ namespace GD_StampingMachine.Singletons
             var ManagerVM = new DXSplashScreenViewModel
             {
                 Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
-                Status = (string)System.Windows.Application.Current.TryFindResource("Connection_TryConnect"),
+                Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Init"),
                 Progress = 0,
                 IsIndeterminate = true,
                 Subtitle = null,
@@ -879,7 +879,9 @@ namespace GD_StampingMachine.Singletons
             {
                 manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_TryConnect");
-                while (true)
+               
+                //while (true)
+                for(int retryCount = 1; true; retryCount++)
                 {
                     if (cancelToken.IsCancellationRequested)
                     {
@@ -952,7 +954,7 @@ namespace GD_StampingMachine.Singletons
                         }
                         else
                         {
-                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_TryConnect");
+                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect") +$" - {retryCount}";
                             ManagerVM.Subtitle = GD_Stamping.ConnectException.Message;
                             init_Stamping();
                             //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
@@ -1211,8 +1213,9 @@ namespace GD_StampingMachine.Singletons
             return;
         }
 
-        public async Task CompareFontsSettingBetweenMachineAndSoftware()
+        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftware()
         {                                //比較鋼印字模/機台字模的字元是否相同 -> 若不同則跳出一個視窗提示
+            bool FontsIsSame = false;
             try
             {
                 bool isSameCount = StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.Count == RotatingTurntableInfoCollection.Count;
@@ -1239,11 +1242,10 @@ namespace GD_StampingMachine.Singletons
                     try
                     {
                         // if (true)
+                        //字模數量不相等
                         if (!isSameCount)
                         {
-                            if()
-
-
+                            //if()
                             var countIsDifferent = (string)Application.Current.TryFindResource("Notify_PunchedFontsCountIsDifferent");
                             if (countIsDifferent != null)
                             {
@@ -1256,6 +1258,7 @@ namespace GD_StampingMachine.Singletons
                             }
                         }
                        // else if (!hasSameContent)
+                       //字模內容不相同
                         else if (DifferentContent_StampingTypeNumberList.Count > 0)
                        {
                             var dataIsDifferent = (string)Application.Current.TryFindResource("Notify_PunchedFontsDataIsDifferent");
@@ -1266,6 +1269,10 @@ namespace GD_StampingMachine.Singletons
                                 await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                                     Outputstring);
                             }
+                        }
+                        else
+                        {
+                            FontsIsSame = true;
                         }
                     }
                     catch (Exception ex)
@@ -1279,6 +1286,7 @@ namespace GD_StampingMachine.Singletons
                 await MessageBoxResultShow.ShowException(ex);
             }
 
+            return FontsIsSame;
         }
 
 
@@ -1467,26 +1475,21 @@ namespace GD_StampingMachine.Singletons
 
         public async Task<bool> SetHMIIronPlateData(IronPlateDataModel ironPlateData)
         {
-            await GD_Stamping.AsyncConnect();
-
             return await GD_Stamping.SetHMIIronPlate(ironPlateData);
         }
         public async Task<(bool, IronPlateDataModel)> GetHMIIronPlateData()
         {
-            await GD_Stamping.AsyncConnect();
             return await GD_Stamping.GetHMIIronPlate();
         }
 
         public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)
         {
-            await GD_Stamping.AsyncConnect();
             return await GD_Stamping.SetIronPlateDataCollection(ironPlateDataList);
         }
 
 
         public async Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection()
         {
-            await GD_Stamping.AsyncConnect();
             return await GD_Stamping.GetIronPlateDataCollection();
         }
 
@@ -1539,16 +1542,33 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-        public ICommand SendMachiningDataCommand
+        /// <summary>
+        /// 傳送空字串
+        /// </summary>
+        public AsyncRelayCommand SendMachiningDataCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => new AsyncRelayCommand(async (CancellationToken token) =>
             {
                 await Task.Run(async () =>
                 {
-                    await AsyncSendMachiningData(new QRSettingViewModel());
+                    await AsyncSendMachiningData(new QRSettingViewModel(), token);
                 });
-            });
+            },()=>!SendMachiningDataCommand.IsRunning);
         }
+
+
+        public async Task<bool> GetRequestDatabit()
+        {
+            if (await GD_Stamping.AsyncConnect())
+            {
+                var ret = await GD_Stamping.GetRequestDatabit();
+                if (ret.Item1)
+                    return ret.Item2;
+            }
+            return false;
+        }
+
+
 
 
         /// <summary> 
@@ -1557,84 +1577,82 @@ namespace GD_StampingMachine.Singletons
         /// <param name="settingBaseVM"></param>
         /// <param name="timeout"></param>
         /// <returns>若連接成功會等待指定毫秒數內進行加工，若無法連接或超時皆回傳false</returns>
-        public async Task<bool> AsyncSendMachiningData(SettingBaseViewModel settingBaseVM, int timeout = 5000)
+        public async Task<bool> AsyncSendMachiningData(SettingBaseViewModel settingBaseVM, CancellationToken Ctoken, int timeout = 5000)
         {
-            return await Task<bool>.Run(async () =>
+            await Task.Delay(10);
+
+            var ret = false;
+            var spiltString = settingBaseVM.PlateNumber.SpiltByLength(settingBaseVM.SequenceCount);
+            string firstLine = string.Empty;
+            string secondLine = string.Empty;
+            spiltString.TryGetValue(0, out firstLine);
+            if (settingBaseVM.SpecialSequence == SpecialSequenceEnum.OneRow)
             {
-                var ret = false;
-                var spiltString = settingBaseVM.PlateNumber.SpiltByLength(settingBaseVM.SequenceCount);
-                string firstLine = string.Empty;
-                string secondLine = string.Empty;
 
-                spiltString.TryGetValue(0, out firstLine);
-
-                if (settingBaseVM.SpecialSequence == SpecialSequenceEnum.OneRow)
+            }
+            else if (settingBaseVM.SpecialSequence == SpecialSequenceEnum.TwoRow)
+            {
+                spiltString.TryGetValue(1, out secondLine);
+            }
+           
+            if (await GD_Stamping.AsyncConnect())
+            {
+                var databit = Task<bool>.Run(async () =>
                 {
-
-                }
-                else if (settingBaseVM.SpecialSequence == SpecialSequenceEnum.TwoRow)
-                {
-                    spiltString.TryGetValue(1, out secondLine);
-                }
-
-                if ( await GD_Stamping.AsyncConnect())
-                {
-
-                    var databit = Task<bool>.Run(async ()=>
+                    CancellationTokenSource tokenSource = new();
+                    var token = tokenSource.Token;
+                    var getRequestDatabitTask = Task<bool>.Run(async () =>
                     {
-                        CancellationTokenSource tokenSource = new();
-                        var token = tokenSource.Token;
-                        var getRequestDatabitTask = Task<bool>.Run(async () =>
+                        while (!token.IsCancellationRequested )
                         {
-                            while (!token.IsCancellationRequested)
+                            var Rdatabit = await GD_Stamping.GetRequestDatabit();
+                            if (Rdatabit.Item1)
                             {
-                               var Rdatabit = await GD_Stamping.GetRequestDatabit();
-                                if (Rdatabit.Item1)
-                                {
-                                    return Rdatabit.Item2;
-                                }
-                                await Task.Delay(100);
+                                return Rdatabit.Item2;
                             }
-                            return false;
-
-                        },token);
-
-                        if(Task.WaitAny(Task.Delay(timeout)  ,getRequestDatabitTask) == 0)
-                        {
-                            //超時
-                            tokenSource.Cancel();
+                            await Task.Delay(500);
                         }
-                        else
-                        {
+                        return false;
 
+                    }, token);
+
+                    _ = Task.Run(async () =>
+                    {
+                        while(!Ctoken.IsCancellationRequested)
+                        {
+                             await Task.Delay(10);
                         }
-                            
-                        return await getRequestDatabitTask ;
+                        tokenSource.Cancel();
                     });
 
-                    if (await databit)
+                    if (Task.WaitAny(Task.Delay(timeout), getRequestDatabitTask) == 0)
+                    {
+                        //超時
+                        tokenSource.Cancel();
+                    }
+                    else
                     {
 
-                        var ret2 = await GD_Stamping.GetHMIIronPlate();
-                        //var ret3 = await GD_Stamping.SetHMIIronPlate();
-
-                        ret = await GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName1, firstLine);
-                        ret = await  GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName2, secondLine);
-                        ret = await GD_Stamping.SetRequestDatabit(false);
-
-
-
-
-
-                         ret2 = await GD_Stamping.GetHMIIronPlate();
                     }
 
-                    //GD_Stamping.Disconnect();
-                    return ret;
+                    return await getRequestDatabitTask;
+                });
+
+                if (await databit)
+                {
+                    var ret2 = await GD_Stamping.GetHMIIronPlate();
+                    //var ret3 = await GD_Stamping.SetHMIIronPlate();
+
+                    ret = await GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName1, firstLine ??= string.Empty);
+                    ret = await GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName2, secondLine ??= string.Empty);
+                    ret = await GD_Stamping.SetRequestDatabit(false);
+
+                    ret2 = await GD_Stamping.GetHMIIronPlate();
                 }
-                else
-                    return false;
-            });
+                return ret;
+            }
+            else
+                return false;
         }
 
 

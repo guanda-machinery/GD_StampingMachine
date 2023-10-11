@@ -21,10 +21,7 @@ namespace GD_StampingMachine.GD_Model
         /// 字串1的y座標
         /// </summary>
         public float rYAxisPos1 { get; set; }
-        /// <summary>
-        /// 字串1的內容
-        /// </summary>
-        public string sIronPlateName1 { get; set; }
+
         /// <summary>
         /// 字串2的x座標
         /// </summary>
@@ -33,10 +30,19 @@ namespace GD_StampingMachine.GD_Model
         /// 字串2的y座標
         /// </summary>
         public float rYAxisPos2 { get; set; }
+
+
+        private string _sIronPlateName1;
+        /// <summary>
+        /// 字串1的內容
+        /// </summary>
+        public string sIronPlateName1 { get => _sIronPlateName1 ??= string.Empty; set => _sIronPlateName1 = value; }
+
+        private string _sIronPlateName2;
         /// <summary>
         /// 字串2的內容
         /// </summary>
-        public string sIronPlateName2 { get; set; }
+        public string sIronPlateName2 { get=> _sIronPlateName2 ??= string.Empty; set=> _sIronPlateName2 = value; }
         /// <summary>
         /// 字串3的x座標
         /// </summary>

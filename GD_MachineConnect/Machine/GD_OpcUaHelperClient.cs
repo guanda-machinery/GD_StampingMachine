@@ -63,7 +63,7 @@ namespace GD_MachineConnect.Machine
             return new Uri(BaseUrl, dataPath);
         }
 
-        private const int retryCounter = 5;
+        private const int retryCounter = 3;
 
 
 
@@ -130,6 +130,8 @@ namespace GD_MachineConnect.Machine
                 catch (Exception ex)
                 {
                     Debugger.Break();
+                    await Task.Delay(100);
+                    m_OpcUaClient.Disconnect();
                 }
             }
             return ret;
@@ -143,6 +145,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
+         
         public async Task<bool> AsyncWriteNodes(Dictionary<string,object> NodeTrees)
         {
             if (NodeTrees.Count == 0)
@@ -169,7 +172,9 @@ namespace GD_MachineConnect.Machine
                 }
                 catch (Exception ex)
                 {
-                    Debugger.Break();
+                    await Task.Delay(100);
+                    //Debugger.Break();
+                    m_OpcUaClient.Disconnect();
                 }
             }
             return ret;
@@ -191,7 +196,7 @@ namespace GD_MachineConnect.Machine
         {
             T NodeValue = default(T);
             bool IsSucessful = false;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < retryCounter; i++)
             {
                 try
                 {
@@ -200,13 +205,12 @@ namespace GD_MachineConnect.Machine
                        await AsyncConnect();
                     }
                     NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
-
-
                     IsSucessful = true;
                     break;
                 }
                 catch (Exception ex)
                 {
+                    m_OpcUaClient.Disconnect();
                     IsSucessful = false;
                 }
             }
@@ -219,12 +223,12 @@ namespace GD_MachineConnect.Machine
 
 
 
-        public bool ReadNoteAttributes(string NodeTreeString , out List<OpcNodeAttribute> nodeAttributesList)
+        public async Task<List<OpcNodeAttribute>> ReadNoteAttributes(string NodeTreeString)
         {
-            nodeAttributesList = new List<OpcNodeAttribute>() ;
-            //this.OpcuaConnectAsync();
+            var nodeAttributesList = new List<OpcNodeAttribute>() ;
             try
             {
+                await this.AsyncConnect();
                 OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
                 //nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
                 foreach (var item in nodeAttributes)
@@ -237,12 +241,13 @@ namespace GD_MachineConnect.Machine
                 Console.WriteLine("-------------------------------------");
 
                 nodeAttributesList =  nodeAttributes.ToList();
-                return true;
-            }catch (Exception ex)
-            {
-                return false;
-            }
 
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return nodeAttributesList;
         }
 
 
