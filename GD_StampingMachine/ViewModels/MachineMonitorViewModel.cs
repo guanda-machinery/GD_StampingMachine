@@ -351,9 +351,6 @@ namespace GD_StampingMachine.ViewModels
             }, () => !_workMachiningCommand.IsRunning);
         }
 
-
-
-
         public ICommand CancelMachiningCommand => WorkMachiningCommand.CreateCancelCommand();
         public ICommand AlltoZero
         {
@@ -366,9 +363,29 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        public AsyncRelayCommand SendMachiningCommand
+
+        public AsyncRelayCommand GetMachineDataCommand
         {
             get => new(async (CancellationToken token) =>
+            {
+                await Task.Run(async () =>
+                {
+                    var history = await StampMachineData.GetIronPlateDataCollection();
+                    foreach (var data in history.Item2)
+                    {
+                        Console.WriteLine(data.sIronPlateName1);
+                        Console.WriteLine(data.sIronPlateName2);
+                        await Task.Delay(500);
+                    }
+                });
+
+            },()=>!GetMachineDataCommand.IsRunning);
+        }
+
+        private AsyncRelayCommand _sendMachiningCommand;
+        public AsyncRelayCommand SendMachiningCommand
+        {
+            get => _sendMachiningCommand??= new (async (CancellationToken token) =>
             {
                 await Task.Run(async () =>
                 {
@@ -381,7 +398,7 @@ namespace GD_StampingMachine.ViewModels
                                 token.ThrowIfCancellationRequested();
 
                             //取得歷史資料
-                            var history = await StampMachineData.GetIronPlateDataCollection();
+                            //var history = await StampMachineData.GetIronPlateDataCollection();
 
                             var read = await StampMachineData.GetHMIIronPlateData();
                             if (read.Item1)
@@ -398,19 +415,18 @@ namespace GD_StampingMachine.ViewModels
                                     break;
 
                                 //等待機台訊號 
-                                await Task.Run(async () =>
-                                {
-                                    var Rdatabit = false;
-                                    do
-                                    {
-                                        if (token.IsCancellationRequested)
-                                            token.ThrowIfCancellationRequested();
 
-                                        Rdatabit = await StampMachineData.GetRequestDatabit();
-                                        await Task.Delay(100);
-                                    }
-                                    while (!Rdatabit);
-                                });
+                                var Rdatabit = false;
+                                do
+                                {
+                                    if (token.IsCancellationRequested)
+                                        token.ThrowIfCancellationRequested();
+
+                                    Rdatabit = await StampMachineData.GetRequestDatabit();
+                                    await Task.Delay(100);
+                                }
+                                while (!Rdatabit);
+            
 
                                 if (token.IsCancellationRequested)
                                     token.ThrowIfCancellationRequested();
@@ -438,11 +454,9 @@ namespace GD_StampingMachine.ViewModels
                                     // var send = StampMachineData.AsyncSendMachiningData(readymachining.SettingBaseVM, token, int.MaxValue);
                                     var send = StampMachineData.SetHMIIronPlateData(_HMIIronPlateData);
                                     //hmi設定完之後還需要進行設定變更!
-
-
-
                                     if (alreadySend = await send)
                                     {
+                                        await  StampMachineData.SetRequestDatabit(false);
                                         //成功上傳 等待他加工完成
                                         //等待數秒後當作加工完成
                                         readymachining.SendMachineCommandVM.WorkingProgress = 0;
@@ -450,6 +464,11 @@ namespace GD_StampingMachine.ViewModels
                                         await Task.Delay(1000);
                                         readymachining.SendMachineCommandVM.IsFinish = true;
                                     }
+
+
+
+
+
 
                                     await Task.Delay(100);
                                 }
@@ -466,9 +485,10 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-            }, ()=>  !SendMachiningCommand.IsRunning);
+            }, ()=>  !_sendMachiningCommand.IsRunning);
         }
 
+        public ICommand SendMachiningCancelCommand=> SendMachiningCommand.CreateCancelCommand();
 
 
         public AsyncRelayCommand SendMachiningCommand2

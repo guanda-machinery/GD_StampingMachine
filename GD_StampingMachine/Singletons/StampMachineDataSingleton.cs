@@ -905,7 +905,6 @@ namespace GD_StampingMachine.Singletons
                         {
 
                         }*/
-
                         /*
 
                         if (GD_Stamping.GetFeedingXHomeFwdVelocity(out float feedingXHomeFwdVelocity))
@@ -932,7 +931,6 @@ namespace GD_StampingMachine.Singletons
                         {
 
                         }*/
-
                         var initConnected = await GD_Stamping.AsyncConnect();
                         if (initConnected)
                         {
@@ -948,6 +946,7 @@ namespace GD_StampingMachine.Singletons
                             }
                             //GD_Stamping.Disconnect();
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
+                            ManagerVM.Subtitle = string.Empty;
                             await Task.Delay(1000);
                             manager.Close();
                             break;
@@ -1076,15 +1075,13 @@ namespace GD_StampingMachine.Singletons
                             if ((await HPumpIsActive).Item1)
                                 HydraulicPumpIsActive = (await HPumpIsActive).Item2;
 
-                            var sIronPlateString1 = GD_Stamping.GetHMIIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName1);
-                            if ((await sIronPlateString1).Item1)
-                                IronPlateName1 = (await sIronPlateString1).Item2;
-                            var sIronPlateString2 = GD_Stamping.GetHMIIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName2);
-                            if ((await sIronPlateString1).Item1)
-                                IronPlateName2 = (await sIronPlateString2).Item2;
-                            var sIronPlateString3 = GD_Stamping.GetHMIIronPlateName(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate.sIronPlateName3);
-                            if ((await sIronPlateString1).Item1)
-                                IronPlateName3 = (await sIronPlateString3).Item2;
+                            var sIronPlateString = GD_Stamping.GetHMIIronPlate();
+                            if ((await sIronPlateString).Item1)
+                            {
+                                IronPlateName1 = (await sIronPlateString).Item2.sIronPlateName1;
+                                IronPlateName2 = (await sIronPlateString).Item2.sIronPlateName2;
+                                //IronPlateName3 = (await sIronPlateString).Item2;
+                            }
 
                             //箱子
                             var boxIndex = GD_Stamping.GetSeparateBoxNumber();
@@ -1475,62 +1472,44 @@ namespace GD_StampingMachine.Singletons
 
         public async Task<bool> SetHMIIronPlateData(IronPlateDataModel ironPlateData)
         {
-            return await GD_Stamping.SetHMIIronPlate(ironPlateData);
+            if (await GD_Stamping.AsyncConnect())
+                return await GD_Stamping.SetHMIIronPlate(ironPlateData);
+            else
+                return false;
         }
         public async Task<(bool, IronPlateDataModel)> GetHMIIronPlateData()
         {
-            return await GD_Stamping.GetHMIIronPlate();
+            if (await GD_Stamping.AsyncConnect())
+                return await GD_Stamping.GetHMIIronPlate();
+            else
+                return (false, new IronPlateDataModel());
         }
 
         public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)
         {
-            return await GD_Stamping.SetIronPlateDataCollection(ironPlateDataList);
+            if (await GD_Stamping.AsyncConnect())
+                return await GD_Stamping.SetIronPlateDataCollection(ironPlateDataList);
+            else
+                return false;
         }
 
 
         public async Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection()
         {
-            return await GD_Stamping.GetIronPlateDataCollection();
+            if (await GD_Stamping.AsyncConnect())
+                return await GD_Stamping.GetIronPlateDataCollection();
+            else
+                return (false, new List<IronPlateDataModel>());
         }
 
 
 
 
-
-        /// <summary>
-        /// 第一排字設定
-        /// </summary>
-        public AsyncRelayCommand<object> SetIronPlateName1Command
-        {
-            get => new AsyncRelayCommand<object>(async para =>
-            {
-                await Task.Run(async () =>
-                {
-                    if (para is string ParaString)
-                        await SendStampingString(sIronPlate.sIronPlateName1, ParaString);
-                });
-            });
-        }
-
-        /// <summary>
-        /// 第二排字設定
-        /// </summary>
-        public AsyncRelayCommand<object> SetIronPlateName2Command
-        {
-            get => new AsyncRelayCommand<object>(async para =>
-            {
-                await Task.Run(async () =>
-                {
-                    if (para is string ParaString)
-                        await SendStampingString(sIronPlate.sIronPlateName2, ParaString);
-                });
-            });
-        }
 
         /// <summary>
         /// 第三排字設定
         /// </summary>
-        public AsyncRelayCommand<object> SetIronPlateName3Command
+       /* public AsyncRelayCommand<object> SetIronPlateNameCommand
         {
             get => new AsyncRelayCommand<object>(async para =>
             {
@@ -1540,7 +1519,7 @@ namespace GD_StampingMachine.Singletons
                         await SendStampingString(sIronPlate.sIronPlateName3, ParaString);
                 });
             });
-        }
+        }*/
 
         /// <summary>
         /// 傳送空字串
@@ -1567,6 +1546,18 @@ namespace GD_StampingMachine.Singletons
             }
             return false;
         }
+
+        public async Task<bool> SetRequestDatabit(bool databit)
+        {
+            if (await GD_Stamping.AsyncConnect())
+            {
+                var ret = await GD_Stamping.SetRequestDatabit(databit);
+                return ret;
+            }
+            return false;
+        }
+
+
 
 
 
@@ -1640,14 +1631,18 @@ namespace GD_StampingMachine.Singletons
 
                 if (await databit)
                 {
-                    var ret2 = await GD_Stamping.GetHMIIronPlate();
-                    //var ret3 = await GD_Stamping.SetHMIIronPlate();
+                    var sIronPlateDataRet = await GD_Stamping.GetHMIIronPlate();
+                    if (sIronPlateDataRet.Item1)
+                    {
+                        var sIronPlateData = sIronPlateDataRet.Item2;
+                        sIronPlateData.sIronPlateName1 = firstLine ??= string.Empty;
+                        sIronPlateData.sIronPlateName2 = secondLine ??= string.Empty;
 
-                    ret = await GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName1, firstLine ??= string.Empty);
-                    ret = await GD_Stamping.SetHMIIronPlateName(sIronPlate.sIronPlateName2, secondLine ??= string.Empty);
-                    ret = await GD_Stamping.SetRequestDatabit(false);
-
-                    ret2 = await GD_Stamping.GetHMIIronPlate();
+                        ret = await GD_Stamping.SetHMIIronPlate(sIronPlateData);
+                        ret = await GD_Stamping.SetRequestDatabit(false);
+                        var ret2 = await GD_Stamping.GetHMIIronPlate();
+                        var ret3 = await GD_Stamping.GetRequestDatabit();
+                    }
                 }
                 return ret;
             }
@@ -1665,7 +1660,7 @@ namespace GD_StampingMachine.Singletons
         /// <param name="PlateName">字串位置</param>
         /// <param name="FontString"></param>
         /// <returns></returns>
-        public async Task<bool> SendStampingString(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate PlateName , string FontString)
+     /*   public async Task<bool> SendStampingString(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate PlateName , string FontString)
         {
             bool ret = false; 
             if (await GD_Stamping.AsyncConnect())
@@ -1674,7 +1669,7 @@ namespace GD_StampingMachine.Singletons
                 //GD_Stamping.Disconnect();
             }
             return ret;
-        }
+        }*/
 
 
         private async void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)
@@ -2102,10 +2097,10 @@ namespace GD_StampingMachine.Singletons
         /// <summary>
         /// 鋼印第三排
         /// </summary>
-        public string IronPlateName3
+        /*public string IronPlateName3
         {
             get => _ironPlateName3; set { _ironPlateName3 = value; OnPropertyChanged(); }
-        }
+        }*/
 
         private int _separateBoxIndex = -1;
 

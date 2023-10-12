@@ -645,8 +645,10 @@
                         <Button Command="{Binding CancelMachiningCommand}" Content="StopTest"/>
 
                         <Button Command="{Binding AlltoZero}" Content="set to zero"/>
+                        <Button Command="{Binding GetMachineDataCommand}" Content="GetData"/>
 
                         <Button Command="{Binding SendMachiningCommand}" Content="SendData"/>
+                        <Button Command="{Binding SendMachiningCancelCommand}" Content="SendDataCancel"/>
                     
                         <Button Command="{Binding SendMachiningCommand2}" Content="SendData2"/>
 

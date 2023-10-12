@@ -9,7 +9,7 @@
                        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                         xmlns:local="clr-namespace:GD_CommonLibrary" 
                         WindowStyle="None"
-                       Topmost="True"
+                       Topmost="False"
                        WindowStartupLocation="CenterScreen"
                        mc:Ignorable="d"
                        Background="Transparent"

@@ -228,20 +228,20 @@ namespace GD_MachineConnect.Machine
             var nodeAttributesList = new List<OpcNodeAttribute>() ;
             try
             {
-                await this.AsyncConnect();
-                OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
-                //nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
-                foreach (var item in nodeAttributes)
+                if (await this.AsyncConnect())
                 {
-                    Console.Write(string.Format("{0,-30}", item.Name));
-                    Console.Write(string.Format("{0,-20}", item.Type));
-                    Console.Write(string.Format("{0,-20}", item.StatusCode));
-                    Console.WriteLine(string.Format("{0,20}", item.Value));
+                    OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
+                    //nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
+                    foreach (var item in nodeAttributes)
+                    {
+                        Console.Write(string.Format("{0,-30}", item.Name));
+                        Console.Write(string.Format("{0,-20}", item.Type));
+                        Console.Write(string.Format("{0,-20}", item.StatusCode));
+                        Console.WriteLine(string.Format("{0,20}", item.Value));
+                    }
+                    Console.WriteLine("-------------------------------------");
+                    nodeAttributesList = nodeAttributes.ToList();
                 }
-                Console.WriteLine("-------------------------------------");
-
-                nodeAttributesList =  nodeAttributes.ToList();
-
             }
             catch (Exception ex)
             {

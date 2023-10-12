@@ -244,11 +244,11 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <summary>
         /// 取得下一個鋼印字串
         /// </summary>
-        Task<(bool, string)> GetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType);
+       // Task<(bool, string)> GetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType);
         /// <summary>
         /// 設定下一個鋼印字串
         /// </summary>
-        Task<bool>SetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
+        //Task<bool>SetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine);
 
         /// <summary>
         /// 取得下一個鋼印
@@ -278,20 +278,6 @@ namespace GD_MachineConnect.Machine.Interfaces
         Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList);
 
 
-        /// <summary>
-        /// 設定打點位置
-        /// </summary>
-        /// <param name="AxisPos"></param>
-        /// <param name="Pos"></param>
-        /// <returns></returns>
-        public Task<bool>SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos);
-        /// <summary>
-        /// 取得打點位置
-        /// </summary>
-        /// <param name="AxisPos"></param>
-        /// <param name="Pos"></param>
-        /// <returns></returns>
-        public Task<(bool, string)> GetAxisPos(StampingOpcUANode.AxisPos AxisPos);
 
 
 

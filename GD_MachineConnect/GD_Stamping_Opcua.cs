@@ -644,26 +644,26 @@ namespace GD_MachineConnect
         }
 
         /// <summary>
-        /// 取得下一片資訊
+        /// 取得預計要打的鋼片資訊
         /// </summary>
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        public async Task<(bool,string)> GetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType)
+        /*public async Task<(bool,string)> GetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType)
         {
             return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}");
-        }
+        }*/
 
         /// <summary>
-        /// 設定下一片資訊
+        /// 設定預計要打的鋼片資訊
         /// </summary>
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        public async Task<bool> SetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
+     /*   public async Task<bool> SetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", StringLine);
-        }
+        }*/
 
 
         /// <summary>
@@ -695,6 +695,9 @@ namespace GD_MachineConnect
             var wNodeTrees = IronPlateDataTreeNode(StampingOpcUANode.system.sv_HMIIronPlateName.NodeName, ironPlateData);
             //return await SetIronPlates(ironPlateDataList);
             ret = await GD_OpcUaClient.AsyncWriteNodes(wNodeTrees);
+            //設定完後須更新hmi
+
+
             return ret;
         }
 
@@ -710,49 +713,53 @@ namespace GD_MachineConnect
         {
 
             List<IronPlateDataModel> ironPlateDataList = new();
-            var opcNodeAttributeList = await GD_OpcUaClient.ReadNoteAttributes(StampingOpcUANode.system.sv_IronPlateData);
-
-
-            try
+            if (await GD_OpcUaClient.AsyncConnect())
             {
-                
-                List<int> ironPlateNumberList = new List<int>();
-                if (opcNodeAttributeList != null)
+                var opcNodeAttributeList = await GD_OpcUaClient.ReadNoteAttributes(StampingOpcUANode.system.sv_IronPlateData);
+                try
                 {
-                    var NameList = opcNodeAttributeList.FindAll(x => x.Name.Contains("[") && x.Name.Contains("]")).Select(x => x.Name);
-                    foreach (var name in NameList)
+
+                    List<int> ironPlateNumberList = new List<int>();
+                    if (opcNodeAttributeList != null)
                     {
-                        var IntReplace = name.Replace("[", null).Replace("]", null);
-                        if (int.TryParse(IntReplace, out var nameInt))
+                        var NameList = opcNodeAttributeList.FindAll(x => x.Name.Contains("[") && x.Name.Contains("]")).Select(x => x.Name);
+                        foreach (var name in NameList)
                         {
-                            ironPlateNumberList.Add(nameInt);
+                            var IntReplace = name.Replace("[", null).Replace("]", null);
+                            if (int.TryParse(IntReplace, out var nameInt))
+                            {
+                                ironPlateNumberList.Add(nameInt);
+                            }
+                        }
+                        ironPlateNumberList.Sort();
+                    }
+
+                    //如果沒有值則自己跳值1~25
+                    if (ironPlateNumberList.Count == 0)
+                    {
+                        for (int i = 0; i <= 25; i++)
+                            ironPlateNumberList.Add(i);
+                    }
+
+                    foreach (var i in ironPlateNumberList)
+                    {
+                        var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i}]";
+                        if ((await GetIronPlate(node)).Item1)
+                        {
+                            ironPlateDataList.Add((await GetIronPlate(node)).Item2);
+                        }
+                        else
+                        {
+                            return (false, ironPlateDataList);
                         }
                     }
-                    ironPlateNumberList.Sort();
+                    return (true, ironPlateDataList);
                 }
-
-                //如果沒有值則自己跳值1~25
-                if (ironPlateNumberList.Count == 0)
+                catch (Exception)
                 {
-                    for (int i = 0; i <= 25; i++)
-                        ironPlateNumberList.Add(i);
+
                 }
-
-                foreach (var i in ironPlateNumberList)
-                {
-                    var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i}]";
-                    if ((await GetIronPlate(node)).Item1)
-                    {
-                        ironPlateDataList.Add((await GetIronPlate(node)).Item2);
-                    }
-                }
-                return (true, ironPlateDataList);
             }
-            catch (Exception)
-            {
-
-            }
-
 
             return (false, ironPlateDataList);
         }
@@ -799,6 +806,7 @@ namespace GD_MachineConnect
                 (await getTask_bEngravingFinish).Item1 &&
                 (await getTask_bDataMatrixFinish).Item1
                 );
+
             var newIronPlateData = new IronPlateDataModel()
             {    //ID
                 iIronPlateID = (await getTask_iIronPlateID).Item2,
@@ -941,28 +949,6 @@ namespace GD_MachineConnect
 
 
 
-
-        /// <summary>
-        /// 設定打點位置
-        /// </summary>
-        /// <param name="AxisPos"></param>
-        /// <param name="StringLine"></param>
-        /// <returns></returns>
-        public async Task<bool> SetAxisPos(StampingOpcUANode.AxisPos AxisPos, string Pos)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}", Pos);
-        }
-
-        /// <summary>
-        ///取得打點位置
-        /// </summary>
-        /// <param name="AxisPos"></param>
-        /// <param name="StringLine"></param>
-        /// <returns></returns>
-        public async Task<(bool, string)> GetAxisPos(StampingOpcUANode.AxisPos AxisPos)
-        {
-            return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{AxisPos}");
-        }
 
 
 
@@ -1545,12 +1531,12 @@ namespace GD_MachineConnect
             /// <summary>
             /// 字串1 2 3
             /// </summary>
-          public  enum sIronPlate
+          /*public  enum sIronPlate
             {
                 sIronPlateName1,
                 sIronPlateName2,
                 sIronPlateName3
-            }
+            }*/
 
             /// <summary>
             /// 進料X軸馬達
