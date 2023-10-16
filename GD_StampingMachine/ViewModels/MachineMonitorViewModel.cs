@@ -481,10 +481,7 @@ namespace GD_StampingMachine.ViewModels
                     {
 
                     }
-                });
-
-
-
+                },token);
             }, ()=>  !_sendMachiningCommand.IsRunning);
         }
 
@@ -493,7 +490,7 @@ namespace GD_StampingMachine.ViewModels
 
         public AsyncRelayCommand SendMachiningCommand2
         {
-            get => new AsyncRelayCommand(async (CancellationToken token) =>
+            get => new(async (CancellationToken token) =>
             {
                 await Task.Run(async () =>
                 {

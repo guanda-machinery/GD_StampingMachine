@@ -58,7 +58,7 @@ namespace GD_CommonLibrary.Method
             }
             catch (Exception ex)
             {
-                MessageBoxResultShow.ShowException(ex);
+                 _ =  MessageBoxResultShow.ShowException(ex);
                 Debugger.Break();
                 return false;
             }
@@ -98,7 +98,7 @@ namespace GD_CommonLibrary.Method
             }
             catch (Exception ex)
             {
-                MessageBoxResultShow.ShowException(ex);
+             _=   MessageBoxResultShow.ShowException(ex);
                 Debugger.Break();
             }
             return false;
@@ -132,7 +132,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                    MessageBoxResultShow.ShowException(ex);
+                 _ =   MessageBoxResultShow.ShowException(ex);
                 }
                 return false;
             }
@@ -155,7 +155,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                    MessageBoxResultShow.ShowException(ex);
+                    _ = MessageBoxResultShow.ShowException(ex);
                 }
                 return false;
             }

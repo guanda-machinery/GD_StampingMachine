@@ -254,11 +254,11 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// 取得下一個鋼印
         /// </summary>
 
-        Task<(bool, IronPlateDataModel)> GetHMIIronPlate();
+        Task<(bool, HMIIronPlateDataModel)> GetHMIIronPlate();
         /// <summary>
         /// 設定下一個鋼印
         /// </summary>
-        Task<bool> SetHMIIronPlate(IronPlateDataModel ironPlateDataList);
+        Task<bool> SetHMIIronPlate(HMIIronPlateDataModel ironPlateDataList);
 
 
 

@@ -117,11 +117,8 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (!m_OpcUaClient.Connected)
-                    {
-                       await AsyncConnect();
-                    }
-                    ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+                    if (await AsyncConnect())
+                        ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
                     if (ret)
                     {
                         break;
@@ -156,14 +153,12 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (!m_OpcUaClient.Connected)
+                    if (await AsyncConnect())
                     {
-                        await AsyncConnect();
+                        var tags = NodeTrees.Keys.ToArray();
+                        var values = NodeTrees.Values.ToArray();
+                        ret = m_OpcUaClient.WriteNodes(tags, values);
                     }
-
-                    var tags = NodeTrees.Keys.ToArray();
-                    var values = NodeTrees.Values.ToArray();
-                    ret = m_OpcUaClient.WriteNodes(tags, values);
 
                     if (ret)
                     {
@@ -194,30 +189,23 @@ namespace GD_MachineConnect.Machine
         /// <returns></returns>
         public async Task<(bool , T)> AsyncReadNode<T>(string NodeID)
         {
-            T NodeValue = default(T);
-            bool IsSucessful = false;
+            //T NodeValue = default(T);
             for (int i = 0; i < retryCounter; i++)
             {
                 try
                 {
-                    if (!m_OpcUaClient.Connected)
+                    if (await AsyncConnect())
                     {
-                       await AsyncConnect();
+                        var NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
+                        return (true, NodeValue);
                     }
-                    NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
-                    IsSucessful = true;
-                    break;
                 }
                 catch (Exception ex)
                 {
                     m_OpcUaClient.Disconnect();
-                    IsSucessful = false;
                 }
             }
-
-
-            return (IsSucessful, NodeValue);
-
+            return (false, default(T));
         }
 
 

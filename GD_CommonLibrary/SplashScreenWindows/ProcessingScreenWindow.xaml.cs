@@ -23,6 +23,9 @@ namespace GD_CommonLibrary.SplashScreenWindows
         public ProcessingScreenWindow()
         {
             InitializeComponent();
+            var orgintopmost = this.Topmost;
+            this.Topmost = true;
+            this.Topmost = orgintopmost;
         }
     }
 }

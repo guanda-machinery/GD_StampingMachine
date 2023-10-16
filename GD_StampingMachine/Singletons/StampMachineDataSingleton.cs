@@ -36,6 +36,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
 using static GD_StampingMachine.Method.StampingMachineJsonHelper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -873,15 +874,23 @@ namespace GD_StampingMachine.Singletons
                 Subtitle = null,
                 Copyright = null,
             };
-            DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+
+            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+           // await Application.Current.Dispatcher.BeginInvoke(new Action(async delegate
+           // {
+                manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
+
+
+
+
             IsScaning = true;
             try
             {
-                manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
-                ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_TryConnect");
-               
+                ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Init");
+                await Task.Delay(2000);
                 //while (true)
-                for(int retryCount = 1; true; retryCount++)
+                int retryCount = 1;
+                do
                 {
                     if (cancelToken.IsCancellationRequested)
                     {
@@ -889,66 +898,12 @@ namespace GD_StampingMachine.Singletons
                     }
                     try
                     {
-                        /*if (GD_Stamping.GetManualFwdSpd(out float feedingXHomeFwdVelocity))
+                        IsConnected= await GD_Stamping.AsyncConnect();
+                        if (IsConnected)
                         {
-
-                        }
-                        if (GD_Stamping.GetManualBwdSpd(out float feedingXHomeFwdVelocity))
-                        {
-
-                        }
-                        if (GD_Stamping.GetSetupFwdSpd(out float feedingXHomeFwdVelocity))
-                        {
-
-                        }
-                        if (GD_Stamping.GetSetupFwdSpd(out float feedingXHomeFwdVelocity))
-                        {
-
-                        }*/
-                        /*
-
-                        if (GD_Stamping.GetFeedingXHomeFwdVelocity(out float feedingXHomeFwdVelocity))
-                        {
-
-                        }
-
-                        if (GD_Stamping.GetFeedingXHomeBwdVelocity(out float feedingXHomeBwdVelocity))
-                        {
-
-                        }
-
-
-                        if (GD_Stamping.GetEngravingFeedingYFwdSetupVelocity(out float engravingFeedingYFwdSetupVelocity))
-                        {
-
-                        }
-
-                        if (GD_Stamping.GetEngravingFeedingYBwdSetupVelocity(out float engravingFeedingYBwdSetupVelocity))
-                        {
-
-                        }
-                        if (GD_Stamping.GetEngravingFeedingASetupVelocity(out float engravingFeedingASetupVelocity))
-                        {
-
-                        }*/
-                        var initConnected = await GD_Stamping.AsyncConnect();
-                        if (initConnected)
-                        {
-                            var rotatingTurntableInfoList = await GD_Stamping.GetRotatingTurntableInfo();
-                            if (rotatingTurntableInfoList.Item1)
-                            {
-                                var rotatingStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(); ;
-                                rotatingTurntableInfoList.Item2.ForEach(stamp =>
-                                {
-                                    rotatingStampingTypeVMObservableCollection.Add(new StampingTypeViewModel(stamp));
-                                });
-                                RotatingTurntableInfoCollection = rotatingStampingTypeVMObservableCollection;
-                            }
-                            //GD_Stamping.Disconnect();
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                             ManagerVM.Subtitle = string.Empty;
                             await Task.Delay(1000);
-                            manager.Close();
                             break;
                         }
                         else
@@ -966,18 +921,25 @@ namespace GD_StampingMachine.Singletons
                         ManagerVM.Subtitle = ex.Message;
 
                     }
-
+                    retryCount++;
                     await Task.Delay(500);
                 }
-                while (true)
+                while (!IsConnected);
+                //while (true) ;
+
+                manager.Close();
+
+                while (!cancelToken.IsCancellationRequested)
                 {
                     if (cancelToken.IsCancellationRequested)
                         cancelToken.ThrowIfCancellationRequested();
                     try
                     {
                         IsConnected = await GD_Stamping.AsyncConnect();
+                        //if (!IsConnected)
                         if (IsConnected)
                         {
+                            manager?.Close();
                             //進料馬達
 
                             //GD_Stamping.GetMachineStatus
@@ -994,11 +956,43 @@ namespace GD_StampingMachine.Singletons
                                     return false;
                             });
                             Cylinder_GuideRod_Move_IsUp = await Move_IsUp;*/
-
-
                             var b = await GD_Stamping.GetIronPlateDataCollection();
 
+                            var rotatingTurntableInfoList = await GD_Stamping.GetRotatingTurntableInfo();
+                            if (rotatingTurntableInfoList.Item1)
+                            {
+                                var rotatingStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(); ;
+                                rotatingTurntableInfoList.Item2.ForEach(stamp =>
+                                {
+                                    rotatingStampingTypeVMObservableCollection.Add(new StampingTypeViewModel(stamp));
+                                });
 
+                                if (RotatingTurntableInfoCollection.Count != rotatingStampingTypeVMObservableCollection.Count)
+                                {
+                                    RotatingTurntableInfoCollection = rotatingStampingTypeVMObservableCollection;
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        List<bool> StampingFontCompareBooleanList = new();
+                                        for (int i = 0; i < RotatingTurntableInfoCollection.Count; i++)
+                                        {
+                                            var  eq = RotatingTurntableInfoCollection[i].Equals(rotatingStampingTypeVMObservableCollection[i]);
+                                            StampingFontCompareBooleanList.Add(eq);
+                                        }
+                                        if (StampingFontCompareBooleanList.Contains(false))
+                                        {
+                                            RotatingTurntableInfoCollection = rotatingStampingTypeVMObservableCollection;
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        //RotatingTurntableInfoCollection = rotatingStampingTypeVMObservableCollection;
+                                    }
+                                }
+
+                            }
 
                             var Move_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up);
                             if ((await Move_IsUp).Item1)
@@ -1139,6 +1133,14 @@ namespace GD_StampingMachine.Singletons
                         }
                         else
                         {
+                            if (manager.State == SplashScreenState.Closed)
+                            {
+                                manager=null;
+                                manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+                                manager.Show();
+                            }
+
+                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect");
                             foreach (var IO_Table in IO_TableObservableCollection)
                             {
                                 IO_Table.IO_Value = null;
@@ -1171,7 +1173,8 @@ namespace GD_StampingMachine.Singletons
                 try
                 {
                     IsConnected = false;
-                    manager.Close();
+                    manager?.Close();
+                    manager =null;
                 }
                 catch
                 {
@@ -1215,6 +1218,8 @@ namespace GD_StampingMachine.Singletons
             bool FontsIsSame = false;
             try
             {
+
+                ff
                 bool isSameCount = StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.Count == RotatingTurntableInfoCollection.Count;
                // bool hasSameContent = true;
                 List<int> DifferentContent_StampingTypeNumberList = new();
@@ -1266,6 +1271,8 @@ namespace GD_StampingMachine.Singletons
                                 await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                                     Outputstring);
                             }
+
+
                         }
                         else
                         {
@@ -1470,19 +1477,19 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        public async Task<bool> SetHMIIronPlateData(IronPlateDataModel ironPlateData)
+        public async Task<bool> SetHMIIronPlateData(HMIIronPlateDataModel ironPlateData)
         {
             if (await GD_Stamping.AsyncConnect())
                 return await GD_Stamping.SetHMIIronPlate(ironPlateData);
             else
                 return false;
         }
-        public async Task<(bool, IronPlateDataModel)> GetHMIIronPlateData()
+        public async Task<(bool, HMIIronPlateDataModel)> GetHMIIronPlateData()
         {
             if (await GD_Stamping.AsyncConnect())
                 return await GD_Stamping.GetHMIIronPlate();
             else
-                return (false, new IronPlateDataModel());
+                return (false, new HMIIronPlateDataModel());
         }
 
         public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)

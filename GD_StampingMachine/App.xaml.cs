@@ -36,7 +36,11 @@ namespace GD_StampingMachine
                     await Task.Delay(100);
                     //  Thread.Sleep(100);
                     SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-                    manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
+                    }));
+
                     //manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                     ManagerVM.IsIndeterminate = true;
 
@@ -52,8 +56,6 @@ namespace GD_StampingMachine
 
                     //如果五秒內都沒有出現彈窗 則不再等待
                     await Task.WhenAny(SplashScreenIsShown, Task.Delay(5000));
-
-
 
                     await Task.Delay(1000);
                     for (int i = 0; i <= 1000; i++)
@@ -94,15 +96,25 @@ namespace GD_StampingMachine
 
                     await Task.Run(async () =>
                     {
-                        _ = Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
-                        //檢查字模
+                        await Task.Delay(1000);
 
+                        await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+                        //檢查字模
                         while (!Singletons.StampMachineDataSingleton.Instance.IsConnected)
                         {
                             await Task.Delay(100);
+                        }
 
+                        await Task.Delay(1000);
+                        while(Singletons.StampMachineDataSingleton.Instance.RotatingTurntableInfoCollection.Count == 0)
+                        {
+                            await Task.Delay(100);
                         }
                         await Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware();
+
+
+
+
 
 
                     });

@@ -34,11 +34,12 @@
                                IsEnabled="{Binding Stamping_SelectionChangedCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}"
                 Style="{StaticResource GD_WhiteComboBox}" Background="White"  SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
                 ItemsSource="{Binding StampingTypeVMObservableCollection}" >
-                        <i:Interaction.Triggers>
+                        
+                        <!--<i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding Stamping_SelectionChangedCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        </i:Interaction.Triggers>-->
                     </ComboBox>
                     <dxe:ComboBoxEdit   Width="150" Foreground="Red" EditValue="{Binding Direction, UpdateSourceTrigger=PropertyChanged}"   >
                         <dxmvvm:Interaction.Behaviors>
@@ -48,7 +49,9 @@
 
 
                     <ComboBox  DisplayMemberPath="StampingTypeString"         Style="{StaticResource GD_WhiteComboBox}" 
-                        Name="RotatingTurntableInfoComboBox"  Background="White"  Width="150" ItemsSource="{Binding StampMachineData.RotatingTurntableInfoCollection}">
+                        Name="RotatingTurntableInfoComboBox"  Background="White"  Width="150" 
+                                ItemsSource="{Binding StampingTypeVMObservableCollection}">
+                        <!-- ItemsSource="{Binding StampMachineData.RotatingTurntableInfoCollection}"-->
 
                     </ComboBox>
 

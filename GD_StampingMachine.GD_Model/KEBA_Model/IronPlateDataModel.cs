@@ -9,6 +9,10 @@ namespace GD_StampingMachine.GD_Model
 {
     public class IronPlateDataModel
     {
+
+        private string _sIronPlateName1;
+        private string _sIronPlateName2;
+
         /// <summary>
         /// ID
         /// </summary>
@@ -32,42 +36,15 @@ namespace GD_StampingMachine.GD_Model
         public float rYAxisPos2 { get; set; }
 
 
-        private string _sIronPlateName1;
         /// <summary>
         /// 字串1的內容
         /// </summary>
         public string sIronPlateName1 { get => _sIronPlateName1 ??= string.Empty; set => _sIronPlateName1 = value; }
 
-        private string _sIronPlateName2;
         /// <summary>
         /// 字串2的內容
         /// </summary>
         public string sIronPlateName2 { get=> _sIronPlateName2 ??= string.Empty; set=> _sIronPlateName2 = value; }
-        /// <summary>
-        /// 字串3的x座標
-        /// </summary>
-        //public float rXAxisPos3 { get; set; }
-        /// <summary>
-        /// 字串3的y座標
-        /// </summary>
-        //public float rYAxisPos3 { get; set; }
-        /// <summary>
-        /// 字串3的內容
-        /// </summary>
-        //public string sIronPlateName3 { get; set; }
-        /// <summary>
-        /// QR Code的字串
-        /// </summary>
-        //public string sQRCodeName1 { get; set; }
-
-        /// <summary>
-        ///  QR Code的x座標
-        /// </summary>
-        //public float rQRcodeXAxisPos { get; set; }
-        /// <summary>
-        /// QR Code前字串
-        /// </summary>
-        //public string sQRCodeName2 { get; set; }
         /// <summary>
         /// 分料盒
         /// </summary>
@@ -87,4 +64,15 @@ namespace GD_StampingMachine.GD_Model
 
 
     }
+
+    public class HMIIronPlateDataModel: IronPlateDataModel
+    {
+        private string _sDataMatrixName1;
+        private string _sDataMatrixName2;
+        public string sDataMatrixName1 { get => _sDataMatrixName1 ??= string.Empty; set => _sDataMatrixName1 = value; }
+        public string sDataMatrixName2 { get => _sDataMatrixName2 ??= string.Empty; set => _sDataMatrixName2 = value; }
+
+    }
+
+
 }

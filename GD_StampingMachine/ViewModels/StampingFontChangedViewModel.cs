@@ -40,7 +40,7 @@ namespace GD_StampingMachine.ViewModels
 
         private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
         /// <summary>
-        /// 使用的轉盤
+        /// 軟體設定的轉盤
         /// </summary>
         public ObservableCollection<StampingTypeViewModel> StampingTypeVMObservableCollection
         {

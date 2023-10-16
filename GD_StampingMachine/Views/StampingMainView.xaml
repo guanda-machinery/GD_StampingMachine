@@ -163,7 +163,6 @@
                                         <GroupBox Grid.Column="0" Header="{DynamicResource Text_SteelPunchedFont}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
                                             <ListBox Margin="10,0" 
                          ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}"      
-                                          
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
                                                 <ListBox.ItemsPanel>
