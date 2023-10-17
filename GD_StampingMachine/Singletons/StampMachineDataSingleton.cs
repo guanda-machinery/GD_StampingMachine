@@ -1219,7 +1219,6 @@ namespace GD_StampingMachine.Singletons
             try
             {
 
-                ff
                 bool isSameCount = StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.Count == RotatingTurntableInfoCollection.Count;
                // bool hasSameContent = true;
                 List<int> DifferentContent_StampingTypeNumberList = new();
