@@ -103,7 +103,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.ParamA = value;
                 OnPropertyChanged(nameof(ParameterA));
-                OnPropertyChanged(nameof(SettingBaseVM));
             }
         }
         public string ParameterB
@@ -125,6 +124,40 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        public string IronPlateString
+        { 
+            get=> PartsParameter.IronPlateString; 
+            set
+            { 
+                PartsParameter.IronPlateString = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SettingBaseVM));
+            }
+        }
+
+        public string QrCodeContent
+        {
+            get => PartsParameter.QrCodeContent;
+            set
+            {
+                PartsParameter.QrCodeContent = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 側邊字串(橫著打)
+        /// </summary>
+        public string QR_Special_IronPlateString
+        {
+            get => PartsParameter.QR_Special_IronPlateString;
+            set
+            {
+                PartsParameter.QR_Special_IronPlateString = value;
+                OnPropertyChanged();
+            }
+        }
+        
         public MachiningStatusEnum MachiningStatus
         {
             get => PartsParameter.MachiningStatus;
@@ -165,8 +198,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _settingBaseVM ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
                 }
-
-                _settingBaseVM.PlateNumber = ParameterA;
+                _settingBaseVM.PlateNumber = IronPlateString;
 
                 return _settingBaseVM;
             }
@@ -210,8 +242,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new (async obj =>
             {
-                await Task.Run(async () =>
-                {
                     if (obj is not null)
                     {
                         if (obj.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
@@ -228,7 +258,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                         }
                     }
-                });
             });
         }
 

@@ -268,6 +268,9 @@
     <Compile Include="Singletons\LogDataSingleton.cs" />
     <Compile Include="Singletons\StampingMachineSingleton.cs" />
     <Compile Include="Singletons\StampMachineDataSingleton.cs" />
+    <Compile Include="StampingMachineWindow.xaml.cs">
+      <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MachineFunctionTestUserControl.xaml.cs">
       <DependentUpon>MachineFunctionTestUserControl.xaml</DependentUpon>
     </Compile>
@@ -279,9 +282,6 @@
     <Compile Include="Method\MethodWinUIMessageBox.cs" />
     <Compile Include="Method\DropHandler\StampingTypeDropTarget.cs" />
     <Compile Include="Interfaces\ISettingCommandInterface.cs" />
-    <Compile Include="StampingMachineWindow.xaml.cs">
-      <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
       <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
     </Compile>
@@ -382,6 +382,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="StampingMachineWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ComboBoxStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -422,10 +426,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="StampingMachineWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\CustomControls\FunctionToggleUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

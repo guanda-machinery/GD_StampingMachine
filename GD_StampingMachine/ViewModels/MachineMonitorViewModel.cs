@@ -4,6 +4,7 @@ using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.Xpf;
+using DevExpress.Office.Crypto;
 using DevExpress.Pdf.Native;
 using DevExpress.Xpf.Editors.ExpressionEditor;
 using DevExpress.Xpf.Editors.Helpers;
@@ -364,23 +365,6 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        public AsyncRelayCommand GetMachineDataCommand
-        {
-            get => new(async (CancellationToken token) =>
-            {
-                await Task.Run(async () =>
-                {
-                    var history = await StampMachineData.GetIronPlateDataCollection();
-                    foreach (var data in history.Item2)
-                    {
-                        Console.WriteLine(data.sIronPlateName1);
-                        Console.WriteLine(data.sIronPlateName2);
-                        await Task.Delay(500);
-                    }
-                });
-
-            },()=>!GetMachineDataCommand.IsRunning);
-        }
 
         private AsyncRelayCommand _sendMachiningCommand;
         public AsyncRelayCommand SendMachiningCommand
@@ -389,6 +373,13 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(async () =>
                 {
+                    /*
+                                                 rXAxisPos1 = 10,
+                            rYAxisPos1 = 119,
+                            rXAxisPos2 = 25,
+                            rYAxisPos2 = 119,
+                     */
+
                     try
                     {
                         //開始依序傳送資料
@@ -405,7 +396,7 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 var readyMachiningCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex)
                                 .ToList().FindAll(x =>
-                                 !x.SendMachineCommandVM.IsFinish
+                                 !x.SendMachineCommandVM.IsFinish && !x.SendMachineCommandVM.IsSended
                                 && x.SendMachineCommandVM.WorkIndex >= 0);
                                 if (readyMachiningCollection.Count == 0)
                                     break;
@@ -426,24 +417,27 @@ namespace GD_StampingMachine.ViewModels
                                     await Task.Delay(100);
                                 }
                                 while (!Rdatabit);
-            
-
                                 if (token.IsCancellationRequested)
                                     token.ThrowIfCancellationRequested();
 
                                 //將兩行字上傳到機器
                                 var _HMIIronPlateData = read.Item2;
-                                var SpiltPlate = readymachining.SettingBaseVM.PlateNumber.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
+
+                               // var SpiltPlate = readymachining.SettingBaseVM.PlateNumber.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
+                                var SpiltPlate = readymachining.IronPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
+
+                                //靠左 靠右等功能
 
                                 SpiltPlate.TryGetValue(0, out string plateFirstValue);
                                 SpiltPlate.TryGetValue(1, out string plateSecondValue);
                                 plateFirstValue ??= string.Empty;
                                 plateSecondValue ??= string.Empty;
 
-                                if (plateFirstValue != null)
-                                    _HMIIronPlateData.sIronPlateName1 = plateFirstValue;
-                                if (plateSecondValue != null)
-                                    _HMIIronPlateData.sIronPlateName2 = plateSecondValue;
+                                _HMIIronPlateData.sDataMatrixName1 = readymachining.QrCodeContent;
+                                _HMIIronPlateData.sDataMatrixName2 = readymachining.QR_Special_IronPlateString;
+
+                                _HMIIronPlateData.sIronPlateName1 = plateFirstValue;
+                                _HMIIronPlateData.sIronPlateName2 = plateSecondValue;
 
                                 var alreadySend = false;
                                 while (!alreadySend)
@@ -456,13 +450,18 @@ namespace GD_StampingMachine.ViewModels
                                     //hmi設定完之後還需要進行設定變更!
                                     if (alreadySend = await send)
                                     {
-                                        await  StampMachineData.SetRequestDatabit(false);
-                                        //成功上傳 等待他加工完成
-                                        //等待數秒後當作加工完成
-                                        readymachining.SendMachineCommandVM.WorkingProgress = 0;
+                                        bool setRequestDatabitSuccesfful = false;
+                                        do
+                                        {
+                                            setRequestDatabitSuccesfful = await StampMachineData.SetRequestDatabit(false);
+                                        } while (!setRequestDatabitSuccesfful);
 
-                                        await Task.Delay(1000);
-                                        readymachining.SendMachineCommandVM.IsFinish = true;
+                                            //成功上傳 等待他加工完成
+                                            //等待數秒後當作加工完成
+                                            //readymachining.SendMachineCommandVM.WorkingProgress = 0;
+
+                                            await Task.Delay(1000);
+                                        readymachining.SendMachineCommandVM.IsSended = true;
                                     }
 
 
@@ -488,64 +487,6 @@ namespace GD_StampingMachine.ViewModels
         public ICommand SendMachiningCancelCommand=> SendMachiningCommand.CreateCancelCommand();
 
 
-        public AsyncRelayCommand SendMachiningCommand2
-        {
-            get => new(async (CancellationToken token) =>
-            {
-                await Task.Run(async () =>
-                {
-                    if (token.IsCancellationRequested)
-                        token.ThrowIfCancellationRequested();
-                    var a = await StampMachineData.GetHMIIronPlateData();
-                    var b = await StampMachineData.GetIronPlateDataCollection();
-
-                    List<IronPlateDataModel> ironPlateDataList = new();
-
-                   foreach(var Bpp in BoxPartsParameterVMObservableCollection)
-                    {
-                        if (Bpp.SendMachineCommandVM.WorkIndex < 0)
-                            continue;
-
-                        int boxIndex = 1;
-                        if (Bpp.BoxIndex != null)
-                            boxIndex = Bpp.BoxIndex.Value;
-                     
-                        var SpiltPlate = Bpp.SettingBaseVM.PlateNumber.SpiltByLength(Bpp.SettingBaseVM.SequenceCount);
-                        SpiltPlate.TryGetValue(0, out string plateFirstValue);
-                        SpiltPlate.TryGetValue(1, out string plateSecondValue);
-                        plateFirstValue ??= string.Empty;
-                        plateSecondValue ??= string.Empty;
-
-                        ironPlateDataList.Add(new IronPlateDataModel()
-                        {
-                            bEngravingFinish = false,
-                            bDataMatrixFinish = false,
-                            iIronPlateID = 1,
-                            iStackingID = boxIndex,
-                            rXAxisPos1 = 10,
-                            rYAxisPos1 = 119,
-                            rXAxisPos2 = 25,
-                            rYAxisPos2 = 119,
-                            sIronPlateName1 = plateFirstValue,
-                            sIronPlateName2 = plateSecondValue
-                        });
-                    }
-
-                    var setBool = StampMachineData.SetIronPlateDataCollection(ironPlateDataList);
-                    await setBool;
-
-                    //檢查是否寫入
-                    var c = await StampMachineData.GetIronPlateDataCollection();
-                    foreach(var eachData in c.Item2)
-                    {
-                        Console.WriteLine(eachData.sIronPlateName1);
-                        Console.WriteLine(eachData.sIronPlateName2);
-                        Console.WriteLine("---------------------------");
-                    }
-                    //var c = await StampMachineData.SetIronPlateDataCollection();
-                });
-            }, () => !SendMachiningCommand.IsRunning);
-        }
 
 
         //篩選器

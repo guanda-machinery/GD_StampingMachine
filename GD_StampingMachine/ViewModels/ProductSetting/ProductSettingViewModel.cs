@@ -212,25 +212,28 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand LoadProductSettingCommand
         {
-            get => new AsyncRelayCommand(async() =>
+            get => new AsyncRelayCommand(async () =>
             {
                 await Task.Run(async () =>
                 {
-                    if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(async() =>
                     {
-                        var ExisedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
-                        if (ExisedIndex != -1)
+                        if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
                         {
-                            if (ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
-                                await MethodWinUIMessageBox.ProjectIsLoaded();
-                            else
-                                await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
-                            return;
-                        }
+                            var ExisedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
+                            if (ExisedIndex != -1)
+                            {
+                                if (ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
+                                    await MethodWinUIMessageBox.ProjectIsLoaded();
+                                else
+                                    await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
+                                return;
+                            }
 
-                        ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
-                        SaveProductListSetting();
-                    }
+                            ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
+                            SaveProductListSetting();
+                        }
+                    }));
                 });
             });
         }

@@ -1527,19 +1527,7 @@ namespace GD_StampingMachine.Singletons
             });
         }*/
 
-        /// <summary>
-        /// 傳送空字串
-        /// </summary>
-        public AsyncRelayCommand SendMachiningDataCommand
-        {
-            get => new AsyncRelayCommand(async (CancellationToken token) =>
-            {
-                await Task.Run(async () =>
-                {
-                    await AsyncSendMachiningData(new QRSettingViewModel(), token);
-                });
-            },()=>!SendMachiningDataCommand.IsRunning);
-        }
+
 
 
         public async Task<bool> GetRequestDatabit()
@@ -1564,118 +1552,6 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-
-
-
-
-        /// <summary> 
-        /// 設定金屬板的字樣
-        /// </summary>
-        /// <param name="settingBaseVM"></param>
-        /// <param name="timeout"></param>
-        /// <returns>若連接成功會等待指定毫秒數內進行加工，若無法連接或超時皆回傳false</returns>
-        public async Task<bool> AsyncSendMachiningData(SettingBaseViewModel settingBaseVM, CancellationToken Ctoken, int timeout = 5000)
-        {
-            await Task.Delay(10);
-
-            var ret = false;
-            var spiltString = settingBaseVM.PlateNumber.SpiltByLength(settingBaseVM.SequenceCount);
-            string firstLine = string.Empty;
-            string secondLine = string.Empty;
-            spiltString.TryGetValue(0, out firstLine);
-            if (settingBaseVM.SpecialSequence == SpecialSequenceEnum.OneRow)
-            {
-
-            }
-            else if (settingBaseVM.SpecialSequence == SpecialSequenceEnum.TwoRow)
-            {
-                spiltString.TryGetValue(1, out secondLine);
-            }
-           
-            if (await GD_Stamping.AsyncConnect())
-            {
-                var databit = Task<bool>.Run(async () =>
-                {
-                    CancellationTokenSource tokenSource = new();
-                    var token = tokenSource.Token;
-                    var getRequestDatabitTask = Task<bool>.Run(async () =>
-                    {
-                        while (!token.IsCancellationRequested )
-                        {
-                            var Rdatabit = await GD_Stamping.GetRequestDatabit();
-                            if (Rdatabit.Item1)
-                            {
-                                return Rdatabit.Item2;
-                            }
-                            await Task.Delay(500);
-                        }
-                        return false;
-
-                    }, token);
-
-                    _ = Task.Run(async () =>
-                    {
-                        while(!Ctoken.IsCancellationRequested)
-                        {
-                             await Task.Delay(10);
-                        }
-                        tokenSource.Cancel();
-                    });
-
-                    if (Task.WaitAny(Task.Delay(timeout), getRequestDatabitTask) == 0)
-                    {
-                        //超時
-                        tokenSource.Cancel();
-                    }
-                    else
-                    {
-
-                    }
-
-                    return await getRequestDatabitTask;
-                });
-
-                if (await databit)
-                {
-                    var sIronPlateDataRet = await GD_Stamping.GetHMIIronPlate();
-                    if (sIronPlateDataRet.Item1)
-                    {
-                        var sIronPlateData = sIronPlateDataRet.Item2;
-                        sIronPlateData.sIronPlateName1 = firstLine ??= string.Empty;
-                        sIronPlateData.sIronPlateName2 = secondLine ??= string.Empty;
-
-                        ret = await GD_Stamping.SetHMIIronPlate(sIronPlateData);
-                        ret = await GD_Stamping.SetRequestDatabit(false);
-                        var ret2 = await GD_Stamping.GetHMIIronPlate();
-                        var ret3 = await GD_Stamping.GetRequestDatabit();
-                    }
-                }
-                return ret;
-            }
-            else
-                return false;
-        }
-
-
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="PlateName">字串位置</param>
-        /// <param name="FontString"></param>
-        /// <returns></returns>
-     /*   public async Task<bool> SendStampingString(GD_Stamping_Opcua.StampingOpcUANode.sIronPlate PlateName , string FontString)
-        {
-            bool ret = false; 
-            if (await GD_Stamping.AsyncConnect())
-            {
-                ret = await GD_Stamping.SetHMIIronPlateName(PlateName, FontString);
-                //GD_Stamping.Disconnect();
-            }
-            return ret;
-        }*/
 
 
         private async void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)

@@ -208,6 +208,14 @@ namespace GD_StampingMachine.ViewModels
             get => SendMachineCommand.IsFinish; set { SendMachineCommand.IsFinish = value; OnPropertyChanged(); }
         }
 
+        /// <summary>
+        /// 已傳送 有此標記者會被略過
+        /// </summary>
+        public bool IsSended
+        {
+            get => SendMachineCommand.IsSended; set { SendMachineCommand.IsSended = value; OnPropertyChanged(); }
+        }
+
         //private bool _isWorking = false;
         /// <summary>
         /// 標記為正在加工

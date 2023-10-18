@@ -610,8 +610,8 @@
                                         </dxg:GridColumn>
 
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsFinish" 
-                                                                          Binding="{Binding SendMachineCommandVM.IsFinish}"  AllowEditing="true"
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsSended" 
+                                                                          Binding="{Binding SendMachineCommandVM.IsSended}"  AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                                                 </dxg:GridColumn>
 
@@ -641,16 +641,12 @@
 
 
                         <Button Command="{Binding WorkMachiningCommand}" Content="WorkMachining"/>
-
                         <Button Command="{Binding CancelMachiningCommand}" Content="StopTest"/>
-
                         <Button Command="{Binding AlltoZero}" Content="set to zero"/>
-                        <Button Command="{Binding GetMachineDataCommand}" Content="GetData"/>
 
                         <Button Command="{Binding SendMachiningCommand}" Content="SendData"/>
                         <Button Command="{Binding SendMachiningCancelCommand}" Content="SendDataCancel"/>
                     
-                        <Button Command="{Binding SendMachiningCommand2}" Content="SendData2"/>
 
                     </StackPanel>
 

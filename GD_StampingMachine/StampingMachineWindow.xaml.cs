@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using DevExpress.Xpf.WindowsUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,35 +13,29 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using DevExpress.Xpf.WindowsUI;
 
 namespace GD_StampingMachine
 {
     /// <summary>
     /// StampingMachineWindow.xaml 的互動邏輯
     /// </summary>
-    public partial class StampingMachineWindow : ThemedWindow
+    public partial class StampingMachineWindow : Window
     {
         public StampingMachineWindow()
         {
             InitializeComponent();
         }
 
-        private void ThemedWindow_Closed(object sender, EventArgs e)
-        {
-                Environment.Exit(0);
-        }
-
-        private void ThemedWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var MessageBoxReturn = WinUIMessageBox.Show(new Window(),
-                (string)Application.Current.TryFindResource("Text_AskCloseProgram"),
-                (string)Application.Current.TryFindResource("Text_notify"),
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Exclamation,
-                MessageBoxResult.None,
-                MessageBoxOptions.None,
-                FloatingMode.Window);
+    (string)Application.Current.TryFindResource("Text_AskCloseProgram"),
+    (string)Application.Current.TryFindResource("Text_notify"),
+    MessageBoxButton.YesNo,
+    MessageBoxImage.Exclamation,
+    MessageBoxResult.None,
+    MessageBoxOptions.None,
+    FloatingMode.Window);
 
             if (MessageBoxReturn == MessageBoxResult.Yes)
                 e.Cancel = false;
@@ -49,5 +44,10 @@ namespace GD_StampingMachine
             //呼叫各儲存命令
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+
+        }
     }
 }

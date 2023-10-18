@@ -334,6 +334,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Method\AsyncObservableCollection.cs" />
     <Compile Include="Extensions\CheckedFileIsLocked.cs" />
     <Compile Include="Extensions\CommonString.cs" />
     <Compile Include="Extensions\DeepCloneByJson.cs" />

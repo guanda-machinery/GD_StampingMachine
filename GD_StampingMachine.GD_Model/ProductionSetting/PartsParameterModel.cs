@@ -22,6 +22,21 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// ID
         /// </summary>
         public string ID { get; set; }
+
+        /// <summary>
+        /// 鐵牌字串
+        /// </summary>
+        public string IronPlateString { get; set; }
+        /// <summary>
+        /// QR內容
+        /// </summary>
+        public string QrCodeContent { get; set; }
+        /// <summary>
+        /// 側邊字串(橫著打)
+        /// </summary>
+        public string QR_Special_IronPlateString { get; set; }
+
+
         /// <summary>
         /// 參數A
         /// </summary>
@@ -47,7 +62,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public int? BoxIndex { get; set; }
         /// <summary>
-        /// 鐵牌
+        /// 鐵牌參數
         /// </summary>
         public StampPlateSettingModel StampingPlate { get; set; } = new StampPlateSettingModel();
    
@@ -55,8 +70,6 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// 機台命令
         /// </summary>
         public SendMachineCommandModel SendMachineCommand { get; set; } = new SendMachineCommandModel();
-
-
 
 
 

@@ -190,26 +190,23 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new(async ObjGridControl =>
             {
-                await Task.Run(async () =>
+                if (ObjGridControl is not null)
                 {
-                    if (ObjGridControl is not null)
+                    if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
                     {
-                        if (ObjGridControl.ItemsSource is ObservableCollection<ProductProjectViewModel> GridItemSource)
+                        if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
                         {
-                            if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
+                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
+                                await MethodWinUIMessageBox.CanNotCloseProject();
+                            else
                             {
-                                if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
-                                    await MethodWinUIMessageBox.CanNotCloseProject();
-                                else
-                                {
-                                    if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
-                                        GridItemSource.Remove(CurrentItem);
-                                }
-
+                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
+                                    GridItemSource.Remove(CurrentItem);
                             }
+
                         }
                     }
-                });
+                }
             });
         }
         /// <summary>
@@ -291,10 +288,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 AddNumberSettingSavedCollection.ForEach(obj =>
                 {
-                    if (string.IsNullOrEmpty(AddNewPartsParameterVM.ParameterA))
+                    if (string.IsNullOrEmpty(AddNewPartsParameterVM.IronPlateString))
                         obj.PlateNumber = null;
                     else
-                        obj.PlateNumber = AddNewPartsParameterVM.ParameterA;
+                        obj.PlateNumber = AddNewPartsParameterVM.IronPlateString;
                 });
             });
         }
@@ -443,10 +440,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                 EditNumberSettingSavedCollection.ForEach(obj =>
                 {
-                    if (string.IsNullOrEmpty(EditPartsParameterVM_Cloned.ParameterA))
+                    if (string.IsNullOrEmpty(EditPartsParameterVM_Cloned.IronPlateString))
                         obj.PlateNumber = null;
                     else
-                        obj.PlateNumber = EditPartsParameterVM_Cloned.ParameterA;
+                        obj.PlateNumber = EditPartsParameterVM_Cloned.IronPlateString;
 
                     if (!EditNumberSettingSavedCollection.Contains(EditPartsParameterVM_Cloned.SettingBaseVM))
                     {
@@ -487,14 +484,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public ICommand ImportProject_SelectPathFileCommand
         {
 
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
-                if(JsonHM.ManualReadJsonFile<IList<ERP_IronPlateModel>>(out var ErpFile , out var FilePath))
+                await Task.Run(async () =>
                 {
-                    ImportFilePath = FilePath;
-                }
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        if (JsonHM.ManualReadJsonFile<IList<ERP_IronPlateModel>>(out var ErpFile, out var FilePath))
+                        {
+                            ImportFilePath = FilePath;
+                        }
+                    }));
+                });
             });
-
         }
 
         private string importFilePath;
@@ -542,9 +544,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                         PartsParameterVMObservableCollection.Add(new PartsParameterViewModel()
                         {
-                            ParameterA = _erp.PartNumber,
-                            ParameterB = _erp.QrCodeContent.FirstOrDefault(),
-                            ParameterC = _erp.TrainNumber.FirstOrDefault(),
+                            IronPlateString = _erp.PartNumber,
+                            QrCodeContent = _erp.QrCodeContent.FirstOrDefault(),
+                            QR_Special_IronPlateString = _erp.TrainNumber.FirstOrDefault(),
 
                             // ParameterA= 
                             SettingBaseVM = SettingBaseVM
@@ -781,8 +783,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand<object>(async obj =>
             {
-                await Task.Run(async () =>
-                {
                     if (obj == null)
                     {
                         throw new Exception();
@@ -825,7 +825,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
                         }
                     }
-                });
+
             });
         }
 

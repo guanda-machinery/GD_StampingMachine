@@ -906,30 +906,76 @@
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
                                         <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_CreatePart}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
 
-                                        <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="" Margin="2,0" VerticalAlignment="Center" Foreground="Red"   Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="" Margin="2,0" VerticalAlignment="Center" Foreground="Red"   Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="5" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="6" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="7" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
 
-                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_Parameter_A}"/>
-                                        <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_Parameter_B}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_Parameter_C}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
+
+
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_IronPlateString}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_QrCodeContent}"   Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"   Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"/>
+                                    
+                                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_Parameter_A}"/>
+                                     <TextBlock Grid.Column="1" Grid.Row="5" Text="{DynamicResource Text_Parameter_B}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="6" Text="{DynamicResource Text_Parameter_C}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="7" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
 
                                     <TextBlock Grid.Column="2" Grid.Row="1" Text="："/>
-                                        <TextBlock Grid.Column="2" Grid.Row="2" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="4" Text="：" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："   Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："   Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="4" Text="：" />
+                                    <TextBlock Grid.Column="2" Grid.Row="5" Text="："/>
+                                    <TextBlock Grid.Column="2" Grid.Row="6" Text="："/>
+                                    <TextBlock Grid.Column="2" Grid.Row="7" Text="：" VerticalAlignment="Center"/>
 
                                     <TextBox Grid.Column="3" Grid.Row="1"  Width="200" Margin="0"  
+                                                 Text="{Binding AddNewPartsParameterVM.IronPlateString, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    
+                                    <TextBox Grid.Column="3" Grid.Row="2"  Width="200" Margin="0"  
+                                               Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                 Text="{Binding AddNewPartsParameterVM.QrCodeContent, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    
+                                    <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
+                                               Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                 Text="{Binding AddNewPartsParameterVM.QR_Special_IronPlateString, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+
+
+                                    <TextBox Grid.Column="3" Grid.Row="4"  Width="200" Margin="0"  
                                                  Text="{Binding AddNewPartsParameterVM.ParameterA, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -937,7 +983,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
-                                    <TextBox Grid.Column="3" Grid.Row="2" 
+                                    <TextBox Grid.Column="3" Grid.Row="5" 
                                                  Text="{Binding  AddNewPartsParameterVM.ParameterB,UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -945,7 +991,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
-                                        <TextBox Grid.Column="3" Grid.Row="3" 
+                                        <TextBox Grid.Column="3" Grid.Row="6" 
                                                  Text="{Binding  AddNewPartsParameterVM.ParameterC,UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -963,7 +1009,7 @@
 
                                     <ComboBox  Name="AddNewPartsSettingBaseVMComboBox"
                                         Margin="10,0" Padding="0" Width="200" Text="123"  
-                                            Grid.Column="3" Grid.Row="4"   MaxDropDownHeight="275" 
+                                            Grid.Column="3" Grid.Row="7"   MaxDropDownHeight="275" 
                                               ItemsSource="{Binding AddNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedItem="{Binding AddNewPartsParameterVM.SettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
@@ -1005,15 +1051,16 @@
                                         </ComboBox.Style>
                                     </ComboBox>
                                     
-                                    <StackPanel  Grid.Row="6" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
+                                    <StackPanel  Grid.Row="8" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
                                             <Button   
                                                                     Content="{DynamicResource btnCancel}"
                                                                   Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}" CommandParameter="{StaticResource FalseValue}">
                                             </Button>
                                             <Button Content="{DynamicResource btnCreate}" Command="{Binding CreatePartCommand}">
                                                 <Button.IsEnabled>
-                                                    <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
-                                                        <Binding Path="AddNewPartsParameterVM.ParameterA"/>
+                                                <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
+                                                    <Binding Path="AddNewPartsParameterVM.IronPlateString"/>
+                                                    <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterB"/>
                                                     <Binding Path="AddNewPartsParameterVM.ParameterC"/>
                                                     <Binding ElementName="AddNewPartsSettingBaseVMComboBox" Path="SelectedItem" UpdateSourceTrigger="PropertyChanged"/>
@@ -1423,6 +1470,12 @@
                         </dxg:GridColumn>
 
                         <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_TypeSettingProject}" FieldName="DistributeName" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IronPlateString}" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>

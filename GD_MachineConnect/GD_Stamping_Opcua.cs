@@ -808,8 +808,7 @@ namespace GD_MachineConnect
                 var opcNodeAttributeList = await GD_OpcUaClient.ReadNoteAttributes(StampingOpcUANode.system.sv_IronPlateData);
                 try
                 {
-
-                    List<int> ironPlateNumberList = new List<int>();
+                   /* List<int> ironPlateNumberList = new List<int>();
                     if (opcNodeAttributeList != null)
                     {
                         var NameList = opcNodeAttributeList.FindAll(x => x.Name.Contains("[") && x.Name.Contains("]")).Select(x => x.Name);
@@ -822,16 +821,9 @@ namespace GD_MachineConnect
                             }
                         }
                         ironPlateNumberList.Sort();
-                    }
+                    }*/
 
-                    //如果沒有值則自己跳值1~25
-                    if (ironPlateNumberList.Count == 0)
-                    {
-                        for (int i = 0; i <= 25; i++)
-                            ironPlateNumberList.Add(i);
-                    }
-
-                    foreach (var i in ironPlateNumberList)
+                    for (int i = 0; i <= 25; i++)
                     {
                         var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i}]";
                         if ((await GetIronPlate(node)).Item1)
@@ -1232,12 +1224,16 @@ namespace GD_MachineConnect
 
         public async Task<bool> SetEngravingRotateCW()
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", true);
+            await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", true);
+            await Task.Delay(100);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", false);
         }
 
         public async Task<bool> SetEngravingRotateCCW()
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", true);
+            await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", true);
+            await Task.Delay(100);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", false);
         }
 
 

@@ -61,6 +61,9 @@ namespace GD_StampingMachine.GD_Model
         /// 標記為完成
         /// </summary>
         public bool IsFinish { get; set; }
+
+        public bool IsSended { get; set; }
+
         /// <summary>
         /// 正在加工
         /// </summary>

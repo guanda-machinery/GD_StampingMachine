@@ -63,6 +63,7 @@ namespace GD_CommonLibrary.Method
                 return false;
             }
         }
+
         public bool ReadJsonFile<T>(string fileName, out T JsonData)
         {
             JsonData = default(T);
@@ -93,7 +94,7 @@ namespace GD_CommonLibrary.Method
             }
             catch (JsonException JEX) 
             {
-                MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_JsonError"));
+                _ =  MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_JsonError"));
                 Debugger.Break();
             }
             catch (Exception ex)
@@ -110,7 +111,8 @@ namespace GD_CommonLibrary.Method
             return ManualReadJsonFile(out JsonData, out _);
         }
 
-        public bool ManualReadJsonFile<T>(out T JsonData , out string FilePath)
+
+        public bool ManualReadJsonFile<T>(out T JsonData, out string FilePath)
         {
             FilePath = null;
             JsonData = default;
@@ -119,12 +121,11 @@ namespace GD_CommonLibrary.Method
             {
                 Filter = "Json files (*.json)|*.json"
             };
-
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    if(ReadJsonFile(sfd.FileName, out JsonData))
+                    if (ReadJsonFile(sfd.FileName, out JsonData))
                     {
                         FilePath = sfd.FileName;
                         return true;
@@ -132,12 +133,13 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                 _ =   MessageBoxResultShow.ShowException(ex);
+                    _ = MessageBoxResultShow.ShowException(ex);
                 }
                 return false;
             }
             return false;
         }
+
 
         public bool ManualWriteJsonFile<T>(T JsonData)
         {
@@ -145,7 +147,6 @@ namespace GD_CommonLibrary.Method
             { 
                 Filter = "Json files (*.json)|*.json"
             };
-
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -162,6 +163,12 @@ namespace GD_CommonLibrary.Method
             return false;
         }
 
+        
 
-    }
+
+
+
+
+
+        }
 }

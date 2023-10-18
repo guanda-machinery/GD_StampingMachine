@@ -280,6 +280,12 @@
     <sys:String x:Key="Text_PartsParameter">零件參數</sys:String>
     <sys:String x:Key="Text_CreatePart">建立零件</sys:String>
     <sys:String x:Key="Text_EditPart">編輯零件</sys:String>
+
+
+    <sys:String x:Key="Text_IronPlateString">鋼印字串</sys:String>
+    <sys:String x:Key="Text_QrCodeContent">QR內容</sys:String>
+    <sys:String x:Key="Text_QR_Special_IronPlateString">側邊參數</sys:String>
+
     <sys:String x:Key="Text_Parameter_A">A參數</sys:String>
     <sys:String x:Key="Text_Parameter_B">B參數</sys:String>
     <sys:String x:Key="Text_Parameter_C_DataMartix">C參數(Data-Martix)</sys:String>

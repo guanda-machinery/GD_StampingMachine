@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
+    /// <summary>
+    /// 金屬片設定
+    /// </summary>
     public abstract class SettingBaseViewModel :  ParameterSettingBaseViewModel
     {
         private StampPlateSettingModel _stampPlateSetting;
@@ -85,62 +88,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _plateNumber = value;
-                // if (!string.IsNullOrEmpty(_plateNumber))
-                /*
-                if (_plateNumber != null)
-                {
-                    //第一排放不下才須尋找
-                    if (SpecialSequence == SpecialSequenceEnum.TwoRow)
-                    {
-                        //找第一排是否有-
-                        int MinusIndex;
-                        if (_plateNumber.Length > SequenceCount)
-                        {
-                            //起始搜尋點(從後面開始找)
-                            //跑循環去定位minus的位置
-                            var SearchIndexStart = _plateNumber.Length - 1;
-                            var SearchCount = SequenceCount;
-                            do
-                            {
-                                MinusIndex = _plateNumber.LastIndexOf('-', SearchIndexStart, SearchCount);
-                                if (MinusIndex != -1)
-                                {
-                                    SearchIndexStart = MinusIndex - 1;
-                                    SearchCount = MinusIndex - 1;
-                                    //將字串切開後 是否會落到第二排 
-                                    //會落到第二排且第二排能放得下整串字串的 才移動到第二排
-                                    var FirstPlateNumber = _plateNumber.Substring(0, MinusIndex + 1);
-                                    var SubPlateNumber = _plateNumber.Substring(MinusIndex + 1);
-                                    if (FirstPlateNumber.Length <= SequenceCount && SubPlateNumber.Length <= SequenceCount)
-                                    {
-                                        //補空白
-
-                                        plateNumberInput = FirstPlateNumber.PadRight(SequenceCount) + SubPlateNumber;
-                                    }
-                                }
-                            } while (MinusIndex != -1);
-                        }
-                    }
-                    for (int i = 0; i < PlateNumberList.Count; i++)
-                    {
-                        //如果字段不夠長 留白
-                        if (i < plateNumberInput.Length)
-                        {
-                            if (string.IsNullOrWhiteSpace(plateNumberInput[i].ToString()))
-                            {
-                                PlateNumberList[i] = null;
-                            }
-                            else
-                                PlateNumberList[i] = plateNumberInput[i].ToString();
-                        }
-                        else
-                            PlateNumberList[i] = null;
-                    }
-                }
-                else
-                    PlateNumberList.ForEach(p => p = null);
-                */
-
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(PlateNumberList));
             }
