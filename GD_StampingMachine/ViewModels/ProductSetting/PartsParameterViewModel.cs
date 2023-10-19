@@ -94,6 +94,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.ProjectID = value; OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// 加工識別id
+        /// </summary>
+        public int ID
+        {
+            get => PartsParameter.ID;
+            set
+            {
+                PartsParameter.ID = value; OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 已送進機台內
+        /// </summary>
+        public bool IsSended
+        {
+            get => PartsParameter.SendMachineCommand.IsSended; set { PartsParameter.SendMachineCommand.IsSended = value; OnPropertyChanged(); }
+        }
+
 
 
         public string ParameterA
@@ -148,12 +167,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 側邊字串(橫著打)
         /// </summary>
-        public string QR_Special_IronPlateString
+        public string QR_Special_Text
         {
-            get => PartsParameter.QR_Special_IronPlateString;
+            get => PartsParameter.QR_Special_Text;
             set
             {
-                PartsParameter.QR_Special_IronPlateString = value;
+                PartsParameter.QR_Special_Text = value;
                 OnPropertyChanged();
             }
         }
@@ -199,6 +218,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     _settingBaseVM ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
                 }
                 _settingBaseVM.PlateNumber = IronPlateString;
+              
+
 
                 return _settingBaseVM;
             }

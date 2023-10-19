@@ -134,12 +134,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
         [JsonIgnore]
-        public ICommand CreateProjectCommand
+        public AsyncRelayCommand CreateProjectCommand
         {
             get => new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
-                {
                     Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
                     var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
                     //檔案已存在 詢問是否要覆蓋
@@ -149,24 +147,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             return;
                     }
 
-                    if (CreatedProjectVM.SaveProductProject())
+                if (CreatedProjectVM.SaveProductProject())
+                {
+                    //若不clone會導致資料互相繫結
+                    if (ExistedIndex != -1)
                     {
-                        //若不clone會導致資料互相繫結
-                        if (ExistedIndex != -1)
-                        {
-                            //ProductProjectVMObservableCollection.RemoveAt(ExistedIndex);
-                            ProductProjectVMObservableCollection[ExistedIndex] = CreatedProjectVM.DeepCloneByJson();
-                        }
-                        else
-                        {
-                            ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
-                        }
-
-                        SaveProductListSetting();
-
+                        //ProductProjectVMObservableCollection.RemoveAt(ExistedIndex);
+                        ProductProjectVMObservableCollection[ExistedIndex] = CreatedProjectVM.DeepCloneByJson();
                     }
-                });
-            });
+                    else
+                    {
+                        ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
+                    }
+                    await      SaveProductListSetting();
+                }
+            },()=> !CreateProjectCommand.IsRunning);
         }
 
         /// <summary>
@@ -231,7 +226,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             }
 
                             ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
-                            SaveProductListSetting();
+                            await SaveProductListSetting();
                         }
                     }));
                 });

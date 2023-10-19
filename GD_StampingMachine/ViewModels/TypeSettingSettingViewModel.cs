@@ -150,7 +150,9 @@ namespace GD_StampingMachine.ViewModels
 
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeSelectedItems { get; set; } = new();
-
+        /// <summary>
+        /// 全加工專案
+        /// </summary>
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }= new();
         [JsonIgnore]
         public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand

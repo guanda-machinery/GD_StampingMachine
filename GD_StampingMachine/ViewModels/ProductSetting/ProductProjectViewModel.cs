@@ -292,6 +292,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         obj.PlateNumber = null;
                     else
                         obj.PlateNumber = AddNewPartsParameterVM.IronPlateString;
+
+                    if (string.IsNullOrEmpty(AddNewPartsParameterVM.QR_Special_Text))
+                        obj.QR_Special_Text = null;
+                    else
+                        obj.QR_Special_Text = AddNewPartsParameterVM.QR_Special_Text;
                 });
             });
         }
@@ -546,7 +551,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             IronPlateString = _erp.PartNumber,
                             QrCodeContent = _erp.QrCodeContent.FirstOrDefault(),
-                            QR_Special_IronPlateString = _erp.TrainNumber.FirstOrDefault(),
+                            QR_Special_Text = _erp.TrainNumber.FirstOrDefault(),
 
                             // ParameterA= 
                             SettingBaseVM = SettingBaseVM

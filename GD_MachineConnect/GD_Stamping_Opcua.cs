@@ -939,8 +939,8 @@ namespace GD_MachineConnect
         /// <returns></returns>
         public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)
         {
+     
             int ExistedDataCollectionCount = 1000;
-
             List<IronPlateDataModel> write_ironPlateDataList;
             //取得舊有的鐵片群資訊
             var getIronPlateDataCollectionTuple = await GetIronPlateDataCollection();
@@ -958,8 +958,6 @@ namespace GD_MachineConnect
                     sIronPlateName2 = string.Empty,
                 }, ExistedDataCollectionCount).ToList();
             }
-
-
 
             for (int i = 0 ; i< write_ironPlateDataList.Count; i++)
             {

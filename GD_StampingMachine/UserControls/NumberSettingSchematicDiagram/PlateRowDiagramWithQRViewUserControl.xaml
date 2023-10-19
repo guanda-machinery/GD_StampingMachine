@@ -69,8 +69,13 @@
             <Border Background="White" Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Width="40" HorizontalAlignment="Left" Height="40" CornerRadius="20" VerticalAlignment="Top" Margin="15,12"/>
 
             <Border Background="#55534d" Grid.Column="2" Grid.Row="4" Grid.RowSpan="3" Margin="15,0" Height="70" Width="40" HorizontalAlignment="Left">
-                <TextBlock Text="{DynamicResource Text_Spec}" FontSize="24" />
-            </Border>
+            <Grid RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Grid.RenderTransform>
+                <TextBlock Text="{Binding QR_Special_Text}" FontSize="24" />
+            </Grid>
+        </Border>
 
 
         <Grid Grid.Column="3"  Grid.Row="5" >

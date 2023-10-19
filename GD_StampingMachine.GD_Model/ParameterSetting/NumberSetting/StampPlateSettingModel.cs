@@ -38,6 +38,11 @@ namespace GD_StampingMachine.Model
         public VerticalAlignEnum VerticalAlign { get; set; }
 
         /// <summary>
+        /// 側邊字串
+        /// </summary>
+        public string QR_Special_Text { get; set; }
+
+        /// <summary>
         /// Code設定 字元數量
         /// </summary>
         public int CharactersCount { get; set; }

@@ -19,9 +19,11 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public string ProjectID { get; set; }
         /// <summary>
-        /// ID
+        /// 加工UID
         /// </summary>
-        public string ID { get; set; }
+        public int ID { get; set; }
+
+
 
         /// <summary>
         /// 鐵牌字串
@@ -34,7 +36,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// <summary>
         /// 側邊字串(橫著打)
         /// </summary>
-        public string QR_Special_IronPlateString { get; set; }
+        public string QR_Special_Text { get; set; }
 
 
         /// <summary>

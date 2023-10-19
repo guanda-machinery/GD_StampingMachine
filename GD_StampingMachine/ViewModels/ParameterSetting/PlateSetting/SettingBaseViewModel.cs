@@ -91,7 +91,23 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(PlateNumberList));
             }
-        } 
+        }
+
+
+        /// <summary>
+        /// 側面字串
+        /// </summary>
+        public string QR_Special_Text
+        {
+            get => StampPlateSetting.QR_Special_Text;
+            set
+            {
+                StampPlateSetting.QR_Special_Text = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
 
         private ObservableCollection<string> _plateNumberList;

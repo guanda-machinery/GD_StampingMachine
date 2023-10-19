@@ -611,7 +611,7 @@
 
 
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsSended" 
-                                                                          Binding="{Binding SendMachineCommandVM.IsSended}"  AllowEditing="true"
+                                                                          Binding="{Binding IsSended}"  AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                                                 </dxg:GridColumn>
 

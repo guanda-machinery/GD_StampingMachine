@@ -1499,7 +1499,6 @@ namespace GD_StampingMachine.Singletons
                 return false;
         }
 
-
         public async Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection()
         {
             if (await GD_Stamping.AsyncConnect())
@@ -1508,28 +1507,37 @@ namespace GD_StampingMachine.Singletons
                 return (false, new List<IronPlateDataModel>());
         }
 
-
-
-
-
-        /// <summary>
-        /// 第三排字設定
-        /// </summary>
-       /* public AsyncRelayCommand<object> SetIronPlateNameCommand
+    /*    public async Task<(bool, List<SettingBaseViewModel>)> GetIronPlateDataCollection()
         {
-            get => new AsyncRelayCommand<object>(async para =>
-            {
-                await Task.Run(async () =>
-                {
-                    if (para is string ParaString)
-                        await SendStampingString(sIronPlate.sIronPlateName3, ParaString);
-                });
-            });
+            if (await GD_Stamping.AsyncConnect())
+                return await GD_Stamping.GetIronPlateDataCollection();
+            else
+                return (false, new List<IronPlateDataModel>());
         }*/
 
 
 
 
+
+
+        /* public AsyncRelayCommand<object> SetIronPlateNameCommand
+         {
+             get => new AsyncRelayCommand<object>(async para =>
+             {
+                 await Task.Run(async () =>
+                 {
+                     if (para is string ParaString)
+                         await SendStampingString(sIronPlate.sIronPlateName3, ParaString);
+                 });
+             });
+         }*/
+
+
+
+        /// <summary>
+        /// 允許加工訊號
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> GetRequestDatabit()
         {
             if (await GD_Stamping.AsyncConnect())

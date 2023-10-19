@@ -162,7 +162,7 @@ namespace GD_StampingMachine.Singletons
 
             if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
             {
-                PathList.ForEach(EPath =>
+                PathList.ForEach(async EPath =>
                 {
                     //加工專案為到處放的形式 沒有固定位置
                     if (JsonHM.ReadJsonFile(System.IO.Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
@@ -172,7 +172,7 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         //需註解找不到檔案!
-                        MessageBoxResultShow.ShowOK("", $"Can't find file {System.IO.Path.Combine(EPath.ProjectPath, EPath.Name)}");
+                       await MessageBoxResultShow.ShowOK("", $"Can't find file {System.IO.Path.Combine(EPath.ProjectPath, EPath.Name)}");
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,

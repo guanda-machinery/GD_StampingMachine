@@ -116,9 +116,10 @@ namespace GD_StampingMachine.ViewModels
                         NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
             }
         }
-
-        public ProjectDistributeModel ProjectDistribute { get; set; } = new ProjectDistributeModel();
-
+        /// <summary>
+        /// 資料結構
+        /// </summary>
+        public ProjectDistributeModel ProjectDistribute { get; private set; } = new ProjectDistributeModel();
 
 
         internal void SaveProductProjectVMObservableCollection()

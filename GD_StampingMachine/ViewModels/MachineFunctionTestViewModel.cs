@@ -164,7 +164,7 @@ namespace GD_StampingMachine.ViewModels
                         AbsoluteMoveDistance = QR_Stamping_Distance + Fonts_Stamping_Distance,
                         SettingBaseVM = SettingBaseVM,
                         StampWidth = 35,
-
+                        
                         WorkScheduler_FontStamping = _scheduler_FontStamping,
                         WorkScheduler_QRStamping = _scheduler_QRStamping,
                         WorkScheduler_Shearing = _scheduler_Shearing,

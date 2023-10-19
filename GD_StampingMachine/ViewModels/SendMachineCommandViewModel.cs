@@ -36,7 +36,6 @@ namespace GD_StampingMachine.ViewModels
         public readonly SendMachineCommandModel SendMachineCommand = new();
 
 
-
         /// <summary>
         /// 已完成加工
         /// </summary>
