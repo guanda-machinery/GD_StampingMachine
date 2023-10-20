@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
@@ -143,7 +144,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     {
                         if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                         {
-                            QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
+                            });
                         }
                         else
                         {
@@ -152,7 +156,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
                     else
                     {
-                        QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
+                        });
                     }
 
                     this.JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);

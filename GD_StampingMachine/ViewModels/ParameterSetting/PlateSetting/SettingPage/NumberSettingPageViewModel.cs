@@ -22,6 +22,7 @@ using System.Windows.Input;
 using GD_StampingMachine.Model;
 using Newtonsoft.Json.Linq;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows.Data;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -106,12 +107,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 await Task.Run(async () =>
                 {
+
                     var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                     if (FIndex != -1)
                     {
                         if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                         {
-                            NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
+                           Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
+                            });
                         }
                         else
                         {
@@ -120,7 +125,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
                     else
                     {
-                        NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
+                        });
                     }
 
                     JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);

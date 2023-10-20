@@ -1,11 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
+using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Office.Crypto;
 using DevExpress.Pdf.Native;
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors.ExpressionEditor;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.XtraEditors.Filtering;
@@ -375,21 +377,32 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(async () =>
                 {
+                    var ManagerVM = new DXSplashScreenViewModel
+                    {
+                        Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                        Title = "GD_StampingMachine",
+                        Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
+                        Progress = 0,
+                        IsIndeterminate = false,
+                        Subtitle = "Alpha 23.7.4",
+                        Copyright = "Copyright © 2023 GUANDA",
+                    };
+                    SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
                     try
                     {
                         //開始依序傳送資料
                         while (true)
                         {
-                            
                             if (token.IsCancellationRequested)
                                 token.ThrowIfCancellationRequested();
 
                             //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection
-                           //取得歷史資料
-                           //var history = await StampMachineData.GetIronPlateDataCollection();
-                           var readyMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex)
-                            .ToList().FindAll(x => !x.IsSended
-                            && x.SendMachineCommandVM.WorkIndex >= 0);
+                            //取得歷史資料
+                            //var history = await StampMachineData.GetIronPlateDataCollection();
+                            var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.SendMachineCommandVM.WorkIndex >= 0);
+                            var readyMachiningCollection = workableMachiningCollection.FindAll(x => !x.IsSended).OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList();
+                            var sendedReadyMachiningCollection = workableMachiningCollection.FindAll(x => x.IsSended).OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList();
+
 
                             if (readyMachiningCollection.Count == 0)
                             {
@@ -403,7 +416,16 @@ namespace GD_StampingMachine.ViewModels
 
                                 break; 
                             }
-
+                            var progress = (double)sendedReadyMachiningCollection.Count / (double)workableMachiningCollection.Count;
+                            ManagerVM.Progress = progress;
+                            if (manager.State == SplashScreenState.Closed)
+                            {
+                             
+                                Application.Current.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
+                                }));
+                            }
                             //等待機台訊號 
 
                             if (token.IsCancellationRequested)
@@ -486,6 +508,11 @@ namespace GD_StampingMachine.ViewModels
                     catch (Exception ex)
                     {
 
+                    }
+                    finally
+                    {
+                        manager?.Close();
+                        manager = null;
                     }
                 },token);
             }, ()=>  !_sendMachiningCommand.IsRunning);
