@@ -147,17 +147,83 @@
                 </Grid>
                     <Grid Width="{Binding AlltoZero}"/>
                     <Grid Grid.ColumnSpan="2"    Grid.Row="3" >
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="95"/>
-                        </Grid.ColumnDefinitions>
-                        <Border Background="White" Grid.ColumnSpan="2" Margin="0,0,0,0" />
-
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="110"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="White" Grid.ColumnSpan="2" Margin="0,0,0,0" />
                             <Border Background="Gray" Grid.Column="1" Margin="-1,0,0,0" Width="50"  HorizontalAlignment="Right" />
                         </Grid>
 
-                        <ListBox  HorizontalAlignment="Right"  Width="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StripSteelLength}"
+
+                        <ListBox  FlowDirection="RightToLeft"
+                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection}"
+                                                             ScrollViewer.VerticalScrollBarVisibility="Disabled"     
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" >
+
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Grid FlowDirection="LeftToRight">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border  Margin="5,4,2,5"
+                                                                                        BorderThickness="1" BorderBrush="Black" CornerRadius="5"
+                                                                                        HorizontalAlignment="Center"  Background="Transparent"
+                                                                                        >
+                                                        <!-- Background="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"-->
+                                                        <Border.LayoutTransform>
+                                                            <RotateTransform Angle="90"/>
+                                                        </Border.LayoutTransform>
+                                                        <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
+                                                              >
+                                                            <Grid.LayoutTransform>
+                                                                <ScaleTransform ScaleX="0.11"
+                                                                                                        ScaleY="0.11" />
+                                                            </Grid.LayoutTransform>
+                                                            <Grid DataContext="{Binding}">
+                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl  
+                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                     
+                                                                                                    RedMeasurementLineVisibility="Collapsed" />
+                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
+                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                            
+                                                                                                    RedMeasurementLineVisibility="Collapsed" />
+                                                            </Grid>
+
+
+                                                        </Grid>
+                                                    </Border>
+
+
+                                                </Grid>
+                                                
+                                                
+                                                
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+
+
+                        <ListBox  Visibility="Collapsed"
+                            HorizontalAlignment="Right"  Width="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StripSteelLength}"
                             MinHeight="120"    
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"  >
@@ -246,21 +312,18 @@
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
+
+
                     </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
-                    <Button Command="{Binding SetStatusSendMachineCommand}" Content="SetColor"/>
-                    <Button Command="{Binding SortWorkMachineCommand}" Content="Sort"/>
 
                     <Button Content="popup"
                         Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}"  
                                            CommandTarget="{Binding ElementName=WorkControlDraggablePopup}"
-                            
                             >
 
                         </Button>
 
-                    
-                    
                         <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup" 
                                               AllowsTransparency="True" Margin="16"   
                                              PlacementRectangle="0,40,0,0"
@@ -287,7 +350,8 @@
                                         <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#2c2c2c"/>
                                     </StackPanel.Resources>
 
-                                    <dxg:GridControl Name="NotArrangeWorkGridControl"
+                                    <dxg:GridControl MaxWidth="600"
+                                        Name="NotArrangeWorkGridControl"
                                         HorizontalAlignment="Left"     Grid.ColumnSpan="2"  
                                         Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
@@ -462,7 +526,8 @@
 
                                     </StackPanel>
 
-                                    <dxg:GridControl Name="ArrangeWorkGridControl" HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
+                                            <dxg:GridControl MaxWidth="600"
+                                        Name="ArrangeWorkGridControl" HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
                                         Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="300" 
@@ -610,8 +675,8 @@
                                         </dxg:GridColumn>
 
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsSended" 
-                                                                          Binding="{Binding IsSended}"  AllowEditing="true"
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsSended"  FieldName="IsSended"
+                                                                   AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                                                 </dxg:GridColumn>
 
@@ -639,10 +704,11 @@
                             </Border>
                         </GD_Popup:DraggablePopup>
 
-
+                        <StackPanel Visibility="Collapsed">
                         <Button Command="{Binding WorkMachiningCommand}" Content="WorkMachining"/>
                         <Button Command="{Binding CancelMachiningCommand}" Content="StopTest"/>
-                        <Button Command="{Binding AlltoZero}" Content="set to zero"/>
+                            <Button Command="{Binding AlltoZero}" Content="set to zero"/>
+                        </StackPanel>
 
                         <Button Command="{Binding SendMachiningCommand}" Content="SendData"/>
                         <Button Command="{Binding SendMachiningCancelCommand}" Content="SendDataCancel"/>
@@ -741,8 +807,8 @@
 
 
 
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.AbsoluteMoveDistance"  
-                                                         Binding="{Binding SendMachineCommandVM.AbsoluteMoveDistance}"
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IsSended}"  FieldName="IsSended"  
+                          
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>

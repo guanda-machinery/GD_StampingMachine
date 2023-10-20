@@ -68,8 +68,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-
-        // private string _projectPathText;
         public string ProjectPathText
         {
             get => CreatedProjectVM.ProductProjectPath;
@@ -159,7 +157,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
                     }
-                    await      SaveProductListSetting();
+                    await SaveProductListSetting();
                 }
             },()=> !CreateProjectCommand.IsRunning);
         }
@@ -275,6 +273,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     ProjectPath = obj.ProductProjectPath
                 });
             });
+
+
             return await Task.Run(()=> JsonHM.WriteProjectSettingJson(PathList));
         }
 

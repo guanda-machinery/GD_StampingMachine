@@ -667,108 +667,23 @@ namespace GD_MachineConnect
 
 
         /// <summary>
-        /// 取得下一個鋼印
+        /// 取得下一個要加工的鋼印
         /// </summary>
 
-        public async Task<(bool, HMIIronPlateDataModel)> GetHMIIronPlate()
+        public async Task<(bool,IronPlateDataModel )> GetHMIIronPlate()
         {
-            
             var rootNode = StampingOpcUANode.system.sv_HMIIronPlateName.NodeName;
-
-             var getTask_iIronPlateID = GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iIronPlateID");
-            var getTask_rXAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos1");
-            var getTask_rYAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos1");
-            var getTask_rXAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos2");
-            var getTask_rYAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos2");
-            //var getTask_rXAxisPos3 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rXAxisPos3");
-            //var getTask_rYAxisPos3 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rYAxisPos3");
-            var getTask_sIronPlateName1 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName1");
-            var getTask_sIronPlateName2 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName2");
-            //var getTask_sIronPlateName3 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sIronPlateName3");
-            //var getTask_rQRcodeXAxisPos = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rQRcodeXAxisPos");
-            //var getTask_sQRCodeName1 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sQRCodeName1");
-            //var getTask_sQRCodeName2 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sQRCodeName2");
-            var getTask_iStackingID = GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iStackingID");
-            //var getTask_bQRCodeFinish = GD_OpcUaClient.AsyncReadNode<bool>(node + "." + "bQRCodeFinish");
-            var getTask_bEngravingFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bEngravingFinish");
-            var getTask_bDataMatrixFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bDataMatrixFinish");
-            var getTask_sDataMatrixName1 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName1");
-            var getTask_sDataMatrixName2 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName2");
-
-            var ret = ((await getTask_iIronPlateID).Item1 &&
-                (await getTask_rXAxisPos1).Item1 &&
-                (await getTask_rYAxisPos1).Item1 &&
-                (await getTask_sIronPlateName1).Item1 &&
-                (await getTask_rXAxisPos2).Item1 &&
-                (await getTask_rYAxisPos2).Item1 &&
-                (await getTask_sIronPlateName2).Item1 &&
-                //(await getTask_rXAxisPos3).Item1 &&
-                //(await getTask_rYAxisPos3).Item1 &&
-                //(await getTask_sIronPlateName3).Item1 &&
-                //(await getTask_sQRCodeName1).Item1 &&
-                //(await getTask_rQRcodeXAxisPos).Item1 &&
-                //(await getTask_sQRCodeName2).Item1 &&
-                (await getTask_iStackingID).Item1 &&
-                //(await getTask_bQRCodeFinish).Item1 &&
-                (await getTask_bEngravingFinish).Item1 &&
-                (await getTask_bDataMatrixFinish).Item1 &&
-                (await getTask_sDataMatrixName1).Item1 &&
-                (await getTask_sDataMatrixName2).Item1
-                );
-
-            var newIronPlateData = new HMIIronPlateDataModel()
-            {    //ID
-                iIronPlateID = (await getTask_iIronPlateID).Item2,
-                // 字串1的x座標
-                rXAxisPos1 = (await getTask_rXAxisPos1).Item2,
-                // 字串1的y座標
-                rYAxisPos1 = (await getTask_rYAxisPos1).Item2,
-                // 字串1的內容
-                sIronPlateName1 = (await getTask_sIronPlateName1).Item2,
-                // 字串2的x座標
-                rXAxisPos2 = (await getTask_rXAxisPos2).Item2,
-                // 字串2的y座標
-                rYAxisPos2 = (await getTask_rYAxisPos2).Item2,
-
-                /// 字串2的內容
-                sIronPlateName2 = (await getTask_sIronPlateName2).Item2,
-                /// 字串3的x座標
-                //rXAxisPos3 = (await getTask_rXAxisPos3).Item2,
-                /// 字串3的y座標
-                //rYAxisPos3 = (await getTask_rYAxisPos3).Item2,
-                /// 字串3的內容
-                //sIronPlateName3  =(await getTask_sIronPlateName3).Item2,
-                // QR Code的字串
-                //sQRCodeName1=  (await getTask_sQRCodeName1).Item2,
-
-                //  QR Code的x座標
-                //rQRcodeXAxisPos  =(await getTask_rQRcodeXAxisPos).Item2,
-                // QR Code前字串
-                //sQRCodeName2 = (await getTask_sQRCodeName2).Item2,
-                // 分料盒
-                iStackingID = (await getTask_iStackingID).Item2,
-                // QRCode完成
-                //bQRCodeFinish  =(await getTask_bQRCodeFinish).Item2,
-                // 刻碼完成 
-                bEngravingFinish = (await getTask_bEngravingFinish).Item2,
-                bDataMatrixFinish = (await getTask_bDataMatrixFinish).Item2,
-                sDataMatrixName1 = (await getTask_sDataMatrixName1).Item2,
-                sDataMatrixName2 = (await getTask_sDataMatrixName2).Item2,
-
-            };
-            return (ret, newIronPlateData);
-
+            return await this.GetIronPlate(rootNode);
         }
         /// <summary>
         /// 設定下一個鋼印
         /// </summary>
-        public async Task<bool> SetHMIIronPlate(HMIIronPlateDataModel ironPlateData)
+        public async Task<bool> SetHMIIronPlate(IronPlateDataModel ironPlateData)
         {
 
             bool ret = false;
             // var wNodeTrees = IronPlateDataTreeNode(StampingOpcUANode.system.sv_HMIIronPlateName.NodeName, ironPlateData);
             var rootNode = StampingOpcUANode.system.sv_HMIIronPlateName.NodeName;
-
           var wNodeTrees=  new Dictionary<string, object>
             {
                 [rootNode + "." + "iIronPlateID"] = ironPlateData.iIronPlateID,
@@ -785,13 +700,20 @@ namespace GD_MachineConnect
                 [rootNode + "." + "sDataMatrixName2"] = ironPlateData.sDataMatrixName2
 
         };
-
             ret = await GD_OpcUaClient.AsyncWriteNodes(wNodeTrees);
             //設定完後須更新hmi
             return ret;
         }
 
-
+        public async Task<bool> SetDataMatrixMode(bool IsUse)
+        {
+            bool ret = false;
+            //ns=4;s=APPL.system.sv_DataMatrixMode
+            var rootNode = StampingOpcUANode.system.sv_DataMatrixMode;
+            ret = await GD_OpcUaClient.AsyncWriteNode(rootNode, Convert.ToInt32(IsUse));
+            //設定完後須更新hmi
+            return ret;
+        }
 
         /// <summary>
         /// 取得鐵片群資訊
@@ -805,7 +727,7 @@ namespace GD_MachineConnect
             List<IronPlateDataModel> ironPlateDataList = new();
             if (await GD_OpcUaClient.AsyncConnect())
             {
-                var opcNodeAttributeList = await GD_OpcUaClient.ReadNoteAttributes(StampingOpcUANode.system.sv_IronPlateData);
+              //  var opcNodeAttributeList = await GD_OpcUaClient.ReadNoteAttributes(StampingOpcUANode.system.sv_IronPlateData);
                 try
                 {
                    /* List<int> ironPlateNumberList = new List<int>();
@@ -823,7 +745,7 @@ namespace GD_MachineConnect
                         ironPlateNumberList.Sort();
                     }*/
 
-                    for (int i = 0; i <= 25; i++)
+                    for (int i = 1; i <= 25; i++)
                     {
                         var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i}]";
                         if ((await GetIronPlate(node)).Item1)
@@ -867,6 +789,8 @@ namespace GD_MachineConnect
             //var getTask_bQRCodeFinish = GD_OpcUaClient.AsyncReadNode<bool>(node + "." + "bQRCodeFinish");
             var getTask_bEngravingFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bEngravingFinish");
             var getTask_bDataMatrixFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bDataMatrixFinish");
+            var getTask_sDataMatrixName1 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName1");
+            var getTask_sDataMatrixName2 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName2");
 
             var ret = ((await getTask_iIronPlateID).Item1 &&
                 (await getTask_rXAxisPos1).Item1 &&
@@ -884,7 +808,9 @@ namespace GD_MachineConnect
                 (await getTask_iStackingID).Item1 &&
                 //(await getTask_bQRCodeFinish).Item1 &&
                 (await getTask_bEngravingFinish).Item1 &&
-                (await getTask_bDataMatrixFinish).Item1
+                (await getTask_bDataMatrixFinish).Item1 &&
+                (await getTask_sDataMatrixName1).Item1 &&
+                (await getTask_sDataMatrixName2).Item1
                 );
 
             var newIronPlateData = new IronPlateDataModel()
@@ -923,7 +849,11 @@ namespace GD_MachineConnect
                 // 刻碼完成 
                 bEngravingFinish = (await getTask_bEngravingFinish).Item2,
                 bDataMatrixFinish = (await getTask_bDataMatrixFinish).Item2,
+                sDataMatrixName1 = (await getTask_sDataMatrixName1).Item2,
+                sDataMatrixName2 = (await getTask_sDataMatrixName2).Item2,
+
             };
+
             return (ret, newIronPlateData);
         }
 
@@ -2000,12 +1930,18 @@ namespace GD_MachineConnect
                 /// 鐵片陣列
                 /// </summary>
                 public static string sv_IronPlateData => $"{NodeHeader}.{NodeVariable.system}.sv_IronPlateData";
-               /// <summary>
-               /// 特定鐵片
-               /// </summary>
-               /// <param name="index"></param>
-               /// <returns></returns>
+                /// <summary>
+                /// 特定鐵片
+                /// </summary>
+                /// <param name="index"></param>
+                /// <returns></returns>
                 //public static string sv_IronPlateData_Index(int index) =>   $"{NodeHeader}.{NodeVariable.system}.sv_IronPlateData[{index}]";
+                /// <summary>
+                /// 開啟QR功能
+                /// </summary>
+                /// <param name="index"></param>
+                /// <returns></returns>
+                public static string sv_DataMatrixMode => $"{NodeHeader}.{NodeVariable.system}.sv_DataMatrixMode";
 
                 /// <summary>
                 /// 人機上直接輸入對應字碼的ascii code滿共40格

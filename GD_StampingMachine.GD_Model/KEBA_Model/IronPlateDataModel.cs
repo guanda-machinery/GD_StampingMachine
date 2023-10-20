@@ -13,6 +13,9 @@ namespace GD_StampingMachine.GD_Model
         private string _sIronPlateName1;
         private string _sIronPlateName2;
 
+        private string _sDataMatrixName1;
+        private string _sDataMatrixName2;
+
         /// <summary>
         /// ID
         /// </summary>
@@ -62,17 +65,12 @@ namespace GD_StampingMachine.GD_Model
         /// </summary>
         public bool bDataMatrixFinish { get; set; }
 
-
-    }
-
-    public class HMIIronPlateDataModel: IronPlateDataModel
-    {
-        private string _sDataMatrixName1;
-        private string _sDataMatrixName2;
         public string sDataMatrixName1 { get => _sDataMatrixName1 ??= string.Empty; set => _sDataMatrixName1 = value; }
         public string sDataMatrixName2 { get => _sDataMatrixName2 ??= string.Empty; set => _sDataMatrixName2 = value; }
 
     }
+
+
 
 
 }

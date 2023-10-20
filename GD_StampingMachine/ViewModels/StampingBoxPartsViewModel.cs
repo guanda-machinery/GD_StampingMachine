@@ -214,13 +214,12 @@ namespace GD_StampingMachine.ViewModels
                         {
                             if (_record is PartsParameterViewModel PartsParameterVM)
                             {
-
                                 //看目前選擇哪一個盒子
                                 if (SelectedSeparateBoxVM != null)
                                 {
                                     PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
                                     PartsParameterVM.BoxIndex = SelectedSeparateBoxVM.BoxIndex;
-                                    e.Effects = System.Windows.DragDropEffects.Copy;
+                                    e.Effects = System.Windows.DragDropEffects.Copy; 
                                 }
                             }
                         }

@@ -60,7 +60,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private void SaveStampingMachineJson()
+        public void SaveStampingMachineJson()
         {
             if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
                 JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
@@ -79,6 +79,12 @@ namespace GD_StampingMachine.ViewModels
                 var Model_IEnumerable = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                 //定期存檔
                 JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+
+                ProductSettingVM.ProductProjectVMObservableCollection.ForEach(obj =>
+                {
+                    obj.SaveProductProject();
+                });
+
                 Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "SaveProjectDistributeListFile");
             }
             catch (Exception ex)
@@ -136,7 +142,7 @@ namespace GD_StampingMachine.ViewModels
 
             Task.Run(async () =>
             {
-                await Task.Delay(5000);
+                await Task.Delay(10000);
                 //Thread.Sleep(5000);
                 while (true)
                 {

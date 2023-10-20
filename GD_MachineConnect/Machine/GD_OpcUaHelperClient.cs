@@ -126,7 +126,6 @@ namespace GD_MachineConnect.Machine
                 }
                 catch (Exception ex)
                 {
-                    Debugger.Break();
                     await Task.Delay(100);
                     m_OpcUaClient.Disconnect();
                 }

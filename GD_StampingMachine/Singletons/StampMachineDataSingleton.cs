@@ -21,6 +21,7 @@ using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using GD_StampingMachine.ViewModels.ProductSetting;
 using Opc.Ua;
 using Opc.Ua.Bindings;
 using System;
@@ -880,9 +881,6 @@ namespace GD_StampingMachine.Singletons
            // {
                 manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
 
-
-
-
             IsScaning = true;
             try
             {
@@ -927,7 +925,7 @@ namespace GD_StampingMachine.Singletons
                 while (!IsConnected);
                 //while (true) ;
 
-                manager.Close();
+                manager?.Close();
 
                 while (!cancelToken.IsCancellationRequested)
                 {
@@ -956,7 +954,82 @@ namespace GD_StampingMachine.Singletons
                                     return false;
                             });
                             Cylinder_GuideRod_Move_IsUp = await Move_IsUp;*/
-                            var b = await GD_Stamping.GetIronPlateDataCollection();
+                            var PlateDataCollectionTask = await GD_Stamping.GetIronPlateDataCollection();
+                            if(PlateDataCollectionTask.Item1)
+                            {
+
+                                var settingBaseCollection = new ObservableCollection<SettingBaseViewModel>();
+                                foreach (var plateData in PlateDataCollectionTask.Item2)
+                               {
+                                    //取得字元長度
+                                    var string1Length = plateData.sIronPlateName1.Length;
+                                    var string2Length = plateData.sIronPlateName2.Length;
+
+                                    SpecialSequenceEnum specialSequence;
+                                    if (string2Length > 0)
+                                        specialSequence = SpecialSequenceEnum.TwoRow;
+                                    else
+                                        specialSequence = SpecialSequenceEnum.OneRow;
+
+
+                                        SettingBaseViewModel settingBaseVM;
+                                    //沒有QR加工
+                                    if (string.IsNullOrEmpty(plateData.sDataMatrixName1) && string.IsNullOrEmpty(plateData.sDataMatrixName2))
+                                    {
+                                        settingBaseVM = new NumberSettingViewModel()
+                                        {
+                                            SpecialSequence= specialSequence,
+                                            SheetStampingTypeForm = SheetStampingTypeFormEnum.normal,
+                                            PlateNumber = plateData.sIronPlateName1 + plateData.sIronPlateName2,
+                                            SequenceCount = string1Length > string2Length ? string1Length : string2Length
+                                        };
+                                    }
+                                    else
+                                    {
+                                        settingBaseVM = new QRSettingViewModel()
+                                        {
+                                            SpecialSequence = specialSequence,
+                                            SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode,
+                                            PlateNumber = plateData.sIronPlateName1 + plateData.sIronPlateName2,
+                                            SequenceCount = string1Length > string2Length ? string1Length : string2Length,
+                                            QR_Special_Text = plateData.sDataMatrixName2,
+                                        };
+                                    };
+                                    settingBaseCollection.Add(settingBaseVM);
+
+                                   /* machinePartsParameterCollection.Add(new PartsParameterViewModel()
+                                    {
+                                        ID = plateData.iIronPlateID,
+                                        BoxIndex = plateData.iStackingID,
+                                        SettingBaseVM = settingBaseVM,
+                                        IronPlateString = plateData.sIronPlateName1 + plateData.sIronPlateName2,
+                                        QrCodeContent = plateData.sDataMatrixName1,
+                                        QR_Special_Text = plateData.sDataMatrixName2
+                                    });*/
+                                }
+
+                                if(MachineSettingBaseCollection.Count != settingBaseCollection.Count)
+                                    MachineSettingBaseCollection = settingBaseCollection;
+                                else
+                                {
+                                    List<DispatcherOperation> invokeList = new();
+                                    for (int i = 0; i < settingBaseCollection.Count; i++)
+                                    {
+                                        int index = i;//防止閉包問題
+                                        var invoke= Application.Current?.Dispatcher.InvokeAsync(() =>
+                                        {
+                                            MachineSettingBaseCollection[index] = settingBaseCollection[index];
+                                        });
+                                        invokeList.Add(invoke);
+                                    }
+                                    var invokeTasks = invokeList.ConvertAll(op=>op.Task);
+                                    await Task.WhenAll(invokeTasks);
+                                }
+
+                            }
+
+
+
 
                             var rotatingTurntableInfoList = await GD_Stamping.GetRotatingTurntableInfo();
                             if (rotatingTurntableInfoList.Item1)
@@ -1204,10 +1277,9 @@ namespace GD_StampingMachine.Singletons
                        await Task.Delay(50);
                     }
                 }, waitScanCancellation.Token);
-
-                Task.WaitAny(waitScan, Task.Delay(5000));
-                waitScanCancellation.Cancel();
-
+                await waitScan;
+                //Task.WaitAny(waitScan, Task.Delay(5000));
+                //waitScanCancellation.Cancel();
                 //回復狀態
             });
             return;
@@ -1475,20 +1547,27 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-
-        public async Task<bool> SetHMIIronPlateData(HMIIronPlateDataModel ironPlateData)
+        public async Task<bool> SetHMIIronPlateData(IronPlateDataModel ironPlateData)
         {
             if (await GD_Stamping.AsyncConnect())
+            {
+                await GD_Stamping.SetDataMatrixMode(
+                    !string.IsNullOrEmpty(ironPlateData.sDataMatrixName1) 
+                    || !string.IsNullOrEmpty(ironPlateData.sDataMatrixName2));
+
                 return await GD_Stamping.SetHMIIronPlate(ironPlateData);
+            }
             else
                 return false;
         }
-        public async Task<(bool, HMIIronPlateDataModel)> GetHMIIronPlateData()
+
+
+        public async Task<(bool, IronPlateDataModel)> GetHMIIronPlateData()
         {
             if (await GD_Stamping.AsyncConnect())
                 return await GD_Stamping.GetHMIIronPlate();
             else
-                return (false, new HMIIronPlateDataModel());
+                return (false, new IronPlateDataModel());
         }
 
         public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)
@@ -1507,7 +1586,7 @@ namespace GD_StampingMachine.Singletons
                 return (false, new List<IronPlateDataModel>());
         }
 
-    /*    public async Task<(bool, List<SettingBaseViewModel>)> GetIronPlateDataCollection()
+       /* public async Task<(bool, List<SettingBaseViewModel>)> GetIronPlateDataCollection()
         {
             if (await GD_Stamping.AsyncConnect())
                 return await GD_Stamping.GetIronPlateDataCollection();
@@ -1807,6 +1886,15 @@ namespace GD_StampingMachine.Singletons
         {
             get => _rotatingTurntableInfo??= new ObservableCollection<StampingTypeViewModel>() ; set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
         }
+
+        private ObservableCollection<SettingBaseViewModel> _machineSettingBaseCollection;
+        public ObservableCollection<SettingBaseViewModel> MachineSettingBaseCollection
+        {
+            get => _machineSettingBaseCollection??= new ObservableCollection<SettingBaseViewModel>() ; 
+            set { _machineSettingBaseCollection = value; OnPropertyChanged(); }
+        }
+
+
 
 
         private float _feedingPosition;

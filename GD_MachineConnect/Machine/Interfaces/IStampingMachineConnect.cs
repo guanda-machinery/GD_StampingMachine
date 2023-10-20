@@ -254,12 +254,18 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// 取得下一個鋼印
         /// </summary>
 
-        Task<(bool, HMIIronPlateDataModel)> GetHMIIronPlate();
+        Task<(bool, IronPlateDataModel)> GetHMIIronPlate();
         /// <summary>
         /// 設定下一個鋼印
         /// </summary>
-        Task<bool> SetHMIIronPlate(HMIIronPlateDataModel ironPlateDataList);
+        Task<bool> SetHMIIronPlate(IronPlateDataModel ironPlateDataList);
 
+        /// <summary>
+        /// 是否要使用QR
+        /// </summary>
+        /// <param name="IsUse"></param>
+        /// <returns></returns>
+        Task<bool> SetDataMatrixMode(bool IsUse);
 
 
         /// <summary>

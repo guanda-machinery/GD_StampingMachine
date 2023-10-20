@@ -92,7 +92,7 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-        StampMachineDataSingleton StampMachineData = GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
+        readonly StampMachineDataSingleton StampMachineData = GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
 
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace GD_StampingMachine.ViewModels
         }*/
 
 
-       /* private AsyncRelayCommand _sortWorkMachineCommand;
+       private AsyncRelayCommand _sortWorkMachineCommand;
         /// <summary>
         /// 將工作按照順序預排
         /// </summary>
@@ -190,7 +190,7 @@ namespace GD_StampingMachine.ViewModels
             }, () => !_sortWorkMachineCommand.IsRunning);
         }
 
-        private AsyncRelayCommand _workMachiningCommand;*/
+        //private AsyncRelayCommand _workMachiningCommand;
         /// <summary>
         /// 加工命令
         /// </summary>
@@ -388,8 +388,7 @@ namespace GD_StampingMachine.ViewModels
                            //取得歷史資料
                            //var history = await StampMachineData.GetIronPlateDataCollection();
                            var readyMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex)
-                            .ToList().FindAll(x =>
-                             !x.SendMachineCommandVM.IsFinish && !x.SendMachineCommandVM.IsSended
+                            .ToList().FindAll(x => !x.IsSended
                             && x.SendMachineCommandVM.WorkIndex >= 0);
 
                             if (readyMachiningCollection.Count == 0)
@@ -438,7 +437,7 @@ namespace GD_StampingMachine.ViewModels
 
                             var boxIndex = readymachining.BoxIndex!=null ? readymachining.BoxIndex.Value : 0;
 
-                            var _HMIIronPlateData = new HMIIronPlateDataModel
+                            var _HMIIronPlateData = new IronPlateDataModel
                             {
                                 bEngravingFinish = false,
                                 bDataMatrixFinish = false,
@@ -462,6 +461,7 @@ namespace GD_StampingMachine.ViewModels
                                     token.ThrowIfCancellationRequested();
                                 // var send = StampMachineData.AsyncSendMachiningData(readymachining.SettingBaseVM, token, int.MaxValue);
                                 sendhmi = await StampMachineData.SetHMIIronPlateData(_HMIIronPlateData);
+
                                 //hmi設定完之後還需要進行設定變更!
                                 if (sendhmi)
                                 {
@@ -473,7 +473,7 @@ namespace GD_StampingMachine.ViewModels
                                     }
                                     while (!setRequestDatabitSuccesfful);
                                     await Task.Delay(1000);
-                                    readymachining.SendMachineCommandVM.IsSended = true;
+                                    readymachining.IsSended = true;
                                     readymachining.ID = autonum;
 
                                 }
