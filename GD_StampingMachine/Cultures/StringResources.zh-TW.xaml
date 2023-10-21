@@ -368,7 +368,12 @@
 
     <sys:String x:Key="NoneMachiningData">沒有可加工的資料</sys:String>
 
-    
+
+    <sys:String x:Key="Connection_MachiningProcessStart">加工程序開始</sys:String>
+    <sys:String x:Key="Connection_MachiningProcessEnd">加工程序結束</sys:String>
+    <sys:String x:Key="Connection_WaitRequsetSignal">等待機台交握訊號</sys:String>
+    <sys:String x:Key="Connection_WritingMachiningData">正在寫入加工訊息</sys:String>
+    <sys:String x:Key="Connection_WritingMachiningDataSucessful">加工訊息寫入成功</sys:String>
 
 
     <!--機台-->

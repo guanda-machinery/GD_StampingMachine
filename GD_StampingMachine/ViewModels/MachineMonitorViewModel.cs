@@ -381,10 +381,10 @@ namespace GD_StampingMachine.ViewModels
                     {
                         Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
                         Title = "GD_StampingMachine",
-                        Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
+                        Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart"),
                         Progress = 0,
                         IsIndeterminate = false,
-                        Subtitle = "Alpha 23.7.4",
+                        Subtitle = "",
                         Copyright = "Copyright © 2023 GUANDA",
                     };
                     SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
@@ -418,9 +418,10 @@ namespace GD_StampingMachine.ViewModels
                             }
                             var progress = (double)sendedReadyMachiningCollection.Count / (double)workableMachiningCollection.Count;
                             ManagerVM.Progress = progress;
+
+
                             if (manager.State == SplashScreenState.Closed)
                             {
-                             
                                 Application.Current.Dispatcher.Invoke(new Action(() =>
                                 {
                                     manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
@@ -431,6 +432,8 @@ namespace GD_StampingMachine.ViewModels
                             if (token.IsCancellationRequested)
                                 token.ThrowIfCancellationRequested();
 
+                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WaitRequsetSignal");
+                            ManagerVM.Subtitle = readymachining.IronPlateString;
                             var Rdatabit = await StampMachineData.GetRequestDatabit();
                             if (!Rdatabit)
                                 continue;
@@ -482,8 +485,9 @@ namespace GD_StampingMachine.ViewModels
                                 if (token.IsCancellationRequested)
                                     token.ThrowIfCancellationRequested();
                                 // var send = StampMachineData.AsyncSendMachiningData(readymachining.SettingBaseVM, token, int.MaxValue);
-                                sendhmi = await StampMachineData.SetHMIIronPlateData(_HMIIronPlateData);
 
+                                ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningData");
+                                sendhmi = await StampMachineData.SetHMIIronPlateData(_HMIIronPlateData);
                                 //hmi設定完之後還需要進行設定變更!
                                 if (sendhmi)
                                 {
@@ -494,10 +498,11 @@ namespace GD_StampingMachine.ViewModels
                                         await Task.Delay(100);
                                     }
                                     while (!setRequestDatabitSuccesfful);
+                                    ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningDataSucessful");
+
                                     await Task.Delay(1000);
                                     readymachining.IsSended = true;
                                     readymachining.ID = autonum;
-
                                 }
                                 await Task.Delay(100);
                             }
@@ -511,6 +516,9 @@ namespace GD_StampingMachine.ViewModels
                     }
                     finally
                     {
+                        
+                        ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessEnd");
+                        await Task.Delay(1000);
                         manager?.Close();
                         manager = null;
                     }
