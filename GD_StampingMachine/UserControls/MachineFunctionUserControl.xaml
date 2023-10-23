@@ -483,9 +483,8 @@
                             <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                        <Style.Triggers>
-
-                                            <DataTrigger Binding="{Binding StampMachineData.HydraulicPumpIsActive}" Value="true">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding StampMachineData.HydraulicPumpIsActive}" Value="true">
                                                 <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
                                             </DataTrigger>
                                         </Style.Triggers>

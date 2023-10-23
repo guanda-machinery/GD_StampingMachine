@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.GD_Enum
 {
+    /// <summary>
+    /// 加工種類
+    /// </summary>
     public enum SteelBeltStampingStatusEnum
     {
         /// <summary>

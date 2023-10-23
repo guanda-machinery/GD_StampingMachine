@@ -276,6 +276,7 @@
     </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
     <Compile Include="ViewModels\MachineFunctionTestViewModel.cs" />
+    <Compile Include="ViewModels\MachineMonitor\PlateMonitorViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingBaseViewModel.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\DropHandler\StampingFileDropTarget.cs" />
@@ -562,7 +563,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\" />
-    <Folder Include="ViewModels\Machine\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

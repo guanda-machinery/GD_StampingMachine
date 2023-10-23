@@ -177,7 +177,8 @@
                                                     </Grid.ColumnDefinitions>
                                                     <Border  Margin="5,4,2,5"
                                                                                         BorderThickness="1" BorderBrush="Black" CornerRadius="5"
-                                                                                        HorizontalAlignment="Center"  Background="Transparent"
+                                                                                        HorizontalAlignment="Center"
+                                                             Background="{Binding StampingStatus , Converter={local:EnumToBrushesConverter}}"
                                                                                         >
                                                         <!-- Background="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"-->
                                                         <Border.LayoutTransform>
@@ -189,14 +190,14 @@
                                                                 <ScaleTransform ScaleX="0.11"
                                                                                                         ScaleY="0.11" />
                                                             </Grid.LayoutTransform>
-                                                            <Grid DataContext="{Binding}">
+                                                            <Grid DataContext="{Binding SettingBaseVM}">
                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl  
                                                                                                                                  Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                                                                                     
+                                                                                     PlateRowBackground="Transparent"
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
                                                                                                                                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                                                            
+                                                                  PlateRowBackground="Transparent"
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
                                                             </Grid>
 
@@ -324,7 +325,7 @@
 
                         </Button>
 
-                        <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup" 
+                        <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup"  IsTopmost="False" AllowTopMost="False"
                                               AllowsTransparency="True" Margin="16"   
                                              PlacementRectangle="0,40,0,0"
                                              Placement="RelativePoint"
@@ -401,7 +402,18 @@
                                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                             </dxg:GridColumn.EditSettings>
                                         </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IronPlateString" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="QrCodeContent" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
                                             <dxg:GridColumn.EditSettings>
                                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                             </dxg:GridColumn.EditSettings>
@@ -572,6 +584,8 @@
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
 
+                                                
+                                                
 
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Box}"  FieldName="BoxIndex"  Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
@@ -584,7 +598,20 @@
                                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                             </dxg:GridColumn.EditSettings>
                                         </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IronPlateString" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="QrCodeContent" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+
+
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
                                             <dxg:GridColumn.EditSettings>
                                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                             </dxg:GridColumn.EditSettings>

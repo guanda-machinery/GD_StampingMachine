@@ -165,7 +165,7 @@ namespace GD_CommonLibrary.GD_Popup
         {
             Debug.WriteLine("Parent Window Deactivated");
 
-            if (IsTopmost == false)
+            //if (IsTopmost == false)
             {
                 SetTopmostState(IsTopmost);
             }

@@ -20,6 +20,7 @@ using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
+using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Opc.Ua;
@@ -848,6 +849,11 @@ namespace GD_StampingMachine.Singletons
         private bool _isConnected = false;
         public bool IsConnected { get => _isConnected; private set { _isConnected = value; OnPropertyChanged(); } }
 
+        private OperationModeEnum _operationMode;
+        public OperationModeEnum OperationMode { get => _operationMode; private set { _operationMode = value; OnPropertyChanged(); } }
+
+
+
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         public async Task StartScanOpcua()
         {
@@ -940,7 +946,12 @@ namespace GD_StampingMachine.Singletons
                             manager?.Close();
                             //進料馬達
 
-                            //GD_Stamping.GetMachineStatus
+
+                            var opMode = await GD_Stamping.GetOperationMode();
+                            if(opMode.Item1)
+                                OperationMode = opMode.Item2;
+
+                                //GD_Stamping.GetMachineStatus
                             var fPos = await GD_Stamping.GetFeedingPosition();
                             if (fPos.Item1)
                                 FeedingPosition = fPos.Item2;
@@ -958,7 +969,7 @@ namespace GD_StampingMachine.Singletons
                             if(PlateDataCollectionTask.Item1)
                             {
 
-                                var settingBaseCollection = new ObservableCollection<SettingBaseViewModel>();
+                                var plateMonitorVMCollection = new ObservableCollection<PlateMonitorViewModel>();
                                 foreach (var plateData in PlateDataCollectionTask.Item2)
                                {
                                     //取得字元長度
@@ -971,8 +982,14 @@ namespace GD_StampingMachine.Singletons
                                     else
                                         specialSequence = SpecialSequenceEnum.OneRow;
 
+                                    SteelBeltStampingStatusEnum steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
+                                    if (plateData.bEngravingFinish)
+                                        steelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping;
+                                    else if (plateData.bDataMatrixFinish)
+                                        steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
 
-                                        SettingBaseViewModel settingBaseVM;
+
+                                    SettingBaseViewModel settingBaseVM;
                                     //沒有QR加工
                                     if (string.IsNullOrEmpty(plateData.sDataMatrixName1) && string.IsNullOrEmpty(plateData.sDataMatrixName2))
                                     {
@@ -995,7 +1012,14 @@ namespace GD_StampingMachine.Singletons
                                             QR_Special_Text = plateData.sDataMatrixName2,
                                         };
                                     };
-                                    settingBaseCollection.Add(settingBaseVM);
+
+                                    PlateMonitorViewModel PlateMonitorVM = new PlateMonitorViewModel()
+                                    {
+                                        SettingBaseVM = settingBaseVM,
+                                        StampingStatus = steelBeltStampingStatus
+                                    };
+
+                                    plateMonitorVMCollection.Add(PlateMonitorVM);
 
                                    /* machinePartsParameterCollection.Add(new PartsParameterViewModel()
                                     {
@@ -1008,17 +1032,17 @@ namespace GD_StampingMachine.Singletons
                                     });*/
                                 }
 
-                                if(MachineSettingBaseCollection.Count != settingBaseCollection.Count)
-                                    MachineSettingBaseCollection = settingBaseCollection;
+                                if(MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
+                                    MachineSettingBaseCollection = plateMonitorVMCollection;
                                 else
                                 {
                                     List<DispatcherOperation> invokeList = new();
-                                    for (int i = 0; i < settingBaseCollection.Count; i++)
+                                    for (int i = 0; i < plateMonitorVMCollection.Count; i++)
                                     {
                                         int index = i;//防止閉包問題
                                         var invoke= Application.Current?.Dispatcher.InvokeAsync(() =>
                                         {
-                                            MachineSettingBaseCollection[index] = settingBaseCollection[index];
+                                            MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
                                         });
                                         invokeList.Add(invoke);
                                     }
@@ -1027,8 +1051,6 @@ namespace GD_StampingMachine.Singletons
                                 }
 
                             }
-
-
 
 
                             var rotatingTurntableInfoList = await GD_Stamping.GetRotatingTurntableInfo();
@@ -1778,6 +1800,9 @@ namespace GD_StampingMachine.Singletons
 
 
 
+
+
+
         /// <summary>
         /// 鋼印Y軸回歸原點
         /// </summary>
@@ -1785,7 +1810,6 @@ namespace GD_StampingMachine.Singletons
         public async Task<bool> SetEngravingYAxisToStandbyPos()
         {
             var ret = false;
-
             if (await GD_Stamping.AsyncConnect())
             {
                 ret = await GD_Stamping.SetEngravingYAxisBwd(false);
@@ -1887,10 +1911,13 @@ namespace GD_StampingMachine.Singletons
             get => _rotatingTurntableInfo??= new ObservableCollection<StampingTypeViewModel>() ; set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
         }
 
-        private ObservableCollection<SettingBaseViewModel> _machineSettingBaseCollection;
-        public ObservableCollection<SettingBaseViewModel> MachineSettingBaseCollection
+        private ObservableCollection<PlateMonitorViewModel> _machineSettingBaseCollection;
+        /// <summary>
+        /// 實際加工狀態[25]
+        /// </summary>
+        public ObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
         {
-            get => _machineSettingBaseCollection??= new ObservableCollection<SettingBaseViewModel>() ; 
+            get => _machineSettingBaseCollection??= new ObservableCollection<PlateMonitorViewModel>() ; 
             set { _machineSettingBaseCollection = value; OnPropertyChanged(); }
         }
 
@@ -2280,6 +2307,32 @@ namespace GD_StampingMachine.Singletons
         {
             get => _engravingRotateStation; set { _engravingRotateStation = value; OnPropertyChanged(); }
         }
+
+        public AsyncRelayCommand<object> SetOperationModeCommand
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                if (para is OperationModeEnum operationMode)
+                {
+                    await GD_Stamping.SetOperationMode(operationMode);
+
+                }
+                if (para is int operationIntMode)
+                {
+                    try
+                    {
+                        await GD_Stamping.SetOperationMode((OperationModeEnum)operationIntMode);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+            , para => !EngravingRotateCommand.IsRunning);
+        }
+
+
 
         /// <summary>
         /// 旋轉到指定位置

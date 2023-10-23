@@ -206,6 +206,21 @@
 
 
 
+                        <materialDesign:PackIcon Margin="2"
+                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="#99cff9">
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Kind" Value="LanDisconnect"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" Value="true">
+                                            <Setter Property="Kind"  Value="LanConnect"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+
+                            </materialDesign:PackIcon.Style>
+                        </materialDesign:PackIcon>
+
 
                         <ToggleButton Command="{Binding JumpToEngineeringModeCommand}"
                             MinWidth="0" MinHeight="0" Width="30" Height="30" Style="{StaticResource SiegCustomButton_Transparent}" Padding="0" BorderThickness="0" Margin="0" >
@@ -216,8 +231,6 @@
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
                                                 <Setter Property="Kind"  Value="LanConnect"/>
-
-
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -1077,7 +1090,9 @@
 
                             </ItemsControl>
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
-                            <ItemsControl dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="True">
+                            <ItemsControl 
+                                dd:DragDrop.IsDragSource="False"
+                                dd:DragDrop.IsDropTarget="True">
                                 <GD_Customcontrols:FunctionToggleUserControl>
                                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">

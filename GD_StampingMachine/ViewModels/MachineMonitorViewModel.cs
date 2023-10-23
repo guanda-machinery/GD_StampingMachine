@@ -416,7 +416,7 @@ namespace GD_StampingMachine.ViewModels
 
                                 break; 
                             }
-                            var progress = (double)sendedReadyMachiningCollection.Count / (double)workableMachiningCollection.Count;
+                            var progress = ((double)sendedReadyMachiningCollection.Count*100) / (double)workableMachiningCollection.Count;
                             ManagerVM.Progress = progress;
 
 
@@ -470,8 +470,8 @@ namespace GD_StampingMachine.ViewModels
                                 iIronPlateID = autonum,
                                 iStackingID = boxIndex, 
                                 rXAxisPos1 = 10,
-                                rXAxisPos2 =119 , 
-                                rYAxisPos1 =25 , 
+                                rXAxisPos2 =25 , 
+                                rYAxisPos1 =119 , 
                                 rYAxisPos2= 119,
                                 sDataMatrixName1 = readymachining.QrCodeContent,
                                 sDataMatrixName2 = readymachining.QR_Special_Text,
@@ -669,7 +669,8 @@ namespace GD_StampingMachine.ViewModels
                     {
                         foreach (var item in Itemsource)
                         {
-                            CancelPartsParameterWork(item);
+                            if(!item.IsSended)
+                                CancelPartsParameterWork(item);
                         }
                     }
                     //部分
@@ -679,7 +680,8 @@ namespace GD_StampingMachine.ViewModels
                         {
                             if (item is PartsParameterViewModel partsParameter)
                             {
-                                CancelPartsParameterWork(partsParameter);
+                                if (!partsParameter.IsSended)
+                                    CancelPartsParameterWork(partsParameter);
                             }
                         }
                     }

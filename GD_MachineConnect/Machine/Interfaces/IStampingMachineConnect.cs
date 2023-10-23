@@ -161,13 +161,23 @@ namespace GD_MachineConnect.Machine.Interfaces
          Exception ConnectException { get; }
         void Disconnect();
         /// <summary>
-        /// 取得馬達目前位置
+        /// 取得進料馬達目前位置
         /// </summary>
         Task<(bool, float)> GetFeedingPosition();
         /// <summary>
-        /// 設定馬達目前位置
+        /// 設定進料馬達目前位置
         /// </summary>
         Task<bool>SetFeedingPosition(float Position);
+
+        /// <summary>
+        /// 取得機台狀態
+        /// </summary>
+        Task<(bool, GD_StampingMachine.GD_Enum.OperationModeEnum)> GetOperationMode();
+        /// <summary>
+        /// 設定機台狀態
+        /// </summary>
+        Task<bool> SetOperationMode(OperationModeEnum operationMode);
+
         /// <summary>
         /// 回歸基準點命令
         /// </summary>

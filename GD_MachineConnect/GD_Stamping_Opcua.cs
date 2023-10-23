@@ -125,6 +125,32 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
         }
 
+        /// <summary>
+        /// 取得機台狀態
+        /// </summary>
+        public async Task<(bool, OperationModeEnum)> GetOperationMode()
+        {
+            var ret = await GD_OpcUaClient.AsyncReadNode<int>(StampingOpcUANode.system.sv_OperationMode);
+            try
+            {
+                return (ret.Item1, (OperationModeEnum)ret.Item2);
+            }
+            catch
+            {
+
+            }
+            return (ret.Item1, OperationModeEnum.None);
+        }
+        /// <summary>
+        /// 設定機台狀態
+        /// </summary>
+        public async Task<bool> SetOperationMode(OperationModeEnum operationMode)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_OperationMode, (int)operationMode);
+        }
+
+
+
 
 
         public async Task<(bool, AxisSettingModel)> GetAxisSetting()
@@ -1916,6 +1942,12 @@ namespace GD_MachineConnect
                 /// 鋼印目前選定的字元 - 變更鋼印目前選定的字元命令
                 /// </summary>
                 public static string sv_iTargetAStation => $"{NodeHeader}.{NodeVariable.system}.{TargetStation.sv_iTargetAStation}";
+
+                /// <summary>
+                /// 機台模式
+                /// </summary>
+                public static string sv_OperationMode => $"{NodeHeader}.{NodeVariable.system}.sv_OperationMode";
+
 
                 /// <summary>
                 /// 進行自動加工時需傳入資料 鐵片下一片資訊
