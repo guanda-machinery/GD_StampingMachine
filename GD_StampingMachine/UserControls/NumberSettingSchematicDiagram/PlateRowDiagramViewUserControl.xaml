@@ -9,8 +9,7 @@
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              d:DataContext="{d:DesignInstance Type= GD_ParameterSettingViewModels:NumberSettingViewModel}"
-             mc:Ignorable="d"
-                                      x:Name="MainDiagramBaseUserControl"      
+             mc:Ignorable="d"  x:Name="MainDiagramBaseUserControl"      
                                       
                                       >
     <Grid  HorizontalAlignment="Left">

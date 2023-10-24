@@ -3,6 +3,7 @@ using GD_StampingMachine.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +24,23 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public int ID { get; set; }
 
+        /// <summary>
+        /// QR陣列已完成
+        /// </summary>
+        public bool DataMatrixIsFinish { get; set; }
+        /// <summary>
+        /// 鋼印已完成
+        /// </summary>
+        public bool EngravingIsFinish { get; set; }
+        /// <summary>
+        /// 已剪斷
+        /// </summary>
+        public bool ShearingIsFinish { get; set; }
+
+        /// <summary>
+        /// 被完成
+        /// </summary>
+        public bool IsFinish { get; set; }
 
 
         /// <summary>

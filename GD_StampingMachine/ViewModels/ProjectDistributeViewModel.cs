@@ -308,9 +308,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                if (ProjectDistribute.ProductProjectVMObservableCollection == null)
-                    ProjectDistribute.ProductProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>();
-                return ProjectDistribute.ProductProjectVMObservableCollection;
+                return ProjectDistribute.ProductProjectVMObservableCollection ??= new ObservableCollection<ProductProjectViewModel>();
             }
             set
             {

@@ -933,6 +933,9 @@ namespace GD_StampingMachine.Singletons
 
                 manager?.Close();
 
+                //先前上一輪加工陣列的id
+                List<int> lastIronDataIList = new List<int>();
+                
                 while (!cancelToken.IsCancellationRequested)
                 {
                     if (cancelToken.IsCancellationRequested)
@@ -945,8 +948,6 @@ namespace GD_StampingMachine.Singletons
                         {
                             manager?.Close();
                             //進料馬達
-
-
                             var opMode = await GD_Stamping.GetOperationMode();
                             if(opMode.Item1)
                                 OperationMode = opMode.Item2;
@@ -966,12 +967,14 @@ namespace GD_StampingMachine.Singletons
                             });
                             Cylinder_GuideRod_Move_IsUp = await Move_IsUp;*/
                             var PlateDataCollectionTask = await GD_Stamping.GetIronPlateDataCollection();
-                            if(PlateDataCollectionTask.Item1)
+                            if (PlateDataCollectionTask.Item1)
                             {
+                                List<IronPlateDataModel> plateDataCollection = PlateDataCollectionTask.Item2;
 
                                 var plateMonitorVMCollection = new ObservableCollection<PlateMonitorViewModel>();
-                                foreach (var plateData in PlateDataCollectionTask.Item2)
-                               {
+                                //產出圖形
+                                foreach (var plateData in plateDataCollection)
+                                {
                                     //取得字元長度
                                     var string1Length = plateData.sIronPlateName1.Length;
                                     var string2Length = plateData.sIronPlateName2.Length;
@@ -995,7 +998,7 @@ namespace GD_StampingMachine.Singletons
                                     {
                                         settingBaseVM = new NumberSettingViewModel()
                                         {
-                                            SpecialSequence= specialSequence,
+                                            SpecialSequence = specialSequence,
                                             SheetStampingTypeForm = SheetStampingTypeFormEnum.normal,
                                             PlateNumber = plateData.sIronPlateName1 + plateData.sIronPlateName2,
                                             SequenceCount = string1Length > string2Length ? string1Length : string2Length
@@ -1018,21 +1021,9 @@ namespace GD_StampingMachine.Singletons
                                         SettingBaseVM = settingBaseVM,
                                         StampingStatus = steelBeltStampingStatus
                                     };
-
                                     plateMonitorVMCollection.Add(PlateMonitorVM);
-
-                                   /* machinePartsParameterCollection.Add(new PartsParameterViewModel()
-                                    {
-                                        ID = plateData.iIronPlateID,
-                                        BoxIndex = plateData.iStackingID,
-                                        SettingBaseVM = settingBaseVM,
-                                        IronPlateString = plateData.sIronPlateName1 + plateData.sIronPlateName2,
-                                        QrCodeContent = plateData.sDataMatrixName1,
-                                        QR_Special_Text = plateData.sDataMatrixName2
-                                    });*/
                                 }
-
-                                if(MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
+                                if (MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
                                     MachineSettingBaseCollection = plateMonitorVMCollection;
                                 else
                                 {
@@ -1040,16 +1031,64 @@ namespace GD_StampingMachine.Singletons
                                     for (int i = 0; i < plateMonitorVMCollection.Count; i++)
                                     {
                                         int index = i;//防止閉包問題
-                                        var invoke= Application.Current?.Dispatcher.InvokeAsync(() =>
+                                        var invoke = Application.Current?.Dispatcher.InvokeAsync(() =>
                                         {
                                             MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
                                         });
                                         invokeList.Add(invoke);
                                     }
-                                    var invokeTasks = invokeList.ConvertAll(op=>op.Task);
+                                    var invokeTasks = invokeList.ConvertAll(op => op.Task);
                                     await Task.WhenAll(invokeTasks);
                                 }
 
+
+                                //將現在的資料展開後寫入
+                                //  if (lastIronDataIList != null)
+                                //  {
+                                //foreach (var lastIronData in lastIronDataIList)
+                                // {
+                                var newlronDataIList = plateDataCollection.Select(x => x.iIronPlateID).ToList();
+                                foreach (var plateData in plateDataCollection)
+                                {
+                                    //先找
+                                    foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                                    {
+                                        //去盒子裡面找是否有對應的鐵片
+                                        var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+                                        var partIndex = boxPartsCollection.FindIndex(x => x.ID == plateData.iIronPlateID && x.IsSended);
+                                        if (partIndex != -1)
+                                        {
+                                            boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Run;
+                                            boxPartsCollection[partIndex].DataMatrixIsFinish = plateData.bDataMatrixFinish;
+                                            boxPartsCollection[partIndex].EngravingIsFinish = plateData.bEngravingFinish;
+                                            break;
+                                        }
+                                    }
+                                }
+                                //比較新舊兩個加工陣列
+                                //先檢查新陣列的id是否只有0 若只有0代表是被重新設定 不設定為完成(若有需要則另外設定)
+                                if (newlronDataIList.Count(x => x != 0) > 0)
+                                {
+                                    var lastIronDataIListExcept = lastIronDataIList.Except(newlronDataIList).ToList();
+                                    foreach (var ironDataID in lastIronDataIListExcept)
+                                    {
+                                        foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                                        {
+                                            //去盒子裡面找是否有對應的鐵片
+                                            var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+                                            var partIndex = boxPartsCollection.FindIndex(x => x.ID == ironDataID && x.IsSended);
+                                            if (partIndex != -1)
+                                            {
+                                                boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Finish;
+                                                boxPartsCollection[partIndex].ShearingIsFinish = true;
+                                                boxPartsCollection[partIndex].IsFinish = true;
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                }
+                                lastIronDataIList = newlronDataIList;
                             }
 
 

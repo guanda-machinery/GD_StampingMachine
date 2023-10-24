@@ -105,6 +105,51 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.ID = value; OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// QR陣列已完成
+        /// </summary>
+        public bool DataMatrixIsFinish
+        {
+            get => PartsParameter.DataMatrixIsFinish;
+            set
+            {
+                PartsParameter.DataMatrixIsFinish = value; OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 鋼印已完成
+        /// </summary>
+        public bool EngravingIsFinish
+        {
+            get => PartsParameter.EngravingIsFinish;
+            set
+            {
+                PartsParameter.ShearingIsFinish = value; OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 已剪斷
+        /// </summary>
+        public bool ShearingIsFinish
+        {
+            get => PartsParameter.ShearingIsFinish;
+            set
+            {
+                PartsParameter.ShearingIsFinish = value; OnPropertyChanged();
+            }
+        }
+
+        public bool IsFinish
+        {
+            get => PartsParameter.IsFinish;
+            set
+            {
+                PartsParameter.IsFinish = value; OnPropertyChanged();
+            }
+        }
+
+
         /// <summary>
         /// 已送進機台內
         /// </summary>

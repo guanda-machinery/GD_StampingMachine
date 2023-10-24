@@ -98,13 +98,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
         private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
+        /// <summary>
+        /// 排版專案
+        /// </summary>
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection
         {
             get
             {
-                if (_productProjectVMObservableCollection == null)
-                    _productProjectVMObservableCollection = new ObservableCollection<ProductProjectViewModel>();
-                return _productProjectVMObservableCollection;
+                return _productProjectVMObservableCollection ??= new ObservableCollection<ProductProjectViewModel>();
             }
             set
             {

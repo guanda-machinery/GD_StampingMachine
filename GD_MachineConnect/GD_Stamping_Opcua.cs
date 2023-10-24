@@ -131,15 +131,7 @@ namespace GD_MachineConnect
         public async Task<(bool, OperationModeEnum)> GetOperationMode()
         {
             var ret = await GD_OpcUaClient.AsyncReadNode<int>(StampingOpcUANode.system.sv_OperationMode);
-            try
-            {
-                return (ret.Item1, (OperationModeEnum)ret.Item2);
-            }
-            catch
-            {
-
-            }
-            return (ret.Item1, OperationModeEnum.None);
+            return (ret.Item1, (OperationModeEnum)ret.Item2);
         }
         /// <summary>
         /// 設定機台狀態
@@ -357,7 +349,7 @@ namespace GD_MachineConnect
                             ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, true);
                             if (ret)
                             {
-                                CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                                CancellationTokenSource cancellationToken = new();
                                 CancellationToken token = cancellationToken.Token;
                                 //開始運作 偵測是否到下一個節點
                                 var ReadTask = Task.Run (async() =>
@@ -643,11 +635,21 @@ namespace GD_MachineConnect
 
         public async Task<bool> SetHydraulicPumpMotor(bool Active)
         {
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, Active);
+            var pumptask = await GetHydraulicPumpMotor();
+            if (pumptask.Item1)
+            {
+                if (pumptask.Item2 == Active)
+                    return true;
+                await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, true);
+                await Task.Delay(1000);
+                return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, false);
+            }
+            else
+                return false;
         }
         public async Task<(bool, bool)> GetHydraulicPumpMotor()
         {
-            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Motor1.sv_bButtonMotor);
+            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted);
         }
 
         /// <summary>
@@ -2045,9 +2047,13 @@ namespace GD_MachineConnect
             public class Motor1
             {
                 /// <summary>
-                /// 馬達啟動
+                /// 馬達按鈕啟動
                 /// </summary>
                 public static string sv_bButtonMotor => $"{NodeHeader}.{NodeVariable.Motor1}.{BButton.sv_bButtonMotor}";
+                /// <summary>
+                /// 馬達啟動
+                /// </summary>
+                public static string sv_bMotorStarted => $"{NodeHeader}.{NodeVariable.Motor1}.sv_bMotorStarted";
             }
 
             /// <summary>

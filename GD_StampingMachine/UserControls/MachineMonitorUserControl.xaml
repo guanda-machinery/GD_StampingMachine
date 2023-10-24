@@ -145,7 +145,7 @@
 
 
                 </Grid>
-                    <Grid Width="{Binding AlltoZero}"/>
+
                     <Grid Grid.ColumnSpan="2"    Grid.Row="3" >
                         <Grid>
                             <Grid.ColumnDefinitions>

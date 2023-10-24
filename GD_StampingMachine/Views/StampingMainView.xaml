@@ -207,13 +207,26 @@
 
 
                         <materialDesign:PackIcon Margin="2"
-                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="#99cff9">
+                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="LightGreen">
                             <materialDesign:PackIcon.Style>
                                 <Style TargetType="materialDesign:PackIcon">
-                                    <Setter Property="Kind" Value="LanDisconnect"/>
+                                    <Setter Property="Kind" Value="None"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" Value="true">
-                                            <Setter Property="Kind"  Value="LanConnect"/>
+                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.Setup}">
+                                            <Setter Property="Kind"  Value="Manufacturing"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.Manual}">
+                                            <Setter Property="Kind"  Value="Braille"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}">
+                                            <Setter Property="Kind"  Value="ProgressStarFourPoints"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}">
+                                            <Setter Property="Kind"  Value="RefreshAuto"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

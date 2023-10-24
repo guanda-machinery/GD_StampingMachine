@@ -23,12 +23,38 @@ namespace GD_StampingMachine.ViewModels.MachineMonitor
         private SteelBeltStampingStatusEnum _stampingStatus;
         public SteelBeltStampingStatusEnum StampingStatus
         {
-            get => _stampingStatus; set { _stampingStatus = value; OnPropertyChanged(); }
+            get => _stampingStatus;
+            set
+            {
+                _stampingStatus = value;
+                OnPropertyChanged();
+            }
 
         }
-
-
-
-
+        /*
+        private bool _dataMatrixIsFinish;
+        public bool DataMatrixIsFinish
+        {
+            get => _dataMatrixIsFinish;
+            set
+            {
+                _dataMatrixIsFinish = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StampingStatus));
+            }
         }
+        private bool _engravingIsFinish;
+        public bool EngravingIsFinish
+        {
+            get => _engravingIsFinish; 
+            set
+            {
+                _engravingIsFinish = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StampingStatus));
+            }
+        }*/
+
+
+    }
 }

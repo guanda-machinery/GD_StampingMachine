@@ -403,6 +403,21 @@ namespace GD_StampingMachine.ViewModels
                             var readyMachiningCollection = workableMachiningCollection.FindAll(x => !x.IsSended).OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList();
                             var sendedReadyMachiningCollection = workableMachiningCollection.FindAll(x => x.IsSended).OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList();
 
+                            //取得機台上第0筆(準備被推出去的那一筆)
+                            //var GetIronPlate = await StampMachineData.GetIronPlateDataCollection();
+                            /*int firstID = 0;
+                            if (!GetIronPlate.Item1)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                var firstPlate = GetIronPlate.Item2.First();
+                                if (firstPlate != null)
+                                    firstID = firstPlate.iIronPlateID;
+                            }*/
+
+
 
                             if (readyMachiningCollection.Count == 0)
                             {
@@ -461,7 +476,6 @@ namespace GD_StampingMachine.ViewModels
                             int autonum = Math.Abs(BitConverter.ToInt32(bArr, 0));
 
                             var boxIndex = readymachining.BoxIndex!=null ? readymachining.BoxIndex.Value : 0;
-
                             var _HMIIronPlateData = new IronPlateDataModel
                             {
                                 bEngravingFinish = false,
@@ -478,7 +492,6 @@ namespace GD_StampingMachine.ViewModels
                                 sIronPlateName1 = plateFirstValue,
                                 sIronPlateName2 = plateSecondValue
                             };
-
                             var sendhmi = false;
                             do
                             {
@@ -503,6 +516,12 @@ namespace GD_StampingMachine.ViewModels
                                     await Task.Delay(1000);
                                     readymachining.IsSended = true;
                                     readymachining.ID = autonum;
+                                    //下完命令後 找出第一格的id 並將其設定為完成
+                                    
+
+
+
+
                                 }
                                 await Task.Delay(100);
                             }

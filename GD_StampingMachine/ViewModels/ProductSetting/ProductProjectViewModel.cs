@@ -35,6 +35,9 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
+    /// <summary>
+    /// 製品專案
+    /// </summary>
     public class ProductProjectViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProductProjectViewModel");
