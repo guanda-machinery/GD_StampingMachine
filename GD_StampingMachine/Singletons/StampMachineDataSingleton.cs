@@ -1023,23 +1023,30 @@ namespace GD_StampingMachine.Singletons
                                     };
                                     plateMonitorVMCollection.Add(PlateMonitorVM);
                                 }
-                                if (MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
-                                    MachineSettingBaseCollection = plateMonitorVMCollection;
-                                else
+
+                                Application.Current.Dispatcher.Invoke(() =>
                                 {
-                                    List<DispatcherOperation> invokeList = new();
-                                    for (int i = 0; i < plateMonitorVMCollection.Count; i++)
+                                    MachineSettingBaseCollection = plateMonitorVMCollection;
+                                });
+
+                              //  if (MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
+                              //     MachineSettingBaseCollection = plateMonitorVMCollection;
+                              // else
+                              //  {
+
+                                /*List<DispatcherOperation> invokeList = new();
+                                for (int i = 0; i < plateMonitorVMCollection.Count; i++)
+                                {
+                                    int index = i;//防止閉包問題
+                                    var invoke = Application.Current?.Dispatcher.InvokeAsync(() =>
                                     {
-                                        int index = i;//防止閉包問題
-                                        var invoke = Application.Current?.Dispatcher.InvokeAsync(() =>
-                                        {
-                                            MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
-                                        });
-                                        invokeList.Add(invoke);
-                                    }
-                                    var invokeTasks = invokeList.ConvertAll(op => op.Task);
-                                    await Task.WhenAll(invokeTasks);
+                                        MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
+                                    });
+                                    invokeList.Add(invoke);
                                 }
+                                var invokeTasks = invokeList.ConvertAll(op => op.Task);
+                                await Task.WhenAll(invokeTasks);*/
+                                //     }
 
 
                                 //將現在的資料展開後寫入
