@@ -240,6 +240,8 @@
     <sys:String x:Key="btnSaveChange">儲存變更</sys:String>
     <sys:String x:Key="btnShowHistory">歷史紀錄</sys:String>
     <sys:String x:Key="btnShowAll">全部顯示</sys:String>
+
+
     <!--#endregion-->
     
     <!--#region 製品設定 -->
@@ -297,6 +299,14 @@
 
 
     <!--加工監控-->
+
+
+    <sys:String x:Key="btnMachiningDataManage">加工管理</sys:String>
+    <sys:String x:Key="btnMachiningDataTransfer">傳送加工資料</sys:String>
+    <sys:String x:Key="btnMachiningDataTransferDisrupt">加工中斷</sys:String>
+    <sys:String x:Key="btnMachiningDataClear">清除加工資料</sys:String>
+
+    <sys:String x:Key="Text_MachiningIndex">加工流水號</sys:String>
 
     <sys:String x:Key="Text_XAxis_Motor">X軸馬達</sys:String>
     <sys:String x:Key="Text_YAxis_Motor">Y軸馬達</sys:String>
@@ -384,6 +394,7 @@
     <sys:String x:Key="Text_AskWritePunchedFontsData_FromMachineToSoftware">是否要將字模資料從機台寫入軟體</sys:String>
     <sys:String x:Key="Text_AskWritePunchedFontsData_FromSoftwareToMachine">是否要將字模資料從軟體寫入機台</sys:String>
 
+    <sys:String x:Key="Text_AskClearAllMachiningData">是否要清除機台上的紀錄</sys:String>
 
     <sys:String x:Key="Notify_PunchedFontsDataIsDifferent">機台與軟體的字模於編號「{0}」的資料不符合，需進行同步處理！</sys:String>
     <sys:String x:Key="Notify_PunchedFontsCountIsDifferent">機台字模數「{0}」與軟體字模數「{1}」的字模數量不符合！</sys:String>

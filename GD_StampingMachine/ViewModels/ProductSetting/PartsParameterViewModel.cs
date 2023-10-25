@@ -30,6 +30,7 @@ using DevExpress.CodeParser;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using CommunityToolkit.Mvvm.Input;
+using GD_StampingMachine.Singletons;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -155,8 +156,27 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public bool IsSended
         {
-            get => PartsParameter.SendMachineCommand.IsSended; set { PartsParameter.SendMachineCommand.IsSended = value; OnPropertyChanged(); }
+            get => PartsParameter.SendMachineCommand.IsSended; 
+            set
+            { 
+                PartsParameter.SendMachineCommand.IsSended = value; 
+                OnPropertyChanged(); 
+            }
         }
+
+        /// <summary>
+        /// 加工順序編號
+        /// </summary>
+        public int WorkIndex
+        {
+            get => PartsParameter.SendMachineCommand.WorkIndex;
+            set
+            { 
+                PartsParameter.SendMachineCommand.WorkIndex = value; 
+                OnPropertyChanged(); 
+            }
+        }
+
 
 
 
@@ -331,12 +351,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private SendMachineCommandViewModel _sendMachineCommandVM;
 
-        [JsonIgnore]
-        public SendMachineCommandViewModel SendMachineCommandVM
+      //  [JsonIgnore]
+       /* public SendMachineCommandViewModel SendMachineCommandVM
         {
             get => _sendMachineCommandVM ??= new SendMachineCommandViewModel(PartsParameter.SendMachineCommand);
             set { _sendMachineCommandVM = value;OnPropertyChanged();}
-        }
+        }*/
     }
 
 

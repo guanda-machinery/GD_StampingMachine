@@ -38,9 +38,9 @@ namespace GD_StampingMachine
             {
                 switch(MachiningStatus)
                 {
-                    case (MachiningStatusEnum.Unknown):
+                    case (MachiningStatusEnum.None):
                         return Brushes.White;
-                    case (MachiningStatusEnum.Stop):
+                    case (MachiningStatusEnum.Ready):
                         return (SolidColorBrush)new BrushConverter().ConvertFrom("#ff0000");
                     case (MachiningStatusEnum.Run):
                         return (SolidColorBrush)new BrushConverter().ConvertFrom("#ff9900");

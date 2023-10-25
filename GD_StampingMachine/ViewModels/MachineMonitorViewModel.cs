@@ -21,6 +21,7 @@ using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -157,14 +158,14 @@ namespace GD_StampingMachine.ViewModels
             get => _sortWorkMachineCommand ??= new AsyncRelayCommand(async (CancellationToken token) =>
             {
                 try
-                {
+                {/*
                     await Task.Run(() =>
                     {
                         var StampingPlateProcessingSequenceViewModelList = new List<StampingPlateProcessingSequenceViewModel>();
                         //先排序 並將已經加工完成的物件去掉
-                        var smcCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList().FindAll(
-                            x => !x.SendMachineCommandVM.IsFinish && x.SendMachineCommandVM.WorkIndex >= 0 &&
-                            (x.SendMachineCommandVM.WorkScheduler_QRStamping || x.SendMachineCommandVM.WorkScheduler_FontStamping || x.SendMachineCommandVM.WorkScheduler_Shearing));
+                        var smcCollection = BoxPartsParameterVMObservableCollection.OrderBy(x => x.WorkIndex).ToList().FindAll(
+                            x => !x.IsFinish && x.WorkIndex >= 0 &&
+                            (x.WorkScheduler_QRStamping || x.WorkScheduler_FontStamping || x.WorkScheduler_Shearing));
 
                         //將加工物進行排序
 
@@ -184,7 +185,7 @@ namespace GD_StampingMachine.ViewModels
 
 
                         }
-                    });
+                    });*/
                 }
                 catch (Exception ex)
                 { 
@@ -375,7 +376,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _sendMachiningCommand??= new (async (CancellationToken token) =>
             {
-                await Task.Run(async () =>
+             await Task.Factory.StartNew(async() =>
                 {
                     var ManagerVM = new DXSplashScreenViewModel
                     {
@@ -399,9 +400,9 @@ namespace GD_StampingMachine.ViewModels
                             //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection
                             //取得歷史資料
                             //var history = await StampMachineData.GetIronPlateDataCollection();
-                            var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.SendMachineCommandVM.WorkIndex >= 0);
-                            var readyMachiningCollection = workableMachiningCollection.FindAll(x => !x.IsSended).OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList();
-                            var sendedReadyMachiningCollection = workableMachiningCollection.FindAll(x => x.IsSended).OrderBy(x => x.SendMachineCommandVM.WorkIndex).ToList();
+                            var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
+                            var readyMachiningCollection = workableMachiningCollection.FindAll(x => !x.IsSended).OrderBy(x => x.WorkIndex).ToList();
+                            var sendedReadyMachiningCollection = workableMachiningCollection.FindAll(x => x.IsSended).OrderBy(x => x.WorkIndex).ToList();
 
                             //取得機台上第0筆(準備被推出去的那一筆)
                             //var GetIronPlate = await StampMachineData.GetIronPlateDataCollection();
@@ -439,7 +440,7 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 Application.Current.Dispatcher.Invoke(new Action(() =>
                                 {
-                                    manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
+                                    manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                 }));
                             }
                             //等待機台訊號 
@@ -471,13 +472,23 @@ namespace GD_StampingMachine.ViewModels
                              * rYAxisPos2 = 119,
                              * */
                             //產生一個獨有的id
-                            Guid myGuid = Guid.NewGuid();
-                            byte[] bArr = myGuid.ToByteArray();
-                            int autonum = Math.Abs(BitConverter.ToInt32(bArr, 0));
-                            //檢查是否有存在該編號
-                            dqdqd
+                            //生成一個
+                            List<PartsParameterViewModel> allBoxPartsParameterViewModel = new();
+                            //所有排版專案
+                            var a = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection;
+                            foreach(var b in a)
+                            {
+                                allBoxPartsParameterViewModel.AddRange(b.PartsParameterVMObservableCollection);
+                            }
 
-
+                            int autonum = 0;
+                            do
+                            {
+                                Guid myGuid = Guid.NewGuid();
+                                byte[] bArr = myGuid.ToByteArray();
+                                autonum = Math.Abs(BitConverter.ToInt32(bArr, 0));
+                                //檢查是否有存在該編號
+                            } while (allBoxPartsParameterViewModel.Exists(x => x.ID == autonum));
 
                             var boxIndex = readymachining.BoxIndex!=null ? readymachining.BoxIndex.Value : 0;
                             var _HMIIronPlateData = new IronPlateDataModel
@@ -542,7 +553,8 @@ namespace GD_StampingMachine.ViewModels
                         manager?.Close();
                         manager = null;
                     }
-                },token);
+                }, token, TaskCreationOptions.LongRunning , TaskScheduler.Default);
+
             }, ()=>  !_sendMachiningCommand.IsRunning);
         }
 
@@ -556,8 +568,14 @@ namespace GD_StampingMachine.ViewModels
                 {
                     try
                     {
-                  await   MessageBoxResultShow.ShowYesNo
+                        var result = MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"),
+                        (string)Application.Current.TryFindResource("Text_AskClearAllMachiningData")) ;
                         //跳出彈窗
+
+                        if(await result != MessageBoxResult.Yes)
+                        {
+                            return;
+                        }
 
                         if (token.IsCancellationRequested)
                             token.ThrowIfCancellationRequested();
@@ -609,11 +627,11 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PartsParameter)
                 {
-                    if (PartsParameter.SendMachineCommandVM.WorkIndex >= 0)
+                    if (PartsParameter.WorkIndex >= 0)
                     {
                         args.Visible = false;
                     }
-                    else if(PartsParameter.SendMachineCommandVM.IsFinish)
+                    else if(PartsParameter.IsFinish)
                     {
                         args.Visible = false;
                     }
@@ -634,11 +652,11 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PartsParameter)
                 {
-                    if (PartsParameter.SendMachineCommandVM.WorkIndex >= 0)
+                    if (PartsParameter.WorkIndex >= 0)
                     {
                         args.Visible = true;
                     }
-                    else if (PartsParameter.SendMachineCommandVM.IsFinish)
+                    else if (PartsParameter.IsFinish)
                     {
                         args.Visible = true;
                     }
@@ -659,27 +677,16 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(() =>
                 {
-                    //全選
-                    if (e is IList<PartsParameterViewModel> Itemsource)
+                    if (e is IEnumerable Itemsources)
                     {
-                        foreach (var partsParameter in Itemsource)
+                        foreach (var item in Itemsources)
                         {
-                            if (!partsParameter.SendMachineCommandVM.IsFinish)
-                            {
-                                if (partsParameter.SendMachineCommandVM.WorkIndex < 0)
-                                    SetPartsParameterWork(partsParameter);
-                            }
-                        }
-                    }
-                    //部分
-                    else if (e is IList<object> eList)
-                    {
-                        foreach (var item in eList)
-                        {
+
                             if (item is PartsParameterViewModel partsParameter)
                             {
-                                if (partsParameter.SendMachineCommandVM.WorkIndex < 0)
+                                if (partsParameter.WorkIndex < 0)
                                     SetPartsParameterWork(partsParameter);
+                                partsParameter.MachiningStatus = MachiningStatusEnum.Ready;
                             }
                         }
                     }
@@ -694,15 +701,15 @@ namespace GD_StampingMachine.ViewModels
         private void SetPartsParameterWork(PartsParameterViewModel partsParameter)
         {
             //找清單中最大的index
-            partsParameter.SendMachineCommandVM.IsFinish = false;
-            var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.SendMachineCommandVM.WorkIndex);
+            partsParameter.IsFinish = false;
+            var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
             if (indexMax < 0)
             {
-                partsParameter.SendMachineCommandVM.WorkIndex = 0;
+                partsParameter.WorkIndex = 0;
             }
             else
             {
-                partsParameter.SendMachineCommandVM.WorkIndex = indexMax + 1;
+                partsParameter.WorkIndex = indexMax + 1;
             }
         }
 
@@ -718,23 +725,17 @@ namespace GD_StampingMachine.ViewModels
             {                //全選
                 await Task.Run(() =>
                 {
-                    if (e is IList<PartsParameterViewModel> Itemsource)
+                    if(e is IEnumerable Itemsources)
                     {
-                        foreach (var item in Itemsource)
-                        {
-                            if(!item.IsSended)
-                                CancelPartsParameterWork(item);
-                        }
-                    }
-                    //部分
-                    else if (e is IList<object> eList)
-                    {
-                        foreach (var item in eList)
+                        foreach (var item in Itemsources)
                         {
                             if (item is PartsParameterViewModel partsParameter)
                             {
                                 if (!partsParameter.IsSended)
+                                {
                                     CancelPartsParameterWork(partsParameter);
+                                    partsParameter.MachiningStatus = MachiningStatusEnum.None;
+                                }
                             }
                         }
                     }
@@ -745,8 +746,8 @@ namespace GD_StampingMachine.ViewModels
         }
         private void CancelPartsParameterWork(PartsParameterViewModel partsParameter)
         {
-            partsParameter.SendMachineCommandVM.IsFinish = false;
-            partsParameter.SendMachineCommandVM.WorkIndex = -1;
+            partsParameter.IsFinish = false;
+            partsParameter.WorkIndex = -1;
         }
 
 

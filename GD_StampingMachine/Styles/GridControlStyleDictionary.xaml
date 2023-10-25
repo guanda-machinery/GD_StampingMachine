@@ -105,7 +105,7 @@
                                         <Condition Binding="{Binding Path=IsSelected}" Value="True" />
                                         <Condition Binding="{Binding Row.IsFinish}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="Background" Value="Lightgreen" />
+                                    <Setter Property="Background" Value="LightGreen" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>

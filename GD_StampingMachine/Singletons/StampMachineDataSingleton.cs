@@ -46,7 +46,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GD_StampingMachine.Singletons
 {
-    public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>, INotifyPropertyChanged
+    public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>
     {
         public const string DataSingletonName = "Name_StampMachineDataSingleton";
 
@@ -881,11 +881,12 @@ namespace GD_StampingMachine.Singletons
                 Subtitle = null,
                 Copyright = null,
             };
-
             SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-            // await Application.Current.Dispatcher.InvokeAsync(new Action(async delegate
-            // {
-            manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
+            await Application.Current.Dispatcher.InvokeAsync(async ()=>
+            {
+                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+
+            });
 
             IsScaning = true;
             try
@@ -1019,7 +1020,9 @@ namespace GD_StampingMachine.Singletons
                                     PlateMonitorViewModel PlateMonitorVM = new PlateMonitorViewModel()
                                     {
                                         SettingBaseVM = settingBaseVM,
-                                        StampingStatus = steelBeltStampingStatus
+                                        StampingStatus = steelBeltStampingStatus,
+                                        DataMatrixIsFinish = plateData.bDataMatrixFinish,
+                                        EngravingIsFinish = plateData.bEngravingFinish,
                                     };
                                     plateMonitorVMCollection.Add(PlateMonitorVM);
                                 }
@@ -1098,6 +1101,12 @@ namespace GD_StampingMachine.Singletons
                                 lastIronDataIList = newlronDataIList;
                             }
 
+
+                            var HmiIronPlateTask = await GD_Stamping.GetHMIIronPlate();
+                            if(HmiIronPlateTask.Item1)
+                            {
+                                HMIIronPlateDataModel = HmiIronPlateTask.Item2;
+                            }
 
                             var rotatingTurntableInfoList = await GD_Stamping.GetRotatingTurntableInfo();
                             if (rotatingTurntableInfoList.Item1)
@@ -1271,7 +1280,7 @@ namespace GD_StampingMachine.Singletons
                             {
                                 manager=null;
                                 manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-                                manager.Show();
+                                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                             }
 
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect");
@@ -1956,8 +1965,71 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
         {
-            get => _machineSettingBaseCollection??= new ObservableCollection<PlateMonitorViewModel>() ; 
+            get 
+            {
+                if(Debugger.IsAttached)
+                    _machineSettingBaseCollection ??= new ObservableCollection<PlateMonitorViewModel>() 
+                { 
+                    new PlateMonitorViewModel()
+                    {
+                        SettingBaseVM=new  QRSettingViewModel()
+                        { 
+                            PlateNumber = "Test1"
+                        },                        
+                        DataMatrixIsFinish = true , 
+                        ShearingIsFinish = true, 
+                        EngravingIsFinish = true
+                    },
+                    new PlateMonitorViewModel()
+                    {
+                        SettingBaseVM=new  QRSettingViewModel()
+                        {
+                            PlateNumber = "Test2"
+                        },
+                        DataMatrixIsFinish = true ,
+                        ShearingIsFinish = true,
+                        EngravingIsFinish = false
+                    },
+                    new PlateMonitorViewModel()
+                    {
+                        SettingBaseVM=new  QRSettingViewModel()
+                        {
+                            PlateNumber = "Test3"
+                        },
+                        DataMatrixIsFinish = true ,
+                        ShearingIsFinish = false,
+                        EngravingIsFinish = false
+                    },
+                    new PlateMonitorViewModel()
+                    {
+                        SettingBaseVM=new  QRSettingViewModel()
+                        {
+                            PlateNumber = "Test4"
+                        },
+                        DataMatrixIsFinish = false ,
+                        ShearingIsFinish = false,
+                        EngravingIsFinish = false
+                    },
+
+
+
+
+
+                };
+                return _machineSettingBaseCollection ??= new ObservableCollection<PlateMonitorViewModel>();
+            }
             set { _machineSettingBaseCollection = value; OnPropertyChanged(); }
+        }
+
+        private IronPlateDataModel _hMIIronPlateDataModel;
+        public IronPlateDataModel HMIIronPlateDataModel
+        {
+            get=> _hMIIronPlateDataModel??= new IronPlateDataModel();
+            set
+            {
+                _hMIIronPlateDataModel = value;
+                OnPropertyChanged();
+            }
         }
 
 

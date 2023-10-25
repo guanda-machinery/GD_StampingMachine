@@ -291,17 +291,43 @@
                     </DataTemplate>
                 </dxg:GridColumn.CellTemplate>
             </dxg:GridColumn>
+
+
             <dxg:GridColumn Visible="{Binding MachiningStatusIsVisible}"
-                HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.CellTemplate>
-                    <DataTemplate>
-                        <Border Background="{Binding Row.SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"  
-                                Width="20" 
-                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
-                                CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>
-                    </DataTemplate>
-                </dxg:GridColumn.CellTemplate>
+                HorizontalHeaderContentAlignment="Left"  Header="MachiningStatus"  FieldName="MachiningStatus"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
+
+            <dxg:GridColumn Visible="{Binding MachiningStatusIsVisible}"
+                HorizontalHeaderContentAlignment="Left"  Header="DataMatrixIsFinish"  FieldName="DataMatrixIsFinish"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn Visible="{Binding MachiningStatusIsVisible}"
+                HorizontalHeaderContentAlignment="Left"  Header="EngravingIsFinish"  FieldName="EngravingIsFinish"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn Visible="{Binding MachiningStatusIsVisible}"
+                HorizontalHeaderContentAlignment="Left"  Header="ShearingIsFinish"  FieldName="ShearingIsFinish"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+
+
 
         </dxg:GridControl>
 

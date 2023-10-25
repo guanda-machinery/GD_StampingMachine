@@ -24,17 +24,8 @@ using CommunityToolkit.Mvvm.Input;
 namespace GD_StampingMachine.Singletons
 {
 
-    public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton> , INotifyPropertyChanged
+    public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton> 
     {
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
-        protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
-            }
-        }
-
 
 
 
@@ -283,6 +274,10 @@ namespace GD_StampingMachine.Singletons
                 OnPropertyChanged();
             }
         }
+
+
+
+
 
 
 

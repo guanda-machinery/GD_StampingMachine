@@ -811,17 +811,11 @@
                                     </Grid.RowDefinitions>
                                     <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Text="{DynamicResource Text_FirstLine }" Margin="2"/>
                                     <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Text="{DynamicResource Text_SecondLine}"  Margin="2"/>
-                                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Text="{DynamicResource Text_ThirdLine}"  Margin="2"/>
 
-                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding StampMachineData.IronPlateName1}"  Margin="2"/>
-                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Text="{Binding StampMachineData.IronPlateName2}"  Margin="2"/>
-
-                                    <TextBox Grid.Column="2" Grid.Row="0" Name="SetIronPlateName1TextBox" />
-                                    <TextBox Grid.Column="2" Grid.Row="1" Name="SetIronPlateName2TextBox"/>
-                                    <TextBox Grid.Column="2" Grid.Row="2" Name="SetIronPlateName3TextBox"/>
-
-
-
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding StampMachineData.HMIIronPlateDataModel.sIronPlateName1}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Text="{Binding StampMachineData.HMIIronPlateDataModel.sIronPlateName2}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding StampMachineData.HMIIronPlateDataModel.sDataMatrixName1}"  Margin="2"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Text="{Binding StampMachineData.HMIIronPlateDataModel.sDataMatrixName2}"  Margin="2"/>
 
                                 </Grid>
                             </GroupBox>

@@ -707,7 +707,12 @@
                          Header="{DynamicResource TabItem_MachiningStatus}" >
                                         </TabItem>
                                     </TabControl>
-
+                                        <materialDesign:ColorPicker Color="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=NoneIsFinishSolidColor}">
+                                            
+                                        </materialDesign:ColorPicker>
+                                    
+                                    
+                                    
                                 </StackPanel>
                                     <GD_UserControls:MachineFunctionTestUserControl Grid.Column="1" DataContext="{Binding MachineFunctionTestVM}"/>
 

@@ -169,17 +169,36 @@
 
                                     <Setter Property="Template">
                                         <Setter.Value>
-                                            <ControlTemplate TargetType="ListBoxItem">
-                                                <Grid FlowDirection="LeftToRight">
+                                            <ControlTemplate TargetType="ListBoxItem" >
+                                                <Grid FlowDirection="LeftToRight" d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineMonitor.PlateMonitorViewModel}">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Border  Margin="5,4,2,5"
+                                                    <Border  Margin="5,4,2,5"  
                                                                                         BorderThickness="1" BorderBrush="Black" CornerRadius="5"
                                                                                         HorizontalAlignment="Center"
-                                                             Background="{Binding StampingStatus , Converter={local:EnumToBrushesConverter}}"
                                                                                         >
+                                                        <Border.Style>
+                                                            <Style TargetType="Border" >
+                                                                <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DataMatrixIsFinish }" Value="true">
+                                                                        <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding ShearingIsFinish}" Value="true">
+                                                                        <Setter Property="Background" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding EngravingIsFinish}" Value="true">
+                                                                        <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+
+
+
+
                                                         <!-- Background="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"-->
                                                         <Border.LayoutTransform>
                                                             <RotateTransform Angle="90"/>
@@ -318,7 +337,7 @@
                     </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
 
-                    <Button Content="popup"
+                        <Button Content="{DynamicResource btnMachiningDataManage}"
                         Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}"  
                                            CommandTarget="{Binding ElementName=WorkControlDraggablePopup}"
                             >
@@ -334,9 +353,8 @@
                             <Border MinWidth="100" 
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                <GroupBox Header="Waiting Machining" FontSize="30" Style="{StaticResource MaterialDesignHeaderedContentControl}" Margin="10">
-
-                            <Grid>
+                                <GroupBox Header="{DynamicResource btnMachiningDataManage}" FontSize="30" Style="{StaticResource MaterialDesignHeaderedContentControl}" Margin="5">
+                                    <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition Height="auto"/>
@@ -397,11 +415,6 @@
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
                                         
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IronPlateString" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
                                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
@@ -495,35 +508,17 @@
                                                 </dxg:GridColumn>
 
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Center" Header="{DynamicResource Text_MachiningStatus}"  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                            <dxg:GridColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Border Background="{Binding Row.SteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"  
-                                Width="20" 
-                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
-                                CornerRadius="{c:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}"/>
-                                                </DataTemplate>
-                                            </dxg:GridColumn.CellTemplate>
-                                        </dxg:GridColumn>
-
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.AbsoluteMoveDistanceAnimation"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;0.0"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="MachiningStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
 
 
 
 
-                                    </dxg:GridControl>
+
+                                            </dxg:GridControl>
 
                                     <StackPanel>
                                         <Button Command="{Binding ArrangeWorkCommand}"
@@ -543,7 +538,6 @@
                                         Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="300" 
-                                                     
                                      CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None" 
@@ -576,14 +570,20 @@
                                             </dxg:TableView>
                                         </dxg:GridControl.View>
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.WorkIndex"  
-                                                         Binding="{Binding SendMachineCommandVM.WorkIndex}"   SortOrder="Ascending"
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningIndex}"  FieldName="WorkIndex"  
+                                                         SortOrder="Ascending"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
                                                         <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0;0"/>
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
-
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="Uid"  FieldName="ID"  
+                                                         SortOrder="Ascending"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0;0"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
                                                 
                                                 
 
@@ -687,25 +687,74 @@
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="MachiningStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
                                             <dxg:GridColumn.EditSettings>
                                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                             </dxg:GridColumn.EditSettings>
                                         </dxg:GridColumn>
 
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SendMachineCommandVM.AbsoluteMoveDistance"  
-                                                         Binding="{Binding SendMachineCommandVM.AbsoluteMoveDistance}"
-                                                         Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
 
-
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsSended"  FieldName="IsSended"
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsSended"   FieldName="IsSended"
                                                                    AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.IsSended}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsFinish"   Binding="{Binding IsFinish, UpdateSourceTrigger=PropertyChanged}"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.IsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="DataMatrixIsFinish"   Binding="{Binding DataMatrixIsFinish, UpdateSourceTrigger=PropertyChanged}"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.DataMatrixIsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="EngravingIsFinish"   Binding="{Binding EngravingIsFinish, UpdateSourceTrigger=PropertyChanged}"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.EngravingIsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="ShearingIsFinish"   Binding="{Binding ShearingIsFinish, UpdateSourceTrigger=PropertyChanged}"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.ShearingIsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
+                                                </dxg:GridColumn>
+
+
+
+
+
+
 
 
 
@@ -731,16 +780,13 @@
                             </Border>
                         </GD_Popup:DraggablePopup>
 
-                        <StackPanel Visibility="Collapsed">
-                        <Button Command="{Binding WorkMachiningCommand}" Content="WorkMachining"/>
-                        <Button Command="{Binding CancelMachiningCommand}" Content="StopTest"/>
-                            <Button Command="{Binding AlltoZero}" Content="set to zero"/>
-                        </StackPanel>
 
-                        <Button Command="{Binding SendMachiningCommand}" Content="SendData"/>
-                        <Button Command="{Binding SendMachiningCancelCommand}" Content="SendDataCancel"/>
 
-                        <Button Command="{Binding SendMachiningCommand}" IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}"  Content="SendData"/>
+                        <Button Command="{Binding SendMachiningCommand}" Content="{DynamicResource btnMachiningDataTransfer}"/>
+                        <Button Command="{Binding SendMachiningCancelCommand}" Content="{DynamicResource btnMachiningDataTransferDisrupt}"/>
+
+                        <Button Command="{Binding ClearMachiningDataCommand}" IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
+                                Content="{DynamicResource btnMachiningDataClear}"/>
 
                     </StackPanel>
 
@@ -843,6 +889,46 @@
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
 
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IsSended}"  FieldName="IsSended"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="MachiningStatus"  FieldName="MachiningStatus"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                    
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="DataMatrixIsFinish"  FieldName="DataMatrixIsFinish"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="EngravingIsFinish"  FieldName="EngravingIsFinish"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="ShearingIsFinish"  FieldName="ShearingIsFinish"  
+                          
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        
 
 
                     </dxg:GridControl>

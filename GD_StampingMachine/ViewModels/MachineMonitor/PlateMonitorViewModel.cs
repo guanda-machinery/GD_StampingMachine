@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.MachineMonitor
 {
-    public class PlateMonitorViewModel: BaseViewModel
+    public class PlateMonitorViewModel : BaseViewModel
     {
         public override string ViewModelName => nameof(PlateMonitorViewModel);
 
@@ -31,30 +31,23 @@ namespace GD_StampingMachine.ViewModels.MachineMonitor
             }
 
         }
-        /*
+
         private bool _dataMatrixIsFinish;
         public bool DataMatrixIsFinish
         {
-            get => _dataMatrixIsFinish;
-            set
-            {
-                _dataMatrixIsFinish = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(StampingStatus));
-            }
+            get => _dataMatrixIsFinish; set { _dataMatrixIsFinish = value; OnPropertyChanged(); }
         }
         private bool _engravingIsFinish;
         public bool EngravingIsFinish
         {
-            get => _engravingIsFinish; 
-            set
-            {
-                _engravingIsFinish = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(StampingStatus));
-            }
-        }*/
+            get => _engravingIsFinish; set { _engravingIsFinish = value; OnPropertyChanged(); }
+        }
 
+        private bool _shearingIsFinish;
+        public bool ShearingIsFinish
+        {
+            get => _shearingIsFinish; set { _shearingIsFinish = value; OnPropertyChanged(); }
+        }
 
     }
 }

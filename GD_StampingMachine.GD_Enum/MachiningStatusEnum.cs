@@ -9,8 +9,8 @@ namespace GD_StampingMachine.GD_Enum
 {
     public enum MachiningStatusEnum
     {
-        Unknown,
-        Stop,
+        None,
+        Ready,
         Run, 
         Finish,
     }
