@@ -739,7 +739,8 @@
 
                         <Button Command="{Binding SendMachiningCommand}" Content="SendData"/>
                         <Button Command="{Binding SendMachiningCancelCommand}" Content="SendDataCancel"/>
-                    
+
+                        <Button Command="{Binding SendMachiningCommand}" IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}"  Content="SendData"/>
 
                     </StackPanel>
 

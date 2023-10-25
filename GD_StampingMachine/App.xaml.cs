@@ -36,7 +36,7 @@ namespace GD_StampingMachine
                     await Task.Delay(100);
                     //  Thread.Sleep(100);
                     SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                     {
                         manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
                     }));
@@ -70,7 +70,7 @@ namespace GD_StampingMachine
 
                     var ThreadOperTask = Task.Run(async () =>
                     {
-                        await Dispatcher.BeginInvoke(new Action(async delegate
+                        await Dispatcher.InvokeAsync(new Action(async delegate
                         {
                             try
                             {

@@ -14,7 +14,7 @@ namespace GD_CommonLibrary.Method
         public static async Task<MessageBoxResult> Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
             MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
-            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
                 var NewWindow = new Window
                 {

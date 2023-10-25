@@ -883,9 +883,9 @@ namespace GD_StampingMachine.Singletons
             };
 
             SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-           // await Application.Current.Dispatcher.BeginInvoke(new Action(async delegate
-           // {
-                manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
+            // await Application.Current.Dispatcher.InvokeAsync(new Action(async delegate
+            // {
+            manager.Show(null, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
 
             IsScaning = true;
             try
@@ -1203,13 +1203,6 @@ namespace GD_StampingMachine.Singletons
                             if ((await HPumpIsActive).Item1)
                                 HydraulicPumpIsActive = (await HPumpIsActive).Item2;
 
-                            var sIronPlateString = GD_Stamping.GetHMIIronPlate();
-                            if ((await sIronPlateString).Item1)
-                            {
-                                IronPlateName1 = (await sIronPlateString).Item2.sIronPlateName1;
-                                IronPlateName2 = (await sIronPlateString).Item2.sIronPlateName2;
-                                //IronPlateName3 = (await sIronPlateString).Item2;
-                            }
 
                             //箱子
                             var boxIndex = GD_Stamping.GetSeparateBoxNumber();
@@ -2122,29 +2115,6 @@ namespace GD_StampingMachine.Singletons
             get => _hydraulicPumpIsActive; set { _hydraulicPumpIsActive = value; OnPropertyChanged(); }
         }
 
-        private string _ironPlateName1, _ironPlateName2, _ironPlateName3;
-
-        /// <summary>
-        /// 鋼印第一排
-        /// </summary>
-        public string IronPlateName1
-        {
-            get => _ironPlateName1; set { _ironPlateName1 = value;OnPropertyChanged(); }
-        }
-        /// <summary>
-        /// 鋼印第二排
-        /// </summary>
-        public string IronPlateName2
-        {
-            get => _ironPlateName2; set { _ironPlateName2 = value; OnPropertyChanged(); }
-        }
-        /// <summary>
-        /// 鋼印第三排
-        /// </summary>
-        /*public string IronPlateName3
-        {
-            get => _ironPlateName3; set { _ironPlateName3 = value; OnPropertyChanged(); }
-        }*/
 
         private int _separateBoxIndex = -1;
 

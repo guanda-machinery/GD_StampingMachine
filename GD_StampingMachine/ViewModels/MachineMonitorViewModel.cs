@@ -474,6 +474,10 @@ namespace GD_StampingMachine.ViewModels
                             Guid myGuid = Guid.NewGuid();
                             byte[] bArr = myGuid.ToByteArray();
                             int autonum = Math.Abs(BitConverter.ToInt32(bArr, 0));
+                            //檢查是否有存在該編號
+                            dqdqd
+
+
 
                             var boxIndex = readymachining.BoxIndex!=null ? readymachining.BoxIndex.Value : 0;
                             var _HMIIronPlateData = new IronPlateDataModel
@@ -517,10 +521,7 @@ namespace GD_StampingMachine.ViewModels
                                     readymachining.IsSended = true;
                                     readymachining.ID = autonum;
                                     //下完命令後 找出第一格的id 並將其設定為完成
-                                    
-
-
-
+                                   
 
                                 }
                                 await Task.Delay(100);
@@ -545,25 +546,58 @@ namespace GD_StampingMachine.ViewModels
             }, ()=>  !_sendMachiningCommand.IsRunning);
         }
 
-        public ICommand SendMachiningCancelCommand=> SendMachiningCommand.CreateCancelCommand();
 
-        //
-        private async Task a()
+        private AsyncRelayCommand _clearMachiningDataCommand;
+        public AsyncRelayCommand ClearMachiningDataCommand
         {
-           var history = await StampMachineData.GetIronPlateDataCollection();
-            if (history.Item1)
+            get => _clearMachiningDataCommand ??= new(async (CancellationToken token) =>
             {
-               //history.Item2
-                var projectDistributeCollection = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection;
-
-                foreach (var project in projectDistributeCollection)
+                await Task.Run(async () =>
                 {
-                    //project.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FindIndex(x => x.SendMachineCommandVM.IsSended && x.ID == )
-    
-            }
-            }
+                    try
+                    {
+                  await   MessageBoxResultShow.ShowYesNo
+                        //跳出彈窗
 
+                        if (token.IsCancellationRequested)
+                            token.ThrowIfCancellationRequested();
+
+                        bool isGetIronPlate;
+                        List<IronPlateDataModel> ironPlateDataCollection = new List<IronPlateDataModel>(); ;
+                        do
+                        {
+                            if (token.IsCancellationRequested)
+                                token.ThrowIfCancellationRequested();
+
+                            var getIronPlate = await StampMachineData.GetIronPlateDataCollection();
+                            isGetIronPlate = getIronPlate.Item1;
+                            ironPlateDataCollection = getIronPlate.Item2;
+                        } while (!isGetIronPlate);
+
+                       var NewEmptyIronPlateDataCollection = Enumerable.Repeat(new IronPlateDataModel() , ironPlateDataCollection.Count).ToList();
+
+                        bool isSetIronPlate = false;
+                        do
+                        {
+                            if (token.IsCancellationRequested)
+                                token.ThrowIfCancellationRequested();
+                            isSetIronPlate = await StampMachineData.SetIronPlateDataCollection(NewEmptyIronPlateDataCollection);
+                        } while (!isSetIronPlate);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //跳出
+                    }
+                }, token);
+
+            }, () => !_clearMachiningDataCommand.IsRunning);
         }
+
+
+
+
+        public ICommand SendMachiningCancelCommand=> SendMachiningCommand.CreateCancelCommand();
 
 
 

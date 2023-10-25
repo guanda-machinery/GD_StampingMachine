@@ -210,7 +210,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 await Task.Run(async () =>
                 {
-                    await Application.Current.Dispatcher.BeginInvoke(new Action(async() =>
+                    await Application.Current.Dispatcher.InvokeAsync(new Action(async() =>
                     {
                         if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
                         {

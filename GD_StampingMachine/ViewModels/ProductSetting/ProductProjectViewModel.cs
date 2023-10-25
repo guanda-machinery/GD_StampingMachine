@@ -496,7 +496,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 await Task.Run(async () =>
                 {
-                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                     {
                         if (JsonHM.ManualReadJsonFile<IList<ERP_IronPlateModel>>(out var ErpFile, out var FilePath))
                         {
