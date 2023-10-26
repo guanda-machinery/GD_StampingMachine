@@ -459,6 +459,7 @@ namespace GD_StampingMachine.ViewModels
 
                             //將兩行字上傳到機器
                             // var SpiltPlate = readymachining.SettingBaseVM.PlateNumber.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
+                            //readymachining.PlateNumberList;
                             var SpiltPlate = readymachining.IronPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
                             //靠左 靠右等功能
                             SpiltPlate.TryGetValue(0, out string plateFirstValue);

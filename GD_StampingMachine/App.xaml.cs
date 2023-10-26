@@ -36,68 +36,40 @@ namespace GD_StampingMachine
                     await Task.Delay(100);
                     //  Thread.Sleep(100);
                     SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-                    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                    await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
                     {
-                        manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterOwner, true, InputBlockMode.None);
-                    }));
+                        MachineWindow.Show();
+                        MachineWindow.IsEnabled = false;
 
+                        MachineWindow.Topmost = true;
+                        await Task.Delay(100);
+                        MachineWindow.Topmost = false;
+
+                        manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
+                    }));
                     //manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                     ManagerVM.IsIndeterminate = true;
 
-
-                    var SplashScreenIsShown = Task.Run(async () =>
+                    await Task.Delay(100);
+                    ManagerVM.IsIndeterminate = false;
+                    for (int i = 0; i <= 100; i++)
                     {
-                        while (manager.State != SplashScreenState.Shown)
-                        {
-                            await Task.Delay(100);
-                        }
-                    });
-
-
-                    //如果五秒內都沒有出現彈窗 則不再等待
-                    await Task.WhenAny(SplashScreenIsShown, Task.Delay(5000));
-
-                    await Task.Delay(1000);
-                    for (int i = 0; i <= 1000; i++)
-                    {
-                        ManagerVM.IsIndeterminate = false;
-                        ManagerVM.Progress = i / 10;
-                        await Task.Delay(2);
+                        ManagerVM.Progress = i ;
+                        await Task.Delay(20);
                     }
 
                     ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
 
-
-                    var ThreadOperTask = Task.Run(async () =>
+                    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                     {
-                        await Dispatcher.InvokeAsync(new Action(async delegate
-                        {
-                            try
-                            {
-                                MachineWindow.Show();
-                                MachineWindow.Topmost = true;
-                                await Task.Delay(100);
-                                MachineWindow.Topmost = false;
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                                Environment.Exit(0);
-                            }
-                        }));
-                    });
-
-                    //當等待最少三秒後才關閉視窗
-                    await Task.Delay(3000);
-                    await ThreadOperTask;
-                    //await Task.WhenAll(ThreadOperTask, Task.Delay(3000));
+                        MachineWindow.IsEnabled = true;
+                    }));
                     manager.Close();
 
 
                     await Task.Run(async () =>
                     {
                         await Task.Delay(1000);
-
                         await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
                         //檢查字模
                         while (!Singletons.StampMachineDataSingleton.Instance.IsConnected)

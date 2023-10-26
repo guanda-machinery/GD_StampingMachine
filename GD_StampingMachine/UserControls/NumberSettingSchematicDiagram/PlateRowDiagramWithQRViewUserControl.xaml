@@ -79,34 +79,78 @@
 
 
         <Grid Grid.Column="3"  Grid.Row="5" >
-            <ListBox  
-            Margin="-12.5,-15" ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            ItemsSource="{Binding PlateNumberList}" >
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Background="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}" 
-                                        Width="70" Height="110" Margin="12.5,15">
-                                            <TextBlock Text="{Binding . , Mode=TwoWay}" Foreground="White"  
-                                                     Margin="0" Padding="0" Width="auto"
-                                               HorizontalAlignment="Center"
+
+
+            <ItemsControl  ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            Margin="-12.5,-15" 
+            ItemsSource="{Binding PlateNumberList}"   >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ToggleButton IsChecked="{Binding IsUsed}">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Width" Value="70"/>
+                                    <Setter Property="Height" Value="110"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Margin" Value="12.5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate  TargetType="ToggleButton">
+                                                <Border Background="{TemplateBinding Background}"     
+                                                        Width="{TemplateBinding Width}"
+                                                        Height="{TemplateBinding Height}"
+                                                        CornerRadius="2"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}">
+                                                    <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                                    </ContentPresenter>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="Orange"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Background" Value="OrangeRed"/>
+                                                    </Trigger>
+
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Opacity" Value="0.3"/>
+                                                    </Trigger>
+
+
+
+
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+
+                            <TextBlock  Foreground="White" HorizontalAlignment="Center" Visibility="{Binding IsUsed }"
+                                Text="{Binding FontString}"   Margin="0" Padding="0"   FontWeight="DemiBold"  
                                                VerticalAlignment="Center"
-                                               FontSize="50"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                <ListBox.ItemsPanel>
+                                               FontSize="60"/>
+                        </ToggleButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"  Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />
+                        <WrapPanel Orientation="Horizontal" Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-            </Grid>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+
+        </Grid>
 
             <Grid  Width="220" Height="220" Margin="20,0"
                 Grid.Column="4" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2"  HorizontalAlignment="Right">

@@ -69,30 +69,6 @@ namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
 
 
         
-    
-
-
-    /*private static void RedMeasurementLineVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var UserControl = (d as PlateRowDiagramBaseUserControl);
-        UserControl.Resources[nameof(RedMeasurementLineVisibility)] = e.NewValue;
-    }
-    private static void PlateRowBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var UserControl = (d as PlateRowDiagramBaseUserControl);
-
-        if (e.NewValue is Brush)
-            UserControl.Resources[nameof(PlateRowBackground)] = e.NewValue;
-
-        if (e.NewValue is string NewValueString)
-        {
-            if (NewValueString.Contains("#"))
-            {
-                UserControl.Resources[nameof(PlateRowBackground)] = (SolidColorBrush)new BrushConverter().ConvertFrom(NewValueString);
-            }
-        }
-    }*/
-
 
 
 

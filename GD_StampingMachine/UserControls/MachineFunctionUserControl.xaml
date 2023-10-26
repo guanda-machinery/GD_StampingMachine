@@ -771,8 +771,16 @@
                             <GroupBox Header="{DynamicResource Text_Stamping_Rotate_Component}">
                                 <Border Background="White" HorizontalAlignment="Left" CornerRadius="5">
                                 <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.SetEngravingRotateClockwiseCommand}" 
+                                        <Button Style="{StaticResource GD_RepeatButton}"   
                                    >
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="PreviewMouseUp">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Grid>
                                                 <materialDesign:PackIcon Kind="ArrowURightTop" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 <materialDesign:PackIcon Kind="CheckboxBlankOutline" Width="30" Height="30"/>
@@ -780,11 +788,22 @@
                                             
                                             
                                         </Button>
-                                        <Button Style="{StaticResource GD_RepeatButton}" 
+                                        <Button Style="{StaticResource GD_RepeatButton}"  Visibility="Collapsed"
                                              Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
                                     
-                                        <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.SetEngravingRotateCounterClockwiseCommand}"
+                                        <Button Style="{StaticResource GD_RepeatButton}"   
                                             >
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateCounterClockwiseCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="PreviewMouseUp">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateCounterClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
+
+                                            </i:Interaction.Triggers>
+
+
                                             <Grid>
                                                 <materialDesign:PackIcon Kind="ArrowULeftTop" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 <materialDesign:PackIcon Kind="CheckboxBlankOutline" Width="30" Height="30"/>

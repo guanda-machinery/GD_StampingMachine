@@ -2,7 +2,6 @@
 using GD_CommonLibrary.Method;
 using GD_MachineConnect.Enums;
 using GD_MachineConnect.Machine;
-using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using Opc.Ua;
@@ -23,11 +22,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
-using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
 
 namespace GD_MachineConnect
 {
-    public class GD_Stamping_Opcua : IStampingMachineConnect , IDisposable
+    public class GD_Stamping_Opcua : IDisposable
     {
         /// <summary>
         /// 實作長連接
@@ -1178,18 +1176,14 @@ namespace GD_MachineConnect
 
 
 
-        public async Task<bool> SetEngravingRotateCW()
+        public async Task<bool> SetEngravingRotateCW(bool isActived)
         {
-            await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", true);
-            await Task.Delay(100);
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", false);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", isActived);
         }
 
-        public async Task<bool> SetEngravingRotateCCW()
+        public async Task<bool> SetEngravingRotateCCW(bool isActived)
         {
-            await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", true);
-            await Task.Delay(100);
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", false);
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", isActived);
         }
 
 

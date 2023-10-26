@@ -170,7 +170,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem" >
-                                                <Grid FlowDirection="LeftToRight" d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineMonitor.PlateMonitorViewModel}">
+                                                <Grid FlowDirection="LeftToRight">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition/>

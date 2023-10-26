@@ -33,12 +33,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private QRSettingViewModel _qrSetting;
         public QRSettingViewModel QRSettingVM
         {
-            get
-            {
-                if (_qrSetting == null)
-                    _qrSetting = new QRSettingViewModel();
-                return _qrSetting;
-            }
+            get=>  _qrSetting ??= new QRSettingViewModel() { SequenceCount=6};
+            
             set { _qrSetting = value; OnPropertyChanged(); }
         }
 

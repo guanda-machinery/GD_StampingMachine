@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
-using GD_MachineConnect.Machine.Interfaces;
 using Opc.Ua;
 using OpcUaHelper;
 using static System.Net.Mime.MediaTypeNames;

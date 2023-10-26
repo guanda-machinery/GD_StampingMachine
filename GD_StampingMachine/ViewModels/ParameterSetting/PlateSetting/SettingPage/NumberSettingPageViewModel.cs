@@ -45,12 +45,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private NumberSettingViewModel _numberSettingVM;
         public NumberSettingViewModel NumberSettingVM
         {
-            get
+            get=> _numberSettingVM ??= new NumberSettingViewModel()
             {
-                if (_numberSettingVM == null)
-                    _numberSettingVM = new NumberSettingViewModel();
-                return _numberSettingVM;
-            }
+                SequenceCount = 6
+            };
             set
             {
                 _numberSettingVM = value;

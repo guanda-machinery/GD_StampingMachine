@@ -25,6 +25,11 @@ namespace GD_StampingMachine.Model
         public int SequenceCount { get; set; } = 6;
 
         /// <summary>
+        /// 可加工的位址
+        /// </summary>
+        public List<bool> StampableList { get; set; } = new List<bool>();
+
+        /// <summary>
         /// 特殊排序
         /// </summary>
         public SpecialSequenceEnum SpecialSequence { get; set; }
@@ -52,6 +57,10 @@ namespace GD_StampingMachine.Model
         public CharactersFormEnum CharactersForm { get; set; }
 
         public string ModelSize { get; set; }
+
+
+
+
 
         public IronPlateMarginStruct IronPlateMargin { get; set; } = new IronPlateMarginStruct();
 

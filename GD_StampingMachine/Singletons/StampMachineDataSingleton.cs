@@ -10,12 +10,12 @@ using DevExpress.Xpf.Scheduling.Themes;
 using DevExpress.XtraPrinting.Native.Extensions;
 using DevExpress.XtraPrinting.Preview;
 using DevExpress.XtraRichEdit.Fields;
+using DevExpress.XtraRichEdit.Model;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
-using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
@@ -51,7 +51,7 @@ namespace GD_StampingMachine.Singletons
         public const string DataSingletonName = "Name_StampMachineDataSingleton";
 
 
-        private IStampingMachineConnect GD_Stamping;
+        private GD_Stamping_Opcua GD_Stamping;
 
         protected override void Init()
         {
@@ -891,6 +891,7 @@ namespace GD_StampingMachine.Singletons
             IsScaning = true;
             try
             {
+                init_Stamping();
                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Init");
                 await Task.Delay(2000);
                 //while (true)
@@ -915,7 +916,7 @@ namespace GD_StampingMachine.Singletons
                         {
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect") +$" - {retryCount}";
                             ManagerVM.Subtitle = GD_Stamping.ConnectException.Message;
-                            init_Stamping();
+
                             //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                         }
 
@@ -1609,9 +1610,9 @@ namespace GD_StampingMachine.Singletons
                 {
                     if (await GD_Stamping.AsyncConnect())
                     {
-                        var isActive = await GD_Stamping.GetHydraulicPumpMotor();
-                        if (isActive.Item1)
-                            await GD_Stamping.SetHydraulicPumpMotor(!isActive.Item2);
+                        var isActived = await GD_Stamping.GetHydraulicPumpMotor();
+                        if (isActived.Item1)
+                            await GD_Stamping.SetHydraulicPumpMotor(!isActived.Item2);
                     }
                 });
             });
@@ -1782,25 +1783,25 @@ namespace GD_StampingMachine.Singletons
 
         
 
-        public AsyncRelayCommand<object> SetEngravingRotateClockwiseCommand
+        public AsyncRelayCommand<object> EngravingRotateClockwiseCommand
         {
             get => new AsyncRelayCommand<object>(async obj =>
             {
                 await Task.Run(async () =>
                 {
-                    // if (obj is bool IsActived)
-                    await SetEngravingRotateClockwise();
+                     if (obj is bool isActived)
+                        await SetEngravingRotateClockwise(isActived);
                 });
             });
         }
-        public AsyncRelayCommand<object> SetEngravingRotateCounterClockwiseCommand
+        public AsyncRelayCommand<object> EngravingRotateCounterClockwiseCommand
         {
             get => new AsyncRelayCommand<object>(async obj =>
             {
                 await Task.Run(async () =>
                 {
-                    //  if (obj is bool IsActived)
-                    await SetEngravingRotateCounterClockwise();
+                    if (obj is bool isActived)
+                        await SetEngravingRotateCounterClockwise(isActived);
                 });
 
             });
@@ -1892,7 +1893,6 @@ namespace GD_StampingMachine.Singletons
             var ret = false;
             if (await GD_Stamping.AsyncConnect())
             {
-                ret = await GD_Stamping.SetEngravingYAxisFwd(false);
                 ret = await GD_Stamping.SetEngravingYAxisBwd(IsMove);
             }
             return ret;
@@ -1907,12 +1907,12 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印旋轉 順時針
         /// </summary>
         /// <returns></returns>
-        private async Task<bool> SetEngravingRotateClockwise()
+        private async Task<bool> SetEngravingRotateClockwise(bool isActived)
         {
             var ret = false;
             if (await GD_Stamping.AsyncConnect())
             {
-                ret = await GD_Stamping.SetEngravingRotateCW();
+                ret = await GD_Stamping.SetEngravingRotateCW(isActived);
                 //GD_Stamping.Disconnect();
             }
             return ret;
@@ -1922,13 +1922,12 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印旋轉 逆時針
         /// </summary>
         /// <returns></returns>
-        private async Task<bool> SetEngravingRotateCounterClockwise()
+        private async Task<bool> SetEngravingRotateCounterClockwise(bool isActived)
         {
             var ret = false;
             if (await GD_Stamping.AsyncConnect())
             {
-                ret = await GD_Stamping.SetEngravingRotateCCW();
-                //GD_Stamping.Disconnect();
+                ret = await GD_Stamping.SetEngravingRotateCCW(isActived);
             }
             return ret;
         }
@@ -2440,27 +2439,6 @@ namespace GD_StampingMachine.Singletons
             }, para =>!EngravingRotateCommand.IsRunning);
         }
         
-        public AsyncRelayCommand<object> EngravingRotateCWCommand
-        {
-            get => new AsyncRelayCommand<object>(async (para, token) =>
-            {
-                await Task.Run(async () =>
-                {
-                    await GD_Stamping.SetEngravingRotateCW();
-                });
-            }); 
-        }
-        public AsyncRelayCommand<object> EngravingRotateCCWCommand
-        {
-            get => new AsyncRelayCommand<object>(async (para, token) =>
-            {
-                await Task.Run(async () =>
-                {
-                    await GD_Stamping.SetEngravingRotateCCW();
-                });
-            });
-        }
-
 
 
 
