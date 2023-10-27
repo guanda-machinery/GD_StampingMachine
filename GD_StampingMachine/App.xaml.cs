@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
+using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,8 +16,12 @@ namespace GD_StampingMachine
     /// </summary>
     public partial class App : Application
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+
+        protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+            AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
+
             //啟用掃描
             var ManagerVM = new DXSplashScreenViewModel
             {
@@ -98,5 +103,24 @@ namespace GD_StampingMachine
                 }
             });
         }
+
+        private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception exception)
+            {
+                //紀錄異常
+                LogDataSingleton.Instance.AddLogData(nameof(App), exception.Message, true);
+                
+                //切斷機台連線
+                StampMachineDataSingleton.Instance.Dispose();
+
+                //顯示彈窗
+
+                MessageBox.Show($"An unhandled exception occurred: {exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
     }
 }

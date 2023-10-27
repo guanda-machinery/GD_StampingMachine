@@ -384,7 +384,7 @@ namespace GD_StampingMachine.ViewModels
                         Title = "GD_StampingMachine",
                         Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart"),
                         Progress = 0,
-                        IsIndeterminate = false,
+                        IsIndeterminate = true,
                         Subtitle = "",
                         Copyright = "Copyright © 2023 GUANDA",
                     };
@@ -449,21 +449,36 @@ namespace GD_StampingMachine.ViewModels
                                 token.ThrowIfCancellationRequested();
 
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WaitRequsetSignal");
-                            ManagerVM.Subtitle = readymachining.IronPlateString;
+                            ManagerVM.Subtitle = $"[{readymachining.WorkIndex}] [{readymachining.IronPlateString}]";
                             var Rdatabit = await StampMachineData.GetRequestDatabit();
                             if (!Rdatabit)
+                            {
+                                await Task.Delay(1000);
                                 continue;
+                            }
 
                             if (token.IsCancellationRequested)
                                 token.ThrowIfCancellationRequested();
 
                             //將兩行字上傳到機器
-                            // var SpiltPlate = readymachining.SettingBaseVM.PlateNumber.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
-                            //readymachining.PlateNumberList;
-                            var SpiltPlate = readymachining.IronPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
+                            //readymachining.
+                            string ironPlateString = "";
+                            readymachining.SettingBaseVM.PlateNumberList.ForEach(pNumber =>
+                            {
+                                if (string.IsNullOrWhiteSpace(pNumber.FontString))
+                                {
+                                    ironPlateString += " ";
+                                }
+                                else
+                                    ironPlateString += pNumber.FontString;
+                            });
+                           // var SpiltPlate = readymachining.IronPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
+                            var SpiltPlate = ironPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
                             //靠左 靠右等功能
                             SpiltPlate.TryGetValue(0, out string plateFirstValue);
                             SpiltPlate.TryGetValue(1, out string plateSecondValue);
+
+
                             plateFirstValue ??= string.Empty;
                             plateSecondValue ??= string.Empty;
                             /*
@@ -476,10 +491,9 @@ namespace GD_StampingMachine.ViewModels
                             //生成一個
                             List<PartsParameterViewModel> allBoxPartsParameterViewModel = new();
                             //所有排版專案
-                            var a = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection;
-                            foreach(var b in a)
+                            foreach(var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
                             {
-                                allBoxPartsParameterViewModel.AddRange(b.PartsParameterVMObservableCollection);
+                                allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMObservableCollection);
                             }
 
                             int autonum = 0;
@@ -542,19 +556,21 @@ namespace GD_StampingMachine.ViewModels
 
                         }
                     }
+                    catch (OperationCanceledException)
+                    {
+
+                    }
                     catch (Exception ex)
                     {
 
                     }
                     finally
                     {
-                        
                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessEnd");
                         await Task.Delay(1000);
                         manager?.Close();
-                        manager = null;
                     }
-                }, token, TaskCreationOptions.LongRunning , TaskScheduler.Default);
+                }, token, TaskCreationOptions.None , TaskScheduler.Default);
 
             }, ()=>  !_sendMachiningCommand.IsRunning);
         }

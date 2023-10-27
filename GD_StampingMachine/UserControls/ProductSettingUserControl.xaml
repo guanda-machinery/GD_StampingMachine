@@ -719,7 +719,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
-                            <Button 
+                            <Button  Name="ImportParameterToggleButton"
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=ImportParameterDarggablePopup}"
@@ -933,7 +933,7 @@
 
                         <GD_Popup:DraggablePopup 
                             PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
-                            PlacementRectangle="-90,50,0,0"
+                            PlacementRectangle="-180,50,0,0"
                             AllowsTransparency="True" Margin="16" 
                             x:Name="AddParameterDarggablePopup" IsOpen="{Binding AddParameterDarggableIsPopup}">
                             <Border
@@ -982,8 +982,8 @@
                                     <TextBlock Grid.Column="1" Grid.Row="7" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
 
                                     <TextBlock Grid.Column="2" Grid.Row="1" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："   Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
-                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="：" />
                                     <TextBlock Grid.Column="2" Grid.Row="5" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="6" Text="："/>
@@ -1075,7 +1075,7 @@
                                                                             <Grid.LayoutTransform>
                                                                                 <ScaleTransform ScaleX="0.19" ScaleY="0.19" />
                                                                             </Grid.LayoutTransform>
-                                                                            <StackPanel>
+                                                                            <StackPanel IsEnabled="False">
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
                                                                                                                                  Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                                                                 RedMeasurementLineVisibility="Collapsed" />
@@ -1119,10 +1119,12 @@
                                 </Border>
                             </GD_Popup:DraggablePopup>
 
-                        <GD_Popup:DraggablePopup  AllowTopMost="False"
+                        <GD_Popup:DraggablePopup 
+                                                        PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
+                      
                                PlacementRectangle="-175,50,0,0"
-                              PlacementTarget="{Binding ElementName=ImportParameterToggleButton}" Placement="Relative"
-                            AllowsTransparency="True" Margin="16" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
+                            AllowsTransparency="True" Margin="16" 
+                            AllowTopMost="False" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
                                 <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -1163,7 +1165,7 @@
                                                 <ColumnDefinition  />
                                                 <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
-                                        <TextBox Margin="0" Padding="0"   Width="auto"
+                                        <TextBox Margin="10,0" Padding="0"   Width="auto"
                                                  Text="{Binding ImportFilePath, UpdateSourceTrigger=PropertyChanged}" 
                                                  ToolTip="{Binding ImportFilePath, UpdateSourceTrigger=PropertyChanged}"
                                                  >
@@ -1225,7 +1227,7 @@
                                                                                 <ScaleTransform ScaleX="0.19" ScaleY="0.19" />
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel>
-                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
+                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }" IsEnabled="False"
                                                                                                                                     RedMeasurementLineVisibility="Collapsed" />
 
                                                                             </StackPanel>
@@ -1266,7 +1268,7 @@
                                                                                 <ScaleTransform ScaleX="0.19" ScaleY="0.19" />
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel>
-                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
+                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }"  IsEnabled="False"
                                                                                                                                              RedMeasurementLineVisibility="Collapsed" />
 
                                                                             </StackPanel>
@@ -1450,6 +1452,7 @@
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
                     <dxg:GridControl Name="ProjectGridControl"
+                                     
                         IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" 
                                       Background="Transparent"
                                       DataAreaBackground="Transparent"

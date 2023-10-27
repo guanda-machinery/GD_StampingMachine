@@ -94,10 +94,6 @@ namespace GD_MachineConnect.Machine
 
         public Exception ConnectException { get;private set; }
 
-
-
-
-
         public void Disconnect()
         {
             m_OpcUaClient.Disconnect();

@@ -20,7 +20,7 @@ namespace GD_CommonLibrary.Extensions
         /// <typeparam name="T">複製對象類別</typeparam>
         /// <param name="source">複製對象
         /// <returns>複製出的物件</returns>
-        public static T DeepClone<T>(this T from)
+        /*public static T DeepClone<T>(this T from)
         {
             using (MemoryStream s = new MemoryStream())
             {
@@ -31,7 +31,7 @@ namespace GD_CommonLibrary.Extensions
 
                 return (T)clone;
             }
-        }
+        }*/
 
     }
 }

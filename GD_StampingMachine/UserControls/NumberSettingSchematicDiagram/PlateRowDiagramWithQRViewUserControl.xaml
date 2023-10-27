@@ -86,7 +86,7 @@
             ItemsSource="{Binding PlateNumberList}"   >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ToggleButton IsChecked="{Binding IsUsed}">
+                        <ToggleButton IsChecked="{Binding IsUsed}" IsEnabled="{Binding IsUsedEditedable}">
                             <ToggleButton.Style>
                                 <Style TargetType="ToggleButton">
                                     <Setter Property="Width" Value="70"/>
@@ -122,7 +122,7 @@
                                                     </Trigger>
 
                                                     <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Opacity" Value="0.3"/>
+                                                        <Setter Property="Opacity" Value="1.0"/>
                                                     </Trigger>
 
 

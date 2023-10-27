@@ -10,11 +10,17 @@ namespace GD_StampingMachine.Model
 {
 
     public class StampPlateSettingModel
-    { 
+    {
+
         /// <summary>
-        /// 型態
+        /// 自動換行
         /// </summary>
-         public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
+        public bool DashAutoWrapping { get; set; }
+
+    /// <summary>
+    /// 型態
+    /// </summary>
+    public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
         /// <summary>
         /// 目前模式
         /// </summary>
@@ -27,7 +33,7 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 可加工的位址
         /// </summary>
-        public List<bool> StampableList { get; set; } = new List<bool>();
+        public List<PlateFontModel> StampableList { get; set; } = new List<PlateFontModel>();
 
         /// <summary>
         /// 特殊排序
@@ -57,11 +63,7 @@ namespace GD_StampingMachine.Model
         public CharactersFormEnum CharactersForm { get; set; }
 
         public string ModelSize { get; set; }
-
-
-
-
-
+        
         public IronPlateMarginStruct IronPlateMargin { get; set; } = new IronPlateMarginStruct();
 
     }
@@ -80,11 +82,15 @@ namespace GD_StampingMachine.Model
         public double I_Margin { get; set; }
     }
 
+    public class PlateFontModel
+    {
+        public bool IsUsed { get; set; }
 
+        public string FontString { get; set; }
+        /// <summary>
+        /// 是否可變更IsUsed
+        /// </summary>
+        public bool IsUsedEditedable { get; set; }
 
-
-
-
-
-
+    }
 }
