@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using DevExpress.XtraSpreadsheet.Model;
+using GD_StampingMachine.Method;
 using Newtonsoft.Json;
 using Application = System.Windows.Application;
 
@@ -110,6 +111,7 @@ namespace GD_CommonLibrary.Method
         {
             return ManualReadJsonFile(out JsonData, out _);
         }
+
 
 
         public bool ManualReadJsonFile<T>(out T JsonData, out string FilePath)

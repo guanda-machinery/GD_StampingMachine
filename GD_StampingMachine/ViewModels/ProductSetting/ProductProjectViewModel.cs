@@ -32,6 +32,8 @@ using GD_StampingMachine.Model;
 using Newtonsoft.Json.Linq;
 using DevExpress.Mvvm.Xpf;
 using CommunityToolkit.Mvvm.Input;
+using GD_CommonLibrary.Method;
+using CsvHelper.Configuration.Attributes;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -489,18 +491,22 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 匯入 選擇檔案路徑
         /// </summary>
-        public ICommand ImportProject_SelectPathFileCommand
+        public AsyncRelayCommand ImportProject_SelectPathFileCommand
         {
-
             get => new AsyncRelayCommand(async () =>
             {
                 await Task.Run(async () =>
                 {
                     await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                     {
-                        if (JsonHM.ManualReadJsonFile<IList<ERP_IronPlateModel>>(out var ErpFile, out var FilePath))
+                        System.Windows.Forms.OpenFileDialog sfd = new()
                         {
-                            ImportFilePath = FilePath;
+                            Filter = "SerializationFile (*.csv;*.json)|*.csv;*.json|All files (*.*)|*.*"
+                        };
+
+                        if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            ImportFilePath = sfd.FileName;
                         }
                     }));
                 });
@@ -513,60 +519,105 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public string ImportFilePath { get=> importFilePath; set { importFilePath = value; OnPropertyChanged(); } }
 
+
+        public class SimpleErpClass
+        {
+            [Index(0)]
+            public string Plate { get; set; }
+            [Index(1)]
+            public int Count { get; set; }
+        }
+
+
         /// <summary>
         /// 匯入
         /// </summary>
-        public ICommand ImportProjectCommand
+        public RelayCommand ImportProjectCommand
         {
-            get => new RelayCommand(() =>
+            get => new RelayCommand(async () =>
             {
-                if (JsonHM.ReadJsonFile<List<ERP_IronPlateModel>>(ImportFilePath ,out var ErpFile ))
+                await Task.Run(async () =>
                 {
-                    //將資料拆分為QR/一般
-                    if (ErpFile.Exists(x => x.QrCode) && ImportProjectNumberSettingBaseVM == null)
+                    List<ERP_IronPlateModel> ErpFile = new();
+                    CsvFileManager csvManager = new CsvFileManager();
+                    if (JsonHM.ReadJsonFile(ImportFilePath, out ErpFile))
                     {
+
+                    }
+                    else if (csvManager.ReadCSVFile(ImportFilePath, out ErpFile, true))
+                    {
+
+                    }
+                    else if (csvManager.ReadCSVFile<SimpleErpClass>(ImportFilePath, out var CsvFileWithoutHeader, false))
+                    {
+                        ErpFile = new();
+                        //僅有檔頭
+                        foreach (var item in CsvFileWithoutHeader)
+                        {
+                            ERP_IronPlateModel erpIronPlate = new()
+                            { 
+                                PartNumber = item.Plate, 
+                                QrCode = false
+                            };
+                            var erpIronPlateList = Enumerable.Repeat(erpIronPlate, item.Count);
+                            ErpFile.AddRange(erpIronPlateList);
+                        }
+                    }
+                    else
+                    {
+                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportFail"));
+                        return;
+                        //跳出錯誤
+                    }
+
+                    //將資料拆分為QR/一般
+                    if (ErpFile.Exists(x => !x.QrCode) && ImportProjectNumberSettingBaseVM == null)
+                    {
+                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetNumberCode"));
                         return;
                     }
-                    if (ErpFile.Exists(x => !x.QrCode) && ImportProjectQRSettingBaseVM == null)
+                    if (ErpFile.Exists(x => x.QrCode) && ImportProjectQRSettingBaseVM == null)
                     {
+                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetQrCode"));
                         return;
                     }
 
                     //檢查字長度
-
-
-
-
-                    foreach(var _erp in ErpFile)
+                    List<PartsParameterViewModel> importPartsParameterVMList = new ();
+                    foreach (var _erp in ErpFile)
                     {
                         //開始轉換檔案
                         SettingBaseViewModel SettingBaseVM;
-
                         if (_erp.QrCode)
-                            SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
-                        else
-                            SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
-
-
-
-
-                        PartsParameterVMObservableCollection.Add(new PartsParameterViewModel()
                         {
-                            IronPlateString = _erp.PartNumber,
-                            QrCodeContent = _erp.QrCodeContent.FirstOrDefault(),
-                            QR_Special_Text = _erp.TrainNumber.FirstOrDefault(),
+                            SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
+                            SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode;
+                        }
+                        else
+                        {
+                            SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
+                            SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.normal;
+                        }
 
-                            // ParameterA= 
+                        importPartsParameterVMList.Add(new PartsParameterViewModel()
+                        {
+                            
+                            IronPlateString = _erp.PartNumber,
+                            QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
+                            QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
                             SettingBaseVM = SettingBaseVM
                         });
 
-
                         ProductProjectEditTime = DateTime.Now;
                     }
+
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        PartsParameterVMObservableCollection.AddRange(importPartsParameterVMList);
+                    });
                     //儲存 ProductProject
                     SaveProductProject();
-
-                }
+                });
             });
         }
         /// <summary>
@@ -584,16 +635,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ObservableCollection<PartsParameterViewModel> _partsParameterVMObservableCollection;
+        private DXObservableCollection<PartsParameterViewModel> _partsParameterVMObservableCollection;
         /// <summary>
         /// GridControl ABC參數
         /// </summary>
-        public ObservableCollection<PartsParameterViewModel> PartsParameterVMObservableCollection
+        public DXObservableCollection<PartsParameterViewModel> PartsParameterVMObservableCollection
         {
             get
             {
-                if (_partsParameterVMObservableCollection == null)
-                    _partsParameterVMObservableCollection = new();
+                _partsParameterVMObservableCollection ??= new();
                 _productProject.PartsParameterObservableCollection =  _partsParameterVMObservableCollection.Select(x => x.PartsParameter).ToObservableCollection();
                 return _partsParameterVMObservableCollection;
             }

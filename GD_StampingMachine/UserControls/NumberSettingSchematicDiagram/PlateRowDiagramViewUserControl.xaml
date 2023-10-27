@@ -64,7 +64,7 @@
             ItemsSource="{Binding PlateNumberList}"  IsEnabled="{Binding PlateNumber, Converter={GD_Common:ObjectIsNullToBooleanConverter} }" >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ToggleButton IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}">
+                        <ToggleButton IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsUsedEditedable}">
                             <ToggleButton.Style>
                                 <Style TargetType="ToggleButton">
                                     <Setter Property="Width" Value="70"/>

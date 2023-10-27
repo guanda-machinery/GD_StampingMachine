@@ -120,7 +120,9 @@ namespace GD_MachineConnect
 
         public async Task<bool> FeedingPositionReturnToStandbyPosition()
         {
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
+            await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, true);
+            await Task.Delay(500);
+            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_rServoStandbyPos, false);
         }
 
         /// <summary>

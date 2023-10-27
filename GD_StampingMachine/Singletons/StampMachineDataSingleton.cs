@@ -1240,7 +1240,6 @@ namespace GD_StampingMachine.Singletons
                             if ((await engravingAStation).Item1)
                                 EngravingRotateStation = (await engravingAStation).Item2;
 
-
                             //取得io資料表
                             if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
                             {
@@ -1274,17 +1273,22 @@ namespace GD_StampingMachine.Singletons
                                 }
                             }
 
+
+
                         }
                         else
                         {
-                            if (manager.State == SplashScreenState.Closed)
+                            await Application.Current.Dispatcher.InvokeAsync(async () =>
                             {
-                                manager=null;
-                                manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-                                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-                            }
+                                if (manager.State == SplashScreenState.Closed)
+                                {
+                                    manager = null;
+                                    manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+                                    manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                                }
+                                ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect");
+                            });
 
-                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect");
                             foreach (var IO_Table in IO_TableObservableCollection)
                             {
                                 IO_Table.IO_Value = null;
@@ -1293,7 +1297,7 @@ namespace GD_StampingMachine.Singletons
                     }
                     catch (Exception ex)
                     {
-
+                        Debugger.Break();
                     }
                     finally
                     {
@@ -1632,7 +1636,10 @@ namespace GD_StampingMachine.Singletons
                 return false;
         }
 
-
+        /// <summary>
+        /// 設定下一片加工資料
+        /// </summary>
+        /// <returns></returns>
         public async Task<(bool, IronPlateDataModel)> GetHMIIronPlateData()
         {
             if (await GD_Stamping.AsyncConnect())
@@ -1641,6 +1648,11 @@ namespace GD_StampingMachine.Singletons
                 return (false, new IronPlateDataModel());
         }
 
+        /// <summary>
+        /// 設定加工陣列
+        /// </summary>
+        /// <param name="ironPlateDataList"></param>
+        /// <returns></returns>
         public async Task<bool> SetIronPlateDataCollection(List<IronPlateDataModel> ironPlateDataList)
         {
             if (await GD_Stamping.AsyncConnect())
@@ -1649,6 +1661,10 @@ namespace GD_StampingMachine.Singletons
                 return false;
         }
 
+        /// <summary>
+        /// 取得加工資料
+        /// </summary>
+        /// <returns></returns>
         public async Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection()
         {
             if (await GD_Stamping.AsyncConnect())
@@ -1656,32 +1672,6 @@ namespace GD_StampingMachine.Singletons
             else
                 return (false, new List<IronPlateDataModel>());
         }
-
-       /* public async Task<(bool, List<SettingBaseViewModel>)> GetIronPlateDataCollection()
-        {
-            if (await GD_Stamping.AsyncConnect())
-                return await GD_Stamping.GetIronPlateDataCollection();
-            else
-                return (false, new List<IronPlateDataModel>());
-        }*/
-
-
-
-
-
-
-        /* public AsyncRelayCommand<object> SetIronPlateNameCommand
-         {
-             get => new AsyncRelayCommand<object>(async para =>
-             {
-                 await Task.Run(async () =>
-                 {
-                     if (para is string ParaString)
-                         await SendStampingString(sIronPlate.sIronPlateName3, ParaString);
-                 });
-             });
-         }*/
-
 
 
         /// <summary>
@@ -1698,7 +1688,11 @@ namespace GD_StampingMachine.Singletons
             }
             return false;
         }
-
+        /// <summary>
+        /// 加工訊號交握
+        /// </summary>
+        /// <param name="databit"></param>
+        /// <returns></returns>
         public async Task<bool> SetRequestDatabit(bool databit)
         {
             if (await GD_Stamping.AsyncConnect())
@@ -1709,6 +1703,20 @@ namespace GD_StampingMachine.Singletons
             return false;
         }
 
+        /// <summary>
+        /// 回歸原點
+        /// </summary>
+        /// <param name="databit"></param>
+        /// <returns></returns>
+        public async Task<bool> ReturnToOrigin()
+        {
+            if (await GD_Stamping.AsyncConnect())
+            {
+                var ret = await GD_Stamping.FeedingPositionReturnToStandbyPosition();
+                return ret;
+            }
+            return false;
+        }
 
 
 
@@ -1966,17 +1974,18 @@ namespace GD_StampingMachine.Singletons
         {
             get 
             {
-                if(Debugger.IsAttached)
-                    _machineSettingBaseCollection ??= new ObservableCollection<PlateMonitorViewModel>() 
-                { 
+                if (Debugger.IsAttached)
+                {
+                    _machineSettingBaseCollection ??= new ObservableCollection<PlateMonitorViewModel>()
+                {
                     new PlateMonitorViewModel()
                     {
                         SettingBaseVM=new  QRSettingViewModel()
-                        { 
+                        {
                             PlateNumber = "Test1"
-                        },                        
-                        DataMatrixIsFinish = true , 
-                        ShearingIsFinish = true, 
+                        },
+                        DataMatrixIsFinish = true ,
+                        ShearingIsFinish = true,
                         EngravingIsFinish = true
                     },
                     new PlateMonitorViewModel()
@@ -2015,6 +2024,7 @@ namespace GD_StampingMachine.Singletons
 
 
                 };
+                }
                 return _machineSettingBaseCollection ??= new ObservableCollection<PlateMonitorViewModel>();
             }
             set { _machineSettingBaseCollection = value; OnPropertyChanged(); }

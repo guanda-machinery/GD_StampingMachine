@@ -13,6 +13,7 @@ using DevExpress.XtraRichEdit.Model;
 using DevExpress.Mvvm.Native;
 using DevExpress.XtraGrid.Registrator;
 using System.Security.Policy;
+using DevExpress.Utils.Extensions;
 
 namespace GD_StampingMachine.Method
 {
@@ -94,7 +95,7 @@ namespace GD_StampingMachine.Method
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        public bool ReadCSVFile<T>(string fileName, out T CSVData)
+        /*public bool ReadCSVFile<T>(string fileName, out T CSVData)
         {
             CSVData = default(T);
            if(ReadCSVFileIEnumerable(fileName, out List<T> CSVDataIEnumerable))
@@ -106,7 +107,7 @@ namespace GD_StampingMachine.Method
                 }
            }
             return false;
-        }
+        }*/
 
 
 
@@ -119,7 +120,7 @@ namespace GD_StampingMachine.Method
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        public bool ReadCSVFileIEnumerable<T>(string fileName , out List<T> CSVDataIEnumerable)
+        public bool ReadCSVFile<T>(string fileName , out List<T> CSVDataIEnumerable, bool hasHeaderRecord = true )
         {
             CSVDataIEnumerable = new List<T>();
 
@@ -136,13 +137,13 @@ namespace GD_StampingMachine.Method
             {
                 var readConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    HasHeaderRecord = true
+                    HasHeaderRecord = hasHeaderRecord,
                 };
 
                 using (var reader = new StreamReader(fileName))
                 using (var csv = new CsvReader(reader, readConfiguration))
                 {
-                   CSVDataIEnumerable = csv.GetRecords<T>().ToList();
+                    CSVDataIEnumerable = csv.GetRecords<T>().ToList();
                     return true;
                 }
             }
@@ -152,6 +153,15 @@ namespace GD_StampingMachine.Method
                 return false;
             }
         }
+
+
+
+
+
+
+
+
+
 
     }
 }
