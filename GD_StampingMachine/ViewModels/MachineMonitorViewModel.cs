@@ -396,7 +396,6 @@ namespace GD_StampingMachine.ViewModels
                         manager?.Close();
                     }
                 }, token);
-
             }, ()=>  !_sendMachiningCommand.IsRunning);
         }
         private AsyncRelayCommand _completeMachiningDataCommand;
