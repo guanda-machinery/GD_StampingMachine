@@ -34,6 +34,12 @@ using DevExpress.Mvvm.Xpf;
 using CommunityToolkit.Mvvm.Input;
 using GD_CommonLibrary.Method;
 using CsvHelper.Configuration.Attributes;
+using DevExpress.Data.Filtering;
+using DevExpress.Mvvm.DataAnnotations;
+using DevExpress.Xpf.Data;
+using System.ComponentModel;
+using System.Linq.Expressions;
+using GD_StampingMachine.Singletons;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -83,6 +89,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public ProductProjectViewModel()
         {
             _productProject = new();
+
             foreach (var obj in _productProject.PartsParameterObservableCollection)
             {
                 PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
@@ -201,8 +208,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         if (ObjGridControl.CurrentItem is ProductProjectViewModel CurrentItem)
                         {
-                            if (CurrentItem.PartsParameterVMObservableCollection.FindIndex(x => !string.IsNullOrEmpty(x.DistributeName)) != -1)
+                            //該名稱要和
+                            //已被排版
+                            var partsParameterIsTypeSettingedCollection = CurrentItem.PartsParameterVMObservableCollection.ToList().FindAll(x => !string.IsNullOrEmpty(x.DistributeName));
+                           //若
+                            var existedCanNotCloseList =  partsParameterIsTypeSettingedCollection.FindAll(x => StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FindIndex(y=>y.ProjectDistributeName == x.DistributeName) != -1);
+                            if (existedCanNotCloseList.Count != 0)
+                            {
                                 await MethodWinUIMessageBox.CanNotCloseProject();
+                            }
                             else
                             {
                                 if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
@@ -472,9 +486,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-
-
-
+        /// <summary>
+        /// 關閉後重新克隆舊資料
+        /// </summary>
+        public ICommand RecoverCloneByOverwritePartsParameterCommand
+        {
+            get => new RelayCommand(async() =>
+            {
+                await Task.Delay(500);
+                var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
+                if (Findex != -1)
+                {
+                    EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex] .DeepCloneByJson();
+                }
+            });
+        }
 
         public ICommand OverwritePartsParameterByCloneCommand
         {
@@ -653,6 +679,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
             }
         }
+
+        
+
+
+
+
+
+
 
 
 

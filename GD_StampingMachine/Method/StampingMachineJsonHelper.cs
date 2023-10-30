@@ -150,12 +150,11 @@ namespace GD_StampingMachine.Method
         private const string ConstNumberSetting = "Numbers";
         private const string ConstParameterSetting = "ParameterSetting";
 
-        public bool ReadJsonSettingByEnum<T>(Enum ParameterSettingName , out T JsonData, bool ShowMessageBox = false)
+        public bool ReadJsonSettingByEnum<T>(Enum ParameterSettingName, out T JsonData, bool ShowMessageBox = false)
         {
             var FilePath = GetJsonFilePath(ParameterSettingName);
-
             var Result = this.ReadJsonFile(FilePath, out JsonData);
-            if(ShowMessageBox)
+            if (ShowMessageBox)
                 _ = MethodWinUIMessageBox.LoadSuccessful(FilePath, Result);
             return Result;
         }

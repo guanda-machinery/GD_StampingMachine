@@ -46,7 +46,8 @@ namespace GD_StampingMachine.UserControls
                 typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata());
 
 
-        
+
+
 
 
         /*public bool GridControl_MachiningStatusIsVisible

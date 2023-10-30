@@ -201,7 +201,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _sendMachiningCommand??= new (async (CancellationToken token) =>
             {
-             await Task.Factory.StartNew(async() =>
+                await Task.Run(async() =>
                 {
                     var ManagerVM = new DXSplashScreenViewModel
                     {
@@ -395,10 +395,31 @@ namespace GD_StampingMachine.ViewModels
                         await Task.Delay(1000);
                         manager?.Close();
                     }
-                }, token, TaskCreationOptions.None , TaskScheduler.Default);
+                }, token);
 
             }, ()=>  !_sendMachiningCommand.IsRunning);
         }
+        private AsyncRelayCommand _completeMachiningDataCommand;
+        /// <summary>
+        /// 將剩下的工作做完->一直傳送空字串直到沒有任何料為止
+        /// </summary>
+        public AsyncRelayCommand CompleteMachiningDataCommand
+        {
+            get => _clearMachiningDataCommand ??= new(async (CancellationToken token) =>
+            {
+
+            });
+        }
+
+        public ICommand SendMachiningCancelCommand => new RelayCommand(() =>
+        {
+            SendMachiningCommand.Cancel();
+            CompleteMachiningDataCommand.Cancel();
+        });
+
+
+
+
 
 
         private AsyncRelayCommand _clearMachiningDataCommand;
@@ -408,6 +429,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(async () =>
                 {
+                    _clearMachiningDataCommand.Cancel();
                     try
                     {
                         var result = MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"),
@@ -455,9 +477,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-
-
-        public ICommand SendMachiningCancelCommand=> SendMachiningCommand.CreateCancelCommand();
+        
 
 
 

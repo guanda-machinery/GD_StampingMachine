@@ -112,7 +112,7 @@
 
                                 <StackPanel  Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
                                     <Button   
-                                                                    Content="{DynamicResource btnCancel}"
+                                                                    Content="{DynamicResource btnClose}"
                                           Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  
                                           CommandParameter="{StaticResource FalseValue}">
                                     </Button>
@@ -139,14 +139,15 @@
                               SelectedItems="{Binding ProjectDistributeSelectedItems ,UpdateSourceTrigger=PropertyChanged}"
                                       ItemsSource="{Binding ProjectDistributeVMObservableCollection}"
                                       MinHeight="100"
-                                      MaxHeight="2000">
+                                      MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}">
                     <dxg:GridControl.ContextMenu>
                         <ContextMenu>
                             <!--Command="{Binding ChangeProjectDistributeCommand}"-->
                             <MenuItem Command="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=ProjectDistributeVMChangeCommand}"
-                                      CommandParameter="{Binding ProjectDistributeSelectedItems}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl}, Path=SelectedItems}"
                                                 Header="{DynamicResource Text_ChangeConstructionNumber}"/>
                             <MenuItem Command="{Binding DeleteProjectDistributeCommand}"
+                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl}, Path=SelectedItems}"
                                                 Header="{DynamicResource btnDelete}"/>
                         </ContextMenu>
                     </dxg:GridControl.ContextMenu>
@@ -294,7 +295,7 @@
                                                 Style="{StaticResource ProductProjectGridControl}"
                                                 AutoGenerateColumns="None"
                                                 ItemsSource="{Binding NotReadyToTypeSettingProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                MaxHeight="10000"    >
+                                                MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView 
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -430,7 +431,7 @@
                                               CurrentItem="{Binding ReadyToTypeSettingProductProjectVMCurrentItem}"
                                                                  SelectedItem="{Binding ReadyToTypeSettingProductProjectVMSelected}"
                                                                  ItemsSource="{Binding ReadyToTypeSettingProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                 MaxHeight="2000"    >
+                                                                 MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
                                 <dxg:GridControl.View >
                                     <dxg:TableView  
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -533,7 +534,7 @@
                                          SelectionMode="Row"
                                          AutoGenerateColumns="None"
                                          ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         MaxHeight="10000"    >
+                                         MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"   >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

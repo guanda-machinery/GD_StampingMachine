@@ -414,7 +414,9 @@
                     ItemsSource="{Binding ProductProjectVMObservableCollection}"
                     SelectedItem="{Binding SelectProductProjectVM}"
                     MinHeight="100"
-                    MaxHeight="2000">
+                                      MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"
+                                      
+                                      >
                         <dxg:GridControl.View >
                         <dxg:TableView   
                                 SearchString="{Binding ElementName=SearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -903,10 +905,21 @@
                                             </Style>
                                         </ComboBox.Style>
                                     </ComboBox>
+
+
                                     <StackPanel  Grid.Row="8" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                        <Button   
-                                                                    Content="{DynamicResource btnClose}"
-                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
+                                        <Button Content="{DynamicResource btnClose}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                    <i:InvokeCommandAction Command="{Binding RecoverCloneByOverwritePartsParameterCommand}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+
+
+
+
+
                                         </Button>
                                         <Button Content="{DynamicResource btnSaveChange}"
                                             Command="{Binding OverwritePartsParameterByCloneCommand}"
@@ -1451,27 +1464,23 @@
                  Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
-                    <dxg:GridControl Name="ProjectGridControl"
-                                     
+                    <!--
+                                     -->
+                    <dxg:GridControl Name="ProjectGridControl" 
                         IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" 
                                       Background="Transparent"
+                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                       DataAreaBackground="Transparent"
-                     
                                       Style="{StaticResource ProjectGridControl}"
                                       AutoGenerateColumns="None"
                                       SelectedItem="{Binding PartsParameterViewModelSelectItem}"
-                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      MaxHeight="{Binding ElementName=SelectProductProjectMainBorder, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"
+                                     MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"
                                       >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectedItemChanged">
                                 <i:InvokeCommandAction Command="{Binding PartsParameterViewModelSelectedItemChangedCommand}" PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-
-
-
-
 
                         <dxg:GridControl.View >
                             <dxg:TableView   

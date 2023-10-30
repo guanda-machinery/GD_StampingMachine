@@ -15,7 +15,7 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 自動換行
         /// </summary>
-        public bool DashAutoWrapping { get; set; }
+        //public bool DashAutoWrapping { get; set; }
 
     /// <summary>
     /// 型態

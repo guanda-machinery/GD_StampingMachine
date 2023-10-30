@@ -279,6 +279,12 @@
     </Style>
 
     <Style x:Key="ScrollViewer_STD" TargetType="{x:Type ScrollViewer}">
+        <Style.Resources>
+            <Style    xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+                x:Key="{dxgt:ScrollBarThemeKey ResourceKey=ScrollingCornerStyle,IsThemeIndependent=true}" TargetType="Border">
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+        </Style.Resources>
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
             <Setter.Value>

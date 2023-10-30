@@ -98,53 +98,8 @@
                 <Border Grid.Row="2" Margin="10" Background="{DynamicResource PrimaryHueLightForegroundBrush}"/>
                 <Grid Visibility="Collapsed"
                     Grid.ColumnSpan="3" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
-                    <Border Background="{DynamicResource PrimaryHueLightForegroundBrush}" Margin="0,0,115,0"/>
-                        <ListBox ItemsSource="{Binding StampingSteelBeltVMObservableCollection}" HorizontalAlignment="Center" VerticalAlignment="Center"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="5" >
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem" >
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <Border  Margin="0,6"
-                                                                    CornerRadius="8" Background="{Binding MachiningStatus, Converter={local:EnumToBrushesConverter}}"  d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:StampingSteelBeltViewModel}">
-                                                <Border BorderThickness="1" CornerRadius="8" BorderBrush="Black">
-                                                    <Grid  >
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition/>
-                                                            <RowDefinition/>
-                                                        </Grid.RowDefinitions>
-                                                        <TextBlock Text="{Binding BeltString}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" Foreground="White"/>
-                                                        <TextBlock Text="{Binding BeltNumberString}" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5,0,0,5" Foreground="White"/>
-                                                        <materialDesign:PackIcon
-                                                                                Width="40" Height="40"
-                                                                                Kind="Qrcode" Foreground="White" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                                    </Grid>
-                                                </Border>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel RenderTransformOrigin="0.5,0.5" >
-                                    <StackPanel.LayoutTransform>
-                                        <RotateTransform Angle="90"/>
-                                    </StackPanel.LayoutTransform>
-                                </StackPanel>
-
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-
-
-
-                </Grid>
+                        <Border Background="{DynamicResource PrimaryHueLightForegroundBrush}" Margin="0,0,115,0"/>
+                    </Grid>
 
                     <Grid Grid.ColumnSpan="2"    Grid.Row="3" >
                         <Grid>
@@ -160,7 +115,7 @@
                         </Grid>
 
 
-                        <ListBox  FlowDirection="RightToLeft"
+                        <ListBox  FlowDirection="RightToLeft"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Standard"
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
@@ -194,19 +149,12 @@
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </Border.Style>
-
-
-
-
-                                                        <!-- Background="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"-->
-                                                        <Border.LayoutTransform>
-                                                            <RotateTransform Angle="90"/>
-                                                        </Border.LayoutTransform>
-                                                        <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
-                                                              >
+                                                        <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"    >
                                                             <Grid.LayoutTransform>
-                                                                <ScaleTransform ScaleX="0.11"
-                                                                                                        ScaleY="0.11" />
+                                                                <TransformGroup>
+                                                                    <RotateTransform Angle="90"/>
+                                                                    <ScaleTransform ScaleX="0.11" ScaleY="0.11" />
+                                                                </TransformGroup>
                                                             </Grid.LayoutTransform>
                                                             <Grid DataContext="{Binding SettingBaseVM}">
                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl  
@@ -218,8 +166,6 @@
                                                                   PlateRowBackground="Transparent"
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
                                                             </Grid>
-
-
                                                         </Grid>
                                                     </Border>
 
@@ -796,15 +742,14 @@
                                         Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="150" 
-                                 
                                      CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
-                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                 ItemsSource="{Binding IsAsync=True, Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                     MaxHeight="150"    >
                     <dxg:GridControl.View >
                         <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"

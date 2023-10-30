@@ -76,18 +76,20 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// 遇到- 換行的功能
         /// </summary>
         public bool DashAutoWrapping
         {
-            get => StampPlateSetting.DashAutoWrapping;
+            get => !PlateNumber.Contains(" ");
+           /* get => StampPlateSetting.DashAutoWrapping;
             set
             {
                 StampPlateSetting.DashAutoWrapping = value;
                 OnPropertyChanged();
                 ChangePlateNumberList();
-            }
+            }*/
         }
 
         public string NumberSettingMode { get => StampPlateSetting.NumberSettingMode; set { StampPlateSetting.NumberSettingMode = value; OnPropertyChanged(); } }

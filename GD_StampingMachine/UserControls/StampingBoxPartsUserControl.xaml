@@ -139,7 +139,6 @@
         </ScrollViewer>
 
         <dxg:GridControl 
-    
             IsEnabled="{Binding SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
             Grid.Column="1"
@@ -147,7 +146,7 @@
             Background="Transparent"  MinHeight="200"
             Style="{StaticResource ProjectGridControl}"
             ItemsSource="{Binding BoxPartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-            MaxHeight="2000"    >
+          >
             <dxg:GridControl.View >
                 <dxg:TableView   
                     

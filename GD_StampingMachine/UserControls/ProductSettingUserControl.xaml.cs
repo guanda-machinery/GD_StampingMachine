@@ -27,6 +27,5 @@ namespace GD_StampingMachine.UserControls
             InitializeComponent();
         }
 
-
     }
 }

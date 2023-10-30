@@ -207,7 +207,7 @@
 
 
                         <materialDesign:PackIcon Margin="2"
-                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="LightGreen">
+                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="Green">
                             <materialDesign:PackIcon.Style>
                                 <Style TargetType="materialDesign:PackIcon">
                                     <Setter Property="Kind" Value="None"/>
@@ -898,7 +898,7 @@
                                                   AutoGenerateColumns="None"
                                                   SelectionMode="Row"
                                                   ItemsSource="{Binding Source={x:Static GD_Singletons:LogDataSingleton.Instance}, Path=DataObservableCollection , UpdateSourceTrigger=PropertyChanged}"
-                                    MaxHeight="100000"    >
+                             MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
 
                                             <dxg:GridControl.View >
                                                 <dxg:TableView  

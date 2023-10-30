@@ -110,35 +110,42 @@ namespace GD_StampingMachine.ViewModels
         /// 刪除排版專案 並將盒子內的所有東西釋放回專案
         /// </summary>
         [JsonIgnore]
-        public ICommand DeleteProjectDistributeCommand
+        public RelayCommand<object> DeleteProjectDistributeCommand
         {
-            get => new RelayCommand(() =>
+            get => new RelayCommand<object>(async obj =>
             {
-                var Removed_List = new List<int>();
-                foreach(var _selectItem in ProjectDistributeSelectedItems)
+                if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {
-                    _selectItem.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ForEach(obj =>
+                    var DelProjectsString = projectDistributeGridControlSelectedItems.ToList().Select(x => x.ProjectDistributeName).ExpandToString();
+                    if (await MethodWinUIMessageBox.AskDelProject(DelProjectsString))
                     {
-                        if (_selectItem.ProjectDistributeName == _selectItem.StampingBoxPartsVM.ProjectDistributeName)
+                        var Removed_List = new List<int>();
+                        foreach (var _selectItem in projectDistributeGridControlSelectedItems)
                         {
-                            obj.DistributeName = null;
-                            obj.BoxIndex = null;
+                            _selectItem.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ForEach(obj =>
+                            {
+                                if (_selectItem.ProjectDistributeName == _selectItem.StampingBoxPartsVM.ProjectDistributeName)
+                                {
+                                    obj.DistributeName = null;
+                                    obj.BoxIndex = null;
+                                }
+                            });
+                            _selectItem.SaveProductProjectVMObservableCollection();
+
+                            var F_Index = ProjectDistributeVMObservableCollection.FindIndex(x => x == _selectItem);
+                            Removed_List.Add(F_Index);
                         }
-                    });
-                    _selectItem.SaveProductProjectVMObservableCollection();
-
-                    var F_Index = ProjectDistributeVMObservableCollection.FindIndex(x => x == _selectItem);
-                    Removed_List.Add(F_Index);
+                        var DescendingRemoved_List = Removed_List.OrderByDescending(x => x);
+                        foreach (var DescendingRemovedIndex in DescendingRemoved_List)
+                        {
+                            if (DescendingRemovedIndex != -1)
+                            {
+                                ProjectDistributeVMObservableCollection.RemoveAt(DescendingRemovedIndex);
+                            }
+                        }
+                        new StampingMachineJsonHelper().WriteProjectDistributeListJson(ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList());
+                    }
                 }
-
-                var DescendingRemoved_List = Removed_List.OrderByDescending(x => x);
-                foreach(var DescendingRemovedIndex in DescendingRemoved_List)
-                {
-                    if(DescendingRemovedIndex != -1)
-                        ProjectDistributeVMObservableCollection.RemoveAt(DescendingRemovedIndex);
-                }
-
-
             });
         }
 
@@ -165,7 +172,6 @@ namespace GD_StampingMachine.ViewModels
                         ProjectDistributeVM = ProjectItem;
                     ProjectDistributeVM.IsInDistributePage = true;
                     ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
-                   
                 }
             });
         }

@@ -90,8 +90,6 @@ namespace GD_StampingMachine.ViewModels
                 if (_selectedSeparateBoxVM == null)
                     if (SeparateBoxVMObservableCollection != null)
                         _selectedSeparateBoxVM = SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxIsEnabled);
-
-
                 return _selectedSeparateBoxVM;
             }
             set
