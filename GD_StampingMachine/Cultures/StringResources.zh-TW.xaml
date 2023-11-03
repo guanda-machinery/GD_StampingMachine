@@ -337,6 +337,10 @@
 
     <sys:String x:Key="Text_ManualMode">手動模式</sys:String>
 
+    <sys:String x:Key="Reset">Reset</sys:String>
+
+    
+    
     <!--Method-->
 
     
@@ -391,6 +395,9 @@
 
 
     <!--機台-->
+
+    <sys:String x:Key="Text_MachineNotInSetupMode">機台不在Setup模式</sys:String>
+
     <sys:String x:Key="Text_HydraulicPumpMotorIsNotAcitved">液壓馬達未啟動</sys:String>
     <sys:String x:Key="Text_HydraulicPumpMotorAcitvedFailure">液壓馬達啟動失敗</sys:String>
     <sys:String x:Key="Text_AskActiveHydraulicPumpMotor">是否要啟動液壓馬達</sys:String>

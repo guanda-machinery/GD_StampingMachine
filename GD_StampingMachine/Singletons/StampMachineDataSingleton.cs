@@ -866,10 +866,6 @@ namespace GD_StampingMachine.Singletons
             IsScaning = false;
         }
 
-
-
-
-
         public async Task RunScanTask(CancellationToken cancelToken)
         {
             var ManagerVM = new DXSplashScreenViewModel
@@ -882,10 +878,9 @@ namespace GD_StampingMachine.Singletons
                 Copyright = null,
             };
             SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-            await Application.Current.Dispatcher.InvokeAsync(async ()=>
+            await Application.Current.Dispatcher.InvokeAsync(()=>
             {
                 manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-
             });
 
             IsScaning = true;
@@ -1147,66 +1142,74 @@ namespace GD_StampingMachine.Singletons
 
                             }
 
-                            var Move_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up);
+                            var Move_IsUp = GD_Stamping.GetGuideRod_Move_Position_isUp();
                             if ((await Move_IsUp).Item1)
                                 Cylinder_GuideRod_Move_IsUp = (await Move_IsUp).Item2;
 
-                            var Move_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down);
+                            var Move_IsDown = GD_Stamping.GetGuideRod_Move_Position_isDown();
                             if ((await Move_IsDown).Item1)
                                 Cylinder_GuideRod_Move_IsDown = (await Move_IsDown).Item2;
 
-                            var Fixed_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up);
+                            var Fixed_IsUp = GD_Stamping.GetGuideRod_Fixed_Position_isUp();
                             if ((await Fixed_IsUp).Item1)
                                 Cylinder_GuideRod_Fixed_IsUp = (await Fixed_IsUp).Item2;
 
-                            var Fixed_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down);
+                            var Fixed_IsDown = GD_Stamping.GetGuideRod_Fixed_Position_isDown();
                             if ((await Fixed_IsDown).Item1)
                                 Cylinder_GuideRod_Fixed_IsDown = (await Fixed_IsDown).Item2;
 
-                            var QRStamping_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Up);
+                            var QRStamping_IsUp = GD_Stamping.GetQRStamping_Position_isUp();
                             if ((await QRStamping_IsUp).Item1)
                                 Cylinder_QRStamping_IsUp = (await QRStamping_IsUp).Item2;
 
-                            var QRStamping_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.QRStamping, DirectionsEnum.Down);
+                            var QRStamping_IsDown = GD_Stamping.GetQRStamping_Position_isDown();
                             if ((await QRStamping_IsDown).Item1)
                                 Cylinder_QRStamping_IsDown = (await QRStamping_IsDown).Item2;
 
-                            var StampingSeat_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Up);
+                            var StampingSeat_IsUp = GD_Stamping.GetStampingSeat_Position_isUp();
                             if ((await StampingSeat_IsUp).Item1)
                                 Cylinder_StampingSeat_IsUp = (await StampingSeat_IsUp).Item2;
 
-                            var StampingSeat_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.StampingSeat, DirectionsEnum.Down);
+                            var StampingSeat_IsDown = GD_Stamping.GetStampingSeat_Position_isDown();
                             if ((await StampingSeat_IsDown).Item1)
                                 Cylinder_StampingSeat_IsDown = (await StampingSeat_IsDown).Item2;
 
-                            var BlockingCylinder_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up);
+                            var BlockingCylinder_IsUp = GD_Stamping.GetBlockingCylinder_Position_isUp();
                             if ((await BlockingCylinder_IsUp).Item1)
                                 Cylinder_BlockingCylinder_IsUp = (await BlockingCylinder_IsUp).Item2;
 
-                            var BlockingCylindere_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down);
+                            var BlockingCylindere_IsDown = GD_Stamping.GetBlockingCylinder_Position_isDown();
                             if ((await BlockingCylindere_IsDown).Item1)
                                 Cylinder_BlockingCylindere_IsDown = (await BlockingCylindere_IsDown).Item2;
 
-                            var HydraulicCutting_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up);
-                            if ((await HydraulicCutting_IsUp).Item1)
-                                Cylinder_HydraulicCutting_IsUp = (await HydraulicCutting_IsUp).Item2;
-
-                            var HydraulicCutting_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down);
-                            if ((await HydraulicCutting_IsDown).Item1)
-                                Cylinder_HydraulicCutting_IsDown = (await HydraulicCutting_IsDown).Item2;
 
 
-                            var _hydraEngraving_IsUp = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up);
-                            if ((await _hydraEngraving_IsUp).Item1)
-                                HydraulicEngraving_IsUp = (await _hydraEngraving_IsUp).Item2;
+                            var HydraulicEngraving_IsOrigin = GD_Stamping.GetHydraulicEngraving_Position_Origin();
+                            if ((await HydraulicEngraving_IsOrigin).Item1)
+                                Cylinder_HydraulicEngraving_IsOrigin = (await HydraulicEngraving_IsOrigin).Item2;
 
-                            var _hydraEngraving_IsMiddle = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Middle);
-                            if ((await _hydraEngraving_IsMiddle).Item2)
-                                HydraulicEngraving_IsMiddle = (await _hydraEngraving_IsMiddle).Item2;
+                            var HydraulicEngraving_IsStandbyPoint = GD_Stamping.GetHydraulicEngraving_Position_StandbyPoint();
+                            if ((await HydraulicEngraving_IsStandbyPoint).Item1)
+                                Cylinder_HydraulicEngraving_IsStandbyPoint = (await HydraulicEngraving_IsStandbyPoint).Item2;
 
-                            var _hydraEngraving_IsDown = GD_Stamping.GetCylinderActualPosition(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down);
-                            if ((await _hydraEngraving_IsDown).Item1)
-                                HydraulicEngraving_IsDown = (await _hydraEngraving_IsDown).Item2;
+                            var HydraulicEngraving_IsStopDown = GD_Stamping.GetHydraulicEngraving_Position_StopDown();
+                            if ((await HydraulicEngraving_IsStopDown).Item1)
+                                Cylinder_HydraulicEngraving_IsStopDown = (await HydraulicEngraving_IsStopDown).Item2;
+
+
+                            var HydraulicCutting_IsOrigin = GD_Stamping.GetHydraulicCutting_Position_Origin();
+                            if ((await HydraulicCutting_IsOrigin).Item1)
+                                Cylinder_HydraulicCutting_IsOrigin = (await HydraulicCutting_IsOrigin).Item2;
+
+                            var HydraulicCutting_IsStandbyPoint = GD_Stamping.GetHydraulicCutting_Position_StandbyPoint();
+                            if ((await HydraulicCutting_IsStandbyPoint).Item1)
+                                Cylinder_HydraulicCutting_IsStandbyPoint = (await HydraulicCutting_IsStandbyPoint).Item2;
+
+                            var HydraulicCutting_IsCutPoint = GD_Stamping.GetHydraulicCutting_Position_CutPoint();
+                            if ((await HydraulicCutting_IsCutPoint).Item1)
+                                Cylinder_HydraulicCutting_IsCutPoint = (await HydraulicCutting_IsCutPoint).Item2;
+
+
 
 
                             var engravingRotateStation = GD_Stamping.GetEngravingRotateStation();
@@ -1461,7 +1464,7 @@ namespace GD_StampingMachine.Singletons
         /// <summary>
         /// 進料X軸回歸原點
         /// </summary>
-        public AsyncRelayCommand Feeding_XAxis_ReturnToStandbyPosition
+        /*public AsyncRelayCommand Feeding_XAxis_ReturnToStandbyPosition
         {
             get => new(async token=>
             {
@@ -1471,7 +1474,12 @@ namespace GD_StampingMachine.Singletons
                     //GD_Stamping.Disconnect();
                 }
             }, ()=> !Feeding_XAxis_ReturnToStandbyPosition.IsRunning);
-        }
+        }*/
+
+
+
+
+
 
         /// <summary>
         /// 進料X軸移動
@@ -1562,11 +1570,11 @@ namespace GD_StampingMachine.Singletons
         {
             get => new AsyncRelayCommand<object>(async para =>
             {
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
                     if (para is StampingCylinderType stampingCylinder)
                     {
-                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Up);
+                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Up , true);
                     }
                 });
             });
@@ -1584,7 +1592,7 @@ namespace GD_StampingMachine.Singletons
                 {
                     if (para is StampingCylinderType stampingCylinder)
                     {
-                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Middle);
+
                     }
                 });
             });
@@ -1599,11 +1607,18 @@ namespace GD_StampingMachine.Singletons
             {
                 if (para is StampingCylinderType stampingCylinder)
                 {
-                    Set_CylinderControl(stampingCylinder, DirectionsEnum.Down);
+                    Set_CylinderControl(stampingCylinder, DirectionsEnum.Down , true);
                 }
                 return Task.CompletedTask;
             });
         }
+
+
+
+
+
+
+
 
         /// <summary>
         /// 啟用/禁用液壓馬達
@@ -1710,23 +1725,99 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         /// <param name="databit"></param>
         /// <returns></returns>
-        public async Task<bool> ReturnToOrigin()
+        public AsyncRelayCommand ReturnToOriginCommand
         {
-            if (await GD_Stamping.AsyncConnect())
+            get => new AsyncRelayCommand(async() =>
             {
-                var ret = await GD_Stamping.FeedingPositionReturnToStandbyPosition();
-                return ret;
-            }
-            return false;
+                if (await GD_Stamping.AsyncConnect())
+                {
+                    var MotorIsActived = await GD_Stamping.GetHydraulicPumpMotor();
+                    if (MotorIsActived.Item1)
+                    {
+                        if (!MotorIsActived.Item2)
+                        {
+                            //油壓馬達尚未啟動
+                            var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
+                        }
+                        else
+                        {
+                            var opMode = await GD_Stamping.GetOperationMode();
+                            if (opMode.Item1)
+                            {
+                                OperationMode = opMode.Item2;
+                                //要在工程模式
+                                if (opMode.Item2 != OperationModeEnum.Setup)
+                                {
+                                    //需在工程模式才可執行
+                                    var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                        (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
+                                }
+                                else
+                                {
+                                    if (await GD_Stamping.AsyncConnect())
+                                    {
+                                        //Z軸上升
+
+                                        await Task.Run(async () =>
+                                        {
+                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, true);
+                                            var EngravingIsOrigin = false;
+                                            do
+                                            {
+                                                EngravingIsOrigin = (await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2;
+                                                await Task.Delay(100);
+                                            }
+                                            while (!EngravingIsOrigin);
+                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, false);
+                                        });
+
+                                        await Task.Run(async () =>
+                                        {
+                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, true);
+                                            var CuttingIsOrigin = false;
+                                            do
+                                            {
+                                                CuttingIsOrigin = (await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2;
+                                                await Task.Delay(100);
+                                            }
+                                            while (!CuttingIsOrigin);
+                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, false);
+                                        });
+
+                                        //X軸回歸
+                                        await GD_Stamping.FeedingPositionReturnToStandbyPosition();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },()=> !ReturnToOriginCommand.IsRunning);
+        }
+
+        public AsyncRelayCommand SendResetCommand
+        {
+            get => new AsyncRelayCommand(async () =>
+            {
+                if (await GD_Stamping.AsyncConnect())
+                {                    
+                    //Z軸上升
+                    var ret = await GD_Stamping.SetReset();
+                }
+            }, ()=>!SendResetCommand.IsRunning);
         }
 
 
 
-        private async void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction)
+
+
+        private async void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction, bool IsTrigger)
         {
             if (await GD_Stamping.AsyncConnect())
             {
-                await GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction);
+                await GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction, IsTrigger);
                 //GD_Stamping.Disconnect();
             }
         }
@@ -1791,7 +1882,8 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        
+
+
 
         public AsyncRelayCommand<object> EngravingRotateClockwiseCommand
         {
@@ -1800,7 +1892,7 @@ namespace GD_StampingMachine.Singletons
                 await Task.Run(async () =>
                 {
                      if (obj is bool isActived)
-                        await SetEngravingRotateClockwise(isActived);
+                         await GD_Stamping.SetEngravingRotateCCW(isActived);
                 });
             });
         }
@@ -1811,7 +1903,7 @@ namespace GD_StampingMachine.Singletons
                 await Task.Run(async () =>
                 {
                     if (obj is bool isActived)
-                        await SetEngravingRotateCounterClockwise(isActived);
+                         await GD_Stamping.SetEngravingRotateCCW(isActived);
                 });
 
             });
@@ -1917,12 +2009,14 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印旋轉 順時針
         /// </summary>
         /// <returns></returns>
-        private async Task<bool> SetEngravingRotateClockwise(bool isActived)
+        private async Task<bool> SetEngravingRotateClockwise()
         {
             var ret = false;
             if (await GD_Stamping.AsyncConnect())
             {
-                ret = await GD_Stamping.SetEngravingRotateCW(isActived);
+                ret = await GD_Stamping.SetEngravingRotateCW(true);
+                await Task.Delay(500);
+                ret = await GD_Stamping.SetEngravingRotateCW(false);
                 //GD_Stamping.Disconnect();
             }
             return ret;
@@ -1932,12 +2026,14 @@ namespace GD_StampingMachine.Singletons
         /// 鋼印旋轉 逆時針
         /// </summary>
         /// <returns></returns>
-        private async Task<bool> SetEngravingRotateCounterClockwise(bool isActived)
+        private async Task<bool> SetEngravingRotateCounterClockwise()
         {
             var ret = false;
             if (await GD_Stamping.AsyncConnect())
             {
-                ret = await GD_Stamping.SetEngravingRotateCCW(isActived);
+                ret = await GD_Stamping.SetEngravingRotateCCW(true);
+                await Task.Delay(500);
+                ret = await GD_Stamping.SetEngravingRotateCCW(false);
             }
             return ret;
         }
@@ -2067,12 +2163,14 @@ namespace GD_StampingMachine.Singletons
         private bool _cylinder_StampingSeat_IsDown;
         private bool _cylinder_BlockingCylinder_IsUp;
         private bool _cylinder_BlockingCylindere_IsDown;
-        private bool _cylinder_HydraulicCutting_IsUp;
-        private bool _cylinder_HydraulicCutting_IsDown;
 
-        private bool _hydraulicEngraving_IsUp;
-        private bool _hydraulicEngraving_IsMiddle;
-        private bool _hydraulicEngraving_IsDown; 
+        private bool _cylinder_HydraulicEngraving_IsOrigin;
+        private bool _cylinder_HydraulicEngraving_IsStandbyPoint;
+        private bool _cylinder_HydraulicEngraving_IsStopDown;
+
+        private bool _cylinder_HydraulicCutting_IsOrigin;
+        private bool _cylinder_HydraulicCutting_IsStandbyPoint;
+        private bool _cylinder_HydraulicCutting_IsCutPoint;
 
         private bool _hydraulicPumpIsActive;
         /// <summary>
@@ -2125,28 +2223,25 @@ namespace GD_StampingMachine.Singletons
         /// <summary>
         /// 鋼印壓座組Z軸上方磁簧
         /// </summary>
-        public bool HydraulicEngraving_IsUp
+        public bool Cylinder_HydraulicEngraving_IsOrigin
         {
-            get => _hydraulicEngraving_IsUp; set { _hydraulicEngraving_IsUp = value; OnPropertyChanged(); }
+            get => _cylinder_HydraulicEngraving_IsOrigin; set { _cylinder_HydraulicEngraving_IsOrigin = value; OnPropertyChanged(); }
         }
 
         /// <summary>
         /// 鋼印壓座組中間
         /// </summary>
-        public bool HydraulicEngraving_IsMiddle
+        public bool Cylinder_HydraulicEngraving_IsStandbyPoint
         {
-            get => _hydraulicEngraving_IsMiddle; set { _hydraulicEngraving_IsMiddle = value; OnPropertyChanged(); }
+            get => _cylinder_HydraulicEngraving_IsStandbyPoint; set { _cylinder_HydraulicEngraving_IsStandbyPoint = value; OnPropertyChanged(); }
         }
-
-
-
 
         /// <summary>
         /// 鋼印壓座組Z軸下方磁簧
         /// </summary>
-        public bool HydraulicEngraving_IsDown
+        public bool Cylinder_HydraulicEngraving_IsStopDown
         {
-            get => _hydraulicEngraving_IsDown; set { _hydraulicEngraving_IsDown = value; OnPropertyChanged(); }
+            get => _cylinder_HydraulicEngraving_IsStopDown; set { _cylinder_HydraulicEngraving_IsStopDown = value; OnPropertyChanged(); }
         }
 
         /// <summary>
@@ -2178,19 +2273,31 @@ namespace GD_StampingMachine.Singletons
         {
             get => _cylinder_BlockingCylindere_IsDown; set { _cylinder_BlockingCylindere_IsDown = value; OnPropertyChanged(); }
         }
+
+
+
         /// <summary>
-        /// 切割油壓缸上方磁簧
+        /// 切割油壓缸上方
         /// </summary>
-        public bool Cylinder_HydraulicCutting_IsUp
+        public bool Cylinder_HydraulicCutting_IsOrigin
         {
-            get => _cylinder_HydraulicCutting_IsUp; set { _cylinder_HydraulicCutting_IsUp = value; OnPropertyChanged(); }
+            get => _cylinder_HydraulicCutting_IsOrigin; set { _cylinder_HydraulicCutting_IsOrigin = value; OnPropertyChanged(); }
         }
+
         /// <summary>
-        /// 切割油壓缸下方磁簧
+        /// 切割油壓缸中間
         /// </summary>
-        public bool Cylinder_HydraulicCutting_IsDown
+        public bool Cylinder_HydraulicCutting_IsStandbyPoint
         {
-            get => _cylinder_HydraulicCutting_IsDown; set { _cylinder_HydraulicCutting_IsDown = value; OnPropertyChanged(); }
+            get => _cylinder_HydraulicCutting_IsStandbyPoint; set { _cylinder_HydraulicCutting_IsStandbyPoint = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 切割油壓缸下方
+        /// </summary>
+        public bool Cylinder_HydraulicCutting_IsCutPoint
+        {
+            get => _cylinder_HydraulicCutting_IsCutPoint; set { _cylinder_HydraulicCutting_IsCutPoint = value; OnPropertyChanged(); }
         }
 
 

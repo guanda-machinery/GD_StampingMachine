@@ -300,7 +300,9 @@
                          
                                 Background="Transparent"  MinHeight="200"
                                 Style="{StaticResource ProjectGridControl}" 
-                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                ItemsSource="{Binding IsAsync=True,
+                                Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}
+                                ,Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                   >
                                 <dxg:GridControl.View >
                                     <dxg:TableView   
@@ -493,6 +495,22 @@
                             </Button>
                         </StackPanel>
                     </GroupBox>
+
+                        <GroupBox  Header="{DynamicResource btnDescription_ReturningToOriginPoint}">
+                            <StackPanel>
+                                <Button  Command="{Binding StampMachineData.ReturnToOriginCommand}">
+                                </Button>
+                            </StackPanel>
+
+                        </GroupBox>
+                        <GroupBox  Header="{DynamicResource Reset}">
+                            <StackPanel>
+                                <Button  Command="{Binding StampMachineData.SendResetCommand}">
+                                </Button>
+                            </StackPanel>
+
+                        </GroupBox>
+
 
                         <GroupBox Header="{DynamicResource Text_ManualMode}">
                             <ToggleButton IsChecked="{Binding IsManualMode}" />
@@ -727,19 +745,19 @@
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
    
                                       CylinderUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderUpCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
-                             CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.HydraulicEngraving_IsUp}"
+                             CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsOrigin}"
                              CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsUpSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"                      
                                     
                                     
                             CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Middle_Command}"    CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
-                             CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.HydraulicEngraving_IsMiddle}"
+                             CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsStandbyPoint}"
                              CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                     
                                     
                                     
                              CylinderDownCommand="{Binding StampMachineData.CylinderControl_Down_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
                                     
-                               CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.HydraulicEngraving_IsDown}"
+                               CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsStopDown}"
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
@@ -844,29 +862,25 @@
 
                 <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Visibility="{Binding ShearCut_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <StackPanel>
-                    <GD_StampingMachine_UserControls:CylinderUserControl 
-   
-                        
+                            <GD_StampingMachine_UserControls:CylinderUserControl 
                                      CylinderUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderUpCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicCutting}"
-                             CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsUp}"
+                             CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsStandbyPoint}"
                              CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked, Converter={dx:BoolInverseConverter}}"
                     
-                        
-                        
-                        
                                      CylinderMiddleCommand="{Binding StampMachineData.CylinderControl_Middle_Command}" CylinderMiddleCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicCutting}"
-                               CylinderIsMiddleSingal_IsTriggered ="False"
+                        CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsStandbyPoint}"
                              CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
                         
-                        
                                      CylinderDownCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderDownCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicCutting}"
-                               CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicCutting_IsDown}"
+                               CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicCutting_IsCutPoint}"
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
 
-                                
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
-                                />
-                        <ToggleButton Margin="5,10" HorizontalAlignment="Left"
+                                >
+
+                                
+                            </GD_StampingMachine_UserControls:CylinderUserControl>
+                            <ToggleButton Margin="5,10" HorizontalAlignment="Left"
                                         Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                             <materialDesign:PackIcon Kind="ScissorsCutting" Width="auto" Height="auto"/>
                         </ToggleButton>

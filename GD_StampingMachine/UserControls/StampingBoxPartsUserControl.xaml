@@ -145,7 +145,7 @@
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"
             Background="Transparent"  MinHeight="200"
             Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding BoxPartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding BoxPartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
             <dxg:GridControl.View >
                 <dxg:TableView   

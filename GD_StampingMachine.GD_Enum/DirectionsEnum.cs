@@ -14,7 +14,6 @@ namespace GD_StampingMachine.GD_Enum
     {
         None = 0,
         Up,
-        Middle,
         Down,
     }
 }

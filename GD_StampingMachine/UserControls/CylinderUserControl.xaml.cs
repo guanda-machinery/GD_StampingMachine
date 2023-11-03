@@ -1,5 +1,6 @@
 ﻿using GD_CommonLibrary;
 using GD_StampingMachine.UserControls.CustomControls;
+using GD_StampingMachine.Views;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,16 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
             DependencyProperty.Register(nameof(CylinderMiddleCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
         public static readonly DependencyProperty CylinderDownCommandParameterProperty = 
             DependencyProperty.Register(nameof(CylinderDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+
+
+       /* public static readonly DependencyProperty CylinderUpRadioButtonProperty =
+            DependencyProperty.Register(nameof(CylinderUpRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, UButtonChanged));
+        public static readonly DependencyProperty CylinderMiddleRadioButtonProperty =
+            DependencyProperty.Register(nameof(CylinderMiddleRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, MButtonChanged));
+        public static readonly DependencyProperty CylinderDownRadioButtonProperty =
+            DependencyProperty.Register(nameof(CylinderDownRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, BButtonChanged));*/
+
+
 
 
         /// <summary>
@@ -246,10 +257,21 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
             set { SetValue(CylinderDownCommandParameterProperty, value); }
         }
 
-
-
-
-
+      /*  public Button CylinderUpRadioButton
+        {
+            get { return (Button)GetValue(CylinderUpRadioButtonProperty); }
+            set { SetValue(CylinderUpRadioButtonProperty, value); }
+        }
+        public Button CylinderMiddleRadioButton
+        {
+            get { return (Button)GetValue(CylinderMiddleRadioButtonProperty); }
+            set { SetValue(CylinderMiddleRadioButtonProperty, value); }
+        }
+        public Button CylinderDownRadioButton
+        {
+            get { return (Button)GetValue(CylinderDownRadioButtonProperty); }
+            set { SetValue(CylinderDownRadioButtonProperty, value); }*/
+        
 
 
 
