@@ -2,6 +2,7 @@
 using GD_StampingMachine.UserControls.CustomControls;
 using GD_StampingMachine.Views;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,28 +66,57 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
 
 
 
-
-
         public static readonly DependencyProperty CylinderUpCommandProperty =
             DependencyProperty.Register(nameof(CylinderUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty CylinderUpPreviewMouseDownCommandProperty =
+            DependencyProperty.Register(nameof(CylinderUpPreviewMouseDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty CylinderUpPreviewMouseUpCommandProperty =
+            DependencyProperty.Register(nameof(CylinderUpPreviewMouseUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+
         public static readonly DependencyProperty CylinderMiddleCommandProperty =
             DependencyProperty.Register(nameof(CylinderMiddleCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty CylinderMiddlePreviewMouseDownCommandProperty =
+            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty CylinderMiddlePreviewMouseUpCommandProperty =
+            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+
         public static readonly DependencyProperty CylinderDownCommandProperty =
             DependencyProperty.Register(nameof(CylinderDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty CylinderUpCommandParameterProperty = 
+        public static readonly DependencyProperty CylinderDownPreviewMouseDownCommandProperty =
+            DependencyProperty.Register(nameof(CylinderDownPreviewMouseDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty CylinderDownPreviewMouseUpCommandProperty =
+            DependencyProperty.Register(nameof(CylinderDownPreviewMouseUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+
+
+
+        public static readonly DependencyProperty CylinderUpCommandParameterProperty =
             DependencyProperty.Register(nameof(CylinderUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderMiddleCommandParameterProperty = 
+        public static readonly DependencyProperty CylinderUpPreviewMouseDownCommandParameterProperty =
+            DependencyProperty.Register(nameof(CylinderUpPreviewMouseDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty CylinderUpPreviewMouseUpCommandParameterProperty =
+            DependencyProperty.Register(nameof(CylinderUpPreviewMouseUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+
+        public static readonly DependencyProperty CylinderMiddleCommandParameterProperty =
             DependencyProperty.Register(nameof(CylinderMiddleCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderDownCommandParameterProperty = 
+        public static readonly DependencyProperty CylinderMiddlePreviewMouseDownCommandParameterProperty =
+            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty CylinderMiddlePreviewMouseUpCommandParameterProperty =
+            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+
+        public static readonly DependencyProperty CylinderDownCommandParameterProperty =
             DependencyProperty.Register(nameof(CylinderDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty CylinderDownPreviewMouseDownCommandParameterProperty =
+            DependencyProperty.Register(nameof(CylinderDownPreviewMouseDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty CylinderDownPreviewMouseUpCommandParameterProperty =
+            DependencyProperty.Register(nameof(CylinderDownPreviewMouseUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
 
 
-       /* public static readonly DependencyProperty CylinderUpRadioButtonProperty =
-            DependencyProperty.Register(nameof(CylinderUpRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, UButtonChanged));
-        public static readonly DependencyProperty CylinderMiddleRadioButtonProperty =
-            DependencyProperty.Register(nameof(CylinderMiddleRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, MButtonChanged));
-        public static readonly DependencyProperty CylinderDownRadioButtonProperty =
-            DependencyProperty.Register(nameof(CylinderDownRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, BButtonChanged));*/
+        /* public static readonly DependencyProperty CylinderUpRadioButtonProperty =
+             DependencyProperty.Register(nameof(CylinderUpRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, UButtonChanged));
+         public static readonly DependencyProperty CylinderMiddleRadioButtonProperty =
+             DependencyProperty.Register(nameof(CylinderMiddleRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, MButtonChanged));
+         public static readonly DependencyProperty CylinderDownRadioButtonProperty =
+             DependencyProperty.Register(nameof(CylinderDownRadioButton), typeof(Button), typeof(CylinderUserControl), new PropertyMetadata(null, BButtonChanged));*/
 
 
 
@@ -241,6 +271,47 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
             set { SetValue(CylinderDownCommandProperty, value); }
         }
 
+
+        public ICommand CylinderUpPreviewMouseDownCommand
+        {
+            get { return (ICommand)GetValue(CylinderUpPreviewMouseDownCommandProperty); }
+            set { SetValue(CylinderUpPreviewMouseDownCommandProperty, value); }
+        }
+        public ICommand CylinderUpPreviewMouseUpCommand
+        {
+            get { return (ICommand)GetValue(CylinderUpPreviewMouseUpCommandProperty); }
+            set { SetValue(CylinderUpPreviewMouseUpCommandProperty, value); }
+        }
+
+        public ICommand CylinderMiddlePreviewMouseDownCommand
+        {
+            get { return (ICommand)GetValue(CylinderMiddlePreviewMouseDownCommandProperty); }
+            set { SetValue(CylinderMiddlePreviewMouseDownCommandProperty, value); }
+        }
+        public ICommand CylinderMiddlePreviewMouseUpCommand
+        {
+            get { return (ICommand)GetValue(CylinderMiddlePreviewMouseUpCommandProperty); }
+            set { SetValue(CylinderMiddlePreviewMouseUpCommandProperty, value); }
+        }
+        public ICommand CylinderDownPreviewMouseDownCommand
+        {
+            get { return (ICommand)GetValue(CylinderDownPreviewMouseDownCommandProperty); }
+            set { SetValue(CylinderDownPreviewMouseDownCommandProperty, value); }
+        }
+        public ICommand CylinderDownPreviewMouseUpCommand
+        {
+            get { return (ICommand)GetValue(CylinderDownPreviewMouseUpCommandProperty); }
+            set { SetValue(CylinderDownPreviewMouseUpCommandProperty, value); }
+        }
+
+
+
+
+
+
+
+
+
         public object CylinderUpCommandParameter
         {
             get { return (object)GetValue(CylinderUpCommandParameterProperty); }
@@ -257,21 +328,99 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
             set { SetValue(CylinderDownCommandParameterProperty, value); }
         }
 
-      /*  public Button CylinderUpRadioButton
+
+        public object CylinderUpPreviewMouseDownCommandParameter
         {
-            get { return (Button)GetValue(CylinderUpRadioButtonProperty); }
-            set { SetValue(CylinderUpRadioButtonProperty, value); }
+            get
+            {
+                return (object)GetValue(CylinderUpPreviewMouseDownCommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CylinderUpPreviewMouseDownCommandParameterProperty, value);
+            }
         }
-        public Button CylinderMiddleRadioButton
+        public object CylinderUpPreviewMouseUpCommandParameter
         {
-            get { return (Button)GetValue(CylinderMiddleRadioButtonProperty); }
-            set { SetValue(CylinderMiddleRadioButtonProperty, value); }
+            get
+            {
+                return (object)GetValue(CylinderUpPreviewMouseUpCommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CylinderUpPreviewMouseUpCommandParameterProperty, value);
+            }
         }
-        public Button CylinderDownRadioButton
+
+        public object CylinderMiddlePreviewMouseDownCommandParameter
         {
-            get { return (Button)GetValue(CylinderDownRadioButtonProperty); }
-            set { SetValue(CylinderDownRadioButtonProperty, value); }*/
-        
+            get
+            {
+                return (object)GetValue(CylinderMiddlePreviewMouseDownCommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CylinderMiddlePreviewMouseDownCommandParameterProperty, value);
+            }
+        }
+
+        public object CylinderMiddlePreviewMouseUpCommandParameter
+        {
+            get
+            {
+                return (object)GetValue(CylinderMiddlePreviewMouseUpCommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CylinderMiddlePreviewMouseUpCommandParameterProperty, value);
+            }
+        }
+
+        public object CylinderDownPreviewMouseDownCommandParameter
+        {
+            get
+            {
+                return (object)GetValue(CylinderDownPreviewMouseDownCommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CylinderDownPreviewMouseDownCommandParameterProperty, value);
+            }
+        }
+
+        public object CylinderDownPreviewMouseUpCommandParameter
+        {
+            get
+            {
+                return (object)GetValue(CylinderDownPreviewMouseUpCommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CylinderDownPreviewMouseUpCommandParameterProperty, value);
+            }
+        }
+
+
+
+
+
+
+
+        /*  public Button CylinderUpRadioButton
+          {
+              get { return (Button)GetValue(CylinderUpRadioButtonProperty); }
+              set { SetValue(CylinderUpRadioButtonProperty, value); }
+          }
+          public Button CylinderMiddleRadioButton
+          {
+              get { return (Button)GetValue(CylinderMiddleRadioButtonProperty); }
+              set { SetValue(CylinderMiddleRadioButtonProperty, value); }
+          }
+          public Button CylinderDownRadioButton
+          {
+              get { return (Button)GetValue(CylinderDownRadioButtonProperty); }
+              set { SetValue(CylinderDownRadioButtonProperty, value); }*/
+
 
 
 

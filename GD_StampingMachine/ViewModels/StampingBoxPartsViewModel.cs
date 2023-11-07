@@ -129,9 +129,6 @@ namespace GD_StampingMachine.ViewModels
             {
                 OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
 
-
-
-
                /* if (obj is System.Windows.Controls.SelectionChangedEventArgs e)
                 {
                     if (e.AddedItems.Count > 0)
@@ -155,18 +152,21 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public DevExpress.Mvvm.ICommand<RowFilterArgs> BoxPartsParameterVMRowFilterCommand
         {
-            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
+            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(async args =>
             {
-                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
+                await Task.Run(() =>
                 {
-                    if (SelectedSeparateBoxVM != null)
+                    if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
                     {
-                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex)
-                            args.Visible = true;
-                        else
-                            args.Visible = false;
+                        if (SelectedSeparateBoxVM != null)
+                        {
+                            if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex)
+                                args.Visible = true;
+                            else
+                                args.Visible = false;
+                        }
                     }
-                }
+                });
             });
         }
 

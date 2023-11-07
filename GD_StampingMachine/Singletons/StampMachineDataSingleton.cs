@@ -5,6 +5,7 @@ using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.Xpf.Scheduling.Themes;
 using DevExpress.XtraPrinting.Native.Extensions;
@@ -1531,7 +1532,7 @@ namespace GD_StampingMachine.Singletons
                         }
                     }
                 });
-            } , e=>!Feeding_XAxis_MoveCommand.IsRunning);
+            });
         }
 
         public AsyncRelayCommand Feeding_XAxis_MoveStopCommand
@@ -1558,60 +1559,298 @@ namespace GD_StampingMachine.Singletons
                         }
                     }
                 });
-            }, ()=>!Feeding_XAxis_MoveStopCommand.IsRunning);
+            });
         }
 
 
 
+
+
+
         /// <summary>
-        /// 雙導桿缸-可動端 壓座控制 夾緊/放鬆
+        /// 雙導桿缸-可動端 壓座控制 放鬆
         /// </summary>
-        public ICommand CylinderControl_Up_Command
+        public AsyncRelayCommand<object> GuideRod_Move_Up_Command
         {
             get => new AsyncRelayCommand<object>(async para =>
             {
-                await Task.Run(() =>
+                await Task.Run(async() =>
                 {
-                    if (para is StampingCylinderType stampingCylinder)
+                    if (para is bool isTriggered)
                     {
-                        Set_CylinderControl(stampingCylinder, DirectionsEnum.Up , true);
+                        if(await GD_Stamping.AsyncConnect())
+                        await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up, isTriggered);
                     }
                 });
             });
         }
 
+        /// <summary>
+        /// 雙導桿缸-可動端 壓座控制 夾緊
+        /// </summary>
+        public AsyncRelayCommand<object> GuideRod_Move_Down_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down, isTriggered);
+                    }
+                });
+            });
+        }
+
+
+        /// <summary>
+        /// 雙導桿缸-固定端 壓座控制 放鬆
+        /// </summary>
+        public AsyncRelayCommand<object> GuideRod_Fixed_Up_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, isTriggered);
+                    }
+                });
+            });
+        }
+
+        /// <summary>
+        /// 雙導桿缸-固定端 壓座控制 夾緊
+        /// </summary>
+        public AsyncRelayCommand<object> GuideRod_Fixed_Down_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, isTriggered);
+                    }
+                });
+            });
+        }
+
+
+        /// <summary>
+        /// QR壓座組
+        /// </summary>
+
+        public AsyncRelayCommand<object> QRStamping_Up_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.QRStamping, DirectionsEnum.Up, isTriggered);
+                    }
+                });
+            });
+        }
+
+
+
+
+        /// <summary>
+        /// QR壓座組
+        /// </summary>
+
+        public AsyncRelayCommand<object> QRStamping_Down_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.QRStamping, DirectionsEnum.Down, isTriggered);
+                    }
+                });
+            });
+        }
+
+        /// <summary>
+        /// 鋼印壓座組
+        /// </summary>
+        public AsyncRelayCommand<object> StampingSeat_Up_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.StampingSeat, DirectionsEnum.Up, isTriggered);
+                    }
+                });
+            });
+        }
+
+
+        /// <summary>
+        /// 鋼印壓座組
+        /// </summary>
+        public AsyncRelayCommand<object> StampingSeat_Down_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.StampingSeat, DirectionsEnum.Down, isTriggered);
+                    }
+                });
+            });
+        }
+        /// <summary>
+        /// 阻擋缸
+        /// </summary>
+        public AsyncRelayCommand<object> BlockingCylinder_Up_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up, isTriggered);
+                    }
+                });
+            }, para => !BlockingCylinder_Up_Command.IsRunning);
+        }
+
+        /// <summary>
+        /// 阻擋缸
+        /// </summary>
+        public AsyncRelayCommand<object> BlockingCylinder_Down_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, isTriggered);
+                    }
+                });
+            });
+        }
+
+        /// <summary>
+        /// Z軸油壓缸
+        /// </summary>
         
-        /// <summary>
-        /// 雙導桿缸-可動端 壓座控制 夾緊/放鬆
-        /// </summary>
-        public ICommand CylinderControl_Middle_Command
+        public AsyncRelayCommand<object> HydraulicEngraving_Up_Command
         {
             get => new AsyncRelayCommand<object>(async para =>
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    if (para is StampingCylinderType stampingCylinder)
+                    if (para is bool isTriggered)
                     {
-
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, isTriggered);
                     }
                 });
             });
         }
 
         /// <summary>
-        /// 雙導桿缸-固定端 壓座控制 夾緊/放鬆
+        /// Z軸油壓缸
         /// </summary>
-        public ICommand CylinderControl_Down_Command
+        public AsyncRelayCommand<object> HydraulicEngraving_Down_Command
         {
-            get => new AsyncRelayCommand<object>(para =>
+            get => new AsyncRelayCommand<object>(async para =>
             {
-                if (para is StampingCylinderType stampingCylinder)
+                await Task.Run(async () =>
                 {
-                    Set_CylinderControl(stampingCylinder, DirectionsEnum.Down , true);
-                }
-                return Task.CompletedTask;
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, isTriggered);
+                    }
+                });
             });
         }
+
+
+
+
+        /// <summary>
+        /// 裁切
+        /// </summary>
+        public AsyncRelayCommand<object> HydraulicCutting_Up_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, isTriggered);
+                    }
+                });
+            });
+        }
+
+        /// <summary>
+        /// 裁切
+        /// </summary>
+        public AsyncRelayCommand<object> HydraulicCutting_Down_Command
+        {
+            get => new AsyncRelayCommand<object>(async para =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (para is bool isTriggered)
+                    {
+                        if (await GD_Stamping.AsyncConnect())
+                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, isTriggered);
+                    }
+                });
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1627,6 +1866,8 @@ namespace GD_StampingMachine.Singletons
         {
             get => new AsyncRelayCommand(async () =>
             {
+
+
                 await Task.Run(async () =>
                 {
                     if (await GD_Stamping.AsyncConnect())
@@ -1727,73 +1968,87 @@ namespace GD_StampingMachine.Singletons
         /// <returns></returns>
         public AsyncRelayCommand ReturnToOriginCommand
         {
-            get => new AsyncRelayCommand(async() =>
+            get => new(async() =>
             {
-                if (await GD_Stamping.AsyncConnect())
+                await Task.Run(async () =>
                 {
-                    var MotorIsActived = await GD_Stamping.GetHydraulicPumpMotor();
-                    if (MotorIsActived.Item1)
+
+
+
+                    if (await GD_Stamping.AsyncConnect())
                     {
-                        if (!MotorIsActived.Item2)
+                        var MotorIsActived = await GD_Stamping.GetHydraulicPumpMotor();
+                        if (MotorIsActived.Item1)
                         {
-                            //油壓馬達尚未啟動
-                            var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
-                        }
-                        else
-                        {
-                            var opMode = await GD_Stamping.GetOperationMode();
-                            if (opMode.Item1)
+                            if (!MotorIsActived.Item2)
                             {
-                                OperationMode = opMode.Item2;
-                                //要在工程模式
-                                if (opMode.Item2 != OperationModeEnum.Setup)
+                                //油壓馬達尚未啟動
+                                var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                    (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
+                                return;
+                            }
+                            else
+                            {
+                                var opMode = await GD_Stamping.GetOperationMode();
+                                if (opMode.Item1)
                                 {
-                                    //需在工程模式才可執行
-                                    var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                        (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
-                                }
-                                else
-                                {
-                                    if (await GD_Stamping.AsyncConnect())
+                                    OperationMode = opMode.Item2;
+                                    //要在工程模式
+                                    if (opMode.Item2 != OperationModeEnum.Setup)
                                     {
-                                        //Z軸上升
-
-                                        await Task.Run(async () =>
+                                        //需在工程模式才可執行
+                                        var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                            (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
+                                    }
+                                    else
+                                    {
+                                        if (await GD_Stamping.AsyncConnect())
                                         {
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, true);
-                                            var EngravingIsOrigin = false;
-                                            do
-                                            {
-                                                EngravingIsOrigin = (await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2;
-                                                await Task.Delay(100);
-                                            }
-                                            while (!EngravingIsOrigin);
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, false);
-                                        });
+                                            //Z軸上升
 
-                                        await Task.Run(async () =>
-                                        {
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, true);
-                                            var CuttingIsOrigin = false;
-                                            do
+                                            await Task.Run(async () =>
                                             {
-                                                CuttingIsOrigin = (await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2;
-                                                await Task.Delay(100);
-                                            }
-                                            while (!CuttingIsOrigin);
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, false);
-                                        });
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, true);
+                                                var EngravingIsOrigin = false;
+                                                do
+                                                {
+                                                    EngravingIsOrigin = (await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2;
+                                                    await Task.Delay(100);
+                                                }
+                                                while (!EngravingIsOrigin);
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, false);
+                                            });
 
-                                        //X軸回歸
-                                        await GD_Stamping.FeedingPositionReturnToStandbyPosition();
+                                            await Task.Run(async () =>
+                                            {
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, true);
+                                                var CuttingIsOrigin = false;
+                                                do
+                                                {
+                                                    CuttingIsOrigin = (await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2;
+                                                    await Task.Delay(100);
+                                                }
+                                                while (!CuttingIsOrigin);
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, false);
+                                            });
+
+                                            //X軸回歸
+                                            await GD_Stamping.FeedingPositionReturnToStandbyPosition();
+                                        }
                                     }
                                 }
                             }
                         }
+
                     }
 
-                }
+                    else
+                    {
+
+                    }
+
+
+                });
             },()=> !ReturnToOriginCommand.IsRunning);
         }
 
@@ -1801,11 +2056,14 @@ namespace GD_StampingMachine.Singletons
         {
             get => new AsyncRelayCommand(async () =>
             {
-                if (await GD_Stamping.AsyncConnect())
-                {                    
-                    //Z軸上升
-                    var ret = await GD_Stamping.SetReset();
-                }
+                await Task.Run(async() =>
+                {
+                    if (await GD_Stamping.AsyncConnect())
+                    {
+                        //Z軸上升
+                        var ret = await GD_Stamping.SetReset();
+                    }
+                });
             }, ()=>!SendResetCommand.IsRunning);
         }
 
@@ -1813,14 +2071,14 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        private async void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction, bool IsTrigger)
+    /*    private async void Set_CylinderControl(StampingCylinderType stampingCylinder, DirectionsEnum Direction, bool IsTrigger)
         {
             if (await GD_Stamping.AsyncConnect())
             {
                 await GD_Stamping.Set_IO_CylinderControl(stampingCylinder, Direction, IsTrigger);
                 //GD_Stamping.Disconnect();
             }
-        }
+        }*/
 
 
         public async Task<bool> SetSeparateBoxNumber(int Index)

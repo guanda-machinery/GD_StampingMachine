@@ -738,7 +738,7 @@
 
 
 
-                <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
+                <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="3" 
                                         Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="150" 

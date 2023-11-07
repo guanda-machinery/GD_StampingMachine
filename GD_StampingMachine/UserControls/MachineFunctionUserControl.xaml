@@ -744,8 +744,11 @@
                                     <StackPanel Orientation="Horizontal">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
    
-                                      CylinderUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}" CylinderUpCommandParameter="{x:Static GD_Enum:StampingCylinderType.HydraulicEngraving}"
-                             CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsOrigin}"
+                              CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.CylinderControl_Up_Command}" 
+                                    CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
+                              CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.CylinderControl_Up_Command}"
+                                    CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"
+                                    CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsOrigin}"
                              CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsUpSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"                      
                                     
                                     
