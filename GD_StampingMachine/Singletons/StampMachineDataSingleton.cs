@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
-using DevExpress.Mvvm;
-using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
@@ -869,7 +867,7 @@ namespace GD_StampingMachine.Singletons
 
         public async Task RunScanTask(CancellationToken cancelToken)
         {
-            var ManagerVM = new DXSplashScreenViewModel
+            var ManagerVM = new DevExpress.Mvvm.DXSplashScreenViewModel
             {
                 Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
                 Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Init"),
@@ -891,6 +889,7 @@ namespace GD_StampingMachine.Singletons
                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Init");
                 await Task.Delay(2000);
                 //while (true)
+                //初始化連線
                 int retryCount = 1;
                 do
                 {
@@ -905,6 +904,18 @@ namespace GD_StampingMachine.Singletons
                         {
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                             ManagerVM.Subtitle = string.Empty;
+
+                            var feedSVelocity = await GD_Stamping.GetFeedingSetupVelocity();
+                            if (feedSVelocity.Item1)
+                                this.FeedingSpeed = feedSVelocity.Item2;
+                            var engravingRotateSVelocity = await GD_Stamping.GetEngravingRotateSetupVelocity();
+                            var engravingFeedingfeedSVelocity = await GD_Stamping.GetEngravingFeedingSetupVelocity();
+
+
+
+
+                            //初始化後直接設定其他數值
+
                             await Task.Delay(1000);
                             break;
                         }
@@ -1286,12 +1297,13 @@ namespace GD_StampingMachine.Singletons
                         {
                             await Application.Current.Dispatcher.InvokeAsync(async () =>
                             {
-                                if (manager.State == SplashScreenState.Closed)
+                                if (manager.State == DevExpress.Mvvm.SplashScreenState.Closed)
                                 {
                                     manager = null;
                                     manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
                                     manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                 }
+
                                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect");
                             });
 
@@ -1884,9 +1896,12 @@ namespace GD_StampingMachine.Singletons
         {
             if (await GD_Stamping.AsyncConnect())
             {
+                /*
                 await GD_Stamping.SetDataMatrixMode(
                     !string.IsNullOrEmpty(ironPlateData.sDataMatrixName1) 
                     || !string.IsNullOrEmpty(ironPlateData.sDataMatrixName2));
+                */
+                await GD_Stamping.SetDataMatrixMode(true);
 
                 return await GD_Stamping.SetHMIIronPlate(ironPlateData);
             }
@@ -2050,21 +2065,6 @@ namespace GD_StampingMachine.Singletons
 
                 });
             },()=> !ReturnToOriginCommand.IsRunning);
-        }
-
-        public AsyncRelayCommand SendResetCommand
-        {
-            get => new AsyncRelayCommand(async () =>
-            {
-                await Task.Run(async() =>
-                {
-                    if (await GD_Stamping.AsyncConnect())
-                    {
-                        //Z軸上升
-                        var ret = await GD_Stamping.SetReset();
-                    }
-                });
-            }, ()=>!SendResetCommand.IsRunning);
         }
 
 
@@ -2300,7 +2300,7 @@ namespace GD_StampingMachine.Singletons
 
 
         //軸速度
-        private float _feedingSpeed = 5;
+        private float _feedingSpeed = 0;
         public float FeedingSpeed
         {
             get=> _feedingSpeed; 
@@ -2310,6 +2310,61 @@ namespace GD_StampingMachine.Singletons
                 OnPropertyChanged();
             }
         }
+
+        public ICommand FeedingSpeedChanged
+        {
+            get => new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e=>
+            {
+                await Task.Run(async() =>
+                {
+                    if (await GD_Stamping.AsyncConnect())
+                    {
+                        bool ret = false;
+                        ret = await GD_Stamping.SetFeedingSetupVelocity((float)e.NewValue);
+                        ret = await GD_Stamping.SetFeedingVelocity((float)e.NewValue);
+
+                        ret = await GD_Stamping.SetEngravingFeedingSetupVelocity((float)e.NewValue);
+                        ret = await GD_Stamping.SetEngravingFeedingVelocity((float)e.NewValue);
+
+                        ret = await GD_Stamping.SetEngravingRotateSetupVelocity((float)e.NewValue);
+                        ret = await GD_Stamping.SetEngravingRotateVelocity((float)e.NewValue);
+
+                        /*
+                        var ret1 = await GD_Stamping.GetFeedingSetupVelocity();
+                        var ret2 = await GD_Stamping.GetFeedingVelocity();
+
+                        var ret3 = await GD_Stamping.GetEngravingFeedingSetupVelocity();
+                        var ret4 = await GD_Stamping.GetEngravingFeedingVelocity();
+
+                        var ret5 = await GD_Stamping.GetEngravingRotateSetupVelocity();
+                        var ret6 = await GD_Stamping.GetEngravingRotateVelocity();
+
+                        var ret7 = await GD_Stamping.GetFeedingXHomeFwdVelocity();
+                        var ret8 = await GD_Stamping.GetFeedingXHomeBwdVelocity();*/
+                    }
+                    else
+                    {
+                        FeedingSpeed = (float)e.OldValue;
+                    }
+
+                });
+            });
+        }
+
+        public AsyncRelayCommand ResetCommand
+        {
+            get => new AsyncRelayCommand(async ()=>
+            {
+                await Task.Run(async () =>
+                {
+                    if (await GD_Stamping.AsyncConnect())
+                    {
+                        var ret = await GD_Stamping.Reset();
+                    }
+                });
+            },()=> !ResetCommand.IsRunning);
+        }
+
 
 
 

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              mc:Ignorable="d"  Foreground="#E82127" Height="24">
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
         <Grid.ColumnDefinitions>
@@ -20,9 +21,9 @@
                        Height="auto"  Padding="0"  Width="{Binding RelativeSource={RelativeSource Self} ,Path=ActualHeight}">
             <materialDesign:PackIcon Kind="MinusThick" />
         </RepeatButton>
-        <Slider Grid.Column="1"  VerticalAlignment="Center" x:Name="MainSlider" MinWidth="50"  Height="auto" FontSize="12"
-                Margin="5,0" Style="{StaticResource CustomSlider}"  
-                Value="{Binding MainSilderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <Slider Grid.Column="1"  VerticalAlignment="Center" x:Name="MainSlider" MinWidth="50"  Height="auto" FontSize="12"  
+                Margin="5,0" Style="{StaticResource CustomSlider}"   
+                Value="{Binding MainSilderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                            Foreground="{Binding Foreground}" 
                 Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
                             Minimum="{Binding Minimum}"
@@ -30,6 +31,14 @@
                             TickFrequency="{Binding TickFrequency}" 
                 IsMoveToPointEnabled="True"   LargeChange="5" SmallChange="1"
                 >
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <i:InvokeCommandAction Command="{Binding MainSilderValueChanged}"  PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+
+            </i:Interaction.Triggers>
+
         </Slider>
         <TextBlock FontSize="12"  Foreground="Black"
             Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ElementName=MainSlider, Path=Value}"></TextBlock>

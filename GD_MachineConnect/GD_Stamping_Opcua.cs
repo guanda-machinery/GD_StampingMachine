@@ -125,12 +125,12 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bUseHomeing, false);
         }
 
-        public async Task<bool> SetReset()
+       /* public async Task<bool> SetReset()
         {
             await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, true);
             await Task.Delay(500);
             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, false);
-        }
+        }*/
 
 
         /// <summary>
@@ -153,10 +153,6 @@ namespace GD_MachineConnect
 
 
 
-        public async Task<(bool, AxisSettingModel)> GetAxisSetting()
-        {
-           throw new NotImplementedException();
-        }
         public async Task<(bool, float)> GetFeedingPosition()
         {
             return await GD_OpcUaClient.AsyncReadNode<float> (StampingOpcUANode.Feeding1.sv_rFeedingPosition) ;
@@ -189,6 +185,15 @@ namespace GD_MachineConnect
            // return GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
             return (false,Status);
         }
+
+        public async Task<bool> Reset()
+        {
+             await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm , true);
+             await Task.Delay(100);
+            return await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm ,false);
+        }
+
+
 
         public async Task<(bool, int)> GetSeparateBoxNumber()
         {
@@ -624,6 +629,7 @@ namespace GD_MachineConnect
             return ret;
         }
 
+        [Obsolete]
         public async Task<bool> SetDataMatrixMode(bool IsUse)
         {
             bool ret = false;
@@ -1079,133 +1085,226 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", isActived);
         }
 
-
-
-        public async Task<(bool, float)> GetFeedingXHomeFwdVelocity()
+        public async Task<(bool, float)> GetFeedingSetupVelocity()
         {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}");
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rFeedSetupVelocity}");
         }
+        public async Task<bool> SetFeedingSetupVelocity(float percent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode<float>($"{StampingOpcUANode.Feeding1.sv_rFeedSetupVelocity}", percent);
+        }
+        public async Task<(bool, float)> GetFeedingVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}");
+        }
+        public async Task<bool> SetFeedingVelocity(float percent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode<float>($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}", percent);
+        }
+
+
+
+        /// <summary>
+        /// 字模移動速度
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, float)> GetEngravingFeedingSetupVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedSetupVelocity}");
+        }
+
+        /// <summary>
+        /// 設定字模移動速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        public async Task<bool> SetEngravingFeedingSetupVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedSetupVelocity}", SpeedPercent);
+
+        }
+
+        /// <summary>
+        /// 字模移動速度
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, float)> GetEngravingFeedingVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity}");
+        }
+
+        /// <summary>
+        /// 設定字模移動速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        public async Task<bool> SetEngravingFeedingVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity}", SpeedPercent);
+
+        }
+
+
+
+
+        /// <summary>
+        /// 字模旋轉速度
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, float)> GetEngravingRotateSetupVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_rRotateSetupVelocity}");
+        }
+
+        /// <summary>
+        /// 設定字模旋轉速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        public async Task<bool> SetEngravingRotateSetupVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_rRotateSetupVelocity}", SpeedPercent);
+
+        }
+
+        /// <summary>
+        /// 字模旋轉速度
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, float)> GetEngravingRotateVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity}");
+        }
+
+        /// <summary>
+        /// 設定字模旋轉速度
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        public async Task<bool> SetEngravingRotateVelocity(float SpeedPercent)
+        {
+            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity}", SpeedPercent);
+
+        }
+
+
+
+
+
+
+         public async Task<(bool, float)> GetFeedingXHomeFwdVelocity()
+         {
+        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}");
+         }
 
 
         public async Task<(bool, float)> GetFeedingXHomeBwdVelocity()
-        {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}");
-        }
+         {
+        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}");
+         }
 
 
-        public async Task<bool> SetFeedingXHomeFwdVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}", SpeedPercent);
-        }
+         public async Task<bool> SetFeedingXHomeFwdVelocity(float SpeedPercent)
+         {
+             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}", SpeedPercent);
+         }
 
 
-        public async Task<bool> SetFeedingXHomeBwdVelocity(float SpeedPercent)
+       public async Task<bool> SetFeedingXHomeBwdVelocity(float SpeedPercent)
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}", SpeedPercent);
         }
-
+        /*
         public async Task<(bool,float)> GetFeedingXFwdSetupVelocity()
         {
             return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}");
-        }
+        }*/
 
-        public async Task<(bool, float)> GetFeedingXBwdSetupVelocity()
+        /*public async Task<(bool, float)> GetFeedingXBwdSetupVelocity()
         {
 
        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}");
-        }
+        }*/
 
-        public async Task<bool> SetFeedingXFwdSetupVelocity(float SpeedPercent)
+        /*public async Task<bool> SetFeedingXFwdSetupVelocity(float SpeedPercent)
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}", SpeedPercent);
-        }
+        }*/
 
 
-        public async Task<bool> SetFeedingXBwdSetupVelocity(float SpeedPercent)
+        /*public async Task<bool> SetFeedingXBwdSetupVelocity(float SpeedPercent)
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}", SpeedPercent);
 
-        }
+        }*/
 
-        public async Task<(bool,float)> GetFeedingXFwdVelocity()
+        /*public async Task<(bool,float)> GetFeedingXFwdVelocity()
         {
        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstFwd}");
-        }
+        }*/
 
-        public async Task<(bool, float)> GetFeedingXBwdVelocity()
-        {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstBwd}");
-        }
+        /* public async Task<(bool, float)> GetFeedingXBwdVelocity()
+         {
+        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstBwd}");
+         }*/
 
-        public async Task<bool> SetFeedingXFwdVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwd}", SpeedPercent);
-        }
+        /*  public async Task<bool> SetFeedingXFwdVelocity(float SpeedPercent)
+          {
+              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwd}", SpeedPercent);
+          }*/
 
-        public async Task<bool> SetFeedingXBwdVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwd}", SpeedPercent);
-        }
+        /*  public async Task<bool> SetFeedingXBwdVelocity(float SpeedPercent)
+          {
+              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwd}", SpeedPercent);
+          }*/
 
-        public async Task<(bool, float)> GetEngravingFeedingYFwdSetupVelocity()
+        /*public async Task<(bool, float)> GetEngravingFeedingYFwdSetupVelocity()
         {
        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}");
 
-        }
+        }*/
 
-        public async Task<(bool, float)> GetEngravingFeedingYBwdSetupVelocity()
+        /*public async Task<(bool, float)> GetEngravingFeedingYBwdSetupVelocity()
         {
        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}");
 
-        }
+        }*/
 
-        public async Task<bool> SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent)
+        /*public async Task<bool> SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent)
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}",  SpeedPercent);
 
-        }
+        }*/
 
-        public async Task<bool> SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent)
+        /*public async Task<bool> SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent)
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}",  SpeedPercent);
-        }
+        }*/
 
-        public async Task<(bool, float)> GetEngravingFeedingYFwdVelocity()
-        {
-            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}");
-        }
+        /*  public async Task<(bool, float)> GetEngravingFeedingYFwdVelocity()
+          {
+              return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}");
+          }*/
 
-        public async Task<(bool, float)> GetEngravingFeedingYBwdVelocity()
-        {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}");
-        }
+        /*  public async Task<(bool, float)> GetEngravingFeedingYBwdVelocity()
+          {
+         return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}");
+          }*/
 
-        public async Task<bool> SetEngravingFeedingYFwdVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}", SpeedPercent);
+        /* public async Task<bool> SetEngravingFeedingYFwdVelocity(float SpeedPercent)
+         {
+             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}", SpeedPercent);
 
-        }
+         }*/
 
-        public async Task<bool> SetEngravingFeedingYBwdVelocity(float SpeedPercent)
+        /*public async Task<bool> SetEngravingFeedingYBwdVelocity(float SpeedPercent)
         {
 
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}", SpeedPercent);
-        }
+        }*/
 
 
-
-        public async Task<(bool,float)> GetEngravingFeedingASetupVelocity()
-        {
-            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateSetup}");
-        }
-
-        public async Task<bool> SetEngravingFeedingASetupVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateSetup}", SpeedPercent);
-
-        }
-
-        public async Task<(bool, float)> GetEngravingFeedingA_CW_Velocity( )
+        /*public async Task<(bool, float)> GetEngravingFeedingA_CW_Velocity( )
         {
        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}");
 
@@ -1214,18 +1313,18 @@ namespace GD_MachineConnect
         public async Task<(bool, float)> GetEngravingFeedingA_CCW_Velocity()
         {
             return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}");
-        }
+        }*/
 
-        public async Task<bool> SetEngravingFeedingA_CW_Velocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}", SpeedPercent);
-        }
+        /*  public async Task<bool> SetEngravingFeedingA_CW_Velocity(float SpeedPercent)
+          {
+              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}", SpeedPercent);
+          }
 
-        public async Task<bool> SetEngravingFeedingA_CCW_Velocity(float SpeedPercent)
-        {
+          public async Task<bool> SetEngravingFeedingA_CCW_Velocity(float SpeedPercent)
+          {
 
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}", SpeedPercent);
-        }
+              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}", SpeedPercent);
+          }*/
 
 
 
@@ -1306,6 +1405,10 @@ namespace GD_MachineConnect
                 /// 鋼印轉盤旋轉
                 /// </summary>
                 EngravingRotate1,
+                /// <summary>
+                /// 系統
+                /// </summary>
+                OperationMode1,
                 /// <summary>
                 /// 系統
                 /// </summary>
@@ -1481,8 +1584,14 @@ namespace GD_MachineConnect
                 /// 手動後退
                 /// </summary>
                 public static string sv_bButtonBwd => $"{NodeHeader}.{NodeVariable.Feeding1}.{BButton.sv_bButtonBwd}";
-
-
+                /// <summary>
+                /// 自動模式進給速度
+                /// </summary>
+                public static string sv_rFeedSetupVelocity => $"{NodeHeader}.{NodeVariable.Feeding1}.sv_rFeedSetupVelocity";
+                /// <summary>
+                /// 手動模式進給速度
+                /// </summary>
+                public static string sv_rFeedVelocity => $"{NodeHeader}.{NodeVariable.Feeding1}.sv_rFeedVelocity";
                 /// <summary>
                 /// homeing前進速度
                 /// </summary>
@@ -1494,19 +1603,19 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 設定模式前進速度
                 /// </summary>       
-                public static string sv_ConstFwdSetup => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstFwdSetup}.{VelocityNode}";
+                //public static string sv_ConstFwdSetup => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstFwdSetup}.{VelocityNode}";
                 /// <summary>
                 /// 設定模式後退速度
                 /// </summary>
-                public static string sv_ConstBwdSetup => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstBwdSetup}.{VelocityNode}";
+                //public static string sv_ConstBwdSetup => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstBwdSetup}.{VelocityNode}";
                 /// <summary>
                 /// 手動/自動前進速度
                 /// </summary>
-                public static string sv_ConstFwd => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstFwd}.{VelocityNode}";
+                //public static string sv_ConstFwd => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstFwd}.{VelocityNode}";
                 /// <summary>
                 /// 手動/自動後退速度
                 /// </summary>
-                public static string sv_ConstBwd => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstBwd}.{VelocityNode}";
+                //public static string sv_ConstBwd => $"{NodeHeader}.{NodeVariable.Feeding1}.{ConstSpeedSetup.sv_ConstBwd}.{VelocityNode}";
 
 
             }
@@ -1628,11 +1737,34 @@ namespace GD_MachineConnect
 
             }
 
-            public const string VelocityNode = "Velocity.Output.rOutputValue";
 
-        /// <summary>
-        /// 速度模式
-        /// </summary>
+            public class OperationMode1
+            {
+                public static string sv_bButtonManual => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_bButtonManual";
+                public static string sv_bButtonSetup => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_bButtonSetup";
+                public static string sv_bButtonHalfAuto => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_bButtonHalfAuto";
+                public static string sv_bButtonFullAuto => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_bButtonFullAuto";
+                public static string sv_bButtonAlarmConfirm => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_bButtonAlarmConfirm";
+                public static string sv_bButtonCycleStart => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_bButtonCycleStart";
+
+
+                public static string di_ButtonManual => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonManual";
+                public static string di_ButtonSetup => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonSetup";
+                public static string di_ButtonHalfAuto => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonHalfAuto";
+                public static string di_ButtonFullAuto => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonFullAuto";
+                public static string di_ButtonAlarmConfirm => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonAlarmConfirm";
+                public static string di_ButtonCycleStart => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonCycleStart";
+
+            }
+
+
+
+            //public const string VelocityNode = "Velocity.Output.rOutputValue";
+
+
+            /// <summary>
+            /// 速度模式
+            /// </summary>
             private enum ConstSpeedSetup
             {
                 /// <summary>
@@ -1703,22 +1835,25 @@ namespace GD_MachineConnect
                 /// </summary>
                 public static string sv_bButtonBwd => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{BButton.sv_bButtonBwd}";
 
+
+                public static string sv_rFeedSetupVelocity => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.sv_rFeedSetupVelocity";
+                public static string sv_rFeedVelocity => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.sv_rFeedVelocity";
                 /// <summary>
                 /// 設定模式前進速度
                 /// </summary>       
-                public static string sv_ConstFwdSetup => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstFwdSetup}.{VelocityNode}";
+                //public static string sv_ConstFwdSetup => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstFwdSetup}.{VelocityNode}";
                 /// <summary>
                 /// 設定模式後退速度
                 /// </summary>
-                public static string sv_ConstBwdSetup => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstBwdSetup}.{VelocityNode}";
+                //public static string sv_ConstBwdSetup => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstBwdSetup}.{VelocityNode}";
                 /// <summary>
                 /// 手動/自動前進速度
                 /// </summary>
-                public static string sv_ConstFwd => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstFwd}.{VelocityNode}";
+                //public static string sv_ConstFwd => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstFwd}.{VelocityNode}";
                 /// <summary>
                 /// 手動/自動後退速度
                 /// </summary>
-                public static string sv_ConstBwd => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstBwd}.{VelocityNode}";
+                //public static string sv_ConstBwd => $"{NodeHeader}.{NodeVariable.EngravingFeeding1}.{ConstSpeedSetup.sv_ConstBwd}.{VelocityNode}";
 
 
 
@@ -1806,15 +1941,17 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 設定模式移動速度
                 /// </summary>       
-                public static string sv_ConstRotateSetup => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.{ConstSpeedSetup.sv_ConstRotateSetup}.{VelocityNode}";
+                //public static string sv_ConstRotateSetup => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.{ConstSpeedSetup.sv_ConstRotateSetup}.{VelocityNode}";
+                public static string sv_rRotateSetupVelocity => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.sv_rRotateSetupVelocity";
+                public static string sv_rRotateVelocity => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.sv_rRotateVelocity";
                 /// <summary>
                 /// 手動/自動正轉速度
                 /// </summary>
-                public static string sv_ConstRotateCW => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.{ConstSpeedSetup.sv_ConstRotateCCW}.{VelocityNode}";
+                // public static string sv_ConstRotateCW => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.{ConstSpeedSetup.sv_ConstRotateCCW}.{VelocityNode}";
                 /// <summary>
                 /// 手動/自動逆轉速度
                 /// </summary>
-                public static string sv_ConstRotateCCW => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.{ConstSpeedSetup.sv_ConstRotateCCW}.{VelocityNode}";
+                // public static string sv_ConstRotateCCW => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.{ConstSpeedSetup.sv_ConstRotateCCW}.{VelocityNode}";
 
 
 
@@ -1863,7 +2000,7 @@ namespace GD_MachineConnect
                 /// <returns></returns>
                 public static string sv_DataMatrixMode => $"{NodeHeader}.{NodeVariable.system}.sv_DataMatrixMode";
 
-                public static string sv_bResetTotEnergy=> $"{NodeHeader}.{NodeVariable.system}.sv_bResetTotEnergy";
+              //  public static string sv_bResetTotEnergy=> $"{NodeHeader}.{NodeVariable.system}.sv_bResetTotEnergy";
 
                 /// <summary>
                 /// 人機上直接輸入對應字碼的ascii code滿共40格

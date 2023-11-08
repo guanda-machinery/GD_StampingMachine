@@ -16,6 +16,7 @@ using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Model;
 using DevExpress.Mvvm.DataAnnotations;
 using System.Windows;
+using Newtonsoft.Json.Linq;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -36,6 +37,21 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode;
         }
 
+        public override int SequenceCount
+        {
+            get 
+            {
+                if (StampPlateSetting.SequenceCount > 6)
+                    StampPlateSetting.SequenceCount = 6;
+                return StampPlateSetting.SequenceCount ;
+            }
+            set
+            {
+                StampPlateSetting.SequenceCount = value;
+                OnPropertyChanged();
+                ChangePlateNumberList();
+            }
+        }
 
 
 

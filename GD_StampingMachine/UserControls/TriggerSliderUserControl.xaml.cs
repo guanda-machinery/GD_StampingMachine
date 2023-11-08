@@ -58,11 +58,19 @@ namespace GD_StampingMachine.UserControls
             set => SetValue(TickFrequencyProperty, value);
         }
 
+
         public SolidColorBrush RepeatButtonForeground
         {
             get => (SolidColorBrush)GetValue(RepeatButtonForegroundProperty);
             set => SetValue(RepeatButtonForegroundProperty, value);
         }
+
+        public ICommand MainSilderValueChanged
+        {
+            get => (ICommand)GetValue(MainSilderValueChangedProperty);
+            set => SetValue(MainSilderValueChangedProperty, value);
+        }
+
 
 
 
@@ -95,8 +103,13 @@ namespace GD_StampingMachine.UserControls
  typeof(SolidColorBrush),
  typeof(TriggerSliderUserControl),
  new PropertyMetadata(Brushes.White));
-        
 
+
+        public static readonly DependencyProperty MainSilderValueChangedProperty = DependencyProperty.Register(
+ nameof(MainSilderValueChanged),
+ typeof(ICommand),
+ typeof(TriggerSliderUserControl),
+ new PropertyMetadata());
 
 
     }

@@ -266,6 +266,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
+        
         private int NextSeparateBox_Rotate(int step)
         {
             var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);

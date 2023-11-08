@@ -96,7 +96,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 單排數量
         /// </summary>
-        public int SequenceCount
+        public virtual int SequenceCount
         {
             get => StampPlateSetting.SequenceCount;
             set
@@ -170,7 +170,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private void ChangePlateNumberList()
+        protected void ChangePlateNumberList()
         {
             if (_plateNumberList == null)
             {
