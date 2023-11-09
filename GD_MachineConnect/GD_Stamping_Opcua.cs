@@ -38,10 +38,8 @@ namespace GD_MachineConnect
             Dispose();
         }
 
-
         public const int ConntectMillisecondsTimeout = 1000;
         public const int MoveTimeout = 5000;
-
 
         protected virtual void Dispose(bool disposing)
         {
@@ -49,9 +47,9 @@ namespace GD_MachineConnect
             {
                 if (disposing)
                 {
-                    this.Disconnect();
                     // TODO: 處置受控狀態 (受控物件)
                 }
+                this.Disconnect();
 
                 // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
                 // TODO: 將大型欄位設為 Null
@@ -73,17 +71,6 @@ namespace GD_MachineConnect
             GC.SuppressFinalize(this);
         }
 
-
-
-
-
-
-
-
-
-
-
-
         public GD_Stamping_Opcua(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
             IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
@@ -104,8 +91,6 @@ namespace GD_MachineConnect
         {
             GD_OpcUaClient.Disconnect();
         }
-
-
         public async Task<bool> FeedingPositionBwd(bool Active)
         {
             await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, false);
@@ -149,7 +134,14 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_OperationMode, (int)operationMode);
         }
 
-
+        /// <summary>
+        /// 取得X軸是否在原點
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool,bool)> GetServoHome()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Feeding1.di_ServoHome);
+        }
 
 
 
@@ -1573,9 +1565,18 @@ namespace GD_MachineConnect
                 /// </summary>
                 public static string sv_rServoMovePos => $"{NodeHeader}.{NodeVariable.Feeding1}.{SServoMove.sv_rServoMovePos}";
                 /// <summary>
-                /// 回歸基準點按鈕
+                /// x軸開機回零
                 /// </summary>
                 public static string sv_bUseHomeing => $"{NodeHeader}.{NodeVariable.Feeding1}.sv_bUseHomeing";
+
+                /// <summary>
+                /// 原點訊號
+                /// </summary>
+                public static string di_ServoHome => $"{NodeHeader}.{NodeVariable.Feeding1}.di_ServoHome";
+
+                
+
+
                 /// <summary>
                 /// 手動前進
                 /// </summary>

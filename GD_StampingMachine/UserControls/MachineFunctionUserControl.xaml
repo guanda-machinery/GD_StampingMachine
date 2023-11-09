@@ -548,25 +548,24 @@
                             <GD_StampingMachine_UserControls:CylinderUserControl  HorizontalAlignment="left"
                                 CylinderUpIsActived="False"
                                                             
-                                 CylinderMiddlePreviewMouseDownCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"   
-                                 CylinderMiddlePreviewMouseUpCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"                                                       
-                                 CylinderMiddlePreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                                 CylinderMiddlePreviewMouseUpCommandParameter="{StaticResource FalseValue}"                                  
+                                 CylinderMiddlePreviewMouseDownCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"           
+                                 CylinderMiddlePreviewMouseUpCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"                        
+                                 CylinderMiddlePreviewMouseDownCommandParameter="{StaticResource TrueValue}"           
+                                 CylinderMiddlePreviewMouseUpCommandParameter="{StaticResource  FalseValue}"                         
                                                                                   
                                 CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsUp}" 
                                 CylinderMiddleIsActived="True"
-                               CylinderMiddle_IsChecked="{Binding Cylinder_1_isMiddle}" 
                                 CylinderMiddle_IsEnabled="{Binding Cylinder_1_Middle_IsEnabled}"
                                 
                                 
-                                 CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.GuideRod_Move_Down_Command}"   
-                                 CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.GuideRod_Move_Down_Command}"                                                       
-                                 CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                                 CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"                                               
+                             CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.GuideRod_Move_Down_Command}"           
+                                 CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.GuideRod_Move_Down_Command}"                        
+                                 CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"           
+                                 CylinderDownPreviewMouseUpCommandParameter="{StaticResource  FalseValue}"                                 
+                                                                                  
                                                                                   
                                 CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsDown}" 
-                                CylinderDownIsActived="True"
-                               CylinderDown_IsChecked="{Binding Cylinder_1_isDown}" 
+                                CylinderDownIsActived="True" 
                                 CylinderDown_IsEnabled="{Binding Cylinder_1_Down_IsEnabled}"
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint"
                                 />
@@ -574,21 +573,13 @@
                             <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
                                  CylinderUpIsActived="False"
-                                     
-                                                                        
-                                 CylinderMiddlePreviewMouseDownCommand="{Binding StampMachineData.GuideRod_Fixed_Up_Command}"   
-                                 CylinderMiddlePreviewMouseUpCommand="{Binding StampMachineData.GuideRod_Fixed_Up_Command}"                                                       
-                                 CylinderMiddlePreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                                 CylinderMiddlePreviewMouseUpCommandParameter="{StaticResource FalseValue}"                       
-                            
+                                    
+                                 CylinderMiddleCommand="{Binding StampMachineData.GuideRod_Fixed_Up_Command}"   
+                                    
                                CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsUp}"
                                 
-                                    
-                                 CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.GuideRod_Fixed_Down_Command}"   
-                                 CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.GuideRod_Fixed_Down_Command}"                                                       
-                                 CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                                 CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"                       
-                                    
+                                 CylinderDownCommand="{Binding StampMachineData.GuideRod_Fixed_Down_Command}"   
+
                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsDown}"
 
                                 
@@ -601,20 +592,12 @@
                            
                                     
                                     
-                                CylinderMiddlePreviewMouseDownCommand="{Binding StampMachineData.QRStamping_Up_Command}"   
-                                 CylinderMiddlePreviewMouseUpCommand="{Binding StampMachineData.QRStamping_Up_Command}"                                                       
-                                 CylinderMiddlePreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                                 CylinderMiddlePreviewMouseUpCommandParameter="{StaticResource FalseValue}"                       
-
+                                CylinderMiddleCommand="{Binding StampMachineData.QRStamping_Up_Command}"   
                                     CylinderUpIsActived="False"
                                CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsUp}"
                              CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
-                                 CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.QRStamping_Down_Command}"   
-                                 CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.QRStamping_Down_Command}"                                                       
-                                 CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                                 CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"                  
-                                    
+                                 CylinderDownCommand="{Binding StampMachineData.QRStamping_Down_Command}"   
                                   
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsDown}"
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
@@ -629,18 +612,12 @@
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
                                  CylinderUpIsActived="False"
                                
-                               CylinderMiddlePreviewMouseDownCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"   
-                               CylinderMiddlePreviewMouseUpCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"                                                       
-                               CylinderMiddlePreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                               CylinderMiddlePreviewMouseUpCommandParameter="{StaticResource FalseValue}"            
+                               CylinderMiddleCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"   
                                     
                                CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylinder_IsUp}"
                                CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
-                               CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.BlockingCylinder_Down_Command}"   
-                               CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.BlockingCylinder_Down_Command}"                                                       
-                               CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                               CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"      
+                               CylinderDownCommand="{Binding StampMachineData.BlockingCylinder_Down_Command}"   
                                     
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylindere_IsDown}"
                                CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
@@ -778,10 +755,11 @@
                                     <StackPanel Orientation="Horizontal">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
    
-                                          CylinderUpPreviewMouseDownCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
-                               CylinderUpPreviewMouseUpCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"                                                       
-                               CylinderUpPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                               CylinderUpPreviewMouseUpCommandParameter="{StaticResource FalseValue}"  
+                                          CylinderUpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
+                                          CylinderUpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
+                                          CylinderUpPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
+                                          CylinderUpPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"
+
                                     
                                     CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsOrigin}"
                              CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsUpSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"                      
@@ -790,10 +768,10 @@
                              CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsStandbyPoint}"
                              CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                     
-                               CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.HydraulicEngraving_Down_Command}"
-                               CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.HydraulicEngraving_Down_Command}"                                                       
-                               CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                               CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"  
+                                           CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.HydraulicEngraving_Down_Command}"
+                                          CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
+                                          CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.HydraulicEngraving_Down_Command}"
+                                          CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"
                                     
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsStopDown}"
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
@@ -807,10 +785,7 @@
                                 <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}">
                                     <GD_StampingMachine_UserControls:CylinderUserControl 
 
-                               CylinderUpPreviewMouseDownCommand="{Binding StampMachineData.StampingSeat_Up_Command}"
-                               CylinderUpPreviewMouseUpCommand="{Binding StampMachineData.StampingSeat_Up_Command}"                                                       
-                               CylinderUpPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                               CylinderUpPreviewMouseUpCommandParameter="{StaticResource FalseValue}"      
+                               CylinderUpCommand="{Binding StampMachineData.StampingSeat_Up_Command}"
                                       
                                CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp}"
                              CylinderUp_IsEnabled ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp, Converter={dx:BoolInverseConverter}}"
@@ -818,10 +793,7 @@
                                         CylinderMiddleIsActived="False"
                                         
                                         
-                               CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.StampingSeat_Down_Command}"
-                               CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.StampingSeat_Down_Command}"                                                       
-                               CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                               CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"      
+                               CylinderDownCommand="{Binding StampMachineData.StampingSeat_Down_Command}" 
                                         
                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_StampingSeat_IsDown}"
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
@@ -912,24 +884,20 @@
                             <GD_StampingMachine_UserControls:CylinderUserControl 
                                 
                                       
-                               CylinderUpPreviewMouseDownCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"   
-                               CylinderUpPreviewMouseUpCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"                                                       
-                               CylinderUpPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
-                               CylinderUpPreviewMouseUpCommandParameter="{StaticResource FalseValue}"      
+                               CylinderUpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"   
+                               CylinderUpPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"                                                       
+                               CylinderUpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
+                               CylinderUpPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"      
                                 
-                             CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsStandbyPoint}"
-                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderUp_IsChecked, Converter={dx:BoolInverseConverter}}"
-                    
+                             CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsOrigin}"
                         CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsStandbyPoint}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderMiddle_IsChecked, Converter={dx:BoolInverseConverter}}"
-                        
+         
                                CylinderDownPreviewMouseDownCommand="{Binding StampMachineData.HydraulicCutting_Down_Command}"   
                                CylinderDownPreviewMouseUpCommand="{Binding StampMachineData.HydraulicCutting_Down_Command}"                                                       
                                CylinderDownPreviewMouseDownCommandParameter="{StaticResource TrueValue}"
                                CylinderDownPreviewMouseUpCommandParameter="{StaticResource FalseValue}"      
                                 
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicCutting_IsCutPoint}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderDown_IsChecked, Converter={dx:BoolInverseConverter}}"
 
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 >

@@ -92,36 +92,6 @@ namespace GD_CommonLibrary
         }
     }
 
-    /*
-             // 多執行緒，lock 使用
-        private static readonly object thisLock = new object();
-
-        // 將唯一實例設為 private static
-        private static LogDataSingleton instance;
-
-
-        // 設為 private，外界不能 new
-        private LogDataSingleton()
-        {
-
-        }
-        // 外界只能使用靜態方法取得實例
-        public static LogDataSingleton Instance
-        {
-            //雙重鎖同步
-            get
-            {
-                if (null == instance)
-                    lock (thisLock)
-                        if (null == instance)
-                            instance = new LogDataSingleton();
-                return instance;
-            }
-        }
-     
-     */
-
-
 
 
 

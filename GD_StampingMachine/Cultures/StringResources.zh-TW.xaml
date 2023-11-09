@@ -411,6 +411,15 @@
     <sys:String x:Key="Notify_PunchedFontsCountIsDifferent">機台字模數「{0}」與軟體字模數「{1}」的字模數量不符合！</sys:String>
     <sys:String x:Key="Notify_PunchedFontsIsCompared">機台字模與軟體字模無異常</sys:String>
 
+
+    <sys:String x:Key="Text_EngravingToOriginTimeout">鋼印Z軸回原點超時</sys:String>
+    <sys:String x:Key="Text_CuttingToOriginTimeout">裁切組回原點超時</sys:String>
+    <sys:String x:Key="Text_ToOriginisSuccessful">原點複歸完成</sys:String>
+    <sys:String x:Key="Text_ToOriginisCancel">原點複歸取消</sys:String>
+    <sys:String x:Key="Text_ToOriginisFail">原點複歸失敗</sys:String>
+    <sys:String x:Key="Text_ToOriginisTimeout">原點複歸失敗，命令超時</sys:String>
+
+
     <!--enum-->
     <sys:String x:Key="Enum_Bottom">靠下對齊</sys:String>
     <sys:String x:Key="Enum_Center">置中</sys:String>

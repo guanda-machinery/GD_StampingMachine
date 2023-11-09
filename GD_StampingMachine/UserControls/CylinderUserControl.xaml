@@ -18,7 +18,10 @@
                         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
                         <Setter Property="Kind" Value="{Binding CylinderIsSingalPackIcon}"/>
                     </Style>
-                    <Style TargetType="RadioButton" BasedOn="{StaticResource Sieg_CylinderToggleButton}">
+                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="2"/>
+                        <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Height" Value="auto"/>
                         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"/>
                     </Style>
@@ -51,23 +54,25 @@
                     </StackPanel>
                 </StackPanel>
 
-                <RadioButton Name="UpRadioButton" 
-                    IsChecked="{Binding CylinderUp_IsChecked}" IsThreeState="False" IsEnabled="{Binding CylinderUp_IsEnabled}"
+                <Button Name="UpRadioButton"  
+                   IsEnabled="{Binding CylinderUp_IsEnabled}"
                     Grid.Column="1" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
-                             Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"
-               
+                             Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}" 
                              Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseDownCommand}" CommandParameter="{Binding CylinderUpPreviewMouseDownCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding CylinderUpPreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="PreviewMouseUp">
-                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseUpCommand}" CommandParameter="{Binding CylinderUpPreviewMouseUpCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding CylinderUpPreviewMouseLeftButtonUpCommandParameter}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding CylinderUpPreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </RadioButton>
-                <RadioButton Name="MiddleRadioButton"
-                    IsChecked="{Binding CylinderMiddle_IsChecked}" IsThreeState="False"   IsEnabled="{Binding CylinderMiddle_IsEnabled}"
+                </Button>
+                <Button Name="MiddleRadioButton"
+                     IsEnabled="{Binding CylinderMiddle_IsEnabled}"
                     Grid.Column="1" Grid.Row="1"  Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderMiddleCommand}"  CommandParameter="{Binding CylinderMiddleCommandParameter}"
                               
@@ -80,9 +85,9 @@
                             <i:InvokeCommandAction Command="{Binding CylinderMiddlePreviewMouseUpCommand}" CommandParameter="{Binding CylinderMiddlePreviewMouseUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </RadioButton>
-                <RadioButton Name="DownRadioButton"
-                    IsChecked="{Binding CylinderDown_IsChecked}" IsThreeState="False"  IsEnabled="{Binding CylinderDown_IsEnabled}"
+                </Button>
+                <Button Name="DownRadioButton" 
+                 IsEnabled="{Binding CylinderDown_IsEnabled}"
                     Grid.Column="1" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderDownCommand}"  CommandParameter="{Binding CylinderDownCommandParameter}"
               
@@ -92,10 +97,10 @@
                             <i:InvokeCommandAction Command="{Binding CylinderDownPreviewMouseDownCommand}" CommandParameter="{Binding CylinderDownPreviewMouseDownCommandParameter}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="PreviewMouseUp">
-                            <i:InvokeCommandAction Command="{Binding CylinderDownPreviewMouseUpCommandParameter}" CommandParameter="{Binding CylinderDownPreviewMouseUpCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding CylinderDownPreviewMouseUpCommand}" CommandParameter="{Binding CylinderDownPreviewMouseUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </RadioButton>
+                </Button>
             </Grid>
         </materialDesign:ColorZone>
     </Grid>

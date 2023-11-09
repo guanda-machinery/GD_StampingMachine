@@ -199,7 +199,7 @@
 
     <Style x:Key="SiegCustomButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
         <Setter Property="MinWidth"
-                            Value="60" />
+                            Value="24" />
         <Setter Property="MinHeight"
                             Value="24" />
         <Setter Property="Opacity"
@@ -537,8 +537,36 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="Sieg_CylinderRepeatButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource SiegCustomButton}">
+        <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinWidth"  Value="0"/>
+        <Setter Property="MinHeight"  Value="0"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Height" Value="auto"/>
+        <Setter Property="Margin" Value="5,2"/>
+        <Setter Property="Padding" Value="2"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Orange"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="OrangeRed"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="DeepSkyBlue"/>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
 
-
+    
+    
 
 
 

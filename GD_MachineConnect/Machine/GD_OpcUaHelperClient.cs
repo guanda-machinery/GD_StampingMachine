@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Opc.Ua;
@@ -20,7 +21,7 @@ namespace GD_MachineConnect.Machine
 
     public class GD_OpcUaHelperClient
     {
-        readonly OpcUaClient  m_OpcUaClient = new OpcUaClient();
+        readonly OpcUaClient m_OpcUaClient = new OpcUaClient();
         public GD_OpcUaHelperClient(string hostPath , int port =0 , string dataPath = null, IUserIdentity userIdentity = null)
         {
             HostPath = hostPath;
@@ -72,24 +73,34 @@ namespace GD_MachineConnect.Machine
             return await AsyncConnect(HostPath,Port,DataPath,UserIdentity);
         }
 
+
+        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         public async Task<bool> AsyncConnect(string hostPath, int? port, string dataPath, IUserIdentity userIdentity)
         {
-            if (m_OpcUaClient.Connected)
-                return true;
-
-            try
+            //m_OpcUaClient ??= new OpcUaClient();
+            if (!m_OpcUaClient.Connected)
             {
-                m_OpcUaClient.UserIdentity = userIdentity;
-                var baseUrl = CombineUrl(hostPath, port, dataPath);
-                await m_OpcUaClient.ConnectServer(baseUrl.ToString());
-                ConnectException = null;
-                return true;
+                await semaphoreSlim.WaitAsync();
+                try
+                {
+                    if (!m_OpcUaClient.Connected)
+                    {
+                        m_OpcUaClient.UserIdentity = userIdentity;
+                        var baseUrl = CombineUrl(hostPath, port, dataPath);
+                        await m_OpcUaClient.ConnectServer(baseUrl.ToString());
+                        ConnectException = null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ConnectException = ex;
+                }
+                finally 
+                { 
+                    semaphoreSlim.Release(); 
+                }
             }
-            catch (Exception ex)
-            {
-                ConnectException = ex;
-            }
-            return false;
+            return m_OpcUaClient.Connected;
         }
 
         public Exception ConnectException { get;private set; }
@@ -98,6 +109,9 @@ namespace GD_MachineConnect.Machine
         {
             m_OpcUaClient.Disconnect();
         } 
+
+
+
 
         /// <summary>
         /// 寫入
@@ -109,12 +123,16 @@ namespace GD_MachineConnect.Machine
         public async Task<bool> AsyncWriteNode<T>(string NodeTreeString, T WriteValue)
         {
             var ret = false;
+
             for (int i = 0; i < retryCounter; i++)
             {
                 try
                 {
                     if (await AsyncConnect())
-                        ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+                    {
+                            ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+                        
+                    }
                     if (ret)
                     {
                         break;
@@ -126,6 +144,7 @@ namespace GD_MachineConnect.Machine
                     m_OpcUaClient.Disconnect();
                 }
             }
+
             return ret;
         }
 
@@ -137,7 +156,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-         
+
         public async Task<bool> AsyncWriteNodes(Dictionary<string,object> NodeTrees)
         {
             if (NodeTrees.Count == 0)
@@ -150,9 +169,10 @@ namespace GD_MachineConnect.Machine
                 {
                     if (await AsyncConnect())
                     {
-                        var tags = NodeTrees.Keys.ToArray();
-                        var values = NodeTrees.Values.ToArray();
-                        ret = m_OpcUaClient.WriteNodes(tags, values);
+                            var tags = NodeTrees.Keys.ToArray();
+                            var values = NodeTrees.Values.ToArray();
+                            ret = m_OpcUaClient.WriteNodes(tags, values);
+                        
                     }
 
                     if (ret)
@@ -191,13 +211,15 @@ namespace GD_MachineConnect.Machine
                 {
                     if (await AsyncConnect())
                     {
-                        var NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
+                        T NodeValue;
+                         NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
+                        
                         return (true, NodeValue);
                     }
                 }
                 catch (Exception ex)
                 {
-                    m_OpcUaClient.Disconnect();
+                    //m_OpcUaClient.Disconnect();
                 }
             }
             return (false, default(T));
