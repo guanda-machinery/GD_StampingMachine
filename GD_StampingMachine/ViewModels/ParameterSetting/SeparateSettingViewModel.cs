@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Native;
 using GD_CommonLibrary;
+using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.GD_Model;
@@ -26,6 +27,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             SeparateSetting= _SeparateSetting;
             initSeparateSetting();
         }
+
+
+
+
 
         public SeparateSettingModel SeparateSetting = new();
 
@@ -58,6 +63,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged();
             }
         }
+
+
+        private ObservableCollection<SeparateBoxViewModel> _separateBoxVMObservableCollectionClone;
+        public ObservableCollection<SeparateBoxViewModel> SeparateBoxVMObservableCollectionClone
+        {
+            get => _separateBoxVMObservableCollectionClone ??= SeparateBoxVMObservableCollection.DeepCloneByJson();
+            set { _separateBoxVMObservableCollectionClone = value; OnPropertyChanged(); }
+        }
+
+
+        
 
         private SeparateBoxViewModel _singleSetting_SeparateBoxModel;
         public SeparateBoxViewModel SingleSetting_SeparateBoxModel
@@ -165,6 +181,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
+                SeparateBoxVMObservableCollectionClone  = SeparateBoxVMObservableCollection.DeepCloneByJson();
                 SeparateSetting = new SeparateSettingModel();
                 initSeparateSetting();
             });
@@ -174,6 +191,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
+                SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
+
                 JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);       
             });
         }

@@ -1018,7 +1018,7 @@
                                 </CheckBox>
                                 <ListBox Grid.Row="1" Grid.ColumnSpan="2"  SelectionMode="Multiple" 
                                      ScrollViewer.VerticalScrollBarVisibility="Auto"  ClipToBounds="True" 
-                                     ItemsSource="{Binding SeparateBoxVMObservableCollection ,UpdateSourceTrigger=PropertyChanged}"
+                                     ItemsSource="{Binding SeparateBoxVMObservableCollectionClone ,UpdateSourceTrigger=PropertyChanged}"
                                      >
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">

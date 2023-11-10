@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
+using DevExpress.Utils.Design;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
@@ -790,7 +791,7 @@ namespace GD_StampingMachine.Singletons
         private bool disposedValue;
         protected override void Dispose(bool disposing)
         {
-            if(!disposedValue)
+            if (!disposedValue)
             {
                 if (disposing)
                 {
@@ -853,22 +854,35 @@ namespace GD_StampingMachine.Singletons
         private OperationModeEnum _operationMode;
         public OperationModeEnum OperationMode { get => _operationMode; private set { _operationMode = value; OnPropertyChanged(); } }
 
-
-
+        private Task scanTask;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
         public async Task StartScanOpcua()
         {
-            if (IsScaning)
-                return;
-
-            IsScaning = true;
-            _cancellationTokenSource = new CancellationTokenSource();
-            await Task.Run(() => RunScanTask(_cancellationTokenSource.Token));
-            IsScaning = false;
+            if (scanTask == null || scanTask.Status != TaskStatus.Running)
+            {
+                _cancellationTokenSource = new CancellationTokenSource();
+                scanTask = Task.Run(async () => await RunScanTask(_cancellationTokenSource.Token));
+            }
+            await scanTask;
         }
 
-        public async Task RunScanTask(CancellationToken cancelToken)
+        public async Task StopScanOpcua()
         {
+            if (scanTask == null)
+            {
+                return;
+            }
+            //等待掃描解除
+            _cancellationTokenSource?.Cancel();
+            //等待isscan 消失
+            await scanTask;
+            scanTask = null;
+        }
+
+        private async Task RunScanTask(CancellationToken cancelToken)
+        {
+            IsScaning = true;
             var ManagerVM = new DevExpress.Mvvm.DXSplashScreenViewModel
             {
                 Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
@@ -879,12 +893,11 @@ namespace GD_StampingMachine.Singletons
                 Copyright = null,
             };
             SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-            await Application.Current.Dispatcher.InvokeAsync(()=>
+            await Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
             });
 
-            IsScaning = true;
             try
             {
                 init_Stamping();
@@ -901,7 +914,7 @@ namespace GD_StampingMachine.Singletons
                     }
                     try
                     {
-                        IsConnected= await GD_Stamping.AsyncConnect();
+                        IsConnected = await GD_Stamping.AsyncConnect();
                         if (IsConnected)
                         {
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
@@ -923,14 +936,14 @@ namespace GD_StampingMachine.Singletons
                         }
                         else
                         {
-                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect") +$" - {retryCount}";
+                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect") + $" - {retryCount}";
                             ManagerVM.Subtitle = GD_Stamping.ConnectException.Message;
 
                             //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                         }
 
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Error");
                         ManagerVM.Subtitle = ex.Message;
@@ -947,7 +960,7 @@ namespace GD_StampingMachine.Singletons
                 //先前上一輪加工陣列的id
                 List<int> lastIronDataIList = new List<int>();
 
-                var machineTask = Task.Run(async() =>
+                var machineTask = Task.Run(async () =>
                 {
                     while (!cancelToken.IsCancellationRequested)
                     {
@@ -1289,7 +1302,7 @@ namespace GD_StampingMachine.Singletons
                         await Task.Delay(1000);
                     }
                 }, cancelToken);
-                var ioTask =Task.Run(async() =>
+                var ioTask = Task.Run(async () =>
                 {
                     while (!cancelToken.IsCancellationRequested)
                     {
@@ -1340,12 +1353,12 @@ namespace GD_StampingMachine.Singletons
                             }
                         }
 
-                        await Task.Delay(5000);
+                        await Task.Delay(1000);
                     }
                 }, cancelToken);
                 await Task.WhenAll(machineTask, ioTask);
             }
-            catch (OperationCanceledException e)
+            catch (OperationCanceledException cex)
             {
                 Console.WriteLine("工作已取消");
             }
@@ -1355,49 +1368,23 @@ namespace GD_StampingMachine.Singletons
             }
             finally
             {
-                IsScaning = false;
                 GD_Stamping.Disconnect();
                 try
                 {
                     IsConnected = false;
                     manager?.Close();
-                    manager =null;
+                    manager = null;
                 }
                 catch
                 {
 
                 }
             }
+
+            IsScaning = false;
         }
 
 
-
-        public async Task StopScanOpcua()
-        {
-            if (!IsScaning)
-                return;
-
-            await Task.Run(async () => 
-            {
-                //等待掃描解除
-                _cancellationTokenSource?.Cancel();
-
-                //等待isscan 消失
-                var waitScanCancellation = new CancellationTokenSource();
-                var waitScan = Task.Run(async () =>
-                {
-                   while(IsScaning)
-                    {
-                       await Task.Delay(50);
-                    }
-                }, waitScanCancellation.Token);
-                await waitScan;
-                //Task.WaitAny(waitScan, Task.Delay(5000));
-                //waitScanCancellation.Cancel();
-                //回復狀態
-            });
-            return;
-        }
 
         public async Task<bool> CompareFontsSettingBetweenMachineAndSoftware()
         {                                //比較鋼印字模/機台字模的字元是否相同 -> 若不同則跳出一個視窗提示
@@ -1594,6 +1581,35 @@ namespace GD_StampingMachine.Singletons
                 });
             });
         }
+
+        public AsyncRelayCommand<object> FeedingXAxisFwdCommand
+        {
+            get => new(async obj =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (obj is bool isActived)
+                    {
+                        await SetFeedingXAxisFwd(isActived);
+                    }
+                });
+            }, obj => IsConnected);
+        }
+
+        public AsyncRelayCommand<object> FeedingXAxisBwdCommand
+        {
+            get => new(async obj =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (obj is bool isActived)
+                    {
+                      await  SetFeedingXAxisBwd(isActived);
+                    }
+                });
+            });
+        }
+
 
 
 
@@ -2350,8 +2366,7 @@ namespace GD_StampingMachine.Singletons
                 {
                     if (obj is bool isActived)
                     {
-                        if (!isActived)
-                            await Task.Delay(200);
+
                         await SetEngravingYAxisFwd(isActived);
                     }
                 });
@@ -2366,42 +2381,49 @@ namespace GD_StampingMachine.Singletons
                 {
                     if (obj is bool isActived)
                     {
-                        if (!isActived)
-                            await Task.Delay(200);
                         await SetEngravingYAxisBwd(isActived);
                     }
                 });
-            }, obj => IsConnected);
+            });
         }
 
 
 
 
 
+
+
+
+
         public AsyncRelayCommand<object> EngravingRotateClockwiseCommand
-    {
-        get => new AsyncRelayCommand<object>(async obj =>
-        {
-
-            if (obj is bool isActived)
-            {
-                
-                if (!isActived && this.OperationMode == OperationModeEnum.Manual)
-                    await Task.Delay(200);
-
-                await Task.Run(async () =>
-                {
-                    await GD_Stamping.SetEngravingRotateCW(isActived);
-
-                });
-            }
-        });
-    }
-    public AsyncRelayCommand<object> EngravingRotateCounterClockwiseCommand
         {
             get => new AsyncRelayCommand<object>(async obj =>
             {
+                await Task.Run(async () =>
+                {
+                    if (obj is bool isActived)
+                    {
+                        if (!isActived && this.OperationMode == OperationModeEnum.Manual)
+                            await Task.Delay(200);
+                        await GD_Stamping.SetEngravingRotateCW(isActived);
 
+
+                    }
+                });
+            });
+        }
+
+
+
+
+
+
+
+
+         public AsyncRelayCommand<object> EngravingRotateCounterClockwiseCommand
+        {
+            get => new AsyncRelayCommand<object>(async obj =>
+            {
                 await Task.Run(async () =>
                 {
                     if (obj is bool isActived)
@@ -2478,6 +2500,42 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+
+
+        /// <summary>
+        /// 鋼印X軸前進
+        /// </summary>
+        /// <param name="IsMove"></param>
+        /// <returns></returns>
+        private async Task<bool> SetFeedingXAxisFwd(bool IsMove)
+        {
+            var ret = false;
+            if (await GD_Stamping.AsyncConnect())
+            {
+                ret = await GD_Stamping.FeedingPositionBwd(false);
+                ret = await GD_Stamping.FeedingPositionFwd(IsMove);
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 鋼印X軸後退
+        /// </summary>
+        /// <param name="IsMove"></param>
+        /// <returns></returns>
+        private async Task<bool> SetFeedingXAxisBwd(bool IsMove)
+        {
+            var ret = false;
+            if (await GD_Stamping.AsyncConnect())
+            {
+                ret = await GD_Stamping.FeedingPositionFwd(false);
+                ret = await GD_Stamping.FeedingPositionBwd(IsMove);
+            }
+            return ret;
+        }
+
+
+
+
         /// <summary>
         /// 鋼印Y軸前進
         /// </summary>
@@ -2501,6 +2559,7 @@ namespace GD_StampingMachine.Singletons
             var ret = false;
             if (await GD_Stamping.AsyncConnect())
             {
+                ret = await GD_Stamping.SetEngravingYAxisFwd(false);
                 ret = await GD_Stamping.SetEngravingYAxisBwd(IsMove);
             }
             return ret;
@@ -3113,7 +3172,21 @@ namespace GD_StampingMachine.Singletons
                     if (para is int paraInt)
                         if (paraInt >= 0)
                         {
-                            var ret = await GD_Stamping.SetEngravingRotateStation(paraInt);
+                            if (await GD_Stamping.AsyncConnect())
+                            {
+                                 var slots =    (await GD_Stamping.GetEngravingTotalSlots()).Item2;
+                                //先決定要順轉還是逆轉
+                                if (slots != 0)
+                                {
+                                    /*
+
+                                    ret = await GD_Stamping.SetEngravingRotateCCW(true);
+                                    await Task.Delay(500);
+                                    ret = await GD_Stamping.SetEngravingRotateCCW(false);
+
+                                    var ret = await GD_Stamping.SetEngravingRotateStation(paraInt);*/
+                                }
+                            }
                         }
                 });
             }, para =>!EngravingRotateCommand.IsRunning);

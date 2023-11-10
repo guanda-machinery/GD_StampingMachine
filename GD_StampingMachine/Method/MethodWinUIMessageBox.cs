@@ -54,7 +54,7 @@ namespace GD_StampingMachine.Method
         /// 儲存成功
         /// </summary>
         /// <param name="IsSuccessful"></param>
-        public static async Task SaveSuccessful(string Path  ,bool IsSuccessful)
+        public static async void SaveSuccessful(string Path  ,bool IsSuccessful)
         {
             string _message = string.Empty;
             if (!string.IsNullOrEmpty(Path))
@@ -70,7 +70,7 @@ namespace GD_StampingMachine.Method
             {
                 _message +=  (string)Application.Current.TryFindResource("Text_SaveFail");
             }
-       await     ShowOK(
+            await ShowOK(
                        (string)Application.Current.TryFindResource("Text_notify"),
                        _message);
         }

@@ -164,7 +164,7 @@ namespace GD_StampingMachine.Method
 
             var Result = this.WriteJsonFile(FilePath, JsonData); 
             if (ShowMessageBox)
-               _ = MethodWinUIMessageBox.SaveSuccessful(FilePath , Result);
+               MethodWinUIMessageBox.SaveSuccessful(FilePath , Result);
             return Result;
         }
 

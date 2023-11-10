@@ -951,7 +951,7 @@ namespace GD_MachineConnect
         public async Task<(bool,int)> GetEngravingRotateStation()
         { 
             int Station = -1;
-            var ret = await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.system.sv_iTargetAStation}");
+            var ret = await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.EngravingRotate1.sv_iThisStation}");
 
             if (ret.Item1)
             {
@@ -962,6 +962,18 @@ namespace GD_MachineConnect
 
             return (ret.Item1 , Station);
         }
+
+        /// <summary>
+        /// 總站數
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, int)> GetEngravingTotalSlots()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.EngravingRotate1.sv_iTotalSlots}");
+        }
+        
+
+
 
         public async Task<(bool, StampingTypeModel)> GetEngravingRotateStationChar()
         {
@@ -990,12 +1002,12 @@ namespace GD_MachineConnect
 
 
 
-        public async Task<bool> SetEngravingRotateStation(int Station)
+        /*public async Task<bool> SetEngravingRotateStation(int Station)
         {
           //  await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
 
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
-        }
+            //return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
+        }*/
 
         private async Task<(bool,int[])> GetRotatingTurntableInfoINT() 
             =>await  GD_OpcUaClient.AsyncReadNode<int[]>($"{StampingOpcUANode.system.sv_RotateCodeDefinition}");
@@ -1926,6 +1938,10 @@ namespace GD_MachineConnect
                 /// </summary>
                 public static string sv_iThisStation => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.{TargetStation.sv_iThisStation}";
                 /// <summary>
+                /// 刻印a軸總站數
+                /// </summary>
+                public static string sv_iTotalSlots => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.sv_iTotalSlots";
+                /// <summary>
                 /// 刻印a軸當前位置(角度)
                 /// </summary>
                 //public static string sv_rEngravingRotatePosition => $"{NodeHeader}.{NodeVariable.EngravingRotate1}.sv_rEngravingRotatePosition";
@@ -1967,7 +1983,7 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 鋼印目前選定的字元 - 變更鋼印目前選定的字元命令
                 /// </summary>
-                public static string sv_iTargetAStation => $"{NodeHeader}.{NodeVariable.system}.{TargetStation.sv_iTargetAStation}";
+                //public static string sv_iTargetAStation => $"{NodeHeader}.{NodeVariable.system}.{TargetStation.sv_iTargetAStation}";
 
                 /// <summary>
                 /// 機台模式

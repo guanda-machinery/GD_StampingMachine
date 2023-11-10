@@ -524,11 +524,37 @@
                                 <StackPanel>
                             <materialDesign:ColorZone CornerRadius="2" Padding="1">
                                 <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource GD_RepeatButton}" Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="-1.0"
-                                             Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}"/>
-                                    <Border Margin="5,0"/>
-                                            <Button Style="{StaticResource GD_RepeatButton}"    Command="{Binding StampMachineData.Feeding_XAxis_MoveCommand}" CommandParameter="1.0"
-                                              Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}"/>
+                                            <Button Style="{StaticResource GD_RepeatButton}"  
+                                             Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="PreviewMouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="MouseLeave">
+                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                    </i:EventTrigger>
+
+                                                </i:Interaction.Triggers>
+                                            </Button>
+                                            <Border Margin="5,0"/>
+                                            <Button Style="{StaticResource GD_RepeatButton}"    Command="{Binding StampMachineData.}" CommandParameter="1.0"
+                                              Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="PreviewMouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="MouseLeave">
+                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                    </i:EventTrigger>
+
+                                                </i:Interaction.Triggers>
+                                            </Button>
                             </StackPanel>
                                     </materialDesign:ColorZone>
 
@@ -724,6 +750,11 @@
                                                             <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
                                                         </i:EventTrigger>
 
+                                                        <i:EventTrigger EventName="MouseLeave">
+                                                            <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                        </i:EventTrigger>
+
+
                                                     </i:Interaction.Triggers>
                                                 </Button>
                                                 <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.EngravingYAxisToStandbyPosCommand}" CommandParameter="{StaticResource TrueValue}"
@@ -738,6 +769,13 @@
                                                         <i:EventTrigger EventName="PreviewMouseUp">
                                                             <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
                                                         </i:EventTrigger>
+
+                                                        <i:EventTrigger EventName="MouseLeave">
+                                                            <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                        </i:EventTrigger>
+
+
+
 
                                                     </i:Interaction.Triggers>
 
@@ -808,7 +846,7 @@
                             <GroupBox Header="{DynamicResource Text_Stamping_Rotate_Component}">
                                 <Border Background="White" HorizontalAlignment="Left" CornerRadius="5">
                                 <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource GD_RepeatButton}"   
+                                        <Button Style="{StaticResource GD_RepeatButton}"  
                                    >
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="PreviewMouseDown">
@@ -817,6 +855,11 @@
                                                 <i:EventTrigger EventName="PreviewMouseUp">
                                                     <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
                                                 </i:EventTrigger>
+                                                <i:EventTrigger EventName="MouseLeave">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
+
+                                                
                                             </i:Interaction.Triggers>
                                             <Grid>
                                                 <materialDesign:PackIcon Kind="ArrowURightTop" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -837,6 +880,10 @@
                                                 <i:EventTrigger EventName="PreviewMouseUp">
                                                     <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateCounterClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
                                                 </i:EventTrigger>
+                                                <i:EventTrigger EventName="MouseLeave">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateCounterClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
+                                                
 
                                             </i:Interaction.Triggers>
 

@@ -80,7 +80,18 @@ namespace GD_MachineConnect.Machine
             //m_OpcUaClient ??= new OpcUaClient();
             if (!m_OpcUaClient.Connected)
             {
-                await semaphoreSlim.WaitAsync();
+                using (var cts = new CancellationTokenSource(5000))
+                {
+                    try
+                    {
+                        await semaphoreSlim.WaitAsync(cts.Token);
+                    }
+                    catch (OperationCanceledException cex)
+                    {
+                        return false;
+                    }
+                }
+
                 try
                 {
                     if (!m_OpcUaClient.Connected)
@@ -94,10 +105,11 @@ namespace GD_MachineConnect.Machine
                 catch (Exception ex)
                 {
                     ConnectException = ex;
+                    m_OpcUaClient.Disconnect();
                 }
-                finally 
-                { 
-                    semaphoreSlim.Release(); 
+                finally
+                {
+                    semaphoreSlim.Release();
                 }
             }
             return m_OpcUaClient.Connected;
