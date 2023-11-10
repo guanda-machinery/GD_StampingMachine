@@ -855,14 +855,13 @@ namespace GD_StampingMachine.Singletons
         public OperationModeEnum OperationMode { get => _operationMode; private set { _operationMode = value; OnPropertyChanged(); } }
 
         private Task scanTask;
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
+        private CancellationTokenSource _cts;
         public async Task StartScanOpcua()
         {
             if (scanTask == null || scanTask.Status != TaskStatus.Running)
             {
-                _cancellationTokenSource = new CancellationTokenSource();
-                scanTask = Task.Run(async () => await RunScanTask(_cancellationTokenSource.Token));
+                _cts = new CancellationTokenSource();
+                scanTask = Task.Run(async () => await RunScanTask(_cts.Token));
             }
             await scanTask;
         }
@@ -874,7 +873,7 @@ namespace GD_StampingMachine.Singletons
                 return;
             }
             //等待掃描解除
-            _cancellationTokenSource?.Cancel();
+            _cts?.Cancel();
             //等待isscan 消失
             await scanTask;
             scanTask = null;
@@ -2041,6 +2040,9 @@ namespace GD_StampingMachine.Singletons
             return false;
         }
 
+
+
+
         /// <summary>
         /// 回歸原點
         /// </summary>
@@ -2048,14 +2050,15 @@ namespace GD_StampingMachine.Singletons
         /// <returns></returns>
         public AsyncRelayCommand ReturnToOriginCommand
         {
-            get => new(async() =>
+            get => new(async () =>
             {
-
+                IsReturningToOrigin = true;
+                CancellationTokenSource cts = new CancellationTokenSource();
+                var token  = cts.Token;
                 await Task.Run(async () =>
                 {
                     if (await GD_Stamping.AsyncConnect())
                     {
-
                         var MotorIsActived = await GD_Stamping.GetHydraulicPumpMotor();
                         if (MotorIsActived.Item1)
                         {
@@ -2083,18 +2086,12 @@ namespace GD_StampingMachine.Singletons
                                     {
                                         if (await GD_Stamping.AsyncConnect())
                                         {
-                                            //Z軸上升
-
-                                            CancellationTokenSource toOriginCancellationTokenSource = new CancellationTokenSource();
-                                            var toOriginCancellationToken = toOriginCancellationTokenSource.Token;
-
                                             var EngravingToOriginSucessful = await Task.Run(async () =>
                                             {
                                                 if ((await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2)
                                                 {
                                                     return true;
                                                 }
-
                                                 await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, true);
                                                 var EngravingToOriginTask = Task.Run(async ()=>
                                                 {
@@ -2103,8 +2100,8 @@ namespace GD_StampingMachine.Singletons
                                                         var EngravingIsOrigin = false;
                                                         do
                                                         {
-                                                            if (toOriginCancellationToken.IsCancellationRequested)
-                                                                toOriginCancellationToken.ThrowIfCancellationRequested();
+                                                            if (token.IsCancellationRequested)
+                                                                token.ThrowIfCancellationRequested();
                                                             EngravingIsOrigin = (await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2;
                                                             await Task.Delay(10);
                                                         }
@@ -2127,7 +2124,6 @@ namespace GD_StampingMachine.Singletons
 
                                             if(!EngravingToOriginSucessful)
                                             {
-                                                toOriginCancellationTokenSource.Cancel();
                                                 var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                                                     (string)Application.Current.TryFindResource("Text_EngravingToOriginTimeout"));
                                                 return;
@@ -2149,8 +2145,8 @@ namespace GD_StampingMachine.Singletons
                                                         var CuttingIsOrigin = false;
                                                         do
                                                         {
-                                                            if (toOriginCancellationToken.IsCancellationRequested)
-                                                                toOriginCancellationToken.ThrowIfCancellationRequested();
+                                                            if (token.IsCancellationRequested)
+                                                                token.ThrowIfCancellationRequested();
 
                                                             CuttingIsOrigin = (await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2;
                                                             await Task.Delay(10);
@@ -2175,7 +2171,6 @@ namespace GD_StampingMachine.Singletons
                                             
                                             if (!CuttungToOriginSucessful)
                                             {
-                                                toOriginCancellationTokenSource.Cancel();
                                                 var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                                                     (string)Application.Current.TryFindResource("Text_CuttingToOriginTimeout"));
                                                 //超時
@@ -2188,8 +2183,6 @@ namespace GD_StampingMachine.Singletons
                                             //double lastPositon = 0;
                                             if (ret)
                                             {
-                                                CancellationTokenSource timeoutCancellationTokenSource = new CancellationTokenSource();
-                                                var timeoutCancellationTokenSourceToken = timeoutCancellationTokenSource.Token;
                                                 try
                                                 {
                                                     var servoHomeTask = Task.Run(async () =>
@@ -2199,10 +2192,8 @@ namespace GD_StampingMachine.Singletons
                                                         {
                                                             do
                                                             {
-                                                                if (toOriginCancellationToken.IsCancellationRequested)
-                                                                    toOriginCancellationToken.ThrowIfCancellationRequested();
-                                                                if (timeoutCancellationTokenSourceToken.IsCancellationRequested)
-                                                                    break;
+                                                                if (token.IsCancellationRequested)
+                                                                    token.ThrowIfCancellationRequested();
                                                                 isHome = (await GD_Stamping.GetServoHome()).Item2;
                                                             }
                                                             while (!isHome);
@@ -2216,14 +2207,14 @@ namespace GD_StampingMachine.Singletons
 
                                                         }
                                                         return isHome;
-                                                    }, toOriginCancellationToken);
+                                                    }, token);
 
                                                     var timeOutServoHomeTask = Task.Run(async () => 
                                                     {
                                                         double lastPos = 0;
                                                         int posCount = 0;
                                                         //如果取得的數值都沒變->代表X軸停止->
-                                                        while(!timeoutCancellationTokenSourceToken.IsCancellationRequested)
+                                                        while(!token.IsCancellationRequested)
                                                         {
                                                             var getHome = await GD_Stamping.GetServoHome();
                                                             if (getHome.Item1)
@@ -2287,7 +2278,7 @@ namespace GD_StampingMachine.Singletons
                                                 //超時
                                                 finally
                                                 {
-                                                    timeoutCancellationTokenSource.Cancel();
+
                                                 }
 
                                                 return;
@@ -2301,12 +2292,25 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                            (string)Application.Current.TryFindResource("Text_ToOriginisFail"));
+                            (string)Application.Current.TryFindResource("Connection_Error"));
                     }
                 });
+                cts.Cancel();
+                IsReturningToOrigin = false;
+
             },()=> !ReturnToOriginCommand.IsRunning);
         }
 
+        private bool _isReturningToOrigin;
+        public bool IsReturningToOrigin
+        {
+            get => _isReturningToOrigin;
+            set
+            {
+                _isReturningToOrigin = value;
+                OnPropertyChanged();
+            }
+        }
 
 
 
@@ -2635,26 +2639,14 @@ namespace GD_StampingMachine.Singletons
 
                         ret = await GD_Stamping.SetEngravingRotateSetupVelocity((float)e.NewValue);
                         ret = await GD_Stamping.SetEngravingRotateVelocity((float)e.NewValue);
-
-                        /*
-                        var ret1 = await GD_Stamping.GetFeedingSetupVelocity();
-                        var ret2 = await GD_Stamping.GetFeedingVelocity();
-
-                        var ret3 = await GD_Stamping.GetEngravingFeedingSetupVelocity();
-                        var ret4 = await GD_Stamping.GetEngravingFeedingVelocity();
-
-                        var ret5 = await GD_Stamping.GetEngravingRotateSetupVelocity();
-                        var ret6 = await GD_Stamping.GetEngravingRotateVelocity();
-
-                        var ret7 = await GD_Stamping.GetFeedingXHomeFwdVelocity();
-                        var ret8 = await GD_Stamping.GetFeedingXHomeBwdVelocity();*/
                     }
                     else
                     {
-                        FeedingSpeed = (float)e.OldValue;
+                        FeedingSpeed = 0;
                     }
-
                 });
+
+
             });
         }
 

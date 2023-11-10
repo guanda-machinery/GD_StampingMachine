@@ -51,7 +51,6 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
         private CancellationTokenSource cts = new CancellationTokenSource();
         /// <summary>
         /// 工作需要移動的絕對距離(目前位置離加工位置多遠)
@@ -119,7 +118,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         AbsoluteMoveDistanceAnimation = value;
                     }
-                }, cts.Token);
+                });
             }
         }
         public double RelativeMoveDistance

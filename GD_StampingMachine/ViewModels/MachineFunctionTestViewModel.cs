@@ -435,13 +435,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        /// <summary>
-        /// 暫停用的觸發
-        /// </summary>
-        // private ManualResetEvent autoWorkCommandResetEvent = new ManualResetEvent(true);
 
-        ///中斷用處發
-        //private CancellationTokenSource AutoWorkcts;
         private AsyncRelayCommand _autoWorkCommand;
         public AsyncRelayCommand AutoWorkCommand
         {

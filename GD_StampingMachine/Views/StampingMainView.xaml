@@ -566,7 +566,7 @@
                                 <GD_UserControls:MachineFunctionUserControl DataContext="{Binding MachineFunctionVM}"/>
                             </TabItem>
 
-                            <TabItem IsSelected="{Binding ElementName=TBtn_ReturningToOriginPoint, Path=IsChecked}">
+                            <TabItem IsSelected="{Binding ElementName=TBtn_LightUpSwitch, Path=IsChecked}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
@@ -1074,7 +1074,12 @@
                                         </Style>
                                     </GD_Customcontrols:FunctionToggleUserControl.Style>
                                 </GD_Customcontrols:FunctionToggleUserControl>
-                                <GD_Customcontrols:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint">
+                                
+                                <GD_Customcontrols:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint"
+                                                                             IsThreeState="False"
+                                                                             IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsReturningToOrigin}"     
+                                                                             Command="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=ReturnToOriginCommand}"                        
+                                                                             >
                                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_ReturningToOriginPoint}"      />
@@ -1088,7 +1093,7 @@
                                     </GD_Customcontrols:FunctionToggleUserControl.Style>
                                 </GD_Customcontrols:FunctionToggleUserControl>
 
-                                <GD_Customcontrols:FunctionToggleUserControl>
+                                <GD_Customcontrols:FunctionToggleUserControl  x:Name="TBtn_LightUpSwitch">
                                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_LightUpSwitch}"      />

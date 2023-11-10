@@ -80,7 +80,7 @@ namespace GD_MachineConnect.Machine
             //m_OpcUaClient ??= new OpcUaClient();
             if (!m_OpcUaClient.Connected)
             {
-                using (var cts = new CancellationTokenSource(5000))
+                using (var cts = new CancellationTokenSource(2000))
                 {
                     try
                     {
@@ -91,7 +91,6 @@ namespace GD_MachineConnect.Machine
                         return false;
                     }
                 }
-
                 try
                 {
                     if (!m_OpcUaClient.Connected)
