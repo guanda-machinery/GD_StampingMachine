@@ -65,7 +65,41 @@ namespace GD_CommonLibrary.Method
             }
         }
 
+
+        /// <summary>
+        /// 讀取json 但錯誤時會跳出彈窗
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fileName"></param>
+        /// <param name="JsonData"></param>
+        /// <param name="showMessageBox"></param>
+        /// <returns></returns>
+        public bool ReadJsonFileWithoutMessageBox<T>(string fileName, out T JsonData)
+        {
+            return readJson(fileName,out JsonData, false); 
+        }
+
+        /// <summary>
+        /// 讀取json
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fileName"></param>
+        /// <param name="JsonData"></param>
+        /// <param name="showMessageBox"></param>
+        /// <returns></returns>
         public bool ReadJsonFile<T>(string fileName, out T JsonData)
+        {
+            return readJson(fileName,out JsonData,true); ;
+        }
+        /// <summary>
+        /// 一般json
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fileName"></param>
+        /// <param name="JsonData"></param>
+        /// <param name="showMessageBox"></param>
+        /// <returns></returns>
+        private bool readJson<T>(string fileName, out T JsonData , bool showMessageBox)
         {
             JsonData = default(T);
             if (!Path.HasExtension(fileName) || Path.GetExtension(fileName).ToLower() != "json")
@@ -95,13 +129,15 @@ namespace GD_CommonLibrary.Method
             }
             catch (JsonException JEX) 
             {
-                _ =  MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_JsonError"));
-                Debugger.Break();
+                if(showMessageBox)
+                    _ =  MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_JsonError"));
+                //Debugger.Break();
             }
             catch (Exception ex)
             {
-             _=   MessageBoxResultShow.ShowException(ex);
-                Debugger.Break();
+                if (showMessageBox)
+                    _ =   MessageBoxResultShow.ShowException(ex);
+                //Debugger.Break();
             }
             return false;
         }

@@ -212,22 +212,49 @@
                                 <Style TargetType="materialDesign:PackIcon">
                                     <Setter Property="Kind" Value="None"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
-                                                     Value="{x:Static GD_Enum:OperationModeEnum.Setup}">
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="true" />
+                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.Setup}" />
+                                            </MultiDataTrigger.Conditions>
                                             <Setter Property="Kind"  Value="Manufacturing"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
-                                                     Value="{x:Static GD_Enum:OperationModeEnum.Manual}">
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="true" />
+                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.Manual}"/>
+                                            </MultiDataTrigger.Conditions>
                                             <Setter Property="Kind"  Value="Braille"/>
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="true" />
+                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Kind"  Value="ProgressStarFourPoints"/>
+                                            </MultiDataTrigger>              
+                                        <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="true" />
+                                                <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                     Value="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"/>
+                                            </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Kind"  Value="RefreshAuto"/>
+                                            </MultiDataTrigger>
+                                        <DataTrigger  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="false" >
+                                            <Setter Property="Kind"  Value="GpsUnknown"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
-                                                     Value="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}">
-                                            <Setter Property="Kind"  Value="ProgressStarFourPoints"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
-                                                     Value="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}">
-                                            <Setter Property="Kind"  Value="RefreshAuto"/>
-                                        </DataTrigger>
+
+
+
                                     </Style.Triggers>
                                 </Style>
 

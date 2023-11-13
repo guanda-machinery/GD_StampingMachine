@@ -131,7 +131,33 @@ namespace GD_MachineConnect
         /// </summary>
         public async Task<bool> SetOperationMode(OperationModeEnum operationMode)
         {
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_OperationMode, (int)operationMode);
+            bool ret = false;
+            if (await GD_OpcUaClient.AsyncConnect())
+            {
+                switch (operationMode)
+                    {
+                        case OperationModeEnum.Setup:
+                            ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonSetup, true);
+                            break;
+                        case OperationModeEnum.Manual:
+                            ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonManual, true);
+                            break;
+                        case OperationModeEnum.HalfAutomatic:
+                            ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonHalfAuto, true);
+                            break;
+                        case OperationModeEnum.FullAutomatic:
+                            ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonFullAuto, true);
+                            break;
+                        default:
+                            break;
+                    }
+                await Task.Delay(100);
+                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonManual, false);
+                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonSetup, false);
+                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonHalfAuto, false);
+                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonFullAuto, false);
+            }
+            return ret;
         }
 
         /// <summary>
@@ -184,6 +210,14 @@ namespace GD_MachineConnect
              await Task.Delay(100);
             return await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm ,false);
         }
+
+        public async Task<bool> CycleStart()
+        {
+            await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, true);
+            await Task.Delay(100);
+            return await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, false);
+        }
+
 
 
 

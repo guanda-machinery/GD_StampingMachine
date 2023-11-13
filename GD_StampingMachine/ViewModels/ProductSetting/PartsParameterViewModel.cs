@@ -186,7 +186,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 PartsParameter.ParamA = value;
-                OnPropertyChanged(nameof(ParameterA));
+                OnPropertyChanged();
             }
         }
         public string ParameterB
@@ -195,7 +195,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 PartsParameter.ParamB = value;
-                OnPropertyChanged(nameof(ParameterB));
+                OnPropertyChanged();
             }
         }
         public string ParameterC

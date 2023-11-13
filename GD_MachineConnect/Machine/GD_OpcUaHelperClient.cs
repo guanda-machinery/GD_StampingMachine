@@ -141,8 +141,7 @@ namespace GD_MachineConnect.Machine
                 {
                     if (await AsyncConnect())
                     {
-                            ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
-                        
+                        ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
                     }
                     if (ret)
                     {

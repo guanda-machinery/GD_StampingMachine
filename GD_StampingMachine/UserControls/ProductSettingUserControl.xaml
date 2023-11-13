@@ -1136,7 +1136,7 @@
                                                         PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
                       
                                PlacementRectangle="-175,50,0,0"
-                            AllowsTransparency="True" Margin="16" 
+                            AllowsTransparency="True" Margin="16"  IsTopmost="False"
                             AllowTopMost="False" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
                                 <Border
                                                 CornerRadius="10"
@@ -1174,23 +1174,53 @@
                                     <TextBlock Grid.Column="2" Grid.Row="3" Text="：" VerticalAlignment="Center"/>
 
                                     <Grid Grid.Column="3" Grid.Row="1"  >
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition  />
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                        <TextBox Margin="10,0" Padding="0"   Width="auto"
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition  />
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Margin="10,0" Padding="0"    Width="200"
                                                  Text="{Binding ImportFilePath, UpdateSourceTrigger=PropertyChanged}" 
                                                  ToolTip="{Binding ImportFilePath, UpdateSourceTrigger=PropertyChanged}"
                                                  >
                                         </TextBox>
 
-                                        <Button Grid.Column="1" Command="{Binding ImportProject_SelectPathFileCommand}" Margin="0" Width="30" Height="25" MinWidth="0"  Padding="0">
+                                        <Button Grid.Column="1" Command="{Binding ImportProject_SelectPathFolderCommand}" Margin="2,0" Width="30" Height="25" MinWidth="0"  Padding="0">
+                                            <Button.Style>
+                                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}" >
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <materialDesign:PackIcon Kind="Folder" Width="20" Height="20"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <materialDesign:PackIcon Kind="FolderOpen" Width="20" Height="20"/>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <materialDesign:PackIcon Kind="FolderArrowUp"  Width="20" Height="20"/>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Grid.Column="2" Command="{Binding ImportProject_SelectPathFileCommand}" Margin="2,0" Width="30" Height="25" MinWidth="0"  Padding="0">
                                                 <Button.Style>
                                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}" >
                                                         <Setter Property="BorderThickness" Value="0"/>
                                                         <Setter Property="Content">
                                                             <Setter.Value>
-                                                                <materialDesign:PackIcon Kind="Folder" Width="20" Height="20"/>
+                                                                <materialDesign:PackIcon Kind="File" Width="20" Height="20"/>
                                                             </Setter.Value>
                                                         </Setter>
 
@@ -1198,7 +1228,7 @@
                                                             <Trigger Property="IsMouseOver" Value="True">
                                                                 <Setter Property="Content">
                                                                     <Setter.Value>
-                                                                        <materialDesign:PackIcon Kind="FolderOpen" Width="20" Height="20"/>
+                                                                    <materialDesign:PackIcon Kind="FileArrowUpDown" Width="20" Height="20"/>
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </Trigger>
@@ -1216,8 +1246,8 @@
                                         </Grid>
 
                                     <ComboBox HorizontalAlignment="Left"
-                                        Margin="10,0" Padding="0" Width="200" Text="123" 
-                                            Grid.Column="3" Grid.Row="2"   MaxDropDownHeight="275"
+                                        Margin="10,0" Padding="0" Width="270" Text="123" 
+                                            Grid.Column="3" Grid.Row="2"   MaxDropDownHeight="275" Grid.ColumnSpan="2"
                                               ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                                         Path=ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding ImportProjectNumberSettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
@@ -1257,8 +1287,8 @@
                                     </ComboBox>
 
                                     <ComboBox HorizontalAlignment="Left"
-                                        Margin="10,0" Padding="0" Width="200" Text="123" 
-                                            Grid.Column="3" Grid.Row="3"   MaxDropDownHeight="275"
+                                        Margin="10,0" Padding="0" Width="270" Text="123" 
+                                            Grid.Column="3" Grid.Row="3"   MaxDropDownHeight="275"  Grid.ColumnSpan="2"
                                               ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                                         Path=ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding ImportProjectQRSettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
@@ -1532,12 +1562,28 @@
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
 
+                        
                         <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IronPlateString}" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
 
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QrCodeContent}" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        
+                        
+                        
+                        
                         <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>

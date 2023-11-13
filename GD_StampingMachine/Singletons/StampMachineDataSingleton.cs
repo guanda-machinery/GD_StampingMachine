@@ -3132,6 +3132,7 @@ namespace GD_StampingMachine.Singletons
             {
                 if (para is OperationModeEnum operationMode)
                 {
+
                     await GD_Stamping.SetOperationMode(operationMode);
 
                 }
