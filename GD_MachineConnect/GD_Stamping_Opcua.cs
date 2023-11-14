@@ -71,6 +71,7 @@ namespace GD_MachineConnect
             GC.SuppressFinalize(this);
         }
 
+
         public GD_Stamping_Opcua(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
             IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
@@ -81,10 +82,16 @@ namespace GD_MachineConnect
             IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
             GD_OpcUaClient = new GD_OpcUaHelperClient(HostIP, null, DataPath, UserIdentity);
         }
+    
+        /// <summary>
+        /// 建立連線
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> AsyncConnect()
         {
            return await GD_OpcUaClient.AsyncConnect();
         }
+
         public Exception ConnectException { get => GD_OpcUaClient.ConnectException; }
 
         public void Disconnect()

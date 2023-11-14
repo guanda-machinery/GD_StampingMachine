@@ -922,22 +922,23 @@ namespace GD_StampingMachine.Singletons
                             var feedSVelocity = await GD_Stamping.GetFeedingSetupVelocity();
                             if (feedSVelocity.Item1)
                                 this.FeedingSpeed = feedSVelocity.Item2;
+
+
+                            var rotateVelocity = await GD_Stamping.GetEngravingRotateVelocity();
+                            if (rotateVelocity.Item1)
+                                this.RotateVelocity = feedSVelocity.Item2;
+
+
                             var engravingRotateSVelocity = await GD_Stamping.GetEngravingRotateSetupVelocity();
                             var engravingFeedingfeedSVelocity = await GD_Stamping.GetEngravingFeedingSetupVelocity();
-
-
-
-
                             //初始化後直接設定其他數值
-
-                            await Task.Delay(1000);
+                            await Task.Delay(1);
                             break;
                         }
                         else
                         {
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect") + $" - {retryCount}";
-                            ManagerVM.Subtitle = GD_Stamping.ConnectException.Message;
-
+                            ManagerVM.Subtitle = GD_Stamping.ConnectException?.Message;
                             //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                         }
 
@@ -1015,17 +1016,19 @@ namespace GD_StampingMachine.Singletons
                                         else if (plateData.bDataMatrixFinish)
                                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
 
-
+                                        int rowLength = string1Length > string2Length ? string1Length : string2Length;
                                         SettingBaseViewModel settingBaseVM;
                                         //沒有QR加工
                                         if (string.IsNullOrEmpty(plateData.sDataMatrixName1) && string.IsNullOrEmpty(plateData.sDataMatrixName2))
                                         {
+                                            //補空白
                                             settingBaseVM = new NumberSettingViewModel()
                                             {
                                                 SpecialSequence = specialSequence,
                                                 SheetStampingTypeForm = SheetStampingTypeFormEnum.normal,
-                                                PlateNumber = plateData.sIronPlateName1 + plateData.sIronPlateName2,
-                                                SequenceCount = string1Length > string2Length ? string1Length : string2Length
+                                               // PlateNumber = plateData.sIronPlateName1++++ plateData.sIronPlateName2,
+                                                PlateNumber = plateData.sIronPlateName1.PadRight(rowLength) + plateData.sIronPlateName2,
+                                                SequenceCount = rowLength
                                             };
                                         }
                                         else
@@ -1034,8 +1037,11 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 SpecialSequence = specialSequence,
                                                 SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode,
-                                                PlateNumber = plateData.sIronPlateName1 + plateData.sIronPlateName2,
-                                                SequenceCount = string1Length > string2Length ? string1Length : string2Length,
+                                                // PlateNumber = plateData.sIronPlateName1++++ + plateData.sIronPlateName2,
+                                                PlateNumber = plateData.sIronPlateName1.PadRight(rowLength) + plateData.sIronPlateName2,
+                                                SequenceCount = rowLength,
+                                                //SequenceCount = string1Length > string2Length ? string1Length : string2Length,
+                                                QrCodeContent = plateData.sDataMatrixName1,
                                                 QR_Special_Text = plateData.sDataMatrixName2,
                                             };
                                         };
@@ -1439,6 +1445,7 @@ namespace GD_StampingMachine.Singletons
                             {
                                 var numberlist = DifferentContent_StampingTypeNumberList.ExpandToString();
                                 string Outputstring = string.Format(dataIsDifferent, numberlist);
+
                                 await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                                     Outputstring);
                             }
@@ -2609,7 +2616,16 @@ namespace GD_StampingMachine.Singletons
 
 
 
-
+        private float _rotateVelocity = 0;
+        public float RotateVelocity
+        {
+            get => _rotateVelocity;
+            set
+            {
+                _rotateVelocity = value;
+                OnPropertyChanged();
+            }
+        }
         //軸速度
         private float _feedingSpeed = 0;
         public float FeedingSpeed
@@ -2622,7 +2638,7 @@ namespace GD_StampingMachine.Singletons
             }
         }
 
-        public ICommand FeedingSpeedChanged
+        public ICommand FeedingSpeedChangedCommand
         {
             get => new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e=>
             {
@@ -2637,8 +2653,8 @@ namespace GD_StampingMachine.Singletons
                         ret = await GD_Stamping.SetEngravingFeedingSetupVelocity((float)e.NewValue);
                         ret = await GD_Stamping.SetEngravingFeedingVelocity((float)e.NewValue);
 
-                        ret = await GD_Stamping.SetEngravingRotateSetupVelocity((float)e.NewValue);
-                        ret = await GD_Stamping.SetEngravingRotateVelocity((float)e.NewValue);
+                        //ret = await GD_Stamping.SetEngravingRotateSetupVelocity((float)e.NewValue);
+                        //ret = await GD_Stamping.SetEngravingRotateVelocity((float)e.NewValue);
                     }
                     else
                     {
@@ -2649,6 +2665,35 @@ namespace GD_StampingMachine.Singletons
 
             });
         }
+
+        public ICommand RotateVelocityChangedCommand
+        {
+            get => new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
+            {
+                await Task.Run(async () =>
+                {
+                    if (await GD_Stamping.AsyncConnect())
+                    {
+                        bool ret = false;
+                        ret = await GD_Stamping.SetEngravingRotateSetupVelocity((float)e.NewValue);
+                        ret = await GD_Stamping.SetEngravingRotateVelocity((float)e.NewValue);
+                    }
+                    else
+                    {
+                        RotateVelocity = 0;
+                    }
+                });
+
+
+            });
+        }
+
+
+
+
+
+
+
 
         public AsyncRelayCommand ResetCommand
         {

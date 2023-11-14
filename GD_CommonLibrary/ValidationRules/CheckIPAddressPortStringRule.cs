@@ -31,12 +31,13 @@ namespace GD_CommonLibrary.ValidationRules
                     var SplitedAddress =  IPString.Split(':');
                     if (SplitedAddress.Count() == 2)   //冗餘驗證，上面IPString.Count已確保只會出現兩個
                     {
-                        if (IPAddress.TryParse(SplitedAddress[0], out var Parse_IPaddress))
+                        if (IPAddress.TryParse(SplitedAddress.FirstOrDefault(), out var Parse_IPaddress))
+                        {
+                            
+                        }
+                        else if (SplitedAddress.FirstOrDefault().Equals(localhostString, StringComparison.OrdinalIgnoreCase))
                         {
 
-                        }
-                        else if (SplitedAddress[0].ToLower() == localhostString)
-                        { 
                             //例外情況 字串為localhost(本機端)
                         }
                         else

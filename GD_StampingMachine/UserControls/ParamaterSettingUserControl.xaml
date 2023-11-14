@@ -844,7 +844,11 @@
                                     <TextBlock Text="{DynamicResource Text_RouletteSpeed}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding RouletteSpeed , Mode=TwoWay}" Grid.Row="2" Margin="0,10"/>
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
+                                                                          DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
+                                                                          MainSilderValue="{Binding RotateVelocity , Mode=TwoWay}" 
+                                                                          MainSilderValueChanged="{Binding RotateVelocityChangedCommand}"
+                                                                          Grid.Row="2" Margin="0,10"/>
 
                             </Grid>
                         </GroupBox>
@@ -929,7 +933,7 @@
                                     <TextBlock Text="{DynamicResource Text_SettingName}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <TextBox   Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterName}"
+                                <TextBox   Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource Text_PEnterName}" Padding="3,0"
                                                                    Text="{Binding TimingSetting.SettingName}">
                                 </TextBox>
                                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
@@ -954,7 +958,7 @@
                                     <TextBlock Text="{DynamicResource Text_RepeatCount}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <ComboBox  Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint=""  
+                                <ComboBox  Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint=""   Padding="10,0"
 
                                                                        ItemsSource="{Binding CharactersCountCollection}"
                                                                        SelectedValue="{Binding TimingSetting.RepeatCount}">
@@ -1007,7 +1011,7 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{DynamicResource Text_Box_AllSetting}"   />
                                     <GD_UserControls:TriggerSliderUserControl Width="250" 
-                                    Grid.Row="0" Grid.Column="1" 
+                                    Grid.Row="0" Grid.Column="1"  MainSilderValueChanged="{Binding SingleSetting_SeparateBoxValueChanged}"
                                     MainSilderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>
                                 <CheckBox Margin="0.5,5" VerticalAlignment="Center"
@@ -1162,7 +1166,7 @@
                                                         FieldName="IO_Value">
                             </dxg:GridColumn>
                             
-                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center"
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center" Width="auto"
                                                         FieldName="NodeID">
                             </dxg:GridColumn>
 

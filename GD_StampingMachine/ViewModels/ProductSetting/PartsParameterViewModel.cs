@@ -226,6 +226,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.QrCodeContent = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SettingBaseVM));
             }
         }
 
@@ -294,7 +295,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 if (value != null)
                 {
                     PartsParameter.StampingPlate = value.StampPlateSetting;
-
                 }
                 OnPropertyChanged();
             }
@@ -334,7 +334,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             if (SettingBaseVM != null)
                             {
-                                if (await MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.NumberSettingMode))
+                                if (await MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.PlateNumber))
                                 {
                                     GridItemSource.Remove(this);
                                 }

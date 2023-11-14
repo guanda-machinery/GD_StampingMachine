@@ -363,8 +363,12 @@
     <sys:String x:Key="Text_LoadFail">讀取失敗</sys:String>
 
     <sys:String x:Key="Text_ImportFail">匯入失敗</sys:String>
+    <sys:String x:Key="Text_ImportableFileNotExisted">找不到可匯入的檔案</sys:String>
+
+    
     <sys:String x:Key="Text_ImportNeedSetNumberCode">匯入資料內含有一般加工資料，請先選擇符合的鐵片</sys:String>
     <sys:String x:Key="Text_ImportNeedSetQrCode">匯入資料內含有QR加工資料，請先選擇符合的鐵片</sys:String>
+    <sys:String x:Key="Text_ImportNotifySuceesful">成功匯入「{0}」筆資料！</sys:String>
 
     <sys:String x:Key="Text_SettingAskOverwrite">設定已存在，是否要覆蓋</sys:String>
 

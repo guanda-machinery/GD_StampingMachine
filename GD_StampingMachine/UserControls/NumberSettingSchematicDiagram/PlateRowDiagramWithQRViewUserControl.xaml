@@ -152,11 +152,11 @@
 
         </Grid>
 
-            <Grid  Width="220" Height="220" Margin="20,0"
+        <Grid  Width="220" Height="220" Margin="20,0" ToolTip="{Binding QrCodeContent}"
                 Grid.Column="4" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2"  HorizontalAlignment="Right">
                 <Border Background="White"  
                           Margin="0,0" Padding="0">
-                <materialDesign:PackIcon Foreground="#55534d" HorizontalAlignment="Center" VerticalAlignment="Center"
+                <materialDesign:PackIcon Foreground="#55534d" HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Kind="Qrcode" Margin="-20"
                                          Width="260"   Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
                 </Border>

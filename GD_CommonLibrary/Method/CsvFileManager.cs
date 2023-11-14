@@ -43,7 +43,8 @@ namespace GD_StampingMachine.Method
             try
             {
                 //先檢查副檔名
-                if (!Path.HasExtension(fileName) || Path.GetExtension(fileName).ToLower() != "csv")
+
+                if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".csv", StringComparison.OrdinalIgnoreCase))
                 {
                     fileName = Path.ChangeExtension(fileName, "csv");
                 }
@@ -125,7 +126,7 @@ namespace GD_StampingMachine.Method
             CSVDataIEnumerable = new List<T>();
 
             //先檢查副檔名
-            if (!Path.HasExtension(fileName) || Path.GetExtension(fileName).ToLower() != "csv")
+            if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".csv", StringComparison.OrdinalIgnoreCase))
             {
                 fileName = Path.ChangeExtension(fileName, "csv");
             }

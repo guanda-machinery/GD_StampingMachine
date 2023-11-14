@@ -23,7 +23,7 @@ namespace GD_CommonLibrary.Method
             try
             {
                 //先檢查副檔名
-                if (!Path.HasExtension(fileName) || Path.GetExtension(fileName).ToLower() != "json")
+                if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase))
                 {
                     fileName = Path.ChangeExtension(fileName, "json");
                 }
@@ -102,7 +102,7 @@ namespace GD_CommonLibrary.Method
         private bool readJson<T>(string fileName, out T JsonData , bool showMessageBox)
         {
             JsonData = default(T);
-            if (!Path.HasExtension(fileName) || Path.GetExtension(fileName).ToLower() != "json")
+            if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase))
             {
                 fileName = Path.ChangeExtension(fileName, "json");
             }

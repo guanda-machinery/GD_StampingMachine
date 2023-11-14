@@ -596,8 +596,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         //取得路徑下所有檔案
                         string[] files = Directory.GetFiles(ImportFilePath);
+                        var availableFiles = files.Where(xfileName =>
+                        Path.GetExtension(xfileName).Equals(".csv", StringComparison.OrdinalIgnoreCase) ||
+                        Path.GetExtension(xfileName).Equals(".json", StringComparison.OrdinalIgnoreCase));
 
-                        importFileList.AddRange(files);
+                        //如果沒有檔案->跳出提示
+                        if(availableFiles.Count() ==0)
+                        {
+                            await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportableFileNotExisted"));
+                            return;
+                        }
+
+                        importFileList.AddRange(availableFiles);
                     }
                     else
                     {
@@ -736,9 +746,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         PartsParameterVMObservableCollection.AddRange(importPartsParameterVMList);
+                        SaveProductProject();
                     });
-                    //儲存 ProductProject
-                    SaveProductProject();
+
+                    
+                    var ImportNotify = (string)Application.Current.TryFindResource("Text_ImportNotifySuceesful");
+                    if (ImportNotify != null)
+                    {
+                        string Outputstring = string.Format(ImportNotify, importPartsParameterVMList.Count);
+                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
+                    }
+
                 });
             });
         }

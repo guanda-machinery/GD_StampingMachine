@@ -151,6 +151,21 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
+        /// <summary>
+        /// QR字串(可留白)
+        /// </summary>
+        public string QrCodeContent
+        {
+            get => StampPlateSetting.QrCodeContent;
+            set
+            {
+
+                StampPlateSetting.QrCodeContent = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
         /// <summary>
         /// 側面字串

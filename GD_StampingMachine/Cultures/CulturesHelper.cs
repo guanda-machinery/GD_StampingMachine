@@ -39,7 +39,7 @@ namespace GD_StampingMachine
             {
                 CultureInfo cultureInfo = new CultureInfo("");
                 List<string> files = Directory.GetFiles(string.Format("{0}\\{1}", System.Windows.Forms.Application.StartupPath, _culturesFolder))
-                    .Where(s => s.Contains(_resourcePrefix) && s.ToLower().EndsWith("xaml")).ToList();
+                    .Where(s => s.Contains(_resourcePrefix) && Path.GetExtension(s).Equals(".xaml", StringComparison.OrdinalIgnoreCase)).ToList();
 
                 foreach (string file in files)
                 {

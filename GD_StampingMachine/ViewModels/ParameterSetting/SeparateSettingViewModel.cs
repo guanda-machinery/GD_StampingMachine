@@ -9,6 +9,8 @@ using GD_StampingMachine.Method;
 using System;
 using System.Collections.ObjectModel;
 using System.Security.Policy;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
@@ -95,23 +97,36 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public double SingleSetting_SeparateBoxValue
         {
-            get
-            {
-                if(SettingType == SettingTypeEnum.UnifiedSetting)
-                {
-                    SeparateBoxVMObservableCollection.ForEach(x =>
-                    { 
-                        x.BoxSliderValue = SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
-                    });
-                }
-                return SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
-            }
+            get=> SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
             set
             {
                 SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
-                OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
+                OnPropertyChanged();
             }
         }
+
+        public ICommand SingleSetting_SeparateBoxValueChanged
+        {
+            get => new RelayCommand<RoutedPropertyChangedEventArgs<double>>(e =>
+            {
+                if (SettingType == SettingTypeEnum.UnifiedSetting)
+                {
+                    SeparateBoxVMObservableCollectionClone.ForEach(x =>
+                    {
+                        x.BoxSliderValue = SingleSetting_SeparateBoxValue;
+                    });
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// 個別設定
         /// </summary>
@@ -206,6 +221,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     OnPropertyChanged(nameof(SettingType));
                     OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
                     OnPropertyChanged(nameof(SeparateBoxVMObservableCollection));
+                    OnPropertyChanged(nameof(SeparateBoxVMObservableCollectionClone));
                 }
             });
         }
@@ -218,7 +234,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if(Parameter is bool ParameterBoolean)
                 {
-                    SeparateBoxVMObservableCollection.ForEach(obj =>
+                    SeparateBoxVMObservableCollectionClone.ForEach(obj =>
                     {
                         obj.BoxIsEnabled = ParameterBoolean;
                     });

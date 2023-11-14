@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,12 +21,20 @@ namespace GD_MachineConnectTest
         [STAThread]
         static void Main(string[] args)
         {
+
+
+
            // string HostString = "127.0.0.1";
             //int Port = 62541;
             //string ServerDataPath = "SharpNodeSettings/OpcUaServer";
             string HostString = "192.168.1.123";
             int Port = 4842;
             string ServerDataPath = "";
+
+            var test = @"http://255.255.255.255:500/remote";
+
+
+
 
 
             var BaseUrl = new Uri($"opc.tcp://{HostString}:{Port}");
@@ -54,6 +64,7 @@ namespace GD_MachineConnectTest
                     }*/
 
                     GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua(HostString, Port, ServerDataPath, null, null);
+                    //GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua(ServerUrl);
                     if (await SMachine.AsyncConnect())
                     {
                         var status = await SMachine.GetMachineStatus();
@@ -84,13 +95,6 @@ namespace GD_MachineConnectTest
             while (true)
             {
                  Console.WriteLine("...");
-                // Console.WriteLine("請輸入temp1的值(short)");
-                //var shortstring = Console.ReadLine();
-
-                //if (shortstring.ToLower() == "exit")
-                   // break;
-
-              //  if (short.TryParse(shortstring, out input))
                 {
                     Task.Run(async () =>
                         {
@@ -134,5 +138,10 @@ namespace GD_MachineConnectTest
 
 
         }
+
+
+
+
+
     }
 }

@@ -34,6 +34,10 @@ namespace GD_StampingMachine.Model
         /// 可加工的位址
         /// </summary>
         public List<PlateFontModel> StampableList { get; set; } = new List<PlateFontModel>();
+        /// <summary>
+        /// 可加工的位址
+        /// </summary>
+        //public List<PlateFontModel> StampableList2 { get; set; } = new List<PlateFontModel>();
 
         /// <summary>
         /// 特殊排序
@@ -47,6 +51,9 @@ namespace GD_StampingMachine.Model
         /// 垂直對齊
         /// </summary>
         public VerticalAlignEnum VerticalAlign { get; set; }
+
+
+        public string QrCodeContent { get; set; }
 
         /// <summary>
         /// 側邊字串

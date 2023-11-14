@@ -313,7 +313,6 @@
     <sys:String x:Key="Text_LoadSuccessful">讀取成功</sys:String>
     <sys:String x:Key="Text_LoadFail">讀取失敗</sys:String>
 
-    <sys:String x:Key="Text_ImportFail">匯入失敗</sys:String>
 
     <sys:String x:Key="Text_SettingAskOverwrite">設定已存在，是否要覆蓋</sys:String>
 

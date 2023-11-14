@@ -10,6 +10,8 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GD_CommonLibrary.Extensions;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using Opc.Ua;
 using OpcUaHelper;
@@ -73,13 +75,18 @@ namespace GD_MachineConnect.Machine
             return await AsyncConnect(HostPath,Port,DataPath,UserIdentity);
         }
 
-
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         public async Task<bool> AsyncConnect(string hostPath, int? port, string dataPath, IUserIdentity userIdentity)
         {
-            //m_OpcUaClient ??= new OpcUaClient();
             if (!m_OpcUaClient.Connected)
             {
+                if (TcpPing.RetrieveIpAddress(hostPath, out var _ip))
+                    if (!await TcpPing.IsPingableAsync(_ip))
+                    {
+                        ConnectException = new PingException($"Ping Host: {_ip} is Failed");
+                        return false;
+                    }
+
                 using (var cts = new CancellationTokenSource(2000))
                 {
                     try
@@ -150,8 +157,8 @@ namespace GD_MachineConnect.Machine
                 }
                 catch (Exception ex)
                 {
-                    await Task.Delay(100);
-                    m_OpcUaClient.Disconnect();
+                    await Task.Delay(10);
+                    Disconnect();
                 }
             }
 
@@ -182,7 +189,6 @@ namespace GD_MachineConnect.Machine
                             var tags = NodeTrees.Keys.ToArray();
                             var values = NodeTrees.Values.ToArray();
                             ret = m_OpcUaClient.WriteNodes(tags, values);
-                        
                     }
 
                     if (ret)
@@ -192,9 +198,9 @@ namespace GD_MachineConnect.Machine
                 }
                 catch (Exception ex)
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(10);
                     //Debugger.Break();
-                    m_OpcUaClient.Disconnect();
+                    Disconnect();
                 }
             }
             return ret;
@@ -222,14 +228,13 @@ namespace GD_MachineConnect.Machine
                     if (await AsyncConnect())
                     {
                         T NodeValue;
-                         NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
-                        
+                         NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);                
                         return (true, NodeValue);
                     }
                 }
                 catch (Exception ex)
                 {
-                    //m_OpcUaClient.Disconnect();
+                    Disconnect();
                 }
             }
             return (false, default(T));
