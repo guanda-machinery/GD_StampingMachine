@@ -11,7 +11,7 @@
     <sys:String x:Key="btnDescription_MachineMonitoring">加工監控</sys:String>
     <sys:String x:Key="btnDescription_MachineFunction">機台功能</sys:String>
     <sys:String x:Key="btnDescription_OneKeyReturn">一鍵返航</sys:String>
-    <sys:String x:Key="btnDescription_ReturningToOriginPoint">原點複歸</sys:String>
+    <sys:String x:Key="btnDescription_ReturningToOriginPoint">原點復歸</sys:String>
     <sys:String x:Key="btnDescription_LightUpSwitch">照明開關</sys:String>
     <sys:String x:Key="btnDescription_UsualKey1">常用鍵1</sys:String>
     <sys:String x:Key="btnDescription_UsualKey2">常用鍵2</sys:String>
@@ -383,6 +383,9 @@
 
     <sys:String x:Key="Connection_Init">連線初始化</sys:String>
 
+
+    <sys:String x:Key="MachineOffline">機台離線</sys:String>
+    <sys:String x:Key="MachineOnline">機台在線</sys:String>
     <sys:String x:Key="Connection_Error">連線錯誤</sys:String>
     <sys:String x:Key="Connection_TryConnect">嘗試連線</sys:String>
     <sys:String x:Key="Connection_RetryConnect">連線失敗，正在嘗試重新連線</sys:String>
@@ -418,10 +421,10 @@
 
     <sys:String x:Key="Text_EngravingToOriginTimeout">鋼印Z軸回原點超時</sys:String>
     <sys:String x:Key="Text_CuttingToOriginTimeout">裁切組回原點超時</sys:String>
-    <sys:String x:Key="Text_ToOriginisSuccessful">原點複歸完成</sys:String>
-    <sys:String x:Key="Text_ToOriginisCancel">原點複歸取消</sys:String>
-    <sys:String x:Key="Text_ToOriginisFail">原點複歸失敗</sys:String>
-    <sys:String x:Key="Text_ToOriginisTimeout">原點複歸失敗，命令超時</sys:String>
+    <sys:String x:Key="Text_ToOriginisSuccessful">原點復歸完成</sys:String>
+    <sys:String x:Key="Text_ToOriginisCancel">原點復歸取消</sys:String>
+    <sys:String x:Key="Text_ToOriginisFail">原點復歸失敗</sys:String>
+    <sys:String x:Key="Text_ToOriginisTimeout">原點復歸失敗，命令超時</sys:String>
 
 
     <!--enum-->

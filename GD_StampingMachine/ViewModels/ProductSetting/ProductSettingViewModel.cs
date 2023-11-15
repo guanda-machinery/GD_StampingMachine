@@ -202,61 +202,59 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-
+        private ICommand _loadProductSettingCommand;
         [JsonIgnore]
         public ICommand LoadProductSettingCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => _loadProductSettingCommand ??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
+                await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
                 {
-                    await Application.Current.Dispatcher.InvokeAsync(new Action(async() =>
+                    if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
                     {
-                        if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
+                        var ExisedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
+                        if (ExisedIndex != -1)
                         {
-                            var ExisedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
-                            if (ExisedIndex != -1)
-                            {
-                                if (ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
-                                    await MethodWinUIMessageBox.ProjectIsLoaded();
-                                else
-                                    await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
-                                return;
-                            }
-
-                            ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
-                            await SaveProductListSetting();
+                            if (ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
+                                await MethodWinUIMessageBox.ProjectIsLoaded();
+                            else
+                                await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
+                            return;
                         }
-                    }));
-                });
+
+                        ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
+                        await SaveProductListSetting();
+                    }
+                }));
             });
         }
+
+
+
+        private AsyncRelayCommand _saveProductSettingCommand;
         [JsonIgnore]
         public AsyncRelayCommand SaveProductSettingCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => _saveProductSettingCommand ??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
-                {
-                    ProductProjectVMObservableCollection.ForEach(obj =>
-                {
-                    obj.SaveProductProject();
-                });
-                    var Result = await SaveProductListSetting();
-                     MethodWinUIMessageBox.SaveSuccessful(null, Result);
-                });
+                ProductProjectVMObservableCollection.ForEach(obj =>
+            {
+                obj.SaveProductProject();
+            });
+                var Result = await SaveProductListSetting();
+                MethodWinUIMessageBox.SaveSuccessful(null, Result);
             });
         }
 
+
+
+        private ICommand _saveProductListSettingCommand;
         [JsonIgnore]
         public ICommand SaveProductListSettingCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => _saveProductListSettingCommand ??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
-                {
-                    await SaveProductListSetting();
-                });
+                await SaveProductListSetting();
             });
         }
 
@@ -275,8 +273,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 });
             });
 
-
-            return await Task.Run(()=> JsonHM.WriteProjectSettingJson(PathList));
+            return JsonHM.WriteProjectSettingJson(PathList);
         }
 
 
@@ -300,12 +297,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        public bool ShowHiddenProject { get; set; }
-        public bool ShowAllProject { get; set; }
 
+        private bool _showHiddenProject;
+        private bool _showAllProject;
+
+        public bool ShowHiddenProject { get=> _showHiddenProject; set { _showHiddenProject = value;OnPropertyChanged(); } }
+        public bool ShowAllProject { get => _showAllProject; set { _showAllProject = value; OnPropertyChanged(); } }
+
+
+        public ICommand _updateFiltrationLogicCommand;
         public ICommand UpdateFiltrationLogicCommand
         {
-            get => new RelayCommand(() =>
+            get => _updateFiltrationLogicCommand??=new RelayCommand(() =>
             {
                 UpdateFiltrationLogic();
             });
@@ -316,13 +319,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             OnPropertyChanged(nameof(ProductProjectRowFilterCommand));
         }
 
+
+
+       // private DevExpress.Mvvm.DelegateCommand<RowFilterArgs> _productProjectRowFilterCommand;
         //篩選器
         [JsonIgnore]
-        public DevExpress.Mvvm.ICommand<RowFilterArgs> ProductProjectRowFilterCommand
+        public ICommand ProductProjectRowFilterCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args=>
             {
-                if(args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel PProject)
+                if(args?.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel PProject)
                 {
                     if (ShowAllProject)
                     {

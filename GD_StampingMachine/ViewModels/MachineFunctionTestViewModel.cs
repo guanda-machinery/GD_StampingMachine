@@ -439,146 +439,143 @@ namespace GD_StampingMachine.ViewModels
         private AsyncRelayCommand _autoWorkCommand;
         public AsyncRelayCommand AutoWorkCommand
         {
-            get => _autoWorkCommand??=new AsyncRelayCommand(async() =>
+            get => _autoWorkCommand ??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
+                try
                 {
-                    try
+                    //執行大量運算
+
+                    IsWorking = true;
+
+                    var FindPredicate = new Predicate<StampingPlateProcessingSequenceViewModel>(
+                        x => x.ProcessingAbsoluteDistance >= 0
+                    && !x.SendMachineCommandVM.IsFinish
+                    && !x.ProcessingIsFinish);
+
+                    //如果存在
+                    if (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance < 0
+                 && !x.SendMachineCommandVM.IsFinish
+                 && !x.ProcessingIsFinish) != -1)
                     {
-                        //執行大量運算
+                        //有無法加工到的工序 需先倒轉鋼帶或忽略無法加工的工序
+                        if (await GD_CommonLibrary.Method.MessageBoxResultShow.ShowYesNo("", $"\r\n;") != System.Windows.MessageBoxResult.Yes)
+                            return;
+                    }
 
-                        IsWorking = true;
+                    //  while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance >= 0 && !x.IsFinish) != -1)
+                    while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(FindPredicate) != -1)
+                    {
 
-                        var FindPredicate = new Predicate<StampingPlateProcessingSequenceViewModel>(
-                            x => x.ProcessingAbsoluteDistance >= 0
-                        && !x.SendMachineCommandVM.IsFinish
-                        && !x.ProcessingIsFinish);
+                        //把最上面ProcessingAbsoluteDistance大於0的鐵片移動到指定位置
+                        var FIndex = StampingPlateProcessingSequenceVMObservableCollection.FindIndex(FindPredicate);
 
-                        //如果存在
-                        if (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance < 0
-                     && !x.SendMachineCommandVM.IsFinish
-                     && !x.ProcessingIsFinish) != -1)
+                        var moveDistance = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
+                        double moveStep = -0.5;
+                        while (StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance >= Math.Abs(moveStep))
                         {
-                            //有無法加工到的工序 需先倒轉鋼帶或忽略無法加工的工序
-                            if (await GD_CommonLibrary.Method.MessageBoxResultShow.ShowYesNo("", $"\r\n;") != System.Windows.MessageBoxResult.Yes)
-                                return;
+
+                            //StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance-= moveStep;
+                            //須重構成function 與移動指令共用
+                            AbsoluteMoveDistance(moveStep);
+                            await Task.Delay(10);
                         }
-
-                        //  while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(x => x.ProcessingAbsoluteDistance >= 0 && !x.IsFinish) != -1)
-                        while (StampingPlateProcessingSequenceVMObservableCollection.FindIndex(FindPredicate) != -1)
+                        //最後一階
+                        var LastMove = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
+                        AbsoluteMoveDistance(-LastMove);
+                        StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance = 0;
+                        //每個工作到位置後 等待三秒
+                        if (false)
                         {
+                            //單動
+                            await Task.Delay(3000);
+                            StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingIsFinish = true;
+                            StampingPlateProcessingSequenceVMObservableCollection[FIndex].SendMachineCommandVM.SteelBeltStampingStatus = StampingPlateProcessingSequenceVMObservableCollection[FIndex].SteelBeltStampingStatus;
+                        }
+                        else
+                        {
+                            //所有在指定位置上的都可以加工
+                            var ReadyWorkList = StampingPlateProcessingSequenceVMObservableCollection.ToList().FindAll(x => x.ProcessingAbsoluteDistance == 0 && !x.ProcessingIsFinish);
 
-                            //把最上面ProcessingAbsoluteDistance大於0的鐵片移動到指定位置
-                            var FIndex = StampingPlateProcessingSequenceVMObservableCollection.FindIndex(FindPredicate);
+                            List<Task> AllworkTask = new();
 
-                            var moveDistance = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
-                            double moveStep = -0.5;
-                            while (StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance >= Math.Abs(moveStep))
+                            foreach (var work in ReadyWorkList)
                             {
+                                if (work.SendMachineCommandVM.IsFinish)
+                                    continue;
 
-                                //StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance-= moveStep;
-                                //須重構成function 與移動指令共用
-                                AbsoluteMoveDistance(moveStep);
-                                await Task.Delay(10);
-                            }
-                            //最後一階
-                            var LastMove = StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance;
-                            AbsoluteMoveDistance(-LastMove);
-                            StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingAbsoluteDistance = 0;
-                            //每個工作到位置後 等待三秒
-                            if (false)
-                            {
-                                //單動
-                                await Task.Delay(3000);
-                                StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingIsFinish = true;
-                                StampingPlateProcessingSequenceVMObservableCollection[FIndex].SendMachineCommandVM.SteelBeltStampingStatus = StampingPlateProcessingSequenceVMObservableCollection[FIndex].SteelBeltStampingStatus;
-                            }
-                            else
-                            {
-                                //所有在指定位置上的都可以加工
-                                var ReadyWorkList = StampingPlateProcessingSequenceVMObservableCollection.ToList().FindAll(x => x.ProcessingAbsoluteDistance == 0 && !x.ProcessingIsFinish);
-
-                                List<Task> AllworkTask = new();
-
-                                foreach (var work in ReadyWorkList)
+                                Task WrokTask = Task.Run(async () =>
                                 {
-                                    if (work.SendMachineCommandVM.IsFinish)
-                                        continue;
-
-                                    Task WrokTask = Task.Run(async () =>
+                                    try
                                     {
-                                        try
+                                        //把該鋼片設為正在加工
+                                        //在這邊加入進度條
+                                        work.SendMachineCommandVM.IsWorking = true;
+                                        work.SendMachineCommandVM.WorkingSteelBeltStampingStatus = work.SteelBeltStampingStatus;
+                                        work.SendMachineCommandVM.WorkingProgress = 0;
+
+                                        //各種工作所花時間不同
+                                        //autoWorkCommandResetEvent.WaitOne();
+
+                                        while (work.SendMachineCommandVM.WorkingProgress < 100d)
                                         {
-                                            //把該鋼片設為正在加工
-                                            //在這邊加入進度條
-                                            work.SendMachineCommandVM.IsWorking = true;
-                                            work.SendMachineCommandVM.WorkingSteelBeltStampingStatus = work.SteelBeltStampingStatus;
-                                            work.SendMachineCommandVM.WorkingProgress = 0;
-
-                                            //各種工作所花時間不同
-                                            //autoWorkCommandResetEvent.WaitOne();
-
-                                            while (work.SendMachineCommandVM.WorkingProgress < 100d)
+                                            switch (work.SteelBeltStampingStatus)
                                             {
-                                                switch (work.SteelBeltStampingStatus)
-                                                {
-                                                    case SteelBeltStampingStatusEnum.QRCarving:
-                                                        work.SendMachineCommandVM.WorkingProgress += 100d / 150d;
-                                                        break;
-                                                    case SteelBeltStampingStatusEnum.Stamping:
-                                                        work.SendMachineCommandVM.WorkingProgress += 100d / 175d;
-                                                        break;
-                                                    case SteelBeltStampingStatusEnum.Shearing:
-                                                        work.SendMachineCommandVM.WorkingProgress += 100d / 100d;
-                                                        break;
+                                                case SteelBeltStampingStatusEnum.QRCarving:
+                                                    work.SendMachineCommandVM.WorkingProgress += 100d / 150d;
+                                                    break;
+                                                case SteelBeltStampingStatusEnum.Stamping:
+                                                    work.SendMachineCommandVM.WorkingProgress += 100d / 175d;
+                                                    break;
+                                                case SteelBeltStampingStatusEnum.Shearing:
+                                                    work.SendMachineCommandVM.WorkingProgress += 100d / 100d;
+                                                    break;
 
-                                                    default:
-                                                    case SteelBeltStampingStatusEnum.None:
-                                                        work.SendMachineCommandVM.WorkingProgress = 100;
+                                                default:
+                                                case SteelBeltStampingStatusEnum.None:
+                                                    work.SendMachineCommandVM.WorkingProgress = 100;
 
-                                                        break;
-                                                }
-                                                await Task.Delay(5);
+                                                    break;
                                             }
-
-                                            await Task.Delay(500);
-
-                                            if (work == StampingPlateProcessingSequenceVMObservableCollection.Last(x => x.SendMachineCommandVM == work.SendMachineCommandVM))
-                                            {
-                                                work.SendMachineCommandVM.IsFinish = true;
-                                            }
-
-
-
-                                            work.ProcessingIsFinish = true;
-                                            work.SendMachineCommandVM.WorkingProgress = 100d;
-                                            work.SendMachineCommandVM.IsWorking = false;
-                                            work.SendMachineCommandVM.SteelBeltStampingStatus = work.SteelBeltStampingStatus;
-                                            work.SendMachineCommandVM.WorkingProgress = 0;
-                                            //await Task.Delay(3000);
+                                            await Task.Delay(5);
                                         }
-                                        catch (Exception ex)
+
+                                        await Task.Delay(500);
+
+                                        if (work == StampingPlateProcessingSequenceVMObservableCollection.Last(x => x.SendMachineCommandVM == work.SendMachineCommandVM))
                                         {
-                                            Debugger.Break();
+                                            work.SendMachineCommandVM.IsFinish = true;
                                         }
-                                    });
-                                    AllworkTask.Add(WrokTask);
-                                    await Task.Delay(500);
-                                }
 
-                                await Task.WhenAll(AllworkTask);
+
+
+                                        work.ProcessingIsFinish = true;
+                                        work.SendMachineCommandVM.WorkingProgress = 100d;
+                                        work.SendMachineCommandVM.IsWorking = false;
+                                        work.SendMachineCommandVM.SteelBeltStampingStatus = work.SteelBeltStampingStatus;
+                                        work.SendMachineCommandVM.WorkingProgress = 0;
+                                        //await Task.Delay(3000);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debugger.Break();
+                                    }
+                                });
+                                AllworkTask.Add(WrokTask);
+                                await Task.Delay(500);
                             }
-                            //同步加工 如果有其他同位置的零件可以一起加工
+
+                            await Task.WhenAll(AllworkTask);
                         }
-                        await Task.Delay(1000);
-
-                        IsWorking = false;
+                        //同步加工 如果有其他同位置的零件可以一起加工
                     }
-                    catch (Exception ex)
-                    {
+                    await Task.Delay(1000);
 
-                    }
-                });
+                    IsWorking = false;
+                }
+                catch (Exception ex)
+                {
+
+                }
             }, () => !_autoWorkCommand.IsRunning);
         }
 

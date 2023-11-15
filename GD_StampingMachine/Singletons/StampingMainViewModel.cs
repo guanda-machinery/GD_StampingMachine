@@ -261,35 +261,35 @@ namespace GD_StampingMachine.ViewModels
         #endregion
 
 
+
+        private AsyncRelayCommand _downloadAndUpdatedCommand;
         [JsonIgnore]
         public AsyncRelayCommand DownloadAndUpdatedCommand
         {
-            get => new(async () =>
+            get => _downloadAndUpdatedCommand ??= new(async () =>
             {
-                await Task.Run(async() =>
+                var ManagerVM = new DXSplashScreenViewModel
                 {
-                    var ManagerVM = new DXSplashScreenViewModel
-                    {
-                        Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
-                        Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
-                        Progress = 0,
-                        IsIndeterminate = false,
-                        Subtitle = Properties.Settings.Default.Version,
-                        Copyright = Properties.Settings.Default.Copyright,
-                    };
-                    SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-                    manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-                    ManagerVM.IsIndeterminate = false;
-                    //等待結束 
-                    for (double i = 10000; i < 0; i--)
-                    {
-                        ManagerVM.Progress = i / 100;
-                        await Task.Delay(100);
-                    }
+                    Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                    Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
+                    Progress = 0,
+                    IsIndeterminate = false,
+                    Subtitle = Properties.Settings.Default.Version,
+                    Copyright = Properties.Settings.Default.Copyright,
+                };
+                SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                ManagerVM.IsIndeterminate = false;
+                //等待結束 
+                for (double i = 10000; i < 0; i--)
+                {
+                    ManagerVM.Progress = i / 100;
+                    await Task.Delay(100);
+                }
 
-                    manager.Close();
-                });
-            }, ()=> !DownloadAndUpdatedCommand.IsRunning);
+                manager.Close();
+
+            }, () => !DownloadAndUpdatedCommand.IsRunning);
         }
 
 

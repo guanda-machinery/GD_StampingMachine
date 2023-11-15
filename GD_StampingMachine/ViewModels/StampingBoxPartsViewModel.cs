@@ -1,21 +1,11 @@
 ﻿
 using CommunityToolkit.Mvvm.Input;
-using DevExpress.CodeParser;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
-using DevExpress.Xpf.Core;
-using DevExpress.Xpf.WindowsUI.Internal;
-using GD_CommonLibrary;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
@@ -121,11 +111,11 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-
+        private ICommand _separateBoxVMObservableCollectionelectionChangedCommand;
         [JsonIgnore]
         public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => _separateBoxVMObservableCollectionelectionChangedCommand??=new RelayCommand<object>(obj =>
             {
                 OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
 
@@ -147,15 +137,12 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
         //篩選器
         [JsonIgnore]
-        public DevExpress.Mvvm.ICommand<RowFilterArgs> BoxPartsParameterVMRowFilterCommand
+        public ICommand BoxPartsParameterVMRowFilterCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(async args =>
             {
-                await Task.Run(() =>
-                {
                     if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
                     {
                         if (SelectedSeparateBoxVM != null)
@@ -166,7 +153,6 @@ namespace GD_StampingMachine.ViewModels
                                 args.Visible = false;
                         }
                     }
-                });
             });
         }
 

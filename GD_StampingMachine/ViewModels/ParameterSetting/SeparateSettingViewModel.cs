@@ -130,7 +130,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 個別設定
         /// </summary>
-        public bool IsSingleSetting
+        /*public bool IsSingleSetting
         {
             get
             {
@@ -141,12 +141,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 SettingType = SettingTypeEnum.SingleSetting;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
         /// <summary>
         /// 統一設定
         /// </summary>
-        public bool IsUnifiedSetting
+        /*public bool IsUnifiedSetting
         {
             get
             {
@@ -157,7 +157,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 SettingType = SettingTypeEnum.UnifiedSetting;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
 
 
@@ -165,28 +165,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                if (SeparateSetting.SettingType == SettingTypeEnum.SingleSetting)
-                {
-                    SeparateBoxVMObservableCollection.ForEach(x =>
-                    {
-                        x.BoxSliderIsEnabled = true;
-                    });
-                }
-                if (SeparateSetting.SettingType == SettingTypeEnum.UnifiedSetting)
-                {
-                    SeparateBoxVMObservableCollection.ForEach(x =>
-                    {
-                        x.BoxSliderIsEnabled = false;
-                    });
-                }
                 return SeparateSetting.SettingType;
             }
             set
             {
                 SeparateSetting.SettingType = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(IsUnifiedSetting));
-                OnPropertyChanged(nameof(IsSingleSetting));
+               // OnPropertyChanged(nameof(IsUnifiedSetting));
+              //  OnPropertyChanged(nameof(IsSingleSetting));
             }
         }
 

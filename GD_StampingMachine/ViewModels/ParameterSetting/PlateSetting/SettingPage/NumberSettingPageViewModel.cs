@@ -99,40 +99,37 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
+        public ICommand _saveSettingCommand;
         public override ICommand SaveSettingCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => _saveSettingCommand??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
+                var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
+                if (FIndex != -1)
                 {
-
-                    var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
-                    if (FIndex != -1)
+                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
                     {
-                        if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
-                        {
-                           Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
-                            });
-                        }
-                        else
-                        {
-                            return;
-                        }
+                        Application.Current.Dispatcher.Invoke(() =>
+                         {
+                             NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
+                         });
                     }
                     else
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
-                        });
+                        return;
                     }
-
-                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
-                });
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
+                    });
+                }
+                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
             });
         }
+
         public override ICommand DeleteSettingCommand
         {
             get => new RelayCommand(() =>
