@@ -589,6 +589,26 @@
                                 </dxg:GridColumn.EditSettings>
                             </dxg:GridColumn>
 
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IronPlateString}" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QrCodeContent}" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+
+
+
                             <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="true"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>

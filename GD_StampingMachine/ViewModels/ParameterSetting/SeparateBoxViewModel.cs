@@ -56,7 +56,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private bool _boxSliderIsEnabled = true;
+        /*private bool _boxSliderIsEnabled = true;
         /// <summary>
         /// SliderBar啟用/關閉
         /// </summary>
@@ -68,7 +68,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 _boxSliderIsEnabled = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
 
         public bool IsUsing

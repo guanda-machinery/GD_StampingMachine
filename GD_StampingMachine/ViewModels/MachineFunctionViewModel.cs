@@ -209,13 +209,13 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+        private AsyncRelayCommand _separateBox_CounterClockwiseRotateCommand;
         public AsyncRelayCommand SeparateBox_CounterClockwiseRotateCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => _separateBox_CounterClockwiseRotateCommand??=new AsyncRelayCommand(async () =>
             {
                 SeparateBox_CounterClockwiseRotateButtonIsEnabled = false;
-                await Task.Run(async () =>
-                {
+
                     try
                     {
                         var Index = StampMachineData.SeparateBoxIndex;
@@ -252,7 +252,6 @@ namespace GD_StampingMachine.ViewModels
                     {
                         SeparateBox_CounterClockwiseRotateButtonIsEnabled = true;
                     }
-                });
             });
         }
 

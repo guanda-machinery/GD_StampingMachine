@@ -16,14 +16,13 @@ namespace GD_CommonLibrary
         public bool Invert { get; set; }
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
              if (object.Equals(value, parameter))
             {
-                return (!Invert) ;
+                return !Invert;
             }
             else
             {
-                return (Invert);
+                return Invert;
             }
         }
 

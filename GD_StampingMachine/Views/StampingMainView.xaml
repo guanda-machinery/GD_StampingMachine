@@ -1210,7 +1210,7 @@
                                                                                       DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                                                                                   RepeatButtonForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                                                   MainSilderValue="{Binding Path=FeedingSpeed}" Width="300" Margin="10"
-                                                                                      MainSilderValueChanged="{Binding FeedingSpeedChangedCommand}"
+                                                                                      MainSilderValueChanged="{Binding GlobalSpeedChangedCommand}"
                                                                                       >
                                                 <GD_UserControls:TriggerSliderUserControl.Foreground>
                                                     <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MuiltBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">

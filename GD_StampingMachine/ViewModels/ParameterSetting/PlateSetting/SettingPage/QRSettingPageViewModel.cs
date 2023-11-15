@@ -129,12 +129,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 QRSettingVM = new QRSettingViewModel();
             });
         }
+
+        private ICommand _saveSettingCommand;
         public override ICommand SaveSettingCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => _saveSettingCommand??= new AsyncRelayCommand(async () =>
             {
-                await Task.Run(async () =>
-                {
                     var FIndex = QRSettingModelCollection.ToList().FindIndex(x => x.NumberSettingMode == QRSettingVM.NumberSettingMode);
                     if (FIndex != -1)
                     {
@@ -159,12 +159,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
 
                     this.JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
-                });
             });
         }
+
+
+        public ICommand _deleteSettingCommand;
         public override ICommand DeleteSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => _deleteSettingCommand??= new RelayCommand(() =>
             {
                 if (QRSettingModelCollectionSelected != null)
                 {

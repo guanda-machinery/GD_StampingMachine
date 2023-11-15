@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
 
 
 namespace GD_CommonLibrary.Method
@@ -20,7 +21,7 @@ namespace GD_CommonLibrary.Method
                 {
                     Topmost = true
                 };
-
+          
                 MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
                     MessageTitle,
                     MB_Button,
@@ -29,6 +30,15 @@ namespace GD_CommonLibrary.Method
                     MessageBoxOptions.None,
                     DevExpress.Xpf.Core.FloatingMode.Window);
             }));
+
+           /* var tcs = new TaskCompletionSource<MessageBoxResult>();
+            tcs.SetResult(MessageBoxResult.Yes);
+
+            return tcs.Task;*/
+
+
+
+            //formBrowseServer.FormClosed += (sender, e) => tcs.SetResult(DialogResult.Abort);
             return MessageBoxReturn;
         }
 

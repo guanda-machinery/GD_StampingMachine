@@ -59,7 +59,7 @@ namespace GD_StampingMachine
                     ManagerVM.IsIndeterminate = false;
                     for (int i = 0; i <= 100; i++)
                     {
-                        ManagerVM.Progress = i ;
+                        ManagerVM.Progress = i;
                         await Task.Delay(20);
                     }
 
@@ -71,30 +71,20 @@ namespace GD_StampingMachine
                     }));
                     manager.Close();
 
-
-                    await Task.Run(async () =>
+                    await Task.Delay(1000);
+                    await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+                    //檢查字模
+                    while (!Singletons.StampMachineDataSingleton.Instance.IsConnected)
                     {
-                        await Task.Delay(1000);
-                        await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
-                        //檢查字模
-                        while (!Singletons.StampMachineDataSingleton.Instance.IsConnected)
-                        {
-                            await Task.Delay(100);
-                        }
+                        await Task.Delay(100);
+                    }
 
-                        await Task.Delay(1000);
-                        while(Singletons.StampMachineDataSingleton.Instance.RotatingTurntableInfoCollection.Count == 0)
-                        {
-                            await Task.Delay(100);
-                        }
-                        await Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware();
-
-
-
-
-
-
-                    });
+                    await Task.Delay(1000);
+                    while (Singletons.StampMachineDataSingleton.Instance.RotatingTurntableInfoCollection.Count == 0)
+                    {
+                        await Task.Delay(100);
+                    }
+                    await Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware();
                     //等待連線 並檢查字模是否設定正確->
                 }
                 catch (Exception ex)

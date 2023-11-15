@@ -160,13 +160,13 @@
                                                                     <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
                                                                 </Grid.LayoutTransform>
                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>
+                                                                    DataContext="{Binding Row.SettingBaseVM}" 
+                                                                    Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                    RedMeasurementLineVisibility="Collapsed"/>
                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>
+                                                                    DataContext="{Binding Row.SettingBaseVM}" 
+                                                                    Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                    RedMeasurementLineVisibility="Collapsed"/>
                                                             </Grid>
                                                         </ToggleButton>
 
