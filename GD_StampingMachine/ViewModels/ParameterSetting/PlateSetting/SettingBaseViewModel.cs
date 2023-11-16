@@ -189,7 +189,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        protected (ObservableCollection<PlateFontViewModel> ,ObservableCollection<PlateFontViewModel>) ChangePlateNumberList(string pNumber)
+        protected void ChangePlateNumberList(string pNumber ,out ObservableCollection<PlateFontViewModel> item1, out ObservableCollection<PlateFontViewModel> item2 )
         {
             ObservableCollection<PlateFontViewModel> pNumberList1 = new();
             ObservableCollection<PlateFontViewModel> pNumberList2 = new();
@@ -197,12 +197,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             //先讀舊檔
             foreach (var setting in StampPlateSetting.StampableList.Item1)
             {
-                //pNumberList1.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
+                pNumberList1.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
             }
 
             foreach (var setting in StampPlateSetting.StampableList.Item2)
             {
-                //pNumberList2.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
+                pNumberList2.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
             }
 
             for (int i = 0; i < SequenceCount; i++)
