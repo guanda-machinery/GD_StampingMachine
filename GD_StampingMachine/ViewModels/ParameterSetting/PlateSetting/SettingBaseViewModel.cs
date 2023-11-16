@@ -1,4 +1,5 @@
-﻿using DevExpress.Utils.Extensions;
+﻿
+using DevExpress.Mvvm.Native;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
@@ -102,8 +103,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 StampPlateSetting.SequenceCount = value;
-                OnPropertyChanged(); 
-                ChangePlateNumberList();
+                OnPropertyChanged();
+                PlateNumberList1 = ChangePlateNumberList(PlateNumber).Item1;
+                PlateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
             }
         }
 
@@ -117,7 +119,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 StampPlateSetting.SpecialSequence = value;
                 OnPropertyChanged();
-                ChangePlateNumberList();
+                PlateNumberList1 = ChangePlateNumberList(PlateNumber).Item1;
+                PlateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
             }
         }
         /// <summary>
@@ -145,7 +148,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _plateNumber = value;
                 OnPropertyChanged();
-                ChangePlateNumberList();
+                PlateNumberList1= ChangePlateNumberList(PlateNumber).Item1;
+                PlateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
             }
         }
 
@@ -185,78 +189,74 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        protected void ChangePlateNumberList()
+        protected (ObservableCollection<PlateFontViewModel> ,ObservableCollection<PlateFontViewModel>) ChangePlateNumberList(string pNumber)
         {
-            if (_plateNumberList == null)
-            {
-                _plateNumberList = new ObservableCollection<PlateFontViewModel>();
-                foreach (var setting in StampPlateSetting.StampableList)
-                {
-                    _plateNumberList.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
-                }
+            ObservableCollection<PlateFontViewModel> pNumberList1 = new();
+            ObservableCollection<PlateFontViewModel> pNumberList2 = new();
 
+            //先讀舊檔
+            foreach (var setting in StampPlateSetting.StampableList.Item1)
+            {
+                //pNumberList1.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
             }
 
-            int RowCount;
-            _ = SpecialSequence switch
+            foreach (var setting in StampPlateSetting.StampableList.Item2)
             {
-                SpecialSequenceEnum.OneRow => RowCount = 1,
-                SpecialSequenceEnum.TwoRow => RowCount = 2,
-                _ => RowCount = 0,
-            };
-
-            var ListCount = SequenceCount * RowCount;
-            //若格數不夠 則擴充
-            if (_plateNumberList.Count < ListCount)
-            {
-                while (_plateNumberList.Count < ListCount)
-                {
-                    _plateNumberList.Add(new PlateFontViewModel
-                    {
-                        IsUsed = true,
-                        FontString = null
-                    });
-                }
-            }
-            //若格數變少 則刪除
-            else
-            {
-                while (_plateNumberList.Count > ListCount)
-                {
-                    _plateNumberList.RemoveAt(ListCount);
-                }
+                //pNumberList2.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
             }
 
-            if (PlateNumber != null)
-            {
-                _plateNumberList.ForEach(p => p.IsUsedEditedable = false);
+            for (int i = 0; i < SequenceCount; i++)
+                pNumberList1.Add(new PlateFontViewModel() { IsUsed =true});
 
-                var plateNumberInput = PlateNumber;
+            pNumberList1 = pNumberList1.Take(SequenceCount).ToObservableCollection();
+            //pNumberList1.RemoveRange(SequenceCount, pNumberList1.Count- SequenceCount);
+
+            switch (SpecialSequence)
+            {
+                case (SpecialSequenceEnum.OneRow):
+                    pNumberList2 = new ObservableCollection<PlateFontViewModel>();
+                    break;
+                case (SpecialSequenceEnum.TwoRow):
+                    for (int i = 0; i < SequenceCount; i++)
+                        pNumberList2.Add(new PlateFontViewModel() { IsUsed = true});
+                    pNumberList2 = pNumberList2.Take(SequenceCount).ToObservableCollection();
+                   // pNumberList2.RemoveRange(SequenceCount, pNumberList2.Count - SequenceCount);
+                    break;
+                    default: 
+                    throw new ArgumentException();
+            }
+
+            if (pNumber != null)
+            {
+                pNumberList1.ForEach(p => p.IsUsedEditedable = false);
+                pNumberList2.ForEach(p => p.IsUsedEditedable = false);
+
+                var plateNumberInput = pNumber;
                 //第一排放不下才須尋找
-                if (SpecialSequence == SpecialSequenceEnum.TwoRow && PlateNumber.Contains("-") && DashAutoWrapping)
+                if (SpecialSequence == SpecialSequenceEnum.TwoRow && pNumber.Contains("-") && DashAutoWrapping)
                 {
-                    var firstPlateNumber = _plateNumberList.ToList().GetRange(0, SequenceCount).FindAll(x => x.IsUsed);
-                    var secondPlateNumber = _plateNumberList.ToList().GetRange(0, SequenceCount).FindAll(x => x.IsUsed);
+                    var firstPlateNumber = pNumberList1.ToList().GetRange(0, SequenceCount).FindAll(x => x.IsUsed);
+                   // var secondPlateNumber = pNumberList.ToList().GetRange(0, SequenceCount).FindAll(x => x.IsUsed);
 
                     //找第一排是否有-
-                    if (PlateNumber.Length > firstPlateNumber.Count)
+                    if (pNumber.Length > firstPlateNumber.Count)
                     {
                         int MinusIndex;
                         //起始搜尋點(從後面開始找)
                         //跑循環去定位minus的位置
-                        var SearchIndexStart = PlateNumber.Length - 1;
+                        var SearchIndexStart = pNumber.Length - 1;
                         var SearchCount = firstPlateNumber.Count;
                         do
                         {
-                            MinusIndex = PlateNumber.LastIndexOf('-', SearchIndexStart, SearchCount);
+                            MinusIndex = pNumber.LastIndexOf('-', SearchIndexStart, SearchCount);
                             if (MinusIndex != -1)
                             {
                                 SearchIndexStart = MinusIndex - 1;
                                 SearchCount = MinusIndex - 1;
                                 //將字串切開後 是否會落到第二排 
                                 //會落到第二排且第二排能放得下整串字串的 才移動到第二排
-                                var FirstPlateNumber = PlateNumber.Substring(0, MinusIndex + 1);
-                                var SubPlateNumber = PlateNumber.Substring(MinusIndex + 1);
+                                var FirstPlateNumber = pNumber.Substring(0, MinusIndex + 1);
+                                var SubPlateNumber = pNumber.Substring(MinusIndex + 1);
                                 if (FirstPlateNumber.Length <= firstPlateNumber.Count && SubPlateNumber.Length <= firstPlateNumber.Count)
                                 {
                                     //可換行
@@ -267,37 +267,63 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
                 }
 
-
-
-                int num = 0;
-                for (int i = 0; i < _plateNumberList.Count; i++)
+                int num1 = 0;
+                for (int i = 0; i < pNumberList1.Count; i++)
                 {
                     //可使用的位置才能刻字
-                    if (_plateNumberList[i].IsUsed)
+                    if (pNumberList1[i].IsUsed)
                     {
-                        if (num < plateNumberInput.Length)
+                        if (num1 < plateNumberInput.Length)
                         {
-                            if (string.IsNullOrWhiteSpace(plateNumberInput[num].ToString()))
+                            if (string.IsNullOrWhiteSpace(plateNumberInput[num1].ToString()))
                             {
-                                _plateNumberList[i].FontString = null;
+                                pNumberList1[i].FontString = null;
                             }
                             else
-                                _plateNumberList[i].FontString = plateNumberInput[num].ToString();
-                            num++;
+                                pNumberList1[i].FontString = plateNumberInput[num1].ToString();
+                            num1++;
                         }
                         else
-                            _plateNumberList[i].FontString = null;
+                            pNumberList1[i].FontString = null;
                     }
                     else
-                        _plateNumberList[i].FontString = null;
-
+                        pNumberList1[i].FontString = null;
                 }
 
+                int num2 = 0;
+                for (int i = 0; i < pNumberList1.Count; i++)
+                {
+                    //可使用的位置才能刻字
+                    if (pNumberList2[i].IsUsed)
+                    {
+                        if (num2 < plateNumberInput.Length)
+                        {
+                            if (string.IsNullOrWhiteSpace(plateNumberInput[num2].ToString()))
+                            {
+                                pNumberList2[i].FontString = null;
+                            }
+                            else
+                                pNumberList2[i].FontString = plateNumberInput[num2].ToString();
+                            num2++;
+                        }
+                        else
+                            pNumberList2[i].FontString = null;
+                    }
+                    else
+                        pNumberList2[i].FontString = null;
+                }
             }
             else
             {
                 int j = 1;
-                _plateNumberList.ForEach(p =>
+                pNumberList1.ForEach(p =>
+                {
+                    p.FontString = j.ToString();
+                    p.IsUsedEditedable = true;
+                    j++;
+                }); 
+
+                pNumberList2.ForEach(p =>
                 {
                     p.FontString = j.ToString();
                     p.IsUsedEditedable = true;
@@ -305,28 +331,50 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 });
             }
 
-            StampPlateSetting.StampableList = new List<PlateFontModel>();
-            _plateNumberList.ForEach(p =>
+            StampPlateSetting.StampableList = (new List<PlateFontModel>(), new List<PlateFontModel>());
+            pNumberList1.ForEach(p =>
             {
-                StampPlateSetting.StampableList.Add(p.PlateFont);
+                StampPlateSetting.StampableList.Item1.Add(p.PlateFont);
+            }); 
+
+            pNumberList2.ForEach(p =>
+            {
+                StampPlateSetting.StampableList.Item2.Add(p.PlateFont);
             });
 
-            OnPropertyChanged(nameof(PlateNumberList));
+
+            return (pNumberList1 ,pNumberList2);
         }
 
-        private ObservableCollection<PlateFontViewModel> _plateNumberList;
+        private ObservableCollection<PlateFontViewModel> _plateNumberList1;
+        private ObservableCollection<PlateFontViewModel> _plateNumberList2;
         [JsonIgnore]
-        public ObservableCollection<PlateFontViewModel> PlateNumberList
+        public ObservableCollection<PlateFontViewModel> PlateNumberList1
         {
             get
             {
-                if (_plateNumberList == null)
-                    ChangePlateNumberList();
-                return _plateNumberList;
+                if (_plateNumberList1 == null)
+                    _plateNumberList1 = ChangePlateNumberList(PlateNumber).Item1;
+                return _plateNumberList1;
             }
             set
             {
-                _plateNumberList = value;
+                _plateNumberList1 = value;
+                OnPropertyChanged();
+            }
+        }
+        [JsonIgnore]
+        public ObservableCollection<PlateFontViewModel> PlateNumberList2
+        {
+            get
+            {
+                if (_plateNumberList2 == null)
+                    _plateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
+                return _plateNumberList2;
+            }
+            set
+            {
+                _plateNumberList2 = value;
                 OnPropertyChanged();
             }
         }

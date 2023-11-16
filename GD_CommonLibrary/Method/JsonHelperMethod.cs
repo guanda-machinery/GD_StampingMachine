@@ -130,7 +130,8 @@ namespace GD_CommonLibrary.Method
             catch (JsonException JEX) 
             {
                 if(showMessageBox)
-                    _ =  MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_JsonError"));
+                    _ =  MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                        fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));
                 //Debugger.Break();
             }
             catch (Exception ex)

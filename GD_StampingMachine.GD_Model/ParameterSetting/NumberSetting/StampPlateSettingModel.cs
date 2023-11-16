@@ -33,7 +33,8 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 可加工的位址
         /// </summary>
-        public List<PlateFontModel> StampableList { get; set; } = new List<PlateFontModel>();
+        public (List<PlateFontModel>,List<PlateFontModel>) StampableList { get; set; } = (new List<PlateFontModel>(), new List<PlateFontModel>());
+        //public List<PlateFontModel>, L>)  { get; set; } = (new List<PlateFontModel>(), new List<PlateFontModel>());
         /// <summary>
         /// 可加工的位址
         /// </summary>

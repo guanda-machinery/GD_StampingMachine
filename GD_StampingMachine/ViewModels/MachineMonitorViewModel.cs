@@ -242,7 +242,7 @@ namespace GD_StampingMachine.ViewModels
                         //將兩行字上傳到機器
                         //readymachining.
                         string ironPlateString = "";
-                        readymachining.SettingBaseVM.PlateNumberList.ForEach(pNumber =>
+                        /*readymachining.SettingBaseVM.PlateNumberList.ForEach(pNumber =>
                         {
                             if (string.IsNullOrWhiteSpace(pNumber.FontString))
                             {
@@ -250,13 +250,37 @@ namespace GD_StampingMachine.ViewModels
                             }
                             else
                                 ironPlateString += pNumber.FontString;
-                        });
+                        });*/
                         // var SpiltPlate = readymachining.IronPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
-                        var SpiltPlate = ironPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
+                        //var SpiltPlate = ironPlateString.SpiltByLength(readymachining.SettingBaseVM.SequenceCount);
                         //靠左 靠右等功能
-                        SpiltPlate.TryGetValue(0, out string plateFirstValue);
-                        SpiltPlate.TryGetValue(1, out string plateSecondValue);
+                        // SpiltPlate.TryGetValue(0, out string plateFirstValue);
+                        //SpiltPlate.TryGetValue(1, out string plateSecondValue);
+                        string plateFirstValue = "";
+                        string plateSecondValue = "";
+                        readymachining.SettingBaseVM.PlateNumberList1.ForEach(p =>
+                        {
+                            if (string.IsNullOrWhiteSpace(p.FontString))
+                            {
+                                ironPlateString += " ";
+                            }
+                            else
+                            {
+                                plateFirstValue += p.FontString;
+                            }
+                        });
 
+                        readymachining.SettingBaseVM.PlateNumberList2.ForEach(p =>
+                        {
+                            if (string.IsNullOrWhiteSpace(p.FontString))
+                            {
+                                plateSecondValue += " ";
+                            }
+                            else
+                            {
+                                plateSecondValue += p.FontString;
+                            }
+                        });
 
                         plateFirstValue ??= string.Empty;
                         plateSecondValue ??= string.Empty;

@@ -59,73 +59,91 @@
         <Border Background="White" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Width="40" HorizontalAlignment="Left" Height="40" CornerRadius="20" VerticalAlignment="Top" Margin="15,12"/>
 
         <Grid Grid.Column="3"  Grid.Row="3" >
-            <ItemsControl  ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            Margin="-12.5,-15" 
-            ItemsSource="{Binding PlateNumberList}"  IsEnabled="{Binding PlateNumber, Converter={GD_Common:ObjectIsNullToBooleanConverter} }" >
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ToggleButton IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsUsedEditedable}">
-                            <ToggleButton.Style>
-                                <Style TargetType="ToggleButton">
-                                    <Setter Property="Width" Value="70"/>
-                                    <Setter Property="Height" Value="110"/>
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="BorderBrush" Value="Black"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Margin" Value="12.5"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate  TargetType="ToggleButton">
-                                                <Border Background="{TemplateBinding Background}"     
+            <Grid.Resources>
+                <Style TargetType="ItemsControl">
+                    <Setter Property="ItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ToggleButton IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsUsedEditedable}">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton">
+                                            <Setter Property="Width" Value="70"/>
+                                            <Setter Property="Height" Value="110"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="BorderBrush" Value="Black"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Margin" Value="12.5"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate  TargetType="ToggleButton">
+                                                        <Border Background="{TemplateBinding Background}"     
                                                         Width="{TemplateBinding Width}"
                                                         Height="{TemplateBinding Height}"
                                                         CornerRadius="2"
                                                         BorderThickness="{TemplateBinding BorderThickness}"
                                                         Padding="{TemplateBinding Padding}"
                                                         BorderBrush="{TemplateBinding BorderBrush}">
-                                                    <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                                                    </ContentPresenter>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter Property="Background" Value="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="Orange"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter Property="Background" Value="OrangeRed"/>
-                                                    </Trigger>
+                                                            </ContentPresenter>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                                <Setter Property="Background" Value="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="Orange"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter Property="Background" Value="OrangeRed"/>
+                                                            </Trigger>
 
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Opacity" Value="1.0"/>
-                                                    </Trigger>
-
-
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="1.0"/>
+                                                            </Trigger>
 
 
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ToggleButton.Style>
 
-                            <TextBlock  Foreground="White" HorizontalAlignment="Center" Visibility="{Binding IsUsed }"
+
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ToggleButton.Style>
+
+                                    <TextBlock  Foreground="White" HorizontalAlignment="Center" Visibility="{Binding IsUsed }"
                                 Text="{Binding FontString}"   Margin="0" Padding="0"   FontWeight="DemiBold"  
                                                VerticalAlignment="Center"
                                                FontSize="60"/>
-                        </ToggleButton>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+                                </ToggleButton>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+
+            <StackPanel Margin="-12.5,-15" >
+            <ItemsControl  ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            
+            ItemsSource="{Binding PlateNumberList1, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding PlateNumber, Converter={GD_Common:ObjectIsNullToBooleanConverter} }" >
             </ItemsControl>
+            
+            <ItemsControl  ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+
+            ItemsSource="{Binding PlateNumberList2, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding PlateNumber, Converter={GD_Common:ObjectIsNullToBooleanConverter} }" >
+                </ItemsControl>
+            </StackPanel>
+
+
         </Grid>
         <TextBlock
             Text="A" Foreground="Red" Grid.Column="2" FontSize="30" VerticalAlignment="Top" Visibility="{Binding ElementName=MainDiagramBaseUserControl ,Path=RedMeasurementLineVisibility}" />
