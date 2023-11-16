@@ -49,8 +49,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 StampPlateSetting.SequenceCount = value;
                 OnPropertyChanged();
-                PlateNumberList1 = ChangePlateNumberList(PlateNumber).Item1;
-                PlateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
+                (PlateNumberList1 ,PlateNumberList2 )= ChangePlateNumberList(PlateNumber);
             }
         }
 

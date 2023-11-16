@@ -104,8 +104,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 StampPlateSetting.SequenceCount = value;
                 OnPropertyChanged();
-                PlateNumberList1 = ChangePlateNumberList(PlateNumber).Item1;
-                PlateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
+                (PlateNumberList1,PlateNumberList2) = ChangePlateNumberList(PlateNumber);
             }
         }
 
@@ -119,8 +118,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 StampPlateSetting.SpecialSequence = value;
                 OnPropertyChanged();
-                PlateNumberList1 = ChangePlateNumberList(PlateNumber).Item1;
-                PlateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
+                (PlateNumberList1,PlateNumberList2) = ChangePlateNumberList(PlateNumber);
             }
         }
         /// <summary>
@@ -147,9 +145,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _plateNumber = value;
-                OnPropertyChanged();
-                PlateNumberList1= ChangePlateNumberList(PlateNumber).Item1;
-                PlateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
+                OnPropertyChanged(); 
+                (PlateNumberList1, PlateNumberList2) = ChangePlateNumberList(PlateNumber);
+
             }
         }
 
@@ -189,7 +187,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        protected void ChangePlateNumberList(string pNumber ,out ObservableCollection<PlateFontViewModel> item1, out ObservableCollection<PlateFontViewModel> item2 )
+        protected (ObservableCollection<PlateFontViewModel>, ObservableCollection<PlateFontViewModel>) ChangePlateNumberList(string pNumber )
         {
             ObservableCollection<PlateFontViewModel> pNumberList1 = new();
             ObservableCollection<PlateFontViewModel> pNumberList2 = new();
@@ -267,21 +265,21 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     }
                 }
 
-                int num1 = 0;
+                int num = 0;
                 for (int i = 0; i < pNumberList1.Count; i++)
                 {
                     //可使用的位置才能刻字
                     if (pNumberList1[i].IsUsed)
                     {
-                        if (num1 < plateNumberInput.Length)
+                        if (num < plateNumberInput.Length)
                         {
-                            if (string.IsNullOrWhiteSpace(plateNumberInput[num1].ToString()))
+                            if (string.IsNullOrWhiteSpace(plateNumberInput[num].ToString()))
                             {
                                 pNumberList1[i].FontString = null;
                             }
                             else
-                                pNumberList1[i].FontString = plateNumberInput[num1].ToString();
-                            num1++;
+                                pNumberList1[i].FontString = plateNumberInput[num].ToString();
+                            num++;
                         }
                         else
                             pNumberList1[i].FontString = null;
@@ -290,21 +288,21 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         pNumberList1[i].FontString = null;
                 }
 
-                int num2 = 0;
-                for (int i = 0; i < pNumberList1.Count; i++)
+                //int num2 = 0;
+                for (int i = 0; i < pNumberList2.Count; i++)
                 {
                     //可使用的位置才能刻字
                     if (pNumberList2[i].IsUsed)
                     {
-                        if (num2 < plateNumberInput.Length)
+                        if (num < plateNumberInput.Length)
                         {
-                            if (string.IsNullOrWhiteSpace(plateNumberInput[num2].ToString()))
+                            if (string.IsNullOrWhiteSpace(plateNumberInput[num].ToString()))
                             {
                                 pNumberList2[i].FontString = null;
                             }
                             else
-                                pNumberList2[i].FontString = plateNumberInput[num2].ToString();
-                            num2++;
+                                pNumberList2[i].FontString = plateNumberInput[num].ToString();
+                            num++;
                         }
                         else
                             pNumberList2[i].FontString = null;
@@ -354,7 +352,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get
             {
                 if (_plateNumberList1 == null)
-                    _plateNumberList1 = ChangePlateNumberList(PlateNumber).Item1;
+                    (_plateNumberList1, _plateNumberList2) = ChangePlateNumberList(PlateNumber);
                 return _plateNumberList1;
             }
             set
@@ -369,7 +367,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get
             {
                 if (_plateNumberList2 == null)
-                    _plateNumberList2 = ChangePlateNumberList(PlateNumber).Item2;
+                    (_plateNumberList1,_plateNumberList2) = ChangePlateNumberList(PlateNumber);
                 return _plateNumberList2;
             }
             set
