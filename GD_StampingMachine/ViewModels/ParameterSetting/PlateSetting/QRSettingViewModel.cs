@@ -29,12 +29,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public QRSettingViewModel()
         {
-            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode;
+            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
         public QRSettingViewModel(StampPlateSettingModel stampPlateSetting)
         {
             this.StampPlateSetting = stampPlateSetting;
-            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode;
+            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
 
         public override int SequenceCount

@@ -275,7 +275,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.qrcode)
+                if (PartsParameter.StampingPlate.SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                 {
                     _settingBaseVM ??= new QRSettingViewModel(PartsParameter.StampingPlate);
                 }
@@ -334,7 +334,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             if (SettingBaseVM != null)
                             {
-                                if (await MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.PlateNumber))
+                                if (await MethodWinUIMessageBox.AskDelProject(this.SettingBaseVM.PlateNumber) == MessageBoxResult.Yes)
                                 {
                                     GridItemSource.Remove(this);
                                 }

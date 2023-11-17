@@ -13,10 +13,32 @@ namespace GD_CommonLibrary
 {
     public class ObjectIsEqualToBooleanConverter : BaseValueConverter
     {
+
+        public bool IsTypeJudge { get; set; }
         public bool Invert { get; set; }
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-             if (object.Equals(value, parameter))
+            if (IsTypeJudge)
+            {
+                if (Object.ReferenceEquals(value, parameter))
+                {
+                    return (!Invert);
+                }
+
+                if (value != null)
+                {
+                    if (value.GetType() == parameter as Type)
+                    {
+                        return (!Invert);
+                    }
+                }
+                else
+                {
+                    return (Invert);
+                }
+            }
+
+            if (object.Equals(value, parameter))
             {
                 return !Invert;
             }
@@ -24,6 +46,11 @@ namespace GD_CommonLibrary
             {
                 return Invert;
             }
+
+
+
+
+
         }
 
 

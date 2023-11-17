@@ -685,24 +685,8 @@ namespace GD_MachineConnect
             List<IronPlateDataModel> ironPlateDataList = new();
             if (await GD_OpcUaClient.AsyncConnect())
             {
-              //  var opcNodeAttributeList = await GD_OpcUaClient.ReadNoteAttributes(StampingOpcUANode.system.sv_IronPlateData);
                 try
                 {
-                   /* List<int> ironPlateNumberList = new List<int>();
-                    if (opcNodeAttributeList != null)
-                    {
-                        var NameList = opcNodeAttributeList.FindAll(x => x.Name.Contains("[") && x.Name.Contains("]")).Select(x => x.Name);
-                        foreach (var name in NameList)
-                        {
-                            var IntReplace = name.Replace("[", null).Replace("]", null);
-                            if (int.TryParse(IntReplace, out var nameInt))
-                            {
-                                ironPlateNumberList.Add(nameInt);
-                            }
-                        }
-                        ironPlateNumberList.Sort();
-                    }*/
-
                     for (int i = 1; i <= 25; i++)
                     {
                         var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i}]";
@@ -730,63 +714,49 @@ namespace GD_MachineConnect
 
         private async Task<(bool, IronPlateDataModel)> GetIronPlate(string rootNode)
         {
-            var getTask_iIronPlateID = GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iIronPlateID");
-            var getTask_rXAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos1");
-            var getTask_rYAxisPos1 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos1");
-            var getTask_rXAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos2");
-            var getTask_rYAxisPos2 = GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos2");
-            //var getTask_rXAxisPos3 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rXAxisPos3");
-            //var getTask_rYAxisPos3 = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rYAxisPos3");
-            var getTask_sIronPlateName1 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName1");
-            var getTask_sIronPlateName2 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName2");
-            //var getTask_sIronPlateName3 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sIronPlateName3");
-            //var getTask_rQRcodeXAxisPos = GD_OpcUaClient.AsyncReadNode<float>(node + "." + "rQRcodeXAxisPos");
-            //var getTask_sQRCodeName1 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sQRCodeName1");
-            //var getTask_sQRCodeName2 = GD_OpcUaClient.AsyncReadNode<string>(node + "." + "sQRCodeName2");
-            var getTask_iStackingID = GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iStackingID");
-            //var getTask_bQRCodeFinish = GD_OpcUaClient.AsyncReadNode<bool>(node + "." + "bQRCodeFinish");
-            var getTask_bEngravingFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bEngravingFinish");
-            var getTask_bDataMatrixFinish = GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bDataMatrixFinish");
-            var getTask_sDataMatrixName1 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName1");
-            var getTask_sDataMatrixName2 = GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName2");
+            var getTask_iIronPlateID = await GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iIronPlateID");
+            var getTask_rXAxisPos1 = await GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos1");
+            var getTask_rYAxisPos1 = await GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos1");
+            var getTask_rXAxisPos2 = await GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rXAxisPos2");
+            var getTask_rYAxisPos2 = await GD_OpcUaClient.AsyncReadNode<float>(rootNode + "." + "rYAxisPos2");
+            var getTask_sIronPlateName1 = await GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName1");
+            var getTask_sIronPlateName2 = await GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sIronPlateName2");
+            var getTask_iStackingID = await GD_OpcUaClient.AsyncReadNode<int>(rootNode + "." + "iStackingID");
+            var getTask_bEngravingFinish = await GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bEngravingFinish");
+            var getTask_bDataMatrixFinish = await GD_OpcUaClient.AsyncReadNode<bool>(rootNode + "." + "bDataMatrixFinish");
+            var getTask_sDataMatrixName1 = await GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName1");
+            var getTask_sDataMatrixName2 = await GD_OpcUaClient.AsyncReadNode<string>(rootNode + "." + "sDataMatrixName2");
 
-            var ret = ((await getTask_iIronPlateID).Item1 &&
-                (await getTask_rXAxisPos1).Item1 &&
-                (await getTask_rYAxisPos1).Item1 &&
-                (await getTask_sIronPlateName1).Item1 &&
-                (await getTask_rXAxisPos2).Item1 &&
-                (await getTask_rYAxisPos2).Item1 &&
-                (await getTask_sIronPlateName2).Item1 &&
-                //(await getTask_rXAxisPos3).Item1 &&
-                //(await getTask_rYAxisPos3).Item1 &&
-                //(await getTask_sIronPlateName3).Item1 &&
-                //(await getTask_sQRCodeName1).Item1 &&
-                //(await getTask_rQRcodeXAxisPos).Item1 &&
-                //(await getTask_sQRCodeName2).Item1 &&
-                (await getTask_iStackingID).Item1 &&
-                //(await getTask_bQRCodeFinish).Item1 &&
-                (await getTask_bEngravingFinish).Item1 &&
-                (await getTask_bDataMatrixFinish).Item1 &&
-                (await getTask_sDataMatrixName1).Item1 &&
-                (await getTask_sDataMatrixName2).Item1
+            var ret = ((getTask_iIronPlateID).Item1 &&
+                (getTask_rXAxisPos1).Item1 &&
+                (getTask_rYAxisPos1).Item1 &&
+                (getTask_sIronPlateName1).Item1 &&
+                (getTask_rXAxisPos2).Item1 &&
+                (getTask_rYAxisPos2).Item1 &&
+                (getTask_sIronPlateName2).Item1 &&
+                (getTask_iStackingID).Item1 &&
+                (getTask_bEngravingFinish).Item1 &&
+                (getTask_bDataMatrixFinish).Item1 &&
+                (getTask_sDataMatrixName1).Item1 &&
+                (getTask_sDataMatrixName2).Item1
                 );
 
             var newIronPlateData = new IronPlateDataModel()
             {    //ID
-                iIronPlateID = (await getTask_iIronPlateID).Item2,
+                iIronPlateID = (getTask_iIronPlateID).Item2,
                 // 字串1的x座標
-                rXAxisPos1 = (await getTask_rXAxisPos1).Item2,
+                rXAxisPos1 = (getTask_rXAxisPos1).Item2,
                 // 字串1的y座標
-                rYAxisPos1 = (await getTask_rYAxisPos1).Item2,
+                rYAxisPos1 = (getTask_rYAxisPos1).Item2,
                 // 字串1的內容
-                sIronPlateName1 = (await getTask_sIronPlateName1).Item2,
+                sIronPlateName1 = (getTask_sIronPlateName1).Item2,
                 // 字串2的x座標
-                rXAxisPos2 = (await getTask_rXAxisPos2).Item2,
+                rXAxisPos2 = (getTask_rXAxisPos2).Item2,
                 // 字串2的y座標
-                rYAxisPos2 = (await getTask_rYAxisPos2).Item2,
+                rYAxisPos2 = (getTask_rYAxisPos2).Item2,
 
                 /// 字串2的內容
-                sIronPlateName2 = (await getTask_sIronPlateName2).Item2,
+                sIronPlateName2 = (getTask_sIronPlateName2).Item2,
                 /// 字串3的x座標
                 //rXAxisPos3 = (await getTask_rXAxisPos3).Item2,
                 /// 字串3的y座標
@@ -801,14 +771,14 @@ namespace GD_MachineConnect
                 // QR Code前字串
                 //sQRCodeName2 = (await getTask_sQRCodeName2).Item2,
                 // 分料盒
-                iStackingID = (await getTask_iStackingID).Item2,
+                iStackingID = (getTask_iStackingID).Item2,
                 // QRCode完成
                 //bQRCodeFinish  =(await getTask_bQRCodeFinish).Item2,
                 // 刻碼完成 
-                bEngravingFinish = (await getTask_bEngravingFinish).Item2,
-                bDataMatrixFinish = (await getTask_bDataMatrixFinish).Item2,
-                sDataMatrixName1 = (await getTask_sDataMatrixName1).Item2,
-                sDataMatrixName2 = (await getTask_sDataMatrixName2).Item2,
+                bEngravingFinish = (getTask_bEngravingFinish).Item2,
+                bDataMatrixFinish = (getTask_bDataMatrixFinish).Item2,
+                sDataMatrixName1 = (getTask_sDataMatrixName1).Item2,
+                sDataMatrixName2 = (getTask_sDataMatrixName2).Item2,
 
             };
 
@@ -855,6 +825,8 @@ namespace GD_MachineConnect
                 {
                     write_ironPlateDataList[i].sIronPlateName1 = string.Empty;
                     write_ironPlateDataList[i].sIronPlateName2 = string.Empty;
+                    write_ironPlateDataList[i].sDataMatrixName1 = string.Empty;
+                    write_ironPlateDataList[i].sDataMatrixName2 = string.Empty;
                 }
             }
 

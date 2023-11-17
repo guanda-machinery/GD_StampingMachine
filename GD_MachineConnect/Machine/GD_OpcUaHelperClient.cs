@@ -66,7 +66,7 @@ namespace GD_MachineConnect.Machine
             return new Uri(BaseUrl, dataPath);
         }
 
-        private const int retryCounter = 3;
+        private const int retryCounter = 10;
 
 
 

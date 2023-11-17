@@ -18,6 +18,7 @@ using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading;
+using System.Windows;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -116,7 +117,7 @@ namespace GD_StampingMachine.ViewModels
                 if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {
                     var DelProjectsString = projectDistributeGridControlSelectedItems.ToList().Select(x => x.ProjectDistributeName).ExpandToString();
-                    if (await MethodWinUIMessageBox.AskDelProject(DelProjectsString))
+                    if (await MethodWinUIMessageBox.AskDelProject(DelProjectsString) is MessageBoxResult.Yes)
                     {
                         var Removed_List = new List<int>();
                         foreach (var _selectItem in projectDistributeGridControlSelectedItems)

@@ -40,9 +40,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         { 
             get 
             {
-                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.qrcode)
+                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
                     return 6;
-                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.normal)
+                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
                     return 8;
 
                 return 0;

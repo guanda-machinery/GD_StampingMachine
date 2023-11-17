@@ -515,6 +515,15 @@
 
                         </GroupBox>
 
+                        <GroupBox  Header="{DynamicResource btn_CycleStart}">
+                            <StackPanel>
+                                <Button  Command="{Binding StampMachineData.CycleStartCommand}">
+                                </Button>
+                            </StackPanel>
+
+                        </GroupBox>
+
+
 
                         <GroupBox Header="{DynamicResource Text_ManualMode}">
                             <ToggleButton IsChecked="{Binding IsManualMode}" />
@@ -540,7 +549,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button 
+                            <Button Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
                                 Content="{materialDesign:PackIcon Kind=Braille}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
@@ -558,7 +567,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button
+                            <Button Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
                                 Content="{materialDesign:PackIcon Kind=ProgressStarFourPoints}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
@@ -576,7 +585,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button 
+                            <Button  Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
                                 Content="{materialDesign:PackIcon Kind=RefreshAuto}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">

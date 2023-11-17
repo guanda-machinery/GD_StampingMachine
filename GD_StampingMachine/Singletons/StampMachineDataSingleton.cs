@@ -853,27 +853,41 @@ namespace GD_StampingMachine.Singletons
 
         private Task scanTask;
         private CancellationTokenSource _cts;
+
+
+
+
         public async Task StartScanOpcua()
         {
+
+            if (scanTask != null)
+            {
+                if (scanTask.Status == TaskStatus.Running)
+                {
+                    _cts.Cancel();
+                    await scanTask;
+                }
+            }
+            
             if (scanTask == null || scanTask.Status != TaskStatus.Running)
             {
                 _cts = new CancellationTokenSource();
-                scanTask = Task.Run(async () => await RunScanTask(_cts.Token));
+                scanTask = RunScanTask(_cts.Token);
             }
-            await scanTask;
         }
 
         public async Task StopScanOpcua()
         {
-            if (scanTask == null)
-            {
-                return;
-            }
+
             //等待掃描解除
             _cts?.Cancel();
             //等待isscan 消失
-            await scanTask;
-            scanTask = null;
+            if (scanTask != null)
+            {
+                await scanTask;
+                scanTask = null;
+            }
+            IsScaning = false;
         }
 
         private async Task RunScanTask(CancellationToken cancelToken)
@@ -1029,7 +1043,7 @@ namespace GD_StampingMachine.Singletons
                                             settingBaseVM = new NumberSettingViewModel()
                                             {
                                                 SpecialSequence = specialSequence,
-                                                SheetStampingTypeForm = SheetStampingTypeFormEnum.normal,
+                                                SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping,
                                                // PlateNumber = plateData.sIronPlateName1++++ plateData.sIronPlateName2,
                                                 PlateNumber = plateData.sIronPlateName1.PadRight(rowLength) + plateData.sIronPlateName2,
                                                 SequenceCount = rowLength
@@ -1040,7 +1054,7 @@ namespace GD_StampingMachine.Singletons
                                             settingBaseVM = new QRSettingViewModel()
                                             {
                                                 SpecialSequence = specialSequence,
-                                                SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode,
+                                                SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping,
                                                 // PlateNumber = plateData.sIronPlateName1++++ + plateData.sIronPlateName2,
                                                 PlateNumber = plateData.sIronPlateName1.PadRight(rowLength) + plateData.sIronPlateName2,
                                                 SequenceCount = rowLength,
@@ -1073,9 +1087,9 @@ namespace GD_StampingMachine.Singletons
                                         List<DispatcherOperation> invokeList = new();
                                         for (int i = 0; i < plateMonitorVMCollection.Count; i++)
                                         {
+                                            int index = i;//防止閉包問題
                                             var invoke = Application.Current?.Dispatcher.InvokeAsync(async () =>
                                             {
-                                                int index = i;//防止閉包問題
                                                 MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
                                                 await Task.Delay(1);
                                             });
@@ -1911,9 +1925,41 @@ namespace GD_StampingMachine.Singletons
                 {
                     var isActived = await GD_Stamping.GetHydraulicPumpMotor();
                     if (isActived.Item1)
+                    {
                         await GD_Stamping.SetHydraulicPumpMotor(!isActived.Item2);
+
+                        //等待他變色 或是等五秒
+                        try
+                        {
+                            CancellationTokenSource cts = new CancellationTokenSource(5000);
+                            await Task.Run(async() =>
+                            {
+                                while (!cts.Token.IsCancellationRequested)
+                                {
+                                    var HPumpIsActive = await GD_Stamping.GetHydraulicPumpMotor();
+                                    if (HPumpIsActive.Item1)
+                                    {
+                                        HydraulicPumpIsActive = HPumpIsActive.Item2;
+                                        if (HydraulicPumpIsActive)
+                                            break;
+                                    }
+
+                                    if (cts.Token.IsCancellationRequested)
+                                    {
+                                        cts.Token.ThrowIfCancellationRequested();
+                                    }
+                                   await Task.Delay(100);
+                                }
+                            });
+                        }
+                        catch
+                        {
+
+                        }
+                    }
                 }
-            });
+
+            },()=> !_activeHydraulicPumpMotor.IsRunning);
         }
 
         public async Task<bool> SetHMIIronPlateData(IronPlateDataModel ironPlateData)
@@ -2190,8 +2236,8 @@ namespace GD_StampingMachine.Singletons
                                                                     if (Math.Abs(NowPos - lastPos) < 0.1)
                                                                     {
                                                                         //位置很相近
-                                                                        //紀錄次數 若超過10次則視為超時
-                                                                        if (posCount > 10)
+                                                                        //紀錄次數 若超過50次則視為超時
+                                                                        if (posCount > 50)
                                                                             break;
                                                                         posCount++;
                                                                     }
@@ -2703,6 +2749,17 @@ namespace GD_StampingMachine.Singletons
             }, () => !_resetCommand.IsRunning);
         }
 
+        private AsyncRelayCommand _cycleStartCommand;
+        public AsyncRelayCommand CycleStartCommand
+        {
+            get => _cycleStartCommand ??= new AsyncRelayCommand(async () =>
+            {
+                if (await GD_Stamping.AsyncConnect())
+                {
+                    var ret = await GD_Stamping.CycleStart();
+                }
+            }, () => !_cycleStartCommand.IsRunning);
+        }
 
 
 
@@ -3165,15 +3222,17 @@ namespace GD_StampingMachine.Singletons
             get => _engravingRotateStation; set { _engravingRotateStation = value; OnPropertyChanged(); }
         }
 
+
+
+
+        private AsyncRelayCommand<object> _setOperationModeCommand;
         public AsyncRelayCommand<object> SetOperationModeCommand
         {
-            get => new AsyncRelayCommand<object>(async para =>
+            get => _setOperationModeCommand ??=new AsyncRelayCommand<object>(async para =>
             {
                 if (para is OperationModeEnum operationMode)
                 {
-
                     await GD_Stamping.SetOperationMode(operationMode);
-
                 }
                 if (para is int operationIntMode)
                 {
@@ -3186,8 +3245,17 @@ namespace GD_StampingMachine.Singletons
 
                     }
                 }
+
+                var oper=  await GD_Stamping.GetOperationMode();
+                if (oper.Item1)
+                    OperationMode = oper.Item2;
+                else
+                    OperationMode = OperationModeEnum.None;
+                //按完之後立刻刷新按鈕狀態
+
+
             }
-            , para => !EngravingRotateCommand.IsRunning);
+            , para => !SetOperationModeCommand.IsRunning);
         }
 
 

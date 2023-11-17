@@ -13,15 +13,15 @@ namespace GD_StampingMachine.Method
     {
 
 
-        public static async Task<bool> AskOverwriteOrNot()
+        public static async Task<MessageBoxResult> AskOverwriteOrNot()
         {
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"));
-            return await MessageBoxReturn == MessageBoxResult.Yes;
+            return await MessageBoxReturn;
         }
 
-        public static async Task<bool> AskDelProject(string NumberSetting)
+        public static async Task<MessageBoxResult> AskDelProject(string NumberSetting)
         {
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -29,14 +29,14 @@ namespace GD_StampingMachine.Method
                 "\r\n" +
                 $"{NumberSetting}" +
                 "?");
-            return await MessageBoxReturn == MessageBoxResult.Yes;
+            return await MessageBoxReturn;
         }
         /// <summary>
         /// 詢問關閉專案
         /// </summary>
         /// <param name="NumberSetting"></param>
         /// <returns></returns>
-        public static async Task<bool> AskCloseProject(string ProjectName)
+        public static async Task<MessageBoxResult> AskCloseProject(string ProjectName)
         {
             var MessageBoxReturn = ShowYesNo(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -47,7 +47,7 @@ namespace GD_StampingMachine.Method
                 $"{ProjectName}" +
                 "?");
 
-            return await MessageBoxReturn == MessageBoxResult.Yes;
+            return await MessageBoxReturn;
         }
 
         /// <summary>

@@ -461,8 +461,9 @@
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
 
-                        <dxg:GridColumn  Header="{DynamicResource Text_Form}" 
-                                             Binding="{Binding SheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}}" 
+                    <dxg:GridColumn  Header="{DynamicResource Text_Form}"   FieldName="SheetStampingTypeForm" 
+                                     
+                                             Binding="{Binding SheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
                                  Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
@@ -777,8 +778,8 @@
                                     <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_EditPart}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
 
                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="5" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="6" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
@@ -786,8 +787,8 @@
 
 
                                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_IronPlateString}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_QrCodeContent}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_QrCodeContent}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
 
 
                                     <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_Parameter_A}"/>
@@ -796,8 +797,8 @@
                                     <TextBlock Grid.Column="1" Grid.Row="7" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
 
                                     <TextBlock Grid.Column="2" Grid.Row="1" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
-                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="5" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="6" Text="："/>
@@ -814,7 +815,7 @@
                                     </TextBox>
 
                                     <TextBox Grid.Column="3" Grid.Row="2"  Width="200" Margin="0"  
-                                              Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"
+                                              Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding EditPartsParameterVM_Cloned.QrCodeContent, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -824,7 +825,7 @@
                                     </TextBox>
 
                                     <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
-                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"
+                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding EditPartsParameterVM_Cloned.QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -971,36 +972,41 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
 
                                         <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_CreatePart}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
 
                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="5" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="6" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="7" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="9" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
 
 
 
                                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_IronPlateString}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_QrCodeContent}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_QrCodeContent}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     
                                     <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_Parameter_A}"/>
                                      <TextBlock Grid.Column="1" Grid.Row="5" Text="{DynamicResource Text_Parameter_B}"/>
                                     <TextBlock Grid.Column="1" Grid.Row="6" Text="{DynamicResource Text_Parameter_C}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="7" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="7" Text="{DynamicResource Text_QrCodeContent}" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="8" Text="{DynamicResource Text_QR_Special_IronPlateString}" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="9" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
 
                                     <TextBlock Grid.Column="2" Grid.Row="1" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
-                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="：" />
                                     <TextBlock Grid.Column="2" Grid.Row="5" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="6" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="7" Text="：" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="7" Text="："/>
+                                    <TextBlock Grid.Column="2" Grid.Row="8" Text="："/>
+                                    <TextBlock Grid.Column="2" Grid.Row="9" Text="：" VerticalAlignment="Center"/>
 
                                     <TextBox Grid.Column="3" Grid.Row="1"  Width="200" Margin="0"  
                                                  Text="{Binding AddNewPartsParameterVM.IronPlateString, UpdateSourceTrigger=PropertyChanged}">
@@ -1012,7 +1018,7 @@
                                     </TextBox>
                                     
                                     <TextBox Grid.Column="3" Grid.Row="2"  Width="200" Margin="0"  
-                                              Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"
+                                              Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding AddNewPartsParameterVM.QrCodeContent, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -1022,7 +1028,7 @@
                                     </TextBox>
                                     
                                     <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
-                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.qrcode}}"
+                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding AddNewPartsParameterVM.QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -1049,7 +1055,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
-                                        <TextBox Grid.Column="3" Grid.Row="6" 
+                                        <TextBox Grid.Column="3" Grid.Row="6"  
                                                  Text="{Binding  AddNewPartsParameterVM.ParameterC,UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -1058,7 +1064,19 @@
                                         </i:Interaction.Triggers>
                                     </TextBox>
 
-                                        <!--  <ComboBox  
+                                    <TextBox Grid.Column="3" Grid.Row="7"  IsEnabled="{Binding AddNewPartsParameterVM.SettingBaseVM ,
+                                        Converter={GD_Common:ObjectIsEqualToBooleanConverter IsTypeJudge=True}, 
+                                        ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel} }"
+                                                 Text="{Binding  AddNewPartsParameterVM.QrCodeContent,UpdateSourceTrigger=PropertyChanged}">
+                                    </TextBox>
+                                    <TextBox Grid.Column="3" Grid.Row="8"  IsEnabled="{Binding AddNewPartsParameterVM.SettingBaseVM ,
+                                        Converter={GD_Common:ObjectIsEqualToBooleanConverter IsTypeJudge=True}, 
+                                        ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel} }"
+                                                 Text="{Binding  AddNewPartsParameterVM.QR_Special_Text,UpdateSourceTrigger=PropertyChanged}">
+                                    </TextBox>
+
+
+                                    <!--  <ComboBox  
                                             Name="NumberSettingSelectComboBox" 
                                             Grid.Column="3" Grid.Row="4" DisplayMemberPath="NumberSettingMode"
                                               ItemsSource="{Binding NumberSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
@@ -1067,7 +1085,7 @@
 
                                     <ComboBox  Name="AddNewPartsSettingBaseVMComboBox"
                                         Margin="10,0" Padding="0" Width="200" Text="123"  
-                                            Grid.Column="3" Grid.Row="7"   MaxDropDownHeight="275" 
+                                            Grid.Column="3" Grid.Row="9"   MaxDropDownHeight="275" 
                                               ItemsSource="{Binding AddNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedItem="{Binding AddNewPartsParameterVM.SettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
@@ -1109,7 +1127,7 @@
                                         </ComboBox.Style>
                                     </ComboBox>
                                     
-                                    <StackPanel  Grid.Row="8" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
+                                    <StackPanel  Grid.Row="10" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
                                             <Button   
                                                                     Content="{DynamicResource btnCancel}"
                                                                   Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}" CommandParameter="{StaticResource FalseValue}">

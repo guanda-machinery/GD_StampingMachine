@@ -1,5 +1,6 @@
 ﻿using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
+using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,8 +17,8 @@ namespace GD_CommonLibrary
     {
          public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is System.Enum EnumValue)
-            {
+           if (value is System.Enum EnumValue)
+          {
                 var description = EnumValue.GetDescription();
                 var CultResource = (string)System.Windows.Application.Current.TryFindResource("Enum_" + EnumValue.ToString());
                 if (!string.IsNullOrEmpty(CultResource))

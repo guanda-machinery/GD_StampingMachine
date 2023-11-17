@@ -385,6 +385,7 @@
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
     <Compile Include="ValueConverters\MultiValueConverters\ToggleButtonMultiBooleanToBooleanConverter.cs" />
+    <Compile Include="ValueConverters\MultiValueConverters\UnionBooleanMultiValueConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToAutoOrNaNValueConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
     <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
@@ -409,6 +410,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj">
+      <Project>{1B72928B-A32A-440A-854B-2EC435881875}</Project>
+      <Name>GD_StampingMachine.GD_Enum</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets" Condition="Exists('..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets')" />

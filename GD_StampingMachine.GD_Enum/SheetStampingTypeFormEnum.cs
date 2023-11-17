@@ -11,10 +11,10 @@ namespace GD_StampingMachine.GD_Enum
     public enum SheetStampingTypeFormEnum
     {
         //None = 0,
-        // [LocalizedDescription("NormalSheetStamping", typeof(EnumResources))]
-        normal = 1,
-        // [LocalizedDescription("QRSheetStamping", typeof(EnumResources))]
-        qrcode = 2,
-
+        NormalSheetStamping = 1,
+        QRSheetStamping = 2,
     }
+
+
+
 }

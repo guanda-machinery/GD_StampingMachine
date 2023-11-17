@@ -39,7 +39,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.qrcode;
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.QRSheetStamping;
         /// <summary>
         /// 選擇
         /// </summary>
@@ -138,7 +138,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     var FIndex = QRSettingModelCollection.ToList().FindIndex(x => x.NumberSettingMode == QRSettingVM.NumberSettingMode);
                     if (FIndex != -1)
                     {
-                        if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                        if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot() == MessageBoxResult.Yes)
                         {
                             Application.Current.Dispatcher.Invoke(() =>
                             {

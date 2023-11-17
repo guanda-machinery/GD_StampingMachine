@@ -219,7 +219,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             }
                             else
                             {
-                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}"))
+                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}") == MessageBoxResult.Yes)
                                     GridItemSource.Remove(CurrentItem);
                             }
 
@@ -676,7 +676,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         if (_erp.QrCode)
                         {
                             SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
-                            SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.qrcode;
+                            SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
 
                             //QRcode展開
 
@@ -711,7 +711,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         else
                         {
                             SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
-                            SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.normal;
+                            SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
 
                             importPartsParameterVMList.Add(new PartsParameterViewModel()
                             {
@@ -1009,7 +1009,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 }
 
                                 //詢問是否要關閉
-                                if (!(await MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName)))
+                                if ((await MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))!= MessageBoxResult.Yes)
                                     return;
 
                                 //將資料清除

@@ -303,6 +303,7 @@
 
     <sys:String x:Key="btnMachiningDataManage">加工管理</sys:String>
     <sys:String x:Key="btnMachiningDataTransfer">傳送加工資料</sys:String>
+    <sys:String x:Key="btnCompleteMachining">加工剩餘訂單</sys:String>
     <sys:String x:Key="btnMachiningDataTransferDisrupt">加工中斷</sys:String>
     <sys:String x:Key="btnMachiningDataClear">清除加工資料</sys:String>
 
@@ -338,6 +339,7 @@
     <sys:String x:Key="Text_ManualMode">手動模式</sys:String>
 
     <sys:String x:Key="Reset">Reset</sys:String>
+    <sys:String x:Key="btn_CycleStart">CycleStart</sys:String>
 
     
     
@@ -392,6 +394,7 @@
     <sys:String x:Key="Connection_IsSucessful">連線成功</sys:String>
 
     <sys:String x:Key="NoneMachiningData">沒有可加工的資料</sys:String>
+    <sys:String x:Key="RemainingMachiningData">剩餘的加工資料</sys:String>
 
 
     <sys:String x:Key="Connection_MachiningProcessStart">加工程序開始</sys:String>

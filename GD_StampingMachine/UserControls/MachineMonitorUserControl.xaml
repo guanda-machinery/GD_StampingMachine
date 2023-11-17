@@ -729,8 +729,45 @@
 
 
 
-                        <Button Command="{Binding SendMachiningCommand}" Content="{DynamicResource btnMachiningDataTransfer}"/>
-                        <Button Command="{Binding SendMachiningCancelCommand}" Content="{DynamicResource btnMachiningDataTransferDisrupt}"/>
+                        <Button Command="{Binding SendMachiningCommand}" Content="{DynamicResource btnMachiningDataTransfer}">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource FalseValue}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="SendMachiningCommand.IsRunning" />
+                                        <Binding Path="CompleteMachiningDataCommand.IsRunning" />
+                                    </MultiBinding.Bindings>
+                                    <!-- Add more bindings as needed -->
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+
+                        <Button Command="{Binding CompleteMachiningDataCommand}" 
+                                Content="{DynamicResource btnCompleteMachining}">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource FalseValue}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="SendMachiningCommand.IsRunning" />
+                                        <Binding Path="CompleteMachiningDataCommand.IsRunning" />
+                                    </MultiBinding.Bindings>
+                                    <!-- Add more bindings as needed -->
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+
+                        <Button Command="{Binding SendMachiningCancelCommand}" 
+                                Content="{DynamicResource btnMachiningDataTransferDisrupt}">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource TrueValue}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="SendMachiningCommand.IsRunning" />
+                                        <Binding Path="CompleteMachiningDataCommand.IsRunning" />
+                                    </MultiBinding.Bindings>
+                                    <!-- Add more bindings as needed -->
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                            
+                        </Button>
+
 
                         <Button Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
                                 Content="{DynamicResource btnMachiningDataClear}"/>

@@ -36,7 +36,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelNormalViewModel");
 
 
-        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.normal;
+        public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.NormalSheetStamping;
 
 
 
@@ -107,7 +107,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                 if (FIndex != -1)
                 {
-                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot())
+                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot() == MessageBoxResult.Yes)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                          {
