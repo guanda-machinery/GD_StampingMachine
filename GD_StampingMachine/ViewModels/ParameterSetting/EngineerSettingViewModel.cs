@@ -17,8 +17,24 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class EngineerSettingViewModel : ParameterSettingBaseViewModel
+    public class EngineerSettingViewModel : ParameterSettingBaseViewModel, IAsyncDisposable
     {
+
+        private bool isDisposed = false;
+        public async ValueTask DisposeAsync()
+        {
+            if (!isDisposed)
+            {
+                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
+                // 标记为已释放
+                isDisposed = true;
+
+                Console.WriteLine("Async resources disposed.");
+            }
+        }
+
+
+
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_EngineerSettingViewModel");
         public EngineerSettingViewModel(EngineerSettingModel _EngineerSetting)
         {
@@ -119,9 +135,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _opcuaStopScanCommand??=new(async () =>
             {
                 await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
-
-
-
             }, () => !OpcuaStopScanCommand.IsRunning);
         }
 

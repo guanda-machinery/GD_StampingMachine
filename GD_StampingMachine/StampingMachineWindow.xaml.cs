@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.Xpf.WindowsUI;
+using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace GD_StampingMachine
             InitializeComponent();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var MessageBoxReturn = WinUIMessageBox.Show(new Window(),
     (string)Application.Current.TryFindResource("Text_AskCloseProgram"),
@@ -41,6 +42,8 @@ namespace GD_StampingMachine
                 e.Cancel = false;
             else
                 e.Cancel = true;
+
+            await StampMachineDataSingleton.Instance.DisposeAsync();
             //呼叫各儲存命令
         }
 

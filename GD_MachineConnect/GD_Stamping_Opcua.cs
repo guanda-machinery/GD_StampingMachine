@@ -6,6 +6,7 @@ using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using Opc.Ua;
 using OpcUaHelper;
+using Org.BouncyCastle.Asn1.Utilities;
 using Org.BouncyCastle.Crypto.Tls;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace GD_MachineConnect
         /// <summary>
         /// 實作長連接
         /// </summary>
-        private readonly GD_OpcUaHelperClient GD_OpcUaClient;
+        private GD_OpcUaHelperClient GD_OpcUaClient;
         private bool disposedValue;
 
         ~GD_Stamping_Opcua()
@@ -47,9 +48,9 @@ namespace GD_MachineConnect
             {
                 if (disposing)
                 {
+                    GD_OpcUaClient.Disconnect();
                     // TODO: 處置受控狀態 (受控物件)
                 }
-                this.Disconnect();
 
                 // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
                 // TODO: 將大型欄位設為 Null
@@ -63,14 +64,12 @@ namespace GD_MachineConnect
         //     // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
         //     Dispose(disposing: false);
         // }
-
         public void Dispose()
         {
             // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-
 
         public GD_Stamping_Opcua(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
@@ -1423,6 +1422,10 @@ namespace GD_MachineConnect
                 /// </summary>
                 EngravingRotate1,
                 /// <summary>
+                /// QrCode機器
+                /// </summary>
+                DataMatrix1,
+                /// <summary>
                 /// 系統
                 /// </summary>
                 OperationMode1,
@@ -1441,7 +1444,19 @@ namespace GD_MachineConnect
                 /// <summary>
                 /// 分料
                 /// </summary>
-                Stacking1
+                Stacking1,
+                /// <summary>
+                /// 刻印
+                /// </summary>
+                Pump1,
+                /// <summary>
+                /// 裁斷
+                /// </summary>
+                Pump2,
+                /// <summary>
+                /// 潤滑
+                /// </summary>
+                Lubrication1
 
             }
 
@@ -1693,6 +1708,21 @@ namespace GD_MachineConnect
             }
 
             /// <summary>
+            /// QR機
+            /// </summary>
+            public class DataMatrix1
+            {
+                /// <summary>
+                /// 設定ip
+                /// </summary>
+                public static string sv_sContactTCPIP => $"{NodeHeader}.{NodeVariable.DataMatrix1}.sv_sContactTCPIP";
+                /// <summary>
+                /// 設定port
+                /// </summary>
+                public static string sv_sContactTCPPort => $"{NodeHeader}.{NodeVariable.DataMatrix1}.sv_sContactTCPPort";
+            }
+
+            /// <summary>
             /// QR壓座組
             /// </summary>
             public class Fixture1
@@ -1780,8 +1810,32 @@ namespace GD_MachineConnect
                 public static string di_ButtonFullAuto => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonFullAuto";
                 public static string di_ButtonAlarmConfirm => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonAlarmConfirm";
                 public static string di_ButtonCycleStart => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonCycleStart";
-
             }
+
+            public class Pump1
+            {
+                /// <summary>
+                /// AO_刻印壓力
+                /// </summary>
+                public static string ao_Pressure => $"{NodeHeader}.{NodeVariable.Pump1}.ao_Pressure";
+                /// <summary>
+                ///  AO_刻印速度
+                /// </summary>
+                public static string ao_Velocity => $"{NodeHeader}.{NodeVariable.Pump1}.ao_Velocity";
+            }
+
+            public class Pump2
+            {
+                /// <summary>
+                /// AO_裁斷壓力
+                /// </summary>
+                public static string ao_Pressure => $"{NodeHeader}.{NodeVariable.Pump2}.ao_Pressure";
+                /// <summary>
+                ///  AO_裁斷速度
+                /// </summary>
+                public static string ao_Velocity => $"{NodeHeader}.{NodeVariable.Pump2}.ao_Velocity";
+            }
+            
 
 
 
@@ -2152,7 +2206,61 @@ namespace GD_MachineConnect
     
             }  
 
+            /// <summary>
+            /// 潤滑
+            /// </summary>
+            public class Lubrication1
+            {
+                /// <summary>
+                /// DO_潤滑系統ON/OFF
+                /// </summary>
+                public static string do_Lubrication => $"{NodeHeader}.{NodeVariable.Lubrication1}.do_Lubrication";
+                /// <summary>
+                /// SW_潤滑按鈕
+                /// </summary>
+                public static string sv_bButtonLubrication => $"{NodeHeader}.{NodeVariable.Lubrication1}.sv_bButtonLubrication";
+             
+                public class sv_LubricationSetValues
+                {
+                    /// <summary>
+                    /// 潤滑設定時間
+                    /// </summary>
+                    public static string dLubTime => $"{NodeHeader}.{NodeVariable.Lubrication1}.sv_LubricationSetValues.dLubTime ";
 
+                    /// <summary>
+                    /// 潤滑開設定時間
+                    /// </summary>
+                    /// <returns></returns>
+                    public static string dOnTime => $"{NodeHeader}.{NodeVariable.Lubrication1}.sv_LubricationSetValues.dOnTime ";
+                    /// <summary>
+                    /// 潤滑關設定時間
+                    /// </summary>
+                    /// <returns></returns>
+                    public static string dOffTime => $"{NodeHeader}.{NodeVariable.Lubrication1}.sv_LubricationSetValues.dOffTime ";
+                }
+
+
+
+                public class sv_LubricationActValues
+                {
+                    /// <summary>
+                    /// 潤滑實際時間
+                    /// </summary>
+                    public static string dLubTime => $"{NodeHeader}.{NodeVariable.Lubrication1}.sv_LubricationActValues.dLubTime ";
+
+                    /// <summary>
+                    /// 潤滑開實際時間
+                    /// </summary>
+                    /// <returns></returns>
+                    public static string dOnTime => $"{NodeHeader}.{NodeVariable.Lubrication1}.sv_LubricationActValues.dOnTime ";
+                    /// <summary>
+                    /// 潤滑關實際時間
+                    /// </summary>
+                    /// <returns></returns>
+                    public static string dOffTime => $"{NodeHeader}.{NodeVariable.Lubrication1}.sv_LubricationActValues.dOffTime ";
+                }
+
+            }
 
 
 

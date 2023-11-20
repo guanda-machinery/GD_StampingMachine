@@ -14,7 +14,7 @@
                        mc:Ignorable="d"
                        Background="Transparent"
                        DataContext="{x:Static dxmvvm:DXSplashScreenViewModel.DesignTimeData}">
-    <Grid Width="500" Height="100">
+    <Grid MinWidth="500" Height="100">
         <Border
             Background="{StaticResource solidclr_CreamyWhite}"
                 BorderBrush="#49FFFFFF"

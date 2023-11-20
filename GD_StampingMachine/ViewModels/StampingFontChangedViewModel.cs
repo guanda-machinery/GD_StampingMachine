@@ -568,9 +568,9 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _compareFontsSettingBetweenMachineAndSoftwareCommand ??= new(async () =>
             {
-                if (await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware())
-                {
-                    //
+                if (await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware(
+                     StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection))
+                { 
                     await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                         (string)Application.Current.TryFindResource("Notify_PunchedFontsIsCompared"));
                 }

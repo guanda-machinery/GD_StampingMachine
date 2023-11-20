@@ -2,6 +2,7 @@
 using DevExpress.CodeParser;
 using DevExpress.Utils.MVVM;
 using DevExpress.Xpf.Core.Internal;
+using GD_CommonLibrary.GD_Popup;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json.Linq;
 using System;
@@ -49,6 +50,8 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty ButtonContentProperty =  DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
         public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool?), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+        //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, OnIsCheckedChanged));
+
         public static readonly DependencyProperty IsThreeStateProperty = DependencyProperty.Register(nameof(IsThreeState), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
 
         public static readonly DependencyProperty IsDragableProperty = DependencyProperty.Register(nameof(IsDragable), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
@@ -72,6 +75,15 @@ namespace GD_StampingMachine.UserControls.CustomControls
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
         public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
+      
+        private static void OnIsCheckedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var thisobj = (FunctionToggleUserControl)obj;
+
+            thisobj.Toggle.IsChecked = e.NewValue as bool?;
+        }
+
+
 
 
         public double Progress
@@ -307,6 +319,8 @@ namespace GD_StampingMachine.UserControls.CustomControls
                 SetValue(CommandProperty, value);
             }
         }
+
+
 
         [Bindable(true)]
         [Category("Action")]

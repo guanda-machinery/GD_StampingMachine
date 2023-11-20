@@ -722,7 +722,8 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
-                            <Button  Name="ImportParameterToggleButton"
+                            <Button  IsEnabled="{Binding ImportProjectCommand.IsRunning ,Converter={GD_Common:InvertBooleanConverter}}"
+                                Name="ImportParameterToggleButton"
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=ImportParameterDarggablePopup}"
@@ -1352,7 +1353,7 @@
                                                                     Content="{DynamicResource btnCancel}"
                                                                     Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}" CommandParameter="{StaticResource FalseValue}">
                                             </Button>
-                                        <Button Content="{DynamicResource btnCreate}">
+                                        <Button Content="{DynamicResource btnImport}">
                                                 <Button.IsEnabled>
                                                     <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                                     <Binding Path="ImportFilePath"/>
@@ -1367,13 +1368,7 @@
                                         </Button>
                                         </StackPanel>
 
-                                        <GroupBox  Grid.Row="6" Header="test" Grid.ColumnSpan="4" Margin="0,5" Visibility="Collapsed" >
-                                            <StackPanel >
-                                                <TextBlock Text="完成進度(測試用)"/>
-                                                <Slider Value="{Binding CreatedProjectModel.FinishProgress}" Foreground="Black" Maximum="100" Interval="1" />
-                                                <TextBlock Text="{Binding CreatedProjectModel.FinishProgress}"/>
-                                            </StackPanel>
-                                        </GroupBox>
+
 
                                     </Grid>
                                 </Border>
@@ -1514,8 +1509,8 @@
                  BorderBrush="#595E60" >
                     <!--
                                      -->
-                    <dxg:GridControl Name="ProjectGridControl" 
-                        IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" 
+                    <dxg:GridControl Name="ProjectGridControl"  
+                                     IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" 
                                       Background="Transparent"
                                       ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                       DataAreaBackground="Transparent"
@@ -1531,8 +1526,8 @@
                         </i:Interaction.Triggers>
 
                         <dxg:GridControl.View >
-                            <dxg:TableView   
-                                SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            <dxg:TableView  
+                                SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}"
                                 PageSize="25"
                                 AllowPaging="True"
                                 IsColumnMenuEnabled ="False"

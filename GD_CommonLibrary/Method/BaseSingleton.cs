@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary
 {
-    public abstract class BaseSingleton<T>: IDisposable, INotifyPropertyChanged where T : BaseSingleton<T>  
+    public abstract class BaseSingleton<T>: IAsyncDisposable, INotifyPropertyChanged where T : BaseSingleton<T>  
     {
 
         private static readonly Lazy<T> Lazy = new(() => (Activator.CreateInstance(typeof(T), true) as T)!);
@@ -62,7 +62,7 @@ namespace GD_CommonLibrary
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        /*protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
@@ -75,21 +75,38 @@ namespace GD_CommonLibrary
                 // TODO: 將大型欄位設為 Null
                 disposedValue = true;
             }
+        }*/
+
+        protected virtual async ValueTask DisposeAsyncCore()
+        {
+            if (!disposedValue)
+            {
+                await Task.Delay(1);
+                disposedValue = true;
+            }
         }
 
         // TODO: 僅有當 'Dispose(bool disposing)' 具有會釋出非受控資源的程式碼時，才覆寫完成項
         ~BaseSingleton()
         {
-            // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
-            Dispose(disposing: false);
+
         }
 
-        public void Dispose()
+      /*  public void Dispose()
         {
             // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
+        }*/
+
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            //Dispose(false);
+            GC.SuppressFinalize(this);
         }
+
+
     }
 
 

@@ -364,12 +364,19 @@
     <sys:String x:Key="Text_LoadSuccessful">讀取成功</sys:String>
     <sys:String x:Key="Text_LoadFail">讀取失敗</sys:String>
 
+
     <sys:String x:Key="Text_ImportFail">匯入失敗</sys:String>
     <sys:String x:Key="Text_ImportableFileNotExisted">找不到可匯入的檔案</sys:String>
 
-    
+    <sys:String x:Key="Text_CheckFile">正在檢查檔案</sys:String>
+    <sys:String x:Key="Text_Importing">正在匯入</sys:String>
+    <sys:String x:Key="Text_ImportFinishing">正在完成匯入</sys:String>
+
+
     <sys:String x:Key="Text_ImportNeedSetNumberCode">匯入資料內含有一般加工資料，請先選擇符合的鐵片</sys:String>
     <sys:String x:Key="Text_ImportNeedSetQrCode">匯入資料內含有QR加工資料，請先選擇符合的鐵片</sys:String>
+    
+    <sys:String x:Key="Text_ImportNotifyChecked">已找到「{0}」筆資料，是否要進行匯入？</sys:String>
     <sys:String x:Key="Text_ImportNotifySuceesful">成功匯入「{0}」筆資料！</sys:String>
 
     <sys:String x:Key="Text_SettingAskOverwrite">設定已存在，是否要覆蓋</sys:String>
@@ -406,7 +413,7 @@
 
     <!--機台-->
 
-    <sys:String x:Key="Text_MachineNotInSetupMode">機台不在Setup模式</sys:String>
+     <sys:String x:Key="Text_MachineNotInSetupMode">機台不在Setup模式</sys:String>
 
     <sys:String x:Key="Text_HydraulicPumpMotorIsNotAcitved">液壓馬達未啟動</sys:String>
     <sys:String x:Key="Text_HydraulicPumpMotorAcitvedFailure">液壓馬達啟動失敗</sys:String>
@@ -473,6 +480,8 @@
     <sys:String x:Key="Name_SettingViewModelNormalViewModel">一般號碼設定</sys:String>
     <sys:String x:Key="Name_SettingViewModelQRViewModel">QR號碼設定</sys:String>
     <sys:String x:Key="Name_StampingFontChangedViewModel">字模設定</sys:String>
-    
+
+    <sys:String x:Key="Name_StampMachineDataSingleton">機台連線</sys:String>
+
     <sys:String x:Key="Name_OperatingLogViewModel">操作紀錄</sys:String>
 </ResourceDictionary>

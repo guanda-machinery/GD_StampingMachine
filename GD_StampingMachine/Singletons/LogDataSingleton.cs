@@ -51,7 +51,7 @@ namespace GD_StampingMachine.Singletons
 
         //private static readonly object thisLock = new object();
 
-        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
         public async void AddLogData(string SourceName, string LogString, bool IsAlarm = false)
         {
             try
@@ -65,7 +65,6 @@ namespace GD_StampingMachine.Singletons
                 if (string.IsNullOrEmpty(ResourceString))
                     ResourceString = LogString;
 
-
                 var OperatingLog = (new OperatingLogModel(DateTime.Now, LogSource, ResourceString, IsAlarm));
                 await System.Windows.Application.Current.Dispatcher.InvokeAsync((Action)(() =>
                 {
@@ -77,7 +76,7 @@ namespace GD_StampingMachine.Singletons
                     const string LogFileDirectory = "Logs";
                     string LogFileName = System.IO.Path.Combine(LogFileDirectory, $"Log-{DateTime.Now.ToString("yyyy-MM-dd")}");
                     LogFileName += ".csv";
-                    CsvFileManager csvManager = new CsvFileManager();
+                    CsvFileManager csvManager = new();
                     //嘗試寫入被鎖定的檔案
                     if (Singletons.LogDataSingleton.Instance.TempOperatingLog.Count > 0)
                     {
@@ -121,7 +120,6 @@ namespace GD_StampingMachine.Singletons
                     semaphoreSlim.Release();
                 }
                 //將錯誤資料記錄下來
-
             }
             catch (Exception ex)
             {

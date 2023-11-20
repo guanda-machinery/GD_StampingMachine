@@ -73,19 +73,7 @@ namespace GD_StampingMachine
 
                     await Task.Delay(1000);
                     await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
-                    //檢查字模
-                    while (!Singletons.StampMachineDataSingleton.Instance.IsConnected)
-                    {
-                        await Task.Delay(100);
-                    }
 
-                    await Task.Delay(1000);
-                    while (Singletons.StampMachineDataSingleton.Instance.RotatingTurntableInfoCollection.Count == 0)
-                    {
-                        await Task.Delay(100);
-                    }
-                    await Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware();
-                    //等待連線 並檢查字模是否設定正確->
                 }
                 catch (Exception ex)
                 {
@@ -94,7 +82,7 @@ namespace GD_StampingMachine
             });
         }
 
-        private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private async void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)
             {
@@ -102,7 +90,7 @@ namespace GD_StampingMachine
                 LogDataSingleton.Instance.AddLogData(nameof(App), exception.Message, true);
                 
                 //切斷機台連線
-                StampMachineDataSingleton.Instance.Dispose();
+                await StampMachineDataSingleton.Instance.DisposeAsync();
 
                 //顯示彈窗
 

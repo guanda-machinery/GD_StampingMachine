@@ -31,14 +31,8 @@ namespace GD_CommonLibrary.Method
                     DevExpress.Xpf.Core.FloatingMode.Window);
             }));
 
-           /* var tcs = new TaskCompletionSource<MessageBoxResult>();
-            tcs.SetResult(MessageBoxResult.Yes);
-
-            return tcs.Task;*/
 
 
-
-            //formBrowseServer.FormClosed += (sender, e) => tcs.SetResult(DialogResult.Abort);
             return MessageBoxReturn;
         }
 

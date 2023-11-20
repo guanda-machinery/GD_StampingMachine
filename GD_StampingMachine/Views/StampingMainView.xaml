@@ -1105,7 +1105,7 @@
                                 <GD_Customcontrols:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint"
                                                                              IsThreeState="False"
                                                                              IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsReturningToOrigin}"     
-                                                                             Command="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=ReturnToOriginCommand}"                        
+                                                                             Command="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=ReturnToOriginCommand}" Cursor="Hand"                        
                                                                              >
                                     <GD_Customcontrols:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">

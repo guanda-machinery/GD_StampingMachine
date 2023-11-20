@@ -50,8 +50,8 @@ namespace GD_StampingMachine.Singletons
 {
     public class StampMachineDataSingleton : GD_CommonLibrary.BaseSingleton<StampMachineDataSingleton>
     {
-        public const string DataSingletonName = "Name_StampMachineDataSingleton";
-
+        //  public const string DataSingletonName = "Name_StampMachineDataSingleton";
+        public string DataSingletonName => (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved");
 
         private GD_Stamping_Opcua GD_Stamping;
 
@@ -770,8 +770,6 @@ namespace GD_StampingMachine.Singletons
 
             init_Stamping();
         }
-
-
         private void init_Stamping()
         {
             GD_Stamping = CommunicationSetting.Protocol switch
@@ -782,32 +780,11 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-
-        ~StampMachineDataSingleton()
+        protected override async ValueTask DisposeAsyncCore()
         {
-            this.Dispose(false);
+            await StopScanOpcua();
+            GD_Stamping.Disconnect();
         }
-
-        private bool disposedValue;
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    GD_Stamping.Disconnect();
-
-                    // TODO: 處置受控狀態 (受控物件)
-                }
-
-                GD_Stamping = null;
-                // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
-                // TODO: 將大型欄位設為 Null
-                disposedValue = true;
-            }
-        }
-
-
 
 
 
@@ -930,10 +907,6 @@ namespace GD_StampingMachine.Singletons
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                             ManagerVM.Subtitle = string.Empty;
 
-                         //   var feedSVelocity = await GD_Stamping.GetFeedingSetupVelocity();
-                          //  if (feedSVelocity.Item1)
-                            //    this.FeedingSpeed = feedSVelocity.Item2;
-
                             var feedingVelocity = await GD_Stamping.GetFeedingVelocity();
                             if (feedingVelocity.Item1)
                                 this.FeedingVelocity = feedingVelocity.Item2;
@@ -951,6 +924,26 @@ namespace GD_StampingMachine.Singletons
                             var engravingFeedingfeedSVelocity = await GD_Stamping.GetEngravingFeedingSetupVelocity();
                             //初始化後直接設定其他數值
                             await Task.Delay(1);
+
+                            //檢查字模
+
+                            await Task.Delay(1000);
+
+                            ObservableCollection<StampingTypeViewModel> rotatingStampingTypeVMObservableCollection = new();
+                            var rotatingTurntableInfoList = await GD_Stamping.GetRotatingTurntableInfo();
+                            if (rotatingTurntableInfoList.Item1)
+                            {
+                                rotatingTurntableInfoList.Item2.ForEach(stamp =>
+                                {
+                                    rotatingStampingTypeVMObservableCollection.Add(new StampingTypeViewModel(stamp));
+                                });
+
+                                await CompareFontsSettingBetweenMachineAndSoftware(
+                                    StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection, rotatingStampingTypeVMObservableCollection
+                                    );
+                            }
+                            //等待連線 並檢查字模是否設定正確->
+
                             break;
                         }
                         else
@@ -1407,26 +1400,32 @@ namespace GD_StampingMachine.Singletons
             IsScaning = false;
         }
 
+        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftware(ObservableCollection<StampingTypeViewModel> settingCollection)
+        {
+            return await CompareFontsSettingBetweenMachineAndSoftware(settingCollection, this.RotatingTurntableInfoCollection);
+        }
 
-
-        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftware()
-        {                                //比較鋼印字模/機台字模的字元是否相同 -> 若不同則跳出一個視窗提示
+        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftware(ObservableCollection<StampingTypeViewModel> settingCollection,  ObservableCollection<StampingTypeViewModel> rotatingCollection)
+        {                        
+            //比較鋼印字模/機台字模的字元是否相同 -> 若不同則跳出一個視窗提示               
+            // var settingCollection =  StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection;  
+            //var rotatingCollection = RotatingTurntableInfoCollection;
             bool FontsIsSame = false;
             try
             {
 
-                bool isSameCount = StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.Count == RotatingTurntableInfoCollection.Count;
+                bool isSameCount = settingCollection.Count == rotatingCollection.Count;
                 // bool hasSameContent = true;
                 List<int> DifferentContent_StampingTypeNumberList = new();
                 if (isSameCount)
                 {
                     //
-                    for (int i = 0; i < RotatingTurntableInfoCollection.Count; i++)
+                    for (int i = 0; i < rotatingCollection.Count; i++)
                     {
-                        if (StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection[i].StampingTypeString != RotatingTurntableInfoCollection[i].StampingTypeString)
+                        if (settingCollection[i].StampingTypeString != rotatingCollection[i].StampingTypeString)
                         {
                             //hasSameContent = false;
-                            DifferentContent_StampingTypeNumberList.Add(StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection[i].StampingTypeNumber);
+                            DifferentContent_StampingTypeNumberList.Add(settingCollection[i].StampingTypeNumber);
                             //紀錄字模編號
                             //break;
                         }
@@ -1446,8 +1445,8 @@ namespace GD_StampingMachine.Singletons
                         if (countIsDifferent != null)
                         {
                             string Outputstring = string.Format(countIsDifferent,
-                                RotatingTurntableInfoCollection.Count,
-                                StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.Count);
+                                rotatingCollection.Count,
+                                settingCollection.Count);
                             //兩邊字模數量不合
                             await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
                                 Outputstring);
@@ -2047,6 +2046,10 @@ namespace GD_StampingMachine.Singletons
 
 
 
+
+
+
+
         private AsyncRelayCommand _returnToOriginCommand;
         /// <summary>
         /// 回歸原點
@@ -2058,251 +2061,266 @@ namespace GD_StampingMachine.Singletons
             get => _returnToOriginCommand??= new (async () =>
             {
                 IsReturningToOrigin = true;
-                CancellationTokenSource cts = new CancellationTokenSource();
-                var token = cts.Token;
-
-                if (await GD_Stamping.AsyncConnect())
+                try
                 {
-                    var MotorIsActived = await GD_Stamping.GetHydraulicPumpMotor();
-                    if (MotorIsActived.Item1)
+                    CancellationTokenSource cts = new CancellationTokenSource();
+                    var token = cts.Token;
+                    if (await GD_Stamping.AsyncConnect())
                     {
-                        if (!MotorIsActived.Item2)
+                        var MotorIsActived = await GD_Stamping.GetHydraulicPumpMotor();
+                        if (MotorIsActived.Item1)
                         {
-                            //油壓馬達尚未啟動
-                            var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
-                            return;
-                        }
-                        else
-                        {
-                            var opMode = await GD_Stamping.GetOperationMode();
-                            if (opMode.Item1)
+                            if (!MotorIsActived.Item2)
                             {
-                                OperationMode = opMode.Item2;
-                                //要在工程模式
-                                if (opMode.Item2 != OperationModeEnum.Setup)
+                                //油壓馬達尚未啟動
+                                var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                    (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
+
+                                LogDataSingleton.Instance.AddLogData(this.DataSingletonName, (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
+
+                                throw new Exception();
+                            }
+                            else
+                            {
+                                var opMode = await GD_Stamping.GetOperationMode();
+                                if (opMode.Item1)
                                 {
-                                    //需在工程模式才可執行
-                                    var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                        (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
-                                }
-                                else
-                                {
-                                    if (await GD_Stamping.AsyncConnect())
+                                    OperationMode = opMode.Item2;
+                                    //要在工程模式
+                                    if (opMode.Item2 != OperationModeEnum.Setup)
                                     {
+                                        //需在工程模式才可執行
+                                        var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                            (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
 
-                                        bool EngravingToOriginSucessful;
-                                        if ((await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2)
+                                        LogDataSingleton.Instance.AddLogData(this.DataSingletonName, (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
+                                    }
+                                    else
+                                    {
+                                        if (await GD_Stamping.AsyncConnect())
                                         {
-                                            EngravingToOriginSucessful = true;
-                                        }
-                                        else
-                                        {
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, true);
-                                            var EngravingToOriginTask = Task.Run(async () =>
+
+                                            bool EngravingToOriginSucessful;
+                                            if ((await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2)
                                             {
-                                                try
-                                                {
-                                                    var EngravingIsOrigin = false;
-                                                    do
-                                                    {
-                                                        if (token.IsCancellationRequested)
-                                                            token.ThrowIfCancellationRequested();
-                                                        EngravingIsOrigin = (await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2;
-                                                        await Task.Delay(10);
-                                                    }
-                                                    while (!EngravingIsOrigin);
-                                                }
-                                                catch (OperationCanceledException Cex)
-                                                {
-                                                    Singletons.LogDataSingleton.Instance.AddLogData(Cex.Source, Cex.Message);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    Singletons.LogDataSingleton.Instance.AddLogData(ex.Source, ex.Message);
-                                                }
-                                            });
-
-                                            Task completedTask = await Task.WhenAny(EngravingToOriginTask, Task.Delay(10000));
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, false);
-                                            EngravingToOriginSucessful = completedTask == EngravingToOriginTask;
-                                        }
-
-
-                                        if (!EngravingToOriginSucessful)
-                                        {
-                                            var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                                (string)Application.Current.TryFindResource("Text_EngravingToOriginTimeout"));
-                                            return;
-                                        }
-
-                                        bool CuttungToOriginSucessful;
-
-                                        //先檢查是否在原點
-                                        if ((await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2)
-                                        {
-                                            CuttungToOriginSucessful = true;
-                                        }
-                                        else
-                                        {
-
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, true);
-                                            var CuttingToOriginTask = Task.Run(async () =>
+                                                EngravingToOriginSucessful = true;
+                                            }
+                                            else
                                             {
-                                                try
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, true);
+                                                var EngravingToOriginTask = Task.Run(async () =>
                                                 {
-                                                    var CuttingIsOrigin = false;
-                                                    do
-                                                    {
-                                                        if (token.IsCancellationRequested)
-                                                            token.ThrowIfCancellationRequested();
-
-                                                        CuttingIsOrigin = (await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2;
-                                                        await Task.Delay(10);
-                                                    }
-                                                    while (!CuttingIsOrigin);
-                                                }
-                                                catch (OperationCanceledException Cex)
-                                                {
-                                                    Singletons.LogDataSingleton.Instance.AddLogData(Cex.Source, Cex.Message);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    Singletons.LogDataSingleton.Instance.AddLogData(ex.Source, ex.Message);
-                                                }
-
-                                            });
-                                            Task completedTask = await Task.WhenAny(CuttingToOriginTask, Task.Delay(10000));
-                                            await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, false);
-                                            CuttungToOriginSucessful = completedTask == CuttingToOriginTask;
-                                        }
-
-                                        if (!CuttungToOriginSucessful)
-                                        {
-                                            var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                                (string)Application.Current.TryFindResource("Text_CuttingToOriginTimeout"));
-                                            //超時
-                                            return;
-                                        }
-
-                                        //X軸回歸
-                                        var ret = await GD_Stamping.FeedingPositionReturnToStandbyPosition();
-
-                                        //double lastPositon = 0;
-                                        if (ret)
-                                        {
-                                            try
-                                            {
-                                                var servoHomeTask = Task.Run(async () =>
-                                                {
-                                                    bool isHome = false;
                                                     try
                                                     {
+                                                        var EngravingIsOrigin = false;
                                                         do
                                                         {
                                                             if (token.IsCancellationRequested)
                                                                 token.ThrowIfCancellationRequested();
-                                                            isHome = (await GD_Stamping.GetServoHome()).Item2;
+                                                            EngravingIsOrigin = (await GD_Stamping.GetHydraulicEngraving_Position_Origin()).Item2;
+                                                            await Task.Delay(10);
                                                         }
-                                                        while (!isHome);
+                                                        while (!EngravingIsOrigin);
                                                     }
-                                                    catch (OperationCanceledException)
+                                                    catch (OperationCanceledException Cex)
                                                     {
-
+                                                        Singletons.LogDataSingleton.Instance.AddLogData(Cex.Source, Cex.Message);
                                                     }
-                                                    catch (Exception)
+                                                    catch (Exception ex)
                                                     {
-
+                                                        Singletons.LogDataSingleton.Instance.AddLogData(ex.Source, ex.Message);
                                                     }
-                                                    return isHome;
-                                                }, token);
-
-                                                var timeOutServoHomeTask = Task.Run(async () =>
-                                                {
-                                                    double lastPos = 0;
-                                                    int posCount = 0;
-                                                    //如果取得的數值都沒變->代表X軸停止->
-                                                    while (!token.IsCancellationRequested)
-                                                    {
-                                                        var getHome = await GD_Stamping.GetServoHome();
-                                                        if (getHome.Item1)
-                                                        {
-                                                            if (!getHome.Item2)
-                                                            {
-                                                                var feedingPosition = await GD_Stamping.GetFeedingPosition();
-                                                                if (feedingPosition.Item1)
-                                                                {
-                                                                    var NowPos = feedingPosition.Item2;
-                                                                    if (Math.Abs(NowPos - lastPos) < 0.1)
-                                                                    {
-                                                                        //位置很相近
-                                                                        //紀錄次數 若超過50次則視為超時
-                                                                        if (posCount > 50)
-                                                                            break;
-                                                                        posCount++;
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        lastPos = NowPos;
-                                                                        posCount = 0;
-                                                                    }
-                                                                }
-                                                                break;
-                                                            }
-                                                        }
-                                                        await Task.Delay(1000);
-                                                    }
-                                                    await Task.Delay(500);
                                                 });
-                                                var completedTask = await Task.WhenAny(servoHomeTask, timeOutServoHomeTask);
-                                                if (completedTask == servoHomeTask)
+
+                                                Task completedTask = await Task.WhenAny(EngravingToOriginTask, Task.Delay(10000));
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, false);
+                                                EngravingToOriginSucessful = completedTask == EngravingToOriginTask;
+                                            }
+
+
+                                            if (!EngravingToOriginSucessful)
+                                            {
+                                                var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                                    (string)Application.Current.TryFindResource("Text_EngravingToOriginTimeout"));
+                                                return;
+                                            }
+
+                                            bool CuttungToOriginSucessful;
+
+                                            //先檢查是否在原點
+                                            if ((await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2)
+                                            {
+                                                CuttungToOriginSucessful = true;
+                                            }
+                                            else
+                                            {
+
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, true);
+                                                var CuttingToOriginTask = Task.Run(async () =>
                                                 {
-                                                    if (await servoHomeTask)
+                                                    try
                                                     {
-                                                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                                             (string)Application.Current.TryFindResource("Text_ToOriginisSuccessful"));
+                                                        var CuttingIsOrigin = false;
+                                                        do
+                                                        {
+                                                            if (token.IsCancellationRequested)
+                                                                token.ThrowIfCancellationRequested();
+
+                                                            CuttingIsOrigin = (await GD_Stamping.GetHydraulicCutting_Position_Origin()).Item2;
+                                                            await Task.Delay(10);
+                                                        }
+                                                        while (!CuttingIsOrigin);
+                                                    }
+                                                    catch (OperationCanceledException Cex)
+                                                    {
+                                                        Singletons.LogDataSingleton.Instance.AddLogData(Cex.Source, Cex.Message);
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        Singletons.LogDataSingleton.Instance.AddLogData(ex.Source, ex.Message);
+                                                    }
+
+                                                });
+                                                Task completedTask = await Task.WhenAny(CuttingToOriginTask, Task.Delay(10000));
+                                                await GD_Stamping.Set_IO_CylinderControl(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, false);
+                                                CuttungToOriginSucessful = completedTask == CuttingToOriginTask;
+                                            }
+
+                                            if (!CuttungToOriginSucessful)
+                                            {
+                                                var Result = MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                                    (string)Application.Current.TryFindResource("Text_CuttingToOriginTimeout"));
+                                                //超時
+                                                return;
+                                            }
+
+                                            //X軸回歸
+                                            var ret = await GD_Stamping.FeedingPositionReturnToStandbyPosition();
+
+                                            //double lastPositon = 0;
+                                            if (ret)
+                                            {
+                                                try
+                                                {
+                                                    var servoHomeTask = Task.Run(async () =>
+                                                    {
+                                                        bool isHome = false;
+                                                        try
+                                                        {
+                                                            do
+                                                            {
+                                                                if (token.IsCancellationRequested)
+                                                                    token.ThrowIfCancellationRequested();
+                                                                isHome = (await GD_Stamping.GetServoHome()).Item2;
+                                                            }
+                                                            while (!isHome);
+                                                        }
+                                                        catch (OperationCanceledException)
+                                                        {
+
+                                                        }
+                                                        catch (Exception)
+                                                        {
+
+                                                        }
+                                                        return isHome;
+                                                    }, token);
+
+                                                    var timeOutServoHomeTask = Task.Run(async () =>
+                                                    {
+                                                        double lastPos = 0;
+                                                        int posCount = 0;
+                                                        //如果取得的數值都沒變->代表X軸停止->
+                                                        while (!token.IsCancellationRequested)
+                                                        {
+                                                            var getHome = await GD_Stamping.GetServoHome();
+                                                            if (getHome.Item1)
+                                                            {
+                                                                if (!getHome.Item2)
+                                                                {
+                                                                    var feedingPosition = await GD_Stamping.GetFeedingPosition();
+                                                                    if (feedingPosition.Item1)
+                                                                    {
+                                                                        var NowPos = feedingPosition.Item2;
+                                                                        if (Math.Abs(NowPos - lastPos) < 0.1)
+                                                                        {
+                                                                            //位置很相近
+                                                                            //紀錄次數 若超過50次則視為超時
+                                                                            if (posCount > 50)
+                                                                                break;
+                                                                            posCount++;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            lastPos = NowPos;
+                                                                            posCount = 0;
+                                                                        }
+                                                                    }
+                                                                    break;
+                                                                }
+                                                            }
+                                                            await Task.Delay(1000);
+                                                        }
+                                                        await Task.Delay(500);
+                                                    });
+                                                    var completedTask = await Task.WhenAny(servoHomeTask, timeOutServoHomeTask);
+                                                    if (completedTask == servoHomeTask)
+                                                    {
+                                                        if (await servoHomeTask)
+                                                        {
+                                                            await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                                                 (string)Application.Current.TryFindResource("Text_ToOriginisSuccessful"));
+                                                        }
+                                                        else
+                                                        {
+                                                            await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                                                                 (string)Application.Current.TryFindResource("Text_ToOriginisFail"));
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                                             (string)Application.Current.TryFindResource("Text_ToOriginisFail"));
+                                                            (string)Application.Current.TryFindResource("Text_ToOriginisTimeout"));
                                                     }
                                                 }
-                                                else
+                                                catch (OperationCanceledException cex)
                                                 {
                                                     await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                                        (string)Application.Current.TryFindResource("Text_ToOriginisTimeout"));
+                                                        (string)Application.Current.TryFindResource("Text_ToOriginisCancel"));
                                                 }
-                                            }
-                                            catch (OperationCanceledException cex)
-                                            {
-                                                await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                                                    (string)Application.Current.TryFindResource("Text_ToOriginisCancel"));
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                await MessageBoxResultShow.ShowException(ex);
-                                            }
-                                            //超時
-                                            finally
-                                            {
+                                                catch (Exception ex)
+                                                {
+                                                    await MessageBoxResultShow.ShowException(ex);
+                                                }
+                                                //超時
+                                                finally
+                                                {
 
-                                            }
+                                                }
 
-                                            return;
+                                                return;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    else
+                    {
+                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                            (string)Application.Current.TryFindResource("Connection_Error"));
+                    }
+                    cts.Cancel();
                 }
-                else
+                catch (OperationCanceledException)
                 {
-                    await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
-                        (string)Application.Current.TryFindResource("Connection_Error"));
+
                 }
-                cts.Cancel();
+                catch
+                {
+
+                }
                 IsReturningToOrigin = false;
 
             }, () => !ReturnToOriginCommand.IsRunning);
