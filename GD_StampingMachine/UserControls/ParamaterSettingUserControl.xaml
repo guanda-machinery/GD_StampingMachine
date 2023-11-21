@@ -423,35 +423,40 @@
                                         <TextBlock Text="A"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSettingVM.IronPlateMargin.A_Margin}"/>
+                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"
+                                             Text="{Binding NumberSettingVM.IronPlateMarginVM.A_Margin, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="B"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSettingVM.IronPlateMargin.B_Margin}"/>
+                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  
+                                             Text="{Binding NumberSettingVM.IronPlateMarginVM.B_Margin, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="C"/>
                                             <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding NumberSettingVM.IronPlateMargin.C_Margin}"/>
+                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.IronPlateMarginVM.C_Margin, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="D"/>
                                          <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSettingVM.IronPlateMargin.D_Margin}"  />
+                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"
+                                               Text="{Binding NumberSettingVM.IronPlateMarginVM.D_Margin, UpdateSourceTrigger=PropertyChanged}"  />
                                     <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="E"/>
                                        <TextBlock Text="："/>
                                     </StackPanel>
-                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding NumberSettingVM.IronPlateMargin.E_Margin}"/>
+                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.IronPlateMarginVM.E_Margin, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                 </Grid>
@@ -702,35 +707,35 @@
                                         
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.A_Margin}"/>
+                                        <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMarginVM.A_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="B"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMargin.B_Margin}"/>
+                                        <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMarginVM.B_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="C"/>
                                                <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.C_Margin}"/>
+                                        <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMarginVM.C_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="D"/>
                                                <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSettingVM.IronPlateMargin.D_Margin}"  />
+                                        <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSettingVM.IronPlateMarginVM.D_Margin}"  />
                                         <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="E"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSettingVM.IronPlateMargin.E_Margin}"/>
+                                        <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding QRSettingVM.IronPlateMarginVM.E_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel  Grid.Row="0" Grid.Column="3" Orientation="Horizontal" Margin="0,10" >
@@ -738,28 +743,28 @@
                                               <TextBlock Text="："/>
                                         </StackPanel>
 
-                                        <TextBox Grid.Column="4"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.F_Margin}"/>
+                                        <TextBox Grid.Column="4"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMarginVM.F_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel Grid.Column="3"  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="G"/>
                                            <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox Grid.Row="1"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMargin.G_Margin}"/>
+                                        <TextBox Grid.Row="1"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMarginVM.G_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="H"/>
                                          <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox  Grid.Row="2"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMargin.H_Margin}"/>
+                                        <TextBox  Grid.Row="2"  Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" Text="{Binding QRSettingVM.IronPlateMarginVM.H_Margin}"/>
                                         <TextBlock Text="mm" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
                                         <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="I"/>
                                            <TextBlock Text="："/>
                                         </StackPanel>
-                                        <TextBox   Grid.Row="3" Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMargin.I_Margin}"  />
+                                        <TextBox   Grid.Row="3" Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMarginVM.I_Margin}"  />
                                         <TextBlock Text="mm" Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
 
 

@@ -93,10 +93,32 @@ namespace GD_MachineConnect
 
         public Exception ConnectException { get => GD_OpcUaClient.ConnectException; }
 
+        public bool Connected=> GD_OpcUaClient.Connected;
+
+
         public void Disconnect()
         {
             GD_OpcUaClient.Disconnect();
         }
+
+
+        public async Task DisconnectAsync()
+        {
+            this.Disconnect();
+            //var tcs = new TaskCompletionSource<bool>();
+            while (GD_OpcUaClient.Connected)
+            {
+                await Task.Delay(10);
+            }
+
+        }
+
+
+
+
+
+
+
         public async Task<bool> FeedingPositionBwd(bool Active)
         {
             await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, false);
@@ -1200,7 +1222,45 @@ namespace GD_MachineConnect
         public async Task<bool> SetEngravingRotateVelocity(float SpeedPercent)
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity}", SpeedPercent);
+        }
 
+
+        /// <summary>
+        /// 刻印壓力
+        /// </summary>
+        /// <returns></returns>
+
+        public async Task<(bool, float)> GetStampingPressure()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<UInt32>($"{StampingOpcUANode.Pump1.sv_PressureLintab.LintabPoints.uNoOfPoints}");
+        }
+        /// <summary>
+        /// 刻印速度
+        /// </summary>
+        /// <returns></returns>
+
+        public async Task<(bool, float)> GetStampingVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<UInt32>($"{StampingOpcUANode.Pump1.sv_VelocityLintab.LintabPoints.uNoOfPoints}");
+        }
+
+        /// <summary>
+        /// 裁斷壓力
+        /// </summary>
+        /// <returns></returns>
+
+        public async Task<(bool, float)> GetShearingPressure()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<UInt32>($"{StampingOpcUANode.Pump2.sv_PressureLintab.LintabPoints.uNoOfPoints}");
+        }
+        /// <summary>
+        /// 裁斷速度
+        /// </summary>
+        /// <returns></returns>
+
+        public async Task<(bool, float)> GetShearingVelocity()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<UInt32>($"{StampingOpcUANode.Pump2.sv_VelocityLintab.LintabPoints.uNoOfPoints}");
         }
 
 
@@ -1208,7 +1268,33 @@ namespace GD_MachineConnect
 
 
 
-         public async Task<(bool, float)> GetFeedingXHomeFwdVelocity()
+
+
+        /// <summary>
+        /// QR機IP
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, string)> GetDataMatrixTCPIP()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.DataMatrix1.sv_sContactTCPIP}");
+        }
+
+        /// <summary>
+        /// QR機Port
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, string)> GetDataMatrixPort()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.DataMatrix1.sv_sContactTCPPort}");
+        }
+
+
+
+
+        
+
+
+        public async Task<(bool, float)> GetFeedingXHomeFwdVelocity()
          {
         return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}");
          }
@@ -1230,6 +1316,63 @@ namespace GD_MachineConnect
         {
             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}", SpeedPercent);
         }
+
+        /// <summary>
+        /// 潤滑設定時間
+        /// </summary>
+        /// <param name="SpeedPercent"></param>
+        /// <returns></returns>
+        public async Task<(bool, Int64)> GetLubricationSettingTime()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dLubTime}");
+        }
+
+        /// <summary>
+        /// 潤滑開設定時間
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, Int64)> GetLubricationSettingOnTime()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOnTime}");
+        }
+        /// <summary>
+        /// 潤滑關設定時間
+        /// </summary>
+        /// <returns></returns>     
+        public async Task<(bool, Int64)> GetLubricationSettingOffTime()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOffTime}");
+    }
+
+
+        /// <summary>
+        /// 潤滑實際時間
+        /// </summary>
+        public async Task<(bool, Int64)> GetLubricationActualTime()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dLubTime}");
+        }
+        /// <summary>
+        /// 潤滑開實際時間
+        /// </summary>
+        public async Task<(bool, int)> GetLubricationActualOnTime()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOnTime}");
+        }
+
+        /// <summary>
+        /// 潤滑關實際時間
+        /// </summary>
+        public async Task<(bool, int)> GetLubricationActualOffTime()
+        {
+            return await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOffTime}");
+        }
+
+
+
+
+
+
         /*
         public async Task<(bool,float)> GetFeedingXFwdSetupVelocity()
         {
@@ -1814,26 +1957,69 @@ namespace GD_MachineConnect
 
             public class Pump1
             {
+                public class sv_PressureLintab
+                {
+                    public class LintabPoints
+                    {
+                        /// <summary>
+                        /// 壓力校正表段數
+                        /// </summary>
+                        public static string uNoOfPoints => $"{NodeHeader}.{NodeVariable.Pump1}.sv_PressureLintab.LintabPoints.uNoOfPoints";
+                    }
+                }
+                public class sv_VelocityLintab
+                {
+                    public class LintabPoints
+                    {
+                        /// <summary>
+                        /// 壓力校正表段數
+                        /// </summary>
+                        public static string uNoOfPoints => $"{NodeHeader}.{NodeVariable.Pump1}.sv_PressureLintab.LintabPoints.uNoOfPoints";
+                    }
+                }
+
+                //public static string sv_rAOPressure => $"{NodeHeader}.{NodeVariable.Pump1}.sv_rAOPressure";
+
                 /// <summary>
                 /// AO_刻印壓力
                 /// </summary>
-                public static string ao_Pressure => $"{NodeHeader}.{NodeVariable.Pump1}.ao_Pressure";
+                //public static string sv_rAOPressure => $"{NodeHeader}.{NodeVariable.Pump1}.sv_rAOPressure";
                 /// <summary>
                 ///  AO_刻印速度
                 /// </summary>
-                public static string ao_Velocity => $"{NodeHeader}.{NodeVariable.Pump1}.ao_Velocity";
+                //public static string sv_rAOVelocity => $"{NodeHeader}.{NodeVariable.Pump1}.sv_rAOVelocity";
             }
 
             public class Pump2
             {
+                public class sv_PressureLintab
+                {
+                    public class LintabPoints
+                    {
+                        /// <summary>
+                        /// 壓力校正表段數
+                        /// </summary>
+                        public static string uNoOfPoints => $"{NodeHeader}.{NodeVariable.Pump1}.sv_PressureLintab.LintabPoints.uNoOfPoints";
+                    }
+                }
+                public class sv_VelocityLintab
+                {
+                    public class LintabPoints
+                    {
+                        /// <summary>
+                        /// 壓力校正表段數
+                        /// </summary>
+                        public static string uNoOfPoints => $"{NodeHeader}.{NodeVariable.Pump1}.sv_PressureLintab.LintabPoints.uNoOfPoints";
+                    }
+                }
                 /// <summary>
                 /// AO_裁斷壓力
                 /// </summary>
-                public static string ao_Pressure => $"{NodeHeader}.{NodeVariable.Pump2}.ao_Pressure";
+                //public static string sv_rAOPressure => $"{NodeHeader}.{NodeVariable.Pump2}.sv_rAOPressure";
                 /// <summary>
                 ///  AO_裁斷速度
                 /// </summary>
-                public static string ao_Velocity => $"{NodeHeader}.{NodeVariable.Pump2}.ao_Velocity";
+                //public static string sv_rAOVelocity => $"{NodeHeader}.{NodeVariable.Pump2}.sv_rAOVelocity";
             }
             
 

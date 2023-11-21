@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -98,7 +99,19 @@ namespace GD_StampingMachine
             }
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+          CancellationTokenSource cts_Timeout = new CancellationTokenSource(5000);
+            var asyncTask = Task.Run(async () =>
+            {
+                await StampMachineDataSingleton.Instance.DisposeAsync();
+            }, cts_Timeout.Token);
+            Console.WriteLine("Application is closing.");
 
+            // 你也可以取消应用程序关闭
+            asyncTask.Wait();
+            base.OnExit(e);
+        }
 
     }
 }

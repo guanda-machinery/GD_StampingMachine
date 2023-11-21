@@ -51,10 +51,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
     }
 
-
-
-
-
     /// <summary>
     /// 金屬片設定
     /// </summary>
@@ -130,7 +126,115 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// </summary>
         public VerticalAlignEnum VerticalAlign { get => StampPlateSetting.VerticalAlign; set { StampPlateSetting.VerticalAlign = value; OnPropertyChanged(); } }
 
-        public IronPlateMarginStruct IronPlateMargin { get => StampPlateSetting.IronPlateMargin; set { StampPlateSetting.IronPlateMargin = value; OnPropertyChanged(); } }
+        private IronPlateMarginViewModel _ironPlateMarginVM;
+        public IronPlateMarginViewModel IronPlateMarginVM
+        { 
+            get=> _ironPlateMarginVM ??= new (StampPlateSetting.IronPlateMargin);
+            set
+            {
+                _ironPlateMarginVM = value;
+                StampPlateSetting.IronPlateMargin = _ironPlateMarginVM._ironPlateMargin;
+                OnPropertyChanged();
+            }
+        } 
+        // public IronPlateMarginStruct IronPlateMargin     
+        public class IronPlateMarginViewModel : BaseViewModel
+        {
+            public override string ViewModelName => nameof(IronPlateMarginViewModel);
+
+           public IronPlateMarginViewModel(IronPlateMarginStruct ironPlateMargin)
+            {
+                _ironPlateMargin = ironPlateMargin;
+            }
+
+            internal IronPlateMarginStruct _ironPlateMargin= new();
+            public double A_Margin 
+            {
+                get => _ironPlateMargin.A_Margin; 
+                set 
+                {
+                    _ironPlateMargin.A_Margin = value; 
+                    OnPropertyChanged(); 
+                }
+            }
+            public double B_Margin
+            {
+                get => _ironPlateMargin.B_Margin;
+                set
+                {
+                    _ironPlateMargin.B_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+            public double C_Margin
+            {
+                get => _ironPlateMargin.C_Margin;
+                set
+                {
+                    _ironPlateMargin.C_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+            public double D_Margin
+            {
+                get => _ironPlateMargin.D_Margin;
+                set
+                {
+                    _ironPlateMargin.D_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+            public double E_Margin
+            {
+                get => _ironPlateMargin.E_Margin;
+                set
+                {
+                    _ironPlateMargin.E_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+            public double F_Margin
+            {
+                get => _ironPlateMargin.F_Margin;
+                set
+                {
+                    _ironPlateMargin.F_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+            public double G_Margin
+            {
+                get => _ironPlateMargin.G_Margin;
+                set
+                {
+                    _ironPlateMargin.G_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+            public double H_Margin
+            {
+                get => _ironPlateMargin.H_Margin;
+                set
+                {
+                    _ironPlateMargin.H_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+            public double I_Margin
+            {
+                get => _ironPlateMargin.I_Margin;
+                set
+                {
+                    _ironPlateMargin.I_Margin = value;
+                    OnPropertyChanged();
+                }
+            }
+
+        }
+
+
+
+
 
 
 

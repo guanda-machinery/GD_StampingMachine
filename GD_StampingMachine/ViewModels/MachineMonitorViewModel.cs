@@ -295,6 +295,8 @@ namespace GD_StampingMachine.ViewModels
                         } while (allBoxPartsParameterViewModel.Exists(x => x.ID == autonum));
 
                         var boxIndex = readymachining.BoxIndex != null ? readymachining.BoxIndex.Value : 0;
+
+                        //readymachining.SettingBaseVM.IronPlateMarginVM.A_Margin
                         var _HMIIronPlateData = new IronPlateDataModel
                         {
                             bEngravingFinish = false,

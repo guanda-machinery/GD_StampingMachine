@@ -27,7 +27,7 @@ namespace GD_StampingMachine
             InitializeComponent();
         }
 
-        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var MessageBoxReturn = WinUIMessageBox.Show(new Window(),
     (string)Application.Current.TryFindResource("Text_AskCloseProgram"),
@@ -39,18 +39,23 @@ namespace GD_StampingMachine
     FloatingMode.Window);
 
             if (MessageBoxReturn == MessageBoxResult.Yes)
+            {
                 e.Cancel = false;
+            }
             else
+            {
                 e.Cancel = true;
+                return;
+            }
 
-            await StampMachineDataSingleton.Instance.DisposeAsync();
-            //呼叫各儲存命令
+
+
         }
+
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Environment.Exit(0);
-
+            Application.Current.Shutdown();
         }
     }
 }

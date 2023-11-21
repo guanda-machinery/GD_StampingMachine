@@ -11,8 +11,10 @@ using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
 {
+
     public class MultiValueHasParameterValueToBooleanConverter : BaseMultiValueConverter
     {
+        public bool Invert { get; set; } = false;
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {   
             if (parameter != null)
@@ -20,11 +22,12 @@ namespace GD_CommonLibrary
                 foreach (var item in values)
                 {
                     if (Equals(item, parameter))
-                        return true;
+                        // return true;
+                        return !Invert;
                 }
-                return false;
+                return Invert;
             }
-            return false;
+            return Invert;
         }
 
         public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -38,7 +41,7 @@ namespace GD_CommonLibrary
                         var FalseList = new List<object> ();
                         for(int i=0;i<   targetTypes.Count();i++)
                         {
-                            FalseList.Add(false);
+                            FalseList.Add(Invert);
                         }
                         return FalseList.ToArray();
                     }

@@ -81,13 +81,15 @@ namespace GD_MachineConnect.Machine
             if (!m_OpcUaClient.Connected)
             {
                 if (TcpPing.RetrieveIpAddress(hostPath, out var _ip))
+                {
                     if (!await TcpPing.IsPingableAsync(_ip))
                     {
                         ConnectException = new PingException($"Ping Host: {_ip} is Failed");
                         return false;
                     }
+                }
 
-                using (var cts = new CancellationTokenSource(2000))
+                using (var cts = new CancellationTokenSource(3000))
                 {
                     try
                     {
@@ -98,25 +100,30 @@ namespace GD_MachineConnect.Machine
                         return false;
                     }
                 }
-                try
+
+                await Task.Run(async () =>
                 {
-                    if (!m_OpcUaClient.Connected)
+                    try
                     {
-                        m_OpcUaClient.UserIdentity = userIdentity;
-                        var baseUrl = CombineUrl(hostPath, port, dataPath);
-                        await m_OpcUaClient.ConnectServer(baseUrl.ToString());
-                        ConnectException = null;
+                        if (!m_OpcUaClient.Connected)
+                        {
+                            m_OpcUaClient.UserIdentity = userIdentity;
+                            var baseUrl = CombineUrl(hostPath, port, dataPath);
+                            await m_OpcUaClient.ConnectServer(baseUrl.ToString());
+                            ConnectException = null;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    ConnectException = ex;
-                    m_OpcUaClient.Disconnect();
-                }
-                finally
-                {
-                    semaphoreSlim.Release();
-                }
+                    catch (Exception ex)
+                    {
+                        ConnectException = ex;
+                        if (m_OpcUaClient.Connected)
+                            m_OpcUaClient.Disconnect();
+                    }
+                    finally
+                    {
+                        semaphoreSlim.Release();
+                    }
+                });
             }
             return m_OpcUaClient.Connected;
         }
@@ -126,8 +133,56 @@ namespace GD_MachineConnect.Machine
         public void Disconnect()
         {
             m_OpcUaClient.Disconnect();
-        } 
+        }
+            /*
+        public async Task Disconnect()
+        {
+            m_OpcUaClient.Disconnect();
+            await Task.Run(async () => 
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var cts = new CancellationTokenSource();
+                _ = MonitorConditionAsync(tcs, cts.Token);
+                await tcs.Task;
+            });
+        }
 
+        private async Task MonitorConditionAsync(TaskCompletionSource<bool> tcs, CancellationToken cancellationToken)
+        {
+            try
+            {
+                while (!tcs.Task.IsCompleted)
+                {
+                    // 模拟异步操作
+                    await Task.Delay(100);
+
+                    // 检查条件是否已满足
+                    if (!m_OpcUaClient.Connected)
+                    {
+                        tcs.SetResult(true);
+                        break;
+                    }
+                    // 检查取消标记
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // 操作被取消
+                tcs.SetCanceled();
+            }
+            catch (Exception ex)
+            {
+                // 处理其他异常
+                tcs.SetException(ex);
+            }
+        }
+        */
+
+        public bool Connected
+        {
+            get=>  m_OpcUaClient.Connected;
+        }
 
 
 
@@ -158,7 +213,7 @@ namespace GD_MachineConnect.Machine
                 catch (Exception ex)
                 {
                     await Task.Delay(10);
-                    Disconnect();
+                    //Disconnect();
                 }
             }
 
@@ -200,7 +255,7 @@ namespace GD_MachineConnect.Machine
                 {
                     await Task.Delay(10);
                     //Debugger.Break();
-                    Disconnect();
+                    //Disconnect();
                 }
             }
             return ret;
@@ -234,7 +289,7 @@ namespace GD_MachineConnect.Machine
                 }
                 catch (Exception ex)
                 {
-                    Disconnect();
+                    //Disconnect();
                 }
             }
             return (false, default(T));

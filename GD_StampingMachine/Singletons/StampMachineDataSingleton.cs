@@ -55,6 +55,7 @@ namespace GD_StampingMachine.Singletons
 
         private GD_Stamping_Opcua GD_Stamping;
 
+
         protected override void Init()
         {
             var JsonHM = new StampingMachineJsonHelper();
@@ -783,7 +784,7 @@ namespace GD_StampingMachine.Singletons
         protected override async ValueTask DisposeAsyncCore()
         {
             await StopScanOpcua();
-            GD_Stamping.Disconnect();
+            GD_Stamping?.Dispose();
         }
 
 
@@ -849,22 +850,31 @@ namespace GD_StampingMachine.Singletons
             if (scanTask == null || scanTask.Status != TaskStatus.Running)
             {
                 _cts = new CancellationTokenSource();
-                scanTask = RunScanTask(_cts.Token);
+
+                    scanTask = RunScanTask(_cts.Token);
+
             }
         }
 
         public async Task StopScanOpcua()
         {
-
-            //等待掃描解除
-            _cts?.Cancel();
-            //等待isscan 消失
-            if (scanTask != null)
+            try
             {
-                await scanTask;
-                scanTask = null;
+                //等待掃描解除
+                _cts?.Cancel();
+              await  GD_Stamping?.DisconnectAsync();
+                //等待isscan 消失
+                if (scanTask != null)
+                {
+                    await scanTask;
+                    scanTask = null;
+                }
+                IsScaning = false;
             }
-            IsScaning = false;
+            catch
+            {
+
+            }
         }
 
         private async Task RunScanTask(CancellationToken cancelToken)
@@ -889,7 +899,7 @@ namespace GD_StampingMachine.Singletons
             {
                 init_Stamping();
                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Init");
-                await Task.Delay(2000);
+                await Task.Delay(500);
                 //while (true)
                 //初始化連線
                 int retryCount = 1;
@@ -907,17 +917,52 @@ namespace GD_StampingMachine.Singletons
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
                             ManagerVM.Subtitle = string.Empty;
 
-                            var feedingVelocity = await GD_Stamping.GetFeedingVelocity();
-                            if (feedingVelocity.Item1)
-                                this.FeedingVelocity = feedingVelocity.Item2;
+                            var feedingVelocityTuple = await GD_Stamping.GetFeedingVelocity();
+                            if (feedingVelocityTuple.Item1)
+                                this.FeedingVelocity = feedingVelocityTuple.Item2;
 
-                            var engravingFeeding = await GD_Stamping.GetEngravingFeedingVelocity();
-                            if (engravingFeeding.Item1)
-                                this.EngravingFeeding = engravingFeeding.Item2;
+                            var engravingFeedingTuple = await GD_Stamping.GetEngravingFeedingVelocity();
+                            if (engravingFeedingTuple.Item1)
+                                this.EngravingFeeding = engravingFeedingTuple.Item2;
 
-                            var rotateVelocity = await GD_Stamping.GetEngravingRotateVelocity();
-                            if (rotateVelocity.Item1)
-                                this.RotateVelocity = rotateVelocity.Item2;
+                            var rotateVelocityTuple = await GD_Stamping.GetEngravingRotateVelocity();
+                            if (rotateVelocityTuple.Item1)
+                                this.RotateVelocity = rotateVelocityTuple.Item2;
+
+
+                            var dataMatrixTCPIPTuple = await GD_Stamping.GetDataMatrixTCPIP();
+                            if(dataMatrixTCPIPTuple.Item1)
+                                this.DataMatrixTCPIP = dataMatrixTCPIPTuple.Item2;
+                            var dataMatrixPortTuple = await GD_Stamping.GetDataMatrixPort();
+                            if (dataMatrixPortTuple.Item1)
+                                this.DataMatrixPort = dataMatrixPortTuple.Item2;
+
+                            var stampingPressureTuple = await GD_Stamping.GetStampingPressure();
+                            if(stampingPressureTuple.Item1)
+                                this.StampingPressure = stampingPressureTuple.Item2;
+
+                            var stampingVelocityTuple = await GD_Stamping.GetStampingVelocity();
+                            if (stampingVelocityTuple.Item1)
+                                this.StampingVelocity = stampingVelocityTuple.Item2;
+
+                            var shearingPressureTuple = await GD_Stamping.GetShearingPressure();
+                            if (shearingPressureTuple.Item1)
+                                this.ShearingPressure = shearingPressureTuple.Item2;
+
+                            var shearingVelocityTuple = await GD_Stamping.GetShearingVelocity();
+                            if (shearingVelocityTuple.Item1)
+                                this.ShearingVelocity = shearingVelocityTuple.Item2;
+
+                                
+
+                            var ret7 = await GD_Stamping.GetLubricationSettingTime();
+                            var ret8 = await GD_Stamping.GetLubricationSettingOnTime();
+                            var ret9 = await GD_Stamping.GetLubricationSettingOffTime();
+
+                            var ret10 = await GD_Stamping.GetLubricationActualTime();
+                            var ret11 = await GD_Stamping.GetLubricationActualOnTime();
+                            var ret12 = await GD_Stamping.GetLubricationActualOffTime();
+
 
 
                             var engravingRotateSVelocity = await GD_Stamping.GetEngravingRotateSetupVelocity();
@@ -975,10 +1020,11 @@ namespace GD_StampingMachine.Singletons
                 {
                     while (!cancelToken.IsCancellationRequested)
                     {
-                        if (cancelToken.IsCancellationRequested)
-                            cancelToken.ThrowIfCancellationRequested();
                         try
                         {
+                            if (cancelToken.IsCancellationRequested)
+                                cancelToken.ThrowIfCancellationRequested();
+
                             IsConnected = await GD_Stamping.AsyncConnect();
                             if (IsConnected)
                             {
@@ -1292,7 +1338,7 @@ namespace GD_StampingMachine.Singletons
                             }
                             else
                             {
-                                await Application.Current.Dispatcher.InvokeAsync(async () =>
+                                await Application.Current.Dispatcher.InvokeAsync(() =>
                                 {
                                     if (manager.State == DevExpress.Mvvm.SplashScreenState.Closed)
                                     {
@@ -1307,13 +1353,18 @@ namespace GD_StampingMachine.Singletons
 
                             }
                         }
+                        catch (OperationCanceledException)
+                        {
+                            await GD_Stamping?.DisconnectAsync();
+                        }
                         catch (Exception ex)
                         {
+                            await GD_Stamping?.DisconnectAsync();
                             Debugger.Break();
                         }
                         finally
                         {
-                            GD_Stamping.Disconnect();
+
                         }
                         await Task.Delay(1000);
                     }
@@ -1322,9 +1373,6 @@ namespace GD_StampingMachine.Singletons
                 {
                     while (!cancelToken.IsCancellationRequested)
                     {
-                        if (cancelToken.IsCancellationRequested)
-                            cancelToken.ThrowIfCancellationRequested();
-
                         //取得io資料表
                         if (await GD_Stamping.AsyncConnect())
                         {
@@ -1332,6 +1380,10 @@ namespace GD_StampingMachine.Singletons
                             {
                                 foreach (var IO_Table in IO_TableObservableCollection)
                                 {
+                                    if (cancelToken.IsCancellationRequested)                                    
+                                        cancelToken.ThrowIfCancellationRequested();
+                                    
+
                                     if (!string.IsNullOrEmpty(IO_Table.NodeID))
                                     {
                                         if (IO_Table.ValueType == typeof(bool))
@@ -1372,10 +1424,11 @@ namespace GD_StampingMachine.Singletons
                         await Task.Delay(1000);
                     }
                 }, cancelToken);
-                await Task.WhenAll(machineTask, ioTask);
+                await Task.WhenAny(machineTask, ioTask);
             }
             catch (OperationCanceledException cex)
             {
+                await GD_Stamping?.DisconnectAsync();
                 Console.WriteLine("工作已取消");
             }
             catch (Exception ex)
@@ -1384,7 +1437,11 @@ namespace GD_StampingMachine.Singletons
             }
             finally
             {
-                GD_Stamping.Disconnect();
+            //    GD_Stamping.
+              await GD_Stamping?.DisconnectAsync();
+
+
+
                 try
                 {
                     IsConnected = false;
@@ -2649,6 +2706,76 @@ namespace GD_StampingMachine.Singletons
                 OnPropertyChanged();
             }
         }
+
+
+        private string _dataMatrixTCPIP;
+        public string DataMatrixTCPIP
+        {
+            get => _dataMatrixTCPIP;
+            set
+            {
+                _dataMatrixTCPIP = value;
+                OnPropertyChanged();
+
+            }
+        }
+        private string _dataMatrixPort;
+        public string DataMatrixPort
+        {
+            get => _dataMatrixPort;
+            set
+            {
+                _dataMatrixPort = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private float _stampingPressure;
+        public float StampingPressure
+        {
+            get => _stampingPressure;
+            set
+            {
+                _stampingPressure = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private float _stampingVelocity;
+        public float StampingVelocity
+        {
+            get => _stampingVelocity;
+            set
+            {
+                _stampingVelocity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private float _shearingPressure;
+        public float ShearingPressure
+        {
+            get => _shearingPressure;
+            set
+            {
+                _shearingPressure = value; OnPropertyChanged();
+            }
+        }
+
+        private float _shearingVelocity;
+        public float ShearingVelocity
+        {
+            get => _stampingVelocity;
+            set
+            {
+                _stampingVelocity = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
         //軸速度
         /*private float _feedingSpeed = 0;
         public float FeedingSpeed

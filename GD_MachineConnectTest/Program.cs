@@ -70,7 +70,7 @@ namespace GD_MachineConnectTest
                         var status = await SMachine.GetMachineStatus();
                         var a = await SMachine.GetEngravingRotateStation();
                         var b = await SMachine.GetRotatingTurntableInfo();
-                        SMachine.Disconnect();
+                        await SMachine?.DisconnectAsync();
                     }
                 }
                 catch (Exception ex)
@@ -115,7 +115,7 @@ namespace GD_MachineConnectTest
                                 // Opcua.ReadReference_Test();
                                  List<NodeTypeValue> Listdata = new List<NodeTypeValue>();
                                 //Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1" ,out Listdata);
-                                Opcua.Disconnect();
+                                 Opcua.Disconnect();
                             }
                         });
                 }
