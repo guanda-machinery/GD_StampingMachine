@@ -949,9 +949,16 @@ namespace GD_StampingMachine.Singletons
 
 
 
-                            this.DataMatrixTCPIP = GD_Stamping.SubscribeDataMatrixTCPIP();
+                            GD_Stamping.SubscribeDataMatrixTCPIP(value => DataMatrixTCPIP = value);
+                            GD_Stamping.SubscribeDataMatrixPort(portS =>
+                            {
+                                if (int.TryParse(portS, out var port))
+                                    this.DataMatrixPort = port;
+                                this.DataMatrixPort = 0;
+                            });
 
-                            this.DataMatrixPort= GD_Stamping.SubscribeDataMatrixPort();
+
+
 
                             var dataMatrixTCPIPTuple = await GD_Stamping.GetDataMatrixTCPIP();
                          /*  if (dataMatrixTCPIPTuple.Item1)
@@ -1408,24 +1415,25 @@ namespace GD_StampingMachine.Singletons
                         //註冊
                         if (!string.IsNullOrEmpty(IO_Table.NodeID))
                         {
+                            GD_Stamping.SubscribeNodeDataChange<object>(IO_Table.NodeID,obj => IO_Table.IO_Value = obj);
 
 
-                            if (IO_Table.ValueType == typeof(bool))
-                            {
-                                IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<bool>(IO_Table.NodeID);
-                            }
-                            else if (IO_Table.ValueType == typeof(float))
-                            {
-                                IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<float>(IO_Table.NodeID);
-                            }
-                            else if (IO_Table.ValueType is object)
-                            {
-                                IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<object>(IO_Table.NodeID);
-                            }
-                            else
-                            {
-                                IO_Table.IO_Value = null;
-                            }
+                            /*   if (IO_Table.ValueType == typeof(bool))
+                               {
+                                   IO_Table.IO_Value = 
+                               }
+                               else if (IO_Table.ValueType == typeof(float))
+                               {
+                                   IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<float>(IO_Table.NodeID);
+                               }
+                               else if (IO_Table.ValueType is object)
+                               {
+                                   IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<object>(IO_Table.NodeID);
+                               }
+                               else
+                               {
+                                   IO_Table.IO_Value = null;
+                               }*/
                         }
                     }
                 }

@@ -125,10 +125,9 @@ namespace GD_MachineConnect
         /// 訂閱
         /// </summary>
         /// <param name="action"></param>
-        public OperationModeEnum SubscribeOperationMode()
+        public void SubscribeOperationMode(Action<int> action)
         {
-            int operationMode= GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode)();
-            return (OperationModeEnum)operationMode;
+            GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode, action);
         }
 
 
@@ -1272,9 +1271,9 @@ namespace GD_MachineConnect
         /// QR機IP
         /// </summary>
         /// <returns></returns>
-        public string SubscribeDataMatrixTCPIP()
+        public void SubscribeDataMatrixTCPIP(Action<string> action)
         {
-           return GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP)();
+            GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP, action);
         }
 
 
@@ -1292,12 +1291,10 @@ namespace GD_MachineConnect
         /// </summary>
         /// <returns></returns>
       
-        public int SubscribeDataMatrixPort()
+        public void SubscribeDataMatrixPort(Action<string> action)
         {
-            var portS=  GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort)();
-            if (int.TryParse(portS, out var port))
-                return port;
-            return 0;
+           GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,action);
+
         }
 
 
@@ -1502,9 +1499,9 @@ namespace GD_MachineConnect
         /// 訂閱
         /// </summary>
         /// <param name="action"></param>
-        public T SubscribeNodeDataChange<T>(string NodeID)
+        public void SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID)();
+             GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID,action);
         }
 
 

@@ -411,7 +411,6 @@ namespace GD_MachineConnect.Machine
             }
             OpcSubscription subscription = m_OpcUaClient.SubscribeNode(command);
 
-            return func;
         }
 
 
