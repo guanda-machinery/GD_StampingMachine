@@ -784,7 +784,8 @@ namespace GD_StampingMachine.Singletons
         protected override async ValueTask DisposeAsyncCore()
         {
             await StopScanOpcua();
-            GD_Stamping?.Dispose();
+            if (GD_Stamping != null) 
+                await GD_Stamping.DisposeAsync();
         }
 
 
@@ -797,12 +798,12 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        OpcuaTest _opcuaTest = new OpcuaTest();
+        //OpcuaTest _opcuaTest = new OpcuaTest();
         internal async Task TestConnect()
         {
             try
             {
-                var ret = await _opcuaTest.OpenFormBrowseServerAsync(null);
+               // var ret = await _opcuaTest.OpenFormBrowseServerAsync(null);
             }
             catch (Exception ex)
             {
@@ -827,7 +828,19 @@ namespace GD_StampingMachine.Singletons
         public bool IsConnected { get => _isConnected; private set { _isConnected = value; OnPropertyChanged(); } }
 
         private OperationModeEnum _operationMode;
-        public OperationModeEnum OperationMode { get => _operationMode; private set { _operationMode = value; OnPropertyChanged(); } }
+        public OperationModeEnum OperationMode
+        {
+            get => _operationMode; 
+            private set
+            { 
+                _operationMode = value; OnPropertyChanged(); 
+            }
+        }
+
+
+
+
+
 
         private Task scanTask;
         private CancellationTokenSource _cts;
@@ -846,30 +859,34 @@ namespace GD_StampingMachine.Singletons
                     await scanTask;
                 }
             }
-            
+
             if (scanTask == null || scanTask.Status != TaskStatus.Running)
             {
                 _cts = new CancellationTokenSource();
-
-                    scanTask = RunScanTask(_cts.Token);
-
+                scanTask = RunScanTask(_cts.Token);
             }
+
+
         }
 
         public async Task StopScanOpcua()
         {
             try
             {
-                //等待掃描解除
-                _cts?.Cancel();
-              await  GD_Stamping?.DisconnectAsync();
-                //等待isscan 消失
-                if (scanTask != null)
+                await Task.Run(async() =>
                 {
-                    await scanTask;
-                    scanTask = null;
-                }
-                IsScaning = false;
+                    //等待掃描解除
+                    _cts?.Cancel();
+                    GD_Stamping?.Disconnect();
+                    //等待isscan 消失
+                    if (scanTask != null)
+                    {
+                        //等待Disconnect
+                        await scanTask;
+                        scanTask = null;
+                    }
+                    IsScaning = false;
+                });
             }
             catch
             {
@@ -931,14 +948,14 @@ namespace GD_StampingMachine.Singletons
 
 
                             var dataMatrixTCPIPTuple = await GD_Stamping.GetDataMatrixTCPIP();
-                            if(dataMatrixTCPIPTuple.Item1)
+                            if (dataMatrixTCPIPTuple.Item1)
                                 this.DataMatrixTCPIP = dataMatrixTCPIPTuple.Item2;
                             var dataMatrixPortTuple = await GD_Stamping.GetDataMatrixPort();
                             if (dataMatrixPortTuple.Item1)
                                 this.DataMatrixPort = dataMatrixPortTuple.Item2;
 
                             var stampingPressureTuple = await GD_Stamping.GetStampingPressure();
-                            if(stampingPressureTuple.Item1)
+                            if (stampingPressureTuple.Item1)
                                 this.StampingPressure = stampingPressureTuple.Item2;
 
                             var stampingVelocityTuple = await GD_Stamping.GetStampingVelocity();
@@ -953,11 +970,18 @@ namespace GD_StampingMachine.Singletons
                             if (shearingVelocityTuple.Item1)
                                 this.ShearingVelocity = shearingVelocityTuple.Item2;
 
-                                
 
-                            var ret7 = await GD_Stamping.GetLubricationSettingTime();
-                            var ret8 = await GD_Stamping.GetLubricationSettingOnTime();
-                            var ret9 = await GD_Stamping.GetLubricationSettingOffTime();
+                            GD_Stamping.SubscribeOperationMode(value =>
+                            {
+                                OperationMode = (OperationModeEnum)value;
+                            });
+
+
+
+
+                            //var ret7 = await GD_Stamping.GetLubricationSettingTime();
+                            //var ret8 = await GD_Stamping.GetLubricationSettingOnTime();
+                            //var ret9 = await GD_Stamping.GetLubricationSettingOffTime();
 
                             var ret10 = await GD_Stamping.GetLubricationActualTime();
                             var ret11 = await GD_Stamping.GetLubricationActualOnTime();
@@ -1018,7 +1042,7 @@ namespace GD_StampingMachine.Singletons
 
                 var machineTask = Task.Run(async () =>
                 {
-                    while (!cancelToken.IsCancellationRequested)
+                    while (true)
                     {
                         try
                         {
@@ -1029,10 +1053,11 @@ namespace GD_StampingMachine.Singletons
                             if (IsConnected)
                             {
                                 manager?.Close();
-                                //進料馬達
-                                var opMode = await GD_Stamping.GetOperationMode();
+
+
+                                /*var opMode = await GD_Stamping.GetOperationMode();
                                 if (opMode.Item1)
-                                    OperationMode = opMode.Item2;
+                                    OperationMode = opMode.Item2;*/
 
                                 //GD_Stamping.GetMachineStatus
                                 var fPos = await GD_Stamping.GetFeedingPosition();
@@ -1083,7 +1108,7 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 SpecialSequence = specialSequence,
                                                 SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping,
-                                               // PlateNumber = plateData.sIronPlateName1++++ plateData.sIronPlateName2,
+                                                // PlateNumber = plateData.sIronPlateName1++++ plateData.sIronPlateName2,
                                                 PlateNumber = plateData.sIronPlateName1.PadRight(rowLength) + plateData.sIronPlateName2,
                                                 SequenceCount = rowLength
                                             };
@@ -1355,11 +1380,10 @@ namespace GD_StampingMachine.Singletons
                         }
                         catch (OperationCanceledException)
                         {
-                            await GD_Stamping?.DisconnectAsync();
+                            break;
                         }
                         catch (Exception ex)
                         {
-                            await GD_Stamping?.DisconnectAsync();
                             Debugger.Break();
                         }
                         finally
@@ -1369,66 +1393,49 @@ namespace GD_StampingMachine.Singletons
                         await Task.Delay(1000);
                     }
                 }, cancelToken);
-                var ioTask = Task.Run(async () =>
-                {
-                    while (!cancelToken.IsCancellationRequested)
-                    {
-                        //取得io資料表
-                        if (await GD_Stamping.AsyncConnect())
-                        {
-                            if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
-                            {
-                                foreach (var IO_Table in IO_TableObservableCollection)
-                                {
-                                    if (cancelToken.IsCancellationRequested)                                    
-                                        cancelToken.ThrowIfCancellationRequested();
-                                    
 
-                                    if (!string.IsNullOrEmpty(IO_Table.NodeID))
-                                    {
-                                        if (IO_Table.ValueType == typeof(bool))
-                                        {
-                                            var nodeboolValue = await GD_StampingOpcua.ReadNode<bool>(IO_Table.NodeID);
-                                            if (nodeboolValue.Item1)
-                                                IO_Table.IO_Value = nodeboolValue.Item2;
-                                        }
-                                        else if (IO_Table.ValueType == typeof(float))
-                                        {
-                                            var nodefloatValue = await GD_StampingOpcua.ReadNode<float>(IO_Table.NodeID);
-                                            if (nodefloatValue.Item1)
-                                                IO_Table.IO_Value = nodefloatValue.Item2;
-                                        }
-                                        else if (IO_Table.ValueType is object)
-                                        {
-                                            var nodeobjectValue = await GD_StampingOpcua.ReadNode<object>(IO_Table.NodeID);
-                                            if (nodeobjectValue.Item1)
-                                                IO_Table.IO_Value = nodeobjectValue.Item2;
-                                        }
-                                        else
-                                        {
-                                            IO_Table.IO_Value = null;
-                                        }
-                                    }
-                                    await Task.Delay(1);
-                                }
-                            }
-                        }
-                        else
+                //訂閱io資料表
+                if (GD_Stamping is GD_Stamping_Opcua GD_StampingOpcua)
+                {
+                    foreach (var IO_Table in IO_TableObservableCollection)
+                    {
+                        //註冊
+                        if (!string.IsNullOrEmpty(IO_Table.NodeID))
                         {
-                            foreach (var IO_Table in IO_TableObservableCollection)
+                            if (IO_Table.ValueType == typeof(bool))
+                            {
+                                GD_Stamping.SubscribeNodeDataChange<bool>(IO_Table.NodeID, value =>
+                                {
+                                    IO_Table.IO_Value = value;
+                                });
+                            }
+                            else if (IO_Table.ValueType == typeof(float))
+                            {
+                                GD_Stamping.SubscribeNodeDataChange<float>(IO_Table.NodeID, value =>
+                                {
+                                    IO_Table.IO_Value = value;
+                                });
+                            }
+                            else if (IO_Table.ValueType is object)
+                            {
+                                GD_Stamping.SubscribeNodeDataChange<object>(IO_Table.NodeID, value =>
+                                {
+                                    IO_Table.IO_Value = value;
+                                });
+                            }
+                            else
                             {
                                 IO_Table.IO_Value = null;
                             }
                         }
-
-                        await Task.Delay(1000);
                     }
-                }, cancelToken);
-                await Task.WhenAny(machineTask, ioTask);
+                }
+
+                await Task.WhenAll(machineTask);
             }
             catch (OperationCanceledException cex)
             {
-                await GD_Stamping?.DisconnectAsync();
+                GD_Stamping?.Disconnect();
                 Console.WriteLine("工作已取消");
             }
             catch (Exception ex)
@@ -1437,14 +1444,15 @@ namespace GD_StampingMachine.Singletons
             }
             finally
             {
-            //    GD_Stamping.
-              await GD_Stamping?.DisconnectAsync();
 
+                //    GD_Stamping.
+
+                GD_Stamping?.Disconnect();
+                IsConnected = false;
 
 
                 try
                 {
-                    IsConnected = false;
                     manager?.Close();
                     manager = null;
                 }
@@ -2142,7 +2150,7 @@ namespace GD_StampingMachine.Singletons
                                 var opMode = await GD_Stamping.GetOperationMode();
                                 if (opMode.Item1)
                                 {
-                                    OperationMode = opMode.Item2;
+                                    //OperationMode = opMode.Item2;
                                     //要在工程模式
                                     if (opMode.Item2 != OperationModeEnum.Setup)
                                     {
@@ -2481,7 +2489,10 @@ namespace GD_StampingMachine.Singletons
             {
                 if (obj is bool isActived)
                 {
-                    if (!isActived && this.OperationMode == OperationModeEnum.Manual)
+                  
+
+
+                    if (!isActived && (await GD_Stamping.GetOperationMode()).Item2 == OperationModeEnum.Manual)
                         await Task.Delay(200);
                     await GD_Stamping.SetEngravingRotateCW(isActived);
                 }
@@ -2502,7 +2513,7 @@ namespace GD_StampingMachine.Singletons
             {
                 if (obj is bool isActived)
                 {
-                    if (!isActived && this.OperationMode == OperationModeEnum.Manual)
+                    if (!isActived && (await GD_Stamping.GetOperationMode()).Item2 == OperationModeEnum.Manual)
                         await Task.Delay(200);
                     await GD_Stamping.SetEngravingRotateCCW(isActived);
                 }
@@ -3391,11 +3402,11 @@ namespace GD_StampingMachine.Singletons
                     }
                 }
 
-                var oper=  await GD_Stamping.GetOperationMode();
+               /* var oper=  await GD_Stamping.GetOperationMode();
                 if (oper.Item1)
                     OperationMode = oper.Item2;
                 else
-                    OperationMode = OperationModeEnum.None;
+                    OperationMode = OperationModeEnum.None;*/
                 //按完之後立刻刷新按鈕狀態
 
 

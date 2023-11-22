@@ -4,8 +4,7 @@ using GD_MachineConnect.Enums;
 using GD_MachineConnect.Machine;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
-using Opc.Ua;
-using OpcUaHelper;
+
 using Org.BouncyCastle.Asn1.Utilities;
 using Org.BouncyCastle.Crypto.Tls;
 using System;
@@ -23,64 +22,43 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
+using System.Net.Sockets;
+
 
 namespace GD_MachineConnect
 {
-    public class GD_Stamping_Opcua : IDisposable
+    public class GD_Stamping_Opcua : IAsyncDisposable
     {
         /// <summary>
         /// 實作長連接
         /// </summary>
-        private GD_OpcUaHelperClient GD_OpcUaClient;
-        private bool disposedValue;
-
-        ~GD_Stamping_Opcua()
-        {
-            Dispose();
-        }
+        private GD_OpcUaFxClient GD_OpcUaClient;
 
         public const int ConntectMillisecondsTimeout = 1000;
         public const int MoveTimeout = 5000;
 
-        protected virtual void Dispose(bool disposing)
+        private bool disposedValue;
+
+
+        public async ValueTask DisposeAsync()
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    GD_OpcUaClient.Disconnect();
-                    // TODO: 處置受控狀態 (受控物件)
-                }
-
-                // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
-                // TODO: 將大型欄位設為 Null
+                GD_OpcUaClient.Disconnect();
                 disposedValue = true;
             }
+
         }
 
-        // // TODO: 僅有當 'Dispose(bool disposing)' 具有會釋出非受控資源的程式碼時，才覆寫完成項
-        // ~GD_Stamping_Opcua()
-        // {
-        //     // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
-        //     Dispose(disposing: false);
-        // }
-        public void Dispose()
-        {
-            // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+
+
 
         public GD_Stamping_Opcua(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
-            IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
-            GD_OpcUaClient = new GD_OpcUaHelperClient(HostIP, Port, DataPath, UserIdentity);
+            Opc.UaFx.Client.OpcClientIdentity UserIdentity = new (UserName, Password);
+            GD_OpcUaClient = new GD_OpcUaFxClient(HostIP, Port, DataPath, UserIdentity);
         }
-        public GD_Stamping_Opcua(string HostIP, string DataPath, string UserName, string Password)
-        {
-            IUserIdentity UserIdentity = new UserIdentity(UserName, Password);
-            GD_OpcUaClient = new GD_OpcUaHelperClient(HostIP, null, DataPath, UserIdentity);
-        }
+
     
         /// <summary>
         /// 建立連線
@@ -93,25 +71,20 @@ namespace GD_MachineConnect
 
         public Exception ConnectException { get => GD_OpcUaClient.ConnectException; }
 
-        public bool Connected=> GD_OpcUaClient.Connected;
+
+        /*public void Disconnect()
+        {
+            GD_OpcUaClient.Disconnect();
+        }*/
 
 
         public void Disconnect()
         {
-            GD_OpcUaClient.Disconnect();
+             GD_OpcUaClient?.Disconnect();
         }
 
 
-        public async Task DisconnectAsync()
-        {
-            this.Disconnect();
-            //var tcs = new TaskCompletionSource<bool>();
-            while (GD_OpcUaClient.Connected)
-            {
-                await Task.Delay(10);
-            }
 
-        }
 
 
 
@@ -138,12 +111,27 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bUseHomeing, false);
         }
 
-       /* public async Task<bool> SetReset()
+        /* public async Task<bool> SetReset()
+         {
+             await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, true);
+             await Task.Delay(500);
+             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, false);
+         }*/
+
+
+
+        /// <summary>
+        /// 訂閱
+        /// </summary>
+        /// <param name="action"></param>
+        public void SubscribeOperationMode(Action<int> action)
         {
-            await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, true);
-            await Task.Delay(500);
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, false);
-        }*/
+            GD_OpcUaClient.SubscribeNodeDataChange(StampingOpcUANode.system.sv_OperationMode, action);
+
+        }
+
+
+
 
 
         /// <summary>
@@ -1322,50 +1310,50 @@ namespace GD_MachineConnect
         /// </summary>
         /// <param name="SpeedPercent"></param>
         /// <returns></returns>
-        public async Task<(bool, Int64)> GetLubricationSettingTime()
+        public async Task<(bool, object)> GetLubricationSettingTime()
         {
-            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dLubTime}");
+            return await GD_OpcUaClient.AsyncReadNode<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dLubTime}");
         }
 
         /// <summary>
         /// 潤滑開設定時間
         /// </summary>
         /// <returns></returns>
-        public async Task<(bool, Int64)> GetLubricationSettingOnTime()
+        public async Task<(bool, object)> GetLubricationSettingOnTime()
         {
-            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOnTime}");
+            return await GD_OpcUaClient.AsyncReadNode<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOnTime}");
         }
         /// <summary>
         /// 潤滑關設定時間
         /// </summary>
         /// <returns></returns>     
-        public async Task<(bool, Int64)> GetLubricationSettingOffTime()
+        public async Task<(bool, object)> GetLubricationSettingOffTime()
         {
-            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOffTime}");
+            return await GD_OpcUaClient.AsyncReadNode<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOffTime}");
     }
 
 
         /// <summary>
         /// 潤滑實際時間
         /// </summary>
-        public async Task<(bool, Int64)> GetLubricationActualTime()
+        public async Task<(bool, object)> GetLubricationActualTime()
         {
-            return await GD_OpcUaClient.AsyncReadNode<Int64>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dLubTime}");
+            return await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dLubTime}");
         }
         /// <summary>
         /// 潤滑開實際時間
         /// </summary>
-        public async Task<(bool, int)> GetLubricationActualOnTime()
+        public async Task<(bool, object)> GetLubricationActualOnTime()
         {
-            return await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOnTime}");
+            return await GD_OpcUaClient.AsyncReadNode<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOnTime}");
         }
 
         /// <summary>
         /// 潤滑關實際時間
         /// </summary>
-        public async Task<(bool, int)> GetLubricationActualOffTime()
+        public async Task<(bool, object)> GetLubricationActualOffTime()
         {
-            return await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOffTime}");
+            return await GD_OpcUaClient.AsyncReadNode<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOffTime}");
         }
 
 
@@ -1487,6 +1475,15 @@ namespace GD_MachineConnect
 
 
 
+        /// <summary>
+        /// 訂閱
+        /// </summary>
+        /// <param name="action"></param>
+        public void SubscribeNodeDataChange<T>(string NodeID ,Action<T> action)
+        {
+            GD_OpcUaClient.SubscribeNodeDataChange(NodeID, action);
+        }
+
 
         public async Task<(bool,T)> ReadNode<T>(string NodeTreeString)
         {
@@ -1497,10 +1494,12 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncWriteNode(NodeTreeString, WriteValue);
         }
 
-      /*  public async Task<bool> ReadAllReference(string NodeTreeString, out List<GD_OpcUaHelperClient.NodeTypeValue> NodeValue)
-        {
-            return GD_OpcUaClient.ReadAllReference(NodeTreeString, out NodeValue);
-        }*/
+
+
+        /*  public async Task<bool> ReadAllReference(string NodeTreeString, out List<GD_OpcUaHelperClient.NodeTypeValue> NodeValue)
+          {
+              return GD_OpcUaClient.ReadAllReference(NodeTreeString, out NodeValue);
+          }*/
 
 
 

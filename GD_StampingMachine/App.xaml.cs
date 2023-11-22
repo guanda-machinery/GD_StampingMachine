@@ -104,12 +104,11 @@ namespace GD_StampingMachine
           CancellationTokenSource cts_Timeout = new CancellationTokenSource(5000);
             var asyncTask = Task.Run(async () =>
             {
-                await StampMachineDataSingleton.Instance.DisposeAsync();
+                await StampMachineDataSingleton.Instance.StopScanOpcua();
             }, cts_Timeout.Token);
             Console.WriteLine("Application is closing.");
 
             // 你也可以取消应用程序关闭
-            asyncTask.Wait();
             base.OnExit(e);
         }
 

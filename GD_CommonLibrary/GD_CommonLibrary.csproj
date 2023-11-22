@@ -337,6 +337,7 @@
     <Compile Include="Extensions\GuidToIntConverter.cs" />
     <Compile Include="Extensions\IEnumerableCompare.cs" />
     <Compile Include="Extensions\TcpPing.cs" />
+    <Compile Include="Extensions\WaitForCondition.cs" />
     <Compile Include="Method\AsyncObservableCollection.cs" />
     <Compile Include="Extensions\CheckedFileIsLocked.cs" />
     <Compile Include="Extensions\CommonString.cs" />

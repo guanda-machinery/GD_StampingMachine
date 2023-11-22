@@ -12,7 +12,6 @@ using GD_MachineConnect.Machine;
 using Opc.Ua;
 using OpcUaHelper;
 using static System.Net.Mime.MediaTypeNames;
-using static GD_MachineConnect.Machine.GD_OpcUaHelperClient;
 
 namespace GD_MachineConnectTest
 {
@@ -70,7 +69,7 @@ namespace GD_MachineConnectTest
                         var status = await SMachine.GetMachineStatus();
                         var a = await SMachine.GetEngravingRotateStation();
                         var b = await SMachine.GetRotatingTurntableInfo();
-                        await SMachine?.DisconnectAsync();
+                        SMachine?.Disconnect();
                     }
                 }
                 catch (Exception ex)
@@ -113,9 +112,9 @@ namespace GD_MachineConnectTest
 
                                 //Opcua.ReadNode_TEST();
                                 // Opcua.ReadReference_Test();
-                                 List<NodeTypeValue> Listdata = new List<NodeTypeValue>();
+                              //   List<NodeTypeValue> Listdata = new List<NodeTypeValue>();
                                 //Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1" ,out Listdata);
-                                 Opcua.Disconnect();
+                              await   Opcua.DisconnectAsync();
                             }
                         });
                 }
