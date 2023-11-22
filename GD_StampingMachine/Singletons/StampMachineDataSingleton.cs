@@ -25,6 +25,7 @@ using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json.Linq;
 using Opc.Ua;
 using Opc.Ua.Bindings;
 using System;
@@ -947,12 +948,17 @@ namespace GD_StampingMachine.Singletons
                                 this.RotateVelocity = rotateVelocityTuple.Item2;
 
 
+
+                            this.DataMatrixTCPIP = GD_Stamping.SubscribeDataMatrixTCPIP();
+
+                            this.DataMatrixPort= GD_Stamping.SubscribeDataMatrixPort();
+
                             var dataMatrixTCPIPTuple = await GD_Stamping.GetDataMatrixTCPIP();
-                            if (dataMatrixTCPIPTuple.Item1)
+                         /*  if (dataMatrixTCPIPTuple.Item1)
                                 this.DataMatrixTCPIP = dataMatrixTCPIPTuple.Item2;
                             var dataMatrixPortTuple = await GD_Stamping.GetDataMatrixPort();
-                            if (dataMatrixPortTuple.Item1)
-                                this.DataMatrixPort = dataMatrixPortTuple.Item2;
+                            if (dataMatrixPortTuple.Item1) 
+                                this.DataMatrixPort = dataMatrixPortTuple.Item2;*/
 
                             var stampingPressureTuple = await GD_Stamping.GetStampingPressure();
                             if (stampingPressureTuple.Item1)
@@ -970,6 +976,7 @@ namespace GD_StampingMachine.Singletons
                             if (shearingVelocityTuple.Item1)
                                 this.ShearingVelocity = shearingVelocityTuple.Item2;
 
+                          //  OperationMode = GD_Stamping.SubscribeOperationMode();
 
                             GD_Stamping.SubscribeOperationMode(value =>
                             {
@@ -986,7 +993,6 @@ namespace GD_StampingMachine.Singletons
                             var ret10 = await GD_Stamping.GetLubricationActualTime();
                             var ret11 = await GD_Stamping.GetLubricationActualOnTime();
                             var ret12 = await GD_Stamping.GetLubricationActualOffTime();
-
 
 
                             var engravingRotateSVelocity = await GD_Stamping.GetEngravingRotateSetupVelocity();
@@ -1404,24 +1410,15 @@ namespace GD_StampingMachine.Singletons
                         {
                             if (IO_Table.ValueType == typeof(bool))
                             {
-                                GD_Stamping.SubscribeNodeDataChange<bool>(IO_Table.NodeID, value =>
-                                {
-                                    IO_Table.IO_Value = value;
-                                });
+                                IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<bool>(IO_Table.NodeID);
                             }
                             else if (IO_Table.ValueType == typeof(float))
                             {
-                                GD_Stamping.SubscribeNodeDataChange<float>(IO_Table.NodeID, value =>
-                                {
-                                    IO_Table.IO_Value = value;
-                                });
+                                IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<float>(IO_Table.NodeID);
                             }
                             else if (IO_Table.ValueType is object)
                             {
-                                GD_Stamping.SubscribeNodeDataChange<object>(IO_Table.NodeID, value =>
-                                {
-                                    IO_Table.IO_Value = value;
-                                });
+                                IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<object>(IO_Table.NodeID);
                             }
                             else
                             {
@@ -2730,8 +2727,8 @@ namespace GD_StampingMachine.Singletons
 
             }
         }
-        private string _dataMatrixPort;
-        public string DataMatrixPort
+        private int _dataMatrixPort;
+        public int DataMatrixPort
         {
             get => _dataMatrixPort;
             set

@@ -393,6 +393,7 @@ namespace GD_MachineConnect.Machine
         private List<(string NodeID, Func<object> conditionFunc)> commands = new ();
         public void SubscribeNodeDataChange<T>(string NodeID , Action<T> updateAction)
         {
+           // Func<T> func = null;
             var command = new OpcSubscribeDataChange(NodeID,
                 (sender, e) =>
                 {
@@ -402,7 +403,6 @@ namespace GD_MachineConnect.Machine
                     if (e.Item.Value.Value is T Tvalue)
                     {
                         updateAction?.Invoke(Tvalue);
-                        //conditionFunc = () => Tvalue;
                     }
                 });
             if (m_OpcUaClient.Subscriptions.ToList().Exists(x => x.Id.ToString() == NodeID))
@@ -410,6 +410,8 @@ namespace GD_MachineConnect.Machine
 
             }
             OpcSubscription subscription = m_OpcUaClient.SubscribeNode(command);
+
+            return func;
         }
 
 

@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using System.Net.Sockets;
+using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
 
 
 namespace GD_MachineConnect
@@ -124,10 +125,10 @@ namespace GD_MachineConnect
         /// 訂閱
         /// </summary>
         /// <param name="action"></param>
-        public void SubscribeOperationMode(Action<int> action)
+        public OperationModeEnum SubscribeOperationMode()
         {
-            GD_OpcUaClient.SubscribeNodeDataChange(StampingOpcUANode.system.sv_OperationMode, action);
-
+            int operationMode= GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode)();
+            return (OperationModeEnum)operationMode;
         }
 
 
@@ -1264,8 +1265,18 @@ namespace GD_MachineConnect
         /// <returns></returns>
         public async Task<(bool, string)> GetDataMatrixTCPIP()
         {
-            return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.DataMatrix1.sv_sContactTCPIP}");
+            return await GD_OpcUaClient.AsyncReadNode<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP);
         }
+
+        /// <summary>
+        /// QR機IP
+        /// </summary>
+        /// <returns></returns>
+        public string SubscribeDataMatrixTCPIP()
+        {
+           return GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP)();
+        }
+
 
         /// <summary>
         /// QR機Port
@@ -1276,10 +1287,22 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncReadNode<string>($"{StampingOpcUANode.DataMatrix1.sv_sContactTCPPort}");
         }
 
+        /// <summary>
+        /// QR機Port
+        /// </summary>
+        /// <returns></returns>
+      
+        public int SubscribeDataMatrixPort()
+        {
+            var portS=  GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort)();
+            if (int.TryParse(portS, out var port))
+                return port;
+            return 0;
+        }
 
 
 
-        
+
 
 
         public async Task<(bool, float)> GetFeedingXHomeFwdVelocity()
@@ -1479,9 +1502,9 @@ namespace GD_MachineConnect
         /// 訂閱
         /// </summary>
         /// <param name="action"></param>
-        public void SubscribeNodeDataChange<T>(string NodeID ,Action<T> action)
+        public T SubscribeNodeDataChange<T>(string NodeID)
         {
-            GD_OpcUaClient.SubscribeNodeDataChange(NodeID, action);
+            return GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID)();
         }
 
 

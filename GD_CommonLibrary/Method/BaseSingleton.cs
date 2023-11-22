@@ -56,10 +56,7 @@ namespace GD_CommonLibrary
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
         protected void OnPropertyChanged([CallerMemberName] string propertyname = null)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
         }
 
         /*protected virtual void Dispose(bool disposing)
