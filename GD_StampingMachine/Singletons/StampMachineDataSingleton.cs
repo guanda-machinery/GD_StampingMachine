@@ -1408,6 +1408,8 @@ namespace GD_StampingMachine.Singletons
                         //註冊
                         if (!string.IsNullOrEmpty(IO_Table.NodeID))
                         {
+
+
                             if (IO_Table.ValueType == typeof(bool))
                             {
                                 IO_Table.IO_Value = GD_Stamping.SubscribeNodeDataChange<bool>(IO_Table.NodeID);
