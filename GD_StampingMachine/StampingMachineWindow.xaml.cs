@@ -40,6 +40,7 @@ namespace GD_StampingMachine
 
             if (MessageBoxReturn == MessageBoxResult.Yes)
             {
+
                 e.Cancel = false;
             }
             else

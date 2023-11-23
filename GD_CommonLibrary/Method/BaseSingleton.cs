@@ -78,7 +78,6 @@ namespace GD_CommonLibrary
         {
             if (!disposedValue)
             {
-                await Task.Delay(1);
                 disposedValue = true;
             }
         }

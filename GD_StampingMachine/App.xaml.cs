@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Data.Native;
 using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
@@ -101,14 +102,11 @@ namespace GD_StampingMachine
 
         protected override void OnExit(ExitEventArgs e)
         {
-          CancellationTokenSource cts_Timeout = new CancellationTokenSource(5000);
-            var asyncTask = Task.Run(async () =>
-            {
-                await StampMachineDataSingleton.Instance.StopScanOpcua();
-            }, cts_Timeout.Token);
+            var DisposeTask = Task.Run(() => StampMachineDataSingleton.Instance.StopScanOpcua()); 
             Console.WriteLine("Application is closing.");
-
             // 你也可以取消应用程序关闭
+            Task.WaitAny(Task.Delay(5000) ,DisposeTask);
+           
             base.OnExit(e);
         }
 

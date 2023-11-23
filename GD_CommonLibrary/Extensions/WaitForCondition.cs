@@ -6,25 +6,31 @@ using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
-    public static class WaitForCondition<T>
+    public static class WaitForCondition
     {
-
-        public static async Task<T> WaitAsync(Func<T> conditionFunc, T result)
+        /// <summary>
+        /// 等待
+        /// </summary>
+        /// <param name="conditionFunc"></param>
+        /// <param name="result"></param>
+        /// <param name="isEqual"></param>
+        /// <returns></returns>
+        public static async Task<T> WaitAsync<T>(Func<T> conditionFunc, T result , bool isEqual = true)
         {
             // 创建 TaskCompletionSource
             var tcs = new TaskCompletionSource<T>();
             // 啟動一個異步
-            _ = MonitorConditionAsync(conditionFunc, result, tcs);
+            _ = MonitorConditionAsync(conditionFunc, result, isEqual, tcs);
             // 等待條件滿足
             return await tcs.Task;
         }
 
 
-        static async Task MonitorConditionAsync(Func<T> conditionFunc,   T result, TaskCompletionSource<T> tcs)
+        static async Task MonitorConditionAsync<T>(Func<T> conditionFunc,   T result, bool isEqual, TaskCompletionSource<T> tcs)
         {
             try
             {
-                while (!Equals(conditionFunc(), result))
+                while (isEqual != Equals(conditionFunc(), result))
                 {
                     await Task.Delay(10);
                 }

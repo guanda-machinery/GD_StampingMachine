@@ -26,56 +26,40 @@ namespace GD_MachineConnect.Machine
 
     //https://docs.traeger.de/en/software/sdk/opc-ua/net/client.development.guide#reading-values
 
-    public class GD_OpcUaFxClient:IDisposable
+    public class GD_OpcUaFxClient: IAsyncDisposable
     {
-        ~GD_OpcUaFxClient()
-        {
-            Dispose(disposing: false);
 
-        }
-
-        protected virtual void Dispose(bool disposing)
+        private bool disposedValue;
+        public async ValueTask DisposeAsync()
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    m_OpcUaClient?.Disconnect();
-                    m_OpcUaClient = null;
-                    // TODO: 處置受控狀態 (受控物件)
-                }
-
-                // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
-                // TODO: 將大型欄位設為 Null
+                await semaphoreSlim.WaitAsync();
+                await DisconnectAsync();
+                semaphoreSlim.Release();
                 disposedValue = true;
             }
+
         }
-
-        public void Dispose()
-        {
-            // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-
-
-
-
-
-
 
         OpcClient m_OpcUaClient = new OpcClient();
+
+        public GD_OpcUaFxClient()
+        {
+
+        }
+
+
         public GD_OpcUaFxClient(string hostPath , int port =0 , string dataPath = null, OpcUserIdentity userIdentity = null)
         {
             HostPath = hostPath;
             var baseUrl = CombineUrl(hostPath, port, dataPath);
             m_OpcUaClient = new OpcClient(baseUrl.ToString());
             m_OpcUaClient.Security.UserIdentity = userIdentity;
+            m_OpcUaClient.SessionTimeout = 10000;
         }
         public int ConntectMillisecondsTimeout = 3000;
         private string HostPath;
-        private bool disposedValue;
 
         private Uri CombineUrl(string hostPath , int? port ,string dataPath)
         {
@@ -91,8 +75,13 @@ namespace GD_MachineConnect.Machine
         private const int retryCounter = 5;
 
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        
+        public bool IsConnected { get => m_OpcUaClient.State == OpcClientState.Connected; }
         public async Task<bool> AsyncConnect()
         {
+            if(disposedValue)
+                return false;
+
             if (TcpPing.RetrieveIpAddress(HostPath, out var _ip))
             {
                 if (!await TcpPing.IsPingableAsync(_ip))
@@ -102,6 +91,9 @@ namespace GD_MachineConnect.Machine
                 }
             }
             var ret = false;
+
+            await WaitForCondition.WaitAsync(()=>m_OpcUaClient.State, OpcClientState.Connecting ,false);
+
             if (m_OpcUaClient.State == OpcClientState.Connected)
             {
                 ret = true;
@@ -119,12 +111,17 @@ namespace GD_MachineConnect.Machine
                         return false;
                     }
                 }
-                await Task.Run(() =>
+              
+                if (disposedValue)
+                    return false;
+
+                await Task.Run(async () =>
                 {
                     try
                     {
-                        if (m_OpcUaClient.State != OpcClientState.Connected)
+                        if (!IsConnected)
                         {
+                            m_OpcUaClient.OperationTimeout = 5000;
                             m_OpcUaClient.Connect();
                             ConnectException = null;
                             ret = true;
@@ -133,7 +130,7 @@ namespace GD_MachineConnect.Machine
                     catch (Exception ex)
                     {
                         ConnectException = ex;
-                        m_OpcUaClient.Disconnect();
+                       await DisconnectAsync();
                     }
                     finally
                     {
@@ -142,61 +139,64 @@ namespace GD_MachineConnect.Machine
                 });
             }
 
-
-
             return ret;
         }
 
         public Exception ConnectException { get;private set; }
 
-        public void Disconnect()
+        public async Task DisconnectAsync()
         {
             m_OpcUaClient.Disconnect();
-        }
-            /*
-        public async Task Disconnect()
-        {
+            var isCreated = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Created);
+            var isDisconnected = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Disconnected);
+       
             m_OpcUaClient.Disconnect();
-            await Task.Run(async () => 
-            {
-                var tcs = new TaskCompletionSource<bool>();
-                var cts = new CancellationTokenSource();
-                _ = MonitorConditionAsync(tcs, cts.Token);
-                await tcs.Task;
-            });
+          await  Task.WhenAny(isCreated, isDisconnected);
         }
+        /*
+    public async Task Disconnect()
+    {
+        m_OpcUaClient.Disconnect();
+        await Task.Run(async () => 
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            var cts = new CancellationTokenSource();
+            _ = MonitorConditionAsync(tcs, cts.Token);
+            await tcs.Task;
+        });
+    }
 
-        private async Task MonitorConditionAsync(TaskCompletionSource<bool> tcs, CancellationToken cancellationToken)
+    private async Task MonitorConditionAsync(TaskCompletionSource<bool> tcs, CancellationToken cancellationToken)
+    {
+        try
         {
-            try
+            while (!tcs.Task.IsCompleted)
             {
-                while (!tcs.Task.IsCompleted)
+                // 模拟异步操作
+                await Task.Delay(100);
+
+                // 检查条件是否已满足
+                if (!m_OpcUaClient.Connected)
                 {
-                    // 模拟异步操作
-                    await Task.Delay(100);
-
-                    // 检查条件是否已满足
-                    if (!m_OpcUaClient.Connected)
-                    {
-                        tcs.SetResult(true);
-                        break;
-                    }
-                    // 检查取消标记
-                    cancellationToken.ThrowIfCancellationRequested();
+                    tcs.SetResult(true);
+                    break;
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                // 操作被取消
-                tcs.SetCanceled();
-            }
-            catch (Exception ex)
-            {
-                // 处理其他异常
-                tcs.SetException(ex);
+                // 检查取消标记
+                cancellationToken.ThrowIfCancellationRequested();
             }
         }
-        */
+        catch (OperationCanceledException)
+        {
+            // 操作被取消
+            tcs.SetCanceled();
+        }
+        catch (Exception ex)
+        {
+            // 处理其他异常
+            tcs.SetException(ex);
+        }
+    }
+    */
 
 
 
@@ -215,10 +215,13 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (IsConnected)
                     {
-                        //ret = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
-                        OpcStatus result = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+                        var result = await Task.Run(() =>
+                        {
+                            OpcStatus opcresult = m_OpcUaClient.WriteNode(NodeTreeString, WriteValue);
+                            return opcresult;
+                        });
 
                         if (result.IsGood)
                             return true;
@@ -245,10 +248,11 @@ namespace GD_MachineConnect.Machine
         /// <param name="WriteValue"></param>
         /// <returns></returns>
 
-        public async Task<bool> AsyncWriteNodes(Dictionary<string,object> NodeTrees)
+        public async Task<IEnumerable<bool>> AsyncWriteNodes(Dictionary<string,object> NodeTrees)
         {
+            var ret = new List<bool>();
             if (NodeTrees.Count == 0)
-                return false;
+                return ret;
 
            var commands = new List<OpcWriteNode>();
             foreach(var node in NodeTrees)
@@ -256,28 +260,27 @@ namespace GD_MachineConnect.Machine
                 commands.Add(new OpcWriteNode(node.Key, node.Value));
             }
 
-            var ret = false;
             for (int i = 0; i < retryCounter; i++)
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (IsConnected)
                     {
-                        
-                           // var tags = NodeTrees.Keys.ToArray();
-                           //var values = NodeTrees.Values.ToArray();
-                           // ret = m_OpcUaClient.WriteNodes(tags, values);
-                        m_OpcUaClient.WriteNodes(commands);
+                        // var tags = NodeTrees.Keys.ToArray();
+                        //var values = NodeTrees.Values.ToArray();
+                        // ret = m_OpcUaClient.WriteNodes(tags, values);
+
+                        var result = await Task.Run(() =>
+                        {
+                            return m_OpcUaClient.WriteNodes(commands);
+                        });
+                        ret = result.ToList().Select(x => x.IsGood).ToList();
                     }
 
-                    if (ret)
-                    {
-                        break;
-                    }
                 }
                 catch (Opc.Ua.ServiceResultException sex)
                 {
-                    Disconnect();
+                    //Disconnect();
                 }
                 catch (Exception ex)
                 {
@@ -308,11 +311,15 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (IsConnected)
                     {
                         //T NodeValue;
-                       // NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
-                        OpcValue rNode = m_OpcUaClient.ReadNode(NodeID);
+                        // NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
+                        OpcValue rNode = await Task.Run(() =>
+                        {
+                            return m_OpcUaClient.ReadNode(NodeID);
+                        });
+                           
                         if(rNode.Value  is T NodeValue) 
                         {
                             return (true, NodeValue);
@@ -343,7 +350,7 @@ namespace GD_MachineConnect.Machine
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        public async Task<(bool, IEnumerable<T>)> AsyncReadNodes<T>(IEnumerable<string> NodeTrees)
+        public async Task<(bool result, IEnumerable<T>values)> AsyncReadNodes<T>(IEnumerable<string> NodeTrees)
         {
             var commands = new List<OpcReadNode>();
             foreach (var node in NodeTrees)
@@ -357,11 +364,17 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (IsConnected)
                     {
                         //T NodeValue;
                         // NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
-                        var job = m_OpcUaClient.ReadNodes(commands).ToList();
+
+
+                        var job = await Task.Run(() =>
+                        {
+                            return m_OpcUaClient.ReadNodes(commands).ToList();
+                        });
+
                         var values = job.Select(x => x.Value).ToList();
                         if (values.Exists(x => x is not T))
                             return (false, null);
@@ -390,59 +403,105 @@ namespace GD_MachineConnect.Machine
 
 
 
-        private List<(string NodeID, Func<object> conditionFunc)> commands = new ();
-        public void SubscribeNodeDataChange<T>(string NodeID , Action<T> updateAction)
+        public Task SubscribeNodeDataChange<T>(string NodeID, Action<T> updateAction)
         {
-           // Func<T> func = null;
-            var command = new OpcSubscribeDataChange(NodeID,
-                (sender, e) =>
+            return SubscribeNodesDataChange(new List<(string, Action<T>)>
+            {
+                (NodeID, updateAction)
+            });
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="nodeList"></param>
+        /// <returns></returns>
+        public Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
+        {
+            return Task.Run(() =>
+            {
+                try
                 {
-                    // The tag property contains the previously set value.
-                     OpcMonitoredItem item = (OpcMonitoredItem)sender;
-                    Console.WriteLine("Data Change from NodeId '{0}': {1}",item.NodeId,e.Item.Value);
-                    if (e.Item.Value.Value is T Tvalue)
+
+                    OpcSubscription opcSubscription = m_OpcUaClient.Subscriptions.FirstOrDefault();
+                    if (opcSubscription == null)
                     {
-                        updateAction?.Invoke(Tvalue);
+                        // If no subscription exists, create a new one
+                        opcSubscription = m_OpcUaClient.SubscribeNodes();
                     }
-                });
-            if (m_OpcUaClient.Subscriptions.ToList().Exists(x => x.Id.ToString() == NodeID))
+                    for (int index = 0; index < nodeList.Count(); index++)
+                    {
+                        // Create an OpcMonitoredItem for the NodeId.
+                        var item = new OpcMonitoredItem(nodeList[index].NodeID, OpcAttribute.Value);
+                        item.DataChangeReceived += (sender, e) =>
+                        {
+                            OpcMonitoredItem item = (OpcMonitoredItem)sender;
+                            Console.WriteLine(
+                                    "Data Change from Index {0}: {1}",
+                                    item.Tag,
+                                    e.Item.Value);
+                            if (e.Item.Value.Value is T Tvalue)
+                            {
+                                nodeList[index].updateAction?.Invoke(Tvalue);
+                            }
+                        };
+                        // You can set your own values on the "Tag" property
+                        // that allows you to identify the source later.
+                        item.Tag = index;
+                        // Set a custom sampling interval on the 
+                        // monitored item.
+                        item.SamplingInterval = 200;
+                        // Add the item to the subscription.
+                        opcSubscription.AddMonitoredItem(item);
+                    }
+                    // After adding the items (or configuring the subscription), apply the changes.
+                    opcSubscription.ApplyChanges();
+
+                }
+                catch (Exception ex)
+                {
+                    Debugger.Break();
+                    Debug.WriteLine(ex.ToString());
+                }
+            });
+        }
+
+        /// <summary>
+        /// 移掉所有訂閱的節點
+        /// </summary>
+        /// <param name="NodeID"></param>
+        public void UnSubscribeNode(string NodeID)
+        {
+            try
+            {
+                foreach(var item in m_OpcUaClient.Subscriptions)
+                {
+                    List<OpcMonitoredItem> removeItems = new();
+                   foreach(var monitoredItem in item.MonitoredItems)
+                    {
+                        if(NodeID == monitoredItem.NodeId)
+                        {
+                            removeItems.Add(monitoredItem);
+                        }
+                    }
+
+
+                   foreach(var mitem in removeItems)
+                    {
+                        item.RemoveMonitoredItem(mitem);
+                        item.ApplyChanges();
+                    }
+                }
+            }
+            catch
             {
 
             }
-            OpcSubscription subscription = m_OpcUaClient.SubscribeNode(command);
 
         }
-
-
-
-
-        public void UnSubscribeNode(string NodeID)
-        {
-              m_OpcUaClient.UnregisterNode(NodeID);
-        }
-
-
-
-
-
-
-        /*   public void SubscribeNodeDataChange<T>(Func<T> func)
-           {
-               OpcSubscription subscription = m_OpcUaClient.SubscribeDataChange(
-                   "ns=2;s=Machine/IsRunning",
-                   HandleDataChanged);
-           }
-
-           private static void HandleDataChanged(object sender,OpcDataChangeReceivedEventArgs e)
-           {
-               // Your code to execute on each data change.
-               // The 'sender' variable contains the OpcMonitoredItem with the NodeId.
-               OpcMonitoredItem item = (OpcMonitoredItem)sender;
-               Console.WriteLine(
-                       "Data Change from NodeId '{0}': {1}",
-                       item.NodeId,
-                       e.Item.Value);
-           }*/
 
 
 

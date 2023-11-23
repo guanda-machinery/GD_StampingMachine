@@ -24,6 +24,7 @@ using System.Windows.Input;
 using System.Xml.Linq;
 using System.Net.Sockets;
 using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
+using Opc.Ua;
 
 
 namespace GD_MachineConnect
@@ -45,14 +46,17 @@ namespace GD_MachineConnect
         {
             if (!disposedValue)
             {
-                GD_OpcUaClient.Disconnect();
+                await GD_OpcUaClient.DisposeAsync();
                 disposedValue = true;
             }
 
         }
 
 
-
+        public GD_Stamping_Opcua()
+        {
+            GD_OpcUaClient = new();
+        }
 
         public GD_Stamping_Opcua(string HostIP, int Port, string DataPath, string UserName, string Password)
         {
@@ -60,7 +64,7 @@ namespace GD_MachineConnect
             GD_OpcUaClient = new GD_OpcUaFxClient(HostIP, Port, DataPath, UserIdentity);
         }
 
-    
+        public bool IsConnected { get => GD_OpcUaClient?.IsConnected == true; }
         /// <summary>
         /// 建立連線
         /// </summary>
@@ -79,9 +83,9 @@ namespace GD_MachineConnect
         }*/
 
 
-        public void Disconnect()
+        public async Task DisconnectAsync()
         {
-             GD_OpcUaClient?.Disconnect();
+            await  GD_OpcUaClient?.DisconnectAsync();
         }
 
 
@@ -122,12 +126,12 @@ namespace GD_MachineConnect
 
 
         /// <summary>
-        /// 訂閱
+        /// 訂閱機台模式
         /// </summary>
         /// <param name="action"></param>
-        public void SubscribeOperationMode(Action<int> action)
+        public Task SubscribeOperationMode(Action<int> action)
         {
-            GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode, action);
+           return GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode, action);
         }
 
 
@@ -148,7 +152,7 @@ namespace GD_MachineConnect
         public async Task<bool> SetOperationMode(OperationModeEnum operationMode)
         {
             bool ret = false;
-            if (await GD_OpcUaClient.AsyncConnect())
+            if (GD_OpcUaClient.IsConnected)
             {
                 switch (operationMode)
                     {
@@ -585,10 +589,28 @@ namespace GD_MachineConnect
             else
                 return false;
         }
+
+        /// <summary>
+        /// 油壓單元
+        /// </summary>
+        /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicPumpMotor()
         {
             return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted);
         }
+
+
+        /// <summary>
+        /// 訂閱油壓單元
+        /// </summary>
+        /// <param name="action"></param>
+        public Task SubscribeHydraulicPumpMotor(Action<bool> action)
+        {
+            return GD_OpcUaClient.SubscribeNodeDataChange(StampingOpcUANode.Motor1.sv_bMotorStarted, action);
+        }
+
+
+
 
         /// <summary>
         /// 取得鐵片下一片資訊-交握訊號
@@ -647,7 +669,7 @@ namespace GD_MachineConnect
         public async Task<bool> SetHMIIronPlate(IronPlateDataModel ironPlateData)
         {
 
-            bool ret = false;
+           // bool ret = false;
             // var wNodeTrees = IronPlateDataTreeNode(StampingOpcUANode.system.sv_HMIIronPlateName.NodeName, ironPlateData);
             var rootNode = StampingOpcUANode.system.sv_HMIIronPlateName.NodeName;
           var wNodeTrees=  new Dictionary<string, object>
@@ -666,9 +688,9 @@ namespace GD_MachineConnect
                 [rootNode + "." + "sDataMatrixName2"] = ironPlateData.sDataMatrixName2
 
         };
-            ret = await GD_OpcUaClient.AsyncWriteNodes(wNodeTrees);
+            var ret = await GD_OpcUaClient.AsyncWriteNodes(wNodeTrees);
             //設定完後須更新hmi
-            return ret;
+            return !ret.Contains(false);
         }
 
         [Obsolete]
@@ -688,11 +710,10 @@ namespace GD_MachineConnect
         /// <param name="ironPlateType"></param>
         /// <param name="StringLine"></param>
         /// <returns></returns>
-        public async Task<(bool, List<IronPlateDataModel>)> GetIronPlateDataCollection()
+        public async Task<(bool result, List<IronPlateDataModel> ironPlateCollection)> GetIronPlateDataCollection()
         {
-
             List<IronPlateDataModel> ironPlateDataList = new();
-            if (await GD_OpcUaClient.AsyncConnect())
+            if (GD_OpcUaClient.IsConnected)
             {
                 try
                 {
@@ -715,7 +736,6 @@ namespace GD_MachineConnect
 
                 }
             }
-
             return (false, ironPlateDataList);
         }
 
@@ -811,9 +831,9 @@ namespace GD_MachineConnect
             List<IronPlateDataModel> write_ironPlateDataList;
             //取得舊有的鐵片群資訊
             var getIronPlateDataCollectionTuple = await GetIronPlateDataCollection();
-            if (getIronPlateDataCollectionTuple.Item1)
+            if (getIronPlateDataCollectionTuple.result)
             {
-                write_ironPlateDataList = getIronPlateDataCollectionTuple.Item2;
+                write_ironPlateDataList = getIronPlateDataCollectionTuple.ironPlateCollection;
                 ExistedDataCollectionCount = write_ironPlateDataList.Count;
                 //超出範圍的不寫
             }
@@ -848,11 +868,16 @@ namespace GD_MachineConnect
 
                 string node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i + 1}]";
                 var wNodeTreeNodes = IronPlateDataTreeNode(node, ironPlateData);
-                var  WriteBoolean = await GD_OpcUaClient.AsyncWriteNodes(wNodeTreeNodes);
-                 WritedList.Add((node, WriteBoolean));
 
-                if (!WriteBoolean)
-                    break;
+                var WriteBoolean = false;
+                for (int j = 0; j < 5; j++)
+                {
+                    var WriteBooleanList = await GD_OpcUaClient.AsyncWriteNodes(wNodeTreeNodes);
+                    WriteBoolean = !WriteBooleanList.Contains(false);
+                    if (WriteBoolean)
+                        break;
+                }
+                WritedList.Add((node, WriteBoolean));
             }
             return WritedList.Exists(x=>x.Item2 ==true);
            // return true;
@@ -1271,10 +1296,10 @@ namespace GD_MachineConnect
         /// QR機IP
         /// </summary>
         /// <returns></returns>
-        public void SubscribeDataMatrixTCPIP(Action<string> action)
+       /* public Task SubscribeDataMatrixTCPIP(Action<string> action)
         {
-            GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP, action);
-        }
+            return GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP, action);
+        }*/
 
 
         /// <summary>
@@ -1291,11 +1316,10 @@ namespace GD_MachineConnect
         /// </summary>
         /// <returns></returns>
       
-        public void SubscribeDataMatrixPort(Action<string> action)
+        /*public Task SubscribeDataMatrixPort(Action<string> action)
         {
-           GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,action);
-
-        }
+            return GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,action);
+        }*/
 
 
 
@@ -1496,13 +1520,21 @@ namespace GD_MachineConnect
 
 
         /// <summary>
-        /// 訂閱
+        /// 
         /// </summary>
         /// <param name="action"></param>
-        public void SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
+       public Task SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
         {
-             GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID,action);
+            return GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID,action);
         }
+
+
+        public Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
+        {
+             return GD_OpcUaClient.SubscribeNodesDataChange<T>(nodeList);
+        }
+
+
 
 
         public async Task<(bool,T)> ReadNode<T>(string NodeTreeString)

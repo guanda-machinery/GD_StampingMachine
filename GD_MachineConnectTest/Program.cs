@@ -69,7 +69,7 @@ namespace GD_MachineConnectTest
                         var status = await SMachine.GetMachineStatus();
                         var a = await SMachine.GetEngravingRotateStation();
                         var b = await SMachine.GetRotatingTurntableInfo();
-                        SMachine?.Disconnect();
+                        await SMachine?.DisconnectAsync();
                     }
                 }
                 catch (Exception ex)
