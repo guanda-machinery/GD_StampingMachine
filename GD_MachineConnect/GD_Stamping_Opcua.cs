@@ -129,9 +129,9 @@ namespace GD_MachineConnect
         /// 訂閱機台模式
         /// </summary>
         /// <param name="action"></param>
-        public Task SubscribeOperationMode(Action<int> action)
+        public async Task SubscribeOperationMode(Action<int> action)
         {
-           return GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode, action);
+           await GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode, action);
         }
 
 
@@ -604,9 +604,9 @@ namespace GD_MachineConnect
         /// 訂閱油壓單元
         /// </summary>
         /// <param name="action"></param>
-        public Task SubscribeHydraulicPumpMotor(Action<bool> action)
+        public async Task SubscribeHydraulicPumpMotor(Action<bool> action)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChange(StampingOpcUANode.Motor1.sv_bMotorStarted, action);
+            await GD_OpcUaClient.SubscribeNodeDataChange(StampingOpcUANode.Motor1.sv_bMotorStarted, action);
         }
 
 
@@ -1523,15 +1523,15 @@ namespace GD_MachineConnect
         /// 
         /// </summary>
         /// <param name="action"></param>
-       public Task SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
+       public async Task SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID,action);
+            await GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID,action,200);
         }
 
 
-        public Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
+        public async Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction,int samplingInterval)> nodeList)
         {
-             return GD_OpcUaClient.SubscribeNodesDataChange<T>(nodeList);
+             await GD_OpcUaClient.SubscribeNodesDataChange<T>(nodeList);
         }
 
 

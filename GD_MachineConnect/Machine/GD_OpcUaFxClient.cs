@@ -401,17 +401,19 @@ namespace GD_MachineConnect.Machine
 
 
 
-
-
-        public Task SubscribeNodeDataChange<T>(string NodeID, Action<T> updateAction)
+        public async Task SubscribeNodeDataChange<T>( string NodeID, Action<T> updateAction, int samplingInterval = 200)
         {
-            return SubscribeNodesDataChange(new List<(string, Action<T>)>
-            {
-                (NodeID, updateAction)
-            });
+            await SubscribeNodeDataChange<T>(NodeID, updateAction, samplingInterval);
         }
 
 
+
+
+
+        /// <summary>
+        /// 存放ID
+        /// </summary>
+        //private Dictionary<int,long> subscribeDictionary = new Dictionary<int,long>();
 
         /// <summary>
         /// 
@@ -419,46 +421,57 @@ namespace GD_MachineConnect.Machine
         /// <typeparam name="T"></typeparam>
         /// <param name="nodeList"></param>
         /// <returns></returns>
-        public Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
+        public async Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval)> nodeList)
         {
-            return Task.Run(() =>
+            await Task.Run(() =>
             {
                 try
                 {
-
-                    OpcSubscription opcSubscription = m_OpcUaClient.Subscriptions.FirstOrDefault();
-                    if (opcSubscription == null)
-                    {
-                        // If no subscription exists, create a new one
-                        opcSubscription = m_OpcUaClient.SubscribeNodes();
-                    }
                     for (int index = 0; index < nodeList.Count(); index++)
                     {
-                        // Create an OpcMonitoredItem for the NodeId.
-                        var item = new OpcMonitoredItem(nodeList[index].NodeID, OpcAttribute.Value);
-                        item.DataChangeReceived += (sender, e) =>
+                        try
                         {
-                            OpcMonitoredItem item = (OpcMonitoredItem)sender;
-                            Console.WriteLine(
-                                    "Data Change from Index {0}: {1}",
-                                    item.Tag,
-                                    e.Item.Value);
-                            if (e.Item.Value.Value is T Tvalue)
+                            //使用設定的響應速度進行分類
+                            OpcSubscription opcSubscription = m_OpcUaClient.Subscriptions.FirstOrDefault(x => Equals(x.Tag, nodeList[index].samplingInterval));
+                            if (opcSubscription == null)
                             {
-                                nodeList[index].updateAction?.Invoke(Tvalue);
+                                // If no subscription exists, create a new one
+                                opcSubscription = m_OpcUaClient.SubscribeNodes();
+                                opcSubscription.Tag = nodeList[index].samplingInterval;
                             }
-                        };
-                        // You can set your own values on the "Tag" property
-                        // that allows you to identify the source later.
-                        item.Tag = index;
-                        // Set a custom sampling interval on the 
-                        // monitored item.
-                        item.SamplingInterval = 200;
-                        // Add the item to the subscription.
-                        opcSubscription.AddMonitoredItem(item);
+
+                            // Create an OpcMonitoredItem for the NodeId.
+                            var item = new OpcMonitoredItem(nodeList[index].NodeID, OpcAttribute.Value);
+                            item.DataChangeReceived += (sender, e) =>
+                            {
+                                OpcMonitoredItem item = (OpcMonitoredItem)sender;
+                                Console.WriteLine(
+                                        "Data Change from Index {0}: {1}",
+                                        item.Tag,
+                                        e.Item.Value);
+                                if (e.Item.Value.Value is T Tvalue)
+                                {
+                                    nodeList[index].updateAction?.Invoke(Tvalue);
+                                }
+                            };
+                            // You can set your own values on the "Tag" property
+                            // that allows you to identify the source later.
+                            item.Tag = index;
+                            // Set a custom sampling interval on the 
+                            // monitored item.
+                            item.SamplingInterval = nodeList[index].samplingInterval;
+                            // Add the item to the subscription.
+                            opcSubscription.AddMonitoredItem(item);
+
+                            // After adding the items (or configuring the subscription), apply the changes.
+                            opcSubscription.ApplyChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debugger.Break();
+                            Debug.WriteLine(ex.ToString());
+                        }
                     }
-                    // After adding the items (or configuring the subscription), apply the changes.
-                    opcSubscription.ApplyChanges();
 
                 }
                 catch (Exception ex)
