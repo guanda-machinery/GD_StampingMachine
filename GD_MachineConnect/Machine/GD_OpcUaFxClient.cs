@@ -428,7 +428,6 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-
                     OpcSubscription opcSubscription = m_OpcUaClient.Subscriptions.FirstOrDefault();
                     if (opcSubscription == null)
                     {

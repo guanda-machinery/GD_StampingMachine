@@ -181,9 +181,7 @@ namespace GD_StampingMachine.ViewModels
                     //先等待連線
                     await WaitForCondition.WaitAsync(() => StampMachineData.IsConnected, true, token);
                     //註冊燈號
-                    StampMachineData.SubscribeRequestDatabit(value => Rdatabit = value);
-
-
+                   await StampMachineData.SubscribeRequestDatabit(value => Rdatabit = value);
 
                     //開始依序傳送資料
                     while (true)
@@ -230,13 +228,15 @@ namespace GD_StampingMachine.ViewModels
                         Rdatabit = await StampMachineData.GetRequestDatabit();
 
                         CancellationTokenSource cts = new CancellationTokenSource(5000);
-                        await WaitForCondition.WaitAsync(()=>Rdatabit , true , cts.Token);
-
-                        if (!Rdatabit)
+                        try
                         {
-                            await Task.Delay(1000);
+                            await WaitForCondition.WaitAsync(() => Rdatabit, true, cts.Token);
+                        }
+                        catch
+                        {
                             continue;
                         }
+
 
                         if (token.IsCancellationRequested)
                             token.ThrowIfCancellationRequested();
