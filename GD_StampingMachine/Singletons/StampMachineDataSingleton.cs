@@ -1412,7 +1412,7 @@ namespace GD_StampingMachine.Singletons
 
                     var ioTask = Task.Run(async () =>
                     {
-                        List<(string nodeID, Action<object> action)> ioUpdateNodes = new();
+                        List<(string nodeID, Action<object> action ,int samplingInterval)> ioUpdateNodes = new();
 
                         foreach (var IO_Table in IO_TableObservableCollection)
                         {
@@ -1425,7 +1425,7 @@ namespace GD_StampingMachine.Singletons
                                 ioUpdateNodes.Add(new(IO_Table.NodeID, value =>
                                 {
                                     IO_Table.IO_Value = value;
-                                }));
+                                },1000));
 
                                 /*
                                 if (IO_Table.ValueType == typeof(bool))
