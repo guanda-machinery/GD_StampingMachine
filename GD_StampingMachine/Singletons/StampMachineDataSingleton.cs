@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -1133,7 +1134,7 @@ namespace GD_StampingMachine.Singletons
                                                     SpecialSequence = specialSequence,
                                                     SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping,
                                                     // PlateNumber = plateData.sIronPlateName1++++ plateData.sIronPlateName2,
-                                                    PlateNumber = plateData.sIronPlateName1.PadRight(rowLength) + plateData.sIronPlateName2,
+                                                    PlateNumber = plateData.sIronPlateName1.PadRight(rowLength).Substring(0, rowLength) + plateData.sIronPlateName2,
                                                     SequenceCount = rowLength
                                                 };
                                             }
@@ -1176,15 +1177,27 @@ namespace GD_StampingMachine.Singletons
                                             for (int i = 0; i < plateMonitorVMCollection.Count; i++)
                                             {
                                                 int index = i;//防止閉包問題
-                                                var invoke = Application.Current?.Dispatcher.InvokeAsync(async () =>
+                                                              //比較差異 若兩個ID相同則不複寫
+                                                if (MachineSettingBaseCollection[index].SettingBaseVM.PlateNumber != plateMonitorVMCollection[index].SettingBaseVM.PlateNumber
+                                                || MachineSettingBaseCollection[index].StampingStatus != plateMonitorVMCollection[index].StampingStatus
+                                                || MachineSettingBaseCollection[index].DataMatrixIsFinish != plateMonitorVMCollection[index].DataMatrixIsFinish
+                                                || MachineSettingBaseCollection[index].EngravingIsFinish != plateMonitorVMCollection[index].EngravingIsFinish
+                                                || MachineSettingBaseCollection[index].ShearingIsFinish != plateMonitorVMCollection[index].ShearingIsFinish)              
                                                 {
-                                                    MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
-                                                    await Task.Delay(1);
-                                                });
-                                                invokeList.Add(invoke);
+                                                    var invoke = Application.Current?.Dispatcher.InvokeAsync(async () =>
+                                                    {
+                                                        MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
+                                                        await Task.Delay(1);
+                                                    });
+                                                    invokeList.Add(invoke);
+                                                }
                                             }
-                                            var invokeTasks = invokeList.ConvertAll(op => op.Task);
-                                            await Task.WhenAll(invokeTasks);
+                                            await Task.WhenAll(invokeList?.Select(op => op.Task) ?? Enumerable.Empty<Task>());
+                                            if(  invokeList.Count > 0)
+                                            {
+                                                MachineSettingBaseCollection = plateMonitorVMCollection;
+                                            }
+
                                         }
 
 
@@ -1214,7 +1227,7 @@ namespace GD_StampingMachine.Singletons
                                         }
                                         //比較新舊兩個加工陣列
                                         //先檢查新陣列的id是否只有0 若只有0代表是被重新設定 不設定為完成(若有需要則另外設定)
-                                        if (newlronDataIList.Count(x => x != 0) > 0)
+                                    /*    if (newlronDataIList.Count(x => x != 0) > 0)
                                         {
                                             var lastIronDataIListExcept = lastIronDataIList.Except(newlronDataIList).ToList();
                                             foreach (var ironDataID in lastIronDataIListExcept)
@@ -1235,7 +1248,7 @@ namespace GD_StampingMachine.Singletons
 
                                             }
                                         }
-                                        lastIronDataIList = newlronDataIList;
+                                        lastIronDataIList = newlronDataIList;*/
                                     }
 
 
@@ -1379,6 +1392,19 @@ namespace GD_StampingMachine.Singletons
                                     var engravingAStation = GD_Stamping.GetEngravingRotateStation();
                                     if ((await engravingAStation).Item1)
                                         EngravingRotateStation = (await engravingAStation).Item2;
+
+                                    try
+                                    {
+                                        foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
+                                        {
+                                            productProject.SaveProductProject();
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+
 
                                 }
                                 else
@@ -3060,7 +3086,8 @@ namespace GD_StampingMachine.Singletons
                 }
                 return _machineSettingBaseCollection ??= new AsyncObservableCollection<PlateMonitorViewModel>();
             }
-            set { _machineSettingBaseCollection = value; OnPropertyChanged(); }
+            set { _machineSettingBaseCollection = value; 
+                OnPropertyChanged(); }
         }
 
         private IronPlateDataModel _hMIIronPlateDataModel;

@@ -257,8 +257,15 @@ namespace GD_StampingMachine.ViewModels
                             }
                         });
 
+                        plateFirstValue = plateFirstValue.TrimEnd();
+                        plateSecondValue = plateSecondValue.TrimEnd();
+
                         plateFirstValue ??= string.Empty;
                         plateSecondValue ??= string.Empty;
+
+
+
+
                         /*
                          * rXAxisPos1 = 10,
                          * rYAxisPos1 = 119,
@@ -626,6 +633,7 @@ namespace GD_StampingMachine.ViewModels
                         var finishPartParameter = workableMachiningCollection.Find(x => x.ID == previousID);
                         if (finishPartParameter != null)
                         {
+                            
                             finishPartParameter.ShearingIsFinish = true;
                             finishPartParameter.IsFinish = true; 
                         }

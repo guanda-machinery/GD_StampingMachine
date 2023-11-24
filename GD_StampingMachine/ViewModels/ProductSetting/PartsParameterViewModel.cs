@@ -126,7 +126,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.EngravingIsFinish;
             set
             {
-                PartsParameter.ShearingIsFinish = value; OnPropertyChanged();
+                PartsParameter.EngravingIsFinish = value; OnPropertyChanged();
             }
         }
         /// <summary>

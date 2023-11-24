@@ -116,7 +116,7 @@
 
 
                         <ItemsControl  FlowDirection="RightToLeft"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Standard"
-                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection}"
+                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=True}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
 

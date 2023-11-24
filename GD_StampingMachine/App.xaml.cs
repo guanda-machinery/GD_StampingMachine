@@ -43,6 +43,9 @@ namespace GD_StampingMachine
                     await Task.Delay(100);
                     //  Thread.Sleep(100);
                     SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
+
+
+
                     await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
                     {
                         MachineWindow.Show();
@@ -54,6 +57,10 @@ namespace GD_StampingMachine
 
                         manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
                     }));
+
+                    await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+                    await Task.Delay(1000);
+
                     //manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                     ManagerVM.IsIndeterminate = true;
 
@@ -73,8 +80,6 @@ namespace GD_StampingMachine
                     }));
                     manager.Close();
 
-                    await Task.Delay(1000);
-                    await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
 
                 }
                 catch (Exception ex)
@@ -102,6 +107,13 @@ namespace GD_StampingMachine
 
         protected override void OnExit(ExitEventArgs e)
         {
+            foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
+            {
+                productProject.SaveProductProject();
+            }
+
+
+
             var DisposeTask = Task.Run(() => StampMachineDataSingleton.Instance.StopScanOpcua()); 
             Console.WriteLine("Application is closing.");
             // 你也可以取消应用程序关闭

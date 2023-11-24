@@ -80,13 +80,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public bool DashAutoWrapping
         {
             get => !PlateNumber.Contains(" ");
-           /* get => StampPlateSetting.DashAutoWrapping;
-            set
-            {
-                StampPlateSetting.DashAutoWrapping = value;
-                OnPropertyChanged();
-                ChangePlateNumberList();
-            }*/
         }
 
         public string NumberSettingMode { get => StampPlateSetting.NumberSettingMode; set { StampPlateSetting.NumberSettingMode = value; OnPropertyChanged(); } }
@@ -249,9 +242,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _plateNumber = value;
-                OnPropertyChanged(); 
                 (PlateNumberList1, PlateNumberList2) = ChangePlateNumberList(PlateNumber);
-
+                OnPropertyChanged();
             }
         }
 
