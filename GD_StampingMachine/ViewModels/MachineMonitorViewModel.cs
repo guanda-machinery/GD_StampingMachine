@@ -176,6 +176,15 @@ namespace GD_StampingMachine.ViewModels
 
                 try
                 {
+                    bool Rdatabit = false;
+
+                    //先等待連線
+                    await WaitForCondition.WaitAsync(() => StampMachineData.IsConnected, true, token);
+                    //註冊燈號
+                    StampMachineData.SubscribeRequestDatabit(value => Rdatabit = value);
+
+
+
                     //開始依序傳送資料
                     while (true)
                     {
@@ -190,20 +199,7 @@ namespace GD_StampingMachine.ViewModels
                         var readyMachiningCollection = workableMachiningCollection.FindAll(x => !x.IsSended).OrderBy(x => x.WorkIndex).ToList();
                      //未上傳
                         var sendedReadyMachiningCollection = workableMachiningCollection.FindAll(x => x.IsSended).OrderBy(x => x.WorkIndex).ToList();
-
-                        //取得機台上第0筆(準備被推出去的那一筆)
-                        //var GetIronPlate = await StampMachineData.GetIronPlateDataCollection();
-                        /*int firstID = 0;
-                        if (!GetIronPlate.Item1)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            var firstPlate = GetIronPlate.Item2.First();
-                            if (firstPlate != null)
-                                firstID = firstPlate.iIronPlateID;
-                        }*/
+                        
 
                         if (readyMachiningCollection.Count == 0)
                         {
@@ -228,7 +224,14 @@ namespace GD_StampingMachine.ViewModels
 
                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WaitRequsetSignal");
                         ManagerVM.Subtitle = $"[{readymachining.WorkIndex}] [{readymachining.IronPlateString}]";
-                        var Rdatabit = await StampMachineData.GetRequestDatabit();
+
+
+                        
+                        Rdatabit = await StampMachineData.GetRequestDatabit();
+
+                        CancellationTokenSource cts = new CancellationTokenSource(5000);
+                        await WaitForCondition.WaitAsync(()=>Rdatabit , true , cts.Token);
+
                         if (!Rdatabit)
                         {
                             await Task.Delay(1000);

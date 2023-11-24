@@ -92,7 +92,8 @@ namespace GD_MachineConnect.Machine
             }
             var ret = false;
 
-            await WaitForCondition.WaitAsync(()=>m_OpcUaClient.State, OpcClientState.Connecting ,false);
+            var connectiningCts = new CancellationTokenSource(60000);
+            await WaitForCondition.WaitAsync(()=>m_OpcUaClient.State, OpcClientState.Connecting, connectiningCts.Token, false);
 
             if (m_OpcUaClient.State == OpcClientState.Connected)
             {
@@ -147,8 +148,10 @@ namespace GD_MachineConnect.Machine
         public async Task DisconnectAsync()
         {
             m_OpcUaClient.Disconnect();
-            var isCreated = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Created);
-            var isDisconnected = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Disconnected);
+            var cts = new CancellationTokenSource(60000);
+
+            var isCreated = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Created, cts.Token);
+            var isDisconnected = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Disconnected, cts.Token);
        
             m_OpcUaClient.Disconnect();
           await  Task.WhenAny(isCreated, isDisconnected);
@@ -403,7 +406,7 @@ namespace GD_MachineConnect.Machine
 
 
 
-        public Task SubscribeNodeDataChange<T>(string NodeID, Action<T> updateAction)
+        public Task<bool> SubscribeNodeDataChange<T>(string NodeID, Action<T> updateAction)
         {
             return SubscribeNodesDataChange(new List<(string, Action<T>)>
             {
@@ -419,7 +422,7 @@ namespace GD_MachineConnect.Machine
         /// <typeparam name="T"></typeparam>
         /// <param name="nodeList"></param>
         /// <returns></returns>
-        public Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
+        public Task<bool> SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
         {
             return Task.Run(() =>
             {
@@ -459,13 +462,16 @@ namespace GD_MachineConnect.Machine
                     }
                     // After adding the items (or configuring the subscription), apply the changes.
                     opcSubscription.ApplyChanges();
-
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     Debugger.Break();
                     Debug.WriteLine(ex.ToString());
                 }
+
+
+                return false;
             });
         }
 

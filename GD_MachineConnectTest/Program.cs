@@ -9,9 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
-using Opc.Ua;
-using OpcUaHelper;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace GD_MachineConnectTest
 {
@@ -98,8 +95,7 @@ namespace GD_MachineConnectTest
                     Task.Run(async () =>
                         {
                             await Task.Delay(1000);
-                            var Opcua = new GD_OpcUaHelperClient(HostString, Port, ServerDataPath);
-                            Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
+                            var Opcua = new GD_OpcUaFxClient(HostString, Port, ServerDataPath, new UserIdentity("Administrator", "pass"));
                             if (await Opcua.AsyncConnect())
                             {
                                 //Opcua.ReadAllReference("ns=4;s=APPL.EngravingRotate1", out _);

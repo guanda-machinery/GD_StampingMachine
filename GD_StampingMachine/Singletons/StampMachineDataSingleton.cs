@@ -882,7 +882,7 @@ namespace GD_StampingMachine.Singletons
                             //scanTask = null;
                         }
                     }
-                    await WaitForCondition.WaitAsync(() => GD_Stamping.IsConnected, false);
+                    await WaitForCondition.WaitAsync(() => GD_Stamping.IsConnected, false,new CancellationToken());
                 }
                 catch
                 {
@@ -893,9 +893,10 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        private async Task RunScanTask(CancellationToken cancelToken)
+        private async Task<bool> RunScanTask(CancellationToken cancelToken)
         {
-            await Task.Run(async() =>
+            var tcs = new TaskCompletionSource<bool>();
+            _ = Task.Run(async() =>
             {
                 IsScaning = true;
                 var ManagerVM = new DevExpress.Mvvm.DXSplashScreenViewModel
@@ -977,10 +978,14 @@ namespace GD_StampingMachine.Singletons
                                     this.ShearingVelocity = shearingVelocityTuple.Item2;
 
 
-                                await GD_Stamping.SubscribeOperationMode(value =>
-                                 {
-                                     OperationMode = (OperationModeEnum)value;
-                                 });
+                               
+                                while (!await GD_Stamping.SubscribeOperationMode(value =>
+                                  {
+                                      OperationMode = (OperationModeEnum)value;
+                                  }))
+                                {
+                                    await Task.Delay(100);
+                                }
 
                                 await GD_Stamping.SubscribeHydraulicPumpMotor(value =>
                                 {
@@ -1502,7 +1507,7 @@ namespace GD_StampingMachine.Singletons
                 finally
                 {
                     await GD_Stamping?.DisconnectAsync();
-                    await WaitForCondition.WaitAsync(() => GD_Stamping.IsConnected, false);
+                    await WaitForCondition.WaitAsync(() => GD_Stamping.IsConnected, false,  cancelToken);
                     IsConnected = false;
                     try
                     {
@@ -1515,7 +1520,9 @@ namespace GD_StampingMachine.Singletons
                     }
                 }
                 IsScaning = false;
+                tcs.SetResult(true);
             });
+            return await tcs.Task;
         }
 
         public async Task<bool> CompareFontsSettingBetweenMachineAndSoftware(ObservableCollection<StampingTypeViewModel> settingCollection)
@@ -2110,6 +2117,7 @@ namespace GD_StampingMachine.Singletons
         /// <returns></returns>
         public async Task<bool> GetRequestDatabit()
         {
+
             if (GD_Stamping.IsConnected)
             {
                 var ret = await GD_Stamping.GetRequestDatabit();
@@ -2118,6 +2126,22 @@ namespace GD_StampingMachine.Singletons
             }
             return false;
         }
+
+        /// <summary>
+        /// 註冊加工訊號
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> SubscribeRequestDatabit(Action<bool> action)
+        {
+            if (GD_Stamping.IsConnected)
+            {
+                var ret = await GD_Stamping.SubscribeRequestDatabit(action);
+            }
+            return false;
+        }
+
+
+
         /// <summary>
         /// 加工訊號交握
         /// </summary>

@@ -129,7 +129,7 @@ namespace GD_MachineConnect
         /// 訂閱機台模式
         /// </summary>
         /// <param name="action"></param>
-        public Task SubscribeOperationMode(Action<int> action)
+        public Task<bool> SubscribeOperationMode(Action<int> action)
         {
            return GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode, action);
         }
@@ -604,7 +604,7 @@ namespace GD_MachineConnect
         /// 訂閱油壓單元
         /// </summary>
         /// <param name="action"></param>
-        public Task SubscribeHydraulicPumpMotor(Action<bool> action)
+        public Task<bool> SubscribeHydraulicPumpMotor(Action<bool> action)
         {
             return GD_OpcUaClient.SubscribeNodeDataChange(StampingOpcUANode.Motor1.sv_bMotorStarted, action);
         }
@@ -621,6 +621,21 @@ namespace GD_MachineConnect
         {
             return await GD_OpcUaClient.AsyncReadNode<bool>($"{StampingOpcUANode.system.sv_bRequestDatabit}");
         }
+
+
+        /// <summary>
+        /// 訂閱加工許可交握訊號
+        /// </summary>
+        /// <param name="action"></param>
+        public Task<bool> SubscribeRequestDatabit(Action<bool> action)
+        {
+            return GD_OpcUaClient.SubscribeNodeDataChange<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action);
+        }
+
+
+
+
+
         /// <summary>
         /// 設定鐵片下一片資訊-交握訊號
         /// </summary>
@@ -1523,13 +1538,13 @@ namespace GD_MachineConnect
         /// 
         /// </summary>
         /// <param name="action"></param>
-       public Task SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
+       public Task<bool> SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
         {
             return GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID,action);
         }
 
 
-        public Task SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
+        public Task<bool> SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
         {
              return GD_OpcUaClient.SubscribeNodesDataChange<T>(nodeList);
         }
