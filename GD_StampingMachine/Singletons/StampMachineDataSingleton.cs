@@ -1186,7 +1186,6 @@ namespace GD_StampingMachine.Singletons
                                                 {
                                                     var invoke = Application.Current?.Dispatcher.InvokeAsync(async () =>
                                                     {
-                                                        MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
                                                         await Task.Delay(1);
                                                     });
                                                     invokeList.Add(invoke);
@@ -1221,6 +1220,8 @@ namespace GD_StampingMachine.Singletons
                                                     boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Run;
                                                     boxPartsCollection[partIndex].DataMatrixIsFinish = plateData.bDataMatrixFinish;
                                                     boxPartsCollection[partIndex].EngravingIsFinish = plateData.bEngravingFinish;
+
+                                                    projectDistribute.SaveProductProjectVMObservableCollection();
                                                     break;
                                                 }
                                             }
@@ -1392,19 +1393,6 @@ namespace GD_StampingMachine.Singletons
                                     var engravingAStation = GD_Stamping.GetEngravingRotateStation();
                                     if ((await engravingAStation).Item1)
                                         EngravingRotateStation = (await engravingAStation).Item2;
-
-                                    try
-                                    {
-                                        foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
-                                        {
-                                            productProject.SaveProductProject();
-                                        }
-                                    }
-                                    catch
-                                    {
-
-                                    }
-
 
                                 }
                                 else

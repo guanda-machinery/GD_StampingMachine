@@ -628,14 +628,17 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (previousID != value)
                     {
-                        var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
-
-                        var finishPartParameter = workableMachiningCollection.Find(x => x.ID == previousID);
-                        if (finishPartParameter != null)
+                        foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                         {
-                            
-                            finishPartParameter.ShearingIsFinish = true;
-                            finishPartParameter.IsFinish = true; 
+                            var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == previousID);
+                            if (finishPartParameter != null)
+                            {
+                                finishPartParameter.ShearingIsFinish = true;
+                                finishPartParameter.IsFinish = true;
+
+                                rojectDistributeVM?.SaveProductProjectVMObservableCollection();
+                                break;
+                            }
                         }
                         previousID = value;
                     }
