@@ -115,76 +115,68 @@
                         </Grid>
 
 
-                        <ListBox  FlowDirection="RightToLeft"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Standard"
+                        <ItemsControl  FlowDirection="RightToLeft"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Standard"
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem" >
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListBoxItem" >
-                                                <Grid FlowDirection="LeftToRight">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border  Margin="5,4,2,5"  
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid FlowDirection="LeftToRight">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border  Margin="5,4,2,5"  
                                                                                         BorderThickness="1" BorderBrush="Black" CornerRadius="5"
                                                                                         HorizontalAlignment="Center"
                                                                                         >
-                                                        <Border.Style>
-                                                            <Style TargetType="Border" >
-                                                                <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DataMatrixIsFinish }" Value="true">
-                                                                        <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding EngravingIsFinish}" Value="true">
-                                                                        <Setter Property="Background" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding ShearingIsFinish}" Value="true">
-                                                                        <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"    >
-                                                            <Grid.LayoutTransform>
-                                                                <TransformGroup>
-                                                                    <RotateTransform Angle="90"/>
-                                                                    <ScaleTransform ScaleX="0.11" ScaleY="0.11" />
-                                                                </TransformGroup>
-                                                            </Grid.LayoutTransform>
-                                                            <Grid DataContext="{Binding SettingBaseVM}">
-                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl  
+                                            <Border.Style>
+                                                <Style TargetType="Border" >
+                                                    <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DataMatrixIsFinish }" Value="true">
+                                                            <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding EngravingIsFinish}" Value="true">
+                                                            <Setter Property="Background" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ShearingIsFinish}" Value="true">
+                                                            <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"    >
+                                                <Grid.LayoutTransform>
+                                                    <TransformGroup>
+                                                        <RotateTransform Angle="90"/>
+                                                        <ScaleTransform ScaleX="0.11" ScaleY="0.11" />
+                                                    </TransformGroup>
+                                                </Grid.LayoutTransform>
+                                                <Grid DataContext="{Binding SettingBaseVM}">
+                                                    <GD_SchematicDiagram:PlateRowDiagramViewUserControl  
                                                                                                                                  Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                      PlateRowBackground="Transparent"
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
-                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
+                                                    <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
                                                                                                                                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                                                                   PlateRowBackground="Transparent"
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Border>
-
-
                                                 </Grid>
-                                                
-                                                
-                                                
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemsPanel>
+                                            </Grid>
+                                        </Border>
+
+
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
 
 
                         <ListBox  Visibility="Collapsed"

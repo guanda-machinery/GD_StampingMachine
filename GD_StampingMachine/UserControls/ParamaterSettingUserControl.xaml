@@ -1248,7 +1248,6 @@
                                     IsEnabled="{Binding StampMachineData.IsScaning}"
                                     Command="{Binding OpcuaStopScanCommand}"/>
 
-
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>

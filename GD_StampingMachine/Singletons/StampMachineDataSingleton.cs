@@ -863,9 +863,9 @@ namespace GD_StampingMachine.Singletons
 
         }
 
-        public Task StopScanOpcua()
+        public async Task StopScanOpcua()
         {
-            return Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 try
                 {
@@ -992,6 +992,8 @@ namespace GD_StampingMachine.Singletons
                                     HydraulicPumpIsActive = value;
                                 });
 
+                                await GD_Stamping.SubscribeRequestDatabit(value =>
+                                Rdatabit = value, true);
 
 
 
@@ -999,6 +1001,7 @@ namespace GD_StampingMachine.Singletons
                                 //var ret7 = await GD_Stamping.GetLubricationSettingTime();
                                 //var ret8 = await GD_Stamping.GetLubricationSettingOnTime();
                                 //var ret9 = await GD_Stamping.GetLubricationSettingOffTime();
+
 
                                 var ret10 = await GD_Stamping.GetLubricationActualTime();
                                 var ret11 = await GD_Stamping.GetLubricationActualOnTime();
@@ -1412,7 +1415,7 @@ namespace GD_StampingMachine.Singletons
 
                     var ioTask = Task.Run(async () =>
                     {
-                        List<(string nodeID, Action<object> action ,int samplingInterval)> ioUpdateNodes = new();
+                        List<(string nodeID, Action<object> action ,int samplingInterval, bool checkDuplicates)> ioUpdateNodes = new();
 
                         foreach (var IO_Table in IO_TableObservableCollection)
                         {
@@ -1425,7 +1428,7 @@ namespace GD_StampingMachine.Singletons
                                 ioUpdateNodes.Add(new(IO_Table.NodeID, value =>
                                 {
                                     IO_Table.IO_Value = value;
-                                },1000));
+                                },1000 , false));
 
                                 /*
                                 if (IO_Table.ValueType == typeof(bool))
@@ -1456,7 +1459,9 @@ namespace GD_StampingMachine.Singletons
                             }
                         }
 
-                        await GD_Stamping.SubscribeNodesDataChange(ioUpdateNodes);
+                       var ioList =(await GD_Stamping.SubscribeNodesDataChangeAsync(ioUpdateNodes)).ToList();
+
+
 
                         /*
                 while (true)
@@ -2117,7 +2122,6 @@ namespace GD_StampingMachine.Singletons
         /// <returns></returns>
         public async Task<bool> GetRequestDatabit()
         {
-
             if (GD_Stamping.IsConnected)
             {
                 var ret = await GD_Stamping.GetRequestDatabit();
@@ -2128,17 +2132,36 @@ namespace GD_StampingMachine.Singletons
         }
 
         /// <summary>
-        /// 註冊加工訊號
+        /// 訂閱第一片ID
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> SubscribeRequestDatabit(Action<bool> action)
+        public async Task<bool> SubscribeFirstIronPlate(Action<int> action , int samplingInterval, bool checkDuplicates = false)
         {
+            var ret = false;
             if (GD_Stamping.IsConnected)
             {
-                var ret = await GD_Stamping.SubscribeRequestDatabit(action);
+                ret = await GD_Stamping.SubscribeFirstIronPlate(action , samplingInterval, checkDuplicates);
             }
-            return false;
+            return ret;
         }
+
+        /// <summary>
+        /// 取消訂閱第一片ID
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> UnsubscribeFirstIronPlate(int samplingInterval)
+        {
+            var ret = false;
+            if (GD_Stamping.IsConnected)
+            {
+                ret = await GD_Stamping.UnsubscribeFirstIronPlate(samplingInterval);
+            }
+            return ret;
+        }
+
+
+
+
 
 
 
@@ -3085,6 +3108,8 @@ namespace GD_StampingMachine.Singletons
         private bool _cylinder_HydraulicCutting_IsCutPoint;
 
         private bool _hydraulicPumpIsActive;
+        private bool _rdatabit;
+
         /// <summary>
         /// 氣壓缸1上方磁簧
         /// </summary>
@@ -3213,7 +3238,13 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-
+        /// <summary>
+        /// 加工許可訊號
+        /// </summary>
+        public bool Rdatabit
+        {
+            get => _rdatabit; private set { _rdatabit = value; OnPropertyChanged(); }
+        }
 
 
         /// <summary>
@@ -3221,7 +3252,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public bool HydraulicPumpIsActive
         {
-            get => _hydraulicPumpIsActive; set { _hydraulicPumpIsActive = value; OnPropertyChanged(); }
+            get => _hydraulicPumpIsActive; private set { _hydraulicPumpIsActive = value; OnPropertyChanged(); }
         }
 
 

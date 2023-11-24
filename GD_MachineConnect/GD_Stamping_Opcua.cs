@@ -129,9 +129,9 @@ namespace GD_MachineConnect
         /// 訂閱機台模式
         /// </summary>
         /// <param name="action"></param>
-        public Task<bool> SubscribeOperationMode(Action<int> action)
+        public async Task<bool> SubscribeOperationMode(Action<int> action, bool checkDuplicates = false)
         {
-           await GD_OpcUaClient.SubscribeNodeDataChange<int>(StampingOpcUANode.system.sv_OperationMode, action);
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.system.sv_OperationMode, action ,200 ,  checkDuplicates);
         }
 
 
@@ -604,9 +604,9 @@ namespace GD_MachineConnect
         /// 訂閱油壓單元
         /// </summary>
         /// <param name="action"></param>
-        public Task<bool> SubscribeHydraulicPumpMotor(Action<bool> action)
+        public async Task<bool> SubscribeHydraulicPumpMotor(Action<bool> action, bool checkDuplicates = false)
         {
-            await GD_OpcUaClient.SubscribeNodeDataChange(StampingOpcUANode.Motor1.sv_bMotorStarted, action);
+           return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Motor1.sv_bMotorStarted, action, 50, checkDuplicates);
         }
 
 
@@ -627,11 +627,29 @@ namespace GD_MachineConnect
         /// 訂閱加工許可交握訊號
         /// </summary>
         /// <param name="action"></param>
-        public Task<bool> SubscribeRequestDatabit(Action<bool> action)
+        public Task<bool> SubscribeRequestDatabit(Action<bool> action, bool checkDuplicates = false)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChange<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action);
+            return GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action, 50, checkDuplicates);
         }
 
+
+        /// <summary>
+        /// 訂閱第一片ID
+        /// </summary>
+        /// <param name="action"></param>
+        public Task<bool> SubscribeFirstIronPlate(Action<int> action, int samplingInterval,bool checkDuplicates = false)
+        {
+            return GD_OpcUaClient.SubscribeNodeDataChangeAsync($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", action, samplingInterval, checkDuplicates);
+        }
+
+        /// <summary>
+        /// 取消訂閱第一片ID
+        /// </summary>
+        /// <param name="action"></param>
+        public Task<bool> UnsubscribeFirstIronPlate(int samplingInterval)
+        {
+            return GD_OpcUaClient.UnsubscribeNodeAsync($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", samplingInterval);
+        }
 
 
 
@@ -1533,20 +1551,23 @@ namespace GD_MachineConnect
           }*/
 
 
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="action"></param>
-       public Task<bool> SubscribeNodeDataChange<T>(string NodeID, Action<T> action)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="NodeID">節點id</param>
+        /// <param name="action">動作</param>
+        /// <param name="checkDuplicates">是否檢查重複項</param>
+        /// <returns></returns>
+        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> action, bool checkDuplicates = false)
         {
-            await GD_OpcUaClient.SubscribeNodeDataChange<T>(NodeID,action,200);
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<T>(NodeID,action,200,  checkDuplicates);
         }
 
 
-        public Task<bool> SubscribeNodesDataChange<T>(IList<(string NodeID, Action<T> updateAction)> nodeList)
+        public async Task<IList<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
         {
-             await GD_OpcUaClient.SubscribeNodesDataChange<T>(nodeList);
+            return await GD_OpcUaClient.SubscribeNodesDataChangeAsync<T>(nodeList);
         }
 
 
@@ -2354,28 +2375,6 @@ namespace GD_MachineConnect
                 public class sv_HMIIronPlateName
                  {
                     public static string NodeName => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}";
-                    /// <summary>
-                    /// 字串1(第一行)
-                    /// </summary>
-                    //public static string sIronPlateName1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName1}";
-
-                    /// <summary>
-                    /// 字串2(第二行)
-                    /// </summary>
-                    //public static string sIronPlateName2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName2}";
-
-
-                    /// <summary>
-                    /// 側邊字串
-                    /// </summary>
-                    // public static string sIronPlateName3 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{sIronPlate.sIronPlateName3}";
-
-
-
-                    //public static string rXAxisPos1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rXAxisPos1}";
-                    //public static string  rYAxisPos1 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rYAxisPos1}";
-                    //public static string rXAxisPos2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rXAxisPos2}";
-                    //public static string  rYAxisPos2 => $"{NodeHeader}.{NodeVariable.system}.{HMI.sv_HMIIronPlateName}.{AxisPos.rYAxisPos2}";
                 }
 
 

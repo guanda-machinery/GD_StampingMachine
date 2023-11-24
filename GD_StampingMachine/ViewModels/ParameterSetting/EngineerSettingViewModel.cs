@@ -127,7 +127,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                     await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
 
-            } ,()=> !OpcuaStartScanCommand.IsRunning);
+            } ,()=> !_opcuaStartScanCommand.IsRunning);
         }
 
         private AsyncRelayCommand _opcuaStopScanCommand;
@@ -135,8 +135,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _opcuaStopScanCommand??=new(async () =>
             {
-                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
-            }, () => !OpcuaStopScanCommand.IsRunning);
+                await Task.WhenAll( GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua() , Task.Delay(1000)) ;
+            }, () => !_opcuaStopScanCommand.IsRunning);
         }
 
 
