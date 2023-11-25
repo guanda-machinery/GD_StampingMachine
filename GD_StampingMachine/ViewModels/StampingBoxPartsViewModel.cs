@@ -190,7 +190,7 @@ namespace GD_StampingMachine.ViewModels
                         if (gridcontrol.View is DevExpress.Xpf.Grid.TableView tableview)
                         {
                             var pageSize = (tableview.ActualHeight - tableview.HeaderPanelMinHeight) / (40 + tableview.FixedLineHeight);
-                            tableview.PageSize = (int)pageSize;
+                            tableview.PageSize = (pageSize < 3 ? 3 : (int)pageSize);
                         }
                     }
                 }
