@@ -272,7 +272,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 });
             });
 
-            return JsonHM.WriteProjectSettingJson(PathList);
+            return await Task.Run(()=> JsonHM.WriteProjectSettingJson(PathList));
         }
 
 

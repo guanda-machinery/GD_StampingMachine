@@ -67,7 +67,7 @@ namespace GD_CommonLibrary.Method
 
 
         /// <summary>
-        /// 讀取json 但錯誤時會跳出彈窗
+        /// 讀取json 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>

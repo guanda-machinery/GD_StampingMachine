@@ -60,9 +60,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
             }
-
+  
             RefreshNumberSettingSavedCollection();
-
             Task.Run(async () =>
             {
                 try
@@ -70,12 +69,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     while (true)
                     {
                         await Task.Delay(1000);
-                        double AverageProgress = 0;
+                        double averageProgress = 0;
                        foreach(var p in PartsParameterVMObservableCollection)
                         {
-                            AverageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
+                            averageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
                         }
-                        ProductProjectFinishProcessing = AverageProgress;
+                       
+                        if (ProductProjectFinishProcessing != averageProgress)
+                            ProductProjectFinishProcessing = averageProgress;
                     }
                 }
                 catch (Exception ex)
@@ -182,7 +183,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _productProject.FinishProgress = value;
-                OnPropertyChanged(nameof(ProductProjectFinishProcessing));
+                OnPropertyChanged();
             }
         }
 
@@ -376,48 +377,33 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public void RefreshNumberSettingSavedCollection()
         {
             var newSavedCollection = new DXObservableCollection<SettingBaseViewModel>();
-
             newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection);
             newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection);
-
             NumberSettingSavedCollection = newSavedCollection;
 
 
-            AddNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson();
+            AddNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson()
+                .Where(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
+                .ToObservableCollection();
 
-              //  if (this.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
-                    AddNumberSettingSavedCollection = AddNumberSettingSavedCollection.ToList()
-                        .FindAll(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
-                        .ToObservableCollection();
+            /*AddNumberSettingSavedCollection.ForEach(obj =>
+            {
+                obj.PlateNumber = string.IsNullOrEmpty(AddNewPartsParameterVM.ParameterA) ? string.Empty : AddNewPartsParameterVM.ParameterA;
+            });*/
 
-                AddNumberSettingSavedCollection.ForEach(obj =>
-                {
-                    var _partNumber = AddNewPartsParameterVM.ParameterA;
-                    if (string.IsNullOrEmpty(_partNumber))
-                        obj.PlateNumber = string.Empty;
-                    else
-                        obj.PlateNumber = _partNumber;
-                });
-            
-
-            EditNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson();
+            var editNumberSettingCollection = NumberSettingSavedCollection.DeepCloneByJson();
             if (EditPartsParameterVM_Cloned != null)
             {
-                //if (EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm != SheetStampingTypeFormEnum.None)
-                    EditNumberSettingSavedCollection = EditNumberSettingSavedCollection.ToList()
-                        .FindAll(x => x.SheetStampingTypeForm == EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm)
+                editNumberSettingCollection = editNumberSettingCollection
+                    .Where(x => x.SheetStampingTypeForm == EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm)
                         .ToObservableCollection();
-
-                EditNumberSettingSavedCollection.ForEach(obj =>
-                {
-                    var _partNumber = EditPartsParameterVM_Cloned.ParameterA;
-                    if (string.IsNullOrEmpty(_partNumber))
-                        obj.PlateNumber = string.Empty;
-                    else
-                        obj.PlateNumber = _partNumber;
-                });
             }
+            EditNumberSettingSavedCollection = editNumberSettingCollection;
+
+
         }
+
+
 
 
         private PartsParameterViewModel _partsParameterViewModelSelectItem;
@@ -626,7 +612,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
                 try
                 {
-                    await Application.Current.Dispatcher.InvokeAsync(async () =>
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "...";
@@ -676,7 +662,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         ManagerVM.Progress = (fileProgress * 100.0) /fileCount;
 
                         List<ERP_IronPlateModel> ErpFile = new();
-                        CsvFileManager csvManager = new CsvFileManager();
+                        CsvFileManager csvManager = new();
                         if (JsonHM.ReadJsonFileWithoutMessageBox(importFile, out ErpFile))
                         {
                             //陣列型
@@ -711,7 +697,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         else
                         {
                             continue;
-                            //跳出錯誤
                         }
 
                         //將資料拆分為QR/一般
