@@ -444,26 +444,31 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        private ICommand _gridSizeChangedCommand;
-        public ICommand GridSizeChangedCommand
+
+
+
+        private ICommand _gridControlSizeChangedCommand;
+        public ICommand GridControlSizeChangedCommand
         {
-            get => _gridSizeChangedCommand ??= new RelayCommand<object>(gridHeight =>
+            get => _gridControlSizeChangedCommand ??= new RelayCommand<object>(obj =>
             {
-                if(gridHeight is double height)
+
+                if (obj is System.Windows.SizeChangedEventArgs e)
                 {
-                    GridPageSize = (int)(height/45)  ;
-
-
+                    if (e.Source is DevExpress.Xpf.Grid.GridControl gridcontrol)
+                    {
+                        if(gridcontrol.View is DevExpress.Xpf.Grid.TableView tableview)
+                        {
+                            var pageSize = (tableview.ActualHeight - tableview.HeaderPanelMinHeight) / (45+ tableview.FixedLineHeight);
+                            tableview.PageSize = (int)pageSize;
+                        }
+                    }
                 }
             });
         }
 
-        private int? _gridPageSize = 25;
-        public int? GridPageSize
-        {
-            get => _gridPageSize;
-            set { _gridPageSize = value; OnPropertyChanged(); }
-        }
+
+
 
 
 

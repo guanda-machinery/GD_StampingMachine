@@ -147,12 +147,17 @@
             Style="{StaticResource ProjectGridControl}"
             ItemsSource="{Binding BoxPartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SizeChanged">
+                    <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
+                                                   PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
             <dxg:GridControl.View >
                 <dxg:TableView   
-                    
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
-                                                    PageSize="25"
                                 AllowPaging="True"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"

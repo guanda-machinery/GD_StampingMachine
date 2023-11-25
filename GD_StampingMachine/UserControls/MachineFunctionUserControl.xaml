@@ -305,6 +305,13 @@
                                 Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}
                                 ,Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                   >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SizeChanged">
+                                        <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
+                                                   PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
                                 <dxg:GridControl.View >
                                     <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -328,14 +335,11 @@
                                                         SearchPanelFindMode="Always"
                                                         ShowIndicator="False"
                                                         SearchDelay="0"                            
-                                                        AllowDragDrop="True"
-                                                        AllowDrop="True"
-                                                        ShowDragDropHint="False"
+                                                        AllowDragDrop="False"
+                                                        AllowDrop="False"
+                                                        ShowDragDropHint="False" 
                                                     >
-                                        <dxmvvm:Interaction.Behaviors>
-                                            <dxmvvm:EventToCommand EventName="DragRecordOver" Command="{Binding Box_OnDragRecordOverCommand}" PassEventArgsToCommand="True"/>
-                                            <dxmvvm:EventToCommand EventName="DropRecord" Command="{Binding Box_OnDropRecordCommand}" PassEventArgsToCommand="True"/>
-                                        </dxmvvm:Interaction.Behaviors>
+
                                     </dxg:TableView>
                                 </dxg:GridControl.View>
 

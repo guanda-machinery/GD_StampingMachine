@@ -75,6 +75,27 @@ namespace GD_StampingMachine.ViewModels
         public StampMachineDataSingleton StampMachineData { get; set; } = Singletons.StampMachineDataSingleton.Instance;
 
 
+        private ICommand _gridControlSizeChangedCommand;
+        public ICommand GridControlSizeChangedCommand
+        {
+            get => _gridControlSizeChangedCommand ??= new RelayCommand<object>(obj =>
+            {
+
+                if (obj is System.Windows.SizeChangedEventArgs e)
+                {
+                    if (e.Source is DevExpress.Xpf.Grid.GridControl gridcontrol)
+                    {
+                        if (gridcontrol.View is DevExpress.Xpf.Grid.TableView tableview)
+                        {
+                            var pageSize = (tableview.ActualHeight - tableview.HeaderPanelMinHeight) / (40 + tableview.FixedLineHeight);
+                            tableview.PageSize = (int)pageSize;
+                        }
+                    }
+                }
+            });
+        }
+
+
 
 
 
