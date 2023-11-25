@@ -444,6 +444,29 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
+        private ICommand _gridSizeChangedCommand;
+        public ICommand GridSizeChangedCommand
+        {
+            get => _gridSizeChangedCommand ??= new RelayCommand<object>(gridHeight =>
+            {
+                if(gridHeight is double height)
+                {
+                    GridPageSize = (int)(height/45)  ;
+
+
+                }
+            });
+        }
+
+        private int? _gridPageSize = 25;
+        public int? GridPageSize
+        {
+            get => _gridPageSize;
+            set { _gridPageSize = value; OnPropertyChanged(); }
+        }
+
+
+
 
 
         private PartsParameterViewModel _editPartsParameterVM_Cloned;

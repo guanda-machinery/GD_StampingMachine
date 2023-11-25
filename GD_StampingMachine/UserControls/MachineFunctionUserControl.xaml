@@ -293,12 +293,13 @@
                             </Grid>
 
                             <!--       CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"-->
-                            <dxg:GridControl MaxHeight="{Binding ElementName=MachineOverviewGrid,Path=ActualHeight}"
-                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ItemsSource, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                            <dxg:GridControl 
+                                Name="WorkGridControl"
+                                MaxHeight="420" 
                                 Margin="10,0"
                                 Grid.Column="1"
                          
-                                Background="Transparent"  MinHeight="200"
+                                Background="Transparent"  MinHeight="200" 
                                 Style="{StaticResource ProjectGridControl}" 
                                 ItemsSource="{Binding IsAsync=True,
                                 Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}
@@ -308,6 +309,9 @@
                                     <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
+                                                                    
+                                        PageSize="{c:Binding  Path=ActualHeight/40 ,ElementName=WorkGridControl}"
+                                        AllowPaging="True"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"
                                                         AllowColumnMoving="False"

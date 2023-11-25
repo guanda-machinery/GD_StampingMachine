@@ -152,6 +152,8 @@
                     
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
+                                                    PageSize="25"
+                                AllowPaging="True"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"
                                                         AllowColumnMoving="False"
