@@ -48,74 +48,90 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// </summary>
     public class ProductProjectViewModel : GD_CommonLibrary.BaseViewModel
     {
-        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProductProjectViewModel");
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("NameProductProjectViewModel");
 
 
         StampingMachineJsonHelper JsonHM = new();
 
-        public ProductProjectViewModel(ProductProjectModel ProductProject)
+        public ProductProjectViewModel(ProductProjectModel productProject)
         {
-            _productProject = ProductProject;
-            foreach (var obj in _productProject.PartsParameterObservableCollection)
+            _productProject = productProject;
+            init();
+        }
+
+        public ProductProjectViewModel()
+        {
+            _productProject = new();
+            init();
+        }
+
+
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+        protected override void Dispose(bool disposing)
+        {
+            _cts.Cancel();
+
+            base.Dispose(disposing);
+        }
+
+
+        private void init()
+        {
+            foreach (var obj in ProductProject.PartsParameterObservableCollection)
             {
                 PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
             }
-  
+
             RefreshNumberSettingSavedCollection();
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 try
                 {
                     while (true)
                     {
+                        if (_cts.Token.IsCancellationRequested)
+                            _cts.Token.ThrowIfCancellationRequested();
+
                         await Task.Delay(1000);
                         double averageProgress = 0;
-                       foreach(var p in PartsParameterVMObservableCollection)
+                        foreach (var p in PartsParameterVMObservableCollection)
                         {
                             averageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
                         }
-                       
+
                         if (ProductProjectFinishProcessing != averageProgress)
                             ProductProjectFinishProcessing = averageProgress;
                     }
                 }
-                catch (Exception ex)
+                catch (OperationCanceledException)
                 {
 
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
                 }
             });
         }
 
 
-        public ProductProjectViewModel()
-        {
-            _productProject = new();
-
-            foreach (var obj in _productProject.PartsParameterObservableCollection)
-            {
-                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
-
-            }
-            RefreshNumberSettingSavedCollection();
-        }
-
-
-        public readonly ProductProjectModel _productProject;
+        private ProductProjectModel _productProject;
+        public ProductProjectModel ProductProject => _productProject ??= new();
 
 
         public SheetStampingTypeFormEnum SheetStampingTypeForm
         {
-            get => _productProject.SheetStampingTypeForm;
-            set { _productProject.SheetStampingTypeForm = value; OnPropertyChanged(); }
+            get => ProductProject.SheetStampingTypeForm;
+            set { ProductProject.SheetStampingTypeForm = value; OnPropertyChanged(); }
         }
 
 
         public string ProductProjectName
         {
-            get => _productProject.Name;
+            get => ProductProject.Name;
             set
             {
-                _productProject.Name = value;
+                ProductProject.Name = value;
                 OnPropertyChanged(nameof(ProductProjectName));
             }
         }
@@ -124,36 +140,36 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public string ProductProjectNumber
         {
-            get => _productProject.Number;
+            get => ProductProject.Number;
             set
             {
-                _productProject.Number = value; OnPropertyChanged(nameof(ProductProjectNumber));
+                ProductProject.Number = value; OnPropertyChanged(nameof(ProductProjectNumber));
             }
         }
         public string ProductProjectPath
         {
-            get => _productProject.ProjectPath;
+            get => ProductProject.ProjectPath;
             set
             {
-                _productProject.ProjectPath = value;
+                ProductProject.ProjectPath = value;
                 OnPropertyChanged(nameof(ProductProjectPath));
             }
         }
         public DateTime ProductProjectCreateTime
         {
-            get => _productProject.CreateTime;
+            get => ProductProject.CreateTime;
             set
             {
-                _productProject.CreateTime = value;
+                ProductProject.CreateTime = value;
                 OnPropertyChanged(nameof(ProductProjectCreateTime));
             }
         }
         public DateTime? ProductProjectEditTime
         {
-            get => _productProject.EditTime;
+            get => ProductProject.EditTime;
             set
             {
-                _productProject.EditTime = value;
+                ProductProject.EditTime = value;
                 OnPropertyChanged(nameof(ProductProjectEditTime));
             }
         }
@@ -169,7 +185,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 新增排版專案的打勾符號
         /// </summary>
-        public bool IsFinish { get => _productProject.IsFinish; set { _productProject.IsFinish = value; OnPropertyChanged(); } }
+        public bool IsFinish { get => ProductProject.IsFinish; set { ProductProject.IsFinish = value; OnPropertyChanged(); } }
 
 
         /// <summary>
@@ -179,11 +195,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get
             {
-                return _productProject.FinishProgress;
+                return ProductProject.FinishProgress;
             }
             set
             {
-                _productProject.FinishProgress = value;
+                ProductProject.FinishProgress = value;
                 OnPropertyChanged();
             }
         }
@@ -221,7 +237,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             }
                             else
                             {
-                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem._productProject.Number} - {CurrentItem._productProject.Name}") == MessageBoxResult.Yes)
+                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}") == MessageBoxResult.Yes)
                                     GridItemSource.Remove(CurrentItem);
                             }
 
@@ -847,7 +863,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get
             {
                 _partsParameterVMObservableCollection ??= new();
-                _productProject.PartsParameterObservableCollection =  _partsParameterVMObservableCollection.Select(x => x.PartsParameter).ToObservableCollection();
+                ProductProject.PartsParameterObservableCollection =  _partsParameterVMObservableCollection.Select(x => x.PartsParameter).ToObservableCollection();
                 return _partsParameterVMObservableCollection;
             }
             set
@@ -899,13 +915,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _saveProductProjectCommand ??= new RelayCommand(() =>
             {
-                if (string.IsNullOrWhiteSpace(_productProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(_productProject.ProjectPath)))
+                if (string.IsNullOrWhiteSpace(ProductProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(ProductProject.ProjectPath)))
                 {
                     //跳出彈跳式視窗
                     using var dialog = new System.Windows.Forms.FolderBrowserDialog();
                     System.Windows.Forms.DialogResult result = dialog.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)
-                        _productProject.ProjectPath = dialog.SelectedPath;
+                        ProductProject.ProjectPath = dialog.SelectedPath;
                 }
                 SaveProductProject();
             });
@@ -917,9 +933,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
         public bool SaveProductProject()
         {
-            if (_productProject.ProjectPath != null)
+            if (ProductProject.ProjectPath != null)
             {
-                return JsonHM.WriteJsonFile(Path.Combine( _productProject.ProjectPath, _productProject.Name), _productProject);
+                return JsonHM.WriteJsonFile(Path.Combine( ProductProject.ProjectPath, ProductProject.Name), ProductProject);
             }
             else
             {

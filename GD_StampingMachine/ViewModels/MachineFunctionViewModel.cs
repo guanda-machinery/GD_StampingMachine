@@ -161,34 +161,16 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private bool _separateBox_CounterClockwiseRotateButtonIsEnabled = true;
-        private bool _separateBox_ClockwiseRotateButtonIsEnabled =true;
-        public bool SeparateBox_CounterClockwiseRotateButtonIsEnabled
+
+
+        private AsyncRelayCommand _separateBox_ClockwiseRotateCommand;
+        public AsyncRelayCommand SeparateBox_ClockwiseRotateCommand
         {
-            get => _separateBox_CounterClockwiseRotateButtonIsEnabled;
-            set
-            {
-                _separateBox_CounterClockwiseRotateButtonIsEnabled = value; OnPropertyChanged(); }
-        }
-        
-        public bool SeparateBox_ClockwiseRotateButtonIsEnabled
-        { 
-            get => 
-                _separateBox_ClockwiseRotateButtonIsEnabled;
-            set
-            {
-                _separateBox_ClockwiseRotateButtonIsEnabled = value;
-                OnPropertyChanged();
-            }
-        }
-        public ICommand SeparateBox_ClockwiseRotateCommand
-        {
-            get => new RelayCommand(() =>
+            get => _separateBox_ClockwiseRotateCommand??=new(async () =>
             {
 
                 try
                 {
-                    SeparateBox_ClockwiseRotateButtonIsEnabled = false;
                     var Index = StampMachineData.SeparateBoxIndex;
                     // var Index = SeparateBoxIndexNow;
                     var LocationIndex = Index + 1;
@@ -197,25 +179,11 @@ namespace GD_StampingMachine.ViewModels
                     if (LocationIndex < 0)
                         LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
 
-                    Task.Run(async() =>
-                    {
-                        try
-                        {
-                            if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
-                            {
-                                // SeparateBox_Rotate(LocationIndex, 1);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
 
-                        }
-                        finally
-                        {
-                            await Task.Delay(500);
-                            SeparateBox_ClockwiseRotateButtonIsEnabled = true;
-                        }
-                    });
+                    if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
+                    {
+
+                    }
 
                 }
                 catch (Exception ex)
@@ -227,7 +195,7 @@ namespace GD_StampingMachine.ViewModels
 
                 }
 
-            });
+            },()=> !_separateBox_ClockwiseRotateCommand.IsRunning);
         }
 
         private AsyncRelayCommand _separateBox_CounterClockwiseRotateCommand;
@@ -235,45 +203,32 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _separateBox_CounterClockwiseRotateCommand??=new AsyncRelayCommand(async () =>
             {
-                SeparateBox_CounterClockwiseRotateButtonIsEnabled = false;
+                try
+                {
+                    var Index = StampMachineData.SeparateBoxIndex;
+                    // var Index = SeparateBoxIndexNow;
+                    var LocationIndex = Index - 1;
+                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
+                        LocationIndex = 0;
+                    if (LocationIndex < 0)
+                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
+                    //SeparateBox_Rotate(LocationIndex, 1);
 
-                    try
-                    {
-                        var Index = StampMachineData.SeparateBoxIndex;
-                        // var Index = SeparateBoxIndexNow;
-                        var LocationIndex = Index - 1;
-                        if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
-                            LocationIndex = 0;
-                        if (LocationIndex < 0)
-                            LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
-                        //SeparateBox_Rotate(LocationIndex, 1);
-
-                        try
-                        {
-                            if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
-                            {
-
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debugger.Break();
-                        }
-                        finally
-                        {
-                            await Task.Delay(500);
-                            SeparateBox_ClockwiseRotateButtonIsEnabled = true;
-                        }
-                    }
-                    catch (Exception ex)
+                    if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
                     {
 
                     }
-                    finally
-                    {
-                        SeparateBox_CounterClockwiseRotateButtonIsEnabled = true;
-                    }
-            });
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+                finally
+                {
+
+                }
+            },()=> _separateBox_CounterClockwiseRotateCommand.IsRunning);
         }
 
 

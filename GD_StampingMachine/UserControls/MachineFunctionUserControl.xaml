@@ -1149,12 +1149,12 @@
                             </Grid>
                             <Grid IsEnabled="{Binding IsRotating, Converter={dx:BoolInverseConverter}}">
                                 <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                                        Command="{Binding SeparateBox_CounterClockwiseRotateCommand}" IsEnabled="{Binding SeparateBox_CounterClockwiseRotateButtonIsEnabled}"
+                                        Command="{Binding SeparateBox_CounterClockwiseRotateCommand}" 
                                         Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowURightTop" Width="auto" Height="auto"/>
                             </Button>
                                 <Button Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                                        Command="{Binding SeparateBox_ClockwiseRotateCommand}" IsEnabled="{Binding SeparateBox_ClockwiseRotateButtonIsEnabled}"
+                                        Command="{Binding SeparateBox_ClockwiseRotateCommand}" 
                                         Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
                                 <materialDesign:PackIcon Kind="ArrowULeftTop" Width="auto" Height="auto"/>
                             </Button>
