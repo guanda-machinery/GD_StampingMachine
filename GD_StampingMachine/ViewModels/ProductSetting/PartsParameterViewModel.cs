@@ -69,7 +69,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 PartsParameter.Processing = value;
-                OnPropertyChanged(nameof(FinishProgress));
+                OnPropertyChanged();
             }
         }
 

@@ -94,6 +94,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             foreach (var obj in _productProject.PartsParameterObservableCollection)
             {
                 PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
+
             }
             RefreshNumberSettingSavedCollection();
         }
@@ -852,7 +853,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _partsParameterVMObservableCollection = value;
-                OnPropertyChanged(nameof(PartsParameterVMObservableCollection));
+                OnPropertyChanged();
             }
         }
 
