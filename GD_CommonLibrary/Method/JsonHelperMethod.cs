@@ -20,64 +20,54 @@ namespace GD_CommonLibrary.Method
     {
         public async Task<bool> WriteJsonFileAsync<T>(string fileName, T JsonData)
         {
-            try
+            //先檢查副檔名
+            if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase))
             {
-                //先檢查副檔名
-                if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase))
-                {
-                    fileName = Path.ChangeExtension(fileName, "json");
-                }
-
-                if (string.IsNullOrEmpty(Path.GetDirectoryName(fileName)))
-                {
-                    //如果檔案名不包含根目錄 幫他建在工作目錄下
-                    fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
-                }
-
-                //建立資料夾
-                if (!Directory.Exists(fileName))
-                    Directory.CreateDirectory(Path.GetDirectoryName(fileName));
-
-                if (JsonData == null)
-                    throw new ArgumentNullException();
-
-                string output = JsonConvert.SerializeObject(JsonData);
-
-                //檢查檔案是否存在於該目錄 若存在則將先將檔案寫入temp
-             
-                
-                for (int i = 0; true; i++)
-                {
-                    try
-                    {
-                        if (File.Exists(fileName))
-                        {
-                            var Temp_fileName = fileName + ".tmp";
-                            File.WriteAllText(Temp_fileName, output);
-                            File.Delete(fileName);
-                            File.Move(Temp_fileName, fileName);
-                        }
-                        else
-                        {
-                            File.WriteAllText(fileName, output);
-                        }
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-                        await Task.Delay(100);
-                        if (i > 10)
-                        {
-                            _ = MessageBoxResultShow.ShowException(ex);
-                            return false;
-                        }
-                    }
-                }
+                fileName = Path.ChangeExtension(fileName, "json");
             }
-            catch (Exception ex)
+
+            if (string.IsNullOrEmpty(Path.GetDirectoryName(fileName)))
             {
-                 _ =  MessageBoxResultShow.ShowException(ex);
-                return false;
+                //如果檔案名不包含根目錄 幫他建在工作目錄下
+                fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
+            }
+
+            //建立資料夾
+            if (!Directory.Exists(fileName))
+                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
+            if (JsonData == null)
+                throw new ArgumentNullException();
+
+            string output = JsonConvert.SerializeObject(JsonData);
+
+            //檢查檔案是否存在於該目錄 若存在則將先將檔案寫入temp
+
+            int i = 0;
+            while(true)
+            {
+                try
+                {
+                    if (File.Exists(fileName))
+                    {
+                        var Temp_fileName = fileName + ".tmp";
+                        File.WriteAllText(Temp_fileName, output);
+                        File.Delete(fileName);
+                        File.Move(Temp_fileName, fileName);
+                    }
+                    else
+                    {
+                        await Task.Delay(500);
+                        File.WriteAllText(fileName, output);
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    if (i > 10)
+                        throw ex;
+                }
+                i++;
             }
         }
 

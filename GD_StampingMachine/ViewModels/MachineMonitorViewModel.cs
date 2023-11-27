@@ -377,7 +377,7 @@ namespace GD_StampingMachine.ViewModels
                 finally
                 {
                     //取消第一格的訂閱
-                   await StampMachineData.UnsubscribeFirstIronPlate(999);
+                   await StampMachineData.UnsubscribeFirstIronPlateAsync(999);
 
                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessEnd");
                     await Task.Delay(1000);
@@ -530,7 +530,7 @@ namespace GD_StampingMachine.ViewModels
                 }
                 finally
                 {
-                    await StampMachineData.UnsubscribeFirstIronPlate(999);
+                    await StampMachineData.UnsubscribeFirstIronPlateAsync(999);
 
                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessEnd");
                     await Task.Delay(1000);

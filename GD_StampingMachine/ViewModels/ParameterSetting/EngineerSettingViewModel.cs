@@ -25,7 +25,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             if (!isDisposed)
             {
-                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua();
+                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
                 // 标记为已释放
                 isDisposed = true;
 
@@ -125,7 +125,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _opcuaStartScanCommand??=new AsyncRelayCommand(async() =>
             {
-                    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+                    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
 
             } ,()=> !_opcuaStartScanCommand.IsRunning);
         }
@@ -135,7 +135,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _opcuaStopScanCommand??=new(async () =>
             {
-                await Task.WhenAll( GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcua() , Task.Delay(1000)) ;
+                await Task.WhenAll( GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync() , Task.Delay(1000)) ;
             }, () => !_opcuaStopScanCommand.IsRunning);
         }
 

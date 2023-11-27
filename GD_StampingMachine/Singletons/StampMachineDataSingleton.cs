@@ -782,7 +782,7 @@ namespace GD_StampingMachine.Singletons
 
         protected override async ValueTask DisposeAsyncCoreAsync()
         {
-            await StopScanOpcua();
+            await StopScanOpcuaAsync();
             if (GD_Stamping != null) 
                 await GD_Stamping.DisposeAsync();
         }
@@ -845,7 +845,7 @@ namespace GD_StampingMachine.Singletons
         private CancellationTokenSource _cts;
 
 
-        public async Task StartScanOpcua()
+        public async Task StartScanOpcuaAsync()
         {
             if (scanTask != null)
             {
@@ -864,7 +864,7 @@ namespace GD_StampingMachine.Singletons
 
         }
 
-        public async Task StopScanOpcua()
+        public async Task StopScanOpcuaAsync()
         {
             await Task.Run(async () =>
             {
@@ -889,7 +889,7 @@ namespace GD_StampingMachine.Singletons
                 {
 
                 }
-            });
+            }).ConfigureAwait(true);
         }
 
 
@@ -1081,30 +1081,37 @@ namespace GD_StampingMachine.Singletons
                                     }, true);
 
                                     //切割位置
-                                    await GD_Stamping.SubscribeHydraulicCutting_Position_CutPoint(async value =>
+                                    await GD_Stamping.SubscribeHydraulicCutting_Position_CutPoint(value =>
                                     {
-                                        try
+                                        _=Task.Run(async() =>
                                         {
-                                            Cylinder_HydraulicCutting_IsCutPoint = value;
-                                            if (value)
+                                            try
                                             {
-                                                var engravingAStation = GD_Stamping.GetEngravingRotateStation();
-                                                if ((await engravingAStation).Item1)
+
+
+                                                Cylinder_HydraulicCutting_IsCutPoint = value;
+                                                if (value)
                                                 {
-                                                    var eRotateStation = (await engravingAStation).Item2;
-                                                    if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stamptype))
+                                                    var engravingAStation = GD_Stamping.GetEngravingRotateStation();
+                                                    if ((await engravingAStation).Item1)
                                                     {
-                                                        //Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
-                                                        stamptype.StampingTypeUseCount++;
-                                                        await Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.SaveStampingTypeVMObservableCollection();
+                                                        var eRotateStation = (await engravingAStation).Item2;
+                                                        if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stamptype))
+                                                        {
+                                                            //Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
+                                                            stamptype.StampingTypeUseCount++;
+
+                                                            await Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.SaveStampingTypeVMObservableCollectionAsync();
+
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                        catch
-                                        {
+                                            catch
+                                            {
 
-                                        }
+                                            }
+                                        });
                                     });
 
                                         
@@ -1254,11 +1261,19 @@ namespace GD_StampingMachine.Singletons
                                                     boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Run;
                                                     boxPartsCollection[partIndex].DataMatrixIsFinish = plateData.bDataMatrixFinish;
                                                     boxPartsCollection[partIndex].EngravingIsFinish = plateData.bEngravingFinish;
+                                                    try
+                                                    {
+                                                        await projectDistribute.SaveProductProjectVMObservableCollectionAsync();
+                                                    }
+                                                    catch
+                                                    {
 
-                                                   await  projectDistribute.SaveProductProjectVMObservableCollectionAsync();
+                                                    }
                                                     break;
                                                 }
                                             }
+
+
                                         }
                                         //比較新舊兩個加工陣列
                                         //先檢查新陣列的id是否只有0 若只有0代表是被重新設定 不設定為完成(若有需要則另外設定)
@@ -2197,7 +2212,7 @@ namespace GD_StampingMachine.Singletons
         /// 取消訂閱第一片ID
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> UnsubscribeFirstIronPlate(int samplingInterval)
+        public async Task<bool> UnsubscribeFirstIronPlateAsync(int samplingInterval)
         {
             var ret = false;
             if (GD_Stamping.IsConnected)
@@ -3429,7 +3444,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         /// <param name="Info"></param>
         /// <returns></returns>
-        public async Task<(bool, List<StampingTypeModel>)> GetRotatingTurntableInfo()
+        public async Task<(bool, List<StampingTypeModel>)> GetRotatingTurntableInfoAsync()
         {
             var ret = (false, new List<StampingTypeModel>());
             if (GD_Stamping.IsConnected)
@@ -3444,7 +3459,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         /// <param name="Info"></param>
         /// <returns></returns>
-        public async Task<bool> SetRotatingTurntableInfo(List<StampingTypeModel> Info)
+        public async Task<bool> SetRotatingTurntableInfoAsync(List<StampingTypeModel> Info)
         {
             var ret = false;
             if (GD_Stamping.IsConnected)

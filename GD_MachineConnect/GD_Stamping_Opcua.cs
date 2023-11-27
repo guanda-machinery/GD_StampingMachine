@@ -23,7 +23,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using System.Net.Sockets;
-using static GD_MachineConnect.GD_Stamping_Opcua.StampingOpcUANode;
 using Opc.Ua;
 
 

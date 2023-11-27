@@ -128,7 +128,7 @@ namespace GD_StampingMachine.ViewModels
             //測試模式
             if (Debugger.IsAttached)
             {
-                Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
@@ -141,7 +141,7 @@ namespace GD_StampingMachine.ViewModels
 
             StampingMachineJsonHelper JsonHM = new();
 
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 while (true)
                 {
@@ -150,7 +150,7 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
 
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 await Task.Delay(10000);
                 //Thread.Sleep(5000);

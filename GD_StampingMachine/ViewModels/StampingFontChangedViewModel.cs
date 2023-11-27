@@ -38,7 +38,7 @@ namespace GD_StampingMachine.ViewModels
         public StampMachineDataSingleton StampMachineData { get; } = StampMachineDataSingleton.Instance;
 
 
-        public async Task SaveStampingTypeVMObservableCollection()
+        public async Task SaveStampingTypeVMObservableCollectionAsync()
         {
             List<StampingTypeModel> StampingTypeList = StampingTypeVMObservableCollection
                 .Select(use => use.StampingType).ToList();
@@ -532,7 +532,7 @@ namespace GD_StampingMachine.ViewModels
                     stampingTypeList.RemoveRange(StampingTypeVMObservableCollection.Count - 1, CollectionDiff);
                     StampingTypeVMObservableCollection = stampingTypeList.ToObservableCollection();
                 }
-                await SaveStampingTypeVMObservableCollection();
+                await SaveStampingTypeVMObservableCollectionAsync();
 
             }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }
@@ -559,7 +559,8 @@ namespace GD_StampingMachine.ViewModels
                     else
                         FontsCollection.Add(new StampingTypeModel());
                 }
-                if (await StampMachineData.SetRotatingTurntableInfo(FontsCollection))
+
+                if (await StampMachineData.SetRotatingTurntableInfoAsync(FontsCollection))
                     await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
                 else
                     await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));

@@ -58,7 +58,7 @@ namespace GD_StampingMachine
                         manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
                     }));
 
-                    await Singletons.StampMachineDataSingleton.Instance.StartScanOpcua();
+                    await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
                     await Task.Delay(1000);
 
                     //manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
@@ -115,7 +115,7 @@ namespace GD_StampingMachine
                 }
             });
 
-            var DisposeTask = Task.Run(() => StampMachineDataSingleton.Instance.StopScanOpcua()); 
+            var DisposeTask = Task.Run(() => StampMachineDataSingleton.Instance.StopScanOpcuaAsync()); 
             Console.WriteLine("Application is closing.");
             // 你也可以取消应用程序关闭
             Task.WaitAny(Task.Delay(5000) , DisposeTask);
