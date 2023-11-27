@@ -37,6 +37,14 @@ namespace GD_StampingMachine.ViewModels
 
         public StampMachineDataSingleton StampMachineData { get; } = StampMachineDataSingleton.Instance;
 
+
+        public async Task SaveStampingTypeVMObservableCollection()
+        {
+            List<StampingTypeModel> StampingTypeList = StampingTypeVMObservableCollection
+                .Select(use => use.StampingType).ToList();
+            await new StampingMachineJsonHelper().WriteUseStampingFontAsync(StampingTypeList);
+        }
+
         private ObservableCollection<StampingTypeViewModel> _stampingTypeVMObservableCollection;
         /// <summary>
         /// 軟體設定的轉盤
@@ -255,7 +263,7 @@ namespace GD_StampingMachine.ViewModels
                 //如果沒動則不須刷新
                 _stampingTypeModel_readyStamping = value;
                 OnPropertyChanged();
-                Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
                     cancellationToken.Cancel();
                     await Task.Delay(100);
@@ -524,6 +532,7 @@ namespace GD_StampingMachine.ViewModels
                     stampingTypeList.RemoveRange(StampingTypeVMObservableCollection.Count - 1, CollectionDiff);
                     StampingTypeVMObservableCollection = stampingTypeList.ToObservableCollection();
                 }
+                await SaveStampingTypeVMObservableCollection();
 
             }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }

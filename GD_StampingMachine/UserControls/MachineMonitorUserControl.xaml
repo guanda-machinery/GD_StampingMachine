@@ -111,7 +111,25 @@
                                 <RowDefinition MinHeight="110"/>
                             </Grid.RowDefinitions>
                             <Border Background="White" Grid.ColumnSpan="2" Margin="0,0,0,0" />
-                            <Border Background="Gray" Grid.Column="1" Margin="-1,0,0,0" Width="50"  HorizontalAlignment="Right" />
+                            <Border Grid.Column="1" Margin="-0,0,0,0" Width="46"  HorizontalAlignment="Right" >
+                                <Border.Style>
+                                    <Style TargetType="Border" >
+                                        <Setter Property="Background" Value="Gray"/>
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="true" />
+                                                    <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Cylinder_HydraulicCutting_IsCutPoint}" 
+                                                     Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Background"  Value="Green"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                            </Border>
                         </Grid>
 
 

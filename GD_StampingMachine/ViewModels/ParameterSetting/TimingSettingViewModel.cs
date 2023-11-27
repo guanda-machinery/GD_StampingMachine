@@ -71,10 +71,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand SaveSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => new AsyncRelayCommand(async () =>
             {
-                if (JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, TimingSetting, true))
+                if (await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, TimingSetting, true))
                 {
+
                 }
             });
         }

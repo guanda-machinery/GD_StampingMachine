@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GD_CommonLibrary
@@ -44,6 +45,10 @@ namespace GD_CommonLibrary
             }
         }
 
+
+
+
+
         /// <summary>
         /// 如果有需要初始化 複寫這裡！
         /// </summary>
@@ -74,12 +79,13 @@ namespace GD_CommonLibrary
             }
         }*/
 
-        protected virtual async ValueTask DisposeAsyncCore()
+        protected virtual async ValueTask DisposeAsyncCoreAsync()
         {
             if (!disposedValue)
             {
                 disposedValue = true;
             }
+            await Task.Delay(1);
         }
 
         // TODO: 僅有當 'Dispose(bool disposing)' 具有會釋出非受控資源的程式碼時，才覆寫完成項
@@ -97,7 +103,7 @@ namespace GD_CommonLibrary
 
         public virtual async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore();
+            await DisposeAsyncCoreAsync();
             //Dispose(false);
             GC.SuppressFinalize(this);
         }

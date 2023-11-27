@@ -122,12 +122,10 @@ namespace GD_StampingMachine.ViewModels
         public ProjectDistributeModel ProjectDistribute { get; private set; } = new ProjectDistributeModel();
 
 
-        internal void SaveProductProjectVMObservableCollection()
+        internal async Task SaveProductProjectVMObservableCollectionAsync()
         {
-            ProductProjectVMObservableCollection.ForEach(obj =>
-            {
-                obj.SaveProductProject();
-            });
+            var saveTask = ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
+            await Task.WhenAll(saveTask);
         }
 
 
@@ -451,7 +449,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                return new RelayCommand<object>(obj =>
+                return new RelayCommand<object>(async obj =>
                 {
                     if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                     {
@@ -462,9 +460,9 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 PartsParameterVM.DistributeName = null;
                                 PartsParameterVM.BoxIndex = null;
-                                e.Effects = System.Windows.DragDropEffects.Move;
+                                e.Effects = System.Windows.DragDropEffects.Move;                             
                                 
-                                SaveProductProjectVMObservableCollection();
+                             await SaveProductProjectVMObservableCollectionAsync();
                             }
                         }
 
@@ -519,7 +517,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand Box_OnDropRecordCommand
         {
-            get => new RelayCommand<object>(obj =>
+            get => new AsyncRelayCommand<object>(async obj =>
             {
                 if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                 {
@@ -536,7 +534,7 @@ namespace GD_StampingMachine.ViewModels
                                     PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
                                     e.Effects = System.Windows.DragDropEffects.Move;
 
-                                    SaveProductProjectVMObservableCollection();
+                                   await SaveProductProjectVMObservableCollectionAsync();
                                 }
                             }
                         }

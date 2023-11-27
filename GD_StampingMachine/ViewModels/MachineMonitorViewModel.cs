@@ -305,19 +305,16 @@ namespace GD_StampingMachine.ViewModels
                             rXAxisPos2 = 25,
                             rYAxisPos1 = 119,
                             rYAxisPos2 = 119,
-                            sDataMatrixName1 = readymachining.QrCodeContent,
-                            sDataMatrixName2 = readymachining.QR_Special_Text,
-                            sIronPlateName1 = plateFirstValue,
-                            sIronPlateName2 = plateSecondValue
+                            sDataMatrixName1 = string.IsNullOrEmpty(readymachining.QrCodeContent) ? string.Empty :readymachining.QrCodeContent,
+                            sDataMatrixName2 = string.IsNullOrEmpty(readymachining.QrCodeContent) ? string.Empty : readymachining.QR_Special_Text,
+                            sIronPlateName1 = string.IsNullOrEmpty(plateFirstValue)? string.Empty :plateFirstValue,
+                            sIronPlateName2 = string.IsNullOrEmpty(plateSecondValue)? string.Empty : plateSecondValue
                         };
-
-
-
 
 
                         try
                         {
-                            await WaitForCondition.WaitAsyncIsTrue(() => StampMachineData.Rdatabit, 5000);
+                            await WaitForCondition.WaitAsyncIsTrue(() => StampMachineData.Rdatabit, 10000, token);
                         }
                         catch
                         {
@@ -604,6 +601,10 @@ namespace GD_StampingMachine.ViewModels
                                 token.ThrowIfCancellationRequested();
                             isSetIronPlate = await StampMachineData.SetIronPlateDataCollection(NewEmptyIronPlateDataCollection);
                         } while (!isSetIronPlate);
+
+
+
+
                     }
                     else
                     {
@@ -621,27 +622,34 @@ namespace GD_StampingMachine.ViewModels
         private int previousID =0;
         private async Task SubscribeFirstIronPlateFinishSingal()
         {
-            await StampMachineData.SubscribeFirstIronPlate(value =>
+            await StampMachineData.SubscribeFirstIronPlateAsync(async value =>
             {
-                //下完命令後 訂閱第一格的id 若他消失時 將其設定為完成
-                if (value != 0)
+                try
                 {
-                    if (previousID != value)
+                    //下完命令後 訂閱第一格的id 若他消失時 將其設定為完成
+                    if (value != 0)
                     {
-                        foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                        if (previousID != value)
                         {
-                            var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == previousID);
-                            if (finishPartParameter != null)
+                            foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                             {
-                                finishPartParameter.ShearingIsFinish = true;
-                                finishPartParameter.IsFinish = true;
+                                var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == previousID);
+                                if (finishPartParameter != null)
+                                {
+                                    finishPartParameter.ShearingIsFinish = true;
+                                    finishPartParameter.IsFinish = true;
 
-                                rojectDistributeVM?.SaveProductProjectVMObservableCollection();
-                                break;
+                                    await rojectDistributeVM?.SaveProductProjectVMObservableCollectionAsync();
+                                    break;
+                                }
                             }
+                            previousID = value;
                         }
-                        previousID = value;
                     }
+                }
+                catch
+                {
+
                 }
             }, 999);
         }

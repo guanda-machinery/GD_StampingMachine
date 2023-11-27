@@ -18,7 +18,7 @@ namespace GD_CommonLibrary.Method
 {
     public class JsonHelperMethod
     {
-        public bool WriteJsonFile<T>(string fileName, T JsonData)
+        public async Task<bool> WriteJsonFileAsync<T>(string fileName, T JsonData)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace GD_CommonLibrary.Method
                 if (string.IsNullOrEmpty(Path.GetDirectoryName(fileName)))
                 {
                     //如果檔案名不包含根目錄 幫他建在工作目錄下
-                    fileName =Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
+                    fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
                 }
 
                 //建立資料夾
@@ -42,25 +42,41 @@ namespace GD_CommonLibrary.Method
                     throw new ArgumentNullException();
 
                 string output = JsonConvert.SerializeObject(JsonData);
-                //檢查檔案是否存在於該目錄 若存在則將先將檔案寫入temp
-                if (File.Exists(fileName))
-                {
-                    var Temp_fileName =  fileName+".tmp";
 
-                    File.WriteAllText(Temp_fileName, output);
-                    File.Delete(fileName);
-                    File.Move(Temp_fileName, fileName);
-                }
-                else
+                //檢查檔案是否存在於該目錄 若存在則將先將檔案寫入temp
+             
+                
+                for (int i = 0; true; i++)
                 {
-                    File.WriteAllText(fileName, output);
+                    try
+                    {
+                        if (File.Exists(fileName))
+                        {
+                            var Temp_fileName = fileName + ".tmp";
+                            File.WriteAllText(Temp_fileName, output);
+                            File.Delete(fileName);
+                            File.Move(Temp_fileName, fileName);
+                        }
+                        else
+                        {
+                            File.WriteAllText(fileName, output);
+                        }
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        await Task.Delay(100);
+                        if (i > 10)
+                        {
+                            _ = MessageBoxResultShow.ShowException(ex);
+                            return false;
+                        }
+                    }
                 }
-                return true;
             }
             catch (Exception ex)
             {
                  _ =  MessageBoxResultShow.ShowException(ex);
-                Debugger.Break();
                 return false;
             }
         }
@@ -180,18 +196,18 @@ namespace GD_CommonLibrary.Method
         }
 
 
-        public bool ManualWriteJsonFile<T>(T JsonData)
+        public async Task<bool> ManualWriteJsonFile<T>(T JsonData)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             { 
                 Filter = "Json files (*.json)|*.json"
             };
+           
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    WriteJsonFile(sfd.FileName, JsonData);
-                    return true;
+                    return await WriteJsonFileAsync(sfd.FileName, JsonData);
                 }
                 catch (Exception ex)
                 {

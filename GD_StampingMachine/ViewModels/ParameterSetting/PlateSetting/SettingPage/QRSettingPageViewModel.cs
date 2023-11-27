@@ -158,7 +158,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         });
                     }
 
-                    this.JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
+                 await   this.JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
             });
         }
 
@@ -166,12 +166,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public ICommand _deleteSettingCommand;
         public override ICommand DeleteSettingCommand
         {
-            get => _deleteSettingCommand??= new RelayCommand(() =>
+            get => _deleteSettingCommand??= new AsyncRelayCommand(async () =>
             {
                 if (QRSettingModelCollectionSelected != null)
                 {
                     QRSettingModelCollection.Remove(QRSettingModelCollectionSelected);
-                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection);
+                    await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection);
                 }
             });
         }

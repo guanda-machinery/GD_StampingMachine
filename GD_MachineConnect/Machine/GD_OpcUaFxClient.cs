@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -62,6 +63,17 @@ namespace GD_MachineConnect.Machine
                 _isConnected = e.NewState == OpcClientState.Connected;
             };
 
+            m_OpcUaClient.Connected
+                += (sender, e) =>
+                {
+                    _isConnected = true;
+                };
+
+            m_OpcUaClient.Disconnected
+                += (sender, e) =>
+                {
+                    _isConnected = false;
+                };
 
         }
 
@@ -118,7 +130,7 @@ namespace GD_MachineConnect.Machine
                     }
                     catch (OperationCanceledException cex)
                     {
-                        return false;
+                        return m_OpcUaClient.State == OpcClientState.Connected;
                     }
                 }
               
@@ -227,7 +239,7 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (IsConnected)
+                    if (await AsyncConnect())
                     {
                         var result = await Task.Run(() =>
                         {
@@ -266,17 +278,13 @@ namespace GD_MachineConnect.Machine
             if (NodeTrees.Count == 0)
                 return ret;
 
-           var commands = new List<OpcWriteNode>();
-            foreach(var node in NodeTrees)
-            {
-                commands.Add(new OpcWriteNode(node.Key, node.Value));
-            }
+            List<OpcWriteNode> commands = new(NodeTrees.Select(node => new OpcWriteNode(node.Key, node.Value)));
 
             for (int i = 0; i < retryCounter; i++)
             {
                 try
                 {
-                    if (IsConnected)
+                    if (await AsyncConnect())
                     {
                         // var tags = NodeTrees.Keys.ToArray();
                         //var values = NodeTrees.Values.ToArray();
@@ -286,7 +294,7 @@ namespace GD_MachineConnect.Machine
                         {
                             return m_OpcUaClient.WriteNodes(commands);
                         });
-                        ret = result.ToList().Select(x => x.IsGood).ToList();
+                        ret = result.Select(x => x.IsGood).ToList();
                     }
 
                 }
@@ -323,7 +331,7 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (IsConnected)
+                    if (await AsyncConnect())
                     {
                         //T NodeValue;
                         // NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
@@ -376,7 +384,7 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (IsConnected)
+                    if (await AsyncConnect())
                     {
                         //T NodeValue;
                         // NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
@@ -470,17 +478,26 @@ namespace GD_MachineConnect.Machine
                                     opcSubscription.Tag = node.samplingInterval;
                                 }
 
+                                //檢查是否存在
+                                if (node.checkDuplicates &&
+                                opcSubscription.MonitoredItems.Any(item => item.NodeId.OriginalString == node.NodeID))
+                                {
+                                    ret = true;
+                                    break;
+                                }
+
 
                                 // Create an OpcMonitoredItem for the NodeId.
                                 var item = new OpcMonitoredItem(node.NodeID, OpcAttribute.Value);
+                             
                                 item.DataChangeReceived += (sender, e) =>
                                 {
-                                    OpcMonitoredItem item = (OpcMonitoredItem)sender;
+                                    /*OpcMonitoredItem item = (OpcMonitoredItem)sender;
                                     Console.WriteLine(
                                             "Data Change from Index {0}: {1}",
                                             item.Tag,
-                                            e.Item.Value);
-                                   
+                                            e.Item.Value)*/
+
                                     if (e.Item.Value.Value is T Tvalue)
                                     {
                                         node.updateAction?.Invoke(Tvalue);
@@ -493,13 +510,7 @@ namespace GD_MachineConnect.Machine
                                 // monitored item.
                                 item.SamplingInterval = node.samplingInterval;
 
-                                //檢查是否存在
-                                if(node.checkDuplicates &&  
-                                opcSubscription.MonitoredItems.Any(item => item.NodeId.OriginalString == node.NodeID))
-                                {
-                                    ret = true;
-                                    break;
-                                }
+
 
                                 // Add the item to the subscription.
                                 opcSubscription.AddMonitoredItem(item);

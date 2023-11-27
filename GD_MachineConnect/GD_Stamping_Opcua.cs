@@ -575,6 +575,15 @@ namespace GD_MachineConnect
         }
 
 
+        /// <summary>
+        /// 訂閱切割位置
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> SubscribeHydraulicCutting_Position_CutPoint(Action<bool> action, bool checkDuplicates = false)
+        {
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Cutting1.di_CuttingCutPoint, action, 50, checkDuplicates);
+        }
+
         public async Task<bool> SetHydraulicPumpMotor(bool Active)
         {
             var pumptask = await GetHydraulicPumpMotor();
@@ -629,7 +638,7 @@ namespace GD_MachineConnect
         /// <param name="action"></param>
         public Task<bool> SubscribeRequestDatabit(Action<bool> action, bool checkDuplicates = false)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action, 50, checkDuplicates);
+            return GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action, 20, checkDuplicates);
         }
 
 
@@ -929,6 +938,8 @@ namespace GD_MachineConnect
                 [node + "." + "rYAxisPos2"] = ironPlateData.rYAxisPos2,
                 [node + "." + "sIronPlateName1"] = ironPlateData.sIronPlateName1,
                 [node + "." + "sIronPlateName2"] = ironPlateData.sIronPlateName2,
+                [node + "." + "sDataMatrixName1"] = ironPlateData.sDataMatrixName1,
+                [node + "." + "sDataMatrixName2"] = ironPlateData.sDataMatrixName2,
                 [node + "." + "iStackingID"] = ironPlateData.iStackingID,
                 [node + "." + "bEngravingFinish"] = ironPlateData.bEngravingFinish,
                 [node + "." + "bDataMatrixFinish"] = ironPlateData.bDataMatrixFinish
@@ -1042,6 +1053,19 @@ namespace GD_MachineConnect
 
             return (ret.Item1 , Station);
         }
+
+
+        /// <summary>
+        /// 訂閱鋼印位置
+        /// </summary>
+        /// <param name="action"></param>
+        public Task<bool> SubscribeEngravingRotateStation(Action<int> action, bool checkDuplicates = false)
+        {
+            return GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.EngravingRotate1.sv_iThisStation, action, 50, checkDuplicates);
+        }
+
+
+
 
         /// <summary>
         /// 總站數

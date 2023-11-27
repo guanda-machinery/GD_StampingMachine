@@ -11,6 +11,7 @@ namespace GD_StampingMachine.Singletons
 {
     public class ColorSettingSingleton : GD_CommonLibrary.BaseSingleton<ColorSettingSingleton>
     {
+
         private Color _noneIsFinishSolidColor;
         public Color NoneIsFinishSolidColor
         {

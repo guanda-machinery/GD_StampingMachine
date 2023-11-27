@@ -479,7 +479,7 @@
                 </ScrollViewer>
             </materialDesign:Card>
                 <!-- IsEnabled="{Binding StampMachineData.IsConnected}"-->
-                <WrapPanel Orientation="Horizontal">
+                <WrapPanel Orientation="Horizontal" IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}">
                     <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>

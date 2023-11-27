@@ -107,17 +107,18 @@ namespace GD_StampingMachine
 
         protected override void OnExit(ExitEventArgs e)
         {
-            foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
+            var SaveTask = Task.Run(async () =>
             {
-                productProject.SaveProductProject();
-            }
-
-
+                foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
+                {
+                    await productProject.SaveProductProjectAsync();
+                }
+            });
 
             var DisposeTask = Task.Run(() => StampMachineDataSingleton.Instance.StopScanOpcua()); 
             Console.WriteLine("Application is closing.");
             // 你也可以取消应用程序关闭
-            Task.WaitAny(Task.Delay(5000) ,DisposeTask);
+            Task.WaitAny(Task.Delay(5000) , DisposeTask);
            
             base.OnExit(e);
         }

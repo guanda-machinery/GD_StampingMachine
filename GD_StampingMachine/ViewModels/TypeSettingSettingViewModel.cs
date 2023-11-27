@@ -89,7 +89,7 @@ namespace GD_StampingMachine.ViewModels
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                     //存檔
 
-                    JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+                  await  JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
 
                 }, () => !CreateProjectDistributeCommand.IsRunning);
             }
@@ -110,9 +110,9 @@ namespace GD_StampingMachine.ViewModels
         /// 刪除排版專案 並將盒子內的所有東西釋放回專案
         /// </summary>
         [JsonIgnore]
-        public RelayCommand<object> DeleteProjectDistributeCommand
+        public AsyncRelayCommand<object> DeleteProjectDistributeCommand
         {
-            get => new RelayCommand<object>(async obj =>
+            get => new AsyncRelayCommand<object>(async obj =>
             {
                 if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {
@@ -130,7 +130,7 @@ namespace GD_StampingMachine.ViewModels
                                     obj.BoxIndex = null;
                                 }
                             });
-                            _selectItem.SaveProductProjectVMObservableCollection();
+                            await  _selectItem.SaveProductProjectVMObservableCollectionAsync();
 
                             var F_Index = ProjectDistributeVMObservableCollection.FindIndex(x => x == _selectItem);
                             Removed_List.Add(F_Index);
@@ -143,7 +143,7 @@ namespace GD_StampingMachine.ViewModels
                                 ProjectDistributeVMObservableCollection.RemoveAt(DescendingRemovedIndex);
                             }
                         }
-                        new StampingMachineJsonHelper().WriteProjectDistributeListJson(ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList());
+                    await    new StampingMachineJsonHelper().WriteProjectDistributeListJsonAsync(ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList());
                     }
                 }
             });

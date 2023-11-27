@@ -27,9 +27,7 @@ namespace GD_StampingMachine.Singletons
     public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton> 
     {
 
-
-
-        protected override async void Init()
+        protected override void Init()
         {
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
@@ -77,9 +75,10 @@ namespace GD_StampingMachine.Singletons
 
 
        
-            if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UseStampingFont, out ObservableCollection<StampingTypeViewModel> SReaduse))
+            if (JsonHM.ReadUseStampingFont(out var SReaduse))
             {
-                StampingFontChangedVM.StampingTypeVMObservableCollection = SReaduse;
+                StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
+                    SReaduse.Select(use => new StampingTypeViewModel(use)));
             }
             else
             {
@@ -101,9 +100,10 @@ namespace GD_StampingMachine.Singletons
             }
 
 
-             if (JsonHM.ReadMachineSettingJson(StampingMachineJsonHelper.MachineSettingNameEnum.UnUseStampingFont, out ObservableCollection<StampingTypeViewModel> SReadunuse))
+             if (JsonHM.ReadUnUseStampingFont(out List<StampingTypeModel> SReadunuse))
             {
-                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = SReadunuse;
+                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
+                    SReadunuse.Select(unuse => new StampingTypeViewModel(unuse)));
             }
             else
             {

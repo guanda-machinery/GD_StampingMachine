@@ -146,7 +146,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         return;
                 }
 
-                if (CreatedProjectVM.SaveProductProject())
+                if (await CreatedProjectVM.SaveProductProjectAsync())
                 {
                     //若不clone會導致資料互相繫結
                     if (ExistedIndex != -1)
@@ -236,10 +236,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _saveProductSettingCommand ??= new AsyncRelayCommand(async () =>
             {
-                ProductProjectVMObservableCollection.ForEach(obj =>
-            {
-                obj.SaveProductProject();
-            });
+                var saveList = ProductProjectVMObservableCollection.Select(obj => obj.SaveProductProjectAsync());
+                await Task.WhenAll(saveList);
+
                 var Result = await SaveProductListSetting();
                 MethodWinUIMessageBox.SaveSuccessful(null, Result);
             });
@@ -272,7 +271,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 });
             });
 
-            return await Task.Run(()=> JsonHM.WriteProjectSettingJson(PathList));
+            return await JsonHM.WriteProjectSettingJsonAsync(PathList);
         }
 
 

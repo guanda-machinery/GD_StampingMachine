@@ -126,18 +126,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
                     });
                 }
-                JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
+               await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
             });
         }
 
         public override ICommand DeleteSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => new RelayCommand(async () =>
             {
                 if (NumberSettingModelCollectionSelected != null)
                 {
                     NumberSettingModelCollection.Remove(NumberSettingModelCollectionSelected);
-                    JsonHM.WriteParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection);
+                   await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection);
                 }
             });
         }

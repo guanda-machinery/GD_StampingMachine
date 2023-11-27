@@ -816,10 +816,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    await Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
                         PartsParameterVMObservableCollection.AddRange(importPartsParameterVMList);
-                        SaveProductProject();
+                        await SaveProductProjectAsync();
                     });
 
                     var ImportNotify = (string)Application.Current.TryFindResource("Text_ImportNotifySuceesful");
@@ -895,12 +895,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand CreatePartCommand
         {
-            get =>_createPartCommand ??= new RelayCommand(() =>
+            get =>_createPartCommand ??= new AsyncRelayCommand(async () =>
             {
                 PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
                 //儲存 ProductProject
                 ProductProjectEditTime = DateTime.Now;
-                SaveProductProject();
+               await SaveProductProjectAsync();
             });
             set
             { 
@@ -913,7 +913,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public ICommand SaveProductProjectCommand
         {
-            get => _saveProductProjectCommand ??= new RelayCommand(() =>
+            get => _saveProductProjectCommand ??= new AsyncRelayCommand(async () =>
             {
                 if (string.IsNullOrWhiteSpace(ProductProject.ProjectPath) || string.IsNullOrWhiteSpace(Path.GetFileNameWithoutExtension(ProductProject.ProjectPath)))
                 {
@@ -923,7 +923,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (result == System.Windows.Forms.DialogResult.OK)
                         ProductProject.ProjectPath = dialog.SelectedPath;
                 }
-                SaveProductProject();
+                await SaveProductProjectAsync();
             });
             set
             {
@@ -931,11 +931,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
-        public bool SaveProductProject()
+        public async Task<bool> SaveProductProjectAsync()
         {
             if (ProductProject.ProjectPath != null)
             {
-                return JsonHM.WriteJsonFile(Path.Combine( ProductProject.ProjectPath, ProductProject.Name), ProductProject);
+                return await JsonHM.WriteJsonFileAsync(Path.Combine(ProductProject.ProjectPath, ProductProject.Name), ProductProject);
             }
             else
             {
