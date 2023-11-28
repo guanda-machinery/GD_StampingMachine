@@ -1,7 +1,8 @@
-﻿using DevExpress.Mvvm;
-using DevExpress.Xpf.Core;
-using DevExpress.Xpf.Data.Native;
+﻿
+using DevExpress.Mvvm;
+using GD_StampingMachine.Properties;
 using GD_StampingMachine.Singletons;
+using Microsoft.VisualStudio.Threading;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -36,29 +37,22 @@ namespace GD_StampingMachine
                 Copyright = "Copyright © 2023 GUANDA",
             };
             StampingMachineWindow MachineWindow = new StampingMachineWindow(); ;
-            Task.Run(async () =>
+
+            DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
+            MachineWindow.Show();
+            MachineWindow.IsEnabled = false;
+
+            MachineWindow.Topmost = true;
+            MachineWindow.Topmost = false;
+            manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
+
+            _ = Task.Run(async () =>
             {
                 try
                 {
-                    await Task.Delay(100);
-                    //  Thread.Sleep(100);
-                    SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-
-
-
-                    await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
-                    {
-                        MachineWindow.Show();
-                        MachineWindow.IsEnabled = false;
-
-                        MachineWindow.Topmost = true;
-                        await Task.Delay(100);
-                        MachineWindow.Topmost = false;
-
-                        manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterOwner, true, InputBlockMode.Window);
-                    }));
-
-                    await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
+                    if(Settings.Default.ConnectOnStartUp)
+                        await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
+                    await Task.Yield();
                     await Task.Delay(1000);
 
                     //manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
@@ -73,14 +67,12 @@ namespace GD_StampingMachine
                     }
 
                     ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
-
-                    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+ 
+                    await Application.Current?.Dispatcher.InvokeAsync( () =>
                     {
-                        MachineWindow.IsEnabled = true;
-                    }));
+                            MachineWindow.IsEnabled = true;
+                    });
                     manager.Close();
-
-
                 }
                 catch (Exception ex)
                 {
@@ -109,10 +101,8 @@ namespace GD_StampingMachine
         {
             var SaveTask = Task.Run(async () =>
             {
-                foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
-                {
-                    await productProject.SaveProductProjectAsync();
-                }
+                var savelist =StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(productProject => productProject.SaveProductProjectAsync());
+                await Task.WhenAll(savelist);
             });
 
             var DisposeTask = Task.Run(() => StampMachineDataSingleton.Instance.StopScanOpcuaAsync()); 

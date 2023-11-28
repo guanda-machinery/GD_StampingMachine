@@ -1534,7 +1534,7 @@
                         >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SizeChanged">
-                                    <i:InvokeCommandAction Command="{Binding TableViewSizeChangedCommand}" 
+                                    <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
                                                    PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>

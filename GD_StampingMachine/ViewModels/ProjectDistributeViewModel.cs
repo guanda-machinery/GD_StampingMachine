@@ -260,7 +260,7 @@ namespace GD_StampingMachine.ViewModels
                     if (!NotReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
                     {
                         //被設為完成的不可加入
-                        if (obj.IsFinish)
+                        if (obj.ProductProjectIsFinish)
                         {
 
                         }
@@ -288,7 +288,7 @@ namespace GD_StampingMachine.ViewModels
 
 
             int BFinishindex = 0;
-            while ((BFinishindex = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.IsFinish))!=-1)
+            while ((BFinishindex = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectIsFinish))!=-1)
             {
                 NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(BFinishindex);
             }

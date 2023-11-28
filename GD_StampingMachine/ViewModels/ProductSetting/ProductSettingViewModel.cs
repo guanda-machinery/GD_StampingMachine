@@ -335,9 +335,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     else
                     {
                         if (ShowHiddenProject)
-                            args.Visible = PProject.IsFinish;
+                            args.Visible = PProject.ProductProjectIsFinish;
                         else
-                            args.Visible = !PProject.IsFinish;
+                            args.Visible = !PProject.ProductProjectIsFinish;
                     }
                 }
             });

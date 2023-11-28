@@ -136,14 +136,14 @@ namespace GD_CommonLibrary.Method
             catch (JsonException JEX) 
             {
                 if(showMessageBox)
-                    _ =  MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                    _ =  MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                         fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));
                 //Debugger.Break();
             }
             catch (Exception ex)
             {
                 if (showMessageBox)
-                    _ =   MessageBoxResultShow.ShowException(ex);
+                    _ =   MessageBoxResultShow.ShowExceptionAsync(ex);
                 //Debugger.Break();
             }
             return false;
@@ -178,7 +178,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowException(ex);
+                    _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
             }
@@ -201,7 +201,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowException(ex);
+                    _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
             }

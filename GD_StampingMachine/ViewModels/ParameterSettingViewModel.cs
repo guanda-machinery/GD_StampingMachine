@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.UserControls.CustomControls;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels

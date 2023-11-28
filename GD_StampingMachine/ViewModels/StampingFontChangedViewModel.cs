@@ -242,6 +242,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
         CancellationTokenSource cancellationToken = new CancellationTokenSource();
+        Task RotatingTask;
 
         private StampingTypeViewModel _stampingTypeModel_readyStamping;
         [JsonIgnore]
@@ -265,11 +266,12 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
                 _ = Task.Run(async () =>
                 {
+                    if(RotatingTask!=null)
+                        await RotatingTask.ConfigureAwait(false);
                     cancellationToken.Cancel();
-                    await Task.Delay(100);
                     cancellationToken = new CancellationTokenSource();
-                    CancellationToken token = cancellationToken.Token;
-                    await Task.Run(async () =>
+                    //CancellationToken token = cancellationToken.Token;
+                    RotatingTask = await Task.Run(async () =>
                     {
                         var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
                         if (FIndex != -1)
@@ -333,29 +335,34 @@ namespace GD_StampingMachine.ViewModels
                             {
 
                             }
-
-                            while (true)
+                            using (CancellationTokenSource cts = new(10000))
                             {
-                                if (token.IsCancellationRequested)
-                                    break;
-                                if (StampingFontTurntable_RorateAngle > 360)
+                                while (true)
                                 {
-                                    StampingFontTurntable_RorateAngle -= 360;
-                                }
-                                if (StampingFontTurntable_RorateAngle < -360)
-                                {
-                                    StampingFontTurntable_RorateAngle += 360;
-                                }
+                                    //10秒算超時
+                                    if (cts.Token.IsCancellationRequested)
+                                        break;
+                                    if (cancellationToken.IsCancellationRequested)
+                                        break;
+                                    if (StampingFontTurntable_RorateAngle > 360)
+                                    {
+                                        StampingFontTurntable_RorateAngle -= 360;
+                                    }
+                                    if (StampingFontTurntable_RorateAngle < -360)
+                                    {
+                                        StampingFontTurntable_RorateAngle += 360;
+                                    }
 
+                                    if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 5 ||
+                                        Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 5)
+                                    {
+                                        break;
+                                    }
+                                    StampingFontTurntable_RorateAngle += ClockDirection * 1;
+                                    //Thread.Sleep(1);
+                                    await Task.Delay(1);
 
-                                if (Math.Abs(TargetAngle - StampingFontTurntable_RorateAngle) < 1.2 ||
-                                    Math.Abs(TargetAngle + 360 - StampingFontTurntable_RorateAngle) < 1.2)
-                                {
-                                    break;
                                 }
-                                StampingFontTurntable_RorateAngle += ClockDirection * 0.5;
-                                //Thread.Sleep(1);
-                                await Task.Delay(1);
                             }
 
                             StampingFontTurntable_RorateAngle = TargetAngle;
@@ -363,7 +370,8 @@ namespace GD_StampingMachine.ViewModels
                             StampingTypeVMObservableCollection[FIndex].StampingIsUsing = true;
 
                         }
-                    }, token);
+                        return Task.CompletedTask;
+                    });
                 });
             }
         }
@@ -499,7 +507,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _stampingFontCollectionData_MachineToSoftware_Command??=new(async () =>
             {
-                if (await MessageBoxResultShow.ShowYesNo(SteelPunchedFontSettingTitle,
+                if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
                 (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware")) != MessageBoxResult.Yes)
                 {
                     return;
@@ -542,7 +550,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _stampingFontCollectionData_SoftwareToMachine_Command ??= new(async () =>
             {
-                if (await MessageBoxResultShow.ShowYesNo(SteelPunchedFontSettingTitle,
+                if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
                 (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromSoftwareToMachine")) != MessageBoxResult.Yes)
                 {
                     return;
@@ -561,9 +569,9 @@ namespace GD_StampingMachine.ViewModels
                 }
 
                 if (await StampMachineData.SetRotatingTurntableInfoAsync(FontsCollection))
-                    await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
+                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
                 else
-                    await MessageBoxResultShow.ShowOK(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));
+                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));
 
             }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }
@@ -581,7 +589,7 @@ namespace GD_StampingMachine.ViewModels
                 if (await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware(
                      StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection))
                 { 
-                    await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+                    await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                         (string)Application.Current.TryFindResource("Notify_PunchedFontsIsCompared"));
                 }
             });

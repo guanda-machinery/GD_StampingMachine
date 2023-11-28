@@ -17,5 +17,8 @@
     <Setting Name="Copyright" Type="System.String" Scope="User">
       <Value Profile="(Default)">Copyright © 2022 GUANDA</Value>
     </Setting>
+    <Setting Name="ConnectOnStartUp" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

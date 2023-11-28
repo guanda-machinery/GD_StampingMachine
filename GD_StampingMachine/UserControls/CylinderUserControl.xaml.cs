@@ -1,5 +1,4 @@
 ﻿using GD_CommonLibrary;
-using GD_StampingMachine.UserControls.CustomControls;
 using GD_StampingMachine.Views;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json.Linq;

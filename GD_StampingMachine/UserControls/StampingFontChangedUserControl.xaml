@@ -28,7 +28,7 @@
             <RowDefinition MaxHeight="420"/>
             <RowDefinition Height="{CalcB:Binding ElementName=MainGridControl, Path=ActualHeight-420}" />
         </Grid.RowDefinitions>
-        <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
+            <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Visibility="{Binding IsDebuggerAttached , Converter={dxmvvm:BooleanToVisibilityConverter}}">
                 <StackPanel >
                     <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
                                IsEnabled="{Binding Stamping_SelectionChangedCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}"

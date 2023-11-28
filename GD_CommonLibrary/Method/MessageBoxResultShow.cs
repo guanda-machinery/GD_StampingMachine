@@ -12,9 +12,9 @@ namespace GD_CommonLibrary.Method
 {
     public class MessageBoxResultShow
     {
-        public static async Task<MessageBoxResult> Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
+        public static async Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
-            MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
+                MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
             await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
                 var NewWindow = new Window
@@ -31,28 +31,26 @@ namespace GD_CommonLibrary.Method
                     DevExpress.Xpf.Core.FloatingMode.Window);
             }));
 
-
-
             return MessageBoxReturn;
         }
 
 
 
-        public static async Task<MessageBoxResult> ShowYesNo(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)
+        public static async Task<MessageBoxResult> ShowYesNoAsync(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)
         {
-            return await Show(MessageTitle, MessageString,
+            return await ShowAsync(MessageTitle, MessageString,
                 MessageBoxButton.YesNo, BoxImage);
         }
 
-        public static async Task ShowOK(string MessageTitle, string MessageString , MessageBoxImage BoxImage = MessageBoxImage.Information)
+        public static async Task ShowOKAsync(string MessageTitle, string MessageString , MessageBoxImage BoxImage = MessageBoxImage.Information)
         {
-            await Show(MessageTitle, MessageString,
+            await ShowAsync(MessageTitle, MessageString,
                 MessageBoxButton.OK, BoxImage);
         }
 
-        public static async Task ShowException(Exception ex)
+        public static async Task ShowExceptionAsync(Exception ex)
         {
-            await Show(
+            await ShowAsync(
                          (string)Application.Current.TryFindResource("Text_notify"),
                          ex.Message,
                          MessageBoxButton.OK, MessageBoxImage.Warning);

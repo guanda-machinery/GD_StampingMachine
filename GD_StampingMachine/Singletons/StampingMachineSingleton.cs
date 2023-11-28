@@ -163,7 +163,7 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         //需註解找不到檔案!
-                       await MessageBoxResultShow.ShowOK("", $"Can't find file {System.IO.Path.Combine(EPath.ProjectPath, EPath.Name)}");
+                       await MessageBoxResultShow.ShowOKAsync("", $"Can't find file {System.IO.Path.Combine(EPath.ProjectPath, EPath.Name)}");
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,

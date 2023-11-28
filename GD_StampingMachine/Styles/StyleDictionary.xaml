@@ -4,7 +4,6 @@
                     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
                     xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
                     xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
                     xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
                     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
@@ -1046,12 +1045,12 @@
         <Setter Property="Padding" Value="0"/>
     </Style>
 
-    
 
 
 
 
-    <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
+
+    <Style TargetType="GD_UserControls:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="TextMargin" Value="2,0,3,2"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -1063,7 +1062,7 @@
     </Style>
     
     <Style x:Key="FunctionToggleUserControl_Bottom"
-                                    TargetType="GD_Customcontrols:FunctionToggleUserControl" 
+                                    TargetType="GD_UserControls:FunctionToggleUserControl" 
                                        BasedOn="{StaticResource FunctionToggleUserControlKey}">
         <Setter Property="Foreground" Value="{DynamicResource DarkHueDarkForegroundBrush}"/>
         <Setter Property="IsCheckedBorderThickness" Value="2.0"/>
@@ -1071,7 +1070,7 @@
 
 
     <Style x:Key="FunctionToggleUserControl_LeftDrawer"
-                                            TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
+                                            TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
         <Setter Property="Margin" Value="10,5"/>
         <Setter Property="TextMargin" Value="5,0,10,0"/>
         <Setter Property="Orientation" Value="Horizontal"/>
@@ -1088,7 +1087,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" x:Key="FunctionToggleUserControl_ParameterSetting" BasedOn="{StaticResource FunctionToggleUserControlKey}">
+    <Style TargetType="GD_UserControls:FunctionToggleUserControl" x:Key="FunctionToggleUserControl_ParameterSetting" BasedOn="{StaticResource FunctionToggleUserControlKey}">
 
         <Setter Property="MouseIsOverBackground" Value="#99cff9"/>
         <Setter Property="IsCheckedBackground" Value="Transparent"/>
@@ -1100,7 +1099,7 @@
     </Style>
 
 
-    <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
+    <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
     <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
         <Setter Property="Placement" Value="MousePoint"/>
@@ -1134,7 +1133,7 @@
                                 BorderThickness="1.5"
                                 BorderBrush="{DynamicResource PrimaryHueMidBrush}" 
                                 Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5">
-                        <GD_Customcontrols:FunctionToggleUserControl
+                        <GD_UserControls:FunctionToggleUserControl
                                 ControlTitleText ="{Binding ControlTitleText}"      
                                 ImageSource ="{Binding ImageSource}"   
                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
@@ -1158,7 +1157,7 @@
                                 BorderThickness="1.5"
                                 BorderBrush="{DynamicResource DarkHueMidBrush}" 
                                 Background="{DynamicResource DarkHueDarkBrush}" CornerRadius="5">
-                        <GD_Customcontrols:FunctionToggleUserControl
+                        <GD_UserControls:FunctionToggleUserControl
                                 ControlTitleText ="{Binding ControlTitleText}"      
                                 ImageSource ="{Binding ImageSource}"   
                                 Foreground="{DynamicResource DarkHueDarkForegroundBrush}"

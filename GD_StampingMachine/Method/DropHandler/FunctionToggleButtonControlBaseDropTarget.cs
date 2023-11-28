@@ -1,7 +1,7 @@
 ﻿using DevExpress.Xpf.Core.Native;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
-using GD_StampingMachine.UserControls.CustomControls;
+using GD_StampingMachine.UserControls;
 using GongSolutions.Wpf.DragDrop;
 using System;
 using System.Collections.Generic;

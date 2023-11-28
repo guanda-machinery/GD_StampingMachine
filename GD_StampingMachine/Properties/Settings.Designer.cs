@@ -82,5 +82,17 @@ namespace GD_StampingMachine.Properties {
                 this["Copyright"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ConnectOnStartUp {
+            get {
+                return ((bool)(this["ConnectOnStartUp"]));
+            }
+            set {
+                this["ConnectOnStartUp"] = value;
+            }
+        }
     }
 }

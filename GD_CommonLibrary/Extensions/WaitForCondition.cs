@@ -10,7 +10,7 @@ namespace GD_CommonLibrary.Extensions
 {
     public static class WaitForCondition
     {
-        public static async Task WaitAsyncIsTrue(Func<bool> conditionFunc)
+        public static async Task WaitIsTrueAsync(Func<bool> conditionFunc)
         {
             await WaitAsync(conditionFunc, true);
         }
@@ -20,7 +20,7 @@ namespace GD_CommonLibrary.Extensions
             await WaitAsync(conditionFunc,false);
         }
 
-        public static async Task WaitAsyncIsTrue(Func<bool> conditionFunc , CancellationToken token)
+        public static async Task WaitIsTrueAsync(Func<bool> conditionFunc , CancellationToken token)
         {
             await WaitAsync(conditionFunc, true, token);
         }
@@ -31,7 +31,7 @@ namespace GD_CommonLibrary.Extensions
         }
 
 
-        public static async Task WaitAsyncIsTrue(Func<bool> conditionFunc, int millisecondsDelay)
+        public static async Task WaitIsTrueAsync(Func<bool> conditionFunc, int millisecondsDelay)
         {
             using CancellationTokenSource cts = new(millisecondsDelay);
             await WaitAsync(conditionFunc ,true, cts.Token);
@@ -43,7 +43,7 @@ namespace GD_CommonLibrary.Extensions
             await WaitAsync(conditionFunc,false, cts.Token);
         }
 
-        public static async Task WaitAsyncIsTrue(Func<bool> conditionFunc, int millisecondsDelay, CancellationToken token)
+        public static async Task WaitIsTrueAsync(Func<bool> conditionFunc, int millisecondsDelay, CancellationToken token)
         {
             using CancellationTokenSource cts = new(millisecondsDelay);
             await WaitAsync(conditionFunc, true, cts.Token, token);
@@ -148,6 +148,7 @@ namespace GD_CommonLibrary.Extensions
             var tcs = new TaskCompletionSource<bool>();
             // 啟動一個異步
             _ = MonitorConditionAsync(conditionFunc, result, isEqual, tcs , tokens);
+            await Task.Yield();
             // 等待條件滿足
             return await tcs.Task;
         }
@@ -172,6 +173,7 @@ namespace GD_CommonLibrary.Extensions
                         }
                     }
                     await Task.Delay(10);
+                    await Task.Yield();
                 }
                 tcs.SetResult(true);
             }

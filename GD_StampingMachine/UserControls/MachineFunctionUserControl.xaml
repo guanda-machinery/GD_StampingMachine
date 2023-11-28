@@ -27,7 +27,7 @@
              
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
-             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
+             xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
              >
@@ -40,23 +40,23 @@
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="5">
-                                <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}"
+                                <local:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}"
                                                                      PackIconKind="Import"
                                                                              ControlTitleText="{DynamicResource Text_Feeding_Component}" />
-                                <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding QRCode_Component_Button_IsChecked}"
+                                <local:FunctionToggleUserControl IsChecked="{Binding QRCode_Component_Button_IsChecked}"
                                    PackIconKind="QrcodeEdit"
                                 ControlTitleText="{DynamicResource Text_QRCode_Component}" />
-                                <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Stamping_Component_Button_IsChecked}"
+                                <local:FunctionToggleUserControl IsChecked="{Binding Stamping_Component_Button_IsChecked}"
                                    PackIconKind="Stamper"
                                 ControlTitleText="{DynamicResource Text_Stamping_Component}" />
-                                <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ShearCut_Component_Button_IsChecked}"
+                                <local:FunctionToggleUserControl IsChecked="{Binding ShearCut_Component_Button_IsChecked}"
                                    PackIconKind="ScissorsCutting"
                                 ControlTitleText="{DynamicResource Text_ShearCut_Component_Hydraulic}" />
-                                <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding Separator_Component_Button_IsChecked}"
+                                <local:FunctionToggleUserControl IsChecked="{Binding Separator_Component_Button_IsChecked}"
                                    PackIconKind="PackageVariantClosed"
                                 ControlTitleText="{DynamicResource Text_Separator_Component}" />
 
-                                <GD_Customcontrols:FunctionToggleUserControl x:Name="Custom_Component_TButton"
+                                <local:FunctionToggleUserControl x:Name="Custom_Component_TButton"
                                    PackIconKind="Download"
                                 ControlTitleText="{DynamicResource Text_Custom_Component}" />
 
@@ -70,10 +70,10 @@
                                     <Grid>
                                         <Border  Background="{DynamicResource PrimaryHueMidBrush}" Padding="5,0" CornerRadius="10">
                                             <StackPanel>
-                                                <GD_Customcontrols:FunctionToggleUserControl 
+                                                <local:FunctionToggleUserControl 
                                                                              PackIconKind="BoxCutter"
                                                                              ControlTitleText="{DynamicResource btnDescription_ManualCutting}" >
-                                                    <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
+                                                    <local:FunctionToggleUserControl.IsChecked>
                                                         <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
                                                             <MultiBinding.ConverterParameter>
                                                                 <x:Array Type="{x:Type sys:Boolean}">
@@ -90,9 +90,9 @@
                                                             <Binding Path="ShearCut_Component_Button_IsChecked"/>
                                                             <Binding Path="Separator_Component_Button_IsChecked"/>
                                                         </MultiBinding>
-                                                    </GD_Customcontrols:FunctionToggleUserControl.IsChecked>
+                                                    </local:FunctionToggleUserControl.IsChecked>
 
-                                                </GD_Customcontrols:FunctionToggleUserControl>
+                                                </local:FunctionToggleUserControl>
                                             </StackPanel>
                                         </Border>
                                     </Grid>

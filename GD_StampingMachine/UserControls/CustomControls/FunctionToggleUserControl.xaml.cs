@@ -24,7 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GD_StampingMachine.UserControls.CustomControls
+namespace GD_StampingMachine.UserControls
 {
     /// <summary>
     /// FunctionToggleUserControl.xaml 的互動邏輯

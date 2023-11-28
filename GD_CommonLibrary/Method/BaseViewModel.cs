@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -21,6 +22,8 @@ namespace GD_CommonLibrary
 {
     public abstract class BaseViewModel : MarkupExtension , INotifyPropertyChanged, IDisposable
     {
+
+
         private bool disposedValue;
 
         [JsonIgnore]
@@ -78,5 +81,10 @@ namespace GD_CommonLibrary
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+
+        public bool IsDebuggerAttached => Debugger.IsAttached; 
+
+
     }
 }

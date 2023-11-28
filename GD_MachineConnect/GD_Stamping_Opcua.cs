@@ -128,9 +128,9 @@ namespace GD_MachineConnect
         /// 訂閱機台模式
         /// </summary>
         /// <param name="action"></param>
-        public async Task<bool> SubscribeOperationMode(Action<int> action, bool checkDuplicates = false)
+        public async Task<bool> SubscribeOperationMode(Action<int> action)
         {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.system.sv_OperationMode, action ,200 ,  checkDuplicates);
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.system.sv_OperationMode, action ,200 ,  true);
         }
 
 
@@ -539,17 +539,43 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopUp);
         }
 
+        /// <summary>
+        /// 鋼印待命
+        /// </summary>
+        /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicEngraving_Position_StandbyPoint()
         {
             return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StandbyPoint);
         }
+        /// <summary>
+        /// 鋼印下壓
+        /// </summary>
+        /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicEngraving_Position_StopDown()
         {
             return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Engraving1.di_StopDown);
         }
 
         /// <summary>
-        /// 原點
+        ///訂閱刻字下壓
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="samplingInterval"></param>
+        /// <param name="checkDuplicates"></param>
+        /// <returns></returns>
+        public Task<bool> SubscribeHydraulicEngraving_Position_StopDown(Action<bool> action)
+        {
+            return GD_OpcUaClient.SubscribeNodeDataChangeAsync($"{StampingOpcUANode.Engraving1.di_StopDown}", action, 100, true);
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// 切割原點
         /// </summary>
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicCutting_Position_Origin()
@@ -557,7 +583,7 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Cutting1.di_CuttingOrigin);
         }
         /// <summary>
-        /// 待命位置
+        /// 切割待命位置
         /// </summary>
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicCutting_Position_StandbyPoint()
@@ -578,9 +604,9 @@ namespace GD_MachineConnect
         /// 訂閱切割位置
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> SubscribeHydraulicCutting_Position_CutPoint(Action<bool> action, bool checkDuplicates = false)
+        public async Task<bool> SubscribeHydraulicCutting_Position_CutPoint(Action<bool> action)
         {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Cutting1.di_CuttingCutPoint, action, 50, checkDuplicates);
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Cutting1.di_CuttingCutPoint, action, 50, true);
         }
 
         public async Task<bool> SetHydraulicPumpMotor(bool Active)
@@ -612,9 +638,9 @@ namespace GD_MachineConnect
         /// 訂閱油壓單元
         /// </summary>
         /// <param name="action"></param>
-        public async Task<bool> SubscribeHydraulicPumpMotor(Action<bool> action, bool checkDuplicates = false)
+        public async Task<bool> SubscribeHydraulicPumpMotor(Action<bool> action)
         {
-           return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Motor1.sv_bMotorStarted, action, 50, checkDuplicates);
+           return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Motor1.sv_bMotorStarted, action, 50, true);
         }
 
 
@@ -635,29 +661,29 @@ namespace GD_MachineConnect
         /// 訂閱加工許可交握訊號
         /// </summary>
         /// <param name="action"></param>
-        public Task<bool> SubscribeRequestDatabit(Action<bool> action, bool checkDuplicates = false)
+        public Task<bool> SubscribeRequestDatabit(Action<bool> action)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action, 20, checkDuplicates);
+            return GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action, 50, true);
         }
 
 
         /// <summary>
-        /// 訂閱第一片ID
+        /// 取得第一片ID
         /// </summary>
         /// <param name="action"></param>
-        public Task<bool> SubscribeFirstIronPlate(Action<int> action, int samplingInterval,bool checkDuplicates = false)
+        public Task<(bool, int)> GetFirstIronPlateID()
         {
-            return GD_OpcUaClient.SubscribeNodeDataChangeAsync($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", action, samplingInterval, checkDuplicates);
+            return GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID");
         }
 
         /// <summary>
         /// 取消訂閱第一片ID
         /// </summary>
         /// <param name="action"></param>
-        public Task<bool> UnsubscribeFirstIronPlate(int samplingInterval)
+      /*  public Task<bool> UnsubscribeFirstIronPlate(int samplingInterval)
         {
             return GD_OpcUaClient.UnsubscribeNodeAsync($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", samplingInterval);
-        }
+        }*/
 
 
 
@@ -1058,9 +1084,9 @@ namespace GD_MachineConnect
         /// 訂閱鋼印位置
         /// </summary>
         /// <param name="action"></param>
-        public Task<bool> SubscribeEngravingRotateStation(Action<int> action, bool checkDuplicates = false)
+        public Task<bool> SubscribeEngravingRotateStation(Action<int> action)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.EngravingRotate1.sv_iThisStation, action, 50, checkDuplicates);
+            return GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.EngravingRotate1.sv_iThisStation, action, 100, true);
         }
 
 
@@ -1582,7 +1608,7 @@ namespace GD_MachineConnect
         /// <param name="action">動作</param>
         /// <param name="checkDuplicates">是否檢查重複項</param>
         /// <returns></returns>
-        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> action, bool checkDuplicates = false)
+        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> action, bool checkDuplicates)
         {
             return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<T>(NodeID,action,200,  checkDuplicates);
         }

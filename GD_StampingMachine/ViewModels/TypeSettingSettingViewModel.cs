@@ -106,13 +106,15 @@ namespace GD_StampingMachine.ViewModels
         //[JsonIgnore]
         //public ICommand ChangeProjectDistributeCommand{get => Singletons.StampingMachineSingleton.Instance.MachineMonitorVM.ProjectDistributeVMChangeCommand; }
 
+
+        private AsyncRelayCommand<object> _deleteProjectDistributeCommand;
         /// <summary>
         /// 刪除排版專案 並將盒子內的所有東西釋放回專案
         /// </summary>
         [JsonIgnore]
         public AsyncRelayCommand<object> DeleteProjectDistributeCommand
         {
-            get => new AsyncRelayCommand<object>(async obj =>
+            get => _deleteProjectDistributeCommand??=new AsyncRelayCommand<object>(async obj =>
             {
                 if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {

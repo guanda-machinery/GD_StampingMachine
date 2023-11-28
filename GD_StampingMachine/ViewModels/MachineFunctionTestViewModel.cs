@@ -458,7 +458,7 @@ namespace GD_StampingMachine.ViewModels
                  && !x.ProcessingIsFinish) != -1)
                     {
                         //有無法加工到的工序 需先倒轉鋼帶或忽略無法加工的工序
-                        if (await GD_CommonLibrary.Method.MessageBoxResultShow.ShowYesNo("", $"\r\n;") != System.Windows.MessageBoxResult.Yes)
+                        if (await GD_CommonLibrary.Method.MessageBoxResultShow.ShowYesNoAsync("", $"\r\n;") != System.Windows.MessageBoxResult.Yes)
                             return;
                     }
 

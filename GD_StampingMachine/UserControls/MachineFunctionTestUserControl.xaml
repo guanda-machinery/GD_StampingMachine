@@ -30,7 +30,6 @@
              xmlns:GD_Extensions="clr-namespace:GD_CommonLibrary.Extensions;assembly=GD_CommonLibrary" 
              xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
-             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
     xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 

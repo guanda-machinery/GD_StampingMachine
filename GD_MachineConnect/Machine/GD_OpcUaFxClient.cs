@@ -143,7 +143,7 @@ namespace GD_MachineConnect.Machine
                     {
                         if (!IsConnected)
                         {
-                            m_OpcUaClient.OperationTimeout = 5000;
+                            m_OpcUaClient.OperationTimeout = 60000;
                             m_OpcUaClient.Connect();
                             ConnectException = null;
                             ret = true;
@@ -542,7 +542,7 @@ namespace GD_MachineConnect.Machine
         }
 
         /// <summary>
-        /// 移掉所有訂閱的節點(使用響應速度分類)
+        /// 移掉訂閱的節點(使用響應速度分類)
         /// </summary>
         /// <param name="NodeID"></param>
         public async Task<bool> UnsubscribeNodeAsync(string NodeID, int samplingInterval)

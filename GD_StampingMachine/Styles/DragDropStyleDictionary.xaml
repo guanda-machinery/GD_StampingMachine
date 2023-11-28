@@ -237,7 +237,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border Padding="5,5,5,0" Style="{StaticResource SelectedListBoxItemBackground }">
+                    <Border Padding="5,5,5,0" Style="{StaticResource SelectedListBoxItemBackground }" ToolTipService.Placement="Right" >
+                        <Border.ToolTip>
+                            <TextBlock Text="{Binding StampingTypeUseCount}"/>
+                        </Border.ToolTip>
+                        
                         <Grid  HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>

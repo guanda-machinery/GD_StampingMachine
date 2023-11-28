@@ -46,7 +46,7 @@ namespace GD_StampingMachine.GD_Model
         /// <summary>
         /// 是否為已完成專案
         /// </summary>
-       public bool IsFinish { get; set; }
+       public bool ProductProjectIsFinish { get; set; }
 
         /// <summary>
         /// 專案不存在

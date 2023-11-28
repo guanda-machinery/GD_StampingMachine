@@ -185,7 +185,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 新增排版專案的打勾符號
         /// </summary>
-        public bool IsFinish { get => ProductProject.IsFinish; set { ProductProject.IsFinish = value; OnPropertyChanged(); } }
+        public bool ProductProjectIsFinish { get => ProductProject.ProductProjectIsFinish; set { ProductProject.ProductProjectIsFinish = value; OnPropertyChanged(); } }
 
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                IsFinish = true;
+                ProductProjectIsFinish = true;
             });
         }
         /// <summary>
@@ -263,7 +263,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                IsFinish = false;
+                ProductProjectIsFinish = false;
             });
         }
 
@@ -462,7 +462,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         if(gridcontrol.View is DevExpress.Xpf.Grid.TableView tableview)
                         {
-                            var pageSize = (tableview.ActualHeight - tableview.HeaderPanelMinHeight) / (45+ tableview.FixedLineHeight);
+                            var pageSize = ((tableview.ActualHeight - tableview.HeaderPanelMinHeight - 30) / 40);
                             tableview.PageSize = (pageSize < 3 ? 3 : (int)pageSize);
                         }
                     }
@@ -653,7 +653,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         //如果沒有檔案->跳出提示
                         if (availableFiles.Count() == 0)
                         {
-                            await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportableFileNotExisted"));
+                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportableFileNotExisted"));
                             return;
                         }
 
@@ -719,12 +719,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         //將資料拆分為QR/一般
                         if (ErpFile.Exists(x => !x.QrCode) && ImportProjectNumberSettingBaseVM == null)
                         {
-                            await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetNumberCode"));
+                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetNumberCode"));
                             return;
                         }
                         if (ErpFile.Exists(x => x.QrCode) && ImportProjectQRSettingBaseVM == null)
                         {
-                            await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetQrCode"));
+                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetQrCode"));
                             return;
                         }
 
@@ -795,7 +795,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                     if (importPartsParameterVMList.Count == 0)
                     {
-                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportFail"));
+                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportFail"));
                         throw new Exception();
                     }
 
@@ -809,7 +809,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (cImportNotify != null)
                     {
                         string Outputstring = string.Format(cImportNotify, importPartsParameterVMList.Count);
-                         var ret = await MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
+                         var ret = await MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
                         if(ret!= MessageBoxResult.Yes && ret != MessageBoxResult.OK)
                             throw new Exception();
                     }
@@ -826,7 +826,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (ImportNotify != null)
                     {
                         string Outputstring = string.Format(ImportNotify, importPartsParameterVMList.Count);
-                        await MessageBoxResultShow.ShowOK((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
+                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
                     }
                 }
                 catch(Exception ex)

@@ -23,7 +23,6 @@
              xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
-             xmlns:GD_Customcontrols="clr-namespace:GD_StampingMachine.UserControls.CustomControls"
     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
     xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
@@ -773,10 +772,10 @@
                                         dd:DragDrop.IsDropTarget ="True"
                                         VerticalAlignment="Top"  HorizontalAlignment="Left" >
 
-                                        <GD_Customcontrols:FunctionToggleUserControl 
+                                    <GD_UserControls:FunctionToggleUserControl 
                                         x:Name="TBtn_MachineInfo" >
-                                        <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                            <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
+                                        <GD_UserControls:FunctionToggleUserControl.Style>
+                                            <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
                                                 <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_MachineInfo}"/>
                                                 <Setter Property="ImageSource" Value="{StaticResource MainIcon_12_About_DrawingImage_Mono}" />
                                                 <Style.Triggers>
@@ -801,13 +800,13 @@
                                                     </MultiDataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl>
+                                        </GD_UserControls:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl>
 
-                                    <GD_Customcontrols:FunctionToggleUserControl 
+                                    <GD_UserControls:FunctionToggleUserControl 
                                         x:Name="TBtn_PunchedFontSetting" >
-                                        <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                            <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
+                                        <GD_UserControls:FunctionToggleUserControl.Style>
+                                            <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
                                                 <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_PunchedFontSetting}"/>
                                                 <Setter Property="ImageSource" Value="{StaticResource MainIcon_13_MoldFont_DrawingImage_Mono}" />
                                                 <Style.Triggers>
@@ -832,12 +831,12 @@
 
                                                 </Style.Triggers>
                                             </Style>
-                                        </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl>
+                                        </GD_UserControls:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl>
 
-                                    <GD_Customcontrols:FunctionToggleUserControl 
+                                    <GD_UserControls:FunctionToggleUserControl 
                                         x:Name="TBtn_ParameterSetting" >
-                                            <GD_Customcontrols:FunctionToggleUserControl.IsChecked>
+                                            <GD_UserControls:FunctionToggleUserControl.IsChecked>
                                                 <MultiBinding Converter="{GD_Common:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                     <MultiBinding.Bindings>
                                                         <Binding Path="ParameterSettingVM.TbtnNumberSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
@@ -849,10 +848,10 @@
                                                         <Binding Path="ParameterSettingVM.TbtnSeEngineeringModeIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                                     </MultiBinding.Bindings>
                                                 </MultiBinding>
-                                            </GD_Customcontrols:FunctionToggleUserControl.IsChecked>
+                                            </GD_UserControls:FunctionToggleUserControl.IsChecked>
 
-                                        <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                            <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
+                                        <GD_UserControls:FunctionToggleUserControl.Style>
+                                            <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
                                                 <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_ParameterSetting}"/>
                                                 <Setter Property="ImageSource" Value="{StaticResource MainIcon_14_Parameter_DrawingImage_Mono}" />
                                                 <Style.Triggers>
@@ -878,13 +877,13 @@
                                                 </Style.Triggers>
 
                                             </Style>
-                                        </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl>
+                                        </GD_UserControls:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl>
 
-                                    <GD_Customcontrols:FunctionToggleUserControl  
+                                    <GD_UserControls:FunctionToggleUserControl  
                                         x:Name="TBtn_SoftwareUpdate" >
-                                        <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                            <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
+                                        <GD_UserControls:FunctionToggleUserControl.Style>
+                                            <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_LeftDrawer}" >
                                                 <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_SoftwareUpdate}"/>
                                                 <Setter Property="ImageSource" Value="{StaticResource MainIcon_15_Update_DrawingImage_Mono}" />
                                                 <Style.Triggers>
@@ -909,8 +908,8 @@
 
                                                 </Style.Triggers>
                                             </Style>
-                                        </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl>
+                                        </GD_UserControls:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl>
                                 </ItemsControl>
                                 </materialDesign:ColorZone>
                             </materialDesign:DrawerHost.LeftDrawerContent>
@@ -1016,11 +1015,11 @@
 
                             <ItemsControl dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
 
-                                <GD_Customcontrols:FunctionToggleUserControl 
+                                <GD_UserControls:FunctionToggleUserControl 
                                 x:Name="TBtn_MainSysyem"
                                 >
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_MainSystem}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_01_MainSystem_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1030,15 +1029,15 @@
                                             </Style.Triggers>                                   
                                         </Style>
                                    
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
 
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                </GD_UserControls:FunctionToggleUserControl>
 
                                 <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                                <GD_Customcontrols:FunctionToggleUserControl x:Name="TBtn_ProductSettings">
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_ProductSettings">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_ProductSettings}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_02_Production_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1047,14 +1046,14 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
 
 
-                                <GD_Customcontrols:FunctionToggleUserControl
+                                <GD_UserControls:FunctionToggleUserControl
                                 x:Name="TBtn_TypeSettingSettings"                                 >
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_LayoutSettings}"/>
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_03_TypeSetting_DrawingImage_Mono}"/>
                                             <Style.Triggers>
@@ -1063,18 +1062,18 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
 
 
-                                <GD_Customcontrols:FunctionToggleUserControl 
+                                <GD_UserControls:FunctionToggleUserControl 
                                     IsEnabled="{Binding  
                                     Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, 
                                     Path=SelectedProjectDistributeVM,            
                                     Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
                                 x:Name="TBtn_MachineMonitor" >
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                    <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                    <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                     <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_MachineMonitoring}"/>
                                     <Setter Property="ImageSource" Value="{StaticResource MainIcon_04_Machining_DrawingImage_Mono}"/>
                                         <Style.Triggers>
@@ -1083,14 +1082,14 @@
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
 
                                 <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                                <GD_Customcontrols:FunctionToggleUserControl x:Name="TBtn_MachineFunction">
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_MachineFunction">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_MachineFunction}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_05_Machine_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1099,16 +1098,16 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
                                 
-                                <GD_Customcontrols:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint"
+                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint"
                                                                              IsThreeState="False"
                                                                              IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsReturningToOrigin}"     
                                                                              Command="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=ReturnToOriginCommand}" Cursor="Hand"                        
                                                                              >
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_ReturningToOriginPoint}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1117,12 +1116,12 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
 
-                                <GD_Customcontrols:FunctionToggleUserControl  x:Name="TBtn_LightUpSwitch">
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                <GD_UserControls:FunctionToggleUserControl  x:Name="TBtn_LightUpSwitch">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_LightUpSwitch}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_07_Lamp_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1131,8 +1130,8 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
 
 
 
@@ -1143,9 +1142,9 @@
                             <ItemsControl 
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True">
-                                <GD_Customcontrols:FunctionToggleUserControl>
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                <GD_UserControls:FunctionToggleUserControl>
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_UsualKey2}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_08_Usual_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1154,14 +1153,14 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
-                                <GD_Customcontrols:FunctionToggleUserControl
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
+                                <GD_UserControls:FunctionToggleUserControl
                                 IsDragable="False"
                                 IsDropable ="True"
                                 >
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_UsualKey2}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_08_Usual_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1170,16 +1169,16 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
 
 
                             </ItemsControl>
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
                             <ItemsControl dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
-                                <GD_Customcontrols:FunctionToggleUserControl x:Name="TBtn_Calendar">
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_Calendar">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Calendar}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_09_Calendar_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1188,9 +1187,9 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
                                     
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                </GD_UserControls:FunctionToggleUserControl>
                                 <GD_Popup:DraggablePopup 
                                 IsOpen="{Binding ElementName=TBtn_Speed, Path=IsChecked}" AllowsTransparency="True"  
                                                    Placement="Top"  PlacementTarget="{Binding ElementName=TBtn_Speed}" PopupAnimation="Slide" PlacementRectangle="-110,-10,0,0" >
@@ -1231,10 +1230,10 @@
 
                                     </Border>
                                 </GD_Popup:DraggablePopup>
-                                <GD_Customcontrols:FunctionToggleUserControl
+                                <GD_UserControls:FunctionToggleUserControl
                                      x:Name="TBtn_Speed">
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Speed}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_10_SpeedMeter_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1243,13 +1242,13 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
 
-                                </GD_Customcontrols:FunctionToggleUserControl>
-                                <GD_Customcontrols:FunctionToggleUserControl IsChecked="{Binding ParameterSettingVM}"
+                                </GD_UserControls:FunctionToggleUserControl>
+                                <GD_UserControls:FunctionToggleUserControl IsChecked="{Binding ParameterSettingVM}"
                                      x:Name="TBtn_Alarm">
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_11_Alarm_DrawingImage_Mono}"      />
                                             <Style.Triggers>
@@ -1258,13 +1257,13 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
 
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                </GD_UserControls:FunctionToggleUserControl>
 
-                                <GD_Customcontrols:FunctionToggleUserControl  IsChecked="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}">
-                                    <GD_Customcontrols:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_Customcontrols:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                <GD_UserControls:FunctionToggleUserControl  IsChecked="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="PackIconKind" Value="MoonAndStars"/>
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_DarkMode}"      />
                                             <Style.Triggers>
@@ -1274,9 +1273,9 @@
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </GD_Customcontrols:FunctionToggleUserControl.Style>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
 
-                                </GD_Customcontrols:FunctionToggleUserControl>
+                                </GD_UserControls:FunctionToggleUserControl>
                                 <Expander  Foreground="White"
                                       materialDesign:ExpanderAssist.VerticalHeaderPadding="0" 
                                       Background="Transparent"  

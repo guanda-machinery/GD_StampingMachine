@@ -133,7 +133,7 @@
                         </Border>
                     </GD_Popup:DraggablePopup>
                 </StackPanel>
-                <dxg:GridControl  Grid.Row="1"
+                <dxg:GridControl  Grid.Row="1" x:Name="ProjectDistributeGridControl"
                 Background="Transparent"  Margin="5"
                                       Style="{StaticResource ProjectGridControl}" 
                                       AutoGenerateColumns="None"
@@ -146,10 +146,10 @@
                         <ContextMenu>
                             <!--Command="{Binding ChangeProjectDistributeCommand}"-->
                             <MenuItem Command="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=ProjectDistributeVMChangeCommand}"
-                                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl}, Path=SelectedItems}"
+                                      CommandParameter="{Binding ProjectDistributeSelectedItems}"
                                                 Header="{DynamicResource Text_ChangeConstructionNumber}"/>
                             <MenuItem Command="{Binding DeleteProjectDistributeCommand}"
-                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl}, Path=SelectedItems}"
+                                                          CommandParameter="{Binding ProjectDistributeSelectedItems}"
                                                 Header="{DynamicResource btnDelete}"/>
                         </ContextMenu>
                     </dxg:GridControl.ContextMenu>

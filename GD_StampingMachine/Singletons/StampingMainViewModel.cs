@@ -23,8 +23,7 @@ using System.Windows.Media;
 using GD_CommonLibrary.Method;
 using CommunityToolkit.Mvvm.Input;
 using GD_StampingMachine.Singletons;
-using Opc.Ua;
-using DevExpress.CodeParser;
+
 
 namespace GD_StampingMachine.ViewModels
 {

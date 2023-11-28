@@ -15,7 +15,7 @@ namespace GD_StampingMachine.Method
 
         public static async Task<MessageBoxResult> AskOverwriteOrNot()
         {
-            var MessageBoxReturn = ShowYesNo(
+            var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"));
             return await MessageBoxReturn;
@@ -23,7 +23,7 @@ namespace GD_StampingMachine.Method
 
         public static async Task<MessageBoxResult> AskDelProject(string NumberSetting)
         {
-            var MessageBoxReturn = ShowYesNo(
+            var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_AskDelProject") +
                 "\r\n" +
@@ -38,7 +38,7 @@ namespace GD_StampingMachine.Method
         /// <returns></returns>
         public static async Task<MessageBoxResult> AskCloseProject(string ProjectName)
         {
-            var MessageBoxReturn = ShowYesNo(
+            var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_TSProjectExistedInBox") + 
                 "\r\n"+
@@ -70,7 +70,7 @@ namespace GD_StampingMachine.Method
             {
                 _message +=  (string)Application.Current.TryFindResource("Text_SaveFail");
             }
-            await ShowOK(
+            await ShowOKAsync(
                        (string)Application.Current.TryFindResource("Text_notify"),
                        _message);
         }
@@ -90,7 +90,7 @@ namespace GD_StampingMachine.Method
             {
                 _message += "\r\n" + (string)Application.Current.TryFindResource("Text_LoadFail");
             }
-            await ShowOK(
+            await ShowOKAsync(
                        (string)Application.Current.TryFindResource("Text_notify"),
                        _message);
         }
@@ -99,19 +99,19 @@ namespace GD_StampingMachine.Method
 
         public static async Task CanNotCloseProject()
         {
-           await ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
+           await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
         }
 
         public static async Task CanNotDeleteProject()
         {
-            await ShowOK((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"));
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"));
         }
 
 
 
         public static async Task ProjectIsExisted_CantOpenProject()
         {
-            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
                 , MessageBoxImage.Warning);
         }
@@ -122,7 +122,7 @@ namespace GD_StampingMachine.Method
         /// </summary>
         public static async Task CanNotCreateProjectFileNameIsEmpty()
         {
-            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty") 
                 , MessageBoxImage.Warning);
         }
@@ -136,7 +136,7 @@ namespace GD_StampingMachine.Method
             if (ProjectName != null)
                 AddMessage = "\r\n" + ProjectName;
 
-            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantCreateProject")+ AddMessage
                 , MessageBoxImage.Warning);
         }
@@ -145,7 +145,7 @@ namespace GD_StampingMachine.Method
 
         public async static Task ProjectIsLoaded()
         {
-            await ShowOK((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsLoaded")
                 , MessageBoxImage.Warning);
         }
