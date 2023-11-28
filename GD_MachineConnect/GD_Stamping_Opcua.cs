@@ -28,7 +28,7 @@ using Opc.Ua;
 
 namespace GD_MachineConnect
 {
-    public class GD_Stamping_Opcua : IAsyncDisposable
+    public class GD_Stamping_Opcua :IAsyncDisposable
     {
         /// <summary>
         /// 實作長連接
@@ -41,7 +41,7 @@ namespace GD_MachineConnect
         private bool disposedValue;
 
 
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (!disposedValue)
             {
@@ -75,11 +75,6 @@ namespace GD_MachineConnect
 
         public Exception ConnectException { get => GD_OpcUaClient.ConnectException; }
 
-
-        /*public void Disconnect()
-        {
-            GD_OpcUaClient.Disconnect();
-        }*/
 
 
         public async Task DisconnectAsync()
@@ -115,12 +110,6 @@ namespace GD_MachineConnect
             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bUseHomeing, false);
         }
 
-        /* public async Task<bool> SetReset()
-         {
-             await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, true);
-             await Task.Delay(500);
-             return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.system.sv_bResetTotEnergy, false);
-         }*/
 
 
 
@@ -196,32 +185,7 @@ namespace GD_MachineConnect
         }
 
 
-        public async Task<(bool, EngineerSettingModel)> GetEngineerSetting( )
-        {
-            throw new NotImplementedException();
-        }
 
-
-
-        public async Task<(bool, InputOutputModel)> GetInputOutput()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<(bool, MachanicalSpecificationModel)> GetMachanicalSpecification()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<(bool, MachineStatus)> GetMachineStatus()
-        {
-            var Status = Enums.MachineStatus.Disconnect;
-
-           // sv_iActState
-
-           // return GD_OpcUaClient.AsyncReadNode<bool>(StampingOpcUANode.Feeding1.sv_rFeedingPosition, out Position);
-            return (false,Status);
-        }
 
         public async Task<bool> Reset()
         {
@@ -235,76 +199,6 @@ namespace GD_MachineConnect
             await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, true);
             await Task.Delay(100);
             return await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, false);
-        }
-
-
-
-
-        public async Task<(bool, int)> GetSeparateBoxNumber()
-        {
-            return await GD_OpcUaClient.AsyncReadNode<int>(StampingOpcUANode.Stacking1.sv_iThisStation);
-        }
-
-        public async Task<(bool, SeparateSettingModel)> GetSeparateSetting()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<(bool, StampingTypeModel)> GetSingleStampingType(int Index)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<(bool, TimingSettingModel)> GetTimingSetting()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> SetAxisSetting(AxisSettingModel AxisSetting)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> SetEngineerSetting(EngineerSettingModel EngineerSetting)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> SetFeedingPosition(float Position)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_rServoMovePos, Position);
-        }
-
-        public async Task<bool> SetInputOutput(InputOutputModel InputOutput)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> SetMachanicalSpecification(MachanicalSpecificationModel MachanicalSpecification)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> SetSeparateBoxNumber(int boxIndex)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Stacking1.sv_iThisStation, boxIndex);
-        }
-
-        public async Task<bool> SetSeparateSetting(SeparateSettingModel SeparateSetting)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> SetSingleStampingTypeList(int Index, StampingTypeModel StampingType)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<bool> SetTimingSetting(TimingSettingModel TimingSetting)
-        {
-            throw new NotImplementedException();
         }
 
 
@@ -1483,123 +1377,6 @@ namespace GD_MachineConnect
         }
 
 
-
-
-
-
-        /*
-        public async Task<(bool,float)> GetFeedingXFwdSetupVelocity()
-        {
-            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}");
-        }*/
-
-        /*public async Task<(bool, float)> GetFeedingXBwdSetupVelocity()
-        {
-
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}");
-        }*/
-
-        /*public async Task<bool> SetFeedingXFwdSetupVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwdSetup}", SpeedPercent);
-        }*/
-
-
-        /*public async Task<bool> SetFeedingXBwdSetupVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwdSetup}", SpeedPercent);
-
-        }*/
-
-        /*public async Task<(bool,float)> GetFeedingXFwdVelocity()
-        {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstFwd}");
-        }*/
-
-        /* public async Task<(bool, float)> GetFeedingXBwdVelocity()
-         {
-        return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.Feeding1.sv_ConstBwd}");
-         }*/
-
-        /*  public async Task<bool> SetFeedingXFwdVelocity(float SpeedPercent)
-          {
-              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstFwd}", SpeedPercent);
-          }*/
-
-        /*  public async Task<bool> SetFeedingXBwdVelocity(float SpeedPercent)
-          {
-              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_ConstBwd}", SpeedPercent);
-          }*/
-
-        /*public async Task<(bool, float)> GetEngravingFeedingYFwdSetupVelocity()
-        {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}");
-
-        }*/
-
-        /*public async Task<(bool, float)> GetEngravingFeedingYBwdSetupVelocity()
-        {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}");
-
-        }*/
-
-        /*public async Task<bool> SetEngravingFeedingYFwdSetupVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwdSetup}",  SpeedPercent);
-
-        }*/
-
-        /*public async Task<bool> SetEngravingFeedingYBwdSetupVelocity(float SpeedPercent)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwdSetup}",  SpeedPercent);
-        }*/
-
-        /*  public async Task<(bool, float)> GetEngravingFeedingYFwdVelocity()
-          {
-              return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}");
-          }*/
-
-        /*  public async Task<(bool, float)> GetEngravingFeedingYBwdVelocity()
-          {
-         return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}");
-          }*/
-
-        /* public async Task<bool> SetEngravingFeedingYFwdVelocity(float SpeedPercent)
-         {
-             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstFwd}", SpeedPercent);
-
-         }*/
-
-        /*public async Task<bool> SetEngravingFeedingYBwdVelocity(float SpeedPercent)
-        {
-
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_ConstBwd}", SpeedPercent);
-        }*/
-
-
-        /*public async Task<(bool, float)> GetEngravingFeedingA_CW_Velocity( )
-        {
-       return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}");
-
-        }
-
-        public async Task<(bool, float)> GetEngravingFeedingA_CCW_Velocity()
-        {
-            return await GD_OpcUaClient.AsyncReadNode<float>($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}");
-        }*/
-
-        /*  public async Task<bool> SetEngravingFeedingA_CW_Velocity(float SpeedPercent)
-          {
-              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCW}", SpeedPercent);
-          }
-
-          public async Task<bool> SetEngravingFeedingA_CCW_Velocity(float SpeedPercent)
-          {
-
-              return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_ConstRotateCCW}", SpeedPercent);
-          }*/
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -1618,30 +1395,6 @@ namespace GD_MachineConnect
         {
             return await GD_OpcUaClient.SubscribeNodesDataChangeAsync<T>(nodeList);
         }
-
-
-
-
-        public async Task<(bool,T)> ReadNode<T>(string NodeTreeString)
-        {
-            return await GD_OpcUaClient.AsyncReadNode<T>(NodeTreeString);
-        }
-        public async Task<bool> WriteNode<T>(string NodeTreeString, T WriteValue)
-        {
-            return await GD_OpcUaClient.AsyncWriteNode(NodeTreeString, WriteValue);
-        }
-
-
-
-        /*  public async Task<bool> ReadAllReference(string NodeTreeString, out List<GD_OpcUaHelperClient.NodeTypeValue> NodeValue)
-          {
-              return GD_OpcUaClient.ReadAllReference(NodeTreeString, out NodeValue);
-          }*/
-
-
-
-
-
 
 
 

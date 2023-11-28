@@ -247,7 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\MachineStatus.cs" />
-    <Compile Include="GD_Stamping_Opcua.cs" />
     <Compile Include="Machine\GD_OpcUaFxClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

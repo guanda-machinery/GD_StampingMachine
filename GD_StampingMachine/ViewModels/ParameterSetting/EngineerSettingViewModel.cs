@@ -103,7 +103,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 try
                 {
-                        await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
+                    //    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.TestConnect();
 
                 }
                 catch (Exception ex)

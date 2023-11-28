@@ -50,9 +50,10 @@ namespace GD_MachineConnect.Machine
 
         }
 
-
-        public GD_OpcUaFxClient(string hostPath , int port =0 , string dataPath = null, OpcUserIdentity userIdentity = null)
+        public GD_OpcUaFxClient(string hostPath, int port = 0, string dataPath = null, string user = null, string password=null) 
         {
+            Opc.UaFx.Client.OpcClientIdentity userIdentity = new(user, password);
+
             HostPath = hostPath;
             var baseUrl = CombineUrl(hostPath, port, dataPath);
             m_OpcUaClient = new OpcClient(baseUrl.ToString());
@@ -177,50 +178,8 @@ namespace GD_MachineConnect.Machine
             m_OpcUaClient.Disconnect();
           await  Task.WhenAny(isCreated, isDisconnected);
         }
-        /*
-    public async Task Disconnect()
-    {
-        m_OpcUaClient.Disconnect();
-        await Task.Run(async () => 
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            var cts = new CancellationTokenSource();
-            _ = MonitorConditionAsync(tcs, cts.Token);
-            await tcs.Task;
-        });
-    }
 
-    private async Task MonitorConditionAsync(TaskCompletionSource<bool> tcs, CancellationToken cancellationToken)
-    {
-        try
-        {
-            while (!tcs.Task.IsCompleted)
-            {
-                // 模拟异步操作
-                await Task.Delay(100);
 
-                // 检查条件是否已满足
-                if (!m_OpcUaClient.Connected)
-                {
-                    tcs.SetResult(true);
-                    break;
-                }
-                // 检查取消标记
-                cancellationToken.ThrowIfCancellationRequested();
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            // 操作被取消
-            tcs.SetCanceled();
-        }
-        catch (Exception ex)
-        {
-            // 处理其他异常
-            tcs.SetException(ex);
-        }
-    }
-    */
 
 
 
@@ -586,138 +545,6 @@ namespace GD_MachineConnect.Machine
 
 
 
-        /*
-        public async Task<List<OpcNodeAttribute>> ReadNoteAttributes(string NodeTreeString)
-        {
-            var nodeAttributesList = new List<OpcNodeAttribute>() ;
-            try
-            {
-                if (await this.AsyncConnect())
-                {
-                    OpcNodeAttribute[] nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
-                    //nodeAttributes = m_OpcUaClient.ReadNoteAttributes(NodeTreeString);
-                    foreach (var item in nodeAttributes)
-                    {
-                        Console.Write(string.Format("{0,-30}", item.Name));
-                        Console.Write(string.Format("{0,-20}", item.Type));
-                        Console.Write(string.Format("{0,-20}", item.StatusCode));
-                        Console.WriteLine(string.Format("{0,20}", item.Value));
-                    }
-                    Console.WriteLine("-------------------------------------");
-                    nodeAttributesList = nodeAttributes.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return nodeAttributesList;
-        }
-
-        */
-
-        /*public bool ReadAllReference(string NodeTreeString , out List<NodeTypeValue> NodeValue)
-        {
-            NodeValue = new List<NodeTypeValue>();
-
-            m_OpcUaClient.ConnectServer();
-            //取得所有節點
-            try
-            {
-                List<ReferenceDescription> referencesList = new List<ReferenceDescription>();
-
-                var NodeIDStringList = new List<string>() { NodeTreeString };
-                var ExistedNodeIDStringList = new List<string>();
-                while (true)
-                {
-                    var NodeSearchList = NodeIDStringList.Except(ExistedNodeIDStringList);
-                    var NextSearchList = new List<string>();
-                    foreach (var NodeIDString in NodeSearchList)
-                    {
-                        try
-                        {
-                            ReferenceDescription[] references = m_OpcUaClient.BrowseNodeReference(NodeIDString);
-                            foreach (var Ref in references)
-                            {
-
-                                //展開
-                                NextSearchList.Add(Ref.NodeId.ToString());
-                                referencesList.Add(Ref);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.ToString());
-                        }
-                    }
-                    ExistedNodeIDStringList.AddRange(NodeSearchList);
-                    NodeIDStringList.AddRange(NextSearchList);
-
-                    if (NextSearchList.Count == 0)
-                        break;
-                }
-
-                //展開所有節點
-                var GetNodeValue = new List<NodeTypeValue>();
-                referencesList.ForEach(reference =>
-                {
-                    try
-                    {
-                        //ReadNoteAttributes(reference.NodeId.ToString());
-                        ReadNode(reference.NodeId.ToString(), out object NValue);
-
-                        GetNodeValue.Add(new NodeTypeValue()
-                        {
-                            NodeID = reference.NodeId,
-                            NodeDisplayName = reference.DisplayName,
-                            NodeValue = NValue
-                        });
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                });
-                //印出節點資料
-                GetNodeValue.ForEach(NValue =>
-                {
-                    try { 
-                    Type NodeType = null;
-                    if (NValue.NodeValue != null)
-                        NodeType = NValue.NodeValue.GetType();
-
-                    Console.Write(string.Format("{0,-20}", nameof(NValue.NodeID)));
-                    Console.WriteLine(string.Format("{0,0}", NValue.NodeID));
-                    Console.Write(string.Format("{0,-20}", nameof(NValue.NodeDisplayName)));
-                    Console.WriteLine(string.Format("{0,0}", NValue.NodeDisplayName));
-                    Console.Write(string.Format("{0,-20}", nameof(Type)));
-                    Console.WriteLine(string.Format("{0,0}", NodeType));
-                    Console.Write(string.Format("{0,-20}", nameof(NValue.NodeValue)));
-                    Console.WriteLine(string.Format("{0,0}", NValue.NodeValue));
-                    Console.WriteLine("".PadLeft(50, '-'));
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-
-                });
-
-
-                NodeValue = GetNodeValue;
-                return true;
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally 
-            {
-                m_OpcUaClient.Disconnect();
-            }
-            return false;
-        }*/
 
 
 
