@@ -174,7 +174,7 @@ namespace GD_StampingMachine.ViewModels
                     manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 });
 
-                CancellationTokenSource cts = new CancellationTokenSource();
+                CancellationTokenSource cts = new();
 
                 try
                 {
@@ -182,14 +182,19 @@ namespace GD_StampingMachine.ViewModels
                     //當剪切壓下時 將第一根設定為完成
                     _ = MonitorFirstIronPlateAsync(()=>StampMachineData.Cylinder_HydraulicCutting_IsCutPoint,cts);
                     _ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
+                   
+
                     //開始依序傳送資料
                     while (true)
                     {
                         if (token.IsCancellationRequested)
                             token.ThrowIfCancellationRequested();
-                        
+
                         //先等待連線
                         await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
+                        
+                        
+                        
                         //燈號
 
                         //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection
@@ -312,7 +317,6 @@ namespace GD_StampingMachine.ViewModels
                             sIronPlateName2 = string.IsNullOrEmpty(plateSecondValue)? string.Empty : plateSecondValue
                         };
 
-
                         try
                         {
                             await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.Rdatabit, 1000, token);
@@ -349,20 +353,24 @@ namespace GD_StampingMachine.ViewModels
                                     catch
                                     {
                                         await Task.Delay(100);
+                                        await Task.Yield();
                                     }
                                 }
                                 while (true);
-
+                                await Task.Delay(500);
                                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningDataSucessful");
 
                                 await Task.Delay(1000);
-                                readymachining.IsSended = true;
                                 readymachining.ID = autonum;
                             }
-                            await Task.Delay(100);
+                            await Task.Yield();
+
                         }
                         while (!sendhmi);
 
+                        //等待最後一支變成id
+                        await WaitForCondition.WaitAsync(() => StampMachineData.LastIronPlateID, readymachining.ID, token);
+                        readymachining.IsSended = true;
                     }
                 }
                 catch (OperationCanceledException oex)

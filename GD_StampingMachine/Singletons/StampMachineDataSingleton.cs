@@ -17,7 +17,6 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ParameterSetting;
-using Opc.Ua;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +27,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -1035,6 +1033,8 @@ namespace GD_StampingMachine.Singletons
                                     await SubscribeHydraulicPumpMotor(value => HydraulicPumpIsActive = value);
                                     await SubscribeRequestDatabit(async value => { await Task.Delay(1000); Rdatabit = value; });
 
+
+
                                     await SubscribeEngravingRotateStation(value =>
                                     { 
                                         EngravingRotateStation = value;
@@ -1043,6 +1043,19 @@ namespace GD_StampingMachine.Singletons
                                             Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
                                         }
                                     });
+
+                                    await SubscribeLastIronPlateID(value =>
+                                    {
+                                        try
+                                        {
+                                            LastIronPlateID = value;
+                                        }
+                                        catch
+                                        {
+
+                                        }
+                                    });
+
 
                                     //切割位置
                                     await SubscribeHydraulicCutting_Position_CutPoint(value =>
@@ -3156,6 +3169,15 @@ namespace GD_StampingMachine.Singletons
             get => _cylinder_HydraulicCutting_IsCutPoint; set { _cylinder_HydraulicCutting_IsCutPoint = value; OnPropertyChanged(); }
         }
 
+        private int _lastIronPlateID = 0;
+        /// <summary>
+        /// 最後一片的id
+        /// </summary>
+        public int LastIronPlateID
+        {
+            get => _lastIronPlateID; private set { _lastIronPlateID = value; OnPropertyChanged(); }
+        }
+
 
         /// <summary>
         /// 加工許可訊號
@@ -3325,8 +3347,28 @@ namespace GD_StampingMachine.Singletons
             return (false, 0);
         }
 
+        /// <summary>
+        /// 取得最後一片id
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, int)> GetLastIronPlateID()
+        {
+            if (await GD_OpcUaClient.AsyncConnect())
+            {
+                return await GD_OpcUaClient.AsyncReadNode<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID");
+         
+            }
+            return (false, 0);
+        }
 
-
+        /// <summary>
+        /// 訂閱最後一片id
+        /// </summary>
+        /// <param name="action"></param>
+        public async Task<bool> SubscribeLastIronPlateID(Action<int> action)
+        {
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID", action, 200, true);
+        }
 
 
 
