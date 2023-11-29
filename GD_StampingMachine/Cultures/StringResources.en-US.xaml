@@ -295,7 +295,7 @@
 
     <!--Method-->
 
-    
+
     <sys:String x:Key="Text_notify">通知</sys:String>
     <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>

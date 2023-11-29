@@ -122,7 +122,7 @@ namespace GD_MachineConnect.Machine
                 if (disposedValue)
                     return false;
 
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
                     try
                     {

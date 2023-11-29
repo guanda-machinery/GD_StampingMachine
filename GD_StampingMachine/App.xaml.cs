@@ -22,15 +22,15 @@ namespace GD_StampingMachine
     public partial class App : Application
     {
 
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override  void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
 
             var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName, out bool ret);
-            if (!ret)
+            if (ret)
             {
-                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_AskCloseProgram"));
+                 MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
 

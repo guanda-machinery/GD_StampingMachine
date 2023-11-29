@@ -14,44 +14,25 @@ namespace GD_CommonLibrary.Method
     {
 
 
-        public static async MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
+        public static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
-            MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
-    MessageTitle,
-    MB_Button,
-    MB_Image,
-    MessageBoxResult.None,
-    MessageBoxOptions.None,
-    DevExpress.Xpf.Core.FloatingMode.Window);
+            var NewWindow = new Window
+            {
+                Topmost = true
+            };
+            var MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
+                MessageTitle,    MB_Button,    MB_Image,    MessageBoxResult.None,    MessageBoxOptions.None,    DevExpress.Xpf.Core.FloatingMode.Window);
+            return MessageBoxReturn;
         }
 
         public static async Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
-                MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
+            MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
             await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
-                var NewWindow = new Window
-                {
-                    Topmost = true
-                };
-          
-                this.Show(NewWindow, MessageString,
-                    MessageTitle,
-                    MB_Button,
-                    MB_Image,
-                    MessageBoxResult.None,
-                    MessageBoxOptions.None,
-                    DevExpress.Xpf.Core.FloatingMode.Window);
+                MessageBoxReturn= Show(MessageTitle, MessageString,MB_Button,MB_Image);
             }));
-
             return MessageBoxReturn;
-        }
-
-
-        public static MessageBoxResult ShowYesNo(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)
-        {
-            return await ShowAsync(MessageTitle, MessageString,
-                MessageBoxButton.YesNo, BoxImage);
         }
 
 

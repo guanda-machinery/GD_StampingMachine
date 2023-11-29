@@ -28,9 +28,12 @@ namespace GD_StampingMachine
             InitializeComponent();
         }
 
-        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var MessageBoxReturn =  MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_AskCloseProgram"));
+            var MessageBoxReturn =  MessageBoxResultShow.Show(
+                (string)Application.Current.TryFindResource("Text_notify"), 
+                (string)Application.Current.TryFindResource("Text_AskCloseProgram") ,
+                  MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
             if (MessageBoxReturn == MessageBoxResult.Yes)
             {
                 e.Cancel = false;

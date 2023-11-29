@@ -345,8 +345,9 @@
     
     <!--Method-->
 
-    
+
     <sys:String x:Key="Text_notify">通知</sys:String>
+    <sys:String x:Key="Text_ProgramisAlreadyOpen">程式已經開啟</sys:String>
     <sys:String x:Key="Text_AskCloseProgram">是否要結束程式</sys:String>
     <sys:String x:Key="Text_AskDelProject">是否要刪除專案</sys:String>
     <sys:String x:Key="Text_TSProjectExistedInBox">該排版專案有專案存在於加工盒內，</sys:String>
