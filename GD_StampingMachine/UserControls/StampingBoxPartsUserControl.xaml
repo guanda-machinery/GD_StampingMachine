@@ -368,6 +368,9 @@
                                 <Style TargetType="Border" >
                                     <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
                                     <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Row.IsSended }" Value="true">
+                                            <Setter Property="Background" Value="{DynamicResource DataMatrixIsSendedSolidColorBrush}"/>
+                                        </DataTrigger>
                                         <DataTrigger Binding="{Binding Row.DataMatrixIsFinish }" Value="true">
                                             <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
                                         </DataTrigger>

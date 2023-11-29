@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.Xpf.WindowsUI;
+using GD_CommonLibrary.Method;
 using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
@@ -27,20 +28,11 @@ namespace GD_StampingMachine
             InitializeComponent();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var MessageBoxReturn = WinUIMessageBox.Show(new Window(),
-    (string)Application.Current.TryFindResource("Text_AskCloseProgram"),
-    (string)Application.Current.TryFindResource("Text_notify"),
-    MessageBoxButton.YesNo,
-    MessageBoxImage.Exclamation,
-    MessageBoxResult.None,
-    MessageBoxOptions.None,
-    FloatingMode.Window);
-
+            var MessageBoxReturn = await MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_AskCloseProgram"));
             if (MessageBoxReturn == MessageBoxResult.Yes)
             {
-
                 e.Cancel = false;
             }
             else
@@ -48,8 +40,6 @@ namespace GD_StampingMachine
                 e.Cancel = true;
                 return;
             }
-
-
 
         }
 

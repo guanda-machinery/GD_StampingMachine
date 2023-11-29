@@ -52,7 +52,7 @@ namespace GD_StampingMachine.Singletons
         //private static readonly object thisLock = new object();
 
         private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
-        public async void AddLogData(string SourceName, string LogString, bool IsAlarm = false)
+        public async Task AddLogDataAsync(string SourceName, string LogString, bool IsAlarm = false)
         {
             try
             {
@@ -66,59 +66,64 @@ namespace GD_StampingMachine.Singletons
                     ResourceString = LogString;
 
                 var OperatingLog = (new OperatingLogModel(DateTime.Now, LogSource, ResourceString, IsAlarm));
-                await System.Windows.Application.Current.Dispatcher.InvokeAsync((Action)(() =>
+                await System.Windows.Application.Current.Dispatcher.InvokeAsync((() =>
                 {
-                    Singletons.LogDataSingleton.Instance.DataObservableCollection.Add(new OperatingLogViewModel(OperatingLog));
+                    this.DataObservableCollection.Add(new OperatingLogViewModel(OperatingLog));
                 }));
-                await semaphoreSlim.WaitAsync();
-                try
-                {
-                    const string LogFileDirectory = "Logs";
-                    string LogFileName = System.IO.Path.Combine(LogFileDirectory, $"Log-{DateTime.Now.ToString("yyyy-MM-dd")}");
-                    LogFileName += ".csv";
-                    CsvFileManager csvManager = new();
-                    //嘗試寫入被鎖定的檔案
-                    if (Singletons.LogDataSingleton.Instance.TempOperatingLog.Count > 0)
-                    {
-                        var SuccessfulWritedFile = new List<string>();
-                        foreach (var pair in Singletons.LogDataSingleton.Instance.TempOperatingLog)
-                        {
-                            if (!GD_CommonLibrary.Extensions.CommonExtensions.IsFileLocked(pair.Key))
-                            {
-                                csvManager.WriteCSVFileIEnumerable(pair.Key, pair.Value, true);
-                                SuccessfulWritedFile.Add(pair.Key);
-                            }
-                        }
-                        SuccessfulWritedFile.ForEach(_file =>
-                        {
-                            Singletons.LogDataSingleton.Instance.TempOperatingLog.Remove(_file);
-                        });
 
-                    }
-                    if (!GD_CommonLibrary.Extensions.CommonExtensions.IsFileLocked(LogFileName))
+
+                _ = Task.Run(async() =>
+                {
+                    await semaphoreSlim.WaitAsync();
+                    try
                     {
-                        csvManager.WriteCSVFile(LogFileName, OperatingLog, true); ;
-                    }
-                    else
-                    {
-                        if (Singletons.LogDataSingleton.Instance.TempOperatingLog.TryGetValue(LogFileName, out var OperatingLogCsvList))
+                        const string LogFileDirectory = "Logs";
+                        string LogFileName = System.IO.Path.Combine(LogFileDirectory, $"Log-{DateTime.Now.ToString("yyyy-MM-dd")}");
+                        LogFileName += ".csv";
+                        CsvFileManager csvManager = new();
+                        //嘗試寫入被鎖定的檔案
+                        if (this.TempOperatingLog.Count > 0)
                         {
-                            OperatingLogCsvList.Add(OperatingLog);
+                            var SuccessfulWritedFile = new List<string>();
+                            foreach (var pair in Singletons.LogDataSingleton.Instance.TempOperatingLog)
+                            {
+                                if (!GD_CommonLibrary.Extensions.CommonExtensions.IsFileLocked(pair.Key))
+                                {
+                                    csvManager.WriteCSVFileIEnumerable(pair.Key, pair.Value, true);
+                                    SuccessfulWritedFile.Add(pair.Key);
+                                }
+                            }
+                            SuccessfulWritedFile.ForEach(_file =>
+                            {
+                                Singletons.LogDataSingleton.Instance.TempOperatingLog.Remove(_file);
+                            });
+
+                        }
+                        if (!GD_CommonLibrary.Extensions.CommonExtensions.IsFileLocked(LogFileName))
+                        {
+                            csvManager.WriteCSVFile(LogFileName, OperatingLog, true); ;
                         }
                         else
                         {
-                            Singletons.LogDataSingleton.Instance.TempOperatingLog[LogFileName] = new List<OperatingLogModel>() { OperatingLog };
+                            if (this.TempOperatingLog.TryGetValue(LogFileName, out var OperatingLogCsvList))
+                            {
+                                OperatingLogCsvList.Add(OperatingLog);
+                            }
+                            else
+                            {
+                                this.TempOperatingLog[LogFileName] = new List<OperatingLogModel>() { OperatingLog };
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
+                    catch (Exception ex)
+                    {
 
-                }
-                finally
-                {
-                    semaphoreSlim.Release();
-                }
+                    }
+                    finally
+                    {
+                        semaphoreSlim.Release();
+                    }
+                });
                 //將錯誤資料記錄下來
             }
             catch (Exception ex)

@@ -69,7 +69,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 return new AsyncRelayCommand(async (CancellationToken token) =>
                 {
-                    Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "btnAddProject");
+                    Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, "btnAddProject");
                     if (NewProjectDistribute.ProjectDistributeName == null)
                     {
                         await MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmpty();

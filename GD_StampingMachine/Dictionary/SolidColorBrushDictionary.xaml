@@ -47,6 +47,7 @@
 
 
     <SolidColorBrush x:Key="NoneIsFinishSolidColorBrush" Color="White"/>
+    <SolidColorBrush x:Key="DataMatrixIsSendedSolidColorBrush" Color="Gray"/>
     <SolidColorBrush x:Key="DataMatrixIsFinishSolidColorBrush" Color="#e82127"/>
     <SolidColorBrush x:Key="ShearingIsFinishSolidColorBrush" Color="#ff9900"/>
     <SolidColorBrush x:Key="EngravingIsFinishSolidColorBrush" Color="#25cb55"/>

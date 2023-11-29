@@ -12,6 +12,19 @@ namespace GD_CommonLibrary.Method
 {
     public class MessageBoxResultShow
     {
+
+
+        public static async MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
+        {
+            MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
+    MessageTitle,
+    MB_Button,
+    MB_Image,
+    MessageBoxResult.None,
+    MessageBoxOptions.None,
+    DevExpress.Xpf.Core.FloatingMode.Window);
+        }
+
         public static async Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
                 MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
@@ -22,7 +35,7 @@ namespace GD_CommonLibrary.Method
                     Topmost = true
                 };
           
-                MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
+                this.Show(NewWindow, MessageString,
                     MessageTitle,
                     MB_Button,
                     MB_Image,
@@ -34,6 +47,12 @@ namespace GD_CommonLibrary.Method
             return MessageBoxReturn;
         }
 
+
+        public static MessageBoxResult ShowYesNo(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)
+        {
+            return await ShowAsync(MessageTitle, MessageString,
+                MessageBoxButton.YesNo, BoxImage);
+        }
 
 
         public static async Task<MessageBoxResult> ShowYesNoAsync(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)

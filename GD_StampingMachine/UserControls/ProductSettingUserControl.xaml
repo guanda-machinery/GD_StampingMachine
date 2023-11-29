@@ -608,7 +608,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnFinish}" IsEnabled="{Binding Row.IsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
+                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnFinish}" IsEnabled="{Binding Row.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Row.ProjectFinishCommand}" />
@@ -617,7 +617,7 @@
                                         </i:Interaction.Triggers>
                                     </Button>
                                     <Button MinWidth="70" Height="30" Content="{DynamicResource btnCancelFinish}" Style="{StaticResource SiegCustomButton_Dark}"
-                                            IsEnabled="{Binding Row.IsFinish}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}" >
+                                            IsEnabled="{Binding Row.ProductProjectIsFinish}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}" >
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Row.ProjectFinishCancelCommand}" />
@@ -654,7 +654,7 @@
                     <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="{Binding ProductProjectName}" HorizontalAlignment="Center" FontSize="20" Margin="15,0"/>
                     <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="{Binding SheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
 
-                    <StackPanel Orientation="Horizontal" Margin="15,0"  Visibility="{Binding IsFinish, Converter={dx:BooleanToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Margin="15,0"  Visibility="{Binding ProductProjectIsFinish, Converter={dx:BooleanToVisibilityConverter}}">
                         <TextBlock Text="[" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
                         <TextBlock Text="{DynamicResource Text_FinishedProject}" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
                         <TextBlock Text="]" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
@@ -709,7 +709,7 @@
                                               HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Content="{DynamicResource btnExit}" />
 
-                        <StackPanel IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" Orientation="Horizontal">
+                        <StackPanel IsEnabled="{Binding ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}" Orientation="Horizontal">
                             <Button  Name="AddParameterToggleButton"
                                            Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
@@ -1488,8 +1488,8 @@
                  BorderThickness="0"  
                  BorderBrush="#595E60" >
 
-                <dxg:GridControl Name="ProjectGridControl"  
-                                     IsEnabled="{Binding IsFinish, Converter={dx:BoolInverseConverter}}" 
+                <dxg:GridControl x:Name="ProjectGridControl"    
+                             
                                       Background="Transparent"
                                       ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                       DataAreaBackground="Transparent" 
@@ -1510,7 +1510,7 @@
                     
 
                     <dxg:GridControl.View >
-                        <dxg:TableView  
+                        <dxg:TableView    
                                 SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}"
 
                                 AllowPaging="True"
@@ -1731,14 +1731,17 @@
                         </dxg:GridColumn.HeaderStyle>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="{DynamicResource btnEdit}" Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50"/>
+                                <Button Content="{DynamicResource btnEdit}"     
+                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_Common:InvertBooleanConverter}}"
+                                        Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50"/>
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>
                     </dxg:GridColumn>
 
                     <!--https://www.grapecity.com/blogs/using-mvvm-to-remove-rows-from-wpf-datagrid-->
                     <!--刪除指令-->
-                    <dxg:GridColumn Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn 
+                        Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.HeaderStyle>
                             <Style TargetType="dxg:BaseGridHeader">
                                 <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
@@ -1749,6 +1752,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Height="30" MinWidth="50"
+                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_Common:InvertBooleanConverter}}"
                                         Content="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>

@@ -35,9 +35,7 @@ namespace GD_MachineConnect.Machine
         {
             if (!disposedValue)
             {
-                await semaphoreSlim.WaitAsync();
-                await DisconnectAsync();
-                semaphoreSlim.Release();
+                Disconnect();
                 disposedValue = true;
             }
 
@@ -58,24 +56,11 @@ namespace GD_MachineConnect.Machine
             var baseUrl = CombineUrl(hostPath, port, dataPath);
             m_OpcUaClient = new OpcClient(baseUrl.ToString());
             m_OpcUaClient.Security.UserIdentity = userIdentity;
-            m_OpcUaClient.SessionTimeout = 10000;
+            m_OpcUaClient.SessionTimeout = 3600000;
             m_OpcUaClient.StateChanged += (sender, e) =>
             {
-                _isConnected = e.NewState == OpcClientState.Connected;
+                IsConnected = e.NewState == OpcClientState.Connected;
             };
-
-            m_OpcUaClient.Connected
-                += (sender, e) =>
-                {
-                    _isConnected = true;
-                };
-
-            m_OpcUaClient.Disconnected
-                += (sender, e) =>
-                {
-                    _isConnected = false;
-                };
-
         }
 
 
@@ -98,8 +83,7 @@ namespace GD_MachineConnect.Machine
 
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        private bool _isConnected;
-        public bool IsConnected { get => _isConnected; }
+        public bool IsConnected { get; private set; }
         public async Task<bool> AsyncConnect()
         {
             if(disposedValue)
@@ -142,9 +126,9 @@ namespace GD_MachineConnect.Machine
                 {
                     try
                     {
-                        if (!IsConnected)
+                        if (m_OpcUaClient.State != OpcClientState.Connected)
                         {
-                            m_OpcUaClient.OperationTimeout = 60000;
+                            m_OpcUaClient.OperationTimeout = OpcClient.DefaultSessionTimeout;
                             m_OpcUaClient.Connect();
                             ConnectException = null;
                             ret = true;
@@ -153,7 +137,6 @@ namespace GD_MachineConnect.Machine
                     catch (Exception ex)
                     {
                         ConnectException = ex;
-                       await DisconnectAsync();
                     }
                     finally
                     {
@@ -167,16 +150,10 @@ namespace GD_MachineConnect.Machine
 
         public Exception ConnectException { get;private set; }
 
-        public async Task DisconnectAsync()
+        public void Disconnect()
         {
+            m_OpcUaClient.SessionTimeout=1000;
             m_OpcUaClient.Disconnect();
-            var cts = new CancellationTokenSource(60000);
-
-            var isCreated = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Created, cts.Token);
-            var isDisconnected = WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Disconnected, cts.Token);
-       
-            m_OpcUaClient.Disconnect();
-          await  Task.WhenAny(isCreated, isDisconnected);
         }
 
 
@@ -198,7 +175,7 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (m_OpcUaClient.State == OpcClientState.Connected)
                     {
                         var result = await Task.Run(() =>
                         {
@@ -243,7 +220,7 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (m_OpcUaClient.State== OpcClientState.Connected)
                     {
                         // var tags = NodeTrees.Keys.ToArray();
                         //var values = NodeTrees.Values.ToArray();
@@ -290,7 +267,7 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (m_OpcUaClient.State == OpcClientState.Connected)
                     {
                         //T NodeValue;
                         // NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);
@@ -343,7 +320,7 @@ namespace GD_MachineConnect.Machine
             {
                 try
                 {
-                    if (await AsyncConnect())
+                    if (m_OpcUaClient.State == OpcClientState.Connected)
                     {
                         //T NodeValue;
                         // NodeValue = m_OpcUaClient.ReadNode<T>(NodeID);

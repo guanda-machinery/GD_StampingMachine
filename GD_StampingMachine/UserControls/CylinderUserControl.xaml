@@ -57,17 +57,17 @@
                 <Button Name="UpRadioButton"  
                    IsEnabled="{Binding CylinderUp_IsEnabled}"
                     Grid.Column="1" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
-                             Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}" 
+                             Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"  
                              Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding CylinderUpPreviewMouseLeftButtonDownCommandParameter}"/>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
-                        <i:EventTrigger EventName="PreviewMouseUp">
-                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding CylinderUpPreviewMouseLeftButtonUpCommandParameter}"/>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
-                            <i:InvokeCommandAction Command="{Binding CylinderUpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding CylinderUpPreviewMouseLeftButtonUpCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -79,10 +79,13 @@
                                              Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{Binding CylinderMiddlePreviewMouseDownCommand}" CommandParameter="{Binding CylinderMiddlePreviewMouseDownCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="PreviewMouseUp">
-                            <i:InvokeCommandAction Command="{Binding CylinderMiddlePreviewMouseUpCommand}" CommandParameter="{Binding CylinderMiddlePreviewMouseUpCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommandParameter}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -93,11 +96,14 @@
               
                                               Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{Binding CylinderDownPreviewMouseDownCommand}" CommandParameter="{Binding CylinderDownPreviewMouseDownCommandParameter}"/>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
-                        <i:EventTrigger EventName="PreviewMouseUp">
-                            <i:InvokeCommandAction Command="{Binding CylinderDownPreviewMouseUpCommand}" CommandParameter="{Binding CylinderDownPreviewMouseUpCommandParameter}"/>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonUpCommandParameter}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>

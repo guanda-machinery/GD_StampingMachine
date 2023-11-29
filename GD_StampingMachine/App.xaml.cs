@@ -1,5 +1,7 @@
 ﻿
 using DevExpress.Mvvm;
+using DevExpress.Xpf.WindowsUI;
+using GD_CommonLibrary.Method;
 using GD_StampingMachine.Properties;
 using GD_StampingMachine.Singletons;
 using Microsoft.VisualStudio.Threading;
@@ -20,10 +22,18 @@ namespace GD_StampingMachine
     public partial class App : Application
     {
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
+
+            var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName, out bool ret);
+            if (!ret)
+            {
+                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_AskCloseProgram"));
+                Environment.Exit(0);
+            }
+
 
             //啟用掃描
             var ManagerVM = new DXSplashScreenViewModel
@@ -86,7 +96,7 @@ namespace GD_StampingMachine
             if (e.ExceptionObject is Exception exception)
             {
                 //紀錄異常
-                LogDataSingleton.Instance.AddLogData(nameof(App), exception.Message, true);
+                LogDataSingleton.Instance.AddLogDataAsync(nameof(App), exception.Message, true);
                 
                 //切斷機台連線
                 await StampMachineDataSingleton.Instance.DisposeAsync();

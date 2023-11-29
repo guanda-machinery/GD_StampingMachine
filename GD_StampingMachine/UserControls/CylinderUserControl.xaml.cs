@@ -67,47 +67,47 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
 
         public static readonly DependencyProperty CylinderUpCommandProperty =
             DependencyProperty.Register(nameof(CylinderUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty CylinderUpPreviewMouseLeftButtonDownCommandProperty =
-            DependencyProperty.Register(nameof(CylinderUpPreviewMouseLeftButtonDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty CylinderUpPreviewMouseLeftButtonUpCommandProperty =
-            DependencyProperty.Register(nameof(CylinderUpPreviewMouseLeftButtonUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty UpPreviewMouseLeftButtonDownCommandProperty =
+            DependencyProperty.Register(nameof(UpPreviewMouseLeftButtonDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty UpPreviewMouseLeftButtonUpCommandProperty =
+            DependencyProperty.Register(nameof(UpPreviewMouseLeftButtonUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
 
         public static readonly DependencyProperty CylinderMiddleCommandProperty =
             DependencyProperty.Register(nameof(CylinderMiddleCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty CylinderMiddlePreviewMouseDownCommandProperty =
-            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty CylinderMiddlePreviewMouseUpCommandProperty =
-            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty MiddlePreviewMouseLeftButtonDownCommandProperty =
+            DependencyProperty.Register(nameof(MiddlePreviewMouseLeftButtonDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty MiddleMiddlePreviewMouseLeftButtonUpCommandProperty =
+            DependencyProperty.Register(nameof(MiddleMiddlePreviewMouseLeftButtonUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
 
         public static readonly DependencyProperty CylinderDownCommandProperty =
             DependencyProperty.Register(nameof(CylinderDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty CylinderDownPreviewMouseDownCommandProperty =
-            DependencyProperty.Register(nameof(CylinderDownPreviewMouseDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty CylinderDownPreviewMouseUpCommandProperty =
-            DependencyProperty.Register(nameof(CylinderDownPreviewMouseUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty DownPreviewMouseLeftButtonDownCommandProperty =
+            DependencyProperty.Register(nameof(DownPreviewMouseLeftButtonDownCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty DownPreviewMouseLeftButtonUpCommandProperty =
+            DependencyProperty.Register(nameof(DownPreviewMouseLeftButtonUpCommand), typeof(ICommand), typeof(CylinderUserControl), new FrameworkPropertyMetadata());
 
 
 
         public static readonly DependencyProperty CylinderUpCommandParameterProperty =
             DependencyProperty.Register(nameof(CylinderUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderUpPreviewMouseLeftButtonDownCommandParameterProperty =
-            DependencyProperty.Register(nameof(CylinderUpPreviewMouseLeftButtonDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderUpPreviewMouseLeftButtonUpCommandParameterProperty =
-            DependencyProperty.Register(nameof(CylinderUpPreviewMouseLeftButtonUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty UpPreviewMouseLeftButtonDownCommandParameterProperty =
+            DependencyProperty.Register(nameof(UpPreviewMouseLeftButtonDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty UpPreviewMouseLeftButtonUpCommandParameterProperty =
+            DependencyProperty.Register(nameof(UpPreviewMouseLeftButtonUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
 
         public static readonly DependencyProperty CylinderMiddleCommandParameterProperty =
             DependencyProperty.Register(nameof(CylinderMiddleCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderMiddlePreviewMouseDownCommandParameterProperty =
-            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderMiddlePreviewMouseUpCommandParameterProperty =
-            DependencyProperty.Register(nameof(CylinderMiddlePreviewMouseUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty MiddlePreviewMouseLeftButtonDownCommandParameterProperty =
+            DependencyProperty.Register(nameof(MiddlePreviewMouseLeftButtonDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty MiddleMiddlePreviewMouseLeftButtonUpCommandParameterProperty =
+            DependencyProperty.Register(nameof(MiddleMiddlePreviewMouseLeftButtonUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
 
         public static readonly DependencyProperty CylinderDownCommandParameterProperty =
             DependencyProperty.Register(nameof(CylinderDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderDownPreviewMouseDownCommandParameterProperty =
-            DependencyProperty.Register(nameof(CylinderDownPreviewMouseDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
-        public static readonly DependencyProperty CylinderDownPreviewMouseUpCommandParameterProperty =
-            DependencyProperty.Register(nameof(CylinderDownPreviewMouseUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty DownPreviewMouseLeftButtonDownCommandParameterProperty =
+            DependencyProperty.Register(nameof(DownPreviewMouseLeftButtonDownCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
+        public static readonly DependencyProperty DownPreviewMouseLeftButtonUpCommandParameterProperty =
+            DependencyProperty.Register(nameof(DownPreviewMouseLeftButtonUpCommandParameter), typeof(object), typeof(CylinderUserControl), new FrameworkPropertyMetadata((object)null));
 
 
         /* public static readonly DependencyProperty CylinderUpRadioButtonProperty =
@@ -271,36 +271,36 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
         }
 
 
-        public ICommand CylinderUpPreviewMouseLeftButtonDownCommand
+        public ICommand UpPreviewMouseLeftButtonDownCommand
         {
-            get { return (ICommand)GetValue(CylinderUpPreviewMouseLeftButtonDownCommandProperty); }
-            set { SetValue(CylinderUpPreviewMouseLeftButtonDownCommandProperty, value); }
+            get { return (ICommand)GetValue(UpPreviewMouseLeftButtonDownCommandProperty); }
+            set { SetValue(UpPreviewMouseLeftButtonDownCommandProperty, value); }
         }
-        public ICommand CylinderUpPreviewMouseLeftButtonUpCommand
+        public ICommand UpPreviewMouseLeftButtonUpCommand
         {
-            get { return (ICommand)GetValue(CylinderUpPreviewMouseLeftButtonUpCommandProperty); }
-            set { SetValue(CylinderUpPreviewMouseLeftButtonUpCommandProperty, value); }
+            get { return (ICommand)GetValue(UpPreviewMouseLeftButtonUpCommandProperty); }
+            set { SetValue(UpPreviewMouseLeftButtonUpCommandProperty, value); }
         }
 
-        public ICommand CylinderMiddlePreviewMouseDownCommand
+        public ICommand MiddlePreviewMouseLeftButtonDownCommand
         {
-            get { return (ICommand)GetValue(CylinderMiddlePreviewMouseDownCommandProperty); }
-            set { SetValue(CylinderMiddlePreviewMouseDownCommandProperty, value); }
+            get { return (ICommand)GetValue(MiddlePreviewMouseLeftButtonDownCommandProperty); }
+            set { SetValue(MiddlePreviewMouseLeftButtonDownCommandProperty, value); }
         }
-        public ICommand CylinderMiddlePreviewMouseUpCommand
+        public ICommand MiddleMiddlePreviewMouseLeftButtonUpCommand
         {
-            get { return (ICommand)GetValue(CylinderMiddlePreviewMouseUpCommandProperty); }
-            set { SetValue(CylinderMiddlePreviewMouseUpCommandProperty, value); }
+            get { return (ICommand)GetValue(MiddleMiddlePreviewMouseLeftButtonUpCommandProperty); }
+            set { SetValue(MiddleMiddlePreviewMouseLeftButtonUpCommandProperty, value); }
         }
-        public ICommand CylinderDownPreviewMouseDownCommand
+        public ICommand DownPreviewMouseLeftButtonDownCommand
         {
-            get { return (ICommand)GetValue(CylinderDownPreviewMouseDownCommandProperty); }
-            set { SetValue(CylinderDownPreviewMouseDownCommandProperty, value); }
+            get { return (ICommand)GetValue(DownPreviewMouseLeftButtonDownCommandProperty); }
+            set { SetValue(DownPreviewMouseLeftButtonDownCommandProperty, value); }
         }
-        public ICommand CylinderDownPreviewMouseUpCommand
+        public ICommand DownPreviewMouseLeftButtonUpCommand
         {
-            get { return (ICommand)GetValue(CylinderDownPreviewMouseUpCommandProperty); }
-            set { SetValue(CylinderDownPreviewMouseUpCommandProperty, value); }
+            get { return (ICommand)GetValue(DownPreviewMouseLeftButtonUpCommandProperty); }
+            set { SetValue(DownPreviewMouseLeftButtonUpCommandProperty, value); }
         }
 
 
@@ -328,74 +328,74 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
         }
 
 
-        public object CylinderUpPreviewMouseLeftButtonDownCommandParameter
+        public object UpPreviewMouseLeftButtonDownCommandParameter
         {
             get
             {
-                return (object)GetValue(CylinderUpPreviewMouseLeftButtonDownCommandParameterProperty);
+                return (object)GetValue(UpPreviewMouseLeftButtonDownCommandParameterProperty);
             }
             set
             {
-                SetValue(CylinderUpPreviewMouseLeftButtonDownCommandParameterProperty, value);
+                SetValue(UpPreviewMouseLeftButtonDownCommandParameterProperty, value);
             }
         }
-        public object CylinderUpPreviewMouseLeftButtonUpCommandParameter
+        public object UpPreviewMouseLeftButtonUpCommandParameter
         {
             get
             {
-                return (object)GetValue(CylinderUpPreviewMouseLeftButtonUpCommandParameterProperty);
+                return (object)GetValue(UpPreviewMouseLeftButtonUpCommandParameterProperty);
             }
             set
             {
-                SetValue(CylinderUpPreviewMouseLeftButtonUpCommandParameterProperty, value);
-            }
-        }
-
-        public object CylinderMiddlePreviewMouseDownCommandParameter
-        {
-            get
-            {
-                return (object)GetValue(CylinderMiddlePreviewMouseDownCommandParameterProperty);
-            }
-            set
-            {
-                SetValue(CylinderMiddlePreviewMouseDownCommandParameterProperty, value);
+                SetValue(UpPreviewMouseLeftButtonUpCommandParameterProperty, value);
             }
         }
 
-        public object CylinderMiddlePreviewMouseUpCommandParameter
+        public object MiddlePreviewMouseLeftButtonDownCommandParameter
         {
             get
             {
-                return (object)GetValue(CylinderMiddlePreviewMouseUpCommandParameterProperty);
+                return (object)GetValue(MiddlePreviewMouseLeftButtonDownCommandParameterProperty);
             }
             set
             {
-                SetValue(CylinderMiddlePreviewMouseUpCommandParameterProperty, value);
+                SetValue(MiddlePreviewMouseLeftButtonDownCommandParameterProperty, value);
             }
         }
 
-        public object CylinderDownPreviewMouseDownCommandParameter
+        public object MiddleMiddlePreviewMouseLeftButtonUpCommandParameter
         {
             get
             {
-                return (object)GetValue(CylinderDownPreviewMouseDownCommandParameterProperty);
+                return (object)GetValue(MiddleMiddlePreviewMouseLeftButtonUpCommandParameterProperty);
             }
             set
             {
-                SetValue(CylinderDownPreviewMouseDownCommandParameterProperty, value);
+                SetValue(MiddleMiddlePreviewMouseLeftButtonUpCommandParameterProperty, value);
             }
         }
 
-        public object CylinderDownPreviewMouseUpCommandParameter
+        public object DownPreviewMouseLeftButtonDownCommandParameter
         {
             get
             {
-                return (object)GetValue(CylinderDownPreviewMouseUpCommandParameterProperty);
+                return (object)GetValue(DownPreviewMouseLeftButtonDownCommandParameterProperty);
             }
             set
             {
-                SetValue(CylinderDownPreviewMouseUpCommandParameterProperty, value);
+                SetValue(DownPreviewMouseLeftButtonDownCommandParameterProperty, value);
+            }
+        }
+
+        public object DownPreviewMouseLeftButtonUpCommandParameter
+        {
+            get
+            {
+                return (object)GetValue(DownPreviewMouseLeftButtonUpCommandParameterProperty);
+            }
+            set
+            {
+                SetValue(DownPreviewMouseLeftButtonUpCommandParameterProperty, value);
             }
         }
 

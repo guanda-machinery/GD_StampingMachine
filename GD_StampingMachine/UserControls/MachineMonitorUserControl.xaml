@@ -102,7 +102,11 @@
                     </Grid>
 
                     <Grid Grid.ColumnSpan="2"    Grid.Row="3" >
-                        <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="95"/>
@@ -111,7 +115,7 @@
                                 <RowDefinition MinHeight="110"/>
                             </Grid.RowDefinitions>
                             <Border Background="White" Grid.ColumnSpan="2" Margin="0,0,0,0" />
-                            
+
                             <Border Width="46" HorizontalAlignment="Right" Margin="0,0,380,0" >
                                 <Border.Style>
                                     <Style TargetType="Border" >
@@ -130,31 +134,9 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
-                            
-                            
-                            <Border Grid.Column="1" Margin="-0,0,0,0" Width="46"  HorizontalAlignment="Right" >
-                                <Border.Style>
-                                    <Style TargetType="Border" >
-                                        <Setter Property="Background" Value="Gray"/>
-                                        <Style.Triggers>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
-                                                     Value="true" />
-                                                    <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Cylinder_HydraulicCutting_IsCutPoint}" 
-                                                     Value="true" />
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="Background"  Value="Green"/>
-                                            </MultiDataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-
-                            </Border>
                         </Grid>
-
-
-                        <ItemsControl  FlowDirection="RightToLeft"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Standard"
+                        <ItemsControl  Grid.Column="0"
+                            FlowDirection="RightToLeft"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Standard"
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=True}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
@@ -216,100 +198,6 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
-
-
-                        <ListBox  Visibility="Collapsed"
-                            HorizontalAlignment="Right"  Width="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StripSteelLength}"
-                            MinHeight="120"    
-                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
-                                                             ScrollViewer.VerticalScrollBarVisibility="Disabled"  >
-                            <ListBox.RenderTransform>
-                                <TranslateTransform X="0" Y="0" />
-                            </ListBox.RenderTransform>
-
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem" >
-                                    <Setter Property="Canvas.Right" Value="{Binding SendMachineCommandVM.AbsoluteMoveDistanceAnimation , UpdateSourceTrigger=PropertyChanged}"/>
-                                    <Setter Property="Visibility">
-                                        <Setter.Value>
-                                            <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
-                                                <Binding Path="SendMachineCommandVM.WorkIndex" Converter="{GD_Common:ObjectIsEqualToBooleanConverter Invert=True}" ConverterParameter="{StaticResource MinusOne}"/>
-                                                <Binding Path="SendMachineCommandVM.IsFinish"  Converter="{GD_Common:InvertBooleanConverter}"/>
-                                            </MultiBinding>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="LayoutTransform" >
-                                        <Setter.Value>
-                                            <RotateTransform Angle="90"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListBoxItem">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border  Margin="5,0,2,0"
-                                                                                        BorderThickness="1" BorderBrush="Black" CornerRadius="5"
-                                                                                        HorizontalAlignment="Center"  Background="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
-                                                                                        >
-                                                        <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"  
-                                                                                      Visibility="{Binding SendMachineCommandVM.AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
-                                                                                    ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
-                                                            <Grid.LayoutTransform>
-                                                                <ScaleTransform ScaleX="0.11"
-                                                                                                        ScaleY="0.11" />
-                                                            </Grid.LayoutTransform>
-                                                            <Grid DataContext="{Binding SettingBaseVM}">
-                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
-                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                                                                                             PlateRowBackground="Transparent"      FontStampBackground="Transparent" 
-                                                                                                    RedMeasurementLineVisibility="Collapsed" />
-                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
-                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                                                                                             PlateRowBackground="Transparent"                  FontStampBackground="Transparent"
-                                                                                                    RedMeasurementLineVisibility="Collapsed" />
-                                                            </Grid>
-
-
-                                                        </Grid>
-                                                    </Border>
-                                                    <materialDesign:Card Grid.Column="1" Width="10" Margin="0,5" 
-                                                                                            Background="Transparent"  
-                                                                                                UniformCornerRadius="0">
-                                                        <ProgressBar Width="auto" Height="auto" 
-                                                                                                         Visibility="{Binding IsFinish , Converter={dx:BooleanToVisibilityConverter Invert=True}}"
-                                                                                                         Background="Transparent"     
-                                                                                                    Foreground="{Binding SendMachineCommandVM.WorkingSteelBeltStampingStatus, Converter={local:EnumToBrushesConverter}}"
-                                            Opacity="0.9" Minimum="0" Maximum="100"  Value="{Binding SendMachineCommandVM.WorkingProgress}"
-                                                             Style="{StaticResource  MaterialDesignLinearProgressBar}" 
-                                                             IsIndeterminate="False">
-                                                            <ProgressBar.LayoutTransform>
-                                                                <RotateTransform Angle="270"/>
-                                                            </ProgressBar.LayoutTransform>
-                                                            <i:Interaction.Behaviors>
-                                                                <GD_Common:ProgresBarAnimateBehavior />
-                                                            </i:Interaction.Behaviors>
-
-                                                        </ProgressBar>
-
-                                                    </materialDesign:Card>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Canvas/>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
-
-
                     </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
 
@@ -335,7 +223,7 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Vertical">
                                     <StackPanel.Resources>
                                         <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="White"/>
                                         <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#383838"/>
@@ -497,16 +385,16 @@
 
                                             </dxg:GridControl>
 
-                                    <StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Command="{Binding ArrangeWorkCommand}"
-                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowRightBold}"/>
+                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowDownBold}"/>
                                         <Button Command="{Binding ArrangeWorkCommand}"
-                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferRight}"/>
+                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferDown}"/>
 
+                                                <Button Command="{Binding CancelArrangeWorkCommand}"
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowUpBold}"/>
                                         <Button Command="{Binding CancelArrangeWorkCommand}"
-                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowLeftBold}"/>
-                                        <Button Command="{Binding CancelArrangeWorkCommand}"
-                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferLeft}"/>
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferUp}"/>
 
                                     </StackPanel>
 

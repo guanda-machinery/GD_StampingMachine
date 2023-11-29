@@ -137,7 +137,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
+                Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
                 //檔案已存在 詢問是否要覆蓋
                 if (ExistedIndex != -1)

@@ -84,7 +84,7 @@ namespace GD_StampingMachine.ViewModels
                 var saveTask =  ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
                 await Task.WhenAll(saveTask);
 
-                Singletons.LogDataSingleton.Instance.AddLogData(this.ViewModelName, "SaveProjectDistributeListFile");
+                Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, "SaveProjectDistributeListFile");
             }
             catch (Exception ex)
             {
@@ -131,7 +131,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
-                        Singletons.LogDataSingleton.Instance.AddLogData("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
+                        Singletons.LogDataSingleton.Instance.AddLogDataAsync("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
                         // Thread.Sleep(1000);
                         await Task.Delay(1000);
                     }

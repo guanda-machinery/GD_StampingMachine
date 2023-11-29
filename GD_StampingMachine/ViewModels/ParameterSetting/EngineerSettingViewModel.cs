@@ -142,8 +142,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 Properties.Settings.Default.ConnectOnStartUp = false;
                 Properties.Settings.Default.Save();// = false;
                 await Task.WhenAll( GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync() , Task.Delay(1000)) ;
-
-
             }, () => !_opcuaStopScanCommand.IsRunning);
         }
 

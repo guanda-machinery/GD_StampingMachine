@@ -409,6 +409,7 @@
     <sys:String x:Key="Connection_WaitRequsetSignal">等待機台交握訊號</sys:String>
     <sys:String x:Key="Connection_WritingMachiningData">正在寫入加工訊息</sys:String>
     <sys:String x:Key="Connection_WritingMachiningDataSucessful">加工訊息寫入成功</sys:String>
+    <sys:String x:Key="Connection_MachiningIsProcessing">加工訊息已進入排程</sys:String>
 
 
     <!--機台-->
