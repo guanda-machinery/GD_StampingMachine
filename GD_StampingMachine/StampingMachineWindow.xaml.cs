@@ -30,7 +30,7 @@ namespace GD_StampingMachine
 
         private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var MessageBoxReturn = await MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_AskCloseProgram"));
+            var MessageBoxReturn =  MessageBoxResultShow.ShowYesNo((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_AskCloseProgram"));
             if (MessageBoxReturn == MessageBoxResult.Yes)
             {
                 e.Cancel = false;
