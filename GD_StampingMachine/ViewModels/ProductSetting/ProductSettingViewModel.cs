@@ -137,7 +137,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
+               await  Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
                 //檔案已存在 詢問是否要覆蓋
                 if (ExistedIndex != -1)
@@ -157,7 +157,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         ProductProjectVMObservableCollection.Add(CreatedProjectVM.DeepCloneByJson());
                     }
-                    await SaveProductListSetting();
+                    await SaveProductListSettingAsync();
                 }
             }, () => !CreateProjectCommand.IsRunning);
         }
@@ -182,7 +182,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     SheetStampingTypeFormEnum.NormalSheetStamping, SheetStampingTypeFormEnum.QRSheetStamping
                 };
-                return System.Enum.GetValues(typeof(SheetStampingTypeFormEnum));
+                //return System.Enum.GetValues(typeof(SheetStampingTypeFormEnum));
             }
         }
 
@@ -222,11 +222,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         }
 
                         ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
-                        await SaveProductListSetting();
+                        await SaveProductListSettingAsync();
                     }
                 }
                 catch(Exception ex)
                 {
+                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message);
                     Debugger.Break();
                 }
             });
@@ -254,7 +255,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                         var index = ProductProjectVMObservableCollection.FindIndex(x => x == productProjectVM);
                         ProductProjectVMObservableCollection[index] = new ProductProjectViewModel(ReadProductProject);
-                       await this.SaveProductListSetting(); 
+                       await this.SaveProductListSettingAsync(); 
                         
                         await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                                       (string)Application.Current.TryFindResource("Text_LoadSuccessful"));
@@ -280,7 +281,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var saveList = ProductProjectVMObservableCollection.Select(obj => obj.SaveProductProjectAsync());
                 await Task.WhenAll(saveList);
 
-                var Result = await SaveProductListSetting();
+                var Result = await SaveProductListSettingAsync();
                 MethodWinUIMessageBox.SaveSuccessful(null, Result);
             });
         }
@@ -293,11 +294,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _saveProductListSettingCommand ??= new AsyncRelayCommand(async () =>
             {
-                await SaveProductListSetting();
+                await SaveProductListSettingAsync();
             });
         }
 
-        private async Task<bool> SaveProductListSetting()
+        private async Task<bool> SaveProductListSettingAsync()
         {
             //儲存一份路徑清單
             List<ProjectModel> PathList = new List<ProjectModel>();

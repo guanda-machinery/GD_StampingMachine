@@ -837,6 +837,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 catch(Exception ex)
                 {
 
+                    await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), ex.Message);
                 }
                 finally
                 {

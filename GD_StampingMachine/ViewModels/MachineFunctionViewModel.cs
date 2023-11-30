@@ -189,6 +189,7 @@ namespace GD_StampingMachine.ViewModels
                 catch (Exception ex)
                 {
 
+                    await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
                 }
                 finally
                 {
@@ -223,6 +224,7 @@ namespace GD_StampingMachine.ViewModels
                 catch (Exception ex)
                 {
 
+                    await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
                 }
                 finally
                 {

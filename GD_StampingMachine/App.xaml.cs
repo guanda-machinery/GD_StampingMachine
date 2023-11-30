@@ -89,23 +89,27 @@ namespace GD_StampingMachine
                 }
                 catch (Exception ex)
                 {
+                    _ = MessageBoxResultShow.ShowOKAsync("App", ex.Message);
                     System.Diagnostics.Debugger.Break();
                 }
             });
         }
 
-        private async void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)
             {
-                //紀錄異常
-                LogDataSingleton.Instance.AddLogDataAsync(nameof(App), exception.Message, true);
-                
-                //切斷機台連線
-                await StampMachineDataSingleton.Instance.DisposeAsync();
+                var ExTask= Task.Run(async () =>
+                {
+                    //紀錄異常
+                    await LogDataSingleton.Instance.AddLogDataAsync(nameof(App), exception.Message, true);
+                    //切斷機台連線
+                    await StampMachineDataSingleton.Instance.DisposeAsync();
+                    await MessageBoxResultShow.ShowOKAsync(nameof(App), exception.Message);
+                });
+                ExTask.Wait();
 
                 //顯示彈窗
-
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

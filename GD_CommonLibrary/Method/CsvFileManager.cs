@@ -150,7 +150,7 @@ namespace GD_StampingMachine.Method
             }
             catch (Exception ex)
             {
-                //Debugger.Break();
+                Console.WriteLine(ex.ToString());
                 return false;
             }
         }

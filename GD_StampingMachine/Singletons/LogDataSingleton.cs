@@ -117,7 +117,7 @@ namespace GD_StampingMachine.Singletons
                     }
                     catch (Exception ex)
                     {
-
+                        Console.WriteLine(ex.ToString());
                     }
                     finally
                     {
@@ -126,15 +126,13 @@ namespace GD_StampingMachine.Singletons
                 });
                 //將錯誤資料記錄下來
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Debugger.Break();
             }
             finally
             {
             }
-
-
         }
 
 

@@ -82,7 +82,7 @@ namespace GD_CommonLibrary
                     return System.Windows.Media.Brushes.Green;
                 }*/
 
-                return System.Windows.Media.Brushes.Violet;
+                //return System.Windows.Media.Brushes.Violet;
             }
 
            return null;

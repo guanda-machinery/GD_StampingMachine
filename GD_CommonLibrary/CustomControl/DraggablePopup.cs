@@ -41,7 +41,7 @@ namespace GD_CommonLibrary.GD_Popup
                 contents.MouseLeftButtonDown += Child_MouseLeftButtonDown;
                 contents.MouseLeftButtonUp += Child_MouseLeftButtonUp;
                 contents.MouseMove += Child_MouseMove;
-            } catch (Exception ex)
+            } catch (Exception)
             {
                 Debugger.Break();
             }

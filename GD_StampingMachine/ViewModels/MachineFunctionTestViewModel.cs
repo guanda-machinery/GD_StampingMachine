@@ -4,6 +4,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Grid;
 using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class MachineFunctionTestViewModel : GD_CommonLibrary.BaseViewModel
     {
-        public override string ViewModelName => throw new NotImplementedException();
+        public override string ViewModelName => "MachineFunctionTestViewModel";
 
         #region 機台移動命令
 
@@ -487,9 +488,9 @@ namespace GD_StampingMachine.ViewModels
                         if (false)
                         {
                             //單動
-                            await Task.Delay(3000);
-                            StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingIsFinish = true;
-                            StampingPlateProcessingSequenceVMObservableCollection[FIndex].SendMachineCommandVM.SteelBeltStampingStatus = StampingPlateProcessingSequenceVMObservableCollection[FIndex].SteelBeltStampingStatus;
+                            //await Task.Delay(3000);
+                            //StampingPlateProcessingSequenceVMObservableCollection[FIndex].ProcessingIsFinish = true;
+                            //StampingPlateProcessingSequenceVMObservableCollection[FIndex].SendMachineCommandVM.SteelBeltStampingStatus = StampingPlateProcessingSequenceVMObservableCollection[FIndex].SteelBeltStampingStatus;
                         }
                         else
                         {
@@ -547,7 +548,6 @@ namespace GD_StampingMachine.ViewModels
                                         }
 
 
-
                                         work.ProcessingIsFinish = true;
                                         work.SendMachineCommandVM.WorkingProgress = 100d;
                                         work.SendMachineCommandVM.IsWorking = false;
@@ -557,6 +557,7 @@ namespace GD_StampingMachine.ViewModels
                                     }
                                     catch (Exception ex)
                                     {
+                                        _ = LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
                                         Debugger.Break();
                                     }
                                 });
@@ -574,6 +575,7 @@ namespace GD_StampingMachine.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
 
                 }
             }, () => !_autoWorkCommand.IsRunning);

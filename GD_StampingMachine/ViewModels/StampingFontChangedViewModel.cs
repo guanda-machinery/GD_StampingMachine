@@ -333,6 +333,7 @@ namespace GD_StampingMachine.ViewModels
                             }
                             catch (Exception ex)
                             {
+                                await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message);
 
                             }
                             using (CancellationTokenSource cts = new(10000))
@@ -486,6 +487,7 @@ namespace GD_StampingMachine.ViewModels
                 catch (Exception ex)
                 {
 
+                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message);
                 }
             }
             , e => !_stamping_SelectionChangedCommand.IsRunning);
@@ -586,7 +588,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _compareFontsSettingBetweenMachineAndSoftwareCommand ??= new(async () =>
             {
-                if (await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftware(
+                if (await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftwareAsync(
                      StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection))
                 { 
                     await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),

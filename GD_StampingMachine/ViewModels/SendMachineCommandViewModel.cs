@@ -1,6 +1,7 @@
 ﻿using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.Singletons;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace GD_StampingMachine.ViewModels
     /// </summary>
     public class SendMachineCommandViewModel :BaseViewModel
     {
-        public override string ViewModelName => throw new NotImplementedException();
+        public override string ViewModelName => "SendMachineCommandViewModel";
 
         public SendMachineCommandViewModel()
         {
@@ -65,7 +66,7 @@ namespace GD_StampingMachine.ViewModels
 
                 cts?.Cancel();
                 cts = new CancellationTokenSource();
-                Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
                     try
                     {
@@ -112,7 +113,7 @@ namespace GD_StampingMachine.ViewModels
                     }
                     catch (Exception ex)
                     {
-
+                        await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
                     }
                     finally
                     {

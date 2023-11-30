@@ -120,7 +120,7 @@ namespace GD_StampingMachine.Method
         /// <summary>
         /// 無法建立專案
         /// </summary>
-        public static async Task CanNotCreateProjectFileNameIsEmpty()
+        public static async Task CanNotCreateProjectFileNameIsEmptyAsync()
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty") 

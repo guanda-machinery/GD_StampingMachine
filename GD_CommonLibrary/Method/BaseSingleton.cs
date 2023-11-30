@@ -108,7 +108,6 @@ namespace GD_CommonLibrary
             GC.SuppressFinalize(this);
         }
 
-
     }
 
 
