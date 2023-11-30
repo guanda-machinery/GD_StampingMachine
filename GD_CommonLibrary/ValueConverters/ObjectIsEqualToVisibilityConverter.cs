@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using DevExpress.Xpf.Gauges;
 using GD_CommonLibrary;
 
 
@@ -19,7 +20,7 @@ namespace GD_CommonLibrary
         public bool IsTypeJudge { get; set; }
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+      {
             if(IsNullable && value is null)
             {
                 if (object.Equals(value, null))

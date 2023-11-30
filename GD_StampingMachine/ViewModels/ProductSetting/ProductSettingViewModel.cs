@@ -207,7 +207,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _loadProductSettingCommand ??= new AsyncRelayCommand(async () =>
             {
-                await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
+                try
                 {
                     if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
                     {
@@ -224,9 +224,50 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
                         await SaveProductListSetting();
                     }
-                }));
+                }
+                catch(Exception ex)
+                {
+                    Debugger.Break();
+                }
             });
         }
+
+
+
+        private ICommand _reLoadProductSettingCommand;
+        public ICommand ReLoadProductSettingCommand
+        {
+            get => _reLoadProductSettingCommand ??= new AsyncRelayCommand<object>(async (obj) =>
+            {
+                if (obj is ProductProjectViewModel productProjectVM)
+                {
+                    if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
+                    {
+                        //如果檔案已存在 跳過
+                        if (ProductProjectVMObservableCollection.FindIndex(x=>x.ProductProjectName == ReadProductProject.Name) != -1)
+                        {
+                            //
+                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                      (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject"));
+                        }
+
+
+                        var index = ProductProjectVMObservableCollection.FindIndex(x => x == productProjectVM);
+                        ProductProjectVMObservableCollection[index] = new ProductProjectViewModel(ReadProductProject);
+                       await this.SaveProductListSetting(); 
+                        
+                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                      (string)Application.Current.TryFindResource("Text_LoadSuccessful"));
+                    }
+
+
+                    //ProductProjectVMObservableCollection[] =
+
+                }
+
+            });
+        }
+
 
 
 

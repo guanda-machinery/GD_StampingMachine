@@ -51,7 +51,7 @@ namespace GD_StampingMachine.GD_Model
         /// <summary>
         /// 專案不存在
         /// </summary>
-        public bool FileIsNotExisted { get; set; }
+        //public bool FileIsNotExisted { get; set; }
         /// <summary>
         /// 參數設定表
         /// </summary>

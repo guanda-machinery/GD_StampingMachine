@@ -449,7 +449,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                return new RelayCommand<object>(async obj =>
+                return new AsyncRelayCommand<object>(async obj =>
                 {
                     if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                     {
@@ -511,13 +511,14 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
+        private ICommand _box_OnDropRecordCommand;
         /// <summary>
         /// 丟入盒子內
         /// </summary> 
         [JsonIgnore]
         public ICommand Box_OnDropRecordCommand
         {
-            get => new AsyncRelayCommand<object>(async obj =>
+            get => _box_OnDropRecordCommand??=new AsyncRelayCommand<object>(async obj =>
             {
                 if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                 {
@@ -542,11 +543,49 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
         }
-       
+
+        private ICommand _box_OnDragRecordOverCommand;
         [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand
         {
-            get => GD_Command.Box_OnDragRecordOverCommand;
+            get => _box_OnDragRecordOverCommand??= GD_Command.Box_OnDragRecordOverCommand;
+        }
+
+        public ICommand PartsParameterVMCollection_Unassigned_RowFilterCommand
+        {
+            get => GD_Command.PartsParameterVMCollection_Unassigned_RowFilterCommand;
+        }
+
+
+
+        private ICommand _projectGridControlRowDoubleClickCommand;
+           
+         [JsonIgnore]
+        public ICommand ProjectGridControlRowDoubleClickCommand
+        {
+            get => _projectGridControlRowDoubleClickCommand??= new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>(async (DevExpress.Mvvm.Xpf.RowClickArgs args) =>
+            {
+                try
+                {
+                    if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel partsParameterVM)
+                    {
+                        partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
+                        partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                        StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
+                        await SaveProductProjectVMObservableCollectionAsync();
+
+                        OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
+                    }
+                }
+                catch
+                {
+
+                }
+
+               /* if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
+                {
+                }*/
+            });
         }
 
 

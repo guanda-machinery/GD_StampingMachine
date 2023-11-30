@@ -530,8 +530,8 @@
                             </dxg:GridControl>
                         </Grid>
                         <dxg:GridControl Background="Transparent"    Grid.Column="2"  Margin="10,0"
-                                         CustomRowFilterCommand="{x:Static GD_StampingMachine:GD_Command.PartsParameterVMCollection_Unassigned_RowFilterCommand}"
-                                         IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.IsFinish, Converter={dx:BoolInverseConverter}}"    
+                                         CustomRowFilterCommand="{Binding PartsParameterVMCollection_Unassigned_RowFilterCommand}"
+                                         IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}"    
                                          Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="Row"
                                          AutoGenerateColumns="None"
@@ -539,6 +539,7 @@
                                          MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"   >
                             <dxg:GridControl.View >
                                 <dxg:TableView   
+                                    RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="True"

@@ -29,6 +29,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             this.StampPlateSetting = new StampPlateSettingModel();
             SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
+            this.SpecialSequence = SpecialSequenceEnum.TwoRow;
+            this.SequenceCount = 8;
+
+
         }
         public NumberSettingViewModel(StampPlateSettingModel stampPlateSetting)
         {

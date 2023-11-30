@@ -101,7 +101,7 @@
                         <Border Background="{DynamicResource PrimaryHueLightForegroundBrush}" Margin="0,0,115,0"/>
                     </Grid>
 
-                    <Grid Grid.ColumnSpan="2"    Grid.Row="3" >
+                    <Grid Grid.ColumnSpan="3"    Grid.Row="3" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
@@ -115,7 +115,6 @@
                                 <RowDefinition MinHeight="110"/>
                             </Grid.RowDefinitions>
                             <Border Background="White" Grid.ColumnSpan="2" Margin="0,0,0,0" />
-
                             <Border Width="46" HorizontalAlignment="Right" Margin="0,0,380,0" >
                                 <Border.Style>
                                     <Style TargetType="Border" >
@@ -133,6 +132,25 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
+                            </Border>
+                            <Border Grid.Column="1" Margin="-0,0,0,0" Width="46"  HorizontalAlignment="Right" >
+                                <Border.Style>
+                                    <Style TargetType="Border" >
+                                        <Setter Property="Background" Value="Gray"/>
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="true" />
+                                                    <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Cylinder_HydraulicCutting_IsCutPoint}" 
+                                                     Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Background"  Value="Green"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
                             </Border>
                         </Grid>
                         <ItemsControl  Grid.Column="0"
@@ -223,7 +241,7 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Vertical" MaxWidth="{x:Static SystemParameters.PrimaryScreenWidth  }">
                                     <StackPanel.Resources>
                                         <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="White"/>
                                         <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#383838"/>
@@ -233,7 +251,7 @@
                                         <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#2c2c2c"/>
                                     </StackPanel.Resources>
 
-                                    <dxg:GridControl MaxWidth="600"
+                                            <dxg:GridControl 
                                         Name="NotArrangeWorkGridControl"
                                         HorizontalAlignment="Left"     Grid.ColumnSpan="2"  
                                         Grid.Row="5" 
@@ -245,8 +263,8 @@
                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, IsAsync=True,
                                         Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                >
-                                        <dxg:GridControl.View >
-                                            <dxg:TableView   
+                                                <dxg:GridControl.View >
+                                                    <dxg:TableView   
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
@@ -271,15 +289,15 @@
                                                     >
 
 
-                                            </dxg:TableView>
-                                        </dxg:GridControl.View>
+                                                    </dxg:TableView>
+                                                </dxg:GridControl.View>
 
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Box}"  FieldName="BoxIndex"  Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
                                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
-                                        
+
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IronPlateString" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
                                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
@@ -292,30 +310,30 @@
                                                 </dxg:GridColumn>
 
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                            <dxg:GridColumn.EditSettings>
-                                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                            </dxg:GridColumn.EditSettings>
-                                        </dxg:GridColumn>
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.EditSettings>
+                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                                    </dxg:GridColumn.EditSettings>
+                                                </dxg:GridColumn>
 
                                                 <dxg:GridColumn  
                             HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
@@ -384,21 +402,19 @@
 
 
                                             </dxg:GridControl>
-
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Command="{Binding ArrangeWorkCommand}"
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Button Command="{Binding ArrangeWorkCommand}"
                                             CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowDownBold}"/>
-                                        <Button Command="{Binding ArrangeWorkCommand}"
+                                                <Button Command="{Binding ArrangeWorkCommand}"
                                             CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferDown}"/>
 
                                                 <Button Command="{Binding CancelArrangeWorkCommand}"
                                             CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowUpBold}"/>
-                                        <Button Command="{Binding CancelArrangeWorkCommand}"
+                                                <Button Command="{Binding CancelArrangeWorkCommand}"
                                             CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferUp}"/>
 
-                                    </StackPanel>
-
-                                            <dxg:GridControl MaxWidth="600"
+                                            </StackPanel>
+                                            <dxg:GridControl 
                                         Name="ArrangeWorkGridControl" HorizontalAlignment="Left"     Grid.ColumnSpan="2" 
                                         Grid.Row="5" 
                                     Grid.Column="0" Margin="10,0"
@@ -571,17 +587,6 @@
                                                         </DataTemplate>
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsFinish"   Binding="{Binding IsFinish, UpdateSourceTrigger=PropertyChanged}"
-                                                                   AllowEditing="true"
-                                                         Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Grid>
-                                                                <ToggleButton IsChecked="{Binding Row.IsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </dxg:GridColumn.CellTemplate>
-                                                </dxg:GridColumn>
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="DataMatrixIsFinish"   Binding="{Binding DataMatrixIsFinish, UpdateSourceTrigger=PropertyChanged}"
                                                                    AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
@@ -617,6 +622,17 @@
                                                 </dxg:GridColumn>
 
 
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsFinish"   Binding="{Binding IsFinish, UpdateSourceTrigger=PropertyChanged}"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.IsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
+                                                </dxg:GridColumn>
 
 
 
@@ -691,7 +707,7 @@
                         <Button Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
                                 Content="{DynamicResource btnMachiningDataClear}"/>
 
-                        <ToggleButton Height="auto" MinHeight="0" Margin="5"
+                        <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="IO"
                             IsChecked="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.MachiningStatusIsVisible,Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},IsAsync=True}"/>
 
                     </StackPanel>

@@ -303,7 +303,7 @@
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
                         <Grid Height="auto" Margin="2,5">
-                            <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
+                            <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"   
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                 <ProgressBar.Foreground>

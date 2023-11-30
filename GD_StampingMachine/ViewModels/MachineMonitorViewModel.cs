@@ -4,6 +4,7 @@ using DevExpress.Data.Extensions;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
+using DevExpress.Mvvm.POCO;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Office.Crypto;
 using DevExpress.Pdf.Native;
@@ -193,10 +194,6 @@ namespace GD_StampingMachine.ViewModels
                                 if (token.IsCancellationRequested)
                                     token.ThrowIfCancellationRequested();
 
-                                //先等待連線
-                                await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
-
-
 
                                 //燈號
 
@@ -204,6 +201,8 @@ namespace GD_StampingMachine.ViewModels
                                 //取得歷史資料
                                 //var history = await StampMachineData.GetIronPlateDataCollection();
                                 var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
+
+                                var a = workableMachiningCollection.Count(x => x.IsFinish);
 
                                 //準備加工(未上傳)
                                 var readyMachiningCollection = workableMachiningCollection.FindAll(x => !x.IsSended).OrderBy(x => x.WorkIndex).ToList();
@@ -225,6 +224,8 @@ namespace GD_StampingMachine.ViewModels
                                 }
                                 var progress = ((double)sendedReadyMachiningCollection.Count * 100) / (double)workableMachiningCollection.Count;
                                 ManagerVM.Progress = progress;
+                                if(progress>0)
+                                    ManagerVM.IsIndeterminate = false;
 
                                 //等待機台訊號 
 
@@ -323,6 +324,8 @@ namespace GD_StampingMachine.ViewModels
 
                                 try
                                 {
+                                    //等待連線
+                                    await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
                                     await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.Rdatabit, token);
                                 }
                                 catch
@@ -595,10 +598,9 @@ namespace GD_StampingMachine.ViewModels
                                 {
                                     finishPartParameter.ShearingIsFinish = true;
                                     finishPartParameter.IsFinish = true;
-
                                     try
                                     {
-                                        await rojectDistributeVM?.SaveProductProjectVMObservableCollectionAsync();
+                                        await rojectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
                                     }
                                     catch
                                     {
@@ -607,7 +609,6 @@ namespace GD_StampingMachine.ViewModels
                                     break;
                                 }
                             
-                            //previousID = getIdAsync.Item2;
                         }
                     }
                     await WaitForCondition.WaitAsync(IsStopDown,false, token);

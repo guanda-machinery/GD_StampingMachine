@@ -20,6 +20,22 @@ namespace GD_CommonLibrary.Method
     {
         public async Task<bool> WriteJsonFileAsync<T>(string fileName, T JsonData)
         {
+            return await Task.Run(async () =>
+            {
+                for (int i = 0; i < 10 ; i++)
+                {
+                    await Task.Yield();
+                    var ret = WriteJsonFile(fileName, JsonData);
+                    if(ret)
+                        return true;
+                }
+                return false;
+            });
+        }
+
+
+        public bool WriteJsonFile<T>(string fileName, T JsonData)
+        {
             //先檢查副檔名
             if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase))
             {
@@ -43,32 +59,26 @@ namespace GD_CommonLibrary.Method
 
             //檢查檔案是否存在於該目錄 若存在則將先將檔案寫入temp
 
-            int i = 0;
-            while(true)
+            try
             {
-                try
+                if (File.Exists(fileName))
                 {
-                    if (File.Exists(fileName))
-                    {
-                        var Temp_fileName = fileName + ".tmp";
-                        File.WriteAllText(Temp_fileName, output);
-                        File.Delete(fileName);
-                        File.Move(Temp_fileName, fileName);
-                    }
-                    else
-                    {
-                        await Task.Delay(500);
-                        File.WriteAllText(fileName, output);
-                    }
-                    return true;
+                    var Temp_fileName = fileName + ".tmp";
+                    File.WriteAllText(Temp_fileName, output);
+                    File.Delete(fileName);
+                    File.Move(Temp_fileName, fileName);
                 }
-                catch (Exception ex)
+                else
                 {
-                    if (i > 10)
-                        throw ex;
+                    File.WriteAllText(fileName, output);
                 }
-                i++;
+                return true;
             }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
         }
 
 

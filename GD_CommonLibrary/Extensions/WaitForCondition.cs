@@ -142,7 +142,7 @@ namespace GD_CommonLibrary.Extensions
         /// <param name="result"></param>
         /// <param name="isEqual"></param>
         /// <returns></returns>
-        private static async Task<bool> WaitAsync<T>(Func<T> conditionFunc, T result ,bool isEqual , params CancellationToken[] tokens)
+        public static async Task<bool> WaitAsync<T>(Func<T> conditionFunc, T result ,bool isEqual , params CancellationToken[] tokens)
         {
             // 创建 TaskCompletionSource
             var tcs = new TaskCompletionSource<bool>();

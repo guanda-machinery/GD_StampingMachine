@@ -2,13 +2,16 @@
 using DevExpress.Mvvm;
 using DevExpress.Xpf.WindowsUI;
 using GD_CommonLibrary.Method;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.Properties;
 using GD_StampingMachine.Singletons;
+using GD_StampingMachine.ViewModels;
 using Microsoft.VisualStudio.Threading;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,15 +24,15 @@ namespace GD_StampingMachine
     /// </summary>
     public partial class App : Application
     {
-
         protected override  void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
 
             var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName, out bool ret);
-            if (ret)
+            if (!ret)
             {
+                Debugger.Break();
                  MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
@@ -109,18 +112,20 @@ namespace GD_StampingMachine
 
         protected override void OnExit(ExitEventArgs e)
         {
-            var SaveTask = Task.Run(async () =>
-            {
-                var savelist =StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(productProject => productProject.SaveProductProjectAsync());
-                await Task.WhenAll(savelist);
-            });
-
-            var DisposeTask = Task.Run(() => StampMachineDataSingleton.Instance.StopScanOpcuaAsync()); 
-            Console.WriteLine("Application is closing.");
-            // 你也可以取消应用程序关闭
-            Task.WaitAny(Task.Delay(5000) , DisposeTask);
-           
             base.OnExit(e);
+            Task.Run(async () =>
+            {
+                // 開始一個 Task 來執行非同步操作
+                var stopTask = StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+                var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                //定期存檔
+                var JsonHM = new StampingMachineJsonHelper();
+                await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
+                var saveTask = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
+                await Task.WhenAll(saveTask);
+
+                await stopTask;
+            }).Wait();  // 等待 Task 完成
         }
 
     }

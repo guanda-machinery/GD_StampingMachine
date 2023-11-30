@@ -26,9 +26,12 @@
               xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary" 
              xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
-             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}"
              Name="ProductSettingUControl"
+             
              >
     <Grid AllowDrop="True">
 
@@ -629,6 +632,35 @@
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>
                     </dxg:GridColumn>
+
+
+                    <dxg:GridColumn Header=""  Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn.HeaderStyle>
+                            <Style TargetType="dxg:BaseGridHeader">
+                                <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="BorderThickness" Value="0,0,0,0" />
+                            </Style>
+                        </dxg:GridColumn.HeaderStyle>
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnReLoad}" Style="{StaticResource SiegCustomButton_Dark}"
+                                       IsEnabled="{Binding Row.FileIsNotExisted}" Visibility="{Binding  Row.FileIsNotExisted, Converter={dx:BooleanToVisibilityConverter}}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction
+                                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl},Path=DataContext.ReLoadProductSettingCommand}"
+                                                    CommandParameter="{Binding Row}"  
+                                                    />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </dxg:GridColumn.CellTemplate>
+                    </dxg:GridColumn>
+
 
 
 

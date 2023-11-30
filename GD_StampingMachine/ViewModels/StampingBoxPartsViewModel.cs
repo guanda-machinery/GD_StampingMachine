@@ -139,9 +139,9 @@ namespace GD_StampingMachine.ViewModels
 
         //篩選器
         [JsonIgnore]
-        public ICommand BoxPartsParameterVMRowFilterCommand
+        public  ICommand BoxPartsParameterVMRowFilterCommand
         {
-            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(async args =>
+            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
             {
                     if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
                     {

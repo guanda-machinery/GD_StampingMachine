@@ -29,6 +29,18 @@ namespace GD_MachineConnect.Machine
 
     public class GD_OpcUaFxClient: IAsyncDisposable
     {
+        public enum ClientState
+        {
+            Created = 0,
+            Connecting = 1,
+            Connected = 2,
+            Disconnecting = 3,
+            Disconnected = 4,
+            Reconnecting = 5,
+            Reconnected = 6
+        }
+
+
 
         private bool disposedValue;
         public async ValueTask DisposeAsync()
@@ -43,11 +55,17 @@ namespace GD_MachineConnect.Machine
 
         OpcClient m_OpcUaClient = new OpcClient();
 
+
+        ~GD_OpcUaFxClient()
+        {
+            DisposeAsync();
+        }
         public GD_OpcUaFxClient()
         {
 
         }
 
+        private string HostPath;
         public GD_OpcUaFxClient(string hostPath, int port = 0, string dataPath = null, string user = null, string password=null) 
         {
             Opc.UaFx.Client.OpcClientIdentity userIdentity = new(user, password);
@@ -55,22 +73,25 @@ namespace GD_MachineConnect.Machine
             HostPath = hostPath;
             var baseUrl = CombineUrl(hostPath, port, dataPath);
             m_OpcUaClient = new OpcClient(baseUrl.ToString());
+
             m_OpcUaClient.Security.UserIdentity = userIdentity;
-            m_OpcUaClient.SessionTimeout = 3600000;
+            m_OpcUaClient.SessionTimeout = OpcClient.DefaultSessionTimeout;
+
             m_OpcUaClient.StateChanged += (sender, e) =>
             {
                 IsConnected = e.NewState == OpcClientState.Connected;
+                State = (ClientState)e.NewState;
             };
         }
 
 
+        public ClientState State { get; private set; }
 
-        public int ConntectMillisecondsTimeout = 3000;
-        private string HostPath;
+
+        //public int ConntectMillisecondsTimeout = 3000;
 
         private Uri CombineUrl(string hostPath , int? port ,string dataPath)
         {
-            //var hostPath = HostPath;
             if (!hostPath.Contains("opc.tcp://"))
                 hostPath = "opc.tcp://" + hostPath;
             if (port.HasValue)
@@ -81,14 +102,13 @@ namespace GD_MachineConnect.Machine
 
         private const int retryCounter = 5;
 
-        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        //private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public bool IsConnected { get; private set; }
         public async Task<bool> AsyncConnect()
         {
-            if(disposedValue)
+            if (disposedValue)
                 return false;
-
             if (TcpPing.RetrieveIpAddress(HostPath, out var _ip))
             {
                 if (!await TcpPing.IsPingableAsync(_ip))
@@ -97,54 +117,29 @@ namespace GD_MachineConnect.Machine
                     return false;
                 }
             }
-            var ret = false;
-
-            await WaitForCondition.WaitNotAsync(()=>m_OpcUaClient.State, OpcClientState.Connecting, 10000);
-
-            if (m_OpcUaClient.State == OpcClientState.Connected)
+            await Task.Run(() =>
             {
-                ret = true;
-            }
-            else
-            { 
-                using (var cts = new CancellationTokenSource(ConntectMillisecondsTimeout))
+                try
                 {
-                    try
+                    if (m_OpcUaClient.State == OpcClientState.Created || m_OpcUaClient.State == OpcClientState.Disconnected)
                     {
-                        await semaphoreSlim.WaitAsync(cts.Token);
-                    }
-                    catch (OperationCanceledException cex)
-                    {
-                        return m_OpcUaClient.State == OpcClientState.Connected;
+                        m_OpcUaClient.Connect();
+                        m_OpcUaClient.DisconnectTimeout = int.MaxValue;
+                        m_OpcUaClient.SessionTimeout = int.MaxValue;
+                        ConnectException = null;
                     }
                 }
-              
-                if (disposedValue)
-                    return false;
-
-                await Task.Run(() =>
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        if (m_OpcUaClient.State != OpcClientState.Connected)
-                        {
-                            m_OpcUaClient.OperationTimeout = OpcClient.DefaultSessionTimeout;
-                            m_OpcUaClient.Connect();
-                            ConnectException = null;
-                            ret = true;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ConnectException = ex;
-                    }
-                    finally
-                    {
-                        semaphoreSlim.Release();
-                    }
-                });
-            }
+                    ConnectException = ex;
+                }
+                finally
+                {
 
+                }
+            });
+            await WaitForCondition.WaitNotAsync(() => m_OpcUaClient.State, OpcClientState.Connecting, 5000);
+            var ret = m_OpcUaClient.State == OpcClientState.Connected;
             return ret;
         }
 
@@ -152,11 +147,32 @@ namespace GD_MachineConnect.Machine
 
         public void Disconnect()
         {
-            m_OpcUaClient.SessionTimeout=1000;
-            m_OpcUaClient.Disconnect();
+            try
+            {
+                m_OpcUaClient.DisconnectTimeout = 100;
+                m_OpcUaClient.SessionTimeout = 100;
+                m_OpcUaClient.Disconnect();
+            }
+            catch
+            {
+
+            }
         }
 
+        public async Task DisconnectAsync()
+        {
+            try
+            {
+                m_OpcUaClient.DisconnectTimeout = 100;
+                m_OpcUaClient.SessionTimeout = 100;
+                m_OpcUaClient.Disconnect();
+                await WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Connected, false);
+            }
+            catch
+            {
 
+            }
+        }
 
 
 
@@ -398,25 +414,23 @@ namespace GD_MachineConnect.Machine
                     for (int i = 0; i < nodeList.Count(); i++)
                     {
                         var index = i;
-                        var node = nodeList[index];
+                        var (NodeID, updateAction, samplingInterval, checkDuplicates) = nodeList[index];
                         bool ret = false;
                         for (int j = 0; j < 5 && !ret; j++)
                         {
                             try
                             {
                                 //使用設定的響應速度進行分類
-                                OpcSubscription opcSubscription = m_OpcUaClient.Subscriptions.FirstOrDefault(x => Equals(x.Tag, node.samplingInterval));
+                                OpcSubscription opcSubscription = m_OpcUaClient.Subscriptions.FirstOrDefault(x => Equals(x.Tag, samplingInterval));
 
                                 if (opcSubscription == null)
                                 {
-                                    // If no subscription exists, create a new one
                                     opcSubscription = m_OpcUaClient.SubscribeNodes();
-                                    opcSubscription.Tag = node.samplingInterval;
+                                    opcSubscription.Tag = samplingInterval;
                                 }
-
                                 //檢查是否存在
-                                if (node.checkDuplicates &&
-                                opcSubscription.MonitoredItems.Any(item => item.NodeId.OriginalString == node.NodeID))
+                                if (checkDuplicates &&
+                                opcSubscription.MonitoredItems.Any(item => item.NodeId.OriginalString == NodeID))
                                 {
                                     ret = true;
                                     break;
@@ -424,7 +438,7 @@ namespace GD_MachineConnect.Machine
 
 
                                 // Create an OpcMonitoredItem for the NodeId.
-                                var item = new OpcMonitoredItem(node.NodeID, OpcAttribute.Value);
+                                var item = new OpcMonitoredItem(NodeID, OpcAttribute.Value);
                              
                                 item.DataChangeReceived += (sender, e) =>
                                 {
@@ -433,10 +447,16 @@ namespace GD_MachineConnect.Machine
                                             "Data Change from Index {0}: {1}",
                                             item.Tag,
                                             e.Item.Value)*/
-
-                                    if (e.Item.Value.Value is T Tvalue)
+                                    try
                                     {
-                                        node.updateAction?.Invoke(Tvalue);
+                                        if (e.Item.Value.Value is T Tvalue)
+                                        {
+                                            updateAction?.Invoke(Tvalue);
+                                        }
+                                    }
+                                    catch
+                                    {
+
                                     }
                                 };
                                 // You can set your own values on the "Tag" property
@@ -444,7 +464,7 @@ namespace GD_MachineConnect.Machine
                                 item.Tag = index;
                                 // Set a custom sampling interval on the 
                                 // monitored item.
-                                item.SamplingInterval = node.samplingInterval;
+                                item.SamplingInterval = samplingInterval;
 
 
 
@@ -455,6 +475,7 @@ namespace GD_MachineConnect.Machine
                                 await WaitForCondition.WaitAsync(()=>m_OpcUaClient.State, OpcClientState.Connected, cts.Token);
                                 opcSubscription.ApplyChanges();
                                 ret = true;
+                                break;
                             }
                             catch (Exception ex)
                             {
@@ -474,7 +495,6 @@ namespace GD_MachineConnect.Machine
                 }
                 return retList;
             });
-
         }
 
         /// <summary>

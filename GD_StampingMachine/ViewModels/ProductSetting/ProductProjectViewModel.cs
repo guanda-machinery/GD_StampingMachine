@@ -182,6 +182,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public bool IsMarked { get => _isMarked; set { _isMarked = value; OnPropertyChanged(); } }
 
+
+        private bool _fileIsNotExisted = false;
+        public bool FileIsNotExisted { get=> _fileIsNotExisted; set { _fileIsNotExisted = value; OnPropertyChanged(); } }
+
+
         /// <summary>
         /// 新增排版專案的打勾符號
         /// </summary>
@@ -935,11 +940,50 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             if (ProductProject.ProjectPath != null)
             {
+                if(ProductProject.CreateTime == default(DateTime))
+                {
+                    if(ProductProject.SheetStampingTypeForm == 0)
+                    {
+                        Debugger.Break();
+                        return false;
+                    }
+                }
+
                 try
                 {
                     return await JsonHM.WriteJsonFileAsync(Path.Combine(ProductProject.ProjectPath, ProductProject.Name), ProductProject);
                 }
                 catch 
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                Debugger.Break();
+                return false;
+            }
+        }
+
+
+        public bool SaveProductProject()
+        {
+            if (ProductProject.ProjectPath != null)
+            {
+                if (ProductProject.CreateTime == default(DateTime))
+                {
+                    if (ProductProject.SheetStampingTypeForm == 0)
+                    {
+                        Debugger.Break();
+                        return false;
+                    }
+                }
+
+                try
+                {
+                    return JsonHM.WriteJsonFile(Path.Combine(ProductProject.ProjectPath, ProductProject.Name), ProductProject);
+                }
+                catch
                 {
                     return false;
                 }

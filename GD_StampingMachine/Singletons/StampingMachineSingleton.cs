@@ -26,7 +26,7 @@ namespace GD_StampingMachine.Singletons
 
     public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton> 
     {
-
+        
         protected override void Init()
         {
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
@@ -153,7 +153,7 @@ namespace GD_StampingMachine.Singletons
 
             if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
             {
-                PathList.ForEach(async EPath =>
+                PathList.ForEach(EPath =>
                 {
                     //加工專案為到處放的形式 沒有固定位置
                     if (JsonHM.ReadJsonFile(System.IO.Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
@@ -163,13 +163,15 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         //需註解找不到檔案!
-                       await MessageBoxResultShow.ShowOKAsync("", $"Can't find file {System.IO.Path.Combine(EPath.ProjectPath, EPath.Name)}");
+                       _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {System.IO.Path.Combine(EPath.ProjectPath, EPath.Name)}");
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,
                             Name = EPath.Name,
+                        })
+                        {
                             FileIsNotExisted = true
-                        })); ;
+                        }); 
                     }
                 });
             }

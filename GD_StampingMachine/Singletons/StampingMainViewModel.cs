@@ -77,22 +77,6 @@ namespace GD_StampingMachine.ViewModels
 
             try
             {
-                var Model_IEnumerable = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-                //定期存檔
-              await  JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
-
-                var saveTask =  ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
-                await Task.WhenAll(saveTask);
-
-                Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, "SaveProjectDistributeListFile");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                Debugger.Break();
-            }
-            try
-            {
              
 
                 List<StampingTypeModel> UseStampingFont = StampingFontChangedVM.StampingTypeVMObservableCollection
@@ -145,7 +129,7 @@ namespace GD_StampingMachine.ViewModels
                 while (true)
                 {
                     DateTimeNow = DateTime.Now;
-                    await Task.Delay(100);
+                    await Task.Delay(1000);
                 }
             });
 
@@ -156,7 +140,7 @@ namespace GD_StampingMachine.ViewModels
                 while (true)
                 {
                     await SaveStampingMachineJson();
-                    await Task.Delay(10000);
+                    await Task.Delay(60000);
                 }
             });
 
