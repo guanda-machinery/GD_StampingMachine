@@ -949,7 +949,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         return false;
                     }
                 }
-
                 try
                 {
                     return await JsonHM.WriteJsonFileAsync(Path.Combine(ProductProject.ProjectPath, ProductProject.Name), ProductProject);

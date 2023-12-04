@@ -59,15 +59,15 @@ namespace GD_MachineConnectTest
                         Opcua.Disconnect();
                     }*/
 
-                    GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua(HostString, Port, ServerDataPath, null, null);
-                    //GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua(ServerUrl);
+                    /*GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua(HostString, Port, ServerDataPath, null, null);
+                  //GD_Stamping_Opcua SMachine = new GD_Stamping_Opcua(ServerUrl);
                     if (await SMachine.AsyncConnect())
                     {
                         var status = await SMachine.GetMachineStatus();
                         var a = await SMachine.GetEngravingRotateStation();
                         var b = await SMachine.GetRotatingTurntableInfo();
                         await SMachine?.DisconnectAsync();
-                    }
+                    }*/
                 }
                 catch (Exception ex)
                 {
@@ -87,7 +87,7 @@ namespace GD_MachineConnectTest
             Thread.Sleep(1000);
 
             short input = 0;
-
+            /*
             while (true)
             {
                  Console.WriteLine("...");
@@ -116,7 +116,7 @@ namespace GD_MachineConnectTest
                 }
             }
 
-
+            */
 
 
 

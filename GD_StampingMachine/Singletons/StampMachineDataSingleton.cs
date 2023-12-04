@@ -13,6 +13,7 @@ using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
+using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
@@ -29,7 +30,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using static GD_MachineConnect.Machine.GD_OpcUaFxClient;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -40,7 +40,7 @@ namespace GD_StampingMachine.Singletons
 
         //  public const string DataSingletonName = "Name_StampMachineDataSingleton";
         public string DataSingletonName => (string)Application.Current.TryFindResource("Name_StampMachineDataSingleton");
-        private GD_OpcUaFxClient GD_OpcUaClient = new GD_OpcUaFxClient();
+        private IOpcuaConnect GD_OpcUaClient;
 
 
 
@@ -764,7 +764,7 @@ namespace GD_StampingMachine.Singletons
         {
             await StopScanOpcuaAsync();
             if (GD_OpcUaClient != null) 
-                await GD_OpcUaClient.DisposeAsync();
+                 GD_OpcUaClient.Disconnect();
         }
 
 
@@ -803,8 +803,6 @@ namespace GD_StampingMachine.Singletons
             }
         }
 
-        private GD_MachineConnect.Machine.GD_OpcUaFxClient.ClientState? _clientState;
-        public GD_MachineConnect.Machine.GD_OpcUaFxClient.ClientState? ClientState { get => _clientState; set { _clientState = value; OnPropertyChanged(); } }
 
 
 
@@ -844,9 +842,9 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-        public async Task StopScanOpcuaAsync()
+        public Task StopScanOpcuaAsync()
         {
-            await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 try
                 {
@@ -857,7 +855,6 @@ namespace GD_StampingMachine.Singletons
                     if (scanTask != null)
                     {
                         var anyTask = await Task.WhenAny(scanTask, WaitForCondition.WaitAsync(() => GD_OpcUaClient.IsConnected, true));
-          
                         if(anyTask == scanTask)
                             scanTask = null;
                     }
@@ -877,12 +874,12 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        private Task RunScanTaskAsync(CancellationToken cancelToken)
+        private async Task RunScanTaskAsync(CancellationToken cancelToken)
         {
-            return Task.Run(async () =>
+            IsScaning = true;
+            try
             {
-                IsScaning = true;
-                while (!cancelToken.IsCancellationRequested)
+                do
                 {
                     var ManagerVM = new DevExpress.Mvvm.DXSplashScreenViewModel
                     {
@@ -896,16 +893,18 @@ namespace GD_StampingMachine.Singletons
                     SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
                     try
                     {
-                        await GD_OpcUaClient?.DisconnectAsync();
-                          Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-                        });
+                        if(GD_OpcUaClient!=null)
+                            await GD_OpcUaClient?.DisconnectAsync();
+                        Application.Current.Dispatcher.Invoke(() =>
+                      {
+                          manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                      });
 
 
-                        GD_OpcUaClient = new GD_OpcUaFxClient(CommunicationSetting.HostString, CommunicationSetting.Port.Value, null, CommunicationSetting.UserName, CommunicationSetting.Password);
+                        GD_OpcUaClient = new GD_OpcUaHelperClient();
+
                         //紀錄變化
-                        _ = Task.Run(async () =>
+                      /*  _ = Task.Run(async () =>
                          {
                              try
                              {
@@ -915,7 +914,7 @@ namespace GD_StampingMachine.Singletons
 
                                      await WaitForCondition.WaitAsync(() => GD_OpcUaClient.State, oldState, false, cancelToken);
                                      oldState = GD_OpcUaClient.State;
-                                     ClientState = GD_OpcUaClient.State;
+                                     //ClientState = GD_OpcUaClient.State;
 
                                      await Task.Yield();
                                  }
@@ -924,7 +923,7 @@ namespace GD_StampingMachine.Singletons
                              {
 
                              }
-                         });
+                         });*/
 
                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_Init");
                         await Task.Delay(500);
@@ -940,7 +939,7 @@ namespace GD_StampingMachine.Singletons
                             }
                             try
                             {
-                                intiConnect = await GD_OpcUaClient.AsyncConnect();
+                                intiConnect = await GD_OpcUaClient.AsyncConnect(CommunicationSetting.HostString, CommunicationSetting.Port.Value, null, CommunicationSetting.UserName, CommunicationSetting.Password);
                                 if (intiConnect)
                                 {
                                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
@@ -1060,8 +1059,7 @@ namespace GD_StampingMachine.Singletons
                                     }
                                     try
                                     {
-                                        IsConnected = await GD_OpcUaClient.AsyncConnect();
-                                        if (IsConnected)
+                                        if (GD_OpcUaClient.IsConnected)
                                         {
                                             manager?.Close();
                                             await SubscribeOperationMode(value => OperationMode = (OperationModeEnum)value);
@@ -1453,7 +1451,9 @@ namespace GD_StampingMachine.Singletons
                                                 }
 
                                                 ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect");
-                                            });
+                                            }); 
+                                            
+                                            break;
                                         }
                                     }
                                     catch (Exception ex)
@@ -1507,7 +1507,6 @@ namespace GD_StampingMachine.Singletons
                             }
                         }, cancelToken);
                         await Task.WhenAll(machineTask);
-
                     }
                     catch (OperationCanceledException ocex)
                     {
@@ -1528,10 +1527,13 @@ namespace GD_StampingMachine.Singletons
                         manager = null;
                     }
                 }
+                while (!cancelToken.IsCancellationRequested);
+            }
+            catch
+            {
 
-                IsScaning = false;
-                return Task.CompletedTask;
-            });
+            }
+            IsScaning = false;
         }
 
         public async Task<bool> CompareFontsSettingBetweenMachineAndSoftwareAsync(ObservableCollection<StampingTypeViewModel> settingCollection)
@@ -3540,7 +3542,7 @@ Y軸馬達位置移動命令
         {
             if (!disposedValue)
             {
-                await GD_OpcUaClient.DisposeAsync();
+                await GD_OpcUaClient.DisconnectAsync();
                 disposedValue = true;
             }
 

@@ -117,19 +117,20 @@ namespace GD_StampingMachine
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            Task.Run(async () =>
+            var JsonHM = new StampingMachineJsonHelper();
+            _ = Task.Run(async () =>
             {
                 // 開始一個 Task 來執行非同步操作
-                var stopTask = StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
-                var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-                //定期存檔
-                var JsonHM = new StampingMachineJsonHelper();
-                await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
-                var saveTask = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
-                await Task.WhenAll(saveTask);
+                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+            });  // 等待 Task 完成
 
-                await stopTask;
-            }).Wait();  // 等待 Task 完成
+            //存檔
+            var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+            JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
+            StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProject());
+
+
+
         }
 
     }

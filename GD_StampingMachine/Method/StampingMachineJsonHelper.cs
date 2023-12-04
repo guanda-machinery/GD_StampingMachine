@@ -144,10 +144,23 @@ namespace GD_StampingMachine.Method
         /// <param name="JsonData"></param>
         /// <param name="ShowMessageBox"></param>
         /// <returns></returns>
-        public Task<bool> WriteProjectDistributeListJsonAsync(List<ProjectDistributeModel> JsonData, bool ShowMessageBox = false)
+        public async Task<bool> WriteProjectDistributeListJsonAsync(List<ProjectDistributeModel> JsonData, bool ShowMessageBox = false)
         {
-            return WriteJsonSettingByEnumAsync(ProjectSettingEnum.ProjectDistributeList, JsonData, ShowMessageBox);
+            return await WriteJsonSettingByEnumAsync(ProjectSettingEnum.ProjectDistributeList, JsonData, ShowMessageBox);
         }
+
+        /// <summary>
+        /// 加工專案寫入
+        /// </summary>
+        /// <param name="JsonData"></param>
+        /// <param name="ShowMessageBox"></param>
+        /// <returns></returns>
+        public bool WriteProjectDistributeListJson(List<ProjectDistributeModel> JsonData, bool ShowMessageBox = false)
+        {
+            return WriteJsonSettingByEnum(ProjectSettingEnum.ProjectDistributeList, JsonData, ShowMessageBox);
+        }
+
+
 
         /// <summary>
         /// 取得加工專案 並將更改路徑和檔名對應到正確的位置
@@ -195,6 +208,20 @@ namespace GD_StampingMachine.Method
 
             return Result;
         }
+
+        public bool WriteJsonSettingByEnum<T>(Enum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
+        {
+            var FilePath = GetJsonFilePath(ParameterSettingName);
+
+            var Result = this.WriteJsonFile(FilePath, JsonData);
+            if (ShowMessageBox)
+                MethodWinUIMessageBox.SaveSuccessful(FilePath, Result);
+
+            return Result;
+        }
+
+
+
 
         private static string GetJsonFilePath(Enum ParameterSettingName)
         {

@@ -680,7 +680,7 @@
       <Name>GD_CommonLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\GD_MachineConnect\GD_MachineConnect.csproj">
-      <Project>{f76dd2a1-5bf2-488b-b481-274da19e51e6}</Project>
+      <Project>{EF757B42-C01A-4E35-BD2A-B9F497861843}</Project>
       <Name>GD_MachineConnect</Name>
     </ProjectReference>
     <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj">

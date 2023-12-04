@@ -2,7 +2,6 @@
 using DevExpress.Xpf.Scheduling.Themes;
 using DevExpress.XtraRichEdit.Printing;
 using GD_CommonLibrary;
-using GD_MachineConnect.Machine;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
 using System;

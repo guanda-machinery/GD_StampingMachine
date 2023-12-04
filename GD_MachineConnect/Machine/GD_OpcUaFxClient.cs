@@ -1,46 +1,30 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Policy;
-using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GD_CommonLibrary.Extensions;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Linq;
-using Opc.Ua;
-using Opc.Ua.Client;
+using GD_MachineConnect.Machine.Interfaces;
 using Opc.UaFx;
 using Opc.UaFx.Client;
-using Org.BouncyCastle.Security;
 
 namespace GD_MachineConnect.Machine
 {
 
     //https://docs.traeger.de/en/software/sdk/opc-ua/net/client.development.guide#reading-values
 
-    public class GD_OpcUaFxClient: IAsyncDisposable
+    public class GD_OpcUaFxClient: IOpcuaConnect , IAsyncDisposable
     {
-        public enum ClientState
-        {
-            Created = 0,
-            Connecting = 1,
-            Connected = 2,
-            Disconnecting = 3,
-            Disconnected = 4,
-            Reconnecting = 5,
-            Reconnected = 6
-        }
 
+        public ClientState State => _state;
+        public bool IsConnected => _isConnected;
+        public Exception ConnectException { get => _connectException; }
 
+        private ClientState _state;
+        private bool _isConnected;
+        private Exception _connectException;
 
         private bool disposedValue;
         public async ValueTask DisposeAsync()
@@ -50,45 +34,14 @@ namespace GD_MachineConnect.Machine
                 Disconnect();
                 disposedValue = true;
             }
-
         }
-
-        OpcClient m_OpcUaClient = new OpcClient();
-
 
         ~GD_OpcUaFxClient()
         {
             DisposeAsync();
         }
-        public GD_OpcUaFxClient()
-        {
 
-        }
-
-        private string HostPath;
-        public GD_OpcUaFxClient(string hostPath, int port = 0, string dataPath = null, string user = null, string password=null) 
-        {
-            Opc.UaFx.Client.OpcClientIdentity userIdentity = new(user, password);
-
-            HostPath = hostPath;
-            var baseUrl = CombineUrl(hostPath, port, dataPath);
-            m_OpcUaClient = new OpcClient(baseUrl.ToString());
-
-            m_OpcUaClient.Security.UserIdentity = userIdentity;
-            m_OpcUaClient.SessionTimeout = OpcClient.DefaultSessionTimeout;
-
-            m_OpcUaClient.StateChanged += (sender, e) =>
-            {
-                IsConnected = e.NewState == OpcClientState.Connected;
-                State = (ClientState)e.NewState;
-            };
-        }
-
-
-        public ClientState State { get; private set; }
-
-
-        //public int ConntectMillisecondsTimeout = 3000;
+        private OpcClient m_OpcUaClient;
 
         private Uri CombineUrl(string hostPath , int? port ,string dataPath)
         {
@@ -102,18 +55,28 @@ namespace GD_MachineConnect.Machine
 
         private const int retryCounter = 5;
 
-        //private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        public bool IsConnected { get; private set; }
-        public async Task<bool> AsyncConnect()
+        public async Task<bool> AsyncConnect(string hostPath, int port = 0, string dataPath = null, string user = null, string password = null)
         {
+            Opc.UaFx.Client.OpcClientIdentity userIdentity = new(user, password);
+
+            var baseUrl = CombineUrl(hostPath, port, dataPath);
+            m_OpcUaClient = new OpcClient(baseUrl.ToString());
+            m_OpcUaClient.Security.UserIdentity = userIdentity;
+            m_OpcUaClient.SessionTimeout = OpcClient.DefaultSessionTimeout;
+            m_OpcUaClient.StateChanged += (sender, e) =>
+            {
+                _isConnected = e.NewState == OpcClientState.Connected;
+                _state = (ClientState)e.NewState;
+            };
+
             if (disposedValue)
                 return false;
-            if (TcpPing.RetrieveIpAddress(HostPath, out var _ip))
+            if (TcpPing.RetrieveIpAddress(hostPath, out var _ip))
             {
                 if (!await TcpPing.IsPingableAsync(_ip))
                 {
-                    ConnectException = new PingException($"Ping Host: {_ip} is Failed");
+                    _connectException = new PingException($"Ping Host: {_ip} is Failed");
                     return false;
                 }
             }
@@ -126,12 +89,12 @@ namespace GD_MachineConnect.Machine
                         m_OpcUaClient.Connect();
                         m_OpcUaClient.DisconnectTimeout = int.MaxValue;
                         m_OpcUaClient.SessionTimeout = int.MaxValue;
-                        ConnectException = null;
+                        _connectException = null;
                     }
                 }
                 catch (Exception ex)
                 {
-                    ConnectException = ex;
+                    _connectException = ex;
                 }
                 finally
                 {
@@ -143,7 +106,6 @@ namespace GD_MachineConnect.Machine
             return ret;
         }
 
-        public Exception ConnectException { get;private set; }
 
         public void Disconnect()
         {
@@ -250,10 +212,6 @@ namespace GD_MachineConnect.Machine
                     }
 
                 }
-                catch (Opc.Ua.ServiceResultException sex)
-                {
-                    //Disconnect();
-                }
                 catch (Exception ex)
                 {
                     await Task.Delay(10);
@@ -298,10 +256,6 @@ namespace GD_MachineConnect.Machine
                         }
                         return (false, default(T));
                     }
-                }
-                catch(Opc.Ua.ServiceResultException sex)
-                {
-                   // Disconnect();
                 }
                 catch (Exception ex)
                 {
@@ -356,10 +310,6 @@ namespace GD_MachineConnect.Machine
                             return (true, Tvalues);
                         }
                     }
-                }
-                catch (Opc.Ua.ServiceResultException sex)
-                {
-                    // Disconnect();
                 }
                 catch (Exception ex)
                 {
