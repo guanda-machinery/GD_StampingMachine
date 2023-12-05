@@ -403,15 +403,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection);
             NumberSettingSavedCollection = newSavedCollection;
 
-
             AddNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson()
                 .Where(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
                 .ToObservableCollection();
 
-            /*AddNumberSettingSavedCollection.ForEach(obj =>
-            {
-                obj.PlateNumber = string.IsNullOrEmpty(AddNewPartsParameterVM.ParameterA) ? string.Empty : AddNewPartsParameterVM.ParameterA;
-            });*/
 
             var editNumberSettingCollection = NumberSettingSavedCollection.DeepCloneByJson();
             if (EditPartsParameterVM_Cloned != null)

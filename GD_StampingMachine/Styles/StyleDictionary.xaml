@@ -190,12 +190,6 @@
 
 
 
-
-
-
-
-
-
     <Style x:Key="SiegCustomButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
         <Setter Property="MinWidth"
                             Value="24" />
@@ -220,6 +214,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
+                    <Grid>
                     <Border Background="{TemplateBinding Background}"        
                             Margin="0"
                             CornerRadius="5"
@@ -227,7 +222,31 @@
                             Padding="{TemplateBinding Padding}"
                             BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
+                        </Border>
+                        <ProgressBar 
+                            Name="ProgressBar" Height="{TemplateBinding Height}" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                            Style="{DynamicResource MaterialDesignLinearProgressBar}" 
+                            Width="{Binding RelativeSource={RelativeSource FindAncestor , AncestorType={x:Type ButtonBase}}, Path=ActualWidth}" 
+                            Background="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.IndicatorBackground)}"
+                            BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.IndicatorBackground)}" 
+                            Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.IndicatorForeground)}"
+                            IsIndeterminate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.IsIndeterminate)}" 
+                            Maximum="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.Maximum)}" 
+                            Minimum="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.Minimum)}" 
+                            Opacity="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.Opacity)}" 
+                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.IsIndicatorVisible), Converter={StaticResource BooleanToVisibilityConverter}}" 
+                            Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.Value)}">
+                            <ProgressBar.Clip>
+                                <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                                    <Binding ElementName="border" Path="ActualWidth" />
+                                    <Binding ElementName="border" Path="ActualHeight" />
+                                    <Binding ElementName="border" Path="CornerRadius" />
+                                    <Binding ElementName="border" Path="BorderThickness" />
+                                </MultiBinding>
+                            </ProgressBar.Clip>
+                        </ProgressBar>
+
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="LightSkyBlue"/>

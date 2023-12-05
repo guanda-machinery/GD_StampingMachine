@@ -392,11 +392,6 @@ namespace GD_MachineConnect.Machine
                              
                                 item.DataChangeReceived += (sender, e) =>
                                 {
-                                    /*OpcMonitoredItem item = (OpcMonitoredItem)sender;
-                                    Console.WriteLine(
-                                            "Data Change from Index {0}: {1}",
-                                            item.Tag,
-                                            e.Item.Value)*/
                                     try
                                     {
                                         if (e.Item.Value.Value is T Tvalue)

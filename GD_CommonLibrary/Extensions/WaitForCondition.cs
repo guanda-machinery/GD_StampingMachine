@@ -154,6 +154,8 @@ namespace GD_CommonLibrary.Extensions
         }
 
 
+        //滿足條件後等待固定秒數
+
 
 
 
@@ -172,7 +174,7 @@ namespace GD_CommonLibrary.Extensions
                             canceledToken.ThrowIfCancellationRequested();
                         }
                     }
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                     await Task.Yield();
                 }
                 tcs.SetResult(true);

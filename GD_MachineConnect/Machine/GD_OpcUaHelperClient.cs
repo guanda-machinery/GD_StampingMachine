@@ -44,16 +44,10 @@ namespace GD_MachineConnect.Machine
         private const int retryCounter = 10;
 
 
-
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-
-
         public async Task<bool> AsyncConnect(string hostPath, int port = 0, string dataPath = null, string user = null, string password = null)
         {
             m_OpcUaClient.UserIdentity = new Opc.Ua.UserIdentity(user, password);
-
-
-
             if (!m_OpcUaClient.Connected)
             {
                 if (TcpPing.RetrieveIpAddress(hostPath, out var _ip))
@@ -105,6 +99,7 @@ namespace GD_MachineConnect.Machine
             }
             return m_OpcUaClient.Connected;
         }
+
 
         public Exception ConnectException { get;private set; }
 
@@ -169,6 +164,7 @@ namespace GD_MachineConnect.Machine
 
         //public ClientState State =>
 
+        //private bool _isConnected;
         public bool IsConnected => m_OpcUaClient.Connected;
 
 
@@ -303,7 +299,9 @@ namespace GD_MachineConnect.Machine
             return (false, default(IEnumerable<T>));
         }
 
-        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = false)
+        private readonly SemaphoreSlim subscribeSemaphoreSlim = new SemaphoreSlim(1, 1);
+
+        /*public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = false)
         {
             var ret = await SubscribeNodesDataChangeAsync(new List<(string, Action<T>, int, bool checkDuplicates)>
             {
@@ -315,7 +313,6 @@ namespace GD_MachineConnect.Machine
 
 
 
-        private readonly SemaphoreSlim subscribeSemaphoreSlim = new SemaphoreSlim(1, 1);
 
         public async Task<IList<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
         {
@@ -363,13 +360,17 @@ namespace GD_MachineConnect.Machine
                                 var item = new MonitoredItem();
                                 item.StartNodeId = new NodeId(NodeID);
                                 item.SamplingInterval = samplingInterval;
+                              
                                 item.Notification += (sender, e) =>
                                 {
                                     try
                                     {
-                                        if (e.NotificationValue is T Tvalue)
+                                        if (e.NotificationValue is Opc.Ua.MonitoredItemNotification notification)
                                         {
-                                            updateAction?.Invoke(Tvalue);
+                                            if (notification.Value.Value is T Tvalue)
+                                            {
+                                                updateAction?.Invoke(Tvalue);
+                                            }
                                         }
                                     }
                                     catch
@@ -392,8 +393,10 @@ namespace GD_MachineConnect.Machine
 
 
                                 if (!m_OpcUaClient.Session.Subscriptions.Contains(opcSubscription))
-                                    m_OpcUaClient.Session.AddSubscription(opcSubscription); 
-                                opcSubscription.Create();
+                                {
+                                    m_OpcUaClient.Session.AddSubscription(opcSubscription);
+                                    opcSubscription.Create();
+                                }
                                 opcSubscription.ApplyChanges();
 
                                 break;
@@ -418,7 +421,138 @@ namespace GD_MachineConnect.Machine
 
                 return retList;
             });
+        }*/
+
+        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = false)
+        {
+            var ret = await SubscribeNodesDataChangeAsync<T>(new List<(string, Action<T>, int, bool checkDuplicates)>
+            {
+                (NodeID, updateAction , samplingInterval , checkDuplicates)
+            });
+            return ret.FirstOrDefault();
         }
+
+
+
+
+        public async Task<IList<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
+        {
+            return await Task.Run(async () =>
+            {
+
+                List<bool> retList = new List<bool>();
+                await subscribeSemaphoreSlim.WaitAsync();
+                try
+                {
+                    for (int i = 0; i < nodeList.Count(); i++)
+                    {
+                        var index = i;
+                        var (NodeID, updateAction, samplingInterval, checkDuplicates) = nodeList[index];
+                        bool ret = false;
+                        for (int j = 0; j < 5 && !ret; j++)
+                        {
+                            try
+                            {
+                                //將響應時間當作訂閱的名稱進行分類
+                                string skey = samplingInterval.ToString();
+
+                                Subscription opcSubscription = m_OpcUaClient.Session.Subscriptions.FirstOrDefault(x => x.DisplayName == skey);
+                                if (opcSubscription == null)
+                                {
+                                    //opcSubscription = new Subscription();
+
+                                    opcSubscription = new Subscription(m_OpcUaClient.Session.DefaultSubscription);
+                                    opcSubscription.PublishingEnabled = true;
+                                    opcSubscription.KeepAliveCount = uint.MaxValue;
+                                    opcSubscription.LifetimeCount = uint.MaxValue;
+                                    opcSubscription.MaxNotificationsPerPublish = uint.MaxValue;
+                                    opcSubscription.Priority = 100;
+                                    opcSubscription.PublishingInterval = samplingInterval;
+                                    opcSubscription.DisplayName = samplingInterval.ToString();
+                                }
+
+                                if (checkDuplicates && opcSubscription.MonitoredItems.Any(x => x.StartNodeId == new NodeId(NodeID)))
+                                {
+                                    //已經有訂閱了
+                                    ret = true;
+                                    break;
+                                }
+
+                                var item = new MonitoredItem();
+                                item.StartNodeId = new NodeId(NodeID);
+                                item.SamplingInterval = samplingInterval;
+
+                                item.Notification += (sender, e) =>
+                                {
+                                    //將action返還值
+                                    try
+                                    {
+                                        if (e.NotificationValue is Opc.Ua.MonitoredItemNotification notification)
+                                        {
+                                            if (notification.Value.Value is T Tvalue)
+                                            {
+                                                updateAction?.Invoke(Tvalue);
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                };
+
+
+
+
+
+
+
+
+
+                                // You can set your own values on the "Tag" property
+                                // that allows you to identify the source later.
+                                //   item.Tag = index;
+                                // Set a custom sampling interval on the 
+                                // monitored item.
+
+                                opcSubscription.AddItem(item);
+                                // Add the item to the subscription.
+                                // opcSubscription.AddMonitoredItem(item);
+                                // After adding the items (or configuring the subscription), apply the changes.
+                                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                                //await WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Connected, cts.Token);
+
+                                //已經存在的訂閱就不再創造
+                                if (!m_OpcUaClient.Session.Subscriptions.Contains(opcSubscription))
+                                {
+                                    m_OpcUaClient.Session.AddSubscription(opcSubscription);
+                                    opcSubscription.Create();
+                                }
+                                opcSubscription.ApplyChanges();
+
+                                break;
+                            }
+                            catch (Exception ex)
+                            {
+                                ret = false;
+                                Debug.WriteLine(ex.ToString());
+                            }
+                        }
+                        retList.Add(ret);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Debugger.Break();
+                    Debug.WriteLine(ex.ToString());
+                }
+                subscribeSemaphoreSlim.Release();
+
+                return retList;
+            });
+        }
+
 
         public async Task<bool> UnsubscribeNodeAsync(string NodeID, int samplingInterval)
         {

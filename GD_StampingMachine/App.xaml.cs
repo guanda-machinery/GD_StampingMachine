@@ -1,4 +1,5 @@
 ﻿
+using DevExpress.Diagram.Core.Shapes;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.WindowsUI;
 using GD_CommonLibrary.Method;
@@ -6,6 +7,7 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.Properties;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels;
+using Microsoft.Build.Framework;
 using Microsoft.VisualStudio.Threading;
 using System;
 using System.Collections.Generic;
@@ -49,21 +51,29 @@ namespace GD_StampingMachine
                 Subtitle = "Alpha 23.7.4",
                 Copyright = "Copyright © 2023 GUANDA",
             };
-            StampingMachineWindow MachineWindow = new StampingMachineWindow(); ;
+            StampingMachineWindow MachineWindow = new StampingMachineWindow();
+
+            MachineWindow.Show();
 
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-            MachineWindow.Show();
-            MachineWindow.IsEnabled = false;
-
-            MachineWindow.Topmost = true;
-            MachineWindow.Topmost = false;
-            manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
-
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    if(Settings.Default.ConnectOnStartUp)
+                    await Application.Current?.Dispatcher.InvokeAsync(async () =>
+                    {
+                        await Task.Delay(100);
+                        MachineWindow.IsEnabled = false;
+
+
+                        MachineWindow.Topmost = true;
+                        MachineWindow.Topmost = false;
+                        manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
+                    });
+
+
+
+                        if (Settings.Default.ConnectOnStartUp)
                         await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
                     await Task.Yield();
                     await Task.Delay(1000);
@@ -83,6 +93,7 @@ namespace GD_StampingMachine
  
                     await Application.Current?.Dispatcher.InvokeAsync( () =>
                     {
+                        MachineWindow.Visibility = Visibility.Visible;
                             MachineWindow.IsEnabled = true;
                     });
                     manager.Close();
@@ -95,11 +106,11 @@ namespace GD_StampingMachine
             });
         }
 
-        private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private async void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)
             {
-                var ExTask= Task.Run(async () =>
+               var ExTask = Task.Run(async () =>
                 {
                     //紀錄異常
                     await LogDataSingleton.Instance.AddLogDataAsync(nameof(App), exception.Message, true);
@@ -107,29 +118,30 @@ namespace GD_StampingMachine
                     await StampMachineDataSingleton.Instance.DisposeAsync();
                     await MessageBoxResultShow.ShowOKAsync(nameof(App), exception.Message);
                 });
-                ExTask.Wait();
+                //ExTask.Wait();
 
                 //顯示彈窗
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                await ExTask;
             }
         }
 
-        protected override void OnExit(ExitEventArgs e)
+        protected override async void OnExit(ExitEventArgs e)
         {
+
             base.OnExit(e);
             var JsonHM = new StampingMachineJsonHelper();
-            _ = Task.Run(async () =>
-            {
-                // 開始一個 Task 來執行非同步操作
-                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
-            });  // 等待 Task 完成
+
+            // 開始一個 Task 來執行非同步操作
+            var stoptask= StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+
 
             //存檔
             var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
             JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
             StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProject());
 
-
+            await stoptask;
 
         }
 

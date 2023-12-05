@@ -295,17 +295,24 @@
                             <!--       CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"-->
                             <dxg:GridControl 
                                 Name="WorkGridControl"
-                                MaxHeight="420" 
+                               Height="420"
                                 Margin="10,0"
                                 Grid.Column="1"
-                         
-                                Background="Transparent"  MinHeight="200" 
+
+                                Background="Transparent"  MinHeight="420" 
                                 Style="{StaticResource ProjectGridControl}" 
                                 ItemsSource="{Binding IsAsync=True,
                                 Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}
                                 ,Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                   >
                                 <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
+                                                   PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+
+
+
                                     <i:EventTrigger EventName="SizeChanged">
                                         <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
                                                    PassEventArgsToCommand="True" />

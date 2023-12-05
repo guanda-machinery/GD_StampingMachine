@@ -96,6 +96,28 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
+        private ICommand _gridControlLoadedCommand;
+        public ICommand GridControlLoadedCommand
+        {
+            get => _gridControlLoadedCommand ??= new AsyncRelayCommand<object>(async obj =>
+            {
+
+                if (obj is System.Windows.RoutedEventArgs e)
+                {
+                    if (e.Source is DevExpress.Xpf.Grid.GridControl gridcontrol)
+                    {
+
+                    }
+                }
+            });
+        }
+
+
+        
+
+
+
+
 
 
 

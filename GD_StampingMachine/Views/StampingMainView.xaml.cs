@@ -15,5 +15,11 @@ namespace GD_StampingMachine.Views
         }
 
 
+
+
+
+
+
+
     }
 }
