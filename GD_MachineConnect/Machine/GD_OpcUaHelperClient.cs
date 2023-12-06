@@ -30,35 +30,16 @@ namespace GD_MachineConnect.Machine
 
         public int ConntectMillisecondsTimeout = 1000;
 
-        private Uri CombineUrl(string hostPath , int? port ,string dataPath)
-        {
-            //var hostPath = HostPath;
-            if (!hostPath.Contains("opc.tcp://"))
-                hostPath = "opc.tcp://" + hostPath;
-            if (port.HasValue)
-                hostPath += $":{port}";
-            var BaseUrl = new Uri(hostPath);
-            return new Uri(BaseUrl, dataPath);
-        }
 
         private const int retryCounter = 10;
 
 
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        public async Task<bool> AsyncConnect(string hostPath, int port = 0, string dataPath = null, string user = null, string password = null)
+        public async Task<bool> AsyncConnect(string hostPath, string user = null, string password = null)
         {
             m_OpcUaClient.UserIdentity = new Opc.Ua.UserIdentity(user, password);
             if (!m_OpcUaClient.Connected)
             {
-                if (TcpPing.RetrieveIpAddress(hostPath, out var _ip))
-                {
-                    if (!await TcpPing.IsPingableAsync(_ip))
-                    {
-                        ConnectException = new PingException($"Ping Host: {_ip} is Failed");
-                        return false;
-                    }
-                }
-
                 using (var cts = new CancellationTokenSource(3000))
                 {
                     try
@@ -70,32 +51,24 @@ namespace GD_MachineConnect.Machine
                         return false;
                     }
                 }
-
-                await Task.Run(async () =>
+                try
                 {
-                    try
+                    if (!m_OpcUaClient.Connected)
                     {
-                        if (!m_OpcUaClient.Connected)
-                        {
-                            var baseUrl = CombineUrl(hostPath, port, dataPath); 
-                            await m_OpcUaClient.ConnectServer(baseUrl.ToString());
-                            ConnectException = null;
-                        }
+                        await m_OpcUaClient.ConnectServer(hostPath.ToString());
+                        ConnectException = null;
                     }
-                    catch (Exception ex)
-                    {
-                        ConnectException = ex;
-                        if (m_OpcUaClient.Connected)
-                            m_OpcUaClient.Disconnect();
-                    }
-                    finally
-                    {
-                    }
-                });
-
+                }
+                catch (Exception ex)
+                {
+                    ConnectException = ex;
+                    if (m_OpcUaClient.Connected)
+                        m_OpcUaClient.Disconnect();
+                }
+                finally
+                {
+                }
                 semaphoreSlim.Release();
-
-
             }
             return m_OpcUaClient.Connected;
         }
@@ -211,7 +184,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<bool>> AsyncWriteNodes(Dictionary<string,object> NodeTrees)
+        public async Task<IEnumerable<bool>> WriteNodesAsync(Dictionary<string,object> NodeTrees)
         {
             if (NodeTrees.Count == 0)
                 return new List<bool>();
@@ -253,7 +226,7 @@ namespace GD_MachineConnect.Machine
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        public async Task<(bool , T)> AsyncReadNode<T>(string NodeID)
+        public async Task<(bool , T)> ReadNodeAsync<T>(string NodeID)
         {
             //T NodeValue = default(T);
             for (int i = 0; i < retryCounter; i++)
@@ -277,7 +250,7 @@ namespace GD_MachineConnect.Machine
 
 
 
-        public async Task<(bool result, IEnumerable<T> values)> AsyncReadNodes<T>(IEnumerable<string> NodeTrees)
+        public async Task<(bool result, IEnumerable<T> values)> ReadNodesAsync<T>(IEnumerable<string> NodeTrees)
         {
             //T NodeValue = default(T);
             for (int i = 0; i < retryCounter; i++)
@@ -500,10 +473,6 @@ namespace GD_MachineConnect.Machine
 
                                     }
                                 };
-
-
-
-
 
 
 

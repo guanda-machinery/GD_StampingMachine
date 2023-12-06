@@ -20,9 +20,9 @@ namespace GD_MachineConnect.Machine.Interfaces
 
         //public ClientState State { get; }
         bool IsConnected { get; }
-        Task<bool> AsyncConnect(string hostPath, int port = 0, string dataPath = null, string user = null, string password = null);
+        Task<bool> AsyncConnect(string hostPath, string user = null, string password = null);
 
-        Exception ConnectException { get;  }
+        //Exception ConnectException { get;  }
 
         void Disconnect();
 
@@ -46,7 +46,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="WriteValue"></param>
         /// <returns></returns>
 
-        Task<IEnumerable<bool>> AsyncWriteNodes(Dictionary<string, object> NodeTrees);
+        Task<IEnumerable<bool>> WriteNodesAsync(Dictionary<string, object> NodeTrees);
 
         /// <summary>
         /// 讀取點
@@ -54,7 +54,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        Task<(bool, T)> AsyncReadNode<T>(string NodeID);
+        Task<(bool, T)> ReadNodeAsync<T>(string NodeID);
 
         /// <summary>
         /// 讀取點
@@ -62,7 +62,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        Task<(bool result, IEnumerable<T> values)> AsyncReadNodes<T>(IEnumerable<string> NodeTrees);
+        Task<(bool result, IEnumerable<T> values)> ReadNodesAsync<T>(IEnumerable<string> NodeTrees);
 
         /// <summary>
         /// 

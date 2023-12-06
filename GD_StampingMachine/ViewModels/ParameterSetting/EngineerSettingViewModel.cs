@@ -128,6 +128,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 //設定為自動開始
                 Properties.Settings.Default.ConnectOnStartUp = true;
                 Properties.Settings.Default.Save();// = false;
+
                     await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
 
             } ,()=> !_opcuaStartScanCommand.IsRunning);

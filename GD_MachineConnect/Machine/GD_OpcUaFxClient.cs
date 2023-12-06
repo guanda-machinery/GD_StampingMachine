@@ -186,7 +186,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="WriteValue"></param>
         /// <returns></returns>
 
-        public async Task<IEnumerable<bool>> AsyncWriteNodes(Dictionary<string,object> NodeTrees)
+        public async Task<IEnumerable<bool>> WriteNodesAsync(Dictionary<string,object> NodeTrees)
         {
             var ret = new List<bool>();
             if (NodeTrees.Count == 0)
@@ -233,7 +233,7 @@ namespace GD_MachineConnect.Machine
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        public async Task<(bool , T)> AsyncReadNode<T>(string NodeID)
+        public async Task<(bool , T)> ReadNodeAsync<T>(string NodeID)
         {
             //T NodeValue = default(T);
 
@@ -276,7 +276,7 @@ namespace GD_MachineConnect.Machine
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        public async Task<(bool result, IEnumerable<T>values)> AsyncReadNodes<T>(IEnumerable<string> NodeTrees)
+        public async Task<(bool result, IEnumerable<T>values)> ReadNodeAsyncs<T>(IEnumerable<string> NodeTrees)
         {
             var commands = new List<OpcReadNode>();
             foreach (var node in NodeTrees)

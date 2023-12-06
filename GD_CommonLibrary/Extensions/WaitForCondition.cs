@@ -160,7 +160,7 @@ namespace GD_CommonLibrary.Extensions
 
 
 
-        static async Task MonitorConditionAsync<T>(Func<T> conditionFunc,   T result, bool isEqual, TaskCompletionSource<bool> tcs , params CancellationToken[] tokens)
+        static async Task<bool> MonitorConditionAsync<T>(Func<T> conditionFunc,   T result, bool isEqual, TaskCompletionSource<bool> tcs , params CancellationToken[] tokens)
         {
             try
             {
@@ -183,6 +183,8 @@ namespace GD_CommonLibrary.Extensions
             {
                 tcs.SetException(ex);
             }
+
+            return tcs.Task.Result;
         }
 
 

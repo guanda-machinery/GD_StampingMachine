@@ -126,14 +126,17 @@ namespace GD_StampingMachine
             }
         }
 
-        protected override async void OnExit(ExitEventArgs e)
-        {
 
-            base.OnExit(e);
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
             var JsonHM = new StampingMachineJsonHelper();
 
             // 開始一個 Task 來執行非同步操作
-            var stoptask= StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+            var stoptask = Task.Run(async () => 
+            { 
+                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync(); 
+            } );
 
 
             //存檔
@@ -141,9 +144,7 @@ namespace GD_StampingMachine
             JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
             StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProject());
 
-            await stoptask;
-
+            stoptask.Wait();
         }
-
     }
 }
