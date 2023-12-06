@@ -867,6 +867,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
+
         private async Task RunScanTaskAsync(CancellationToken cancelToken)
         {
             IsScaning = true;
@@ -894,7 +895,7 @@ namespace GD_StampingMachine.Singletons
                         });
 
 
-                        GD_OpcUaClient = new GD_OpcUaHelperClient();
+                        GD_OpcUaClient = new GD_OpcUaClient();
 
                         //紀錄變化
                         /*  _ = Task.Run(async () =>
@@ -948,7 +949,7 @@ namespace GD_StampingMachine.Singletons
                                     }
                                 }
 
-                                intiConnect = await GD_OpcUaClient.AsyncConnect(baseUrl.ToString(), CommunicationSetting.UserName, CommunicationSetting.Password);
+                                intiConnect = await GD_OpcUaClient.ConnectAsync(baseUrl.ToString(), CommunicationSetting.UserName, CommunicationSetting.Password);
                                 if (intiConnect)
                                 {
                                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
@@ -1492,7 +1493,7 @@ namespace GD_StampingMachine.Singletons
                                 {
                                     if (!string.IsNullOrEmpty(IO_Table.NodeID))
                                     {
-                                        var Rtask = await GD_OpcUaClient.ReadNodeAsync<object>(IO_Table.NodeID);
+                                        var Rtask = await this.ReadNodeAsync<object>(IO_Table.NodeID);
                                         if (Rtask.Item1)
                                             IO_Table.IO_Value = Rtask.Item2;
 
@@ -2439,7 +2440,7 @@ namespace GD_StampingMachine.Singletons
             var ret = false;
             if (GD_OpcUaClient.IsConnected)
             {
-                return await GD_OpcUaClient.AsyncWriteNode<int>(StampingOpcUANode.Stacking1.sv_iThisStation, Index);
+                return await this.WriteNodeAsync(StampingOpcUANode.Stacking1.sv_iThisStation, Index);
                 //GD_OpcUaClient.Disconnect();
             }
             return ret;
@@ -2450,7 +2451,7 @@ namespace GD_StampingMachine.Singletons
             var ret = (false, -1);
             if (GD_OpcUaClient.IsConnected)
             {
-                return await GD_OpcUaClient.ReadNodeAsync<int>(StampingOpcUANode.Stacking1.sv_iThisStation);
+                return await this.ReadNodeAsync<int>(StampingOpcUANode.Stacking1.sv_iThisStation);
                 //GD_OpcUaClient.Disconnect();
             }
             return ret;
@@ -3357,7 +3358,7 @@ namespace GD_StampingMachine.Singletons
         {
             if (GD_OpcUaClient.IsConnected)
             {
-                return await GD_OpcUaClient.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID");
+                return await this.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID");
 
             }
             return (false ,0);
@@ -3371,7 +3372,7 @@ namespace GD_StampingMachine.Singletons
         {
             if (GD_OpcUaClient.IsConnected)
             {
-                return await GD_OpcUaClient.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID");
+                return await this.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID");
          
             }
             return (false, 0);
@@ -3591,21 +3592,21 @@ Y軸馬達位置移動命令
 
         public async Task<bool> FeedingPositionBwdAsync(bool Active)
         {
-            await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, false);
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, Active);
+            await this.WriteNodeAsync(StampingOpcUANode.Feeding1.sv_bButtonFwd, false);
+            return await this.WriteNodeAsync(StampingOpcUANode.Feeding1.sv_bButtonBwd, Active);
         }
 
         public async Task<bool> FeedingPositionFwdAsync(bool Active)
         {
-            await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonBwd, false);
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bButtonFwd, Active);
+            await this.WriteNodeAsync(StampingOpcUANode.Feeding1.sv_bButtonBwd, false);
+            return await this.WriteNodeAsync(StampingOpcUANode.Feeding1.sv_bButtonFwd, Active);
         }
 
         public async Task<bool> FeedingPositionReturnToStandbyPositionAsync()
         {
-            await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bUseHomeing, true);
+            await this.WriteNodeAsync(StampingOpcUANode.Feeding1.sv_bUseHomeing, true);
             await Task.Delay(500);
-            return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Feeding1.sv_bUseHomeing, false);
+            return await this.WriteNodeAsync(StampingOpcUANode.Feeding1.sv_bUseHomeing, false);
         }
 
 
@@ -3629,7 +3630,7 @@ Y軸馬達位置移動命令
         /// </summary>
         public async Task<(bool, OperationModeEnum)> GetOperationModeAsync()
         {
-            var ret = await GD_OpcUaClient.ReadNodeAsync<int>(StampingOpcUANode.system.sv_OperationMode);
+            var ret = await this.ReadNodeAsync<int>(StampingOpcUANode.system.sv_OperationMode);
             return (ret.Item1, (OperationModeEnum)ret.Item2);
         }
         /// <summary>
@@ -3643,25 +3644,25 @@ Y軸馬達位置移動命令
                 switch (operationMode)
                 {
                     case OperationModeEnum.Setup:
-                        ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonSetup, true);
+                        ret = await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonSetup, true);
                         break;
                     case OperationModeEnum.Manual:
-                        ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonManual, true);
+                        ret = await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonManual, true);
                         break;
                     case OperationModeEnum.HalfAutomatic:
-                        ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonHalfAuto, true);
+                        ret = await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonHalfAuto, true);
                         break;
                     case OperationModeEnum.FullAutomatic:
-                        ret = await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonFullAuto, true);
+                        ret = await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonFullAuto, true);
                         break;
                     default:
                         break;
                 }
                 await Task.Delay(100);
-                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonManual, false);
-                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonSetup, false);
-                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonHalfAuto, false);
-                await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonFullAuto, false);
+                await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonManual, false);
+                await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonSetup, false);
+                await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonHalfAuto, false);
+                await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonFullAuto, false);
             }
             return ret;
         }
@@ -3672,14 +3673,14 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetServoHomeAsync()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Feeding1.di_ServoHome);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Feeding1.di_ServoHome);
         }
 
 
 
         public async Task<(bool, float)> GetFeedingPositionAsync()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedingPosition);
+            return await this.ReadNodeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedingPosition);
         }
 
 
@@ -3687,16 +3688,16 @@ Y軸馬達位置移動命令
 
         public async Task<bool> ResetAsync()
         {
-            await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm, true);
+            await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm, true);
             await Task.Delay(500);
-            return await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm, false);
+            return await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm, false);
         }
 
         public async Task<bool> CycleStart()
         {
-            await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, true);
+            await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, true);
             await Task.Delay(500);
-            return await GD_OpcUaClient.AsyncWriteNode<bool>(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, false);
+            return await this.WriteNodeAsync(StampingOpcUANode.OperationMode1.sv_bButtonCycleStart, false);
         }
 
 
@@ -3714,12 +3715,12 @@ Y軸馬達位置移動命令
                             switch (direction)
                             {
                                 case DirectionsEnum.Up:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, IsTrigger);
                                     break;
                                 case DirectionsEnum.Down:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, IsTrigger);
                                     break;
                                 default:
                                     ret = false;
@@ -3730,12 +3731,12 @@ Y軸馬達位置移動命令
                             switch (direction)
                             {
                                 case DirectionsEnum.Up:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, IsTrigger);
                                     break;
                                 case DirectionsEnum.Down:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, IsTrigger);
                                     break;
                                 default:
                                     ret = false;
@@ -3746,12 +3747,12 @@ Y軸馬達位置移動命令
                             switch (direction)
                             {
                                 case DirectionsEnum.Up:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture1.sv_bButtonUp, IsTrigger);
                                     break;
                                 case DirectionsEnum.Down:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture1.sv_bButtonUp, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture1.sv_bButtonDown, IsTrigger);
                                     break;
                                 default:
                                     ret = false;
@@ -3762,12 +3763,12 @@ Y軸馬達位置移動命令
                             switch (direction)
                             {
                                 case DirectionsEnum.Up:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture2.sv_bButtonDown, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture2.sv_bButtonUp, IsTrigger);
                                     break;
                                 case DirectionsEnum.Down:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Fixture2.sv_bButtonDown, IsTrigger);
                                     break;
                                 default:
                                     ret = false;
@@ -3778,14 +3779,14 @@ Y軸馬達位置移動命令
                             switch (direction)
                             {
                                 case DirectionsEnum.Up:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonUp, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.BlockingClips1.sv_bButtonUp, IsTrigger);
                                     break;
                                 case DirectionsEnum.Down:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonDown, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.BlockingClips1.sv_bButtonDown, IsTrigger);
                                     break;
                                 default:
-                                    var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
-                                    var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, false);
+                                    var O_ret = this.WriteNodeAsync(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
+                                    var C_ret = this.WriteNodeAsync(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, false);
                                     ret = await O_ret && await C_ret;
                                     break;
                             }
@@ -3795,14 +3796,14 @@ Y軸馬達位置移動命令
                             switch (direction)
                             {
                                 case DirectionsEnum.Up:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Engraving1.sv_bButtonOpen, IsTrigger);
                                     break;
                                 case DirectionsEnum.Down:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Engraving1.sv_bButtonClose, IsTrigger);
                                     break;
                                 default:
-                                    var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
-                                    var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
+                                    var O_ret = this.WriteNodeAsync(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
+                                    var C_ret = this.WriteNodeAsync(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
                                     ret = await O_ret && await C_ret;
                                     break;
                             }
@@ -3813,14 +3814,14 @@ Y軸馬達位置移動命令
                             switch (direction)
                             {
                                 case DirectionsEnum.Up:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Cutting1.sv_bButtonOpen, IsTrigger);
                                     break;
                                 case DirectionsEnum.Down:
-                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, IsTrigger);
+                                    ret = await this.WriteNodeAsync(StampingOpcUANode.Cutting1.sv_bButtonClose, IsTrigger);
                                     break;
                                 default:
-                                    var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
-                                    var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
+                                    var O_ret = this.WriteNodeAsync(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
+                                    var C_ret = this.WriteNodeAsync(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
                                     ret = await O_ret && await C_ret;
                                     break;
                             }
@@ -3843,7 +3844,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetGuideRod_Move_Position_isUp()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureUp);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureUp);
         }
         /// <summary>
         ///  雙導桿缸(可動端)在下方
@@ -3853,7 +3854,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetGuideRod_Move_Position_isDown()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureDown);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture1.sv_bGuideRodsFixtureDown);
         }
         /// <summary>
         /// 雙導桿缸(固定端)在上方
@@ -3863,7 +3864,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetGuideRod_Fixed_Position_isUp()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureUp);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureUp);
         }
         /// <summary>
         /// 雙導桿缸(固定端)在下方
@@ -3873,7 +3874,7 @@ Y軸馬達位置移動命令
         /// <returns></returns> 
         public async Task<(bool, bool)> GetGuideRod_Fixed_Position_isDown()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureDown);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.GuideRodsFixture2.sv_bGuideRodsFixtureDown);
         }
 
         /// <summary>
@@ -3882,7 +3883,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetQRStamping_Position_isUp()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Fixture1.sv_bFixtureUp);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Fixture1.sv_bFixtureUp);
         }
 
         /// <summary>
@@ -3891,7 +3892,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetQRStamping_Position_isDown()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Fixture1.sv_bFixtureDown);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Fixture1.sv_bFixtureDown);
         }
         /// <summary>
         /// 鋼印壓座組在上方
@@ -3899,7 +3900,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetStampingSeat_Position_isUp()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Fixture2.sv_bFixtureUp);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Fixture2.sv_bFixtureUp);
 
         }
         /// <summary>
@@ -3908,7 +3909,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetStampingSeat_Position_isDown()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Fixture2.sv_bFixtureDown);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Fixture2.sv_bFixtureDown);
         }
 
         /// <summary>
@@ -3917,7 +3918,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetBlockingCylinder_Position_isUp()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp);
         }
         /// <summary>
         /// 阻擋缸在下方
@@ -3925,7 +3926,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetBlockingCylinder_Position_isDown()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown);
         }
 
         /// <summary>
@@ -3934,7 +3935,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicEngraving_Position_Origin()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Engraving1.di_StopUp);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Engraving1.di_StopUp);
         }
 
         /// <summary>
@@ -3943,7 +3944,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicEngraving_Position_StandbyPoint()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Engraving1.di_StandbyPoint);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Engraving1.di_StandbyPoint);
         }
         /// <summary>
         /// 鋼印下壓
@@ -3951,7 +3952,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicEngraving_Position_StopDown()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Engraving1.di_StopDown);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Engraving1.di_StopDown);
         }
 
         /// <summary>
@@ -3978,7 +3979,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicCutting_Position_Origin()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Cutting1.di_CuttingOrigin);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Cutting1.di_CuttingOrigin);
         }
         /// <summary>
         /// 切割待命位置
@@ -3986,7 +3987,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicCutting_Position_StandbyPoint()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Cutting1.di_CuttingStandbyPoint);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Cutting1.di_CuttingStandbyPoint);
         }
         /// <summary>
         /// 切割位置
@@ -3994,7 +3995,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicCutting_Position_CutPoint()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Cutting1.di_CuttingCutPoint);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Cutting1.di_CuttingCutPoint);
         }
 
 
@@ -4014,9 +4015,9 @@ Y軸馬達位置移動命令
             {
                 if (pumptask.Item2 == Active)
                     return true;
-                await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, true);
+                await this.WriteNodeAsync(StampingOpcUANode.Motor1.sv_bButtonMotor, true);
                 await Task.Delay(1000);
-                return await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Motor1.sv_bButtonMotor, false);
+                return await this.WriteNodeAsync(StampingOpcUANode.Motor1.sv_bButtonMotor, false);
             }
             else
                 return false;
@@ -4028,7 +4029,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetHydraulicPumpMotor()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted);
+            return await this.ReadNodeAsync<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted);
         }
 
 
@@ -4051,7 +4052,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, bool)> GetRequestDatabit()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>($"{StampingOpcUANode.system.sv_bRequestDatabit}");
+            return await this.ReadNodeAsync<bool>($"{StampingOpcUANode.system.sv_bRequestDatabit}");
         }
 
 
@@ -4086,7 +4087,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<bool> SetRequestDatabit(bool databit)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_bRequestDatabit}", databit);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.system.sv_bRequestDatabit}", databit);
         }
 
         /// <summary>
@@ -4097,7 +4098,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         /*public async Task<(bool,string)> GetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType)
         {
-            return await GD_OpcUaClient.ReadNodeAsync<string>($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}");
+            return await this.ReadNodeAsync<string>($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}");
         }*/
 
         /// <summary>
@@ -4108,7 +4109,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
      /*   public async Task<bool> SetHMIIronPlateName(StampingOpcUANode.sIronPlate ironPlateType, string StringLine)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", StringLine);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.system.sv_HMIIronPlateName.NodeName}.{ironPlateType}", StringLine);
         }*/
 
 
@@ -4157,7 +4158,7 @@ Y軸馬達位置移動命令
             bool ret = false;
             //ns=4;s=APPL.system.sv_DataMatrixMode
             var rootNode = StampingOpcUANode.system.sv_DataMatrixMode;
-            ret = await GD_OpcUaClient.AsyncWriteNode(rootNode, Convert.ToInt32(IsUse));
+            ret = await this.WriteNodeAsync(rootNode, Convert.ToInt32(IsUse));
             //設定完後須更新hmi
             return ret;
         }
@@ -4203,18 +4204,18 @@ Y軸馬達位置移動命令
 
         private async Task<(bool, IronPlateDataModel)> GetIronPlate(string rootNode)
         {
-            var getTask_iIronPlateID = await GD_OpcUaClient.ReadNodeAsync<int>(rootNode + "." + "iIronPlateID");
-            var getTask_rXAxisPos1 = await GD_OpcUaClient.ReadNodeAsync<float>(rootNode + "." + "rXAxisPos1");
-            var getTask_rYAxisPos1 = await GD_OpcUaClient.ReadNodeAsync<float>(rootNode + "." + "rYAxisPos1");
-            var getTask_rXAxisPos2 = await GD_OpcUaClient.ReadNodeAsync<float>(rootNode + "." + "rXAxisPos2");
-            var getTask_rYAxisPos2 = await GD_OpcUaClient.ReadNodeAsync<float>(rootNode + "." + "rYAxisPos2");
-            var getTask_sIronPlateName1 = await GD_OpcUaClient.ReadNodeAsync<string>(rootNode + "." + "sIronPlateName1");
-            var getTask_sIronPlateName2 = await GD_OpcUaClient.ReadNodeAsync<string>(rootNode + "." + "sIronPlateName2");
-            var getTask_iStackingID = await GD_OpcUaClient.ReadNodeAsync<int>(rootNode + "." + "iStackingID");
-            var getTask_bEngravingFinish = await GD_OpcUaClient.ReadNodeAsync<bool>(rootNode + "." + "bEngravingFinish");
-            var getTask_bDataMatrixFinish = await GD_OpcUaClient.ReadNodeAsync<bool>(rootNode + "." + "bDataMatrixFinish");
-            var getTask_sDataMatrixName1 = await GD_OpcUaClient.ReadNodeAsync<string>(rootNode + "." + "sDataMatrixName1");
-            var getTask_sDataMatrixName2 = await GD_OpcUaClient.ReadNodeAsync<string>(rootNode + "." + "sDataMatrixName2");
+            var getTask_iIronPlateID = await this.ReadNodeAsync<int>(rootNode + "." + "iIronPlateID");
+            var getTask_rXAxisPos1 = await this.ReadNodeAsync<float>(rootNode + "." + "rXAxisPos1");
+            var getTask_rYAxisPos1 = await this.ReadNodeAsync<float>(rootNode + "." + "rYAxisPos1");
+            var getTask_rXAxisPos2 = await this.ReadNodeAsync<float>(rootNode + "." + "rXAxisPos2");
+            var getTask_rYAxisPos2 = await this.ReadNodeAsync<float>(rootNode + "." + "rYAxisPos2");
+            var getTask_sIronPlateName1 = await this.ReadNodeAsync<string>(rootNode + "." + "sIronPlateName1");
+            var getTask_sIronPlateName2 = await this.ReadNodeAsync<string>(rootNode + "." + "sIronPlateName2");
+            var getTask_iStackingID = await this.ReadNodeAsync<int>(rootNode + "." + "iStackingID");
+            var getTask_bEngravingFinish = await this.ReadNodeAsync<bool>(rootNode + "." + "bEngravingFinish");
+            var getTask_bDataMatrixFinish = await this.ReadNodeAsync<bool>(rootNode + "." + "bDataMatrixFinish");
+            var getTask_sDataMatrixName1 = await this.ReadNodeAsync<string>(rootNode + "." + "sDataMatrixName1");
+            var getTask_sDataMatrixName2 = await this.ReadNodeAsync<string>(rootNode + "." + "sDataMatrixName2");
 
             var ret = ((getTask_iIronPlateID).Item1 &&
                 (getTask_rXAxisPos1).Item1 &&
@@ -4247,22 +4248,8 @@ Y軸馬達位置移動命令
                 /// 字串2的內容
                 sIronPlateName2 = (getTask_sIronPlateName2).Item2,
                 /// 字串3的x座標
-                //rXAxisPos3 = (await getTask_rXAxisPos3).Item2,
-                /// 字串3的y座標
-                //rYAxisPos3 = (await getTask_rYAxisPos3).Item2,
-                /// 字串3的內容
-                //sIronPlateName3  =(await getTask_sIronPlateName3).Item2,
-                // QR Code的字串
-                //sQRCodeName1=  (await getTask_sQRCodeName1).Item2,
-
-                //  QR Code的x座標
-                //rQRcodeXAxisPos  =(await getTask_rQRcodeXAxisPos).Item2,
-                // QR Code前字串
-                //sQRCodeName2 = (await getTask_sQRCodeName2).Item2,
                 // 分料盒
                 iStackingID = (getTask_iStackingID).Item2,
-                // QRCode完成
-                //bQRCodeFinish  =(await getTask_bQRCodeFinish).Item2,
                 // 刻碼完成 
                 bEngravingFinish = (getTask_bEngravingFinish).Item2,
                 bDataMatrixFinish = (getTask_bDataMatrixFinish).Item2,
@@ -4380,32 +4367,32 @@ Y軸馬達位置移動命令
 
         public async Task<(bool, float)> GetEngravingYAxisPosition()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rEngravingFeedingPosition}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rEngravingFeedingPosition}");
         }
 
         public async Task<(bool, float)> GetEngravingZAxisPosition()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.Engraving1.sv_rEngravingPosition}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.Engraving1.sv_rEngravingPosition}");
         }
 
 
         /* public async Task<bool> GetEngravingZAxisHydraulicUp(out bool IsActived)
          {
-        return await GD_OpcUaClient.ReadNodeAsync($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", out IsActived);
+        return await this.ReadNodeAsync($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", out IsActived);
          }
 
          public async Task<bool> GetEngravingZAxisHydraulicDown(out bool IsActived)
          {
-        return await GD_OpcUaClient.ReadNodeAsync($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", out IsActived);
+        return await this.ReadNodeAsync($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", out IsActived);
          }
          public async Task<bool> SetEngravingZAxisHydraulicUp(bool Actived)
          {
-             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", Actived);
+             return await this.WriteNodeAsync($"{StampingOpcUANode.Engraving1.sv_bButtonOpen}", Actived);
          }
 
          public async Task<bool> SetEngravingZAxisHydraulicDown(bool Actived)
          {
-             return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", Actived);
+             return await this.WriteNodeAsync($"{StampingOpcUANode.Engraving1.sv_bButtonClose}", Actived);
          }*/
 
 
@@ -4432,26 +4419,26 @@ Y軸馬達位置移動命令
         {
              await SetEngravingYAxisBwd(false);
              await SetEngravingYAxisFwd(false);
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rServoStandbyPos}", true);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingFeeding1.sv_rServoStandbyPos}", true);
         }
 
 
         public async Task<(bool, bool)> GetEngravingYAxisBwd()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}");
+            return await this.ReadNodeAsync<bool>($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}");
         }
         public async Task<(bool, bool)> GetEngravingYAxisFwd()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<bool>($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}");
+            return await this.ReadNodeAsync<bool>($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}");
         }
 
         public async Task<bool> SetEngravingYAxisBwd(bool Active)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonBwd}", Active);
         }
         public async Task<bool> SetEngravingYAxisFwd(bool Active)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingFeeding1.sv_bButtonFwd}", Active);
         }
 
 
@@ -4460,7 +4447,7 @@ Y軸馬達位置移動命令
         public async Task<(bool, int)> GetEngravingRotateStation()
         {
             int Station = -1;
-            var ret = await GD_OpcUaClient.ReadNodeAsync<int>($"{StampingOpcUANode.EngravingRotate1.sv_iThisStation}");
+            var ret = await this.ReadNodeAsync<int>($"{StampingOpcUANode.EngravingRotate1.sv_iThisStation}");
 
             if (ret.Item1)
             {
@@ -4491,7 +4478,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, int)> GetEngravingTotalSlots()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<int>($"{StampingOpcUANode.EngravingRotate1.sv_iTotalSlots}");
+            return await this.ReadNodeAsync<int>($"{StampingOpcUANode.EngravingRotate1.sv_iTotalSlots}");
         }
 
 
@@ -4529,16 +4516,16 @@ Y軸馬達位置移動命令
 
         /*public async Task<bool> SetEngravingRotateStation(int Station)
         {
-          //  await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
+          //  await this.WriteNodeAsync($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
 
-            //return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
+            //return await this.WriteNodeAsync($"{StampingOpcUANode.system.sv_iTargetAStation}", Station + 1);
         }*/
 
         private async Task<(bool, int[])> GetRotatingTurntableInfoINT()
-            => await GD_OpcUaClient.ReadNodeAsync<int[]>($"{StampingOpcUANode.system.sv_RotateCodeDefinition}");
+            => await this.ReadNodeAsync<int[]>($"{StampingOpcUANode.system.sv_RotateCodeDefinition}");
 
         private async Task<bool> SetRotatingTurntableInfoINT(int[] fonts)
-            => await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", fonts);
+            => await this.WriteNodeAsync($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", fonts);
 
 
 
@@ -4609,29 +4596,29 @@ Y軸馬達位置移動命令
 
         public async Task<bool> SetEngravingRotateCWAsync(bool isActived)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", isActived);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCW}", isActived);
         }
 
         public async Task<bool> SetEngravingRotateCCWAsync(bool isActived)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", isActived);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingRotate1.sv_bButtonCCW}", isActived);
         }
 
         public async Task<(bool, float)> GetFeedingSetupVelocityAsync()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rFeedSetupVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rFeedSetupVelocity}");
         }
         public async Task<bool> SetFeedingSetupVelocityAsync(float percent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode<float>($"{StampingOpcUANode.Feeding1.sv_rFeedSetupVelocity}", percent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.Feeding1.sv_rFeedSetupVelocity}", percent);
         }
         public async Task<(bool, float)> GetFeedingVelocityAsync()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}");
         }
         public async Task<bool> SetFeedingVelocityAsync(float percent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode<float>($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}", percent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}", percent);
         }
 
 
@@ -4642,7 +4629,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, float)> GetEngravingFeedingSetupVelocity()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedSetupVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedSetupVelocity}");
         }
 
         /// <summary>
@@ -4652,7 +4639,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<bool> SetEngravingFeedingSetupVelocity(float SpeedPercent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedSetupVelocity}", SpeedPercent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedSetupVelocity}", SpeedPercent);
 
         }
 
@@ -4662,7 +4649,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, float)> GetEngravingFeedingVelocity()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity}");
         }
 
         /// <summary>
@@ -4672,7 +4659,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<bool> SetEngravingFeedingVelocity(float SpeedPercent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity}", SpeedPercent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity}", SpeedPercent);
 
         }
 
@@ -4685,7 +4672,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, float)> GetEngravingRotateSetupVelocity()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingRotate1.sv_rRotateSetupVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingRotate1.sv_rRotateSetupVelocity}");
         }
 
         /// <summary>
@@ -4695,7 +4682,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<bool> SetEngravingRotateSetupVelocity(float SpeedPercent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_rRotateSetupVelocity}", SpeedPercent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingRotate1.sv_rRotateSetupVelocity}", SpeedPercent);
 
         }
 
@@ -4705,7 +4692,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, float)> GetEngravingRotateVelocity()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity}");
         }
 
         /// <summary>
@@ -4715,7 +4702,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<bool> SetEngravingRotateVelocity(float SpeedPercent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity}", SpeedPercent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity}", SpeedPercent);
         }
 
 
@@ -4726,7 +4713,7 @@ Y軸馬達位置移動命令
 
         public async Task<(bool, float)> GetStampingPressure()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump1.sv_PressureLintab.LintabPoints.uNoOfPoints}");
+            return await this.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump1.sv_PressureLintab.LintabPoints.uNoOfPoints}");
         }
         /// <summary>
         /// 刻印速度
@@ -4735,7 +4722,7 @@ Y軸馬達位置移動命令
 
         public async Task<(bool, float)> GetStampingVelocity()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump1.sv_VelocityLintab.LintabPoints.uNoOfPoints}");
+            return await this.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump1.sv_VelocityLintab.LintabPoints.uNoOfPoints}");
         }
 
         /// <summary>
@@ -4745,7 +4732,7 @@ Y軸馬達位置移動命令
 
         public async Task<(bool, float)> GetShearingPressure()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump2.sv_PressureLintab.LintabPoints.uNoOfPoints}");
+            return await this.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump2.sv_PressureLintab.LintabPoints.uNoOfPoints}");
         }
         /// <summary>
         /// 裁斷速度
@@ -4754,7 +4741,7 @@ Y軸馬達位置移動命令
 
         public async Task<(bool, float)> GetShearingVelocity()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump2.sv_VelocityLintab.LintabPoints.uNoOfPoints}");
+            return await this.ReadNodeAsync<UInt32>($"{StampingOpcUANode.Pump2.sv_VelocityLintab.LintabPoints.uNoOfPoints}");
         }
 
 
@@ -4770,7 +4757,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, string)> GetDataMatrixTCPIP()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP);
+            return await this.ReadNodeAsync<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP);
         }
 
         /// <summary>
@@ -4789,7 +4776,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, string)> GetDataMatrixPort()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<string>($"{StampingOpcUANode.DataMatrix1.sv_sContactTCPPort}");
+            return await this.ReadNodeAsync<string>($"{StampingOpcUANode.DataMatrix1.sv_sContactTCPPort}");
         }
 
         /// <summary>
@@ -4809,25 +4796,25 @@ Y軸馬達位置移動命令
 
         public async Task<(bool, float)> GetFeedingXHomeFwdVelocity()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}");
         }
 
 
         public async Task<(bool, float)> GetFeedingXHomeBwdVelocityAsync()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}");
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}");
         }
 
 
         public async Task<bool> SetFeedingXHomeFwdVelocityAsync(float SpeedPercent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}", SpeedPercent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.Feeding1.sv_rHomeFwdVelocity}", SpeedPercent);
         }
 
 
         public async Task<bool> SetFeedingXHomeBwdVelocityAsync(float SpeedPercent)
         {
-            return await GD_OpcUaClient.AsyncWriteNode($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}", SpeedPercent);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.Feeding1.sv_rHomeBwdVelocity}", SpeedPercent);
         }
 
         /// <summary>
@@ -4837,7 +4824,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, object)> GetLubricationSettingTimeAsync()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dLubTime}");
+            return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dLubTime}");
         }
 
         /// <summary>
@@ -4846,7 +4833,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<(bool, object)> GetLubricationSettingOnTime()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOnTime}");
+            return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOnTime}");
         }
         /// <summary>
         /// 潤滑關設定時間
@@ -4854,7 +4841,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>     
         public async Task<(bool, object)> GetLubricationSettingOffTime()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOffTime}");
+            return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationSetValues.dOffTime}");
         }
 
 
@@ -4863,14 +4850,14 @@ Y軸馬達位置移動命令
         /// </summary>
         public async Task<(bool, object)> GetLubricationActualTime()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dLubTime}");
+            return await this.ReadNodeAsync<int>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dLubTime}");
         }
         /// <summary>
         /// 潤滑開實際時間
         /// </summary>
         public async Task<(bool, object)> GetLubricationActualOnTime()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOnTime}");
+            return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOnTime}");
         }
 
         /// <summary>
@@ -4878,7 +4865,7 @@ Y軸馬達位置移動命令
         /// </summary>
         public async Task<(bool, object)> GetLubricationActualOffTime()
         {
-            return await GD_OpcUaClient.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOffTime}");
+            return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOffTime}");
         }
 
 
@@ -4896,10 +4883,98 @@ Y軸馬達位置移動命令
         }
 
 
-        public async Task<IList<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
+        public async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
         {
             return await GD_OpcUaClient.SubscribeNodesDataChangeAsync<T>(nodeList);
         }
+
+
+        public async Task<(bool result, IEnumerable<T> values)> ReadNodesAsync<T>(IEnumerable<string> NodeTrees)
+        {
+            //T NodeValue = default(T);
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    if (this.IsConnected)
+                    {
+                        IEnumerable<T> NodeValue;
+                        NodeValue = await GD_OpcUaClient.ReadNodesAsync<T>(NodeTrees.ToArray());
+                        return (true, NodeValue);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //Disconnect();
+                }
+            }
+            return (false, default(IEnumerable<T>));
+        }
+
+        public async Task<(bool result, T values)> ReadNodeAsync<T>(string NodeTree)
+        {
+            //T NodeValue = default(T);
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    if (this.IsConnected)
+                    {
+                        T NodeValue = await GD_OpcUaClient.ReadNodeAsync<T>(NodeTree);
+                        return (true, NodeValue);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //Disconnect();
+                }
+            }
+            return (false, default(T));
+        }
+
+        public async Task<IEnumerable<bool>> WriteNodesAsync<T>(Dictionary<string, object> NodeTrees)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    if (GD_OpcUaClient.IsConnected)
+                    {
+                        IEnumerable<bool> NodeValue;
+                        NodeValue = await GD_OpcUaClient.WriteNodesAsync(NodeTrees);
+                        return NodeValue;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return Enumerable.Repeat(false, NodeTrees.Count());
+        }
+
+        public async Task<bool> WriteNodeAsync(string NodeTreeString, object WriteValue)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    if (GD_OpcUaClient.IsConnected)
+                    {
+                        bool NodeValue = await GD_OpcUaClient.WriteNodeAsync(NodeTreeString,WriteValue);
+                        return NodeValue;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //Disconnect();
+                }
+            }
+            return false;
+        }
+
+
+
 
 
 

@@ -16,11 +16,9 @@ namespace GD_MachineConnect.Machine.Interfaces
     /// </summary>
     public interface IOpcuaConnect
     {
-
-
         //public ClientState State { get; }
         bool IsConnected { get; }
-        Task<bool> AsyncConnect(string hostPath, string user = null, string password = null);
+        Task<bool> ConnectAsync(string hostPath, string user = null, string password = null);
 
         //Exception ConnectException { get;  }
 
@@ -36,7 +34,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        Task<bool> AsyncWriteNode<T>(string NodeTreeString, T WriteValue);
+        Task<bool> WriteNodeAsync(string NodeTreeString, object WriteValue);
 
         /// <summary>
         /// 寫入數列組
@@ -54,7 +52,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        Task<(bool, T)> ReadNodeAsync<T>(string NodeID);
+        Task<T> ReadNodeAsync<T>(string NodeID);
 
         /// <summary>
         /// 讀取點
@@ -62,7 +60,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        Task<(bool result, IEnumerable<T> values)> ReadNodesAsync<T>(IEnumerable<string> NodeTrees);
+        Task<IEnumerable<T>> ReadNodesAsync<T>(IEnumerable<string> NodeTrees);
 
         /// <summary>
         /// 
@@ -92,15 +90,14 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="samplingInterval"></param>
         /// <param name="checkDuplicates"></param>
         /// <returns></returns>
-        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = false);
+        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = true);
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="nodeList"></param>
         /// <returns></returns>
-        Task<IList<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList);
-
+        Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList);
 
 
 

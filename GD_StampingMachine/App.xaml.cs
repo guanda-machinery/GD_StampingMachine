@@ -106,7 +106,7 @@ namespace GD_StampingMachine
             });
         }
 
-        private async void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)
             {
@@ -122,7 +122,7 @@ namespace GD_StampingMachine
 
                 //顯示彈窗
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                await ExTask;
+                ExTask.Wait();
             }
         }
 

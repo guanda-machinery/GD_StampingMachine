@@ -24,7 +24,7 @@ namespace GD_MachineConnect.Machine
 {
 
 
-    public class GD_OpcUaClient
+    public class GD_OpcUaClient: IOpcuaConnect
     {
         private Session m_session;
 
@@ -189,7 +189,7 @@ namespace GD_MachineConnect.Machine
 
 
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        public async Task<bool> AsyncConnect(string hostPath, string user = null, string password = null)
+        public async Task<bool> ConnectAsync(string hostPath, string user = null, string password = null)
         {
             IUserIdentity userIdentity = null;
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
@@ -273,7 +273,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        public async Task<bool> AsyncWriteNode<T>(string tag, T value)
+        public async Task<bool> WriteNodeAsync(string tag, object value)
         {
             return (await WriteNodesAsync(new Dictionary<string, object> { { tag, value } })).FirstOrDefault();
         }
@@ -297,7 +297,7 @@ namespace GD_MachineConnect.Machine
                     NodeId = new NodeId(node.Key),
                     AttributeId = 13u
                 };
-                writeValue.Value.Value = node.Key;
+                writeValue.Value.Value = node.Value;
                 writeValue.Value.StatusCode = 0u;
                 writeValue.Value.ServerTimestamp = DateTime.MinValue;
                 writeValue.Value.SourceTimestamp = DateTime.MinValue;
@@ -358,7 +358,7 @@ namespace GD_MachineConnect.Machine
                 {
                     if (!StatusCode.IsGood(responseHeader.ServiceResult))
                         throw new Exception($"Invalid response from the server.");
-                    if (StatusCode.IsGood(results[0].StatusCode))
+                    if (!StatusCode.IsGood(results[0].StatusCode))
                         throw new Exception($"Invalid response from the server.");
 
                     DataValue dataValue = results[0];
@@ -415,7 +415,7 @@ namespace GD_MachineConnect.Machine
         }
 
 
-        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = false)
+        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = true)
         {
             var ret = await SubscribeNodesDataChangeAsync<T>(new List<(string, Action<T>, int, bool checkDuplicates)>
             {
@@ -459,20 +459,26 @@ namespace GD_MachineConnect.Machine
                                 opcSubscription.PublishingInterval = samplingInterval;
                                 opcSubscription.DisplayName = samplingInterval.ToString();
 
-                                opcSubscription.Create();
+
                                 m_session.AddSubscription(opcSubscription);
+                                opcSubscription.Create();
                             }
 
                             if (checkDuplicates && opcSubscription.MonitoredItems.Any(x => x.StartNodeId == new NodeId(NodeID)))
                             {
                                 //已經有訂閱了
+                                //throw new Exception($"Node ID {NodeID} is Subscribed");
                                 ret = true;
                                 break;
                             }
 
-                            var item = new MonitoredItem();
-                            item.StartNodeId = new NodeId(NodeID);
-                            item.SamplingInterval = samplingInterval;
+                            var item = new MonitoredItem()
+                            {
+                                StartNodeId = new NodeId(NodeID),
+                                AttributeId = 13u,
+                                DisplayName = NodeID,
+                                SamplingInterval = samplingInterval
+                            };
 
                             item.Notification += (sender, e) =>
                             {
@@ -505,6 +511,8 @@ namespace GD_MachineConnect.Machine
                             // After adding the items (or configuring the subscription), apply the changes.
                             //CancellationTokenSource cts = new CancellationTokenSource(10000);
                             //await WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Connected, cts.Token);
+
+
 
                             opcSubscription.ApplyChanges();
 

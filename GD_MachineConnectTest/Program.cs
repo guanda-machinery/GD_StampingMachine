@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GD_MachineConnect;
 using GD_MachineConnect.Machine;
+using GD_MachineConnect.Machine.Interfaces;
 
 namespace GD_MachineConnectTest
 {
@@ -30,7 +31,7 @@ namespace GD_MachineConnectTest
             var test = @"http://255.255.255.255:500/remote";
 
 
-
+            //ns=4;s=APPL.Application.POU_AbdomenWing.arArc_Abdomen[1000].P1_X
 
 
             var BaseUrl = new Uri($"opc.tcp://{HostString}:{Port}");
@@ -44,7 +45,52 @@ namespace GD_MachineConnectTest
             {
                 try
                 {
-                    //var Opcua = new GD_OpcUaHelperClient();
+                    //IOpcuaConnect Opcua = new GD_OpcUaHelperClient();
+                   IOpcuaConnect Opcua = new GD_OpcUaClient();
+                  await  Opcua.ConnectAsync("opc.tcp://192.168.101.100:4842");
+                    var node = "ns=4;s=APPL.Application.POU_AbdomenWing.arArc_Abdomen[1000].P3_X";
+
+
+
+                    await Opcua.WriteNodeAsync(node, 0.0);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        try
+                        {
+                            await Opcua.SubscribeNodeDataChangeAsync<double>(node, value =>
+                            {
+                                try
+                                {
+                                    Console.WriteLine("subNode = " + node);
+                                    Console.WriteLine("subValue = " + value);
+
+                                }
+                                catch
+                                {
+
+                                }
+                            }, 10);
+
+
+
+
+
+                            var a = await Opcua.ReadNodeAsync<double>(node);
+                            Console.WriteLine(a);
+
+                            await Opcua.WriteNodeAsync(node, a+100);
+
+                            var b = await Opcua.ReadNodeAsync<double>(node);
+                            Console.WriteLine(b);
+                            await Task.Delay(100);
+                        }
+                        catch(Exception ex)
+                        {
+
+                            Console.WriteLine(ex);
+                        }
+                    }
+                    await  Opcua.DisconnectAsync();
                     /*Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                     if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                     {
