@@ -54,8 +54,8 @@
                     </StackPanel>
                 </StackPanel>
 
-                <Button Name="UpRadioButton"  
-                   IsEnabled="{Binding CylinderUp_IsEnabled}"
+                <Button Name="UpRadioButton" 
+                   IsEnabled="{Binding CylinderUp_IsEnabled}"  
                     Grid.Column="1" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"  
                              Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}">
@@ -81,7 +81,7 @@
                         <i:EventTrigger EventName="PreviewMouseDown">
                             <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
-                        <i:EventTrigger EventName="PreviewMouseUp">
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                             <i:InvokeCommandAction Command="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -93,7 +93,6 @@
                  IsEnabled="{Binding CylinderDown_IsEnabled}"
                     Grid.Column="1" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderDownCommand}"  CommandParameter="{Binding CylinderDownCommandParameter}"
-              
                                               Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">

@@ -307,7 +307,7 @@
                                   >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
-                                        <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
+                                        <i:InvokeCommandAction Command="{Binding GridControlLoadedCommand}" 
                                                    PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
 
@@ -897,9 +897,8 @@
 
                                             </StackPanel>
                                         </materialDesign:ColorZone>
-                                        <TextBlock Text="{Binding Path=StampMachineData.EngravingYAxisPosition}" Margin="0,2"/>
-                                        <TextBox Text="123" Margin="0,2"/>
-                                        <ToggleButton/>
+                                        <TextBlock Text="{Binding Path=StampMachineData.EngravingYAxisPosition}" Margin="0,2" HorizontalAlignment="Center"/>
+
                                     </StackPanel>
                                 </GroupBox>
 

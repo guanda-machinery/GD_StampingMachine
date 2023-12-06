@@ -243,7 +243,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
         
-        public MachiningStatusEnum MachiningStatus
+        /*public MachiningStatusEnum MachiningStatus
         {
             get => PartsParameter.MachiningStatus;
             set
@@ -251,7 +251,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.MachiningStatus = value;
                 OnPropertyChanged(nameof(MachiningStatus));
             }
-        }
+        }*/
 
 
         /// <summary>

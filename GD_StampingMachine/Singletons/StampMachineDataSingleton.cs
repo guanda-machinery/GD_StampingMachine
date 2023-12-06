@@ -1254,7 +1254,7 @@ namespace GD_StampingMachine.Singletons
                                                             var partIndex = boxPartsCollection.FindIndex(x => x.ID == plateData.iIronPlateID && x.IsSended);
                                                             if (partIndex != -1)
                                                             {
-                                                                boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Run;
+                                                                //boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Run;
                                                                 boxPartsCollection[partIndex].DataMatrixIsFinish = plateData.bDataMatrixFinish;
                                                                 boxPartsCollection[partIndex].EngravingIsFinish = plateData.bEngravingFinish;
                                                                 try
@@ -1974,6 +1974,9 @@ namespace GD_StampingMachine.Singletons
                     {
                         await Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, tirggered);
                     }
+                   
+
+
                 }
             });
         }
@@ -1989,8 +1992,6 @@ namespace GD_StampingMachine.Singletons
             {
                 if (obj is bool tirggered)
                 {
-                    //  if (!tirggered)
-                    //      await Task.Delay(200);
                     if (GD_OpcUaClient.IsConnected)
                     {
                         await Set_IO_CylinderControl(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, tirggered);
@@ -3693,125 +3694,128 @@ Y軸馬達位置移動命令
             bool ret = false;
             if (GD_OpcUaClient.IsConnected)
             {
-                switch (stampingCylinder)
+                for (int i = 0; i < 5 && !ret; i++)
                 {
-                    case StampingCylinderType.GuideRod_Move:
-                        switch (direction)
-                        {
-                            case DirectionsEnum.Up:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, IsTrigger);
-                                break;
-                            case DirectionsEnum.Down:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, IsTrigger);
-                                break;
-                            default:
-                                ret = false;
-                                break;
-                        }
-                        break;
-                    case StampingCylinderType.GuideRod_Fixed:
-                        switch (direction)
-                        {
-                            case DirectionsEnum.Up:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, IsTrigger);
-                                break;
-                            case DirectionsEnum.Down:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, IsTrigger);
-                                break;
-                            default:
-                                ret = false;
-                                break;
-                        }
-                        break;
-                    case StampingCylinderType.QRStamping:
-                        switch (direction)
-                        {
-                            case DirectionsEnum.Up:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, IsTrigger);
-                                break;
-                            case DirectionsEnum.Down:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, IsTrigger);
-                                break;
-                            default:
-                                ret = false;
-                                break;
-                        }
-                        break;
-                    case StampingCylinderType.StampingSeat:
-                        switch (direction)
-                        {
-                            case DirectionsEnum.Up:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, IsTrigger);
-                                break;
-                            case DirectionsEnum.Down:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, IsTrigger);
-                                break;
-                            default:
-                                ret = false;
-                                break;
-                        }
-                        break;
-                    case StampingCylinderType.BlockingCylinder:
-                        switch (direction)
-                        {
-                            case DirectionsEnum.Up:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonUp, IsTrigger);
-                                break;
-                            case DirectionsEnum.Down:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonDown, IsTrigger);
-                                break;
-                            default:
-                                var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
-                                var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, false);
-                                ret = await O_ret && await C_ret;
-                                break;
-                        }
-                        break;
-                    case StampingCylinderType.HydraulicEngraving:
+                    switch (stampingCylinder)
+                    {
+                        case StampingCylinderType.GuideRod_Move:
+                            switch (direction)
+                            {
+                                case DirectionsEnum.Up:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, IsTrigger);
+                                    break;
+                                case DirectionsEnum.Down:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonUp, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture1.sv_bButtonDown, IsTrigger);
+                                    break;
+                                default:
+                                    ret = false;
+                                    break;
+                            }
+                            break;
+                        case StampingCylinderType.GuideRod_Fixed:
+                            switch (direction)
+                            {
+                                case DirectionsEnum.Up:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, IsTrigger);
+                                    break;
+                                case DirectionsEnum.Down:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonUp, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.GuideRodsFixture2.sv_bButtonDown, IsTrigger);
+                                    break;
+                                default:
+                                    ret = false;
+                                    break;
+                            }
+                            break;
+                        case StampingCylinderType.QRStamping:
+                            switch (direction)
+                            {
+                                case DirectionsEnum.Up:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, IsTrigger);
+                                    break;
+                                case DirectionsEnum.Down:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonUp, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture1.sv_bButtonDown, IsTrigger);
+                                    break;
+                                default:
+                                    ret = false;
+                                    break;
+                            }
+                            break;
+                        case StampingCylinderType.StampingSeat:
+                            switch (direction)
+                            {
+                                case DirectionsEnum.Up:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, IsTrigger);
+                                    break;
+                                case DirectionsEnum.Down:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonUp, false);
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Fixture2.sv_bButtonDown, IsTrigger);
+                                    break;
+                                default:
+                                    ret = false;
+                                    break;
+                            }
+                            break;
+                        case StampingCylinderType.BlockingCylinder:
+                            switch (direction)
+                            {
+                                case DirectionsEnum.Up:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonUp, IsTrigger);
+                                    break;
+                                case DirectionsEnum.Down:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bButtonDown, IsTrigger);
+                                    break;
+                                default:
+                                    var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsUp, false);
+                                    var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.BlockingClips1.sv_bBlockingClipsDown, false);
+                                    ret = await O_ret && await C_ret;
+                                    break;
+                            }
+                            break;
+                        case StampingCylinderType.HydraulicEngraving:
 
-                        switch (direction)
-                        {
-                            case DirectionsEnum.Up:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, IsTrigger);
-                                break;
-                            case DirectionsEnum.Down:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, IsTrigger);
-                                break;
-                            default:
-                                var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
-                                var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
-                                ret = await O_ret && await C_ret;
-                                break;
-                        }
+                            switch (direction)
+                            {
+                                case DirectionsEnum.Up:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, IsTrigger);
+                                    break;
+                                case DirectionsEnum.Down:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, IsTrigger);
+                                    break;
+                                default:
+                                    var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonOpen, false);
+                                    var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Engraving1.sv_bButtonClose, false);
+                                    ret = await O_ret && await C_ret;
+                                    break;
+                            }
 
-                        break;
-                    case StampingCylinderType.HydraulicCutting:
+                            break;
+                        case StampingCylinderType.HydraulicCutting:
 
-                        switch (direction)
-                        {
-                            case DirectionsEnum.Up:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, IsTrigger);
-                                break;
-                            case DirectionsEnum.Down:
-                                ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, IsTrigger);
-                                break;
-                            default:
-                                var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
-                                var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
-                                ret = await O_ret && await C_ret;
-                                break;
-                        }
+                            switch (direction)
+                            {
+                                case DirectionsEnum.Up:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, IsTrigger);
+                                    break;
+                                case DirectionsEnum.Down:
+                                    ret = await GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, IsTrigger);
+                                    break;
+                                default:
+                                    var O_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonOpen, false);
+                                    var C_ret = GD_OpcUaClient.AsyncWriteNode(StampingOpcUANode.Cutting1.sv_bButtonClose, false);
+                                    ret = await O_ret && await C_ret;
+                                    break;
+                            }
 
-                        break;
-                    default: throw new NotImplementedException();
+                            break;
+                        default: throw new NotImplementedException();
+                    }
                 }
             }
             return ret;

@@ -396,6 +396,7 @@
     <Compile Include="ViewModels\MachineFunctionTestViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\IO_InfoViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\PlateMonitorViewModel.cs" />
+    <Compile Include="ViewModels\ParameterSetting\PlateSetting\PlateFontViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingBaseViewModel.cs" />
     <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
     <Compile Include="Method\DropHandler\StampingFileDropTarget.cs" />

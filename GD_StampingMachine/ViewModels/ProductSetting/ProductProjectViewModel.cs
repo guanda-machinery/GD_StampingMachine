@@ -1130,12 +1130,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             //箱子內有專案
                             if (CollectionWithThisDistributeName.Count > 0)
                             {
-                                //有已完成的 不可關閉
-                                if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
-                                {
-                                    await MethodWinUIMessageBox.CanNotCloseProject();
-                                    return;
-                                }
+                            //有已完成的 不可關閉
+                            //    if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
+
+                            if (CollectionWithThisDistributeName.ToList().Exists(x => x.IsFinish))
+                            {
+                                await MethodWinUIMessageBox.CanNotCloseProject();
+                                return;
+                            }
 
                                 //詢問是否要關閉
                                 if ((await MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))!= MessageBoxResult.Yes)

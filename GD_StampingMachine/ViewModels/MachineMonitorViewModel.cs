@@ -873,7 +873,7 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 if (partsParameter.WorkIndex < 0)
                                     SetPartsParameterWork(partsParameter);
-                                partsParameter.MachiningStatus = MachiningStatusEnum.Ready;
+                                //partsParameter.MachiningStatus = MachiningStatusEnum.Ready;
                             }
                         }
                     }
@@ -928,8 +928,9 @@ namespace GD_StampingMachine.ViewModels
                                  {
                                      dataIsChanged = true;
 
-                                     CancelPartsParameterWork(partsParameterVM);
-                                     partsParameterVM.MachiningStatus = MachiningStatusEnum.None;
+                                     partsParameterVM.IsFinish = false;
+                                     partsParameterVM.WorkIndex = -1;
+
                                  }
                              }
                          }
@@ -945,12 +946,6 @@ namespace GD_StampingMachine.ViewModels
                  });
             });
         }
-        private void CancelPartsParameterWork(PartsParameterViewModel partsParameter)
-        {
-            partsParameter.IsFinish = false;
-            partsParameter.WorkIndex = -1;
-        }
-
 
 
 

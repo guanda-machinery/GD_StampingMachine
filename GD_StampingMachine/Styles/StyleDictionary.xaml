@@ -1077,7 +1077,6 @@
         <Setter Property="ImageHeight" Value="40"/>
         <Setter Property="IsCheckedBackground" Value="Gray"/>
         <Setter Property="IsCheckedBorderThickness" Value="0"/>
-        
     </Style>
     
     <Style x:Key="FunctionToggleUserControl_Bottom"
@@ -1086,6 +1085,7 @@
         <Setter Property="Foreground" Value="{DynamicResource DarkHueDarkForegroundBrush}"/>
         <Setter Property="IsCheckedBorderThickness" Value="2.0"/>
     </Style>
+
 
 
     <Style x:Key="FunctionToggleUserControl_LeftDrawer"

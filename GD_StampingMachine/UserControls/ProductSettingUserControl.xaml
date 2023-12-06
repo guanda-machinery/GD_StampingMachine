@@ -964,17 +964,19 @@
                                         </Button>
                                     </StackPanel>
 
+                                    <!--     
                                     <GroupBox Header="測試用" Grid.Row="8" Width="100" Grid.ColumnSpan="3" Foreground="Red" Style="{StaticResource ParameterBaseStyleGroupBox}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding EditPartsParameterVM_Cloned.FinishProgress}" Foreground="Red"/>
                                             <Slider Value="{Binding EditPartsParameterVM_Cloned.FinishProgress}" Maximum="100" Minimum="0"/>
-                                            <dxe:ComboBoxEdit EditValue="{Binding EditPartsParameterVM_Cloned.MachiningStatus, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" Margin="0,10">
+                                           <dxe:ComboBoxEdit EditValue="{Binding EditPartsParameterVM_Cloned.MachiningStatus, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" Margin="0,10">
                                                 <dxmvvm:Interaction.Behaviors>
                                                     <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type GD_Enum:MachiningStatusEnum}" ImageSize="40,40" AllowImages="False" />
                                                 </dxmvvm:Interaction.Behaviors>
                                             </dxe:ComboBoxEdit>
                                         </StackPanel>
                                     </GroupBox>
+                                    -->
 
                                 </Grid>
                             </Border>

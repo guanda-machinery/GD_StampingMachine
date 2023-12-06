@@ -76,7 +76,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// <summary>
         /// 加工狀態
         /// </summary>
-        public MachiningStatusEnum MachiningStatus { get; set; }
+        //public MachiningStatusEnum MachiningStatus { get; set; }
         /// <summary>
         /// 分料盒
         /// </summary>

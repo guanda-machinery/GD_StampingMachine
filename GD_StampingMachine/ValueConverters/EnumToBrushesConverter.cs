@@ -34,7 +34,7 @@ namespace GD_StampingMachine
                 return System.Windows.Media.Brushes.Transparent;
             }
 
-            if(value is MachiningStatusEnum MachiningStatus)
+          /*  if(value is MachiningStatusEnum MachiningStatus)
             {
                 switch(MachiningStatus)
                 {
@@ -49,7 +49,7 @@ namespace GD_StampingMachine
                     default:
                         break;
                 }
-            }
+            }*/
 
             return null;
         }
