@@ -23,7 +23,7 @@ namespace GD_MachineConnect.Machine
 {
 
     //https://www.cnblogs.com/daji2020/p/16627627.html
-
+    [Obsolete]
     public class GD_OpcUaHelperClient: IOpcuaConnect
     {
         private OpcUaClient m_OpcUaClient = new OpcUaClient();
@@ -376,7 +376,7 @@ namespace GD_MachineConnect.Machine
                 {
                     try
                     {
-                        Subscription opcSubscription = m_OpcUaClient.Session.Subscriptions.FirstOrDefault(x => Equals(x.DisplayName , samplingInterval));
+                        Subscription opcSubscription = m_OpcUaClient.Session.Subscriptions.FirstOrDefault(x => Equals(x.DisplayName , samplingInterval.ToString()));
                         if (opcSubscription != null)
                         {
                             List<MonitoredItem> removeItems = new List<MonitoredItem>();

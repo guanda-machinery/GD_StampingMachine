@@ -14,7 +14,7 @@ namespace GD_MachineConnect.Machine
 {
 
     //https://docs.traeger.de/en/software/sdk/opc-ua/net/client.development.guide#reading-values
-
+    [Obsolete]
     public class GD_OpcUaFxClient: IOpcuaConnect , IAsyncDisposable
     {
 

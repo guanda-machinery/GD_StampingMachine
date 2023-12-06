@@ -51,25 +51,25 @@ namespace GD_MachineConnectTest
                     var node = "ns=4;s=APPL.Application.POU_AbdomenWing.arArc_Abdomen[1000].P3_X";
 
 
+                    await Opcua.SubscribeNodeDataChangeAsync<double>(node, value =>
+                    {
+                        try
+                        {
+                            Console.WriteLine("subNode = " + node);
+                            Console.WriteLine("subValue = " + value);
 
+                        }
+                        catch
+                        {
+
+                        }
+                    }, 10);
                     await Opcua.WriteNodeAsync(node, 0.0);
                     for (int i = 0; i < 10; i++)
                     {
                         try
                         {
-                            await Opcua.SubscribeNodeDataChangeAsync<double>(node, value =>
-                            {
-                                try
-                                {
-                                    Console.WriteLine("subNode = " + node);
-                                    Console.WriteLine("subValue = " + value);
 
-                                }
-                                catch
-                                {
-
-                                }
-                            }, 10);
 
 
 
@@ -82,6 +82,14 @@ namespace GD_MachineConnectTest
 
                             var b = await Opcua.ReadNodeAsync<double>(node);
                             Console.WriteLine(b);
+
+
+                            if (i > 5)
+                            {
+                               await Opcua.UnsubscribeNodeAsync(node , 10);
+                            }
+
+
                             await Task.Delay(100);
                         }
                         catch(Exception ex)

@@ -24,7 +24,7 @@ namespace GD_MachineConnect.Machine
 {
 
 
-    public class GD_OpcUaClient: IOpcuaConnect
+    public class GD_OpcUaClient: IOpcuaConnect , IDisposable
     {
         private Session m_session;
 
@@ -183,11 +183,7 @@ namespace GD_MachineConnect.Machine
 
 
         private SessionReconnectHandler _reConnectHandler;
-
-
-
-
-
+        private bool disposedValue;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         public async Task<bool> ConnectAsync(string hostPath, string user = null, string password = null)
         {
@@ -459,7 +455,6 @@ namespace GD_MachineConnect.Machine
                                 opcSubscription.PublishingInterval = samplingInterval;
                                 opcSubscription.DisplayName = samplingInterval.ToString();
 
-
                                 m_session.AddSubscription(opcSubscription);
                                 opcSubscription.Create();
                             }
@@ -548,7 +543,7 @@ namespace GD_MachineConnect.Machine
             await subscribeSemaphoreSlim.WaitAsync();
             try
             {
-                Subscription opcSubscription = m_session.Subscriptions.FirstOrDefault(x => Equals(x.DisplayName, samplingInterval));
+                Subscription opcSubscription = m_session.Subscriptions.FirstOrDefault(x => Equals(x.DisplayName, samplingInterval.ToString()));
                 if (opcSubscription != null)
                 {
                     List<MonitoredItem> removeItems = new List<MonitoredItem>();
@@ -559,11 +554,19 @@ namespace GD_MachineConnect.Machine
                             removeItems.Add(monitoredItem);
                         }
                     }
+
                     foreach (var mitem in removeItems)
                     {
                         opcSubscription.RemoveItem(mitem);
                     }
                     opcSubscription.ApplyChanges();
+
+                    if(opcSubscription.MonitoredItemCount == 0)
+                    {
+                        m_session.RemoveSubscription(opcSubscription);
+                    }
+
+
                     taskCompletionSource.TrySetResult(true);
                 }
                 else
@@ -577,5 +580,33 @@ namespace GD_MachineConnect.Machine
             return await taskCompletionSource.Task;
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Disconnect();
+                    // TODO: 處置受控狀態 (受控物件)
+                }
+                // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
+                // TODO: 將大型欄位設為 Null
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: 僅有當 'Dispose(bool disposing)' 具有會釋出非受控資源的程式碼時，才覆寫完成項
+        // ~GD_OpcUaClient()
+        // {
+        //     // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }
