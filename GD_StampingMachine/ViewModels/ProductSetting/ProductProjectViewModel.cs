@@ -238,11 +238,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             var existedCanNotCloseList =  partsParameterIsTypeSettingedCollection.FindAll(x => StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FindIndex(y=>y.ProjectDistributeName == x.DistributeName) != -1);
                             if (existedCanNotCloseList.Count != 0)
                             {
-                                await MethodWinUIMessageBox.CanNotCloseProject();
+                                await MethodWinUIMessageBox.CanNotCloseProjectAsync();
                             }
                             else
                             {
-                                if (await MethodWinUIMessageBox.AskDelProject($"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}") == MessageBoxResult.Yes)
+                                if (await MethodWinUIMessageBox.AskDelProjectAsync($"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}") == MessageBoxResult.Yes)
                                     GridItemSource.Remove(CurrentItem);
                             }
 
@@ -522,9 +522,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public ICommand RecoverCloneByOverwritePartsParameterCommand
         {
-            get => new RelayCommand(async() =>
+            get => new AsyncCommand(async() =>
             {
-                await Task.Delay(500);
+                await Task.Delay(50);
                 var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
@@ -1135,12 +1135,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                             if (CollectionWithThisDistributeName.ToList().Exists(x => x.IsFinish))
                             {
-                                await MethodWinUIMessageBox.CanNotCloseProject();
+                                await MethodWinUIMessageBox.CanNotCloseProjectAsync();
                                 return;
                             }
 
                                 //詢問是否要關閉
-                                if ((await MethodWinUIMessageBox.AskCloseProject(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))!= MessageBoxResult.Yes)
+                                if ((await MethodWinUIMessageBox.AskCloseProjectAsync(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))!= MessageBoxResult.Yes)
                                     return;
 
                                 //將資料清除

@@ -115,7 +115,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     for (int ErrorCount = 0; true; ErrorCount++)
                     {
-                        Singletons.LogDataSingleton.Instance.AddLogDataAsync("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
+                        _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync("Debug", $"TestMessage-{ErrorCount}", ErrorCount % 5 == 0);
                         // Thread.Sleep(1000);
                         await Task.Delay(1000);
                     }

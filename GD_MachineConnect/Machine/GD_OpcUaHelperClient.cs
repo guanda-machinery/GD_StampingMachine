@@ -49,7 +49,7 @@ namespace GD_MachineConnect.Machine
                     {
                         await semaphoreSlim.WaitAsync(cts.Token);
                     }
-                    catch (OperationCanceledException cex)
+                    catch (OperationCanceledException)
                     {
                         return false;
                     }
@@ -169,7 +169,7 @@ namespace GD_MachineConnect.Machine
                         break;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await Task.Delay(10);
                     //Disconnect();
@@ -209,7 +209,7 @@ namespace GD_MachineConnect.Machine
                         break;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await Task.Delay(10);
                 }

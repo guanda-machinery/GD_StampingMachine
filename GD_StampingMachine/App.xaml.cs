@@ -1,7 +1,7 @@
 ﻿
 using DevExpress.Diagram.Core.Shapes;
 using DevExpress.Mvvm;
-using DevExpress.Xpf.WindowsUI;
+using DevExpress.XtraSplashScreen.Utils;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Properties;
@@ -56,6 +56,8 @@ namespace GD_StampingMachine
             MachineWindow.Show();
 
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
+        
+            
             _ = Task.Run(async () =>
             {
                 try
@@ -64,8 +66,6 @@ namespace GD_StampingMachine
                     {
                         await Task.Delay(100);
                         MachineWindow.IsEnabled = false;
-
-
                         MachineWindow.Topmost = true;
                         MachineWindow.Topmost = false;
                         manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
@@ -90,12 +90,13 @@ namespace GD_StampingMachine
                     }
 
                     ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
- 
+
                     await Application.Current?.Dispatcher.InvokeAsync( () =>
                     {
                         MachineWindow.Visibility = Visibility.Visible;
-                            MachineWindow.IsEnabled = true;
+                        MachineWindow.IsEnabled = true;
                     });
+
                     manager.Close();
                 }
                 catch (Exception ex)
@@ -122,6 +123,7 @@ namespace GD_StampingMachine
 
                 //顯示彈窗
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+         
                 ExTask.Wait();
             }
         }

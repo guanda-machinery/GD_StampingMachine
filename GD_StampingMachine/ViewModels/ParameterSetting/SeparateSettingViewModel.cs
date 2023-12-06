@@ -4,7 +4,6 @@ using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
-using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using System;
 using System.Collections.ObjectModel;

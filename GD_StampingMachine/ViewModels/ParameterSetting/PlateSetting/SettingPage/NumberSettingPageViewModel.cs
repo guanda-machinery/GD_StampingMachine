@@ -107,7 +107,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                 if (FIndex != -1)
                 {
-                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNot() == MessageBoxResult.Yes)
+                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNotAsync() == MessageBoxResult.Yes)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                          {
@@ -132,7 +132,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand DeleteSettingCommand
         {
-            get => new RelayCommand(async () =>
+            get => new AsyncRelayCommand(async () =>
             {
                 if (NumberSettingModelCollectionSelected != null)
                 {

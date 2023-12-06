@@ -195,7 +195,7 @@ namespace GD_StampingMachine.Method
             var FilePath = GetJsonFilePath(ParameterSettingName);
             var Result = this.ReadJsonFile(FilePath, out JsonData);
             if (ShowMessageBox)
-                _ = MethodWinUIMessageBox.LoadSuccessful(FilePath, Result);
+                _ = MethodWinUIMessageBox.LoadSuccessfulAsync(FilePath, Result);
             return Result;
         }
         public async Task<bool> WriteJsonSettingByEnumAsync<T>(Enum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
@@ -204,7 +204,7 @@ namespace GD_StampingMachine.Method
 
             var Result = await this.WriteJsonFileAsync(FilePath, JsonData); 
             if (ShowMessageBox)
-               MethodWinUIMessageBox.SaveSuccessful(FilePath , Result);
+               MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath , Result);
 
             return Result;
         }
@@ -215,7 +215,7 @@ namespace GD_StampingMachine.Method
 
             var Result = this.WriteJsonFile(FilePath, JsonData);
             if (ShowMessageBox)
-                MethodWinUIMessageBox.SaveSuccessful(FilePath, Result);
+                MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath, Result);
 
             return Result;
         }

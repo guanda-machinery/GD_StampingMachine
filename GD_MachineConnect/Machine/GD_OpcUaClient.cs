@@ -230,7 +230,7 @@ namespace GD_MachineConnect.Machine
                     //m_KeepAliveComplete?.Invoke(this, e);
                 }
             }
-            catch (Exception e2)
+            catch (Exception)
             {
                 // ClientUtils.HandleException(OpcUaName, e2);
             }

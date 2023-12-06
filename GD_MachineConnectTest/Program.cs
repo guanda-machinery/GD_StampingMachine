@@ -28,7 +28,7 @@ namespace GD_MachineConnectTest
             int Port = 4842;
             string ServerDataPath = "";
 
-            var test = @"http://255.255.255.255:500/remote";
+            //var test = @"http://255.255.255.255:500/remote";
 
 
             //ns=4;s=APPL.Application.POU_AbdomenWing.arArc_Abdomen[1000].P1_X
@@ -123,7 +123,7 @@ namespace GD_MachineConnectTest
                         await SMachine?.DisconnectAsync();
                     }*/
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
@@ -140,7 +140,7 @@ namespace GD_MachineConnectTest
 
             Thread.Sleep(1000);
 
-            short input = 0;
+           // short input = 0;
             /*
             while (true)
             {

@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using DevExpress.Mvvm.Native;
 using DevExpress.Data.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -563,28 +564,30 @@ namespace GD_StampingMachine.ViewModels
          [JsonIgnore]
         public ICommand ProjectGridControlRowDoubleClickCommand
         {
-            get => _projectGridControlRowDoubleClickCommand??= new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>(async (DevExpress.Mvvm.Xpf.RowClickArgs args) =>
+            get => _projectGridControlRowDoubleClickCommand??= new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
             {
-                try
+                _ = Task.Run(async() =>
                 {
-                    if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel partsParameterVM)
+                    try
                     {
-                        partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
-                        partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                        StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
-                        await SaveProductProjectVMObservableCollectionAsync();
+                        if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel partsParameterVM)
+                        {
+                            partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
+                            partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                            await Application.Current.Dispatcher.InvokeAsync(() =>
+                            {
+                                StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
+                            });
+                            await SaveProductProjectVMObservableCollectionAsync();
 
-                        OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
+                            OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
+                        }
                     }
-                }
-                catch
-                {
+                    catch(Exception)
+                    {
 
-                }
-
-               /* if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
-                {
-                }*/
+                    }
+                });
             });
         }
 

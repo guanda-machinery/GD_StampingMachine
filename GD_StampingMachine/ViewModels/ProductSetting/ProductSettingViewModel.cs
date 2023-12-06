@@ -142,7 +142,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 //檔案已存在 詢問是否要覆蓋
                 if (ExistedIndex != -1)
                 {
-                    if (await MethodWinUIMessageBox.AskOverwriteOrNot() is not MessageBoxResult.Yes)
+                    if (await MethodWinUIMessageBox.AskOverwriteOrNotAsync() is not MessageBoxResult.Yes)
                         return;
                 }
 
@@ -215,9 +215,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         if (ExisedIndex != -1)
                         {
                             if (ProductProjectVMObservableCollection[ExisedIndex].ProductProjectPath == ReadProductProject.ProjectPath)
-                                await MethodWinUIMessageBox.ProjectIsLoaded();
+                                await MethodWinUIMessageBox.ProjectIsLoadedAsync();
                             else
-                                await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProject();
+                                await MethodWinUIMessageBox.ProjectIsExisted_CantOpenProjectAsync();
                             return;
                         }
 
@@ -282,7 +282,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 await Task.WhenAll(saveList);
 
                 var Result = await SaveProductListSettingAsync();
-                MethodWinUIMessageBox.SaveSuccessful(null, Result);
+                await MethodWinUIMessageBox.SaveSuccessfulAsync(null, Result);
             });
         }
 

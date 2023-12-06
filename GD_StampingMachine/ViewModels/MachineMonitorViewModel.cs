@@ -289,7 +289,7 @@ namespace GD_StampingMachine.ViewModels
 
                                 //將兩行字上傳到機器
                                 //readymachining.
-                                string ironPlateString = "";
+                     //           string ironPlateString = "";
 
                                 string plateFirstValue = "";
                                 string plateSecondValue = "";
@@ -402,7 +402,7 @@ namespace GD_StampingMachine.ViewModels
                                                 token.ThrowIfCancellationRequested();
                                             try
                                             {
-                                                if (await StampMachineData.SetRequestDatabit(false))
+                                                if (await StampMachineData.SetRequestDatabitAsync(false))
                                                 {
                                                     await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.Rdatabit, token);
                                                     break;
@@ -521,7 +521,7 @@ namespace GD_StampingMachine.ViewModels
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart");
                         }
 
-                        var ironPlateDataRet = await StampMachineData.GetIronPlateDataCollection();
+                        var ironPlateDataRet = await StampMachineData.GetIronPlateDataCollectionAsync();
                         if(!ironPlateDataRet.Item1)
                         {
                             manager?.Close();
@@ -611,7 +611,7 @@ namespace GD_StampingMachine.ViewModels
                                 bool setRequestDatabitSuccesfful = false;
                                 do
                                 {
-                                    if(await StampMachineData.SetRequestDatabit(false))
+                                    if(await StampMachineData.SetRequestDatabitAsync(false))
                                     {
                                         await WaitForCondition.WaitAsyncIsFalse(() => StampMachineData.Rdatabit, token);
                                     }
@@ -653,7 +653,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     await WaitForCondition.WaitAsync(IsStopDown,true, token);
                     //取得id
-                    var getIdAsync = await StampMachineData.GetFirstIronPlateID();
+                    var getIdAsync = await StampMachineData.GetFirstIronPlateIDAsync();
                     if (getIdAsync.Item1)
                     {
                             foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
@@ -768,7 +768,7 @@ namespace GD_StampingMachine.ViewModels
                             if (token.IsCancellationRequested)
                                 token.ThrowIfCancellationRequested();
 
-                            var getIronPlate = await StampMachineData.GetIronPlateDataCollection();
+                            var getIronPlate = await StampMachineData.GetIronPlateDataCollectionAsync();
                             isGetIronPlate = getIronPlate.Item1;
                             ironPlateDataCollection = getIronPlate.Item2;
                         } while (!isGetIronPlate);
@@ -780,7 +780,7 @@ namespace GD_StampingMachine.ViewModels
                         {
                             if (token.IsCancellationRequested)
                                 token.ThrowIfCancellationRequested();
-                            isSetIronPlate = await StampMachineData.SetIronPlateDataCollection(NewEmptyIronPlateDataCollection);
+                            isSetIronPlate = await StampMachineData.SetIronPlateDataCollectionAsync(NewEmptyIronPlateDataCollection);
                         } while (!isSetIronPlate);
 
 

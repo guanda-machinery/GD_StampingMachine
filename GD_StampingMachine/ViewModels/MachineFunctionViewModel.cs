@@ -101,6 +101,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _gridControlLoadedCommand ??= new AsyncRelayCommand<object>(async obj =>
             {
+                await Task.CompletedTask;
 
                 if (obj is System.Windows.RoutedEventArgs e)
                 {
@@ -202,7 +203,7 @@ namespace GD_StampingMachine.ViewModels
                         LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
 
 
-                    if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
+                    if (await StampMachineData.SetSeparateBoxNumberAsync(LocationIndex))
                     {
 
                     }
@@ -237,7 +238,7 @@ namespace GD_StampingMachine.ViewModels
                         LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
                     //SeparateBox_Rotate(LocationIndex, 1);
 
-                    if (await StampMachineData.SetSeparateBoxNumber(LocationIndex))
+                    if (await StampMachineData.SetSeparateBoxNumberAsync(LocationIndex))
                     {
 
                     }

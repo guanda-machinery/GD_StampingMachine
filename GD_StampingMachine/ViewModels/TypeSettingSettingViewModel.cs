@@ -69,7 +69,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 return new AsyncRelayCommand(async (CancellationToken token) =>
                 {
-                    Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, "btnAddProject");
+                    _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, "btnAddProject");
                     if (NewProjectDistribute.ProjectDistributeName == null)
                     {
                         await MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmptyAsync();
@@ -77,7 +77,7 @@ namespace GD_StampingMachine.ViewModels
                     }
                     if (ProjectDistributeVMObservableCollection.FindIndex(x => x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) != -1)
                     {
-                        await MethodWinUIMessageBox.CanNotCreateProject(NewProjectDistribute.ProjectDistributeName);
+                        await MethodWinUIMessageBox.CanNotCreateProjectAsync(NewProjectDistribute.ProjectDistributeName);
                         return;
                     }
 
@@ -119,7 +119,7 @@ namespace GD_StampingMachine.ViewModels
                 if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {
                     var DelProjectsString = projectDistributeGridControlSelectedItems.ToList().Select(x => x.ProjectDistributeName).ExpandToString();
-                    if (await MethodWinUIMessageBox.AskDelProject(DelProjectsString) is MessageBoxResult.Yes)
+                    if (await MethodWinUIMessageBox.AskDelProjectAsync(DelProjectsString) is MessageBoxResult.Yes)
                     {
                         var Removed_List = new List<int>();
                         foreach (var _selectItem in projectDistributeGridControlSelectedItems)

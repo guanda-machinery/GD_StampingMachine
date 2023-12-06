@@ -13,7 +13,7 @@ namespace GD_StampingMachine.Method
     {
 
 
-        public static async Task<MessageBoxResult> AskOverwriteOrNot()
+        public static async Task<MessageBoxResult> AskOverwriteOrNotAsync()
         {
             var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -21,7 +21,7 @@ namespace GD_StampingMachine.Method
             return await MessageBoxReturn;
         }
 
-        public static async Task<MessageBoxResult> AskDelProject(string NumberSetting)
+        public static async Task<MessageBoxResult> AskDelProjectAsync(string NumberSetting)
         {
             var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -36,7 +36,7 @@ namespace GD_StampingMachine.Method
         /// </summary>
         /// <param name="NumberSetting"></param>
         /// <returns></returns>
-        public static async Task<MessageBoxResult> AskCloseProject(string ProjectName)
+        public static async Task<MessageBoxResult> AskCloseProjectAsync(string ProjectName)
         {
             var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -54,7 +54,7 @@ namespace GD_StampingMachine.Method
         /// 儲存成功
         /// </summary>
         /// <param name="IsSuccessful"></param>
-        public static async void SaveSuccessful(string Path  ,bool IsSuccessful)
+        public static async Task SaveSuccessfulAsync(string Path  ,bool IsSuccessful)
         {
             string _message = string.Empty;
             if (!string.IsNullOrEmpty(Path))
@@ -79,7 +79,7 @@ namespace GD_StampingMachine.Method
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="IsSuccessful"></param>
-        public static async Task LoadSuccessful(string Path , bool IsSuccessful)
+        public static async Task LoadSuccessfulAsync(string Path , bool IsSuccessful)
         {
             string _message = Path;
             if (IsSuccessful)
@@ -97,19 +97,19 @@ namespace GD_StampingMachine.Method
 
 
 
-        public static async Task CanNotCloseProject()
+        public static async Task CanNotCloseProjectAsync()
         {
            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
         }
 
-        public static async Task CanNotDeleteProject()
+        public static async Task CanNotDeleteProjectAsync()
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"));
         }
 
 
 
-        public static async Task ProjectIsExisted_CantOpenProject()
+        public static async Task ProjectIsExisted_CantOpenProjectAsync()
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
@@ -130,7 +130,7 @@ namespace GD_StampingMachine.Method
         /// <summary>
         /// 無法建立專案
         /// </summary>
-        public async static Task CanNotCreateProject(string ProjectName =null)
+        public async static Task CanNotCreateProjectAsync(string ProjectName =null)
         {
             string AddMessage = "";
             if (ProjectName != null)
@@ -143,7 +143,7 @@ namespace GD_StampingMachine.Method
 
 
 
-        public async static Task ProjectIsLoaded()
+        public async static Task ProjectIsLoadedAsync()
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsLoaded")
