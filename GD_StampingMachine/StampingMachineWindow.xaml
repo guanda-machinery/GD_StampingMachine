@@ -44,7 +44,7 @@
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid MouseDown="Grid_MouseLeftButtonDown">
+        <Grid MouseDown="Grid_MouseLeftButtonDown" MouseMove="Grid_MouseMove">
             <Border Background="{DynamicResource PrimaryHueDarkBrush}" />
             <StackPanel Orientation="Horizontal">
             <Image Source="{StaticResource Logo}" Height="20" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>

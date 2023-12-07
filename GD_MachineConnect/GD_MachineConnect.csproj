@@ -260,7 +260,6 @@
   <ItemGroup>
     <Compile Include="Enums\MachineStatus.cs" />
     <Compile Include="Machine\GD_OpcUaClient.cs" />
-    <Compile Include="Machine\GD_OpcUaHelperClient.cs" />
     <Compile Include="Machine\Interfaces\IOpcuaConnect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

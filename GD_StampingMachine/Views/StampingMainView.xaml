@@ -57,8 +57,6 @@
         </Grid.RowDefinitions>
             <materialDesign:ColorZone 
                 MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" 
-                MouseMove="ColorZone_MouseMove"
-                MouseUp="ColorZone_MouseLeftButtonUp"
         Mode="PrimaryDark"  Height="80"
         Padding="8" >
             <Grid>
