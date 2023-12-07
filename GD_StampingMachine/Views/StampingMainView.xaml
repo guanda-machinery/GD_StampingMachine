@@ -40,8 +40,6 @@
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.AddParameterDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.PartsParameterViewModelSelectItem.EditPartDarggableIsPopup"/>
-                    <!--Binding Path="ProductSettingVM.SelectProductProjectVM.ImportParameterDarggableIsPopup"/-->
-                    <!--Binding Path="ProductSettingVM.SelectProductProjectVM.ExportParameterDarggableIsPopup"/-->
                     <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>
                     <Binding Path="TypeSettingSettingVM.ProjectDistributeVM.AddTypeSettingProjectDarggableIsPopUp"/>
                     <Binding Path="ProductSettingVM.OpenProjectFileDarggableIsPopup"/>
@@ -57,7 +55,10 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <materialDesign:ColorZone 
+            <materialDesign:ColorZone 
+                MouseLeftButtonDown="ColorZone_MouseLeftButtonDown" 
+                MouseMove="ColorZone_MouseMove"
+                MouseUp="ColorZone_MouseLeftButtonUp"
         Mode="PrimaryDark"  Height="80"
         Padding="8" >
             <Grid>
@@ -1066,7 +1067,7 @@
                                 </GD_UserControls:FunctionToggleUserControl>
 
 
-                                <GD_UserControls:FunctionToggleUserControl 
+                                <GD_UserControls:FunctionToggleUserControl IsChecked="{Binding TBtn_MachineMonitorIsChecked}"
                                     IsEnabled="{Binding  
                                     Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, 
                                     Path=SelectedProjectDistributeVM,            
@@ -1087,7 +1088,7 @@
 
                                 <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_MachineFunction">
+                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_MachineFunction" IsChecked="{Binding TBtn_MachineFunctionIsChecked}">
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_MachineFunction}"      />
@@ -1288,7 +1289,7 @@
                                             <ComboBox  Width="auto" Margin="0" Style="{StaticResource GD_BlackComboBox}"
                                                    
                                     ItemsSource="{Binding SupportedCultures}" 
-                                          SelectedValue="{Binding SelectedCultures, UpdateSourceTrigger=PropertyChanged}">
+                                          SelectedValue="{Binding SelectedCulture}">
                                                 <ComboBox.DataContext>
                                                     <GD_ViewModels:CultureViewModel/>
                                                 </ComboBox.DataContext>

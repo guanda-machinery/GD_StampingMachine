@@ -393,6 +393,9 @@
       <DependentUpon>MachineFunctionTestUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
+    <Compile Include="UserControls\NumberSettingSchematicDiagram\QRPlateRowDiagramControl.xaml.cs">
+      <DependentUpon>QRPlateRowDiagramControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\MachineFunctionTestViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\IO_InfoViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\PlateMonitorViewModel.cs" />
@@ -574,6 +577,10 @@
     <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRViewUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NumberSettingSchematicDiagram\QRPlateRowDiagramControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ParamaterSettingUserControl.xaml">
       <SubType>Designer</SubType>

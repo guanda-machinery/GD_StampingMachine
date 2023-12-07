@@ -1,7 +1,5 @@
-﻿using GD_StampingMachine.GD_Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,19 +16,13 @@ using System.Windows.Shapes;
 namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
 {
     /// <summary>
-    /// NumberSettingSchematicDiagramUserControl.xaml 的互動邏輯
+    /// QRPlateRowDiagramControl.xaml 的互動邏輯
     /// </summary>
-    public partial class PlateRowDiagramWithQRViewUserControl : PlateRowDiagramBaseUserControl
+    public partial class QRPlateRowDiagramControl : PlateRowDiagramBaseUserControl
     {
-        public PlateRowDiagramWithQRViewUserControl()
+        public QRPlateRowDiagramControl()
         {
             InitializeComponent();
         }
-
-
-
-
-
-
     }
 }

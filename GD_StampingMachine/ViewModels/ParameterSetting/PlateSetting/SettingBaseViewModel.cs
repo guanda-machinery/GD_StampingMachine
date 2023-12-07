@@ -254,20 +254,40 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             ObservableCollection<PlateFontViewModel> pNumberList2 = new();
 
             //先讀舊檔
-            foreach (var setting in StampPlateSetting.StampableList.Item1)
+            /*foreach (var setting in StampPlateSetting.StampableList.Item1)
+             {
+                 pNumberList1.Add(new PlateFontViewModel(setting) 
+                 {
+                     FontString = null });
+             }
+
+             foreach (var setting in StampPlateSetting.StampableList.Item2)
+             {
+                 pNumberList2.Add(new PlateFontViewModel(setting)
+                 {
+                     FontString = null 
+                 });
+             }*/
+
+            //新增的
+            /* for (int i = pNumberList1.Count; i < SequenceCount; i++)
+                 pNumberList1.Add(new PlateFontViewModel() { FontIndex = (ushort)i, IsUsed = true }); ;*/
+
+             for (int i = 0; i < SequenceCount; i++)
             {
-                pNumberList1.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
+                PlateFontViewModel plateFontVM;
+                if (i < StampPlateSetting.StampableList.Item1.Count)
+                    plateFontVM = new PlateFontViewModel(StampPlateSetting.StampableList.Item1[i]);
+                else
+                    plateFontVM = new PlateFontViewModel(new PlateFontModel()
+                    {
+                        FontIndex = (ushort)i,
+                        IsUsed = true
+                    });
+                pNumberList1.Add(plateFontVM);
             }
 
-            foreach (var setting in StampPlateSetting.StampableList.Item2)
-            {
-                pNumberList2.Add(new PlateFontViewModel() { IsUsed = setting.IsUsed, FontString = null });
-            }
-
-            for (int i = 0; i < SequenceCount; i++)
-                pNumberList1.Add(new PlateFontViewModel() { IsUsed =true});
-
-            pNumberList1 = pNumberList1.Take(SequenceCount).ToObservableCollection();
+            //pNumberList1 = pNumberList1.Take(SequenceCount).ToObservableCollection();
             //pNumberList1.RemoveRange(SequenceCount, pNumberList1.Count- SequenceCount);
 
             switch (SpecialSequence)
@@ -277,9 +297,22 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     break;
                 case (SpecialSequenceEnum.TwoRow):
                     for (int i = 0; i < SequenceCount; i++)
-                        pNumberList2.Add(new PlateFontViewModel() { IsUsed = true});
-                    pNumberList2 = pNumberList2.Take(SequenceCount).ToObservableCollection();
-                   // pNumberList2.RemoveRange(SequenceCount, pNumberList2.Count - SequenceCount);
+                    {
+                        PlateFontViewModel plateFontVM;
+                        if (i < StampPlateSetting.StampableList.Item2.Count)
+                            plateFontVM = new PlateFontViewModel(StampPlateSetting.StampableList.Item2[i]);
+                        else
+                            plateFontVM = new PlateFontViewModel(new PlateFontModel()
+                            {
+                                FontIndex = (ushort)i,
+                                IsUsed = true
+                            });
+                        pNumberList2.Add(plateFontVM);
+                    }
+
+
+
+
                     break;
                     default: 
                     throw new ArgumentException();

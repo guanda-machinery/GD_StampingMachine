@@ -1,6 +1,7 @@
 ﻿
 using DevExpress.Diagram.Core.Shapes;
 using DevExpress.Mvvm;
+using DevExpress.Mvvm.Native;
 using DevExpress.XtraSplashScreen.Utils;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
@@ -53,6 +54,9 @@ namespace GD_StampingMachine
             };
             StampingMachineWindow MachineWindow = new StampingMachineWindow();
 
+
+
+            MachineWindow.Opacity = 0;
             MachineWindow.Show();
 
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
@@ -73,7 +77,7 @@ namespace GD_StampingMachine
 
 
 
-                        if (Settings.Default.ConnectOnStartUp)
+                    if (Settings.Default.ConnectOnStartUp)
                         await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
                     await Task.Yield();
                     await Task.Delay(1000);
@@ -85,7 +89,11 @@ namespace GD_StampingMachine
                     ManagerVM.IsIndeterminate = false;
                     for (int i = 0; i <= 100; i++)
                     {
-                        ManagerVM.Progress = i;
+                        ManagerVM.Progress = i; 
+                        await Application.Current?.Dispatcher.InvokeAsync(async () =>
+                        {
+                            MachineWindow.Opacity = i/100.0;
+                        });
                         await Task.Delay(20);
                     }
 
@@ -95,6 +103,8 @@ namespace GD_StampingMachine
                     {
                         MachineWindow.Visibility = Visibility.Visible;
                         MachineWindow.IsEnabled = true;
+
+
                     });
 
                     manager.Close();
@@ -113,16 +123,17 @@ namespace GD_StampingMachine
             {
                var ExTask = Task.Run(async () =>
                 {
+                  
                     //紀錄異常
-                    await LogDataSingleton.Instance.AddLogDataAsync(nameof(App), exception.Message, true);
+                    await LogDataSingleton.Instance.AddLogDataAsync(exception.Source, exception.Message, true);
                     //切斷機台連線
                     await StampMachineDataSingleton.Instance.DisposeAsync();
-                    await MessageBoxResultShow.ShowOKAsync(nameof(App), exception.Message);
+                    await MessageBoxResultShow.ShowOKAsync(exception.Source, exception.Message);
                 });
                 //ExTask.Wait();
 
                 //顯示彈窗
-                MessageBox.Show($"An unhandled exception occurred: {exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An unhandled exception occurred: {exception.Message} , Source:{exception.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
          
                 ExTask.Wait();
             }

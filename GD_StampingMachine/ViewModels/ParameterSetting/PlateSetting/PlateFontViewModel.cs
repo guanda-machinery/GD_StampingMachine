@@ -13,9 +13,31 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public class PlateFontViewModel : BaseViewModel
     {
+        public PlateFontViewModel()
+        {
+            PlateFont = new PlateFontModel();
+        }
+
+        public PlateFontViewModel(PlateFontModel plateFont)
+        {
+            PlateFont = plateFont;
+        }
+
+
         public readonly PlateFontModel PlateFont = new PlateFontModel();
 
         public override string ViewModelName => nameof(PlateFontViewModel);
+        
+        public ushort FontIndex
+        {
+            get => PlateFont.FontIndex;
+            set
+            {
+                PlateFont.FontIndex = value;
+                OnPropertyChanged();
+            }
+        }
+        
         public bool IsUsed
         {
             get => PlateFont.IsUsed;
@@ -23,7 +45,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 PlateFont.IsUsed = value;
                 OnPropertyChanged();
-
             }
         }
 

@@ -27,14 +27,13 @@ using GD_StampingMachine.Singletons;
 
 namespace GD_StampingMachine.ViewModels
 {
-
-
     public partial class StampingMainViewModel : GD_CommonLibrary.BaseViewModel
     {
+
+
         /// <summary>
         /// 解構
         /// </summary>
-
         StampingMachineJsonHelper JsonHM = new();
 
         ~StampingMainViewModel()
@@ -50,7 +49,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (disposing)
                 {
-                   _ = SaveStampingMachineJson();
+                   _ = SaveStampingMachineJsonAsync();
                     // TODO: 處置受控狀態 (受控物件)
                 }
 
@@ -61,7 +60,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        public async Task SaveStampingMachineJson()
+        public async Task SaveStampingMachineJsonAsync()
         {
             if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
                 await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
@@ -103,7 +102,6 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMainViewModel");
 
         public StampingMainViewModel()
@@ -133,18 +131,18 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
 
+
+
             _ = Task.Run(async () =>
             {
                 await Task.Delay(10000);
                 //Thread.Sleep(5000);
                 while (true)
                 {
-                    await SaveStampingMachineJson();
-                    await Task.Delay(60000);
+                    await SaveStampingMachineJsonAsync();
+                    await Task.Delay(10000);
                 }
             });
-
-
 
 
         }
@@ -190,12 +188,6 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
         }
-
-
-
-
-
-
 
 
 
@@ -293,6 +285,27 @@ namespace GD_StampingMachine.ViewModels
                 StampingMachineSingleton.Instance.ParameterSettingVM.TbtnSeEngineeringModeIsChecked = true;
             });
         }
+
+        private bool _tBtn_MachineMonitorIsChecked = false;
+        public bool TBtn_MachineMonitorIsChecked
+        {
+            get => _tBtn_MachineMonitorIsChecked; set
+            {
+                _tBtn_MachineMonitorIsChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _tBtn_MachineFunctionIsChecked = false;
+        public bool TBtn_MachineFunctionIsChecked
+        {
+            get => _tBtn_MachineFunctionIsChecked; set
+            {
+                _tBtn_MachineFunctionIsChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
 
 
 

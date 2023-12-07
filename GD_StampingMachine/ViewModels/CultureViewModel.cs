@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GD_StampingMachine.Singletons;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -21,29 +22,38 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+
+
         private CultureInfo _selectedCulture = Properties.Settings.Default.DefaultCulture;
 
-        public CultureInfo SelectedCultures
+        public CultureInfo SelectedCulture
         {
             get
             {
-                if (_selectedCulture == CultureInfo.InvariantCulture)
+                try
                 {
-                    var CurrentCulture = Thread.CurrentThread.CurrentCulture;
-                    if (CulturesHelper.SupportedCultures.Contains(CurrentCulture))
-                        _selectedCulture = CurrentCulture;
-                }
+                    if (_selectedCulture == CultureInfo.InvariantCulture)
+                    {
+                        var CurrentCulture = Thread.CurrentThread.CurrentCulture;
+                        if (CulturesHelper.SupportedCultures.Contains(CurrentCulture))
+                            _selectedCulture = CurrentCulture;
+                    }
 
-                if (_selectedCulture != null)
+                    if (_selectedCulture != null)
+                    {
+                        CulturesHelper.ChangeCulture(_selectedCulture);
+                    }
+                }
+                catch(Exception ex)
                 {
-                    CulturesHelper.ChangeCulture(_selectedCulture);
+                    _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex.Message);
                 }
                 return _selectedCulture;
             }
             set
             {
                 _selectedCulture = value;
-                OnPropertyChanged(nameof(SelectedCultures));
+                OnPropertyChanged();
             }
         }
     }

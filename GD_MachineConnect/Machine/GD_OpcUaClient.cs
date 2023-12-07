@@ -201,7 +201,8 @@ namespace GD_MachineConnect.Machine
             return true;
         }
 
-        private void Session_KeepAlive(Session session, KeepAliveEventArgs e)
+
+        private void Session_KeepAlive(ISession session, KeepAliveEventArgs e)
         {
             try
             {

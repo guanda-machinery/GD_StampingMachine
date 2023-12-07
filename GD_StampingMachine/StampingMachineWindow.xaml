@@ -6,24 +6,132 @@
         xmlns:local="clr-namespace:GD_StampingMachine"
         xmlns:Views="clr-namespace:GD_StampingMachine.Views" 
         xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" 
         BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing"
         Closed="Window_Closed"
-        Padding="1"  
-
         Title="StampingMachineWindow" Height="800" Width="1000" MinWidth="850" MinHeight="750"
+        AllowsTransparency="True"
+        WindowStyle ="None" Background="Transparent"   
+        ResizeMode="CanResize"  
         >
+    
     <Window.Resources>
-        <!--外框線-->
-        <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowActiveBackground, IsThemeIndependent=True}" Color="Gray" />
-        <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveBackground, IsThemeIndependent=True}" Color="Gray" />
-        <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveHeaderBackground, IsThemeIndependent=True}" Color="#cdcdcd" />
-        <system:Double x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveHeaderOpacity, IsThemeIndependent=True}">1</system:Double>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/StyleDictionary.xaml" />
+                <!--外框線-->
+                <ResourceDictionary>
+                    <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowActiveBackground, IsThemeIndependent=True}" Color="Gray" />
+                    <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveBackground, IsThemeIndependent=True}" Color="Gray" />
+                    <SolidColorBrush x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveHeaderBackground, IsThemeIndependent=True}" Color="#cdcdcd" />
+                    <system:Double x:Key="{dxt:ThemedWindowThemeKey ResourceKey=WindowInactiveHeaderOpacity, IsThemeIndependent=True}">1</system:Double>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-            <Views:StampingMainView/>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome 
+        CaptionHeight="0"
+        ResizeBorderThickness="10" />
+    </WindowChrome.WindowChrome>
+
+
+    <Grid Margin="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid MouseDown="Grid_MouseLeftButtonDown">
+            <Border Background="{DynamicResource PrimaryHueDarkBrush}" />
+            <StackPanel Orientation="Horizontal">
+            <Image Source="{StaticResource Logo}" Height="20" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    Text="StampingMachine" VerticalAlignment="Center" FontSize="16">
+                    
+                </TextBlock>
+                </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  VerticalAlignment="Top" Margin="1">
+
+                <Button Content="{materialDesign:PackIcon Kind=Minus, Size=18}"   BorderThickness="0" 
+                        Click="MinimizeButton_Click" Margin="0"  Height="30">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="{materialDesign:PackIcon Kind=SquareOutline, Size=18}"  
+                        Click="MaximizeButton_Click" Margin="0"  Height="30">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type Window}},
+                                                            Path=WindowState}" Value="{x:Static WindowState.Maximized}">
+                                    <Setter Property="Content" Value="{materialDesign:PackIcon Kind=WindowRestore, Size=20}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                            
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}"  
+                        Click="CloseButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Width"
+                            Value="40" />
+                            <Setter Property="Height"
+                            Value="30" />
+                            <Setter Property="Opacity"
+                            Value="0.95" />
+                            <Setter Property="BorderThickness"
+                            Value="0" />
+                            <Setter Property="BorderBrush"
+                            Value="Transparent" />
+                            
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource BrightHueLightBrush}"/>
+                                </Trigger>
+
+
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.000" To="#e81123" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.500" To="Transparent" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Style.Triggers>
+                            
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Views:StampingMainView Grid.Row="1" />
         </Grid>
 
 

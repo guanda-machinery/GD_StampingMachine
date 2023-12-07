@@ -92,6 +92,7 @@ namespace GD_StampingMachine.Model
 
     public class PlateFontModel
     {
+        public ushort FontIndex { get; set; }
         public bool IsUsed { get; set; }
 
         public string FontString { get; set; }
