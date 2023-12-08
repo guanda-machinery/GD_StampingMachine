@@ -132,7 +132,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 ProductProject.Name = value;
-                OnPropertyChanged(nameof(ProductProjectName));
+                OnPropertyChanged();
             }
         }
         /// <summary>
@@ -285,7 +285,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 _addNewPartsParameterVM ??= new PartsParameterViewModel(new GD_Model.ProductionSetting.PartsParameterModel()
                 {
-                    ProjectID = ProductProjectName,
+                    //ProjectID = ProductProjectName,
                 });
                 _addNewPartsParameterVM.SettingBaseVM.SheetStampingTypeForm = this.SheetStampingTypeForm;
                 return _addNewPartsParameterVM;

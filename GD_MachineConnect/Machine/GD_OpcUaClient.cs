@@ -372,7 +372,7 @@ namespace GD_MachineConnect.Machine
 
 
 
-        public Task<IEnumerable<T>> ReadNodesAsync<T>(IEnumerable<string> nodeIds)
+        public Task<IEnumerable<object>> ReadNodesAsync(IEnumerable<string> nodeIds)
         {
             ReadValueIdCollection readValueIdCollection = new ReadValueIdCollection();
             
@@ -385,7 +385,7 @@ namespace GD_MachineConnect.Machine
                 });
             }
 
-            TaskCompletionSource<IEnumerable<T>> taskCompletionSource = new TaskCompletionSource<IEnumerable<T>>();
+            TaskCompletionSource<IEnumerable<object>> taskCompletionSource = new TaskCompletionSource<IEnumerable<object>>();
             m_session.BeginRead(null, 0.0, TimestampsToReturn.Neither, readValueIdCollection, delegate (IAsyncResult ar)
             {
                 DataValueCollection results;
@@ -396,10 +396,10 @@ namespace GD_MachineConnect.Machine
                     if (!StatusCode.IsGood(responseHeader.ServiceResult))
                         throw new Exception($"Invalid response from the server.");
 
-                    List<T> list = new List<T>();
+                    List<object> list = new List<object>();
                     foreach (DataValue item in results)
                     {
-                        list.Add((T)item.Value);
+                        list.Add(item.Value);
                     }
                     taskCompletionSource.TrySetResult(list);
                 }

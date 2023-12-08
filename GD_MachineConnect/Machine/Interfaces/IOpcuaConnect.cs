@@ -60,7 +60,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        Task<IEnumerable<T>> ReadNodesAsync<T>(IEnumerable<string> NodeTrees);
+        Task<IEnumerable<object>> ReadNodesAsync(IEnumerable<string> NodeTrees);
 
         /// <summary>
         /// 

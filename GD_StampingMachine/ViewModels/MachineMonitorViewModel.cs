@@ -19,6 +19,7 @@ using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.GD_Model.ProductionSetting;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
@@ -656,25 +657,31 @@ namespace GD_StampingMachine.ViewModels
                     var getIdAsync = await StampMachineData.GetFirstIronPlateIDAsync();
                     if (getIdAsync.Item1)
                     {
-                            foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                        foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                        {
+                            var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == getIdAsync.Item2);
+                            if (finishPartParameter != null)
                             {
-                                var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == getIdAsync.Item2);
-                                if (finishPartParameter != null)
+                                finishPartParameter.ShearingIsFinish = true;
+                                finishPartParameter.IsFinish = true;
+                                try
                                 {
-                                    finishPartParameter.ShearingIsFinish = true;
-                                    finishPartParameter.IsFinish = true;
-                                    try
-                                    {
-                                        await rojectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
-                                    }
-                                    catch
-                                    {
-
-                                    }
-                                    break;
+                                    await rojectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
                                 }
-                            
+                                catch
+                                {
+
+                                }
+                                break;
+                            }
                         }
+
+                       // StampMachineData.GetIronPlateDataCollectionAsync
+
+                        //切割一片後記錄
+                        //StampingMachineJsonHelper JsonHM = new();
+                        //await JsonHM.WriteJsonFileAsync(Path.Combine(ProductProject.ProjectPath, ProductProject.Name), ProductProject);
+
                     }
                     //等待彈起
                     await WaitForCondition.WaitAsync(IsStopDown,false, token);

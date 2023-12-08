@@ -218,7 +218,9 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding ProjectDistributeName}" Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Margin="10,0" FontSize="30"/>
+                <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    Text="{Binding ProjectDistributeName}" 
+                    Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Margin="10,0" FontSize="30"/>
                 <ToggleButton IsThreeState = "False" Style="{StaticResource SiegCustomButton}"
                                               IsChecked="{Binding IsInDistributePage, Converter={dx:BoolInverseConverter}}"
                                               Width="auto"

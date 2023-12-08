@@ -1150,7 +1150,7 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 List<IronPlateDataModel> plateDataCollection = PlateDataCollectionTask.ironPlateCollection;
 
-                                                var plateMonitorVMCollection = new AsyncObservableCollection<PlateMonitorViewModel>();
+                                                var plateMonitorVMCollection = new ObservableCollection<PlateMonitorViewModel>();
                                                 //產出圖形
                                                 foreach (var plateData in plateDataCollection)
                                                 {
@@ -1222,7 +1222,7 @@ namespace GD_StampingMachine.Singletons
                                                 {
                                                     List<DispatcherOperation> invokeList = new();
 
-                                                    for (int i = 1; i < plateMonitorVMCollection.Count; i++)
+                                                    for (int i = 0; i < plateMonitorVMCollection.Count; i++)
                                                     {
                                                         int index = i;//防止閉包問題
                                                                       //比較差異 若兩個ID相同則不複寫
@@ -1239,12 +1239,11 @@ namespace GD_StampingMachine.Singletons
                                                             invokeList.Add(invoke);
                                                         }
                                                     }
-
                                                     await Task.WhenAll(invokeList?.Select(op => op.Task) ?? Enumerable.Empty<Task>());
-                                                    if (invokeList.Count > 0)
+                                                   /* if (invokeList.Count > 0)
                                                     {
                                                         MachineSettingBaseCollection = plateMonitorVMCollection;
-                                                    }
+                                                    }*/
                                                 }
 
                                                 //將現在的資料展開後寫入
@@ -2901,11 +2900,11 @@ namespace GD_StampingMachine.Singletons
             get => _rotatingTurntableInfo??= new ObservableCollection<StampingTypeViewModel>() ; set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
         }
 
-        private AsyncObservableCollection<PlateMonitorViewModel> _machineSettingBaseCollection;
+        private ObservableCollection<PlateMonitorViewModel> _machineSettingBaseCollection;
         /// <summary>
         /// 實際加工狀態[25]
         /// </summary>
-        public AsyncObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
+        public ObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
         {
             get 
             {
@@ -4162,7 +4161,7 @@ Y軸馬達位置移動命令
                 try
                 {
                     //剪切
-                    ironPlateDataList.Add(new IronPlateDataModel());
+                    //ironPlateDataList.Add(new IronPlateDataModel());
                     for (int i = 1; i <= 24; i++)
                     {
                         var node = $"{StampingOpcUANode.system.sv_IronPlateData}[{i}]";
@@ -4189,6 +4188,34 @@ Y軸馬達位置移動命令
 
         private async Task<(bool, IronPlateDataModel)> GetIronPlateAsync(string rootNode)
         {
+            try
+            {
+                var newIronPlateData = new IronPlateDataModel();
+                List<(Action<object>, string)> NodeActions = new()
+            {
+                (x => newIronPlateData.iIronPlateID = (int)x, rootNode + "." + "iIronPlateID"),
+                (x => newIronPlateData.rXAxisPos1 = (float)x, rootNode + "." + "rXAxisPos1"),
+                (x => newIronPlateData.rYAxisPos1 = (float)x, rootNode + "." + "rYAxisPos1"),
+                (x => newIronPlateData.rXAxisPos2 = (float)x, rootNode + "." + "rXAxisPos2"),
+                (x => newIronPlateData.rYAxisPos2 = (float)x, rootNode + "." + "rYAxisPos2"),
+                (x => newIronPlateData.sIronPlateName1 = (string)x, rootNode + "." + "sIronPlateName1"),
+                (x => newIronPlateData.sIronPlateName2 = (string)x, rootNode + "." + "sIronPlateName2"),
+                (x => newIronPlateData.iStackingID = (int)x, rootNode + "." + "iStackingID"),
+                (x => newIronPlateData.bEngravingFinish = (bool)x, rootNode + "." + "bEngravingFinish"),
+                (x => newIronPlateData.bDataMatrixFinish = (bool)x, rootNode + "." + "bDataMatrixFinish"),
+                (x => newIronPlateData.sDataMatrixName1 = (string)x, rootNode + "." + "sDataMatrixName1"),
+                (x => newIronPlateData.sDataMatrixName2 = (string)x, rootNode + "." + "sDataMatrixName2")
+            };
+                var ret = await this.ReadNodesAsync(NodeActions);
+                return (ret, newIronPlateData);
+            }
+            catch
+            {
+                return (false, new IronPlateDataModel());
+            }
+
+
+            /*
             var getTask_iIronPlateID = await this.ReadNodeAsync<int>(rootNode + "." + "iIronPlateID");
             var getTask_rXAxisPos1 = await this.ReadNodeAsync<float>(rootNode + "." + "rXAxisPos1");
             var getTask_rYAxisPos1 = await this.ReadNodeAsync<float>(rootNode + "." + "rYAxisPos1");
@@ -4242,8 +4269,7 @@ Y軸馬達位置移動命令
                 sDataMatrixName2 = (getTask_sDataMatrixName2).Item2,
 
             };
-
-            return (ret, newIronPlateData);
+            */
         }
 
 
@@ -4878,8 +4904,7 @@ Y軸馬達位置移動命令
             return await GD_OpcUaClient.SubscribeNodesDataChangeAsync<T>(nodeList);
         }
 
-
-        public async Task<(bool result, IEnumerable<T> values)> ReadNodesAsync<T>(IEnumerable<string> NodeTrees)
+        public async Task<bool> ReadNodesAsync(IEnumerable<(Action<object>,string)> NodeTrees)
         {
             //T NodeValue = default(T);
             for (int i = 0; i < 5; i++)
@@ -4888,17 +4913,22 @@ Y軸馬達位置移動命令
                 {
                     if (this.IsConnected)
                     {
-                        IEnumerable<T> NodeValue;
-                        NodeValue = await GD_OpcUaClient.ReadNodesAsync<T>(NodeTrees.ToArray());
-                        return (true, NodeValue);
+                        List<object> NodeValue  = (await GD_OpcUaClient.ReadNodesAsync(NodeTrees.Select(x => x.Item2))).ToList();
+                       var actionList= NodeTrees.Select(x => x.Item1).ToList();
+                        for (int j = 0; j < NodeValue.Count; j++)
+                        {
+                            actionList[j]?.Invoke(NodeValue[j]);
+                        }
+                        
+                        return true;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //Disconnect();
                 }
             }
-            return (false, default(IEnumerable<T>));
+            return false;
         }
 
         public async Task<(bool result, T values)> ReadNodeAsync<T>(string NodeTree)
@@ -4942,6 +4972,9 @@ Y軸馬達位置移動命令
             }
             return Enumerable.Repeat(false, NodeTrees.Count());
         }
+
+
+
 
         public async Task<bool> WriteNodeAsync(string NodeTreeString, object WriteValue)
         {

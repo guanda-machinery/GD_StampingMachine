@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using GD_CommonLibrary.Method;
+using GD_StampingMachine.Method;
+using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,8 +58,20 @@ namespace GD_StampingMachine.ViewModels
         private ICommand _closedCommand;
         public ICommand ClosedCommand
         {
-            get => _closedCommand ??= new RelayCommand<EventArgs>(e =>
+            get => _closedCommand ??= new AsyncRelayCommand<EventArgs>(async e =>
             {
+
+                var JsonHM = new StampingMachineJsonHelper();
+
+                // 開始一個 Task 來執行非同步操作
+
+                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+                //存檔
+                var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                await  JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
+
+               var projectSaveTasks= StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
+                await Task.WhenAll(projectSaveTasks);
                 Application.Current.Shutdown();
             });
         }
@@ -103,15 +117,7 @@ namespace GD_StampingMachine.ViewModels
             get => _visibility; set { _visibility = value; OnPropertyChanged(); }
         }
 
-      /*  private WindowStartupLocation _windowStartupLocation;
-        public WindowStartupLocation WindowStartupLocation
-        {
-            get => _windowStartupLocation; set
-            {
-                _windowStartupLocation = value;OnPropertyChanged();
-            }
 
-        }*/
 
 
 

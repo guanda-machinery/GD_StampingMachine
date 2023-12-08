@@ -106,7 +106,7 @@ namespace GD_StampingMachine.ViewModels
                 var Index = obj.PartsParameterVMObservableCollection.FindIndex(x => x.DistributeName == this.ProjectDistributeName);
                 if (Index != -1)
                 {
-                    if(!ReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
+                    if (!ReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
                         ReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
                 }
             }
@@ -137,19 +137,19 @@ namespace GD_StampingMachine.ViewModels
         public DateTime? EditDate { get => ProjectDistribute.EditDate; set { ProjectDistribute.EditDate = value; OnPropertyChanged(); } }
 
 
- 
+
         private StampingBoxPartsViewModel _stampingBoxPartsVM;
         /// <summary>
         /// 盒子與專案
         /// </summary>
-        public StampingBoxPartsViewModel StampingBoxPartsVM 
+        public StampingBoxPartsViewModel StampingBoxPartsVM
         {
-            get=> _stampingBoxPartsVM; 
-            set 
-            { 
+            get => _stampingBoxPartsVM;
+            set
+            {
                 _stampingBoxPartsVM = value;
-                OnPropertyChanged(); 
-            } 
+                OnPropertyChanged();
+            }
         }
 
 
@@ -160,7 +160,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public double StripSteelPosition
         {
-            get => ProjectDistribute.StripSteelPosition; set { ProjectDistribute. StripSteelPosition = value; OnPropertyChanged(); }
+            get => ProjectDistribute.StripSteelPosition; set { ProjectDistribute.StripSteelPosition = value; OnPropertyChanged(); }
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        
+
         // private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
         private ProductProjectViewModel _readyToTypeSettingProductProjectVMSelected;
         public ProductProjectViewModel ReadyToTypeSettingProductProjectVMSelected
@@ -289,7 +289,7 @@ namespace GD_StampingMachine.ViewModels
 
 
             int BFinishindex = 0;
-            while ((BFinishindex = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectIsFinish))!=-1)
+            while ((BFinishindex = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectIsFinish)) != -1)
             {
                 NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(BFinishindex);
             }
@@ -320,12 +320,12 @@ namespace GD_StampingMachine.ViewModels
         private ProductProjectViewModel _notReadyToTypeSettingProductProjectVMSelected;
         public ProductProjectViewModel NotReadyToTypeSettingProductProjectVMSelected
         {
-            get=> _notReadyToTypeSettingProductProjectVMSelected; 
-            set 
-            { 
+            get => _notReadyToTypeSettingProductProjectVMSelected;
+            set
+            {
                 _notReadyToTypeSettingProductProjectVMSelected = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
         [JsonIgnore]
@@ -341,7 +341,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ObservableCollection<ProductProjectViewModel> _notreadyToTypeSettingProductProjectVMObservableCollection =new();
+        private ObservableCollection<ProductProjectViewModel> _notreadyToTypeSettingProductProjectVMObservableCollection = new();
 
         public ObservableCollection<ProductProjectViewModel> NotReadyToTypeSettingProductProjectVMObservableCollection
         {
@@ -351,7 +351,7 @@ namespace GD_StampingMachine.ViewModels
             }
             set
             {
-                _notreadyToTypeSettingProductProjectVMObservableCollection = value; 
+                _notreadyToTypeSettingProductProjectVMObservableCollection = value;
                 OnPropertyChanged();
             }
         }
@@ -359,7 +359,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-       private ObservableCollection<ProductProjectViewModel> _readyToTypeSettingProductProjectVMObservableCollection = new();
+        private ObservableCollection<ProductProjectViewModel> _readyToTypeSettingProductProjectVMObservableCollection = new();
         /// <summary>
         /// 篩選後的專案
         /// </summary>
@@ -384,11 +384,11 @@ namespace GD_StampingMachine.ViewModels
                 var Index = -1;
                 do
                 {
-                    Index = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x=>x.IsMarked);
-                    if(Index !=-1)
+                    Index = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.IsMarked);
+                    if (Index != -1)
                     {
                         this.ProjectDistribute.ProductProjectNameList.Add(NotReadyToTypeSettingProductProjectVMObservableCollection[Index].ProductProjectName);
-                      //  this.ProductProjectNameList.Add(NotReadyToTypeSettingProductProjectVMObservableCollection[Index].ProductProjectName);
+                        //  this.ProductProjectNameList.Add(NotReadyToTypeSettingProductProjectVMObservableCollection[Index].ProductProjectName);
                         ReadyToTypeSettingProductProjectVMObservableCollection.Add(NotReadyToTypeSettingProductProjectVMObservableCollection[Index]);
                         NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(Index);
 
@@ -461,9 +461,8 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 PartsParameterVM.DistributeName = null;
                                 PartsParameterVM.BoxIndex = null;
-                                e.Effects = System.Windows.DragDropEffects.Move;                             
-                                
-                             await SaveProductProjectVMObservableCollectionAsync();
+                                e.Effects = System.Windows.DragDropEffects.Move;
+                                await SaveProductProjectVMObservableCollectionAsync();
                             }
                         }
 
@@ -471,45 +470,47 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
         }
+
+
+        private ICommand _noneBox_OnDragRecordOverCommand;
         /// <summary>
         /// 檢驗 不可把不同名稱的專案丟回去
         /// </summary>
         [JsonIgnore]
         public ICommand NoneBox_OnDragRecordOverCommand
         {
-            get => new RelayCommand<DevExpress.Xpf.Core.DragRecordOverEventArgs>(obj =>
-            {
-                if (obj is DevExpress.Xpf.Core.DragRecordOverEventArgs e)
-                {
-                    e.Effects = System.Windows.DragDropEffects.None;
-                    if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
-                    {
-                        foreach (var _record in DragDropData.Records)
-                        {
-                            if (_record is PartsParameterViewModel PartsParameterVM)
-                            {
-                                if (ReadyToTypeSettingProductProjectVMSelected != null)
-                                {
-                                    if (PartsParameterVM.ProjectID != ReadyToTypeSettingProductProjectVMSelected.ProductProjectName)
-                                    {
-                                        return;
-                                    }
-                                }
-                                else
-                                {
-                                    return;
-                                }
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        }
-                        e.Effects = System.Windows.DragDropEffects.Move;
-                    }
-                }
-            });
+            get => _noneBox_OnDragRecordOverCommand ??= new RelayCommand<DevExpress.Xpf.Core.DragRecordOverEventArgs>(CheckDragRecordOver);
         }
+
+        private void CheckDragRecordOver(DevExpress.Xpf.Core.DragRecordOverEventArgs e)
+        {
+            e.Effects = System.Windows.DragDropEffects.None;
+            if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
+            {
+                var canMove = DragDropData.Records
+                    .OfType<PartsParameterViewModel>()
+                    .Any(PartsParameterVM =>
+                    {
+                        if (ReadyToTypeSettingProductProjectVMSelected == null)
+                        {
+                            return false;
+                        }
+                        if (!ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Contains(PartsParameterVM))
+                        {
+                            return false;
+                        }
+                        return !(PartsParameterVM.IsFinish || PartsParameterVM.IsSended || PartsParameterVM.ID > 0);
+                    });
+
+                e.Effects = canMove ? System.Windows.DragDropEffects.Move : System.Windows.DragDropEffects.None;
+            }
+
+
+        }
+    
+
+
+
 
 
         private ICommand _box_OnDropRecordCommand;

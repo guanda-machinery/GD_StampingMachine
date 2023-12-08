@@ -57,10 +57,8 @@ namespace GD_StampingMachine
                 WindowStartupLocation = WindowStartupLocation.CenterScreen
             };
 
-
             StampingMachineWindowViewModel stampingMachineWindowVM = MachineWindow.DataContext as StampingMachineWindowViewModel;
             stampingMachineWindowVM.Opacity = 0;
-
 
             MachineWindow.Show();
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
@@ -141,25 +139,5 @@ namespace GD_StampingMachine
             }
         }
 
-
-
-        private void Application_Exit(object sender, ExitEventArgs e)
-        {
-            var JsonHM = new StampingMachineJsonHelper();
-
-            // 開始一個 Task 來執行非同步操作
-            var stoptask = Task.Run(async () => 
-            { 
-                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync(); 
-            } );
-
-
-            //存檔
-            var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-            JsonHM.WriteProjectDistributeListJson(Model_IEnumerable);
-            StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProject());
-
-            stoptask.Wait();
-        }
     }
 }

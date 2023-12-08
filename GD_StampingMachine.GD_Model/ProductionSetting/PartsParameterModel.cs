@@ -18,7 +18,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// <summary>
         /// 加工專案名稱
         /// </summary>
-        public string ProjectID { get; set; }
+        //public string ProjectID { get; set; }
         /// <summary>
         /// 加工UID
         /// </summary>
