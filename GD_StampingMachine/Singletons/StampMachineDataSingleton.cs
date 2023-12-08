@@ -4930,6 +4930,31 @@ Y軸馬達位置移動命令
             }
             return false;
         }
+        
+        public async Task<(bool,IEnumerable<object>)> ReadNodesAsync(IEnumerable<string> nodeIds)
+        {
+
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    if (this.IsConnected)
+                    {
+                        IEnumerable<object> NodeValue = await GD_OpcUaClient.ReadNodesAsync(nodeIds);
+
+                        return (true , NodeValue);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //Disconnect();
+                }
+            }
+
+            return (false, new List<object>());
+        }
+
+
 
         public async Task<(bool result, T values)> ReadNodeAsync<T>(string NodeTree)
         {
