@@ -126,8 +126,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _opcuaStartScanCommand??=new AsyncRelayCommand(async() =>
             {
                 //設定為自動開始
-                Properties.Settings.Default.ConnectOnStartUp = true;
-                Properties.Settings.Default.Save();// = false;
+                try 
+                { 
+                    Properties.Settings.Default.ConnectOnStartUp = true;
+                    Properties.Settings.Default.Save();// = false;               
+                }
+                catch
+                {
+
+                }
 
                     await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
 
@@ -140,8 +147,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _opcuaStopScanCommand??=new(async () =>
             {
                 //設定為不自動開始
+                try
+                { 
                 Properties.Settings.Default.ConnectOnStartUp = false;
                 Properties.Settings.Default.Save();// = false;
+                                          
+                }
+                catch
+                {
+
+                }
                 await Task.WhenAll( GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync() , Task.Delay(10000)) ;
             }, () => !_opcuaStopScanCommand.IsRunning);
         }

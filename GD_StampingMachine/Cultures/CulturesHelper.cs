@@ -19,52 +19,43 @@ namespace GD_StampingMachine
 
         private static string _culturesFolder = "Cultures";
 
-       private static List<CultureInfo> _supportedCultures;
+        //private static List<CultureInfo> _supportedCultures;
+        //private static List<CultureInfo> SupportedCultures =>_supportedCultures ??= GetSupportedCultures();
 
-        public static List<CultureInfo> SupportedCultures
-        {
-            get
-            {
-                if(_supportedCultures == null)
-                    _supportedCultures = GetSupportedCultures();
-                return _supportedCultures;
-            }
-        }
 
-        private static List<CultureInfo> GetSupportedCultures()
+        public static List<CultureInfo> GetSupportedCultures()
         {
-            
             var CultList = new List<CultureInfo>();
-            if (!_isFoundInstalledCultures)
+            // if (!_isFoundInstalledCultures)
+            //{
+            CultureInfo cultureInfo = new CultureInfo("");
+            List<string> files = Directory.GetFiles(string.Format("{0}\\{1}", System.Windows.Forms.Application.StartupPath, _culturesFolder))
+                .Where(s => s.Contains(_resourcePrefix) && Path.GetExtension(s).Equals(".xaml", StringComparison.OrdinalIgnoreCase)).ToList();
+
+            foreach (string file in files)
             {
-                CultureInfo cultureInfo = new CultureInfo("");
-                List<string> files = Directory.GetFiles(string.Format("{0}\\{1}", System.Windows.Forms.Application.StartupPath, _culturesFolder))
-                    .Where(s => s.Contains(_resourcePrefix) && Path.GetExtension(s).Equals(".xaml", StringComparison.OrdinalIgnoreCase)).ToList();
-
-                foreach (string file in files)
+                try
                 {
-                    try
+                    string cultureName = file.Substring(file.IndexOf(".") + 1).Replace(".xaml", "");
+                    cultureInfo = CultureInfo.GetCultureInfo(cultureName);
+                    if (cultureInfo != null)
                     {
-                        string cultureName = file.Substring(file.IndexOf(".") + 1).Replace(".xaml", "");
-                        cultureInfo = CultureInfo.GetCultureInfo(cultureName);
-                        if (cultureInfo != null)
-                        {
-                            CultList.Add(cultureInfo);
-                        }
+                        CultList.Add(cultureInfo);
                     }
-                    catch (ArgumentException)
-                    {
-                    }
-
+                }
+                catch (ArgumentException)
+                {
                 }
 
-                if (CultList.Count > 0 && Properties.Settings.Default.DefaultCulture == null)
-                {
-                    ChangeCulture(Properties.Settings.Default.DefaultCulture);
-                }
-
-                _isFoundInstalledCultures = true;
             }
+
+            /*if (CultList.Count > 0 && Properties.Settings.Default.DefaultCulture == null)
+            {
+                ChangeCulture(Properties.Settings.Default.DefaultCulture);
+            }*/
+
+            //_isFoundInstalledCultures = true;
+            //}
             return CultList;
 
         }
@@ -73,22 +64,29 @@ namespace GD_StampingMachine
 
         public static void ChangeCulture(CultureInfo newCulture)
         {
-            if (SupportedCultures.Contains(newCulture))
+            if (GetSupportedCultures().Contains(newCulture))
             {
                 var newResourceDictionary = LoadResourceDictionary(newCulture);
                 if (newResourceDictionary != null)
                 {
-                    //用source 找index 刪掉舊的字典
-                    var oldCulture = LoadResourceDictionary(Properties.Settings.Default.DefaultCulture);
-                    if ((oldCulture!= null))
+                    try
                     {
-                        Application.Current.Resources.MergedDictionaries.Remove(x => x.Source == oldCulture.Source);
-                    }
+                        //用source 找index 刪掉舊的字典
+                        var oldCulture = LoadResourceDictionary(Properties.Settings.Default.DefaultCulture);
+                        if ((oldCulture != null))
+                        {
+                            Application.Current.Resources.MergedDictionaries.Remove(x => x.Source == oldCulture.Source);
+                        }
 
-                    Application.Current.Resources.MergedDictionaries.Add(newResourceDictionary);
-                   
-                    Properties.Settings.Default.DefaultCulture = newCulture;
-                    Properties.Settings.Default.Save();
+                        Application.Current.Resources.MergedDictionaries.Add(newResourceDictionary);
+
+                        Properties.Settings.Default.DefaultCulture = newCulture;
+                        Properties.Settings.Default.Save();
+                    }
+                    catch
+                    {
+
+                    }
 
 
                 }
@@ -97,7 +95,7 @@ namespace GD_StampingMachine
 
         private static ResourceDictionary LoadResourceDictionary(CultureInfo culture)
         {
-            if (!SupportedCultures.Contains(culture))
+            if (!GetSupportedCultures().Contains(culture))
                 return null;
 
             var cultureFName = _resourcePrefix + "." + culture.Name + ".xaml";

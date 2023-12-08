@@ -20,6 +20,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DevExpress.Data.Extensions;
 using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json.Linq;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -202,11 +203,31 @@ namespace GD_StampingMachine.Singletons
             MachineFunctionVM = new();
 
 
-            IsBrightMode = Properties.Settings.Default.IsBrightMode;
 
-            var index_projectDistributeVM = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FindIndex(x => x.ProjectDistributeName == Properties.Settings.Default.SelectedProjectDistributeName);
-            if (index_projectDistributeVM != -1)
-                SelectedProjectDistributeVM = TypeSettingSettingVM.ProjectDistributeVMObservableCollection[index_projectDistributeVM];
+            try
+            {
+                var projectDistributeVM = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FirstOrDefault(x => x.ProjectDistributeName == Properties.Settings.Default.SelectedProjectDistributeName);
+                if (projectDistributeVM != null)
+                    SelectedProjectDistributeVM = projectDistributeVM;
+            }
+            catch
+            {
+
+            }
+
+
+            IsBrightMode = Properties.Settings.Default.IsBrightMode;
+            try
+            {
+                IsBrightMode = Properties.Settings.Default.IsBrightMode;
+            }
+            catch 
+            {
+
+            }
+
+
+
         }
 
         /// <summary>
@@ -247,13 +268,13 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-
+        private bool _isBrightMode;
         public bool IsBrightMode
         {
-            get => Properties.Settings.Default.IsBrightMode;
+            get => _isBrightMode;//;Properties.Settings.Default.IsBrightMode;
             set
             {
-                Properties.Settings.Default.IsBrightMode = value;
+                _isBrightMode = value;
                 if (value)
                 {
                     Application.Current.Resources["PrimaryHueLightBrush"] = Application.Current.TryFindResource("BrightHueLightBrush");
@@ -272,7 +293,17 @@ namespace GD_StampingMachine.Singletons
                     Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
                     Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
                 }
-                Properties.Settings.Default.Save();
+
+                try
+                {
+                    Properties.Settings.Default.IsBrightMode = value;
+                    Properties.Settings.Default.Save();
+                }
+                catch
+                {
+
+                }
+
                 OnPropertyChanged();
             }
         }
@@ -293,11 +324,18 @@ namespace GD_StampingMachine.Singletons
             set
             { 
                 _selectedProjectDistributeVM = value;
-                if(value!= null)
-                    Properties.Settings.Default.SelectedProjectDistributeName = value.ProjectDistributeName;
-                else
-                    Properties.Settings.Default.SelectedProjectDistributeName = string.Empty;
-                Properties.Settings.Default.Save();
+                try
+                {
+                    if (value != null)
+                        Properties.Settings.Default.SelectedProjectDistributeName = value.ProjectDistributeName;
+                    else
+                        Properties.Settings.Default.SelectedProjectDistributeName = string.Empty;
+                    Properties.Settings.Default.Save();
+                }
+                catch
+                {
+
+                }
                OnPropertyChanged();
             }
         }

@@ -76,9 +76,16 @@ namespace GD_StampingMachine
                     });
 
 
+                    try
+                    {
+                        if (Settings.Default.ConnectOnStartUp)
+                            await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
+                    }
+                    catch
+                    {
 
-                    if (Settings.Default.ConnectOnStartUp)
-                        await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
+                    }
+
                     await Task.Yield();
                     await Task.Delay(1000);
 
