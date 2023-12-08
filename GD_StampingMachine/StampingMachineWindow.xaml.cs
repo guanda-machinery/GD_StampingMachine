@@ -29,42 +29,9 @@ namespace GD_StampingMachine
             InitializeComponent();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var MessageBoxReturn =  MessageBoxResultShow.Show(
-                (string)Application.Current.TryFindResource("Text_notify"), 
-                (string)Application.Current.TryFindResource("Text_AskCloseProgram") ,
-                  MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-            if (MessageBoxReturn == MessageBoxResult.Yes)
-            {
-                e.Cancel = false;
-            }
-            else
-            {
-                e.Cancel = true;
-                return;
-            }
-
-        }
 
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-            else
-                WindowState = WindowState.Maximized;
-        }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -88,16 +55,6 @@ namespace GD_StampingMachine
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
             {
-              /*  if (WindowState == WindowState.Maximized)
-                {
-                    var currentPoint = e.GetPosition(null);
-                    if(currentPoint != _initialMousePosition)
-                    {
-                        WindowState =  WindowState.Normal;
-
-                    }
-                }*/
-
                 this.DragMove();
             }
 

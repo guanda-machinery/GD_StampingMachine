@@ -94,5 +94,17 @@ namespace GD_StampingMachine.Properties {
                 this["ConnectOnStartUp"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::System.Windows.WindowState WindowState {
+            get {
+                return ((global::System.Windows.WindowState)(this["WindowState"]));
+            }
+            set {
+                this["WindowState"] = value;
+            }
+        }
     }
 }

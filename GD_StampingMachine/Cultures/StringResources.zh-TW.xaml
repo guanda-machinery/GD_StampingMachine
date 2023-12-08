@@ -456,6 +456,7 @@
     <sys:String x:Key="Enum_QRSheetStamping">QR加工</sys:String>
 
 
+    <sys:String x:Key="Name_StampingMachineWindowViewModel">主系統視窗</sys:String>
 
     <sys:String x:Key="Name_StampingMainViewModel">主系統</sys:String>
     <sys:String x:Key="Name_MachanicalSpecificationViewModel">機械規格</sys:String>

@@ -477,6 +477,7 @@
     <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="Singletons\StampingMainViewModel.cs" />
+    <Compile Include="ViewModels\StampingMachineWindowViewModel.cs" />
     <Compile Include="ViewModels\StampingTypeViewModel.cs" />
     <Compile Include="ViewModels\ProjectDistributeViewModel.cs" />
     <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />

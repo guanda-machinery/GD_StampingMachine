@@ -6,17 +6,37 @@
         xmlns:local="clr-namespace:GD_StampingMachine"
         xmlns:Views="clr-namespace:GD_StampingMachine.Views" 
         xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
-        xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" 
         BorderThickness="0" BorderBrush="Transparent"
-        Closing="Window_Closing"
-        Closed="Window_Closed"
+
         Title="StampingMachineWindow" Height="800" Width="1000" MinWidth="850" MinHeight="750"
         AllowsTransparency="True"
+
         WindowStyle ="None" Background="Transparent"   
         ResizeMode="CanResize"  
+        WindowState="{Binding WindowState}"
+        WindowStartupLocation="CenterScreen"
+        Opacity="{Binding Opacity}"
+        
+        d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMachineWindowViewModel}"
+        DataContext="{GD_ViewModels:StampingMachineWindowViewModel}"
+        IsEnabled="{Binding IsEnabled}"
+        Topmost="{Binding Topmost}"
+        Visibility="{Binding Visibility}"
         >
-    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding ClosedCommand}"  PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,13 +59,13 @@
     </WindowChrome.WindowChrome>
 
 
-    <Grid Margin="6">
+    <Grid Margin="6" >
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid MouseDown="Grid_MouseLeftButtonDown" MouseMove="Grid_MouseMove">
-            <Border Background="{DynamicResource PrimaryHueDarkBrush}" />
+            <Border Background="{DynamicResource PrimaryHueDarkBrush}"/>
             <StackPanel Orientation="Horizontal">
             <Image Source="{StaticResource Logo}" Height="20" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <TextBlock 
@@ -57,17 +77,16 @@
                 </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  VerticalAlignment="Top" Margin="1">
 
-                <Button Content="{materialDesign:PackIcon Kind=Minus, Size=18}"   BorderThickness="0" 
-                        Click="MinimizeButton_Click" Margin="0"  Height="30">
+                <Button Command="{Binding MinimizeWindowCommand}"
+                    Content="{materialDesign:PackIcon Kind=Minus, Size=18}"   BorderThickness="0" 
+                   Height="30">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button 
-                        Click="MaximizeButton_Click" Margin="0"  Height="30">
+                <Button Command="{Binding MaximizeWindowCommand}" Margin="0"  Height="30">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -84,8 +103,16 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}"  
-                        Click="CloseButton_Click">
+                <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}"  >
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding CloseWindowCommand}"  PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+
+
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Width"

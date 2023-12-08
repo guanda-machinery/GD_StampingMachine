@@ -39,7 +39,7 @@ namespace GD_StampingMachine
                  MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
-
+            
 
             //啟用掃描
             var ManagerVM = new DXSplashScreenViewModel
@@ -52,28 +52,31 @@ namespace GD_StampingMachine
                 Subtitle = "Alpha 23.7.4",
                 Copyright = "Copyright © 2023 GUANDA",
             };
-            StampingMachineWindow MachineWindow = new StampingMachineWindow();
+            StampingMachineWindow MachineWindow = new StampingMachineWindow
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
 
 
+            StampingMachineWindowViewModel stampingMachineWindowVM = MachineWindow.DataContext as StampingMachineWindowViewModel;
+            stampingMachineWindowVM.Opacity = 0;
 
-            MachineWindow.Opacity = 0;
+
             MachineWindow.Show();
-
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
-        
-            
+
             _ = Task.Run(async () =>
             {
                 try
                 {
+                    stampingMachineWindowVM.IsEnabled = false;
+                    stampingMachineWindowVM.Topmost = true;
                     await Application.Current?.Dispatcher.InvokeAsync(async () =>
                     {
                         await Task.Delay(100);
-                        MachineWindow.IsEnabled = false;
-                        MachineWindow.Topmost = true;
-                        MachineWindow.Topmost = false;
                         manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
                     });
+                    stampingMachineWindowVM.Topmost = false;
 
 
                     try
@@ -96,24 +99,16 @@ namespace GD_StampingMachine
                     ManagerVM.IsIndeterminate = false;
                     for (int i = 0; i <= 100; i++)
                     {
-                        ManagerVM.Progress = i/1.0; 
-                        await Application.Current?.Dispatcher.InvokeAsync(() =>
-                        {
-                            MachineWindow.Opacity = i/100.0;
-                        });
+                        ManagerVM.Progress = i / 1.0;
+                        stampingMachineWindowVM.Opacity = i / 100.0;
                         await Task.Delay(1);
                     }
+                    await Task.Delay(1000);
 
                     ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
-
-                    await Application.Current?.Dispatcher.InvokeAsync( () =>
-                    {
-                        MachineWindow.Visibility = Visibility.Visible;
-                        MachineWindow.IsEnabled = true;
-
-
-                    });
-
+                    //stampingMachineWindowVM.Visibility = Visibility.Visible;
+                    await Task.Delay(1000);
+                    stampingMachineWindowVM.IsEnabled = true;
                     manager.Close();
                 }
                 catch (Exception ex)
