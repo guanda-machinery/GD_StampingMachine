@@ -64,8 +64,8 @@ namespace GD_CommonLibrary.GD_Popup
             if (_isDragging)
             {
                 var currentPoint = e.GetPosition(null);
-                HorizontalOffset = HorizontalOffset + (currentPoint.X - _initialMousePosition.X);
-                VerticalOffset = VerticalOffset + (currentPoint.Y - _initialMousePosition.Y);
+                HorizontalOffset +=  (currentPoint.X - _initialMousePosition.X);
+                VerticalOffset +=  (currentPoint.Y - _initialMousePosition.Y);
             }
         }
         private void Child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

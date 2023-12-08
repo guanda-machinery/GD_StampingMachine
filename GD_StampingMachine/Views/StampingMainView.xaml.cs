@@ -20,45 +20,25 @@ namespace GD_StampingMachine.Views
         }
 
 
-
-        private bool AllowDrag = true;
-        Point _initialMousePosition;
-        bool _isDragging;
-
         private void ColorZone_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!AllowDrag)
-                e.Handled = false;
-
-            var element = sender as FrameworkElement;
-            _initialMousePosition = e.GetPosition(null);
-            element.CaptureMouse();
-            _isDragging = true;
-            e.Handled = true;
-        }
-        private void ColorZone_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (_isDragging)
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
             {
-                var currentPoint = e.GetPosition(null);
-
-                Window parentWindow = Window.GetWindow(this);
-                if (parentWindow != null)
+                if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
                 {
-                    parentWindow.Left += (currentPoint.X - _initialMousePosition.X);
-                    parentWindow.Top += (currentPoint.Y - _initialMousePosition.Y);
+                    parentWindow.DragMove();
+                }
+                if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+                {
+                    if (parentWindow.WindowState == WindowState.Maximized)
+                        parentWindow.WindowState = WindowState.Normal;
+                    else
+                        parentWindow.WindowState = WindowState.Maximized;
                 }
             }
-        }
-        private void ColorZone_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (_isDragging)
-            {
-                var element = sender as FrameworkElement;
-                element.ReleaseMouseCapture();
-                _isDragging = false;
-                e.Handled = true;
-            }
+
+
         }
 
 

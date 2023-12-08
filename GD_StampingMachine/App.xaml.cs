@@ -96,12 +96,12 @@ namespace GD_StampingMachine
                     ManagerVM.IsIndeterminate = false;
                     for (int i = 0; i <= 100; i++)
                     {
-                        ManagerVM.Progress = i; 
-                        await Application.Current?.Dispatcher.InvokeAsync(async () =>
+                        ManagerVM.Progress = i/1.0; 
+                        await Application.Current?.Dispatcher.InvokeAsync(() =>
                         {
                             MachineWindow.Opacity = i/100.0;
                         });
-                        await Task.Delay(20);
+                        await Task.Delay(1);
                     }
 
                     ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
