@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
 
 
@@ -16,13 +17,20 @@ namespace GD_CommonLibrary.Method
 
         public static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
         {
-            var NewWindow = new Window
+            MessageBoxResult messageBoxReturn = MessageBoxResult.None;
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                Topmost = true
-            };
-            var MessageBoxReturn = WinUIMessageBox.Show(NewWindow, MessageString,
-                MessageTitle,    MB_Button,    MB_Image,    MessageBoxResult.None,    MessageBoxOptions.None,    DevExpress.Xpf.Core.FloatingMode.Window);
-            return MessageBoxReturn;
+                Window newWindow = Application.Current.MainWindow?? new()
+                {
+                    Topmost = true,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen
+                };
+
+                messageBoxReturn = WinUIMessageBox.Show(newWindow, MessageString,
+                    MessageTitle, MB_Button, MB_Image, MessageBoxResult.None, MessageBoxOptions.None, DevExpress.Xpf.Core.FloatingMode.Window);
+            }));
+
+            return messageBoxReturn;
         }
 
         public static async Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)

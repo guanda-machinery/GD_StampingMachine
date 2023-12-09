@@ -22,7 +22,6 @@
         Opacity="{Binding Opacity}"
         
         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMachineWindowViewModel}"
-        DataContext="{GD_ViewModels:StampingMachineWindowViewModel}"
         IsEnabled="{Binding IsEnabled}"
         Topmost="{Binding Topmost}"
         Visibility="{Binding Visibility}"
@@ -64,7 +63,7 @@
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid MouseDown="Grid_MouseLeftButtonDown" MouseMove="Grid_MouseMove">
+        <Grid MouseDown="Grid_MouseLeftButtonDown" >
             <Border Background="{DynamicResource PrimaryHueDarkBrush}"/>
             <StackPanel Orientation="Horizontal">
             <Image Source="{StaticResource Logo}" Height="20" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>

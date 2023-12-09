@@ -57,44 +57,31 @@ namespace GD_StampingMachine
                 WindowStartupLocation = WindowStartupLocation.CenterScreen
             };
 
-            StampingMachineWindowViewModel stampingMachineWindowVM = MachineWindow.DataContext as StampingMachineWindowViewModel;
-            stampingMachineWindowVM.Opacity = 0;
+            StampingMachineWindowViewModel stampingMachineWindowVM = new StampingMachineWindowViewModel
+            {
+                Opacity = 0,
+                IsEnabled = false,            
+                Topmost = true
+        };
+            MachineWindow.DataContext = stampingMachineWindowVM;
 
             MachineWindow.Show();
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
 
+            manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
+       
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    stampingMachineWindowVM.IsEnabled = false;
-                    stampingMachineWindowVM.Topmost = true;
-                    await Application.Current?.Dispatcher.InvokeAsync(async () =>
-                    {
-                        await Task.Delay(100);
-                        manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
-                    });
                     stampingMachineWindowVM.Topmost = false;
-
-
-                    try
-                    {
-                        if (Settings.Default.ConnectOnStartUp)
-                            await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
-                    }
-                    catch
-                    {
-
-                    }
-
                     await Task.Yield();
                     await Task.Delay(1000);
 
                     //manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                     ManagerVM.IsIndeterminate = true;
-
                     await Task.Delay(100);
-                    ManagerVM.IsIndeterminate = false;
+
                     for (int i = 0; i <= 100; i++)
                     {
                         ManagerVM.Progress = i / 1.0;
@@ -108,6 +95,18 @@ namespace GD_StampingMachine
                     await Task.Delay(1000);
                     stampingMachineWindowVM.IsEnabled = true;
                     manager.Close();
+
+                    try
+                    {
+                        if (Settings.Default.ConnectOnStartUp)
+                            await Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
+                    }
+                    catch
+                    {
+
+                    }
+
+
                 }
                 catch (Exception ex)
                 {

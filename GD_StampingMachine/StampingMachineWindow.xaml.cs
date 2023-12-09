@@ -72,14 +72,6 @@ namespace GD_StampingMachine
        // private DateTime lastMouseMoveTime = DateTime.MinValue;
         //private TimeSpan minMouseMoveInterval = TimeSpan.FromMilliseconds(100); // 設定最小處理間隔
 
-        private void Grid_MouseMove(object sender, MouseEventArgs e)
-        {
-          /*  DateTime now = DateTime.Now;
-            if ((now - lastMouseMoveTime) >= minMouseMoveInterval)
-            {
-                _initialMousePosition = e.GetPosition(null);
-                lastMouseMoveTime = now;
-            }*/
-        }
+
     }
 }

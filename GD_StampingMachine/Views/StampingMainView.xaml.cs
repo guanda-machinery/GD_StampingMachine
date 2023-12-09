@@ -22,7 +22,7 @@ namespace GD_StampingMachine.Views
 
         private void ColorZone_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Window parentWindow = Window.GetWindow(this);
+            Window parentWindow = Application.Current.MainWindow;// Window.GetWindow(this);
             if (parentWindow != null)
             {
                 if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
