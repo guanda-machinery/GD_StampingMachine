@@ -34,7 +34,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        Task<bool> WriteNodeAsync(string NodeTreeString, object WriteValue);
+        Task<bool> WriteNodeAsync<T>(string NodeTreeString, T WriteValue);
 
         /// <summary>
         /// 寫入數列組

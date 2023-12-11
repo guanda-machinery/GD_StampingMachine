@@ -115,7 +115,7 @@ namespace GD_MachineConnect.Machine
                 },
                 ClientConfiguration = new ClientConfiguration
                 {
-                    DefaultSessionTimeout = -1,
+                    DefaultSessionTimeout = 30000,
                     MinSubscriptionLifetime = -1
                 },
                 DisableHiResClock = true
@@ -124,7 +124,7 @@ namespace GD_MachineConnect.Machine
             AppConfig = applicationConfiguration;
         }
 
-        public int ConntectMillisecondsTimeout = 1000;
+        //public int ConntectMillisecondsTimeout = 1000;
 
         public bool UseSecurity { get; set; }
 
@@ -191,10 +191,12 @@ namespace GD_MachineConnect.Machine
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
                 userIdentity = new Opc.Ua.UserIdentity(user, password);
 
-            Disconnect();
+            if(IsConnected)
+                Disconnect();
+
             EndpointDescription endpointDescription = CoreClientUtils.SelectEndpoint(hostPath, UseSecurity);
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(AppConfig);
-            m_session = await Session.Create(endpoint: new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration), configuration: AppConfig, updateBeforeConnect: false, checkDomain: false, sessionName: string.IsNullOrEmpty(OpcUaName) ? AppConfig.ApplicationName : OpcUaName, sessionTimeout: 60000u, identity: userIdentity, preferredLocales: new string[0]);
+            m_session = await Session.Create(endpoint: new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration), configuration: AppConfig, updateBeforeConnect: false, checkDomain: false, sessionName: string.IsNullOrEmpty(OpcUaName) ? AppConfig.ApplicationName : OpcUaName, sessionTimeout: 30000u, identity: userIdentity, preferredLocales: new string[0]);
             m_session.KeepAlive += Session_KeepAlive;
             _isConnected = true;
             _connectComplete?.Invoke(this, null);
@@ -270,7 +272,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        public async Task<bool> WriteNodeAsync(string tag, object value)
+        public async Task<bool> WriteNodeAsync<T>(string tag, T value)
         {
             return (await WriteNodesAsync(new Dictionary<string, object> { { tag, value } })).FirstOrDefault();
         }

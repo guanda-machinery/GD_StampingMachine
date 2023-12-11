@@ -934,9 +934,9 @@
                                     <GD_StampingMachine_UserControls:CylinderUserControl 
 
                                         
-                                        UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
+                                        UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.StampingSeat_Up_Command}"
                                          UpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
-                                          UpPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
+                                          UpPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.StampingSeat_Up_Command}"
                                                UpPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"
                                         
                                         
@@ -952,9 +952,9 @@
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
                                         
-                                        DownPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicEngraving_Down_Command}"
+                                        DownPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.StampingSeat_Down_Command}"
                                           DownPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
-                                          DownPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.HydraulicEngraving_Down_Command}"
+                                          DownPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.StampingSeat_Down_Command}"
                                           DownPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"
                                         
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"

@@ -90,7 +90,7 @@
                         <materialDesign:PackIcon Kind="ChevronDoubleRight" />
                         <materialDesign:PackIcon Kind="ChevronDoubleRight" />
                     </StackPanel>
-                    <Border  BorderBrush="#25cb55" BorderThickness="5" CornerRadius="10"  Width="150">
+                    <Border  BorderBrush="#25cb55" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150">
                         <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
                     </Border>
                 </StackPanel>

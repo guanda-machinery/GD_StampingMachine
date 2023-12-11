@@ -418,7 +418,9 @@
 
     <!--機台-->
 
-     <sys:String x:Key="Text_MachineNotInSetupMode">機台不在Setup模式</sys:String>
+    <sys:String x:Key="Text_MachineAlarm">機台警報</sys:String>
+    
+    <sys:String x:Key="Text_MachineNotInSetupMode">機台不在Setup模式</sys:String>
 
     <sys:String x:Key="Text_HydraulicPumpMotorIsNotAcitved">液壓馬達未啟動</sys:String>
     <sys:String x:Key="Text_HydraulicPumpMotorAcitvedFailure">液壓馬達啟動失敗</sys:String>

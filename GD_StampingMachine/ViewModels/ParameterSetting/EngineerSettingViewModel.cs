@@ -149,15 +149,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 //設定為不自動開始
                 try
                 { 
-                Properties.Settings.Default.ConnectOnStartUp = false;
-                Properties.Settings.Default.Save();// = false;
-                                          
+                    Properties.Settings.Default.ConnectOnStartUp = false;
+                    Properties.Settings.Default.Save();// = false;
+                    await Task.WhenAll(GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync(), Task.Delay(10000));
                 }
                 catch
                 {
 
                 }
-                await Task.WhenAll( GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync() , Task.Delay(10000)) ;
             }, () => !_opcuaStopScanCommand.IsRunning);
         }
 

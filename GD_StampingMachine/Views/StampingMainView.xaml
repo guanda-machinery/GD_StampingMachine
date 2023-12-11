@@ -138,11 +138,66 @@
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Style>
                         </StackPanel.Resources>
+                        <Button Name="AlarmButton"       
+                                   Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
+                            Path=HasAlarm,Converter={dx:BooleanToVisibilityConverter}}"
+                                Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
+                                CommandTarget="{Binding ElementName=MachineWarningDraggablePopup}"       
+                                BorderThickness="0" 
+                                  Margin="0" Padding="0" Width="30" Height="30"
+                                Content="{materialDesign:PackIcon Kind=Warning, Size=30}" Foreground="Red"
+                                Style="{StaticResource SiegCustomButton_Transparent}">
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard >
+                                        <Storyboard  RepeatBehavior="Forever">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
+                                                <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                                                <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="0.0"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                        </Button>
+
+                        <GD_Popup:DraggablePopup 
+                            Visibility="{Binding ElementName=AlarmButton,Path=Visibility}"
+                            Name="MachineWarningDraggablePopup"
+                                    PopupAnimation="Fade"   StaysOpen="True"
+                                    Placement="Bottom"  
+                                    PlacementTarget="{Binding ElementName=AlarmButton}"
+                            HorizontalAlignment="Center" >
+                            <Border  MinHeight="50" MinWidth="300" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
+                                <GroupBox Header="{DynamicResource Text_MachineAlarm}" Padding="5">
+                                    <Grid>
+                                        <ItemsControl ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
+                            Path=AlarmMessageCollection}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="2">
+                                                        <TextBlock Text="{Binding }"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                            
+                                        </ItemsControl>
+                                    </Grid>
+                                    
+                                </GroupBox>
+                            </Border>
+                        </GD_Popup:DraggablePopup>
+
+
+
+
                         <Button Name="StampingWarningButton"    Style="{StaticResource SiegCustomButton_Transparent}"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"       
                                 MinWidth="10"  BorderThickness="0"
-                            Margin="0" Padding="0" Width="30" Height="30" Content="{materialDesign:PackIcon Kind=PushNotification, Size=30}" Foreground="Red">
+                            Margin="0" Padding="0" Width="30" Height="30" 
+                                Content="{materialDesign:PackIcon Kind=PushNotification, Size=30}" Foreground="SlateGray">
 
                         </Button>
                         <GD_Popup:DraggablePopup  Name="StampingWarningDraggablePopup"
