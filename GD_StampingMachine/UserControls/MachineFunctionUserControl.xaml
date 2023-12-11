@@ -540,9 +540,6 @@
 
 
 
-                        <GroupBox Header="{DynamicResource Text_ManualMode}">
-                            <ToggleButton IsChecked="{Binding IsManualMode}" />
-                        </GroupBox>
                     </StackPanel>
                     <GroupBox Header="{DynamicResource textCurrentMode}">
                         <StackPanel>
@@ -902,7 +899,7 @@
                                     </StackPanel>
                                 </GroupBox>
 
-                            <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}" IsEnabled="{Binding IsManualMode}">
+                            <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}">
                                     <StackPanel Orientation="Horizontal">
                                 <GD_StampingMachine_UserControls:CylinderUserControl 
    

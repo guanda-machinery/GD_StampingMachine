@@ -90,7 +90,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="samplingInterval"></param>
         /// <param name="checkDuplicates"></param>
         /// <returns></returns>
-        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates = true);
+        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval =100, bool checkDuplicates = true);
         /// <summary>
         /// 
         /// </summary>

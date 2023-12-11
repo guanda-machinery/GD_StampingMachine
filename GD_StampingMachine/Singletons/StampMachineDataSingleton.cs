@@ -959,25 +959,32 @@ namespace GD_StampingMachine.Singletons
                                     if (feedingVelocityTuple.Item1)
                                         this.FeedingVelocity = feedingVelocityTuple.Item2;
 
-                                    var engravingFeedingTuple = await GetEngravingFeedingVelocityAsync();
-                                    if (engravingFeedingTuple.Item1)
-                                        this.EngravingFeeding = engravingFeedingTuple.Item2;
+                                     var engravingFeedingTuple = await GetEngravingFeedingVelocityAsync();
+                                     if (engravingFeedingTuple.Item1)
+                                         this.EngravingFeeding = engravingFeedingTuple.Item2;
+
 
                                     var rotateVelocityTuple = await GetEngravingRotateVelocityAsync();
                                     if (rotateVelocityTuple.Item1)
                                         this.RotateVelocity = rotateVelocityTuple.Item2;
 
-                                    var dataMatrixTCPIPTuple = await GetDataMatrixTCPIPAsync();
-                                    if (dataMatrixTCPIPTuple.Item1)
-                                        this.DataMatrixTCPIP = dataMatrixTCPIPTuple.Item2;
+                                    
+                                                               var dataMatrixTCPIPTuple = await GetDataMatrixTCPIPAsync();
+                                                               if (dataMatrixTCPIPTuple.Item1)
+                                                                   this.DataMatrixTCPIP = dataMatrixTCPIPTuple.Item2;
 
-                                    var dataMatrixPortTuple = await GetDataMatrixPortAsync();
+
+
+
+
+                                        var dataMatrixPortTuple = await GetDataMatrixPortAsync();
                                     if (dataMatrixPortTuple.Item1)
                                     {
                                         if (int.TryParse(dataMatrixPortTuple.Item2, out var port))
                                             this.DataMatrixPort = port;
                                         this.DataMatrixPort = 0;
                                     }
+
 
                                     var stampingPressureTuple = await GetStampingPressureAsync();
                                     if (stampingPressureTuple.Item1)
@@ -994,6 +1001,8 @@ namespace GD_StampingMachine.Singletons
                                     var shearingVelocityTuple = await GetShearingVelocityAsync();
                                     if (shearingVelocityTuple.Item1)
                                         this.ShearingVelocity = shearingVelocityTuple.Item2;
+
+
 
                                     var HydraulicCutting_IsCutPoint = GetHydraulicCutting_Position_CutPointAsync();
                                     if ((await HydraulicCutting_IsCutPoint).Item1)
@@ -1098,19 +1107,17 @@ namespace GD_StampingMachine.Singletons
                                                 }
                                             });
 
-                                            /*  await SubscribeFirstIronPlateID(value =>
-                                              {
-                                                  try
-                                                  {
-                                                      var previosValue = FirstIronPlateID.oldvalue;
-                                                      FirstIronPlateID = (previosValue, value);
-                                                  }
-                                                  catch
-                                                  {
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedVelocity,
+                                                value => this.FeedingVelocity = value);
 
-                                                  }
-                                              });*/
-
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity,
+                                                value => this.EngravingFeeding = value);
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity,
+                                                value => this.RotateVelocity = value);
+                                            await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP,
+                                                value => this.DataMatrixTCPIP = value);
+                                            await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,
+                                                value => this.DataMatrixPort = value);
 
 
                                             //切割位置
@@ -1213,7 +1220,7 @@ namespace GD_StampingMachine.Singletons
                                                 //MachineSettingBaseCollection = plateMonitorVMCollection;
                                                 if (MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
                                                 {
-                                                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                                                    Application.Current.Dispatcher.Invoke(() =>
                                                     {
                                                         MachineSettingBaseCollection = plateMonitorVMCollection;
                                                     });
@@ -1234,16 +1241,17 @@ namespace GD_StampingMachine.Singletons
                                                         {
                                                             var invoke = Application.Current?.Dispatcher.InvokeAsync(async () =>
                                                             {
-                                                                await Task.Delay(1);
+                                                                MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
                                                             });
                                                             invokeList.Add(invoke);
                                                         }
                                                     }
                                                     await Task.WhenAll(invokeList?.Select(op => op.Task) ?? Enumerable.Empty<Task>());
-                                                   /* if (invokeList.Count > 0)
+                                                    if (invokeList.Count > 0)
                                                     {
-                                                        MachineSettingBaseCollection = plateMonitorVMCollection;
-                                                    }*/
+                                                        OnPropertyChanged(nameof(MachineSettingBaseCollection));
+                                                       // MachineSettingBaseCollection = plateMonitorVMCollection;
+                                                    }
                                                 }
 
                                                 //將現在的資料展開後寫入
@@ -2968,9 +2976,6 @@ namespace GD_StampingMachine.Singletons
 
                     }
                 }
-                
-
-
                 return _machineSettingBaseCollection ??= new AsyncObservableCollection<PlateMonitorViewModel>();
             }
             set 
@@ -4632,6 +4637,9 @@ Y軸馬達位置移動命令
         {
             return await this.ReadNodeAsync<float>($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}");
         }
+
+
+
         public async Task<bool> SetFeedingVelocityAsync(float percent)
         {
             return await this.WriteNodeAsync($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}", percent);

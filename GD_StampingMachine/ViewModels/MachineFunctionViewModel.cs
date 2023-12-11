@@ -176,11 +176,11 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-        private bool _isManualMode = false;
+        /*private bool _isManualMode = false;
         public bool IsManualMode
         {
             get => _isManualMode; set { _isManualMode = value; OnPropertyChanged(); }
-        }
+        }*/
 
 
 

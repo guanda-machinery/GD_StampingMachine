@@ -1208,7 +1208,7 @@
                                             <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
                                                                                       DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                                                                                   RepeatButtonForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                                                                  MainSilderValue="{Binding Path=FeedingSpeed}" Width="300" Margin="10"
+                                                                                  MainSilderValue="{Binding Path=FeedingVelocity}" Width="300" Margin="10"
                                                                                       MainSilderValueChanged="{Binding GlobalSpeedChangedCommand}"
                                                                                       >
                                                 <GD_UserControls:TriggerSliderUserControl.Foreground>

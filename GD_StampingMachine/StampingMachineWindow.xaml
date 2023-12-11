@@ -25,6 +25,7 @@
         IsEnabled="{Binding IsEnabled}"
         Topmost="{Binding Topmost}"
         Visibility="{Binding Visibility}"
+ 
         >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -34,7 +35,6 @@
             <i:InvokeCommandAction Command="{Binding ClosedCommand}"  PassEventArgsToCommand="True"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-
 
     <Window.Resources>
         <ResourceDictionary>
@@ -58,7 +58,7 @@
     </WindowChrome.WindowChrome>
 
 
-    <Grid Margin="6" >
+    <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
