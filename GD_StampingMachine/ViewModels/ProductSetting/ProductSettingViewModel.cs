@@ -320,14 +320,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ProductProjectViewModel _selectProductProjectVM = new ProductProjectViewModel(new ProductProjectModel());
+        private ProductProjectViewModel _selectProductProjectVM;
         /// <summary>
         /// 新增零件的vm
         /// </summary>
         
         public ProductProjectViewModel SelectProductProjectVM 
         {
-            get => _selectProductProjectVM;
+            get => _selectProductProjectVM??= new ProductProjectViewModel(new ProductProjectModel());
             set 
             { 
                 _selectProductProjectVM = value;

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -17,8 +18,6 @@ namespace GD_StampingMachine.ViewModels
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMachineWindowViewModel");
 
 
-
-
         public StampingMachineWindowViewModel()
         {
             try
@@ -27,12 +26,20 @@ namespace GD_StampingMachine.ViewModels
                 {
                     this.WindowState = Properties.Settings.Default.WindowState;
                 }
+
+
             }
             catch
             {
 
             }
         }
+
+
+
+
+
+
 
         private ICommand _closingCommand;
         public ICommand ClosingCommand
@@ -41,15 +48,14 @@ namespace GD_StampingMachine.ViewModels
             {
                 var MessageBoxReturn = MessageBoxResultShow.Show(
                     (string)Application.Current.TryFindResource("Text_notify"),
-                    (string)Application.Current.TryFindResource("Text_AskCloseProgram"), MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-                if (MessageBoxReturn == MessageBoxResult.Yes)
+                    (string)Application.Current.TryFindResource("Text_AskCloseProgram"),MessageBoxButton.YesNo , MessageBoxImage.Exclamation);
+                if ( MessageBoxReturn == MessageBoxResult.Yes)
                 {
                     e.Cancel = false;
                 }
                 else
                 {
                     e.Cancel = true;
-                    return;
                 }
             });
         }
@@ -57,21 +63,9 @@ namespace GD_StampingMachine.ViewModels
         private ICommand _closedCommand;
         public ICommand ClosedCommand
         {
-            get => _closedCommand ??= new AsyncRelayCommand<EventArgs>(async e =>
+            get => _closedCommand ??= new RelayCommand<EventArgs>(e =>
             {
 
-                var JsonHM = new StampingMachineJsonHelper();
-
-                // 開始一個 Task 來執行非同步操作
-
-                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
-                //存檔
-                var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-                await  JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
-
-               var projectSaveTasks= StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
-                await Task.WhenAll(projectSaveTasks);
-                Application.Current.Shutdown();
             });
         }
 

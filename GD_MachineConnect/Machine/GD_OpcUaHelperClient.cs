@@ -43,17 +43,17 @@ namespace GD_MachineConnect.Machine
 
             if (!m_OpcUaClient.Connected)
             {
-                using (var cts = new CancellationTokenSource(3000))
+                try
                 {
-                    try
-                    {
-                        await semaphoreSlim.WaitAsync(cts.Token);
-                    }
-                    catch (OperationCanceledException)
-                    {
+                    if (!await semaphoreSlim.WaitAsync(3000))
                         return false;
-                    }
                 }
+                catch (OperationCanceledException)
+                {
+                    return false;
+                }
+
+
                 try
                 {
                     if (!m_OpcUaClient.Connected)

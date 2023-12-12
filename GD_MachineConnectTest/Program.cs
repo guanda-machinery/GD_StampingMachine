@@ -50,7 +50,6 @@ namespace GD_MachineConnectTest
                   await  Opcua.ConnectAsync("opc.tcp://192.168.101.100:4842");
                     var node = "ns=4;s=APPL.Application.POU_AbdomenWing.arArc_Abdomen[1000].P3_X";
 
-
                     await Opcua.SubscribeNodeDataChangeAsync<double>(node, value =>
                     {
                         try

@@ -87,14 +87,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 專案名
         /// </summary>
-        /*public string ProjectID
+        public string ProductProjectName
         {
-            get => PartsParameter.ProjectID;
+            get => PartsParameter.ProductProjectName;
             set
             {
-                PartsParameter.ProjectID = value; OnPropertyChanged();
+                PartsParameter.ProductProjectName = value; OnPropertyChanged();
             }
-        }*/
+        }
         /// <summary>
         /// 加工識別id
         /// </summary>

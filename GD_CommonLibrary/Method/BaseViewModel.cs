@@ -20,7 +20,7 @@ using System.Windows.Markup;
 
 namespace GD_CommonLibrary
 {
-    public abstract class BaseViewModel : MarkupExtension , INotifyPropertyChanged, IDisposable
+    public abstract class BaseViewModel : MarkupExtension , INotifyPropertyChanged, IDisposable //, IAsyncDisposable
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -79,6 +79,21 @@ namespace GD_CommonLibrary
             GC.SuppressFinalize(this);
         }
 
+   /*     public async ValueTask DisposeAsync()
+        {
+            // Perform async cleanup.
+            await DisposeAsyncCore().ConfigureAwait(false);
+            // Dispose of unmanaged resources.
+            Dispose(false);
+
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual async ValueTask DisposeAsyncCore()
+        {
+            await Task.CompletedTask;
+        }*/
 
         public bool IsDebuggerAttached => Debugger.IsAttached; 
 

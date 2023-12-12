@@ -192,7 +192,7 @@ namespace GD_StampingMachine.ViewModels
                 try
                 {
                     //當剪切壓下時 將第一根設定為完成
-                    _ = MonitorFirstIronPlateAsync(()=>StampMachineData.Cylinder_HydraulicCutting_IsCutPoint,cts);
+                    _ = MonitorFirstIronPlateAsync(()=>StampMachineData.FirstIronPlateID, cts);
                     _ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
 
                     //開始依序傳送資料
@@ -504,7 +504,7 @@ namespace GD_StampingMachine.ViewModels
             CancellationTokenSource cts = new();
             try
             {
-                _ = MonitorFirstIronPlateAsync(() => StampMachineData.Cylinder_HydraulicCutting_IsCutPoint, cts);
+                _ = MonitorFirstIronPlateAsync(() => StampMachineData.FirstIronPlateID, cts);
                 _ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
 
                 int? isNeedWorkListLengthInit = null;
@@ -643,7 +643,7 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private async Task MonitorFirstIronPlateAsync(Func<bool> IsStopDown ,  CancellationTokenSource cts)
+        private async Task MonitorFirstIronPlateAsync(Func<int> ironPlateID,  CancellationTokenSource cts)
         {
             //等待值
             try
@@ -652,39 +652,45 @@ namespace GD_StampingMachine.ViewModels
                 //int previousID = 0;
                 while (!token.IsCancellationRequested)
                 {
-                    await WaitForCondition.WaitAsync(IsStopDown,true, token);
+                    //取得上一筆
+                    var lastValue = ironPlateID();
+                    await WaitForCondition.WaitAsync(ironPlateID, lastValue, false, token);
                     //取得id
-                    var getIdAsync = await StampMachineData.GetFirstIronPlateIDAsync();
-                    if (getIdAsync.Item1)
+                    //改為訂閱第一片id
+
+                    /* var getIdAsync = await StampMachineData.GetFirstIronPlateIDAsync();
+                     if (getIdAsync.Item1)
+                     {*/
+                    foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                     {
-                        foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                        //var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == getIdAsync.Item2);
+                        var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == lastValue);
+                        if (finishPartParameter != null)
                         {
-                            var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == getIdAsync.Item2);
-                            if (finishPartParameter != null)
+                            finishPartParameter.ShearingIsFinish = true;
+                            finishPartParameter.IsFinish = true;
+                            try
                             {
-                                finishPartParameter.ShearingIsFinish = true;
-                                finishPartParameter.IsFinish = true;
-                                try
-                                {
-                                    await rojectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
+                                await rojectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
                             }
+                            catch
+                            {
+
+                            }
+                            break;
                         }
-
-                       // StampMachineData.GetIronPlateDataCollectionAsync
-
-                        //切割一片後記錄
-                        //StampingMachineJsonHelper JsonHM = new();
-                        //await JsonHM.WriteJsonFileAsync(Path.Combine(ProductProject.ProjectPath, ProductProject.Name), ProductProject);
-
                     }
+
+                    // StampMachineData.GetIronPlateDataCollectionAsync
+
+                    //切割一片後記錄
+                    //StampingMachineJsonHelper JsonHM = new();
+                    //await JsonHM.WriteJsonFileAsync(Path.Combine(ProductProject.ProjectPath, ProductProject.Name), ProductProject);
+
+                    //  }
                     //等待彈起
-                    await WaitForCondition.WaitAsync(IsStopDown,false, token);
+                    // await WaitForCondition.WaitAsync(IsStopDown,false, token);
+
                 }
             }
             catch (Exception ex)

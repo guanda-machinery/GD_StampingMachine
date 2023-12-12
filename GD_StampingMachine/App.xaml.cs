@@ -27,11 +27,13 @@ namespace GD_StampingMachine
     /// </summary>
     public partial class App : Application
     {
+   
+
         protected override  void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
-            AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            base.OnStartup(e);
             var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName, out bool ret);
             if (!ret)
             {
@@ -114,29 +116,55 @@ namespace GD_StampingMachine
                     System.Diagnostics.Debugger.Break();
                 }
             });
+
+
+
+
+        }
+        protected override void OnExit(ExitEventArgs e)
+        {
+            SemaphoreSlim semaphore = new SemaphoreSlim(0);
+            var saveTask = Task.Run(async () =>
+            {
+                var JsonHM = new StampingMachineJsonHelper();
+                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+                //存檔
+                var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
+
+                var projectSaveTasks = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
+                await Task.WhenAll(projectSaveTasks);
+                semaphore.Release();
+            });
+
+            semaphore.Wait(10000);
+            base.OnExit(e);
         }
 
-        private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            SemaphoreSlim semaphore = new SemaphoreSlim(0);
             if (e.ExceptionObject is Exception exception)
             {
-               var ExTask = Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
-                  
                     //紀錄異常
                     await LogDataSingleton.Instance.AddLogDataAsync(exception.Source, exception.Message, true);
                     //切斷機台連線
                     await StampMachineDataSingleton.Instance.DisposeAsync();
                     await MessageBoxResultShow.ShowOKAsync(exception.Source, exception.Message);
+                    semaphore.Release();
                 });
-                //ExTask.Wait();
-
                 //顯示彈窗
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message} , Source:{exception.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-         
-                ExTask.Wait();
+                semaphore.Wait();
             }
         }
+
+
+
 
     }
 }

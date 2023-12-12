@@ -192,7 +192,7 @@ namespace GD_MachineConnect.Machine
                 userIdentity = new Opc.Ua.UserIdentity(user, password);
 
             if(IsConnected)
-                Disconnect();
+                await DisconnectAsync();
 
             EndpointDescription endpointDescription = CoreClientUtils.SelectEndpoint(hostPath, UseSecurity);
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(AppConfig);
@@ -252,6 +252,7 @@ namespace GD_MachineConnect.Machine
 
             if (m_session != null)
             {
+                m_session.OperationTimeout = 1000;
                 m_session.Close(10000);
                 m_session = null;
             }
@@ -260,8 +261,35 @@ namespace GD_MachineConnect.Machine
 
         public async Task DisconnectAsync()
         {
-            Disconnect();
-            await WaitForCondition.WaitAsync(() => _isConnected, false);
+            if (_reConnectHandler != null)
+            {
+                try
+                {
+                    _reConnectHandler.Dispose();
+                    _reConnectHandler = null;
+                }
+                catch
+                {
+
+                }
+            }
+
+            if (m_session != null)
+            {
+                try
+                {
+                    m_session.OperationTimeout = 1000;
+                    m_session.Close(10000);
+                    m_session = null;
+                }
+                catch
+                {
+
+                }
+            }
+
+            _isConnected = false;
+            await WaitForCondition.WaitAsync(() => _isConnected, false,10000);
         }
 
 

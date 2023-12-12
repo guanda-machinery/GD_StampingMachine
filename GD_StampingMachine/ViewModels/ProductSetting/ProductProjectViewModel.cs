@@ -77,8 +77,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private void init()
         {
+           
             foreach (var obj in ProductProject.PartsParameterObservableCollection)
             {
+                obj.ProductProjectName = this.ProductProjectName;
                 PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
             }
 
