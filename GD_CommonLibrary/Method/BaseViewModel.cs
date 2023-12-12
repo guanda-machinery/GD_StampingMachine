@@ -22,7 +22,10 @@ namespace GD_CommonLibrary
 {
     public abstract class BaseViewModel : MarkupExtension , INotifyPropertyChanged, IDisposable
     {
-
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
 
         private bool disposedValue;
 
@@ -30,12 +33,6 @@ namespace GD_CommonLibrary
         public abstract string ViewModelName { get; }
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
-
         /// <summary>
         /// 屬性變更事件
         /// </summary>
