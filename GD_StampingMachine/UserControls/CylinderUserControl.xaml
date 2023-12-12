@@ -3,13 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                          xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-                       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
-             mc:Ignorable="d" Name="cylinderUserControl" >
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             mc:Ignorable="d" 
+             Name="cylinderUserControl" >
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-            <materialDesign:ColorZone CornerRadius="2" Padding="1">
+        <materialDesign:ColorZone CornerRadius="2" Padding="1">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="materialDesign:PackIcon" x:Key="CylinderIsSingalPackIconStyle">
