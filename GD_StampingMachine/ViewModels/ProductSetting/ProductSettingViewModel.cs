@@ -191,13 +191,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
             {
-                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
+                _ = Task.Run(() =>
                 {
-                    if(SelectProductProjectVM != ProjectItem)
-                        SelectProductProjectVM = ProjectItem;
-                    SelectProductProjectVM.IsInParameterPage = true;
-
-                }
+                    if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
+                    {
+                        if (SelectProductProjectVM != ProjectItem)
+                            SelectProductProjectVM = ProjectItem;
+                        SelectProductProjectVM.IsInParameterPage = true;
+                    }
+                });
             });
         }
 

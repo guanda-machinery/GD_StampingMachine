@@ -31,7 +31,22 @@ namespace GD_MachineConnect.Machine
         public readonly ApplicationConfiguration AppConfig;
 
         private bool _isConnected;
-        public bool IsConnected => _isConnected;
+        public bool IsConnected 
+        {
+            get=> _isConnected; 
+            private set
+            {
+                _isConnected = value;
+                OnConnectedChanged(_isConnected); } 
+        }
+
+        protected virtual void OnConnectedChanged(bool newValue)
+        {
+            IsConnectChanged?.Invoke(this,  newValue);
+        }
+
+        public event EventHandler<bool> IsConnectChanged;
+
 
         public int ReconnectPeriod { get; set; } = 10;
 

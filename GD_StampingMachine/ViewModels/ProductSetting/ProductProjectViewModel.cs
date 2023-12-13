@@ -80,7 +80,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
            
             foreach (var obj in ProductProject.PartsParameterObservableCollection)
             {
-                obj.ProductProjectName = this.ProductProjectName;
                 PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
             }
 
@@ -94,11 +93,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         if (_cts.Token.IsCancellationRequested)
                             _cts.Token.ThrowIfCancellationRequested();
 
-                        await Task.Delay(1000);
+                        await Task.Delay(2000);
                         double averageProgress = 0;
-                        foreach (var p in PartsParameterVMObservableCollection)
+                        foreach (var p in _partsParameterVMObservableCollection)
                         {
-                            averageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
+                            averageProgress += p.FinishProgress / _partsParameterVMObservableCollection.Count;
                         }
 
                         if (ProductProjectFinishProcessing != averageProgress)
@@ -626,16 +625,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     Copyright = null,
                 };
 
-
-
                 var manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 try
                 {
-                    await Application.Current.Dispatcher.InvokeAsync(() =>
-                    {
-                        manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-                        ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "...";
-                    });
+                    ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "...";
 
                     //跳出轉圈圈
                     List<string> importFileList = new();
@@ -655,8 +649,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         //如果沒有檔案->跳出提示
                         if (availableFiles.Count() == 0)
                         {
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportableFileNotExisted"));
-                            return;
+                            //await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportableFileNotExisted"));
+                            throw new Exception((string)Application.Current.TryFindResource("Text_ImportableFileNotExisted")); ;
                         }
 
                         importFileList.AddRange(availableFiles);
@@ -797,9 +791,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                     if (importPartsParameterVMList.Count == 0)
                     {
-                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportFail"));
-                        throw new Exception();
+                       // await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportFail"));
+                        throw new Exception((string)Application.Current.TryFindResource("Text_ImportFail"));
                     }
+
+                    if (importPartsParameterVMList.Count == 1)
+                    {
+                        ManagerVM.IsIndeterminate = true;
+                    }
+
 
                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_ImportFinishing");
 
@@ -812,8 +812,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         string Outputstring = string.Format(cImportNotify, importPartsParameterVMList.Count);
                          var ret = await MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
-                        if(ret!= MessageBoxResult.Yes && ret != MessageBoxResult.OK)
-                            throw new Exception();
+                        if (ret != MessageBoxResult.Yes && ret != MessageBoxResult.OK)
+                        {
+                            throw new TaskCanceledException();
+                        }
                     }
 
 
@@ -831,9 +833,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
                     }
                 }
+                catch(TaskCanceledException tcex)
+                {
+                   await LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, tcex.Message);
+                }
                 catch(Exception ex)
                 {
-
                     await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), ex.Message);
                 }
                 finally
@@ -866,7 +871,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get
             {
                 _partsParameterVMObservableCollection ??= new();
-                ProductProject.PartsParameterObservableCollection =  _partsParameterVMObservableCollection.Select(x => x.PartsParameter).ToObservableCollection();
+                ProductProject.PartsParameterObservableCollection.ForEach(x => x.ProductProjectName = this.ProductProjectName);
+                ProductProject.PartsParameterObservableCollection =  _partsParameterVMObservableCollection.Select(x => x.PartsParameter).ToList();
+
                 return _partsParameterVMObservableCollection;
             }
             set

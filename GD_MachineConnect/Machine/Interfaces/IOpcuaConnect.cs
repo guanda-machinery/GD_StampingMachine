@@ -17,10 +17,11 @@ namespace GD_MachineConnect.Machine.Interfaces
     public interface IOpcuaConnect
     {
         //public ClientState State { get; }
-        bool IsConnected { get; }
-        Task<bool> ConnectAsync(string hostPath, string user = null, string password = null);
+        bool IsConnected { get;}
 
-        //Exception ConnectException { get;  }
+        event EventHandler<bool> IsConnectChanged;
+
+        Task<bool> ConnectAsync(string hostPath, string user = null, string password = null);
 
         void Disconnect();
 

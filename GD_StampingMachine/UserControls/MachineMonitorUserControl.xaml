@@ -718,6 +718,17 @@
                             IsChecked="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.MachiningStatusIsVisible,Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},IsAsync=True}"/>
 
 
+                        <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Sended"  IsChecked="{Binding ShowIsSended}"
+                                  />
+                        <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Matrix"  IsChecked="{Binding ShowDataMatrixIsFinish}"
+                                  />
+                        <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Engraving"  IsChecked="{Binding ShowEngravingIsFinish}"
+                                      />
+                        <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Shearing" IsChecked="{Binding ShowShearingIsFinish}"
+                                      />
+                        <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Finish"  IsChecked="{Binding ShowIsFinish}"
+                                  />
+
                     </StackPanel>
 
 
@@ -758,16 +769,15 @@
                                                     >
                         </dxg:TableView>
                     </dxg:GridControl.View>
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProcessingData}" Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
+
+
+
+                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
 
 
                         <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IronPlateString}" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
@@ -803,19 +813,7 @@
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header=""  FieldName="SteelBeltStampingStatus"  Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
-                    
-     
                     
                         <dxg:GridColumn 
                 HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
@@ -853,19 +851,14 @@
                             </dxg:GridColumn.CellTemplate>
                         </dxg:GridColumn>
 
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IsSended}"  FieldName="IsSended"  
-                                                         Width="auto" AllowMoving="false"  IsSmart="True">
-                            <dxg:GridColumn.EditSettings>
-                                <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
-                            </dxg:GridColumn.EditSettings>
-                        </dxg:GridColumn>
                         <dxg:GridColumn Visible="{Binding ElementName=IO_ToggleButton,Path=IsChecked}"
-                            HorizontalHeaderContentAlignment="Left"  Header="MachiningStatus"  FieldName="MachiningStatus"  
+                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IsSended}"  FieldName="IsSended"  
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
+
                         <dxg:GridColumn Visible="{Binding ElementName=IO_ToggleButton,Path=IsChecked}"
                             HorizontalHeaderContentAlignment="Left"  Header="DataMatrixIsFinish"  FieldName="DataMatrixIsFinish"  
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
@@ -886,7 +879,8 @@
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
-                        <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IsFinish"  FieldName="IsFinish" Width="auto" AllowMoving="false"  IsSmart="True">
+                        <dxg:GridColumn  Visible="{Binding ElementName=IO_ToggleButton,Path=IsChecked}"
+                            HorizontalHeaderContentAlignment="Left"  Header="IsFinish"  FieldName="IsFinish" Width="auto" AllowMoving="false"  IsSmart="True">
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings HorizontalContentAlignment="Left" DisplayFormat="0.0;-0.0"/>
                             </dxg:GridColumn.EditSettings>

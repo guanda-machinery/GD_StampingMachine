@@ -21,7 +21,8 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
 
-        public bool GridControl_MachiningStatusColumnVisible { get; set; } = true;
+        [JsonIgnore]
+        public bool GridControl_MachiningStatusColumnVisible { get; set; } = false;
     }
 
 
@@ -118,18 +119,6 @@ namespace GD_StampingMachine.ViewModels
             get => _separateBoxVMObservableCollectionelectionChangedCommand??=new RelayCommand<object>(obj =>
             {
                 OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
-
-               /* if (obj is System.Windows.Controls.SelectionChangedEventArgs e)
-                {
-                    if (e.AddedItems.Count > 0)
-                    {
-                        if (e.AddedItems[0] is GD_StampingMachine.ViewModels.ParameterSetting.SeparateBoxViewModel NewSeparateBoxVM)
-                        {
-                            ReLoadBoxPartsParameterVMObservableCollection();
-                            //BoxPartsParameterVMObservableCollectionRefresh(NewSeparateBoxVM.BoxIndex);
-                        }
-                    }
-                }*/
             });
         }
 
@@ -212,25 +201,33 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand<object>(obj =>
             {
-                if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
+                try
                 {
-                    if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
+                    if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                     {
-                        foreach (var _record in DragDropData.Records)
+                        if (e.Data.GetData(typeof(DevExpress.Xpf.Core.RecordDragDropData)) is DevExpress.Xpf.Core.RecordDragDropData DragDropData)
                         {
-                            if (_record is PartsParameterViewModel PartsParameterVM)
+                            foreach (var _record in DragDropData.Records)
                             {
-                                //看目前選擇哪一個盒子
-                                if (SelectedSeparateBoxVM != null)
+                                if (_record is PartsParameterViewModel PartsParameterVM)
                                 {
-                                    PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
-                                    PartsParameterVM.BoxIndex = SelectedSeparateBoxVM.BoxIndex;
-                                    e.Effects = System.Windows.DragDropEffects.Copy; 
+                                    //看目前選擇哪一個盒子
+                                    if (SelectedSeparateBoxVM != null)
+                                    {
+                                        PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
+                                        PartsParameterVM.BoxIndex = SelectedSeparateBoxVM.BoxIndex;
+                                        e.Effects = System.Windows.DragDropEffects.Copy;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                catch
+                {
+
+                }
+
             });
         }
 

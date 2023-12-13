@@ -6,7 +6,14 @@
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             mc:Ignorable="d"  Foreground="#E82127" Height="24">
+             mc:Ignorable="d"  Height="24">
+    <UserControl.Foreground>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="White" Offset="0" />
+            <GradientStop Color="#E82127" Offset="1" />
+        </LinearGradientBrush>
+    </UserControl.Foreground>
+
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -25,7 +32,7 @@
                 Margin="5,0" Style="{StaticResource CustomSlider}"   
                 Value="{Binding MainSilderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                            Foreground="{Binding Foreground}" 
-                Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}"
+                Background="{DynamicResource PrimaryHueMidForegroundBrush}"
                             Minimum="{Binding Minimum}"
                             Maximum="{Binding Maximum}"
                             TickFrequency="{Binding TickFrequency}" 

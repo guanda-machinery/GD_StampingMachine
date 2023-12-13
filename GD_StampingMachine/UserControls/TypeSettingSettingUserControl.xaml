@@ -221,12 +221,17 @@
                 <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                     Text="{Binding ProjectDistributeName}" 
                     Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Margin="10,0" FontSize="30"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Command="{Binding ProjectGridControlInsertToBoxCommand}"
+                        Content="{materialDesign:PackIcon Kind=ArrowDownBold}"
+                        Width="auto"
+                        Height="auto" Padding="20,10" Margin="10" />
                 <ToggleButton IsThreeState = "False" Style="{StaticResource SiegCustomButton}"
                                               IsChecked="{Binding IsInDistributePage, Converter={dx:BoolInverseConverter}}"
                                               Width="auto"
                                               Height="auto" Padding="20,10" Margin="10"
-                                              HorizontalAlignment="Right" VerticalAlignment="Center"
                                               Content="{DynamicResource btnExit}" />
+                </StackPanel>
                 <Grid Grid.Row="1" Name="MainGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="{CalcB:Binding ElementName=MainGrid, Path=ActualHeight/2}" MinHeight="50" MaxHeight="{CalcB:Binding ElementName=MainGrid, Path=ActualHeight/1.5}"/>
@@ -540,8 +545,8 @@
                                          ItemsSource="{Binding PartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"   >
                             <dxg:GridControl.View >
+                                <!--RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"-->
                                 <dxg:TableView   
-                                    RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"
                                                         SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="True"
@@ -586,7 +591,13 @@
                                 </dxg:TableView>
                             </dxg:GridControl.View>
 
-                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="true"   IsSmart="True">
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource ProjectDistributeName}" FieldName="DistributeName" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            
+                            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                 <dxg:GridColumn.EditSettings>
                                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                 </dxg:GridColumn.EditSettings>
@@ -631,12 +642,6 @@
                             </dxg:GridColumn>
 
 
-                            <dxg:GridColumn  
-                            HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningForm}" FieldName="SettingBaseVM.NumberSettingMode"  Width="auto" AllowMoving="false"  IsSmart="True">
-                                <dxg:GridColumn.EditSettings>
-                                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                </dxg:GridColumn.EditSettings>
-                            </dxg:GridColumn>
 
                             <dxg:GridColumn  
                             HorizontalHeaderContentAlignment="Left"     Width="auto" AllowMoving="false"  IsSmart="True">

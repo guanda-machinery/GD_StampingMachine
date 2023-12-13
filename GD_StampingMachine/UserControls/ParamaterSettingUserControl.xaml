@@ -469,7 +469,8 @@
                            
                                 <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="10" VerticalAlignment="Bottom">
 
-                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                    <Button Visibility="Collapsed"
+                                        HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                     Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
                                     <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
@@ -775,7 +776,7 @@
 
 
                                         <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
-                                            <Button 
+                                            <Button Visibility="Collapsed"
                                                  IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                                 Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
                                             <Button HorizontalAlignment="Left" 
@@ -1064,7 +1065,7 @@
                                                                 </StackPanel>
                                                             </CheckBox>
                                                             <Grid Grid.Column="1" IsEnabled="{Binding BoxIsEnabled}">
-                                                            <GD_UserControls:TriggerSliderUserControl  
+                                                            <GD_UserControls:TriggerSliderUserControl 
                                                                 IsEnabled="{Binding ElementName=IsSingleSettingToggleButton, Path=IsChecked}"
                                                              MainSilderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
                                                             </Grid>

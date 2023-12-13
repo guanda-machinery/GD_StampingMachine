@@ -10,6 +10,7 @@ using DevExpress.Mvvm.Xpf;
 using DevExpress.Office.Crypto;
 using DevExpress.Pdf.Native;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Editors.ExpressionEditor;
 using DevExpress.Xpf.Editors.Helpers;
 using DevExpress.XtraEditors.Filtering;
@@ -35,6 +36,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using static DevExpress.Utils.Drawing.Helpers.NativeMethods;
+using static GD_StampingMachine.Singletons.StampMachineDataSingleton.StampingOpcUANode;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -165,6 +167,61 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
+        
+        
+
+
+        private bool _showIsSended = true;
+        private bool _showDataMatrixIsFinish = true;
+        private bool _showEngravingIsFinish = true;
+        private bool _showShearingIsFinish = true;
+        private bool _showIsFinish = true;
+        
+        
+
+        public bool ShowIsSended
+        {
+            get => _showIsSended;
+            set
+            {
+                _showIsSended = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+            }
+        }
+        public bool ShowDataMatrixIsFinish
+        {
+            get => _showDataMatrixIsFinish;
+            set
+            {
+                _showDataMatrixIsFinish = value;OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+            }
+        }
+        public bool ShowEngravingIsFinish
+        {
+            get => _showEngravingIsFinish;
+            set
+            {
+                _showEngravingIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+            }
+        }
+        public bool ShowShearingIsFinish
+        {
+            get => _showShearingIsFinish;
+            set
+            {
+                _showShearingIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+            }
+        }
+        public bool ShowIsFinish
+        {
+            get => _showIsFinish;
+            set
+            {
+                _showIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+            }
+        }
+
+
+
         private AsyncRelayCommand _sendMachiningCommand;
         public AsyncRelayCommand SendMachiningCommand
         {
@@ -192,7 +249,12 @@ namespace GD_StampingMachine.ViewModels
                 try
                 {
                     //當剪切壓下時 將第一根設定為完成
-                    _ = MonitorFirstIronPlateAsync(()=>StampMachineData.FirstIronPlateID, cts);
+
+                    //當第一片的id變化時 將上一片設定為完成
+                    _ = MonitorFirstIronPlateAsync(() => StampMachineData.FirstIronPlateID, cts);
+                    _ = MonitorLastIronPlateAsync(() => StampMachineData.LastIronPlateID, cts);
+
+                    //鋼印下壓
                     _ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
 
                     //開始依序傳送資料
@@ -478,7 +540,6 @@ namespace GD_StampingMachine.ViewModels
         public double CompleteMachininProgress { get => _completeMachininProgress; set { _completeMachininProgress = value; OnPropertyChanged(); } }
 
 
-
         private AsyncRelayCommand _completeMachiningDataCommand;
         /// <summary>
         /// 將剩下的工作做完->一直傳送空字串直到沒有任何料為止
@@ -503,8 +564,10 @@ namespace GD_StampingMachine.ViewModels
 
             CancellationTokenSource cts = new();
             try
-            {
-                _ = MonitorFirstIronPlateAsync(() => StampMachineData.FirstIronPlateID, cts);
+                {
+                    _ = MonitorFirstIronPlateAsync(() => StampMachineData.FirstIronPlateID, cts);
+                    _ = MonitorLastIronPlateAsync(() => StampMachineData.LastIronPlateID, cts);
+                    
                 _ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
 
                 int? isNeedWorkListLengthInit = null;
@@ -661,26 +724,28 @@ namespace GD_StampingMachine.ViewModels
                     /* var getIdAsync = await StampMachineData.GetFirstIronPlateIDAsync();
                      if (getIdAsync.Item1)
                      {*/
-                    foreach (var rojectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                    _ = Task.Run(async () =>
                     {
-                        //var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == getIdAsync.Item2);
-                        var finishPartParameter = rojectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == lastValue);
-                        if (finishPartParameter != null)
+                        foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                         {
-                            finishPartParameter.ShearingIsFinish = true;
-                            finishPartParameter.IsFinish = true;
-                            try
+                            var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == lastValue);
+                            if (finishPartParameter != null)
                             {
-                                await rojectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
-                            }
-                            catch
-                            {
+                                finishPartParameter.FinishProgress = 100;
+                                finishPartParameter.ShearingIsFinish = true;
+                                finishPartParameter.IsFinish = true;
+                                try
+                                {
+                                    await projectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
+                                }
+                                catch
+                                {
 
+                                }
+                                break;
                             }
-                            break;
                         }
-                    }
-
+                    });
                     // StampMachineData.GetIronPlateDataCollectionAsync
 
                     //切割一片後記錄
@@ -689,8 +754,6 @@ namespace GD_StampingMachine.ViewModels
 
                     //  }
                     //等待彈起
-                    // await WaitForCondition.WaitAsync(IsStopDown,false, token);
-
                 }
             }
             catch (Exception ex)
@@ -699,6 +762,48 @@ namespace GD_StampingMachine.ViewModels
                 await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
             }
         }
+
+        private async Task MonitorLastIronPlateAsync(Func<int> ironPlateID, CancellationTokenSource cts)
+        {
+            try
+            {
+                var token = cts.Token;
+                while (!token.IsCancellationRequested)
+                {
+                    //取得上一筆
+                    var lastValue = ironPlateID();
+                    await WaitForCondition.WaitAsync(ironPlateID, lastValue, false, token);
+
+                    _ = Task.Run(async () =>
+                    {
+                        foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                        {
+                            var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == lastValue);
+                            if (finishPartParameter != null)
+                            {
+                                finishPartParameter.FinishProgress = 33;
+                                finishPartParameter.DataMatrixIsFinish = true;
+                                try
+                                {
+                                    await projectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
+                                }
+                                catch
+                                {
+
+                                }
+                                break;
+                            }
+                        }
+                    });
+                }
+
+            }
+            catch
+            {
+            }
+        }
+
+
         private async Task MonitorStampingFontAsync(Func<bool> IsStopDown, CancellationTokenSource cts)
         {
             //等待值
@@ -711,11 +816,49 @@ namespace GD_StampingMachine.ViewModels
                     await WaitForCondition.WaitAsync(IsStopDown,true, token);
                     //取得id
                     var eRotateStation = StampMachineData.EngravingRotateStation;
-                    if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stamptype))
+                    _ = Task.Run(async () =>
                     {
-                        stamptype.StampingTypeUseCount++;
-                        await Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.SaveStampingTypeVMObservableCollectionAsync();
-                    }
+
+                        if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(eRotateStation, out var stamptype))
+                        {
+                            stamptype.StampingTypeUseCount++;
+                            await Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.SaveStampingTypeVMObservableCollectionAsync();
+                        }
+
+                        //找出正在被敲的那片id
+                        //StampMachineData.Cylinder_GuideRod_Fixed_IsUp
+                        var engravingTuple = await Singletons.StampMachineDataSingleton.Instance.GetEngravingIronPlateIDAsync();
+                        if (engravingTuple.Item1)
+                        {
+                            foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                            {
+                                var EngravingID = engravingTuple.Item2;
+                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == EngravingID);
+                                if (finishPartParameter != null)
+                                {
+                                    if (finishPartParameter.FinishProgress < 66)
+                                    {
+                                          var numberLength = finishPartParameter.SettingBaseVM.PlateNumber.Replace(" " ,string.Empty).Length;
+                                        //敲一次就跳一次完成度 不會超過66
+                                        finishPartParameter.FinishProgress += ((float)33.3 / numberLength);
+                                    }
+
+                                    finishPartParameter.ShearingIsFinish = true;
+                                    finishPartParameter.IsFinish = true;
+                                    try
+                                    {
+                                        await projectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
+                    });
                     await WaitForCondition.WaitAsync(IsStopDown,false, token);
                 }
             }
@@ -850,11 +993,35 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PartsParameter)
                 {
-                    if (PartsParameter.WorkIndex >= 0)
+                    /*  if (PartsParameter.WorkIndex >= 0 && ShowIsScheduled)
+                      {
+                          args.Visible = true;
+                      }*/
+                    if (!PartsParameter.IsSended)
                     {
                         args.Visible = true;
                     }
-                    else if (PartsParameter.IsFinish)
+                    if (PartsParameter.IsSended && !ShowIsSended)
+                    {
+                        args.Visible = false;
+                    }
+                    else if (PartsParameter.DataMatrixIsFinish && !ShowDataMatrixIsFinish)
+                    {
+                        args.Visible = false;
+                    }
+                    else if (PartsParameter.EngravingIsFinish && !ShowEngravingIsFinish)
+                    {
+                        args.Visible = false;
+                    }
+                    else if (PartsParameter.ShearingIsFinish && !ShowShearingIsFinish)
+                    {
+                        args.Visible = false;
+                    }
+                    else if (PartsParameter.IsFinish && !ShowIsFinish)
+                    {
+                        args.Visible = false;
+                    }
+                    else if(PartsParameter.WorkIndex >= 0)
                     {
                         args.Visible = true;
                     }
@@ -862,6 +1029,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         args.Visible = false;
                     }
+
                 }
             });
         }

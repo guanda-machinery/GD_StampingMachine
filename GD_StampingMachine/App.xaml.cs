@@ -29,7 +29,7 @@ namespace GD_StampingMachine
     {
    
 
-        protected override  void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -62,11 +62,9 @@ namespace GD_StampingMachine
             StampingMachineWindowViewModel stampingMachineWindowVM = new StampingMachineWindowViewModel
             {
                 Opacity = 0,
-                IsEnabled = false,            
-                Topmost = true
+                IsEnabled = false,      
         };
             MachineWindow.DataContext = stampingMachineWindowVM;
-
             MachineWindow.Show();
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
 
@@ -76,7 +74,6 @@ namespace GD_StampingMachine
             {
                 try
                 {
-                    stampingMachineWindowVM.Topmost = false;
                     await Task.Yield();
                     await Task.Delay(1000);
 

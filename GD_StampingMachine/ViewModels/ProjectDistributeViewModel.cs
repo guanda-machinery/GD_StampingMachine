@@ -462,9 +462,11 @@ namespace GD_StampingMachine.ViewModels
                                 PartsParameterVM.DistributeName = null;
                                 PartsParameterVM.BoxIndex = null;
                                 e.Effects = System.Windows.DragDropEffects.Move;
-                                await SaveProductProjectVMObservableCollectionAsync();
                             }
                         }
+                        await SaveProductProjectVMObservableCollectionAsync();
+
+                        OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
 
                     }
                 });
@@ -497,7 +499,11 @@ namespace GD_StampingMachine.ViewModels
                         }
                         if (!ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Contains(PartsParameterVM))
                         {
-                            return false;
+                            //不在陣列內但名稱一樣的也能放
+                            if(ReadyToTypeSettingProductProjectVMSelected.ProductProjectName != PartsParameterVM.ProductProjectName)
+                            {
+                                return false;
+                            }
                         }
                         return !(PartsParameterVM.IsFinish || PartsParameterVM.IsSended || PartsParameterVM.ID > 0);
                     });
@@ -559,7 +565,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-
+        /*
         private ICommand _projectGridControlRowDoubleClickCommand;
            
          [JsonIgnore]
@@ -578,13 +584,48 @@ namespace GD_StampingMachine.ViewModels
                             await Application.Current.Dispatcher.InvokeAsync(() =>
                             {
                                 StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
+                                this.PartsParameterVMObservableCollection.Remove(partsParameterVM);
                             });
                             await SaveProductProjectVMObservableCollectionAsync();
-
                             OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
                         }
                     }
                     catch(Exception)
+                    {
+
+                    }
+                });
+            });
+        }
+        */
+
+        private ICommand _projectGridControlInsertToBoxCommand;
+
+        [JsonIgnore]
+        public ICommand ProjectGridControlInsertToBoxCommand
+        {
+            get => _projectGridControlInsertToBoxCommand ??= new AsyncRelayCommand (async()=>
+            {
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        foreach (var partsParameterVM in PartsParameterVMObservableCollection)
+                        {
+                            partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
+                            partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                            await Application.Current.Dispatcher.InvokeAsync(() =>
+                            {
+                                StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
+                               // this.PartsParameterVMObservableCollection.Remove(partsParameterVM);
+                            });
+                        }
+                        this.PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+
+                        await SaveProductProjectVMObservableCollectionAsync();
+                        OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
+                    }
+                    catch (Exception ex)
                     {
 
                     }

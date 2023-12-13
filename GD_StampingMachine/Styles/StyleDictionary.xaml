@@ -743,9 +743,10 @@
     </Style>
 
     <!--Template when the orientation of the Slider is Horizontal.-->
-    <ControlTemplate x:Key="HorizontalSlider"
+    <ControlTemplate x:Key="HorizontalSlider"  
                  TargetType="{x:Type Slider}">
-        <Border Background="{TemplateBinding Background}" CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualHeight/2}" Padding="0">
+        <Border 
+            Background="{TemplateBinding Background}" CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualHeight/2}" Padding="0">
         <Grid  Margin="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -796,12 +797,13 @@
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
-                <Track Grid.Row="1"
+                <Track Grid.Row="1" 
            x:Name="PART_Track">
-
                     <Track.DecreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource SliderButtonStyle}" Background="{TemplateBinding Foreground}" 
-                      Command="Slider.DecreaseLarge" />
+                        <RepeatButton Style="{StaticResource SliderButtonStyle}"    Background="{TemplateBinding Foreground}"
+                      Command="Slider.DecreaseLarge" >
+                        </RepeatButton>
+                        
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
                         <RepeatButton Style="{StaticResource SliderButtonStyle}" Background="Transparent"
@@ -949,11 +951,12 @@
         <Setter Property="OverridesDefaultStyle"
           Value="true" />
         <Setter Property="Opacity" Value="1.0"/>
+
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Opacity" Value="0.3"/>
             </Trigger>
-            
+
             <Trigger Property="Orientation"
              Value="Horizontal">
                 <Setter Property="MinWidth"
@@ -963,6 +966,7 @@
                 <Setter Property="Template"
               Value="{StaticResource HorizontalSlider}" />
             </Trigger>
+
             <Trigger Property="Orientation"
              Value="Vertical">
                 <Setter Property="MinWidth"

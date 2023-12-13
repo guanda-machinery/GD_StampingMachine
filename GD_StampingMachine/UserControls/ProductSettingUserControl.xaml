@@ -476,7 +476,7 @@
                     </dxg:GridColumn>
 
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_SavePath}"
-                                             FieldName="ProductProjectPath" Width="auto"   IsSmart="True">
+                                             FieldName="ProductProjectPath" Width="*"   IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
@@ -670,7 +670,7 @@
             </Border>
         </Grid>
         <Grid   Visibility="{Binding ElementName=MainGrid, Path=Visibility, Converter={dx:VisibilityInverseConverter}}" 
-                DataContext="{Binding SelectProductProjectVM}">
+                DataContext="{Binding SelectProductProjectVM, IsAsync=True}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -1525,7 +1525,8 @@
                 <dxg:GridControl x:Name="ProjectGridControl"    
                              
                                       Background="Transparent"
-                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, 
+                    UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                       DataAreaBackground="Transparent" 
                                       Style="{StaticResource ProjectGridControl}"
                                       AutoGenerateColumns="None"  

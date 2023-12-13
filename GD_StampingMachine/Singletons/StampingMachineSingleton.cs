@@ -230,6 +230,7 @@ namespace GD_StampingMachine.Singletons
 
         }
 
+
         /// <summary>
         /// 機台規格
         /// </summary>
