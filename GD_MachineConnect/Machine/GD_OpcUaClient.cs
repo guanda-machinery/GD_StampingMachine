@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IdentityModel.Protocols.WSTrust;
 using System.IO;
@@ -12,6 +13,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_MachineConnect.Machine.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -24,28 +26,12 @@ namespace GD_MachineConnect.Machine
 {
 
 
-    public class GD_OpcUaClient: IOpcuaConnect , IDisposable
+    public class GD_OpcUaClient: AbstractOpcuaConnect, IDisposable
     {
         private Session m_session;
 
         public readonly ApplicationConfiguration AppConfig;
 
-        private bool _isConnected;
-        public bool IsConnected 
-        {
-            get=> _isConnected; 
-            private set
-            {
-                _isConnected = value;
-                OnConnectedChanged(_isConnected); } 
-        }
-
-        protected virtual void OnConnectedChanged(bool newValue)
-        {
-            IsConnectChanged?.Invoke(this,  newValue);
-        }
-
-        public event EventHandler<bool> IsConnectChanged;
 
 
         public int ReconnectPeriod { get; set; } = 10;
@@ -194,13 +180,11 @@ namespace GD_MachineConnect.Machine
             }
         }
 
-
-
-
         private SessionReconnectHandler _reConnectHandler;
+
         private bool disposedValue;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        public async Task<bool> ConnectAsync(string hostPath, string user = null, string password = null)
+        public override async Task<bool> ConnectAsync(string hostPath, string user = null, string password = null)
         {
             IUserIdentity userIdentity = null;
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
@@ -213,8 +197,7 @@ namespace GD_MachineConnect.Machine
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(AppConfig);
             m_session = await Session.Create(endpoint: new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration), configuration: AppConfig, updateBeforeConnect: false, checkDomain: false, sessionName: string.IsNullOrEmpty(OpcUaName) ? AppConfig.ApplicationName : OpcUaName, sessionTimeout: 30000u, identity: userIdentity, preferredLocales: new string[0]);
             m_session.KeepAlive += Session_KeepAlive;
-            _isConnected = true;
-            _connectComplete?.Invoke(this, null);
+            IsConnected = true;
             return true;
         }
 
@@ -257,7 +240,7 @@ namespace GD_MachineConnect.Machine
 
         public Exception ConnectException { get; private set; }
 
-        public void Disconnect()
+        public override void Disconnect()
         {
             if (_reConnectHandler != null)
             {
@@ -271,10 +254,10 @@ namespace GD_MachineConnect.Machine
                 m_session.Close(10000);
                 m_session = null;
             }
-            _isConnected = false;
+            IsConnected = false;
         }
 
-        public async Task DisconnectAsync()
+        public override async Task DisconnectAsync()
         {
             if (_reConnectHandler != null)
             {
@@ -303,8 +286,8 @@ namespace GD_MachineConnect.Machine
                 }
             }
 
-            _isConnected = false;
-            await WaitForCondition.WaitAsync(() => _isConnected, false,10000);
+            IsConnected = false;
+            await WaitForCondition.WaitAsync(() => IsConnected, false,10000);
         }
 
 
@@ -315,7 +298,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        public async Task<bool> WriteNodeAsync<T>(string tag, T value)
+        public override async Task<bool> WriteNodeAsync<T>(string tag, T value)
         {
             return (await WriteNodesAsync(new Dictionary<string, object> { { tag, value } })).FirstOrDefault();
         }
@@ -328,7 +311,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        public Task<IEnumerable<bool>> WriteNodesAsync(Dictionary<string ,object> NodeTrees)
+        public override Task<IEnumerable<bool>> WriteNodesAsync(Dictionary<string ,object> NodeTrees)
         {
 
             WriteValueCollection valuesToWrite = new WriteValueCollection();
@@ -380,7 +363,7 @@ namespace GD_MachineConnect.Machine
         /// <typeparam name="T"></typeparam>
         /// <param name="NodeID"></param>
         /// <returns></returns>
-        public Task<T> ReadNodeAsync<T>(string tag)
+        public override Task<T> ReadNodeAsync<T>(string tag)
         {
             ReadValueIdCollection nodesToRead = new ReadValueIdCollection
             {
@@ -417,7 +400,7 @@ namespace GD_MachineConnect.Machine
 
 
 
-        public Task<IEnumerable<object>> ReadNodesAsync(IEnumerable<string> nodeIds)
+        public override Task<IEnumerable<object>> ReadNodesAsync(IEnumerable<string> nodeIds)
         {
             ReadValueIdCollection readValueIdCollection = new ReadValueIdCollection();
             
@@ -457,7 +440,7 @@ namespace GD_MachineConnect.Machine
         }
 
 
-        public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval = 100, bool checkDuplicates = true)
+        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval = 100, bool checkDuplicates = true)
         {
             var ret = await SubscribeNodesDataChangeAsync<T>(new List<(string, Action<T>, int, bool checkDuplicates)>
             {
@@ -466,10 +449,8 @@ namespace GD_MachineConnect.Machine
             return ret.FirstOrDefault();
         }
 
-
-
         private readonly SemaphoreSlim subscribeSemaphoreSlim = new SemaphoreSlim(1, 1);
-        public async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
+        public override async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
         {
 
             TaskCompletionSource<IEnumerable<bool>> taskCompletionSource = new TaskCompletionSource<IEnumerable<bool>>();
@@ -582,7 +563,132 @@ namespace GD_MachineConnect.Machine
         }
 
 
-        public async Task<bool> UnsubscribeNodeAsync(string NodeID, int samplingInterval)
+        public override async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 100, bool checkDuplicates = true)
+        {
+            var ret = await SubscribeNodesDataChangeAsync<T>(new List<(string, EventHandler<ValueChangedEventArgs<T>>, int, bool checkDuplicates)>
+            {
+                (NodeID, updateHandler , samplingInterval , checkDuplicates)
+            });
+            return ret.FirstOrDefault();
+        }
+
+        public override async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, EventHandler<ValueChangedEventArgs <T>> updateHandler, int samplingInterval, bool checkDuplicates)> nodeList)
+        {
+
+            TaskCompletionSource<IEnumerable<bool>> taskCompletionSource = new TaskCompletionSource<IEnumerable<bool>>();
+            await subscribeSemaphoreSlim.WaitAsync();
+            try
+            {
+                List<bool> retList = new List<bool>();
+                for (int i = 0; i < nodeList.Count(); i++)
+                {
+                    var index = i;
+                    var (NodeID, updateAction, samplingInterval, checkDuplicates) = nodeList[index];
+                    bool ret = false;
+                    for (int j = 0; j < 5 && !ret; j++)
+                    {
+                        try
+                        {
+                            //將響應時間當作訂閱的名稱進行分類
+                            string skey = samplingInterval.ToString();
+
+                            Subscription opcSubscription = m_session.Subscriptions.FirstOrDefault(x => x.DisplayName == skey);
+                            if (opcSubscription == null)
+                            {
+                                opcSubscription = new Subscription(m_session.DefaultSubscription);
+                                opcSubscription.PublishingEnabled = true;
+                                opcSubscription.KeepAliveCount = uint.MaxValue;
+                                opcSubscription.LifetimeCount = uint.MaxValue;
+                                opcSubscription.MaxNotificationsPerPublish = uint.MaxValue;
+                                opcSubscription.Priority = 100;
+                                opcSubscription.PublishingInterval = samplingInterval;
+                                opcSubscription.DisplayName = samplingInterval.ToString();
+
+                                m_session.AddSubscription(opcSubscription);
+                                opcSubscription.Create();
+                            }
+
+                            if (checkDuplicates && opcSubscription.MonitoredItems.Any(x => x.StartNodeId == new NodeId(NodeID)))
+                            {
+                                //已經有訂閱了
+                                //throw new Exception($"Node ID {NodeID} is Subscribed");
+                                ret = true;
+                                break;
+                            }
+
+                            var item = new MonitoredItem()
+                            {
+                                StartNodeId = new NodeId(NodeID),
+                                AttributeId = 13u,
+                                DisplayName = NodeID,
+                                SamplingInterval = samplingInterval
+                            };
+
+                            T oldValue= default(T);
+                            item.Notification += (sender, e) =>
+                            {
+                                //將action返還值
+                                try
+                                {
+                                    if (e.NotificationValue is Opc.Ua.MonitoredItemNotification notification)
+                                    {
+                                        if (notification.Value.Value is T Tvalue)
+                                        {
+                                           // updateAction?.Invoke(Tvalue);
+                                            updateAction?.Invoke(this, new ValueChangedEventArgs<T>(oldValue, Tvalue));
+                                            oldValue = Tvalue;
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
+                            };
+
+                            // You can set your own values on the "Tag" property
+                            // that allows you to identify the source later.
+                            //   item.Tag = index;
+                            // Set a custom sampling interval on the 
+                            // monitored item.
+
+                            opcSubscription.AddItem(item);
+                            // Add the item to the subscription.
+                            // opcSubscription.AddMonitoredItem(item);
+                            // After adding the items (or configuring the subscription), apply the changes.
+                            //CancellationTokenSource cts = new CancellationTokenSource(10000);
+                            //await WaitForCondition.WaitAsync(() => m_OpcUaClient.State, OpcClientState.Connected, cts.Token);
+
+
+
+                            opcSubscription.ApplyChanges();
+
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            ret = false;
+                            Debug.WriteLine(ex.ToString());
+                        }
+                    }
+                    retList.Add(ret);
+                }
+                taskCompletionSource.TrySetResult(retList);
+            }
+            catch (Exception ex)
+            {
+                Debugger.Break();
+                Debug.WriteLine(ex.ToString());
+
+                taskCompletionSource.TrySetException(ex);
+            }
+            subscribeSemaphoreSlim.Release();
+
+            return await taskCompletionSource.Task;
+        }
+
+
+        public override async Task<bool> UnsubscribeNodeAsync(string NodeID, int samplingInterval)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 

@@ -1,4 +1,5 @@
-﻿using GD_CommonLibrary.Extensions;
+﻿using GD_CommonLibrary;
+using GD_CommonLibrary.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,11 +17,7 @@ namespace GD_MachineConnect.Machine.Interfaces
     /// </summary>
     public interface IOpcuaConnect
     {
-        //public ClientState State { get; }
         bool IsConnected { get;}
-
-        event EventHandler<bool> IsConnectChanged;
-
         Task<bool> ConnectAsync(string hostPath, string user = null, string password = null);
 
         void Disconnect();
@@ -99,6 +96,10 @@ namespace GD_MachineConnect.Machine.Interfaces
         /// <param name="nodeList"></param>
         /// <returns></returns>
         Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList);
+
+
+        Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 10, bool checkDuplicates = true);
+        Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval, bool checkDuplicates)> nodeList);
 
 
 

@@ -2,9 +2,7 @@
 using DevExpress.CodeParser;
 using DevExpress.Data.Browsing;
 using DevExpress.Data.Extensions;
-using DevExpress.Utils.About;
 using DevExpress.Xpf.Core;
-using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpo;
 using DevExpress.Xpo.Logger.Transport;
 using DevExpress.XtraRichEdit.Model;
@@ -31,7 +29,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using static GD_StampingMachine.Singletons.StampMachineDataSingleton.StampingOpcUANode;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -42,7 +39,7 @@ namespace GD_StampingMachine.Singletons
 
         //  public const string DataSingletonName = "Name_StampMachineDataSingleton";
         public string DataSingletonName => (string)Application.Current.TryFindResource("Name_StampMachineDataSingleton");
-        private IOpcuaConnect GD_OpcUaClient;
+        private AbstractOpcuaConnect GD_OpcUaClient;
 
 
 
@@ -886,7 +883,7 @@ namespace GD_StampingMachine.Singletons
                 Subtitle = null,
                 Copyright = null,
             };
-            SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
+            DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
             try
             {
                 do
@@ -902,9 +899,9 @@ namespace GD_StampingMachine.Singletons
                         });
 
                         GD_OpcUaClient = new GD_OpcUaClient();
-                        GD_OpcUaClient.IsConnectChanged += (sender, e) =>
+                        GD_OpcUaClient.IsConnectedChanged += (sender, e) =>
                         {
-                            this.IsConnected = e;
+                            this.IsConnected = e.NewValue;
                         };
 
 
@@ -1016,7 +1013,7 @@ namespace GD_StampingMachine.Singletons
                                     var firstIronPlateIDTuple =  await GetFirstIronPlateIDAsync();
                                     if(firstIronPlateIDTuple.Item1)
                                     {
-                                        FirstIronPlateID = firstIronPlateIDTuple.Item2;
+                                        FirstIronPlateID =(0, firstIronPlateIDTuple.Item2);
                                     }
 
 
@@ -1093,11 +1090,11 @@ namespace GD_StampingMachine.Singletons
                                                 }
                                             });
 
-                                            await SubscribeLastIronPlateIDAsync(value =>
+                                            await SubscribeLastIronPlateIDAsync((sender , e) =>
                                             {
                                                 try
                                                 {
-                                                    LastIronPlateID = value;
+                                                    LastIronPlateID = (e.OldValue, e.NewValue);
                                                 }
                                                 catch
                                                 {
@@ -1105,13 +1102,13 @@ namespace GD_StampingMachine.Singletons
                                                 }
                                             });
 
-                                            await SubscribeFirstIronPlateIDAsync(value =>
+                                            await SubscribeFirstIronPlateIDAsync((sender, e) =>
                                             {
                                                 try
                                                 {
                                                     //var oldvalue = FirstIronPlateID.newValue;
                                                     //FirstIronPlateID = (oldvalue, value);
-                                                    FirstIronPlateID = value;
+                                                    FirstIronPlateID = (e.OldValue,e.NewValue);
                                                 }
                                                 catch
                                                 {
@@ -1119,27 +1116,39 @@ namespace GD_StampingMachine.Singletons
                                                 }
                                             });
 
-                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedVelocity,
-                                                value => this.FeedingVelocity = value);
+                                                await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedVelocity,
+                                                    (sender, e) =>
+                                                    {
+                                                        try
+                                                        {
+                                                            this.FeedingVelocity = e.NewValue;
+                                                        }
+                                                        catch
+                                                        {
+
+                                                        }
+                                                    });
+
 
                                             await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity,
-                                                value => this.EngravingFeeding = value);
+                                                    (sender, e) => this.EngravingFeeding = e.NewValue);
+
                                             await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity,
-                                                value => this.RotateVelocity = value);
+                                                   (sender, e) => this.RotateVelocity = e.NewValue);
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP,
-                                                value => this.DataMatrixTCPIP = value);
+                                                   (sender, e) => this.DataMatrixTCPIP = e.NewValue);
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,
-                                                value => this.DataMatrixPort = value);
+                                                   (sender, e) => this.DataMatrixPort = e.NewValue);
 
 
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_PowerON,
-                                                value => this.DI_PowerON = value);
+                                                (sender, e) => this.DI_PowerON = e.NewValue);
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_Pause,
-                                                    value => this.DI_Pause = value); 
+                                                    (sender, e) => this.DI_Pause = e.NewValue); 
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_Start ,
-                                                value => this.DI_Start = value); 
+                                                (sender, e) => this.DI_Start = e.NewValue); 
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.di_EmergencyStop1,
-                                                value => this.DI_EmergencyStop1 = value);
+                                                (sender, e) => this.DI_EmergencyStop1 = e.NewValue);
 
 
                                             //切割位置
@@ -1300,6 +1309,7 @@ namespace GD_StampingMachine.Singletons
                                                         {
                                                             var invoke = Application.Current?.Dispatcher.InvokeAsync(async () =>
                                                             {
+                                                                await Task.CompletedTask;
                                                                 MachineSettingBaseCollection[index] = plateMonitorVMCollection[index];
                                                             });
                                                             invokeList.Add(invoke);
@@ -3315,28 +3325,32 @@ namespace GD_StampingMachine.Singletons
             get => _cylinder_HydraulicCutting_IsCutPoint; set { _cylinder_HydraulicCutting_IsCutPoint = value; OnPropertyChanged(); }
         }
 
-        private int _lastIronPlateID = 0;
+        private (int oldValue, int newValue) _lastIronPlateID = (0,0);
         /// <summary>
         /// 最後一片的id
         /// </summary>
-        public int LastIronPlateID
+        public (int oldValue, int newValue) LastIronPlateID
         {
-            get => _lastIronPlateID; private set { _lastIronPlateID = value; OnPropertyChanged(); }
+            get => _lastIronPlateID; 
+            private set { _lastIronPlateID = value; OnPropertyChanged();
+                LastIronPlateIDChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<int>(value.oldValue, value.newValue)); 
+            }
         }
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<int>> LastIronPlateIDChanged;
 
-        private int _firstIronPlateID;
-        public int  FirstIronPlateID
+        private (int oldValue, int newValue) _firstIronPlateID;
+        public (int oldValue,int newValue)  FirstIronPlateID
         {
             get => _firstIronPlateID;
             set
             {
                 _firstIronPlateID = value;
                 OnPropertyChanged();
+
+                FirstIronPlateIDChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<int>(value.oldValue, value.newValue));
             }
         }
-
-
-
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<int>> FirstIronPlateIDChanged;
 
 
         /// <summary>
@@ -3545,14 +3559,14 @@ namespace GD_StampingMachine.Singletons
         /// 訂閱最後一片id
         /// </summary>
         /// <param name="action"></param>
-        public async Task<bool> SubscribeLastIronPlateIDAsync(Action<int> action)
+        public async Task<bool> SubscribeLastIronPlateIDAsync(EventHandler<GD_CommonLibrary.ValueChangedEventArgs<int>> handler)
         {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID", action, 200, true);
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID",handler, 200, true);
         }
         
-        public async Task<bool> SubscribeFirstIronPlateIDAsync(Action<int> action)
+        public async Task<bool> SubscribeFirstIronPlateIDAsync(EventHandler<GD_CommonLibrary.ValueChangedEventArgs<int>> handler)
         {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", action, 200, true);
+            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", handler, 200, true);
         }
 
 

@@ -445,6 +445,7 @@
     <Compile Include="Method\DropHandler\BaseDropTarget.cs" />
     <Compile Include="Method\JsonHelperMethod.cs" />
     <Compile Include="Method\MessageBoxResultShow.cs" />
+    <Compile Include="Method\ValueChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreenWindows\ProcessingScreenWindow.xaml.cs">
       <DependentUpon>ProcessingScreenWindow.xaml</DependentUpon>

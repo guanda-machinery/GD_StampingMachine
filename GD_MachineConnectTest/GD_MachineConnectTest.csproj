@@ -225,6 +225,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj">
+      <Project>{0911BDE5-D35B-409B-8C14-8D93F4A52CAC}</Project>
+      <Name>GD_CommonLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GD_MachineConnect\GD_MachineConnect.csproj">
       <Project>{f76dd2a1-5bf2-488b-b481-274da19e51e6}</Project>
       <Name>GD_MachineConnect</Name>

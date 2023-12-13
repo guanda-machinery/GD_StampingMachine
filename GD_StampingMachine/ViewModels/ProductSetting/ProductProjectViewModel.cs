@@ -95,9 +95,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                         await Task.Delay(2000);
                         double averageProgress = 0;
-                        foreach (var p in _partsParameterVMObservableCollection)
+                        foreach (var p in PartsParameterVMObservableCollection)
                         {
-                            averageProgress += p.FinishProgress / _partsParameterVMObservableCollection.Count;
+                            averageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
                         }
 
                         if (ProductProjectFinishProcessing != averageProgress)
