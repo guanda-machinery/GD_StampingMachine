@@ -18,6 +18,7 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1077,44 +1078,45 @@ namespace GD_StampingMachine.Singletons
                                         try
                                         {
                                             manager?.Close();
-                                            await SubscribeOperationModeAsync(value => OperationMode = (OperationModeEnum)value);
-                                            await SubscribeHydraulicPumpMotorAsync(value => HydraulicPumpIsActive = value);
-                                            await SubscribeRequestDatabitAsync(value => Rdatabit = value);
-                                            await SubscribeEngravingRotateStationAsync(value =>
+
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.system.sv_OperationMode, (sender, e) =>
                                             {
+                                                OperationMode = (OperationModeEnum)e.NewValue;
+                                            });
+
+
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted, (sender, e) => 
+                                            {
+                                                HydraulicPumpIsActive = e.NewValue;
+                                                });
+
+
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, (sender, e) =>
+                                            {
+                                                Rdatabit = e.NewValue;
+                                            });
+
+
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.EngravingRotate1.sv_iThisStation, (sender, e) =>
+                                            {                                        
                                                 //value = 1~40 對應index = 0~39
-                                                EngravingRotateStation = value - 1;
-                                                if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(value - 1, out var stamptype))
+                                                EngravingRotateStation = e.NewValue - 1;
+                                                if (Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection.TryGetValue(EngravingRotateStation - 1, out var stamptype))
                                                 {
                                                     Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
                                                 }
                                             });
 
-                                            await SubscribeLastIronPlateIDAsync((sender , e) =>
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", (sender, e) =>
                                             {
-                                                try
-                                                {
-                                                    LastIronPlateID = (e.OldValue, e.NewValue);
-                                                }
-                                                catch
-                                                {
-
-                                                }
+                                                FirstIronPlateID = (e.OldValue, e.NewValue);
                                             });
 
-                                            await SubscribeFirstIronPlateIDAsync((sender, e) =>
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID", (sender, e) =>
                                             {
-                                                try
-                                                {
-                                                    //var oldvalue = FirstIronPlateID.newValue;
-                                                    //FirstIronPlateID = (oldvalue, value);
-                                                    FirstIronPlateID = (e.OldValue,e.NewValue);
-                                                }
-                                                catch
-                                                {
-
-                                                }
+                                                LastIronPlateID = (e.OldValue, e.NewValue);
                                             });
+
 
                                                 await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedVelocity,
                                                     (sender, e) =>
@@ -1165,30 +1167,24 @@ namespace GD_StampingMachine.Singletons
                                             });
 
                                             //刻字下壓
-                                            await SubscribeHydraulicEngraving_Position_StopDownAsync(value =>
-                                            {
-                                                try
-                                                {
-                                                    Cylinder_HydraulicEngraving_IsStopDown = value;
-                                                }
-                                                catch
-                                                {
 
-                                                }
-                                            });
+                                            await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>($"{StampingOpcUANode.Engraving1.di_StopDown}", (sender, e) =>
+                                            {
+                                                Cylinder_HydraulicEngraving_IsStopDown = e.NewValue;
+                                            }, 100, true);
 
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText,
-                                                value =>
-                                                {
-                                                    if (!string.IsNullOrWhiteSpace(value))
-                                                        if(!AlarmMessageCollection.Contains(value))
-                                                            AlarmMessageCollection.Add(value);
+                                             (sender, e) =>
+                                             {
+                                                    if (!string.IsNullOrWhiteSpace(e.NewValue))
+                                                        if(!AlarmMessageCollection.Contains(e.NewValue))
+                                                            AlarmMessageCollection.Add(e.NewValue);
                                                 });
 
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.OpcMonitor1.sv_OpcAlarmCount,
-                                                value =>
-                                                {
-                                                    if (value > 0)
+                                             (sender, e) =>
+                                             {
+                                                    if (e.NewValue > 0)
                                                     {
                                                         HasAlarm = true;
                                                     }
@@ -1200,9 +1196,9 @@ namespace GD_StampingMachine.Singletons
 
 
                                             await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm,
-                                                value =>
+                                                (sender, e) =>
                                                 {
-                                                    if (value)
+                                                    if (e.NewValue)
                                                     {
                                                         AlarmMessageCollection = new ObservableCollection<string>();
                                                     }
@@ -3555,20 +3551,6 @@ namespace GD_StampingMachine.Singletons
             return (false, 0);
         }
 
-        /// <summary>
-        /// 訂閱最後一片id
-        /// </summary>
-        /// <param name="action"></param>
-        public async Task<bool> SubscribeLastIronPlateIDAsync(EventHandler<GD_CommonLibrary.ValueChangedEventArgs<int>> handler)
-        {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID",handler, 200, true);
-        }
-        
-        public async Task<bool> SubscribeFirstIronPlateIDAsync(EventHandler<GD_CommonLibrary.ValueChangedEventArgs<int>> handler)
-        {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", handler, 200, true);
-        }
-
 
 
 
@@ -3794,15 +3776,7 @@ Y軸馬達位置移動命令
 
 
 
-        /// <summary>
-        /// 訂閱機台模式
-        /// </summary>
-        /// <param name="action"></param>
-        public async Task<bool> SubscribeOperationModeAsync(Action<int> action)
-        {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.system.sv_OperationMode, action, 200, true);
-        }
-
+ 
 
 
 
@@ -4137,17 +4111,6 @@ Y軸馬達位置移動命令
             return await this.ReadNodeAsync<bool>(StampingOpcUANode.Engraving1.di_StopDown);
         }
 
-        /// <summary>
-        ///訂閱刻字下壓
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="samplingInterval"></param>
-        /// <param name="checkDuplicates"></param>
-        /// <returns></returns>
-        public Task<bool> SubscribeHydraulicEngraving_Position_StopDownAsync(Action<bool> action)
-        {
-            return GD_OpcUaClient.SubscribeNodeDataChangeAsync($"{StampingOpcUANode.Engraving1.di_StopDown}", action, 100, true);
-        }
 
 
 
@@ -4215,14 +4178,6 @@ Y軸馬達位置移動命令
         }
 
 
-        /// <summary>
-        /// 訂閱油壓單元
-        /// </summary>
-        /// <param name="action"></param>
-        public async Task<bool> SubscribeHydraulicPumpMotorAsync(Action<bool> action)
-        {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Motor1.sv_bMotorStarted, action, 50, true);
-        }
 
 
 
@@ -4237,15 +4192,6 @@ Y軸馬達位置移動命令
             return await this.ReadNodeAsync<bool>($"{StampingOpcUANode.system.sv_bRequestDatabit}");
         }
 
-
-        /// <summary>
-        /// 訂閱加工許可交握訊號
-        /// </summary>
-        /// <param name="action"></param>
-        public Task<bool> SubscribeRequestDatabitAsync(Action<bool> action)
-        {
-            return GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, action, 50, true);
-        }
 
 
 
@@ -4669,14 +4615,7 @@ Y軸馬達位置移動命令
         }
 
 
-        /// <summary>
-        /// 訂閱鋼印位置
-        /// </summary>
-        /// <param name="action"></param>
-        public Task<bool> SubscribeEngravingRotateStationAsync(Action<int> action)
-        {
-            return GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.EngravingRotate1.sv_iThisStation, action, 100, true);
-        }
+
 
 
 
