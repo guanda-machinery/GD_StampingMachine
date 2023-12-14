@@ -245,8 +245,8 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public MachineFunctionViewModel MachineFunctionVM { get => stampingMain.MachineFunctionVM; set => stampingMain.MachineFunctionVM = value; }
 
-        private MachineFunctionTestViewModel _machineFunctionTestVM;
-        public MachineFunctionTestViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTestViewModel(); set => _machineFunctionTestVM = value; }
+       // private MachineFunctionTestViewModel _machineFunctionTestVM;
+        //public MachineFunctionTestViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTestViewModel(); set => _machineFunctionTestVM = value; }
 
 
         /// <summary>

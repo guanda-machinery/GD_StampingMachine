@@ -27,16 +27,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
 
-        public QRSettingViewModel()
+        public QRSettingViewModel() : base(new StampPlateSettingModel())
         {
             this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
             this.SequenceCount = 6;
             this.SpecialSequence = SpecialSequenceEnum.TwoRow;
         }
+
         public QRSettingViewModel(StampPlateSettingModel stampPlateSetting)
+        : base(stampPlateSetting)
         {
-            this.StampPlateSetting = stampPlateSetting;
-            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+            this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
 
         public override int SequenceCount

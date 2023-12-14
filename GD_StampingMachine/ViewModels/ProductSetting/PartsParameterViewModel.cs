@@ -284,9 +284,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     _settingBaseVM ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
                 }
                 _settingBaseVM.PlateNumber = IronPlateString;
-              
-
-
                 return _settingBaseVM;
             }
             set
@@ -349,7 +346,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private SendMachineCommandViewModel _sendMachineCommandVM;
+       // private SendMachineCommandViewModel _sendMachineCommandVM;
 
       //  [JsonIgnore]
        /* public SendMachineCommandViewModel SendMachineCommandVM

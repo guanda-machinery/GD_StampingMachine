@@ -396,7 +396,6 @@
     <Compile Include="UserControls\NumberSettingSchematicDiagram\QRPlateRowDiagramControl.xaml.cs">
       <DependentUpon>QRPlateRowDiagramControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\MachineFunctionTestViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\IO_InfoViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\PlateMonitorViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\PlateSetting\PlateFontViewModel.cs" />
@@ -473,7 +472,6 @@
     <Compile Include="ViewModels\ProductSetting\ProductSettingViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\ProductProjectViewModel.cs" />
     <Compile Include="ViewModels\ProductSetting\StampingSteelBeltViewModel.cs" />
-    <Compile Include="ViewModels\SendMachineCommandViewModel.cs" />
     <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
     <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
     <Compile Include="Singletons\StampingMainViewModel.cs" />

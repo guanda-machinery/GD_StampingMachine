@@ -32,7 +32,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             StampPlateSetting = stampPlateSetting;
         }
 
-        private StampPlateSettingModel StampPlateSetting;
+        internal StampPlateSettingModel StampPlateSetting;
 
         public SheetStampingTypeFormEnum SheetStampingTypeForm
         {
