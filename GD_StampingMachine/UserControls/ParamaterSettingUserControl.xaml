@@ -422,6 +422,10 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                         <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <StackPanel Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="A"/>
@@ -462,6 +466,42 @@
                                     <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
                                               Text="{Binding NumberSettingVM.IronPlateMarginVM.E_Margin, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+
+                                    
+                                    <StackPanel  Grid.Row="5" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="XAxisPos1"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox  Grid.Row="5"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rXAxisPos1, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="mm" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                    <StackPanel  Grid.Row="6" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="YAxisPos1"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox  Grid.Row="6"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rYAxisPos1, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="mm" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                    <StackPanel  Grid.Row="7" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="XAxisPos2"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox  Grid.Row="7"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rXAxisPos2, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="mm" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+                            
+                                    <StackPanel  Grid.Row="8" Orientation="Horizontal" Margin="0,10" >
+                                        <TextBlock Text="YAxisPos2"/>
+                                        <TextBlock Text="："/>
+                                    </StackPanel>
+                                    <TextBox  Grid.Row="8"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rYAxisPos2, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="mm" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+
 
                                 </Grid>
                             </GroupBox>

@@ -12,7 +12,7 @@
         mc:Ignorable="d" 
         BorderThickness="0" BorderBrush="Transparent"
 
-        Title="StampingMachineWindow" Height="800" Width="1000" MinWidth="850" MinHeight="750"
+        Title="StampingMachineWindow" Height="700" Width="800" MinWidth="600" MinHeight="600"
         AllowsTransparency="True"
 
         WindowStyle ="None" Background="Transparent"   
@@ -20,7 +20,7 @@
         WindowState="{Binding WindowState}"
         WindowStartupLocation="CenterScreen"
         Opacity="{Binding Opacity}"
-        
+        Margin="0"
         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMachineWindowViewModel}"
         IsEnabled="{Binding IsEnabled}"
         Topmost="{Binding Topmost}"
@@ -58,7 +58,7 @@
     </WindowChrome.WindowChrome>
 
 
-    <Grid Margin="7">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
