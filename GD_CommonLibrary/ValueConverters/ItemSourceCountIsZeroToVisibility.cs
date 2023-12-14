@@ -12,13 +12,18 @@ namespace GD_CommonLibrary
 {
     public class ItemSourceCountIsZeroToVisibility : BaseValueConverter
     {
+        public bool Invert { get; set; }
+
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if(value!=null)
             {
                 if(value is IEnumerable<object> ValueArray)
                 {
-                    return ValueArray.Count() == 0 ? Visibility.Visible : Visibility.Collapsed;
+                    if (!Invert)
+                        return ValueArray.Count() == 0 ? Visibility.Visible : Visibility.Collapsed;
+                   else
+                        return ValueArray.Count() == 0 ?  Visibility.Collapsed: Visibility.Visible;
                 }
             }
 

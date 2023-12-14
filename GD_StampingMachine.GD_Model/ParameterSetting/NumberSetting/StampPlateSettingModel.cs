@@ -74,6 +74,7 @@ namespace GD_StampingMachine.Model
         
         public IronPlateMarginStruct IronPlateMargin { get; set; } = new IronPlateMarginStruct();
 
+        public StampingMarginPosModel StampingMarginPos { get; set; } = new StampingMarginPosModel();
     }
 
 
@@ -89,6 +90,16 @@ namespace GD_StampingMachine.Model
         public double H_Margin { get; set; }
         public double I_Margin { get; set; }
     }
+
+    public class StampingMarginPosModel
+    {
+        public double rXAxisPos1 { get; set; } 
+        public double rYAxisPos1 { get; set; }
+        public double rXAxisPos2 { get; set; } 
+        public double rYAxisPos2 { get; set; } 
+    }
+
+
 
     public class PlateFontModel
     {

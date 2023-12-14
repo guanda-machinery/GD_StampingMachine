@@ -296,9 +296,8 @@
                             </StackPanel>
                         </Grid>
                         
-                        <GD_SchematicDiagram:QRPlateRowDiagramControl  Visibility="Collapsed"
+                        <GD_SchematicDiagram:QRPlateRowDiagramControl  
                             DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible">
-                            
                         </GD_SchematicDiagram:QRPlateRowDiagramControl>
                         
                         

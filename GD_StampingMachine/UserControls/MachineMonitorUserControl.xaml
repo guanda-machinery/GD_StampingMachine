@@ -58,7 +58,7 @@
                 </Grid.RowDefinitions>
                 <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/-->
                 <StackPanel Grid.Row="1"  Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="50,0">
-                    <Border  BorderBrush="#e82127" BorderThickness="5" CornerRadius="10"  Width="150">
+                    <Border  BorderBrush="#e82127" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150">
                         <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
                     </Border>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -74,7 +74,7 @@
                         <materialDesign:PackIcon Kind="ChevronDoubleRight" />
                         <materialDesign:PackIcon Kind="ChevronDoubleRight" />
                     </StackPanel>
-                    <Border  BorderBrush="#ff9900" BorderThickness="5" CornerRadius="10"  Width="150" >
+                    <Border  BorderBrush="#ff9900" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150" >
                         <Image Source="pack://application:,,,/image/stamp2.PNG"  Margin="5"/>
                     </Border>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -115,7 +115,7 @@
                                 <RowDefinition MinHeight="110"/>
                             </Grid.RowDefinitions>
                             <Border Background="White" Grid.ColumnSpan="2" Margin="0,0,0,0" />
-                            <Border Width="46" HorizontalAlignment="Right" Margin="0,0,380,0" >
+                            <Border Width="44" HorizontalAlignment="Right" Margin="0,0,329,0" >
                                 <Border.Style>
                                     <Style TargetType="Border" >
                                         <Setter Property="Background" Value="LightGray"/>
@@ -133,7 +133,7 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
-                            <Border Grid.Column="1" Margin="-0,0,0,0" Width="46"  HorizontalAlignment="Right" >
+                            <Border Grid.Column="1" Margin="-0,0,0,0" Width="44"  HorizontalAlignment="Right" >
                                 <Border.Style>
                                     <Style TargetType="Border" >
                                         <Setter Property="Background" Value="Gray"/>
@@ -166,7 +166,7 @@
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <Border  Margin="5,4,2,5"  
+                                        <Border  Margin="1,4,1,5"  
                                                                                         BorderThickness="1" BorderBrush="Black" CornerRadius="5"
                                                                                         HorizontalAlignment="Center"
                                                                                         >

@@ -64,9 +64,14 @@ namespace GD_CommonLibrary.Method
                 if (File.Exists(fileName))
                 {
                     var Temp_fileName = fileName + ".tmp";
+
                     File.WriteAllText(Temp_fileName, output);
+
                     File.Delete(fileName);
-                    File.Move(Temp_fileName, fileName);
+                    File.Copy(Temp_fileName, fileName);
+                    if(File.Exists(fileName))
+                        File.Delete(Temp_fileName);
+                    //File.Move(Temp_fileName, fileName);
                 }
                 else
                 {

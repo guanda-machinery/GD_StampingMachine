@@ -1071,10 +1071,7 @@
 
                                 
                             </GD_StampingMachine_UserControls:CylinderUserControl>
-                            <ToggleButton Margin="5,10" HorizontalAlignment="Left"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
-                            <materialDesign:PackIcon Kind="ScissorsCutting" Width="auto" Height="auto"/>
-                        </ToggleButton>
+
                     </StackPanel>
                 </GroupBox>
 

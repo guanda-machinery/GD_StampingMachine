@@ -105,7 +105,7 @@ namespace GD_MachineConnect.Machine
                 },
                 TransportQuotas = new TransportQuotas
                 {
-                    OperationTimeout = 6000000,
+                    OperationTimeout = 30000,
                     MaxStringLength = int.MaxValue,
                     MaxByteStringLength = int.MaxValue,
                     MaxArrayLength = 65535,
@@ -196,6 +196,7 @@ namespace GD_MachineConnect.Machine
             EndpointDescription endpointDescription = CoreClientUtils.SelectEndpoint(hostPath, UseSecurity);
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(AppConfig);
             m_session = await Session.Create(endpoint: new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration), configuration: AppConfig, updateBeforeConnect: false, checkDomain: false, sessionName: string.IsNullOrEmpty(OpcUaName) ? AppConfig.ApplicationName : OpcUaName, sessionTimeout: 30000u, identity: userIdentity, preferredLocales: new string[0]);
+            m_session.OperationTimeout = 30000;
             m_session.KeepAlive += Session_KeepAlive;
             IsConnected = true;
             return true;
@@ -259,35 +260,50 @@ namespace GD_MachineConnect.Machine
 
         public override async Task DisconnectAsync()
         {
-            if (_reConnectHandler != null)
+            try
             {
-                try
+                if (_reConnectHandler != null)
                 {
-                    _reConnectHandler.Dispose();
-                    _reConnectHandler = null;
-                }
-                catch
-                {
+                    try
+                    {
+                        _reConnectHandler.Dispose();
+                        _reConnectHandler = null;
+                    }
+                    catch
+                    {
 
+                    }
+                }
+
+                if (m_session != null)
+                {
+                    try
+                    {
+                        m_session.OperationTimeout = 1000;
+                        m_session.Close(10000);
+                        m_session = null;
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
-
-            if (m_session != null)
+            catch (Exception ex)
             {
-                try
-                {
-                    m_session.OperationTimeout = 1000;
-                    m_session.Close(10000);
-                    m_session = null;
-                }
-                catch
-                {
 
-                }
             }
 
-            IsConnected = false;
-            await WaitForCondition.WaitAsync(() => IsConnected, false,10000);
+            try
+            {
+                IsConnected = false;
+                await WaitForCondition.WaitAsync(() => m_session.Connected, false, 10000);
+            }
+            catch(Exception ex)
+            {
+
+            }
+
         }
 
 

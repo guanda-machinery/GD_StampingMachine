@@ -7,6 +7,7 @@ using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -151,11 +152,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 { 
                     Properties.Settings.Default.ConnectOnStartUp = false;
                     Properties.Settings.Default.Save();// = false;
-                    await Task.WhenAll(GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync(), Task.Delay(10000));
+                    await Task.WhenAny(GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync(), Task.Delay(5000));
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    Debugger.Break();
                 }
             }, () => !_opcuaStopScanCommand.IsRunning);
         }

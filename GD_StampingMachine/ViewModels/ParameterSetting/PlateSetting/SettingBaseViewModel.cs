@@ -21,12 +21,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public abstract class SettingBaseViewModel :  ParameterSettingBaseViewModel
     {
-        private StampPlateSettingModel _stampPlateSetting;
-        public StampPlateSettingModel StampPlateSetting 
-        { 
-            get=> _stampPlateSetting ??= new StampPlateSettingModel(); 
-            protected set => _stampPlateSetting=value; 
+
+        public SettingBaseViewModel()
+        {
+            StampPlateSetting = new();
         }
+
+        public SettingBaseViewModel(StampPlateSettingModel stampPlateSetting)
+        {
+            StampPlateSetting = stampPlateSetting;
+        }
+
+        private StampPlateSettingModel StampPlateSetting;
 
         public SheetStampingTypeFormEnum SheetStampingTypeForm
         {
@@ -94,107 +100,20 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 StampPlateSetting.IronPlateMargin = _ironPlateMarginVM._ironPlateMargin;
                 OnPropertyChanged();
             }
-        } 
-        // public IronPlateMarginStruct IronPlateMargin     
-        public class IronPlateMarginViewModel : BaseViewModel
-        {
-            public override string ViewModelName => nameof(IronPlateMarginViewModel);
-
-           public IronPlateMarginViewModel(IronPlateMarginStruct ironPlateMargin)
-            {
-                _ironPlateMargin = ironPlateMargin;
-            }
-
-            internal IronPlateMarginStruct _ironPlateMargin= new();
-            public double A_Margin 
-            {
-                get => _ironPlateMargin.A_Margin; 
-                set 
-                {
-                    _ironPlateMargin.A_Margin = value; 
-                    OnPropertyChanged(); 
-                }
-            }
-            public double B_Margin
-            {
-                get => _ironPlateMargin.B_Margin;
-                set
-                {
-                    _ironPlateMargin.B_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-            public double C_Margin
-            {
-                get => _ironPlateMargin.C_Margin;
-                set
-                {
-                    _ironPlateMargin.C_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-            public double D_Margin
-            {
-                get => _ironPlateMargin.D_Margin;
-                set
-                {
-                    _ironPlateMargin.D_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-            public double E_Margin
-            {
-                get => _ironPlateMargin.E_Margin;
-                set
-                {
-                    _ironPlateMargin.E_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-            public double F_Margin
-            {
-                get => _ironPlateMargin.F_Margin;
-                set
-                {
-                    _ironPlateMargin.F_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-            public double G_Margin
-            {
-                get => _ironPlateMargin.G_Margin;
-                set
-                {
-                    _ironPlateMargin.G_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-            public double H_Margin
-            {
-                get => _ironPlateMargin.H_Margin;
-                set
-                {
-                    _ironPlateMargin.H_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-            public double I_Margin
-            {
-                get => _ironPlateMargin.I_Margin;
-                set
-                {
-                    _ironPlateMargin.I_Margin = value;
-                    OnPropertyChanged();
-                }
-            }
-
         }
 
 
-
-
-
-
+        private StampingMarginPosViewModel _stampingMarginPosVM;
+        public StampingMarginPosViewModel StampingMarginPosVM
+        {
+            get => _stampingMarginPosVM ??= new(StampPlateSetting.StampingMarginPos);
+            set
+            {
+                _stampingMarginPosVM = value;
+                StampPlateSetting.IronPlateMargin = _ironPlateMarginVM._ironPlateMargin;
+                OnPropertyChanged();
+            }
+        }
 
 
         private string _plateNumber;
@@ -479,4 +398,123 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
     }
+
+    // public IronPlateMarginStruct IronPlateMargin     
+    public class IronPlateMarginViewModel : BaseViewModel
+    {
+        public override string ViewModelName => nameof(IronPlateMarginViewModel);
+
+        public IronPlateMarginViewModel(IronPlateMarginStruct ironPlateMargin)
+        {
+            _ironPlateMargin = ironPlateMargin;
+        }
+
+        internal IronPlateMarginStruct _ironPlateMargin = new();
+        public double A_Margin
+        {
+            get => _ironPlateMargin.A_Margin;
+            set
+            {
+                _ironPlateMargin.A_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double B_Margin
+        {
+            get => _ironPlateMargin.B_Margin;
+            set
+            {
+                _ironPlateMargin.B_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double C_Margin
+        {
+            get => _ironPlateMargin.C_Margin;
+            set
+            {
+                _ironPlateMargin.C_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double D_Margin
+        {
+            get => _ironPlateMargin.D_Margin;
+            set
+            {
+                _ironPlateMargin.D_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double E_Margin
+        {
+            get => _ironPlateMargin.E_Margin;
+            set
+            {
+                _ironPlateMargin.E_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double F_Margin
+        {
+            get => _ironPlateMargin.F_Margin;
+            set
+            {
+                _ironPlateMargin.F_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double G_Margin
+        {
+            get => _ironPlateMargin.G_Margin;
+            set
+            {
+                _ironPlateMargin.G_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double H_Margin
+        {
+            get => _ironPlateMargin.H_Margin;
+            set
+            {
+                _ironPlateMargin.H_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+        public double I_Margin
+        {
+            get => _ironPlateMargin.I_Margin;
+            set
+            {
+                _ironPlateMargin.I_Margin = value;
+                OnPropertyChanged();
+            }
+        }
+
+    }
+
+
+    public class StampingMarginPosViewModel : BaseViewModel
+    {
+        public override string ViewModelName => "StampingMarginPosViewModel";
+
+        public StampingMarginPosViewModel()
+        {
+            _stampingMarginPos = new() { rXAxisPos1 = 10, rXAxisPos2 = 25, rYAxisPos1 = 119, rYAxisPos2 = 119 };
+        }
+        public StampingMarginPosViewModel(StampingMarginPosModel stampingMarginPos)
+        {
+            _stampingMarginPos = stampingMarginPos;
+        }
+
+        private readonly StampingMarginPosModel _stampingMarginPos;
+        public double rXAxisPos1 { get => _stampingMarginPos.rXAxisPos1; set { _stampingMarginPos.rXAxisPos1 = value; OnPropertyChanged(); } }
+         public double rYAxisPos1 { get => _stampingMarginPos.rYAxisPos1; set { _stampingMarginPos.rYAxisPos1 = value; OnPropertyChanged(); } }
+        public double rXAxisPos2 { get => _stampingMarginPos.rXAxisPos2; set { _stampingMarginPos.rXAxisPos2 = value; OnPropertyChanged(); } }
+        public double rYAxisPos2 { get => _stampingMarginPos.rYAxisPos2; set { _stampingMarginPos.rYAxisPos2 = value; OnPropertyChanged(); } }
+    }
+
+
+
 }

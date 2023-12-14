@@ -113,28 +113,22 @@ namespace GD_StampingMachine
                     System.Diagnostics.Debugger.Break();
                 }
             });
-
-
-
-
         }
+
+
         protected override void OnExit(ExitEventArgs e)
         {
             SemaphoreSlim semaphore = new SemaphoreSlim(0);
             var saveTask = Task.Run(async () =>
             {
-                var JsonHM = new StampingMachineJsonHelper();
-                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+               await  StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
                 //存檔
-                var Model_IEnumerable = StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
-                await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
+                var JsonHM = new StampingMachineJsonHelper();
 
-                var projectSaveTasks = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
-                await Task.WhenAll(projectSaveTasks);
                 semaphore.Release();
             });
 
-            semaphore.Wait(10000);
+            semaphore.Wait(5000);
             base.OnExit(e);
         }
 

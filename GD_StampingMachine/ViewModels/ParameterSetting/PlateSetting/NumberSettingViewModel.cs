@@ -25,25 +25,27 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// </summary>
     public class NumberSettingViewModel : SettingBaseViewModel
     {
-        public NumberSettingViewModel()
+        public NumberSettingViewModel() : base(new StampPlateSettingModel())
         {
-            this.StampPlateSetting = new StampPlateSettingModel();
             SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
             this.SpecialSequence = SpecialSequenceEnum.TwoRow;
             this.SequenceCount = 8;
 
-
+            this.StampingMarginPosVM.rXAxisPos1 = 10;
+            this.StampingMarginPosVM.rXAxisPos2 = 25; 
+            this.StampingMarginPosVM.rYAxisPos1 = 119;
+            this.StampingMarginPosVM.rYAxisPos2 = 119;
         }
+
         public NumberSettingViewModel(StampPlateSettingModel stampPlateSetting)
+        : base(stampPlateSetting)
         {
-            this.StampPlateSetting = stampPlateSetting;
             SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
         }
-        //public override StampPlateSettingModel StampPlateSetting { get; set; } = new StampPlateSettingModel();
+
+
 
     }
-
-
 
 
 

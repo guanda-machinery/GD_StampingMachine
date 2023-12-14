@@ -49,7 +49,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (disposing)
                 {
-                   _ = SaveStampingMachineJsonAsync();
+                  // _ = SaveStampingMachineJsonAsync();
                     // TODO: 處置受控狀態 (受控物件)
                 }
 
@@ -62,22 +62,20 @@ namespace GD_StampingMachine.ViewModels
 
         public async Task SaveStampingMachineJsonAsync()
         {
-            if (ParameterSettingVM.AxisSettingVM.AxisSetting != null)
+            if (ParameterSettingVM?.AxisSettingVM?.AxisSetting != null)
                 await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, ParameterSettingVM.AxisSettingVM.AxisSetting);
 
-            if (ParameterSettingVM.TimingSettingVM.TimingSetting != null)
+            if (ParameterSettingVM?.TimingSettingVM?.TimingSetting != null)
                 await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, ParameterSettingVM.TimingSettingVM.TimingSetting);
 
-            if (ParameterSettingVM.EngineerSettingVM.EngineerSetting != null)
+            if (ParameterSettingVM?.EngineerSettingVM?.EngineerSetting != null)
                 await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, ParameterSettingVM.EngineerSettingVM.EngineerSetting);
 
-            if (ParameterSettingVM.SeparateSettingVM.SeparateSetting != null)
+            if (ParameterSettingVM?.SeparateSettingVM?.SeparateSetting != null)
                 await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, ParameterSettingVM.SeparateSettingVM.SeparateSetting);
 
             try
             {
-             
-
                 List<StampingTypeModel> UseStampingFont = StampingFontChangedVM.StampingTypeVMObservableCollection
                     .Select(x => x.StampingType).ToList();
 
@@ -99,6 +97,18 @@ namespace GD_StampingMachine.ViewModels
             {
                 Console.WriteLine(ex);
                 Debugger.Break();
+            }
+
+            if (TypeSettingSettingVM?.ProjectDistributeVMObservableCollection != null)
+            {
+                var Model_IEnumerable = TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
+                await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
+            }
+
+            if (ProductSettingVM?.ProductProjectVMObservableCollection != null)
+            {
+                var projectSaveTasks = ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
+                await Task.WhenAll(projectSaveTasks);
             }
         }
 
@@ -139,7 +149,14 @@ namespace GD_StampingMachine.ViewModels
                 //Thread.Sleep(5000);
                 while (true)
                 {
-                    await SaveStampingMachineJsonAsync();
+                    try
+                    {
+                        await SaveStampingMachineJsonAsync();
+                    }
+                    catch(Exception ex)
+                    {
+                       _= LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName ,ex.Message);
+                    }
                     await Task.Delay(10000);
                 }
             });

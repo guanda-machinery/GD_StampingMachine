@@ -140,11 +140,11 @@
                         </StackPanel.Resources>
                         <Button Name="AlarmButton"       
                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
-                            Path=HasAlarm,Converter={dx:BooleanToVisibilityConverter}}"
+                            Path=AlarmMessageCollection,Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True} }"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=MachineWarningDraggablePopup}"       
                                 BorderThickness="0" 
-                                  Margin="0" Padding="0" Width="30" Height="30"
+                                  Margin="0" Padding="0" Width="30" Height="30" 
                                 Content="{materialDesign:PackIcon Kind=Warning, Size=30}" Foreground="Red"
                                 Style="{StaticResource SiegCustomButton_Transparent}">
                             <Button.Triggers>
@@ -164,7 +164,7 @@
 
                         <GD_Popup:DraggablePopup 
                             Name="MachineWarningDraggablePopup"
-                                    PopupAnimation="Fade"   StaysOpen="True"
+                                    PopupAnimation="Fade"   StaysOpen="False"
                                     Placement="Bottom"  
                                     PlacementTarget="{Binding ElementName=AlarmButton}"
                             HorizontalAlignment="Center"
@@ -325,6 +325,14 @@
                                 <Style TargetType="Border">
                                     <Setter Property="Background" Value="Black"/>
                                     <Style.Triggers>
+
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                     Value="true" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Background"  Value="Orange"/>
+                                        </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
                                                 <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
@@ -348,7 +356,7 @@
                                                 <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
                                                 <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=DI_Pause}" 
-                                                     Value="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"/>
+                                                     Value="true"/>
                                             </MultiDataTrigger.Conditions>
                                             <Setter Property="Background"  Value="Orange"/>
                                         </MultiDataTrigger>
@@ -357,7 +365,7 @@
                                                 <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
                                                 <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=DI_EmergencyStop1}" 
-                                                     Value="true"/>
+                                                     Value="false"/>
                                             </MultiDataTrigger.Conditions>
                                             <Setter Property="Background"  Value="Red"/>
                                         </MultiDataTrigger>

@@ -29,7 +29,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public QRSettingViewModel()
         {
-            this.StampPlateSetting.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+            this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
             this.SequenceCount = 6;
             this.SpecialSequence = SpecialSequenceEnum.TwoRow;
         }
