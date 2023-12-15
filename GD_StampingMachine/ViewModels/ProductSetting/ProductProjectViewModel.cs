@@ -332,8 +332,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 AddNumberSettingSavedCollection.ForEach(obj =>
                 {
-                    obj.PlateNumberList1.ForEach(p => p.IsUsedEditedable = false);
-                    obj.PlateNumberList2.ForEach(p => p.IsUsedEditedable = false);
 
                     if (string.IsNullOrEmpty(AddNewPartsParameterVM.ParameterA))
                         obj.PlateNumber = null;
