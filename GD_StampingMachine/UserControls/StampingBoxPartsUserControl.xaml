@@ -200,23 +200,8 @@
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
 
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IronPlateString}" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
 
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QrCodeContent}" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
 
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
 
 
 
@@ -227,12 +212,15 @@
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+            
+            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+
+
+            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
@@ -272,6 +260,16 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ToggleButton.Style>
+
+                                <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                                        DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
+                                    <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </TransformGroup>
+                                    </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                <!--
                                 <Grid  RenderTransformOrigin="0.5,0.5">
                                     <Grid.LayoutTransform>
                                         <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
@@ -284,7 +282,7 @@
                             DataContext="{Binding Row.SettingBaseVM}" 
                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
-                                </Grid>
+                                </Grid>-->
                             </ToggleButton>
 
                         </Grid>

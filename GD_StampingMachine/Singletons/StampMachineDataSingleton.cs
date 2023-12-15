@@ -15,6 +15,7 @@ using GD_MachineConnect.Machine.Interfaces;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
+using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ParameterSetting;
@@ -1049,7 +1050,7 @@ namespace GD_StampingMachine.Singletons
                                                 rotatingStampingTypeVMObservableCollection.Add(new StampingTypeViewModel(stamp));
                                             });
 
-                                            await CompareFontsSettingBetweenMachineAndSoftwareAsync(
+                                           _=  await CompareFontsSettingBetweenMachineAndSoftwareAsync(
                                                 StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection, rotatingStampingTypeVMObservableCollection
                                                 );
                                         }
@@ -1262,34 +1263,29 @@ namespace GD_StampingMachine.Singletons
                                                         else if (plateData.bDataMatrixFinish)
                                                             steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
 
-                                                        int rowLength = string1Length > string2Length ? string1Length : string2Length;
+                                                        //int rowLength = string1Length > string2Length ? string1Length : string2Length;
+                                                        int rowLength = Math.Max(string1Length, string2Length);
                                                         SettingBaseViewModel settingBaseVM;
                                                         //沒有QR加工
                                                         if (string.IsNullOrEmpty(plateData.sDataMatrixName1) && string.IsNullOrEmpty(plateData.sDataMatrixName2))
                                                         {
-                                                            //補空白
-                                                            settingBaseVM = new NumberSettingViewModel()
-                                                            {
-                                                                SpecialSequence = specialSequence,
-                                                                SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping,
-                                                                // PlateNumber = plateData.sIronPlateName1++++ plateData.sIronPlateName2,
-                                                                PlateNumber = plateData.sIronPlateName1.PadRight(rowLength).Substring(0, rowLength) + plateData.sIronPlateName2,
-                                                                SequenceCount = rowLength
-                                                            };
+                                                            settingBaseVM = new NumberSettingViewModel();
                                                         }
                                                         else
                                                         {
-                                                            settingBaseVM = new QRSettingViewModel()
-                                                            {
-                                                                SpecialSequence = specialSequence,
-                                                                SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping,
-                                                                // PlateNumber = plateData.sIronPlateName1++++ + plateData.sIronPlateName2,
-                                                                PlateNumber = plateData.sIronPlateName1.PadRight(rowLength) + plateData.sIronPlateName2,
-                                                                SequenceCount = rowLength,
-                                                                //SequenceCount = string1Length > string2Length ? string1Length : string2Length,
-                                                                QrCodeContent = plateData.sDataMatrixName1,
-                                                                QR_Special_Text = plateData.sDataMatrixName2,
-                                                            };
+                                                            settingBaseVM = new QRSettingViewModel();
+                                                        }
+                                                        settingBaseVM.SpecialSequence = specialSequence;
+                                                        settingBaseVM.SequenceCount = rowLength;
+                                                        settingBaseVM.PlateNumber = plateData.sIronPlateName1.PadRight(rowLength).Substring(0, rowLength) + plateData.sIronPlateName2;
+                                                        settingBaseVM.QrCodeContent = plateData.sDataMatrixName1;
+                                                        settingBaseVM.QR_Special_Text = plateData.sDataMatrixName2;
+                                                        settingBaseVM.StampingMarginPosVM = new StampingMarginPosViewModel()
+                                                        {
+                                                            rXAxisPos1 = plateData.rXAxisPos1,
+                                                            rYAxisPos1 = plateData.rYAxisPos1 - MachineConst.StampingMachineYPosition,
+                                                            rXAxisPos2 = plateData.rXAxisPos2,
+                                                            rYAxisPos2 = plateData.rYAxisPos2 - MachineConst.StampingMachineYPosition,
                                                         };
 
                                                         PlateMonitorViewModel PlateMonitorVM = new PlateMonitorViewModel()

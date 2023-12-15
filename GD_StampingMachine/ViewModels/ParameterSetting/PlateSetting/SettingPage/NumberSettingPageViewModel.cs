@@ -80,18 +80,20 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        private ICommand _loadSettingCommand;
         public override ICommand LoadSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => _loadSettingCommand??= new RelayCommand(() =>
             {
                 if (NumberSettingModelCollectionSelected != null)
                     NumberSettingVM = NumberSettingModelCollectionSelected.DeepCloneByJson();
             });
         }
 
+        private ICommand _recoverSettingCommand;
         public override ICommand RecoverSettingCommand
         {
-            get => new RelayCommand(() =>
+            get => _recoverSettingCommand??=new RelayCommand(() =>
             {
                 NumberSettingVM = new NumberSettingViewModel();
             });
@@ -128,9 +130,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
+        private ICommand _deleteSettingCommand;
         public override ICommand DeleteSettingCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => _deleteSettingCommand??= new AsyncRelayCommand(async () =>
             {
                 if (NumberSettingModelCollectionSelected != null)
                 {

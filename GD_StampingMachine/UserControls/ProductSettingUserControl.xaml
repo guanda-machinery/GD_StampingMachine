@@ -1261,7 +1261,8 @@
                                                                         <RowDefinition/>
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
-                                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                                                                    <StackPanel Grid.Row="1" Orientation="Vertical" >
+                                                                        <!--
                                                                         <Grid 
                                                             RenderTransformOrigin="0.0,0.0" >
                                                                             <Grid.LayoutTransform>
@@ -1270,10 +1271,19 @@
                                                                             <StackPanel>
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }" IsEnabled="False"
                                                                                                                                     RedMeasurementLineVisibility="Collapsed" />
+                                                                                
 
                                                                             </StackPanel>
 
-                                                                        </Grid>
+                                                                        </Grid>-->
+                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                                        DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
+                                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                                                </TransformGroup>
+                                                                            </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                                     </StackPanel>
                                                                 </Grid>
                                                             </Grid>
@@ -1303,6 +1313,7 @@
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
                                                                     <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                                                                        <!--
                                                                         <Grid 
                                                             RenderTransformOrigin="0.0,0.0" >
                                                                             <Grid.LayoutTransform>
@@ -1314,7 +1325,15 @@
 
                                                                             </StackPanel>
 
-                                                                        </Grid>
+                                                                        </Grid>-->
+                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                                        DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
+                                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                                                </TransformGroup>
+                                                                            </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                                     </StackPanel>
                                                                 </Grid>
                                                             </Grid>
@@ -1566,24 +1585,6 @@
                     </dxg:GridColumn>
 
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_IronPlateString}" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
-
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QrCodeContent}" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
-
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
-
 
 
 
@@ -1593,13 +1594,14 @@
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_B}" FieldName="ParameterB" Width="auto" AllowMoving="false"  IsSmart="True">
+
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
