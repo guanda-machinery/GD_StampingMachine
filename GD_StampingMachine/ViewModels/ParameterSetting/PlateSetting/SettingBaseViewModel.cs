@@ -1,4 +1,5 @@
 ﻿
+using DevExpress.CodeParser;
 using DevExpress.Mvvm.Native;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
@@ -12,6 +13,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -31,6 +33,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             StampPlateSetting = stampPlateSetting;
         }
+
+         
+
 
         internal StampPlateSettingModel StampPlateSetting;
 
@@ -54,17 +59,25 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         public string NumberSettingMode { get => StampPlateSetting.NumberSettingMode; set { StampPlateSetting.NumberSettingMode = value; OnPropertyChanged(); } }
+
+
+        /// <summary>
+        /// 單排數量最大值
+        /// </summary>
+        protected abstract int SequenceCountMax { get; }
+
         /// <summary>
         /// 單排數量
         /// </summary>
-        public virtual int SequenceCount
+        public int SequenceCount
         {
-            get => StampPlateSetting.SequenceCount;
+            get=> StampPlateSetting.SequenceCount = Math.Min(StampPlateSetting.SequenceCount, SequenceCountMax);
             set
             {
-                StampPlateSetting.SequenceCount = value;
+                StampPlateSetting.SequenceCount = Math.Min(value, SequenceCountMax);
                 OnPropertyChanged();
-                (PlateNumberList1,PlateNumberList2) = ChangePlateNumberList(PlateNumber);
+                (PlateNumberList1, PlateNumberList2) = ChangePlateNumberList(PlateNumber);
+                ChangeHorizontalStampingMarginPosVM();
             }
         }
 
@@ -79,16 +92,90 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 StampPlateSetting.SpecialSequence = value;
                 OnPropertyChanged();
                 (PlateNumberList1,PlateNumberList2) = ChangePlateNumberList(PlateNumber);
+                ChangeVerticalStampingMarginPosVM();
             }
         }
         /// <summary>
         /// 水平對齊
         /// </summary>
-        public HorizontalAlignEnum HorizontalAlign { get => StampPlateSetting.HorizontalAlign; set { StampPlateSetting.HorizontalAlign = value; OnPropertyChanged(); } }
+        public HorizontalAlignEnum HorizontalAlign
+        { 
+            get => StampPlateSetting.HorizontalAlign; 
+            set
+            { 
+                StampPlateSetting.HorizontalAlign = value; 
+                OnPropertyChanged();
+                ChangeHorizontalStampingMarginPosVM();
+
+            }
+        }
+
         /// <summary>
         /// 垂直對齊
         /// </summary>
-        public VerticalAlignEnum VerticalAlign { get => StampPlateSetting.VerticalAlign; set { StampPlateSetting.VerticalAlign = value; OnPropertyChanged(); } }
+        public VerticalAlignEnum VerticalAlign { get => StampPlateSetting.VerticalAlign; set
+            {
+                StampPlateSetting.VerticalAlign = value; 
+                OnPropertyChanged();
+                ChangeVerticalStampingMarginPosVM();
+            } 
+        }
+
+
+
+
+        private void ChangeVerticalStampingMarginPosVM()
+        {
+            if(SpecialSequence == SpecialSequenceEnum.OneRow)
+            {
+                switch (StampPlateSetting.VerticalAlign)
+                {
+                    case VerticalAlignEnum.Top:
+                        StampingMarginPosVM.rXAxisPos1 = 10;
+                        StampingMarginPosVM.rXAxisPos2 = 25;
+                        break;
+                    case VerticalAlignEnum.Center:
+                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConst.FontVerticalInterval / 2; ;
+                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConst.FontVerticalInterval / 2;
+                        break;
+                case VerticalAlignEnum.Bottom:
+                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConst.FontVerticalInterval ; 
+                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConst.FontVerticalInterval ; 
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                StampingMarginPosVM.rXAxisPos1 = 10;
+                StampingMarginPosVM.rXAxisPos2 = 25;
+            }
+        }
+
+        private void ChangeHorizontalStampingMarginPosVM()
+        {
+            var diff = this.SequenceCountMax - SequenceCount;
+            switch (StampPlateSetting.HorizontalAlign)
+            {
+                case HorizontalAlignEnum.Left:
+                    StampingMarginPosVM.rYAxisPos1 = 14;
+                    StampingMarginPosVM.rYAxisPos2 = 14;
+                    break;
+                case HorizontalAlignEnum.Center:
+                    StampingMarginPosVM.rYAxisPos1 = 14 + (diff * MachineConst.FontHorizonInterval) / 2;// +MachineConst.FontWidth;
+                    StampingMarginPosVM.rYAxisPos2 = 14 + (diff * MachineConst.FontHorizonInterval) / 2;
+                    break;
+                case HorizontalAlignEnum.Right:
+                    StampingMarginPosVM.rYAxisPos1 = 14 + diff * MachineConst.FontHorizonInterval;
+                    StampingMarginPosVM.rYAxisPos2 = 14 + diff * MachineConst.FontHorizonInterval;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
 
         private IronPlateMarginViewModel _ironPlateMarginVM;
         public IronPlateMarginViewModel IronPlateMarginVM
@@ -110,27 +197,26 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _stampingMarginPosVM = value;
-                StampPlateSetting.IronPlateMargin = _ironPlateMarginVM._ironPlateMargin;
+                StampPlateSetting.StampingMarginPos = _stampingMarginPosVM._stampingMarginPos;
                 OnPropertyChanged();
             }
         }
 
 
-        private string _plateNumber;
+        //private string _plateNumber;
         /// <summary>
         /// 板子上的字 可留白
         /// </summary>
         public string PlateNumber
         {
-            get => _plateNumber;
+            get => StampPlateSetting.PlateNumber;
             set
             {
-                _plateNumber = value;
+                StampPlateSetting.PlateNumber = value;
                 (PlateNumberList1, PlateNumberList2) = ChangePlateNumberList(PlateNumber);
                 OnPropertyChanged();
             }
         }
-
 
 
         /// <summary>
@@ -147,8 +233,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
-
         /// <summary>
         /// 側面字串
         /// </summary>
@@ -163,7 +247,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
+        public abstract Visibility QRCodeVisibility { get; }
 
 
 
@@ -392,11 +476,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-
-
-
-
-
     }
 
     // public IronPlateMarginStruct IronPlateMargin     
@@ -501,18 +580,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public StampingMarginPosViewModel()
         {
-            _stampingMarginPos = new() { rXAxisPos1 = 10, rXAxisPos2 = 25, rYAxisPos1 = 119, rYAxisPos2 = 119 };
+            _stampingMarginPos = new();
         }
         public StampingMarginPosViewModel(StampingMarginPosModel stampingMarginPos)
         {
             _stampingMarginPos = stampingMarginPos;
         }
 
-        private readonly StampingMarginPosModel _stampingMarginPos;
-        public double rXAxisPos1 { get => _stampingMarginPos.rXAxisPos1; set { _stampingMarginPos.rXAxisPos1 = value; OnPropertyChanged(); } }
-         public double rYAxisPos1 { get => _stampingMarginPos.rYAxisPos1; set { _stampingMarginPos.rYAxisPos1 = value; OnPropertyChanged(); } }
-        public double rXAxisPos2 { get => _stampingMarginPos.rXAxisPos2; set { _stampingMarginPos.rXAxisPos2 = value; OnPropertyChanged(); } }
-        public double rYAxisPos2 { get => _stampingMarginPos.rYAxisPos2; set { _stampingMarginPos.rYAxisPos2 = value; OnPropertyChanged(); } }
+        internal readonly StampingMarginPosModel _stampingMarginPos;
+        public float rXAxisPos1 { get => _stampingMarginPos.rXAxisPos1; set { _stampingMarginPos.rXAxisPos1 = value; OnPropertyChanged(); } }
+         public float rYAxisPos1 { get => _stampingMarginPos.rYAxisPos1; set { _stampingMarginPos.rYAxisPos1 = value; OnPropertyChanged(); } }
+        public float rXAxisPos2 { get => _stampingMarginPos.rXAxisPos2; set { _stampingMarginPos.rXAxisPos2 = value; OnPropertyChanged(); } }
+        public float rYAxisPos2 { get => _stampingMarginPos.rYAxisPos2; set { _stampingMarginPos.rYAxisPos2 = value; OnPropertyChanged(); } }
     }
 
 

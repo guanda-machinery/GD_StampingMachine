@@ -40,6 +40,7 @@ using DevExpress.Xpf.Data;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using GD_StampingMachine.Singletons;
+using GD_StampingMachine.GD_Model.ProductionSetting;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -331,16 +332,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 AddNumberSettingSavedCollection.ForEach(obj =>
                 {
-                    if (string.IsNullOrEmpty(AddNewPartsParameterVM.IronPlateString))
+                    obj.PlateNumberList1.ForEach(p => p.IsUsedEditedable = false);
+                    obj.PlateNumberList2.ForEach(p => p.IsUsedEditedable = false);
+
+                    if (string.IsNullOrEmpty(AddNewPartsParameterVM.ParameterA))
                         obj.PlateNumber = null;
                     else
-                        obj.PlateNumber = AddNewPartsParameterVM.IronPlateString;
+                        obj.PlateNumber = AddNewPartsParameterVM.ParameterA;
 
                     if (string.IsNullOrEmpty(AddNewPartsParameterVM.QR_Special_Text))
                         obj.QR_Special_Text = null;
                     else
                         obj.QR_Special_Text = AddNewPartsParameterVM.QR_Special_Text;
                 });
+
+
             });
         }
 
@@ -496,10 +502,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                 EditNumberSettingSavedCollection.ForEach(obj =>
                 {
-                    if (string.IsNullOrEmpty(EditPartsParameterVM_Cloned.IronPlateString))
+                    if (string.IsNullOrEmpty(EditPartsParameterVM_Cloned.ParameterA))
                         obj.PlateNumber = null;
                     else
-                        obj.PlateNumber = EditPartsParameterVM_Cloned.IronPlateString;
+                        obj.PlateNumber = EditPartsParameterVM_Cloned.ParameterA;
 
                     if (!EditNumberSettingSavedCollection.Contains(EditPartsParameterVM_Cloned.SettingBaseVM))
                     {
@@ -507,7 +513,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                        var Findex = EditNumberSettingSavedCollection.FindIndex(x => x.NumberSettingMode == EditPartsParameterVM_Cloned.SettingBaseVM.NumberSettingMode);
                         if (Findex != -1)
                         {
-                            EditPartsParameterVM_Cloned.SettingBaseVM = EditNumberSettingSavedCollection[Findex];
+                            EditPartsParameterVM_Cloned.SettingBaseVM.StampPlateSetting = EditNumberSettingSavedCollection[Findex].StampPlateSetting;
                         }
                     }
 
@@ -739,13 +745,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 if (_erp.QrCodeContent == null || _erp.QrCodeContent.Count == 0)
                                 {
                                     //沒有Content
-                                    importPartsParameterVMList.Add(new PartsParameterViewModel()
+                                    PartsParameterModel PParameter = new PartsParameterModel()
                                     {
                                         IronPlateString = _erp.PartNumber,
                                         QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
                                         QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
-                                        SettingBaseVM = SettingBaseVM
-                                    });
+                                        StampingPlate = SettingBaseVM.StampPlateSetting
+                                    };
+                                    importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
                                 }
                                 else
                                 {
@@ -754,13 +761,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                     {
                                         _erp.QrCodeContent.TryGetValue(i, out var qrcode);
                                         _erp.TrainNumber.TryGetValue(i, out var trainNum);
-                                        importPartsParameterVMList.Add(new PartsParameterViewModel()
+
+                                        PartsParameterModel PParameter = new PartsParameterModel()
                                         {
                                             IronPlateString = _erp.PartNumber,
-                                            QrCodeContent = qrcode,
-                                            QR_Special_Text = trainNum,
-                                            SettingBaseVM = SettingBaseVM
-                                        });
+                                            QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
+                                            QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
+                                            StampingPlate = SettingBaseVM.StampPlateSetting
+                                        };
+                                        importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
                                     }
                                 }
                             }
@@ -769,13 +778,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
                                 SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
 
-                                importPartsParameterVMList.Add(new PartsParameterViewModel()
+
+                                PartsParameterModel PParameter = new PartsParameterModel()
                                 {
                                     IronPlateString = _erp.PartNumber,
                                     QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
                                     QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
-                                    SettingBaseVM = SettingBaseVM
-                                });
+                                    StampingPlate = SettingBaseVM.StampPlateSetting
+                                };
+                                importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
                             }
 
 

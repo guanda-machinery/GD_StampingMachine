@@ -12,10 +12,22 @@ namespace GD_StampingMachine.Model
     public class StampPlateSettingModel
     {
 
-        /// <summary>
-        /// 自動換行
-        /// </summary>
-        //public bool DashAutoWrapping { get; set; }
+        public StampPlateSettingModel()
+        {
+            SequenceCount = 6;
+            StampingMarginPos = new StampingMarginPosModel()
+            {
+                rXAxisPos1 = 10,
+                rXAxisPos2 = 25,
+                rYAxisPos1 = 14,
+                rYAxisPos2 = 14,
+            };
+        }
+
+    /// <summary>
+    /// 自動換行
+    /// </summary>
+    //public bool DashAutoWrapping { get; set; }
 
     /// <summary>
     /// 型態
@@ -28,7 +40,10 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 單排數量
         /// </summary>
-        public int SequenceCount { get; set; } = 6;
+        public int SequenceCount { get; set; } 
+
+
+        public string PlateNumber { get; set; }
 
         /// <summary>
         /// 可加工的位址
@@ -53,7 +68,9 @@ namespace GD_StampingMachine.Model
         /// </summary>
         public VerticalAlignEnum VerticalAlign { get; set; }
 
-
+        /// <summary>
+        /// QR參數
+        /// </summary>
         public string QrCodeContent { get; set; }
 
         /// <summary>
@@ -93,10 +110,13 @@ namespace GD_StampingMachine.Model
 
     public class StampingMarginPosModel
     {
-        public double rXAxisPos1 { get; set; } 
-        public double rYAxisPos1 { get; set; }
-        public double rXAxisPos2 { get; set; } 
-        public double rYAxisPos2 { get; set; } 
+
+
+
+        public float rXAxisPos1 { get; set; } 
+        public float rYAxisPos1 { get; set; }
+        public float rXAxisPos2 { get; set; } 
+        public float rYAxisPos2 { get; set; } 
     }
 
 

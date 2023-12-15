@@ -30,22 +30,23 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
             this.SpecialSequence = SpecialSequenceEnum.TwoRow;
             this.SequenceCount = 8;
-
             this.StampingMarginPosVM.rXAxisPos1 = 10;
-            this.StampingMarginPosVM.rXAxisPos2 = 25; 
-            this.StampingMarginPosVM.rYAxisPos1 = 119;
-            this.StampingMarginPosVM.rYAxisPos2 = 119;
+            this.StampingMarginPosVM.rXAxisPos2 = 25;
+            this.StampingMarginPosVM.rYAxisPos1 = 14;
+            this.StampingMarginPosVM.rYAxisPos2 = 14;
         }
-
         public NumberSettingViewModel(StampPlateSettingModel stampPlateSetting)
         : base(stampPlateSetting)
         {
             SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
         }
 
+        protected override int SequenceCountMax => 8;
+        public override Visibility QRCodeVisibility { get => Visibility.Collapsed; }
 
 
     }
+
 
 
 

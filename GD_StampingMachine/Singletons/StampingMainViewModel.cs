@@ -91,7 +91,6 @@ namespace GD_StampingMachine.ViewModels
                 {
 
                 }
-
             }
             catch (Exception ex)
             {
@@ -145,9 +144,8 @@ namespace GD_StampingMachine.ViewModels
 
             _ = Task.Run(async () =>
             {
-                await Task.Delay(10000);
-                //Thread.Sleep(5000);
-                while (true)
+                await Task.Delay(30000);
+                while (!disposedValue)
                 {
                     try
                     {
@@ -157,7 +155,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                        _= LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName ,ex.Message);
                     }
-                    await Task.Delay(10000);
+                    await Task.Delay(30000);
                 }
             });
 

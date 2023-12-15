@@ -11,6 +11,22 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
 {
     public class PartsParameterModel
     {
+        public PartsParameterModel()
+        {
+            StampingPlate = new()
+            {
+                QrCodeContent = QrCodeContent,
+                PlateNumber = IronPlateString,
+                QR_Special_Text = QR_Special_Text,
+            };
+
+        }
+
+        /// <summary>
+        /// 鐵牌參數
+        /// </summary>
+        public StampPlateSettingModel StampingPlate { get; set; }
+
         /// <summary>
         /// 分配加工專案
         /// </summary>
@@ -46,7 +62,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// <summary>
         /// 鐵牌字串
         /// </summary>
-        public string IronPlateString { get; set; }
+        public string IronPlateString { get ; set; }
         /// <summary>
         /// QR內容
         /// </summary>
@@ -60,15 +76,20 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// <summary>
         /// 參數A
         /// </summary>
-        public string ParamA { get; set; }
+        //public string ParamA { get => StampingPlate.PlateNumber; set => StampingPlate.PlateNumber = value; }
         /// <summary>
         /// 參數B
         /// </summary>
-        public string ParamB { get; set; }
+        //public string ParamB { get; set; }
         /// <summary>
         /// 參數C
         /// </summary>
-        public string ParamC { get; set; }
+       // public string ParamC { get => StampingPlate.QrCodeContent; set => StampingPlate.QrCodeContent = value; }
+
+
+
+
+
         /// <summary>
         /// 進度條
         /// </summary>
@@ -81,10 +102,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// 分料盒
         /// </summary>
         public int? BoxIndex { get; set; }
-        /// <summary>
-        /// 鐵牌參數
-        /// </summary>
-        public StampPlateSettingModel StampingPlate { get; set; } = new StampPlateSettingModel();
+
    
         /// <summary>
         /// 機台命令

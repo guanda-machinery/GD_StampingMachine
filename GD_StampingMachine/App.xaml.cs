@@ -119,12 +119,9 @@ namespace GD_StampingMachine
         protected override void OnExit(ExitEventArgs e)
         {
             SemaphoreSlim semaphore = new SemaphoreSlim(0);
-            var saveTask = Task.Run(async () =>
+            var DisconnectTask = Task.Run(async () =>
             {
                await  StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
-                //存檔
-                var JsonHM = new StampingMachineJsonHelper();
-
                 semaphore.Release();
             });
 

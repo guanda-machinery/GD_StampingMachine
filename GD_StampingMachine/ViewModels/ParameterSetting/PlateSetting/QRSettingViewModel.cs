@@ -17,6 +17,7 @@ using GD_StampingMachine.Model;
 using DevExpress.Mvvm.DataAnnotations;
 using System.Windows;
 using Newtonsoft.Json.Linq;
+using System.Security.Policy;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -40,22 +41,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
         }
 
-        public override int SequenceCount
-        {
-            get 
-            {
-                if (StampPlateSetting.SequenceCount > 6)
-                    StampPlateSetting.SequenceCount = 6;
-                return StampPlateSetting.SequenceCount ;
-            }
-            set
-            {
-                StampPlateSetting.SequenceCount = value;
-                OnPropertyChanged();
-                (PlateNumberList1 ,PlateNumberList2 )= ChangePlateNumberList(PlateNumber);
-            }
-        }
+        protected override int SequenceCountMax => 6;
 
+        public override Visibility QRCodeVisibility { get => Visibility.Visible; }
 
 
 

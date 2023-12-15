@@ -9,6 +9,15 @@ namespace GD_StampingMachine.GD_Model
 {
     public class IronPlateDataModel
     {
+        public IronPlateDataModel()
+        {
+            sDataMatrixName1 = string.Empty;
+            sDataMatrixName2 = string.Empty;
+            sIronPlateName1 = string.Empty;
+            sIronPlateName2 = string.Empty;
+        }
+
+
 
         private string _sIronPlateName1;
         private string _sIronPlateName2;

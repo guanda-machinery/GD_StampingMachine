@@ -421,12 +421,12 @@ namespace GD_StampingMachine.ViewModels
                                     //流水編號
                                     iIronPlateID = autonum,
                                     iStackingID = boxIndex,
-                                    rXAxisPos1 = 10,
-                                    rXAxisPos2 = 25,
-                                    rYAxisPos1 = 119,
-                                    rYAxisPos2 = 119,
-                                    sDataMatrixName1 = string.IsNullOrWhiteSpace(readymachining.QrCodeContent) ? string.Empty : readymachining.QrCodeContent,
-                                    sDataMatrixName2 = string.IsNullOrWhiteSpace(readymachining.QrCodeContent) ? string.Empty : readymachining.QR_Special_Text,
+                                    rXAxisPos1 = readymachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos1, //     10
+                                    rXAxisPos2 = readymachining.SettingBaseVM.StampingMarginPosVM.rXAxisPos2,//25
+                                    rYAxisPos1 = readymachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //119 = 14+105 //
+                                    rYAxisPos2 = readymachining.SettingBaseVM.StampingMarginPosVM.rYAxisPos1 + MachineConst.StampingMachineYPosition, //*14+105 // 
+                                    sDataMatrixName1 = string.IsNullOrWhiteSpace(readymachining.ParameterC) ? string.Empty : readymachining.ParameterC,
+                                    sDataMatrixName2 = string.IsNullOrWhiteSpace(readymachining.QR_Special_Text) ? string.Empty : readymachining.QR_Special_Text,
                                     sIronPlateName1 = string.IsNullOrWhiteSpace(plateFirstValue) ? string.Empty : plateFirstValue,
                                     sIronPlateName2 = string.IsNullOrWhiteSpace(plateSecondValue) ? string.Empty : plateSecondValue
                                 };
@@ -1061,7 +1061,7 @@ namespace GD_StampingMachine.ViewModels
                         token.ThrowIfCancellationRequested();
 
                     bool isGetIronPlate;
-                    List<IronPlateDataModel> ironPlateDataCollection = new List<IronPlateDataModel>(); ;
+                    List<IronPlateDataModel> ironPlateDataCollection = new List<IronPlateDataModel>(); 
                     if (StampMachineData.IsConnected)
                     {
                         do

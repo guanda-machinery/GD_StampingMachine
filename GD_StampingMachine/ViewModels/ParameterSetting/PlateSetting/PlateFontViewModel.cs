@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
@@ -61,6 +62,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => PlateFont.IsUsedEditedable; set { PlateFont.IsUsedEditedable = value; OnPropertyChanged(); }
         }
 
+        [JsonIgnore]
+        public double MachineConstFontWidth => MachineConst.FontWidth;
+        [JsonIgnore]
+        public double MachineConstFontHorizonInterval => MachineConst.FontHorizonInterval;
+        [JsonIgnore]
+        public double MachineConstFontHeight => MachineConst.FontHeight;
+        [JsonIgnore]
+        public double MachineConstFontVerticalInterval => MachineConst.FontVerticalInterval;
 
 
     }

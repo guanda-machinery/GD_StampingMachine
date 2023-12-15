@@ -260,50 +260,11 @@ namespace GD_MachineConnect.Machine
 
         public override async Task DisconnectAsync()
         {
-            try
+            await Task.Run(() =>
             {
-                if (_reConnectHandler != null)
-                {
-                    try
-                    {
-                        _reConnectHandler.Dispose();
-                        _reConnectHandler = null;
-                    }
-                    catch
-                    {
-
-                    }
-                }
-
-                if (m_session != null)
-                {
-                    try
-                    {
-                        m_session.OperationTimeout = 1000;
-                        m_session.Close(10000);
-                        m_session = null;
-                    }
-                    catch
-                    {
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-            try
-            {
-                IsConnected = false;
-                await WaitForCondition.WaitAsync(() => m_session.Connected, false, 10000);
-            }
-            catch(Exception ex)
-            {
-
-            }
-
+                this.Disconnect();
+            });
+            IsConnected = false;
         }
 
 
@@ -754,9 +715,9 @@ namespace GD_MachineConnect.Machine
             {
                 if (disposing)
                 {
-                    Disconnect();
                     // TODO: 處置受控狀態 (受控物件)
                 }
+                Disconnect();
                 // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
                 // TODO: 將大型欄位設為 Null
                 disposedValue = true;

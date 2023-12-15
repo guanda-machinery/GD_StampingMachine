@@ -43,8 +43,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_PartsParameterViewModel");
 
         public PartsParameterViewModel()
-        { 
-
+        {
+            PartsParameter = new();
         }
        public PartsParameterViewModel(PartsParameterModel PParameter)
        {
@@ -52,13 +52,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-
-        private PartsParameterModel _partsParameter;
-        public PartsParameterModel PartsParameter 
-        {
-            get => _partsParameter ??= new PartsParameterModel();
-            private set => _partsParameter = value;
-        }
+        //private PartsParameterModel _partsParameter;
+        public readonly PartsParameterModel PartsParameter ;
 
         /// <summary>
         /// 加工進程
@@ -178,18 +173,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-
-
         public string ParameterA
         {
-            get => PartsParameter.ParamA;
+            get => PartsParameter.IronPlateString;
             set
             {
-                PartsParameter.ParamA = value;
+                PartsParameter.IronPlateString = value;
+                PartsParameter.QrCodeContent = value;
                 OnPropertyChanged();
             }
         }
-        public string ParameterB
+        /*public string ParameterB
         {
             get => PartsParameter.ParamB;
             set
@@ -197,18 +191,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.ParamB = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
         public string ParameterC
         {
-            get => PartsParameter.ParamC;
+            get => PartsParameter.QrCodeContent;
             set
             {
-                PartsParameter.ParamC = value;
+                PartsParameter.QrCodeContent = value;
+                SettingBaseVM.QrCodeContent = value;
                 OnPropertyChanged(nameof(ParameterC));
             }
         }
 
-        public string IronPlateString
+        /*public string IronPlateString
         { 
             get=> PartsParameter.IronPlateString; 
             set
@@ -217,18 +212,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SettingBaseVM));
             }
-        }
+        }*/
 
-        public string QrCodeContent
+        /*public string QrCodeContent
         {
-            get => PartsParameter.QrCodeContent;
+            get => PartsParameter.ParamC;
             set
             {
-                PartsParameter.QrCodeContent = value;
+                PartsParameter.ParamC = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SettingBaseVM));
             }
-        }
+        }*/
 
         /// <summary>
         /// 側邊字串(橫著打)
@@ -239,6 +234,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 PartsParameter.QR_Special_Text = value;
+                SettingBaseVM.QR_Special_Text = value;
                 OnPropertyChanged();
             }
         }
@@ -283,16 +279,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _settingBaseVM ??= new NumberSettingViewModel(PartsParameter.StampingPlate);
                 }
-                _settingBaseVM.PlateNumber = IronPlateString;
+
+                _settingBaseVM.PlateNumber = this.ParameterA;
+                _settingBaseVM.QR_Special_Text = this.QR_Special_Text;
+                _settingBaseVM.QrCodeContent = this.ParameterC;
                 return _settingBaseVM;
             }
             set
             {
                  _settingBaseVM = value;
-                if (value != null)
-                {
-                    PartsParameter.StampingPlate = value.StampPlateSetting;
-                }
                 OnPropertyChanged();
             }
         }

@@ -58,7 +58,7 @@
     </WindowChrome.WindowChrome>
 
 
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
