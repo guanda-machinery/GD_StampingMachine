@@ -19,7 +19,6 @@ namespace GD_StampingMachine.Views
             InitializeComponent();
         }
 
-
         private void ColorZone_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Window parentWindow = Application.Current.MainWindow;// Window.GetWindow(this);

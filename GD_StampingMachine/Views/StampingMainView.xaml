@@ -840,7 +840,7 @@
                                             </DataTemplate>
                                         </dxe:ComboBoxEdit.ItemTemplate>
                                     </dxe:ComboBoxEdit>
-                                    <TabControl 
+                                        <TabControl 
               materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp5"
                     materialDesign:ColorZoneAssist.Background="{DynamicResource PrimaryHueDarkBrush}"
                     materialDesign:ColorZoneAssist.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"

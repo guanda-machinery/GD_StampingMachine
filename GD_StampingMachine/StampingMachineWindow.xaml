@@ -12,21 +12,25 @@
         mc:Ignorable="d" 
         BorderThickness="0" BorderBrush="Transparent"
 
-        Title="StampingMachineWindow" Height="700" Width="800" MinWidth="600" MinHeight="600"
+        Title="StampingMachineWindow" Height="700" Width="800" MinWidth="600" MinHeight="600" MaxWidth="50000"
         AllowsTransparency="True"
-
         WindowStyle ="None" Background="Transparent"   
-        ResizeMode="CanResize"  
+        ResizeMode="CanResizeWithGrip"   
         WindowState="{Binding WindowState}"
         WindowStartupLocation="CenterScreen"
         Opacity="{Binding Opacity}"
-        Margin="0"
+     
         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMachineWindowViewModel}"
         IsEnabled="{Binding IsEnabled}"
         Topmost="{Binding Topmost}"
-        Visibility="{Binding Visibility}"
- 
+        Visibility="{Binding Visibility}" 
+StateChanged="Window_StateChanged"
         >
+    <WindowChrome.WindowChrome>
+        <WindowChrome 
+            CaptionHeight="0" ResizeBorderThickness="10"/>
+    </WindowChrome.WindowChrome>
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
@@ -35,7 +39,6 @@
             <i:InvokeCommandAction Command="{Binding ClosedCommand}"  PassEventArgsToCommand="True"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -51,118 +54,115 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome 
-        CaptionHeight="0"
-        ResizeBorderThickness="10" />
-    </WindowChrome.WindowChrome>
 
 
-    <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid MouseDown="Grid_MouseLeftButtonDown" >
-            <Border Background="{DynamicResource PrimaryHueDarkBrush}"/>
-            <StackPanel Orientation="Horizontal">
-            <Image Source="{StaticResource Logo}" Height="20" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <TextBlock 
+    <Grid  >
+        <Grid Margin="0" x:Name="MainGrid" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid MouseDown="Grid_MouseLeftButtonDown" Name="TitleGrid">
+                <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="0,0,0,0"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Logo}" Height="20" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock 
                     Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                     Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                      AncestorType={x:Type Window}} ,Path=Title}" VerticalAlignment="Center" FontSize="16">
-                    
-                </TextBlock>
-                </StackPanel>
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  VerticalAlignment="Top" Margin="1">
 
-                <Button Command="{Binding MinimizeWindowCommand}"
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  VerticalAlignment="Top" Margin="1">
+
+                    <Button Command="{Binding MinimizeWindowCommand}"
                     Content="{materialDesign:PackIcon Kind=Minus, Size=18}"   BorderThickness="0" 
                    Height="30">
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Command="{Binding MaximizeWindowCommand}" Margin="0"  Height="30">
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            <Setter Property="Content" Value="{materialDesign:PackIcon Kind=SquareOutline, Size=14}"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Command="{Binding MaximizeWindowCommand}" Margin="0"  Height="30">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <Setter Property="Content" Value="{materialDesign:PackIcon Kind=SquareOutline, Size=14}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                             AncestorType={x:Type Window}},
                                                             Path=WindowState}"
                                              Value="{x:Static WindowState.Maximized}" >
-                                    <Setter Property="Content" Value="{materialDesign:PackIcon Kind=WindowRestore, Size=18}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                            
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}"  >
+                                        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=WindowRestore, Size=18}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
 
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding CloseWindowCommand}"  PassEventArgsToCommand="True"/>
-                    </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}"  >
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding CloseWindowCommand}"  PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
 
 
 
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Width"
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Width"
                             Value="40" />
-                            <Setter Property="Height"
+                                <Setter Property="Height"
                             Value="30" />
-                            <Setter Property="Opacity"
+                                <Setter Property="Opacity"
                             Value="0.95" />
-                            <Setter Property="BorderThickness"
+                                <Setter Property="BorderThickness"
                             Value="0" />
-                            <Setter Property="BorderBrush"
+                                <Setter Property="BorderBrush"
                             Value="Transparent" />
-                            
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource BrightHueLightBrush}"/>
-                                </Trigger>
+
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource BrightHueLightBrush}"/>
+                                    </Trigger>
 
 
-                                <EventTrigger RoutedEvent="MouseEnter">
-                                    <EventTrigger.Actions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.000" To="#e81123" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger.Actions>
-                                </EventTrigger>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
 
-                                <EventTrigger RoutedEvent="MouseLeave">
-                                    <EventTrigger.Actions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.500" To="Transparent" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger.Actions>
-                                </EventTrigger>
-                            </Style.Triggers>
-                            
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </StackPanel>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Style.Triggers>
+
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Views:StampingMainView Grid.Row="1" />
         </Grid>
-        <Views:StampingMainView Grid.Row="1" />
-        </Grid>
+    </Grid>
 
 
 </Window>
