@@ -1031,31 +1031,17 @@
 
 
                                     <TextBox Grid.Column="3" Grid.Row="1"  Width="200" Margin="0"  
-                                                 Text="{Binding AddNewPartsParameterVM.ParameterA, UpdateSourceTrigger=PropertyChanged}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                 Text="{Binding AddNewPartsParameterVM_ParameterA, UpdateSourceTrigger=PropertyChanged}">
+
                                     </TextBox>
 
                                     <TextBox Grid.Column="3" Grid.Row="2"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
-                                                 Text="{Binding  AddNewPartsParameterVM.ParameterC,UpdateSourceTrigger=PropertyChanged}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                 Text="{Binding  AddNewPartsParameterVM_ParameterC,UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
 
                                     <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
                                        Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
-                                                 Text="{Binding AddNewPartsParameterVM.QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding AddNewPartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                 Text="{Binding AddNewPartsParameterVM_QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
 
                                     <ComboBox  Name="AddNewPartsSettingBaseVMComboBox"

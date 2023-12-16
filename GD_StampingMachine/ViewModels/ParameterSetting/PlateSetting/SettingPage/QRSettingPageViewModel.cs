@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,8 +27,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
-
-
 
 
         private QRSettingViewModel _qrSetting;

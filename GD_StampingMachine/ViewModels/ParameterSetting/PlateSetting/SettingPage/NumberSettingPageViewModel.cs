@@ -40,6 +40,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
+
         private NumberSettingViewModel _numberSettingVM;
         public NumberSettingViewModel NumberSettingVM
         {

@@ -482,7 +482,7 @@
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <TextBox  Grid.Row="5"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
-                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rXAxisPos1, StringFormat=N1, UpdateSourceTrigger=PropertyChanged}"/>
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rXAxisPos1}"/>
                                     <TextBlock Text="mm" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="6" Orientation="Horizontal" Margin="0,10" >
@@ -490,7 +490,7 @@
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <TextBox  Grid.Row="6"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
-                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rYAxisPos1, StringFormat=N1, UpdateSourceTrigger=PropertyChanged}"/>
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rYAxisPos1}"/>
                                     <TextBlock Text="mm" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
                                     <StackPanel  Grid.Row="7" Orientation="Horizontal" Margin="0,10" >
@@ -498,7 +498,7 @@
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <TextBox  Grid.Row="7"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
-                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rXAxisPos2, StringFormat=N1, UpdateSourceTrigger=PropertyChanged}"/>
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rXAxisPos2}"/>
                                     <TextBlock Text="mm" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
                             
                                     <StackPanel  Grid.Row="8" Orientation="Horizontal" Margin="0,10" >
@@ -506,7 +506,7 @@
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <TextBox  Grid.Row="8"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
-                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rYAxisPos2, StringFormat=N1, UpdateSourceTrigger=PropertyChanged}"/>
+                                              Text="{Binding NumberSettingVM.StampingMarginPosVM.rYAxisPos2}"/>
                                     <TextBlock Text="mm" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
 
@@ -770,6 +770,10 @@
                                             <RowDefinition/>
                                             <RowDefinition/>
                                             <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="A"/>
@@ -835,6 +839,44 @@
                                         </StackPanel>
                                         <TextBox   Grid.Row="3" Grid.Column="4" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  Text="{Binding  QRSettingVM.IronPlateMarginVM.I_Margin}"  />
                                         <TextBlock Text="mm" Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        
+                                        
+                                        <StackPanel  Grid.Row="5" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="XAxisPos1"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="5"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding QRSettingVM.StampingMarginPosVM.rXAxisPos1}"/>
+                                        <TextBlock Text="mm" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="6" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="YAxisPos1"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="6"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding QRSettingVM.StampingMarginPosVM.rYAxisPos1}"/>
+                                        <TextBlock Text="mm" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="7" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="XAxisPos2"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="7"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding QRSettingVM.StampingMarginPosVM.rXAxisPos2}"/>
+                                        <TextBlock Text="mm" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="8" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="YAxisPos2"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="8"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding QRSettingVM.StampingMarginPosVM.rYAxisPos2}"/>
+                                        <TextBlock Text="mm" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+
+
+
 
 
 

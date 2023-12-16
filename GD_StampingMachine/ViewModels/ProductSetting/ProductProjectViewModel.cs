@@ -287,7 +287,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 _addNewPartsParameterVM ??= new PartsParameterViewModel(new GD_Model.ProductionSetting.PartsParameterModel()
                 {
-                    //ProjectID = ProductProjectName,
+
                 });
                 _addNewPartsParameterVM.SettingBaseVM.SheetStampingTypeForm = this.SheetStampingTypeForm;
                 return _addNewPartsParameterVM;
@@ -300,13 +300,59 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
+        public string AddNewPartsParameterVM_ParameterA
+        {
+            get => AddNewPartsParameterVM.ParameterA??= string.Empty;
+            set
+            {
+                AddNewPartsParameterVM.ParameterA = value;
+                OnPropertyChanged();
+                AddNewPartsParameterContainChange();
+            }
+        }
+        public string AddNewPartsParameterVM_ParameterC
+        {
+            get => AddNewPartsParameterVM.ParameterC ??= string.Empty;
+            set
+            {
+                AddNewPartsParameterVM.ParameterC = value;
+                OnPropertyChanged();
+                AddNewPartsParameterContainChange();
+            }
+        }
+        public string AddNewPartsParameterVM_QR_Special_Text
+        {
+            get => AddNewPartsParameterVM.QR_Special_Text ??= string.Empty;
+            set
+            {
+                AddNewPartsParameterVM.QR_Special_Text = value;
+                OnPropertyChanged();
+                AddNewPartsParameterContainChange();
+            }
+        }
+
+        private void AddNewPartsParameterContainChange()
+        {
+            AddNumberSettingSavedCollection.ForEach(obj =>
+            {
+                if (string.IsNullOrEmpty(AddNewPartsParameterVM.ParameterA))
+                    obj.PlateNumber = string.Empty;
+                else
+                    obj.PlateNumber = AddNewPartsParameterVM.ParameterA;
+
+                if (string.IsNullOrEmpty(AddNewPartsParameterVM.QR_Special_Text))
+                    obj.QR_Special_Text = string.Empty;
+                else
+                    obj.QR_Special_Text = AddNewPartsParameterVM.QR_Special_Text;
+            });
+        }
 
 
 
 
 
 
-        private ObservableCollection<SettingBaseViewModel> _numberSettingSavedCollection;
+    private ObservableCollection<SettingBaseViewModel> _numberSettingSavedCollection;
         /// <summary>
         /// 建立零件POPUP-加工型態combobox
         /// </summary>
@@ -324,8 +370,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-
+        /*
         [JsonIgnore]
+
         public ICommand AddNewPartsParameterVM_ClonedParameterCommand
         {
             get => new RelayCommand(() =>
@@ -347,7 +394,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             });
         }
-
+        */
 
 
         private ObservableCollection<SettingBaseViewModel> _addNumberSettingSavedCollection;
@@ -394,11 +441,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get =>_refreshSavedCollectionCommand ??= new RelayCommand(() =>
             {
                 RefreshNumberSettingSavedCollection();
+                AddNewPartsParameterContainChange();
             });
-            set
-            {
-                _refreshSavedCollectionCommand = value;
-            }
         }
 
         public void RefreshNumberSettingSavedCollection()
@@ -411,6 +455,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             AddNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson()
                 .Where(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
                 .ToObservableCollection();
+
+
 
 
             var editNumberSettingCollection = NumberSettingSavedCollection.DeepCloneByJson();

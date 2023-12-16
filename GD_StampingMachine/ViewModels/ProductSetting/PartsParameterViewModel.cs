@@ -179,7 +179,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 PartsParameter.IronPlateString = value;
-                PartsParameter.QrCodeContent = value;
+                SettingBaseVM.PlateNumber = value;
                 OnPropertyChanged();
             }
         }

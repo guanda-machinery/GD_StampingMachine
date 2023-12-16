@@ -10,7 +10,7 @@
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                                       d:DataContext="{d:DesignInstance Type= GD_ParameterSettingViewModels:SettingBaseViewModel}"
-                                      x:Name="MainDiagramBaseUserControl"    >
+                                      x:Name="MainDiagramBaseUserControl"  Cursor="Arrow"   >
     <Grid  HorizontalAlignment="Left">
         <Grid.Resources>
             <Style TargetType="TextBlock">
@@ -140,17 +140,47 @@
         </Grid>
 
         <Grid  ToolTip="{Binding QrCodeContent}" Visibility="{Binding QRCodeVisibility, Mode=OneWay}" Canvas.Right="5" Canvas.Top="8.5"
-             HorizontalAlignment="Right" >
-            <Border Background="White"  
+             HorizontalAlignment="Right">
+                <Border Background="White"  
                           Margin="0" Padding="0">
-                <materialDesign:PackIcon Foreground="#55534d" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Transparent"
+                    <materialDesign:PackIcon Foreground="#55534d" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Transparent"
                         Kind="Qrcode"  Margin="-2"
                                          Width="22"   Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"  />
-            </Border>
+                </Border>
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard >
+                                <Storyboard >
+                                    <!--離開-->
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="QrCodeContentGrid"
+                                                        Duration="0:0:0.500" To="1.0" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <!--離開-->
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="QrCodeContentGrid"
+                                                        Duration="0:0:0.500" To="0.0" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Grid.Triggers>
 
+            </Grid>
+            <Grid Name="QrCodeContentGrid" 
+                Canvas.Left="67" Canvas.Bottom="3" Opacity="0.0">
+                <TextBlock  HorizontalAlignment="Left"
+                    Text="{Binding QrCodeContent, TargetNullValue=00000000}" FontSize="4" />
             </Grid>
         </Canvas>
     </Grid>
+
 
 
 </local:PlateRowDiagramBaseUserControl>
