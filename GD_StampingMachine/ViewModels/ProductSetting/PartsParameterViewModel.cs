@@ -290,7 +290,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                  _settingBaseVM = value;
-                PartsParameter.StampingPlate = value.StampPlateSetting;
+                if(value!=null)
+                    PartsParameter.StampingPlate = value.StampPlateSetting;
                 OnPropertyChanged();
             }
         }

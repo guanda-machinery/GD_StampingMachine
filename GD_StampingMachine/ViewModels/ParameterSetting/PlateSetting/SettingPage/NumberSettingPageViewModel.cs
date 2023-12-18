@@ -115,7 +115,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                          {
-                             NumberSettingModelCollection[FIndex] = new NumberSettingViewModel( NumberSettingVM.StampPlateSetting.DeepCloneByJson());
+                             //NumberSettingModelCollection[FIndex] = new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson());
+                             NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
                          });
                     }
                     else
@@ -127,7 +128,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        NumberSettingModelCollection.Add(new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson()));
+                        // NumberSettingModelCollection.Add(new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson()));
+                        NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
                     });
                 }
 

@@ -1288,6 +1288,19 @@ namespace GD_StampingMachine.Singletons
                                                             rYAxisPos2 = plateData.rYAxisPos2 - MachineConst.StampingMachineYPosition,
                                                         };
 
+                                                         foreach(var num1 in settingBaseVM.PlateNumberList1)
+                                                        {
+                                                            if(string.IsNullOrWhiteSpace(num1.FontString))
+                                                                num1.IsUsed = false;
+                                                        }
+
+                                                        foreach (var num2 in settingBaseVM.PlateNumberList2)
+                                                        {
+                                                            if (string.IsNullOrWhiteSpace(num2.FontString))
+                                                                num2.IsUsed = false;
+                                                        }
+
+
                                                         PlateMonitorViewModel PlateMonitorVM = new PlateMonitorViewModel()
                                                         {
                                                             SettingBaseVM = settingBaseVM,
@@ -3092,7 +3105,7 @@ namespace GD_StampingMachine.Singletons
                             {
                                 SettingBaseVM=new  NumberSettingViewModel()
                                 {
-                                    PlateNumber = "Test123456789",
+                                    PlateNumber = "Test1 23456789",
                                    
                                 },
                                 DataMatrixIsFinish = true ,
@@ -3139,6 +3152,23 @@ namespace GD_StampingMachine.Singletons
                                 SettingBaseVM = new QRSettingViewModel()
                             });
                         }
+
+                        foreach(var _machineSetting in _machineSettingBaseCollection)
+                        {
+                            foreach (var num1 in _machineSetting.SettingBaseVM.PlateNumberList1)
+                            {
+                                if (string.IsNullOrWhiteSpace(num1.FontString))
+                                    num1.IsUsed = false;
+                            }
+
+                            foreach (var num2 in _machineSetting.SettingBaseVM.PlateNumberList2)
+                            {
+                                if (string.IsNullOrWhiteSpace(num2.FontString))
+                                    num2.IsUsed = false;
+                            }
+                        }
+
+
 
                     }
                 }

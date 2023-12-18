@@ -56,6 +56,7 @@ namespace GD_CommonLibrary.ValidationRules
                 if(((string)value).EndsWith("."))
                     return new ValidationResult(false, $"結尾不可為小數點");
 
+       
 
                 if (double.TryParse((string)value, out var DoubleValue))
                 {
