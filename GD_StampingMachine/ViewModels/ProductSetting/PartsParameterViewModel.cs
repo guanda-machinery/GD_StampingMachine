@@ -45,10 +45,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public PartsParameterViewModel()
         {
             PartsParameter = new();
+            SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate;
         }
        public PartsParameterViewModel(PartsParameterModel PParameter)
        {
             PartsParameter = PParameter;
+          SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate ;
         }
 
 
@@ -288,6 +290,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                  _settingBaseVM = value;
+                PartsParameter.StampingPlate = value.StampPlateSetting;
                 OnPropertyChanged();
             }
         }

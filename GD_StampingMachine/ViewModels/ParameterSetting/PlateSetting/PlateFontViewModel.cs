@@ -24,7 +24,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             PlateFont = plateFont;
         }
 
-
+        [JsonIgnore]
         public readonly PlateFontModel PlateFont = new PlateFontModel();
 
         public override string ViewModelName => nameof(PlateFontViewModel);

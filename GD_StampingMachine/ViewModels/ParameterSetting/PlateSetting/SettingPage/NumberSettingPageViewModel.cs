@@ -64,8 +64,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _numberSettingVMModelCollectionSelected = value;
-                if (_numberSettingVMModelCollectionSelected != null)
-                    NumberSettingVM = _numberSettingVMModelCollectionSelected.DeepCloneByJson();
+                if (value != null)
+                {
+                    NumberSettingVM = new NumberSettingViewModel(value.StampPlateSetting.DeepCloneByJson());
+                    //NumberSettingVM = _numberSettingVMModelCollectionSelected.DeepCloneByJson();
+                }
                 OnPropertyChanged();
             }
         }
@@ -112,7 +115,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                          {
-                             NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
+                             NumberSettingModelCollection[FIndex] = new NumberSettingViewModel( NumberSettingVM.StampPlateSetting.DeepCloneByJson());
                          });
                     }
                     else
@@ -124,10 +127,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
+                        NumberSettingModelCollection.Add(new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson()));
                     });
                 }
-               await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection, true);
+
+               await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection.Select(x => x.StampPlateSetting), true);
             });
         }
 
@@ -139,7 +143,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (NumberSettingModelCollectionSelected != null)
                 {
                     NumberSettingModelCollection.Remove(NumberSettingModelCollectionSelected);
-                   await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection);
+                   await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection.Select(x => x.StampPlateSetting));
                 }
             });
         }

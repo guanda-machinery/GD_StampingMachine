@@ -2,6 +2,7 @@
 using GD_StampingMachine.GD_Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace GD_StampingMachine.Model
                 rYAxisPos1 = 14,
                 rYAxisPos2 = 14,
             };
+            IronPlateMargin  = new IronPlateMarginStruct();
+
         }
 
     /// <summary>
@@ -48,7 +51,8 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 可加工的位址
         /// </summary>
-        public (List<PlateFontModel>,List<PlateFontModel>) StampableList { get; set; } = (new List<PlateFontModel>(), new List<PlateFontModel>());
+        public List<PlateFontModel> StampableList1 { get; set; } = new List<PlateFontModel>();
+        public List<PlateFontModel> StampableList2 { get; set; } = new List<PlateFontModel>();
         //public List<PlateFontModel>, L>)  { get; set; } = (new List<PlateFontModel>(), new List<PlateFontModel>());
         /// <summary>
         /// 可加工的位址

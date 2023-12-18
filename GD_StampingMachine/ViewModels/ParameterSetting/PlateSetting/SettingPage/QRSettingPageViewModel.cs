@@ -157,7 +157,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         });
                     }
 
-                 await   this.JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
+                 await   this.JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection.Select(x=>x.StampPlateSetting), true);
             });
         }
 
@@ -170,7 +170,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (QRSettingModelCollectionSelected != null)
                 {
                     QRSettingModelCollection.Remove(QRSettingModelCollectionSelected);
-                    await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection);
+                    await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection.Select(x=>x.StampPlateSetting));
                 }
             });
         }

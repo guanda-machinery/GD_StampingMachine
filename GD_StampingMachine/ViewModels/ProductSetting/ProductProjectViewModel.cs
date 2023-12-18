@@ -118,6 +118,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
         private ProductProjectModel _productProject;
+        [JsonIgnore]
         public ProductProjectModel ProductProject => _productProject ??= new();
 
 
@@ -448,25 +449,22 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public void RefreshNumberSettingSavedCollection()
         {
             var newSavedCollection = new DXObservableCollection<SettingBaseViewModel>();
-            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection);
-            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection);
+            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection.Select(x => new NumberSettingViewModel(x.StampPlateSetting.DeepCloneByJson())));
+            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection.Select(x => new QRSettingViewModel(x.StampPlateSetting.DeepCloneByJson())));
             NumberSettingSavedCollection = newSavedCollection;
 
-            AddNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson()
+             AddNumberSettingSavedCollection = NumberSettingSavedCollection
                 .Where(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
                 .ToObservableCollection();
 
-
-
-
-            var editNumberSettingCollection = NumberSettingSavedCollection.DeepCloneByJson();
             if (EditPartsParameterVM_Cloned != null)
             {
-                editNumberSettingCollection = editNumberSettingCollection
+                EditNumberSettingSavedCollection = NumberSettingSavedCollection
                     .Where(x => x.SheetStampingTypeForm == EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm)
                         .ToObservableCollection();
             }
-            EditNumberSettingSavedCollection = editNumberSettingCollection;
+            else
+                EditNumberSettingSavedCollection = NumberSettingSavedCollection;
 
 
         }
@@ -579,7 +577,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex] .DeepCloneByJson();
+                    EditPartsParameterVM_Cloned = new PartsParameterViewModel(PartsParameterVMObservableCollection[Findex].PartsParameter.DeepCloneByJson());
+                   // EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex] .DeepCloneByJson();
                 }
             });
         }
@@ -591,7 +590,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    PartsParameterVMObservableCollection[Findex] = EditPartsParameterVM_Cloned.DeepCloneByJson();
+                    PartsParameterVMObservableCollection[Findex] = new PartsParameterViewModel( EditPartsParameterVM_Cloned.PartsParameter.DeepCloneByJson());
                 }
             });
         }
@@ -962,7 +961,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get =>_createPartCommand ??= new AsyncRelayCommand(async () =>
             {
-                PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
+                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel( AddNewPartsParameterVM.PartsParameter.DeepCloneByJson()));
                 //儲存 ProductProject
                 ProductProjectEditTime = DateTime.Now;
                await SaveProductProjectAsync();

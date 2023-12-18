@@ -286,7 +286,7 @@
             <TabControl>
                 <TabItem Header="123" IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
                     <StackPanel HorizontalAlignment="Left">
-                        <Grid  Margin="20" Visibility="Collapsed">
+                        <Grid  Margin="20" >
                             <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
                             <StackPanel>
                                 <StackPanel.LayoutTransform>

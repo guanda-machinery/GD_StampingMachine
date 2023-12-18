@@ -1,10 +1,12 @@
 ﻿
+using CommunityToolkit.Mvvm.Input;
 using DevExpress.CodeParser;
 using DevExpress.Mvvm.Native;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
+using GongSolutions.Wpf.DragDrop.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -34,10 +37,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             StampPlateSetting = stampPlateSetting;
         }
 
-         
-
-
-        internal StampPlateSettingModel StampPlateSetting;
+        [JsonIgnore]
+        public StampPlateSettingModel StampPlateSetting ;
 
         public SheetStampingTypeFormEnum SheetStampingTypeForm
         {
@@ -76,7 +77,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 StampPlateSetting.SequenceCount = Math.Min(value, SequenceCountMax);
                 OnPropertyChanged();
-                (PlateNumberList1, PlateNumberList2) = ChangePlateNumberList(PlateNumber);
+                ChangePlateNumberList(PlateNumber);
                 ChangeHorizontalStampingMarginPosVM();
             }
         }
@@ -91,7 +92,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 StampPlateSetting.SpecialSequence = value;
                 OnPropertyChanged();
-                (PlateNumberList1,PlateNumberList2) = ChangePlateNumberList(PlateNumber);
+                ChangePlateNumberList(PlateNumber);
                 ChangeVerticalStampingMarginPosVM();
             }
         }
@@ -213,7 +214,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 StampPlateSetting.PlateNumber = value;
-                (PlateNumberList1, PlateNumberList2) = ChangePlateNumberList(PlateNumber);
+                ChangePlateNumberList(PlateNumber);
                 OnPropertyChanged();
             }
         }
@@ -251,11 +252,20 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        protected (ObservableCollection<PlateFontViewModel>, ObservableCollection<PlateFontViewModel>) ChangePlateNumberList(string pNumber )
+        private ICommand _changePlateNumberListCommand;
+        public ICommand ChangePlateNumberListCommand
         {
-            ObservableCollection<PlateFontViewModel> pNumberList1 = new();
-            ObservableCollection<PlateFontViewModel> pNumberList2 = new();
+            get => _changePlateNumberListCommand ??= new AsyncRelayCommand(async () =>
+            {
+                await Task.CompletedTask;
+                ChangePlateNumberList(PlateNumber);
+            });
+        }
 
+        private void ChangePlateNumberList(string pNumber)
+        {
+            List<PlateFontModel> pNumberList1 = new();
+            List<PlateFontModel> pNumberList2 = new();
             //先讀舊檔
             /*foreach (var setting in StampPlateSetting.StampableList.Item1)
              {
@@ -276,18 +286,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             /* for (int i = pNumberList1.Count; i < SequenceCount; i++)
                  pNumberList1.Add(new PlateFontViewModel() { FontIndex = (ushort)i, IsUsed = true }); ;*/
 
-             for (int i = 0; i < SequenceCount; i++)
+            for (int i = 0; i < SequenceCount; i++)
             {
-                PlateFontViewModel plateFontVM;
-                if (i < StampPlateSetting.StampableList.Item1.Count)
-                    plateFontVM = new PlateFontViewModel(StampPlateSetting.StampableList.Item1[i]);
+                PlateFontModel plateFont;
+                if (i < StampPlateSetting.StampableList1.Count)
+                    plateFont = StampPlateSetting.StampableList1[i];
                 else
-                    plateFontVM = new PlateFontViewModel(new PlateFontModel()
+                    plateFont = new PlateFontModel()
                     {
                         FontIndex = (ushort)i,
                         IsUsed = true
-                    });
-                pNumberList1.Add(plateFontVM);
+                    };
+                pNumberList1.Add(plateFont);
             }
 
             //pNumberList1 = pNumberList1.Take(SequenceCount).ToObservableCollection();
@@ -296,28 +306,28 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             switch (SpecialSequence)
             {
                 case (SpecialSequenceEnum.OneRow):
-                    pNumberList2 = new ObservableCollection<PlateFontViewModel>();
+                    pNumberList2 = new List<PlateFontModel>();
                     break;
                 case (SpecialSequenceEnum.TwoRow):
                     for (int i = 0; i < SequenceCount; i++)
                     {
-                        PlateFontViewModel plateFontVM;
-                        if (i < StampPlateSetting.StampableList.Item2.Count)
-                            plateFontVM = new PlateFontViewModel(StampPlateSetting.StampableList.Item2[i]);
+                        PlateFontModel plateFont;
+                        if (i < StampPlateSetting.StampableList2.Count)
+                            plateFont = StampPlateSetting.StampableList2[i];
                         else
-                            plateFontVM = new PlateFontViewModel(new PlateFontModel()
+                            plateFont =  new PlateFontModel()
                             {
                                 FontIndex = (ushort)i,
                                 IsUsed = true
-                            });
-                        pNumberList2.Add(plateFontVM);
+                            };
+                        pNumberList2.Add(plateFont);
                     }
 
 
 
 
                     break;
-                    default: 
+                default:
                     throw new ArgumentException();
             }
 
@@ -331,7 +341,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (SpecialSequence == SpecialSequenceEnum.TwoRow && pNumber.Contains("-") && DashAutoWrapping)
                 {
                     var firstPlateNumber = pNumberList1.ToList().GetRange(0, SequenceCount).FindAll(x => x.IsUsed);
-                   // var secondPlateNumber = pNumberList.ToList().GetRange(0, SequenceCount).FindAll(x => x.IsUsed);
+                    // var secondPlateNumber = pNumberList.ToList().GetRange(0, SequenceCount).FindAll(x => x.IsUsed);
 
                     //找第一排是否有-
                     if (pNumber.Length > firstPlateNumber.Count)
@@ -416,7 +426,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     p.FontString = j.ToString();
                     p.IsUsedEditedable = true;
                     j++;
-                }); 
+                });
 
                 pNumberList2.ForEach(p =>
                 {
@@ -426,50 +436,52 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 });
             }
 
-            StampPlateSetting.StampableList = (new List<PlateFontModel>(), new List<PlateFontModel>());
-            pNumberList1.ForEach(p =>
-            {
-                StampPlateSetting.StampableList.Item1.Add(p.PlateFont);
-            }); 
 
-            pNumberList2.ForEach(p =>
-            {
-                StampPlateSetting.StampableList.Item2.Add(p.PlateFont);
-            });
+            StampPlateSetting.StampableList1 = pNumberList1;
+            StampPlateSetting.StampableList2 = pNumberList2;
 
-
-            return (pNumberList1 ,pNumberList2);
+            PlateNumberList1 = pNumberList1.Select(p => new PlateFontViewModel(p)).ToObservableCollection();
+            PlateNumberList2 = pNumberList2.Select(p => new PlateFontViewModel(p)).ToObservableCollection();
         }
 
         private ObservableCollection<PlateFontViewModel> _plateNumberList1;
         private ObservableCollection<PlateFontViewModel> _plateNumberList2;
+
         [JsonIgnore]
         public ObservableCollection<PlateFontViewModel> PlateNumberList1
         {
             get
             {
                 if (_plateNumberList1 == null)
-                    (_plateNumberList1, _plateNumberList2) = ChangePlateNumberList(PlateNumber);
+                {
+                    _plateNumberList1 = StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
+                }
                 return _plateNumberList1;
             }
             set
             {
                 _plateNumberList1 = value;
+                StampPlateSetting.StampableList1 = value.Select(p => p.PlateFont).ToList();
                 OnPropertyChanged();
             }
         }
+
         [JsonIgnore]
         public ObservableCollection<PlateFontViewModel> PlateNumberList2
         {
             get
             {
                 if (_plateNumberList2 == null)
-                    (_plateNumberList1,_plateNumberList2) = ChangePlateNumberList(PlateNumber);
+                {
+                    _plateNumberList2 = StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
+                }
+                   
                 return _plateNumberList2;
             }
             set
             {
                 _plateNumberList2 = value;
+                StampPlateSetting.StampableList2 = value.Select(p => p.PlateFont).ToList();
                 OnPropertyChanged();
             }
         }
@@ -482,7 +494,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     public class IronPlateMarginViewModel : BaseViewModel
     {
         public override string ViewModelName => nameof(IronPlateMarginViewModel);
-
+        public IronPlateMarginViewModel()
+        {
+            _ironPlateMargin = new(); ;
+        }
         public IronPlateMarginViewModel(IronPlateMarginStruct ironPlateMargin)
         {
             _ironPlateMargin = ironPlateMargin;

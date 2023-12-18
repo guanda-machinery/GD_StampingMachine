@@ -24,7 +24,8 @@ namespace GD_CommonLibrary.Extensions
                 var jsonSerializerSettings = new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                    TypeNameHandling = TypeNameHandling.Auto
+                    TypeNameHandling = TypeNameHandling.Auto,
+                    ObjectCreationHandling = ObjectCreationHandling.Replace
                 };
 
                 var serializedObj = JsonConvert.SerializeObject(source, Formatting.Indented, jsonSerializerSettings);

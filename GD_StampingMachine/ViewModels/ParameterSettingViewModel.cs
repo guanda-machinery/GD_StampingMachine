@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DevExpress.Mvvm.Native;
 using GD_StampingMachine.Method;
+using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 
 namespace GD_StampingMachine.ViewModels
@@ -79,11 +81,15 @@ namespace GD_StampingMachine.ViewModels
         {
             _parameterSetting = ParameterSetting;
             NumberSettingPageVM = new NumberSettingPageViewModel();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out ObservableCollection<NumberSettingViewModel> nSavedCollection))
-                NumberSettingPageVM.NumberSettingModelCollection = nSavedCollection;
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out List<StampPlateSettingModel> nSavedCollection))
+            {
+                NumberSettingPageVM.NumberSettingModelCollection = nSavedCollection.Select(x => new NumberSettingViewModel(x)).ToObservableCollection();
+            }
             QRSettingPageVM = new QRSettingPageViewModel();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out ObservableCollection<QRSettingViewModel> qrSavedCollection, false))
-                QRSettingPageVM.QRSettingModelCollection = qrSavedCollection;
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out List<StampPlateSettingModel> qrSavedCollection, false))
+            {
+                QRSettingPageVM.QRSettingModelCollection = nSavedCollection.Select(x => new QRSettingViewModel(x)).ToObservableCollection();
+            }
             AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
             TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);
             SeparateSettingVM = new SeparateSettingViewModel(_parameterSetting.SeparateSetting);

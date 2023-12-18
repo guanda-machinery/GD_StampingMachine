@@ -816,7 +816,6 @@
                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="5" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="6" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="7" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
 
@@ -827,7 +826,6 @@
 
 
                                     <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_Parameter_A}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{DynamicResource Text_Parameter_B}"/>
                                     <TextBlock Grid.Column="1" Grid.Row="6" Text="{DynamicResource Text_Parameter_C}"/>
                                     <TextBlock Grid.Column="1" Grid.Row="7" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
 
@@ -835,7 +833,6 @@
                                     <TextBlock Grid.Column="2" Grid.Row="2" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="3" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="5" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="6" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="7" Text="：" VerticalAlignment="Center"/>
 
@@ -909,12 +906,22 @@
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
                                                                     <StackPanel Grid.Row="1" Orientation="Horizontal" >
-                                                                        <Grid 
+                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                                        DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
+                                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                                                </TransformGroup>
+                                                                            </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl>
+
+                                                                        <Grid Visibility="Collapsed"
                                                             RenderTransformOrigin="0.0,0.0" >
                                                                             <Grid.LayoutTransform>
                                                                                 <ScaleTransform ScaleX="0.18" ScaleY="0.18" />
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel>
+                                                                                
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
                                                                                                                                  Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                                                                 RedMeasurementLineVisibility="Collapsed" />

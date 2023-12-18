@@ -245,7 +245,7 @@ namespace GD_StampingMachine.ViewModels
                     manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 });
                 */
-                CancellationTokenSource cts = new();
+                //CancellationTokenSource cts = new();
 
                 try
                 {
@@ -293,7 +293,9 @@ namespace GD_StampingMachine.ViewModels
                                             ConnectManager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                         });
                                         //等待連線
-                                        await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
+
+                                        if(!Debugger.IsAttached)
+                                            await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
 
                                     }
                                     catch
@@ -516,7 +518,7 @@ namespace GD_StampingMachine.ViewModels
                     StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
 
 
-                    cts.Cancel();
+                    //cts.Cancel();
                     //取消第一格的訂閱
                     await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_MachiningProcessEnd"));
 
