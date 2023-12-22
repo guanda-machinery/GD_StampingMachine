@@ -1146,17 +1146,8 @@
 
                         <GroupBox Grid.Row="1" Header="{DynamicResource Text_TimingSetting}">
                             <StackPanel>
-                                <ListBox >
-
-                                </ListBox>
-
-
-                                <ToggleButton Name="TestToggleButton" Content="編輯"/>
-                                <ToggleButton Name="FinishToggleButton" Content="完成" IsChecked="{Binding ElementName=TestToggleButton,Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"/>
-                                
-                                <Grid>
-                                    <Grid.Resources>
-                                        <Style TargetType="{x:Type Expander}">
+                                <StackPanel.Resources>
+                                    <Style TargetType="{x:Type Expander}">
                                             <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.Background}" />
                                             <Setter Property="BorderThickness" Value="0" />
                                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}" />
@@ -1291,130 +1282,38 @@
                                             </Setter>
                                             <Setter Property="VerticalContentAlignment" Value="Top" />
                                         </Style>
-                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}">
+                                    <Style x:Key="TimingButton"
+                                            TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}">
                                             <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                             <Setter Property="VerticalAlignment" Value="Stretch"/>
                                             <Setter Property="Height" Value="auto"/>
                                         </Style>
-                                        <Style TargetType="{x:Type CheckBox}">
-                                            <Setter Property="Foreground" Value="{StaticResource solidclr_CreamyGray}" />
-                                            <Setter Property="Background" Value="Transparent" />
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type CheckBox}">
-                                                        <ControlTemplate.Resources>
-                                                            <Storyboard x:Key="OnChecking">
-                                                                <DoubleAnimationUsingKeyFrames
-                                BeginTime="00:00:00"
-                                Storyboard.TargetName="slider"
-                                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                                                    <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="29" />
-                                                                </DoubleAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                            <Storyboard x:Key="OnUnchecking">
-                                                                <DoubleAnimationUsingKeyFrames
-                                BeginTime="00:00:00"
-                                Storyboard.TargetName="slider"
-                                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                                                    <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="0" />
-                                                                </DoubleAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </ControlTemplate.Resources>
-                                                        <Viewbox x:Name="dockPanel">
-                                                            <Grid>
-                                                                <Border
-                                x:Name="BackgroundBorder"
-                                Width="65"
-                                Height="34"
-                                BorderBrush="#FF939393"
-                                BorderThickness="1"
-                                CornerRadius="16">
-                                                                    <Border.Background>
-                                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                            <GradientStop Offset="0" Color="#FFBCBCBC" />
-                                                                            <GradientStop Offset="0.33" Color="#FFC3C3C3" />
-                                                                            <GradientStop Offset="0.67" Color="#FFDADADA" />
-                                                                            <GradientStop Offset="1" Color="#FFECECEC" />
-                                                                        </LinearGradientBrush>
-                                                                    </Border.Background>
-                                                                    <Grid>
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="2*" />
-                                                                            <ColumnDefinition Width="1*" />
-                                                                            <ColumnDefinition Width="2*" />
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <Line
-                                        x:Name="On"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Stroke="White"
-                                        StrokeThickness="1.5"
-                                        X1="0"
-                                        X2="0"
-                                        Y1="0"
-                                        Y2="16" />
-                                                                        <Ellipse
-                                        x:Name="Off"
-                                        Grid.Column="2"
-                                        Width="16"
-                                        Height="16"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Stroke="White"
-                                        StrokeThickness="1.5" />
-                                                                    </Grid>
-                                                                </Border>
-                                                                <Border
-                                x:Name="slider"
-                                Width="30"
-                                Height="30"
-                                Margin="3,0,0,0"
-                                HorizontalAlignment="Left"
-                                BorderBrush="#FF939393"
-                                BorderThickness="1"
-                                CornerRadius="15"
-                                RenderTransformOrigin="0.5,0.5">
-                                                                    <Border.RenderTransform>
-                                                                        <TransformGroup>
-                                                                            <ScaleTransform ScaleX="1" ScaleY="1" />
-                                                                            <SkewTransform AngleX="0" AngleY="0" />
-                                                                            <RotateTransform Angle="0" />
-                                                                            <TranslateTransform X="0" Y="0" />
-                                                                        </TransformGroup>
-                                                                    </Border.RenderTransform>
-                                                                    <Border.Background>
-                                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                            <GradientStop Offset="0" Color="#FFF4F4F4" />
-                                                                            <GradientStop Offset="0.1" Color="#FFF9F9F9" />
-                                                                            <GradientStop Offset="1" Color="#FFFFFFFF" />
-                                                                        </LinearGradientBrush>
-                                                                    </Border.Background>
-                                                                </Border>
-                                                            </Grid>
-                                                        </Viewbox>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                                <Trigger.ExitActions>
-                                                                    <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
-                                                                </Trigger.ExitActions>
-                                                                <Trigger.EnterActions>
-                                                                    <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
-                                                                </Trigger.EnterActions>
-                                                                <Setter TargetName="Off" Property="Stroke" Value="White" />
-                                                                <!--  Change Orange or Blue color here  -->
-                                                                <Setter TargetName="BackgroundBorder" Property="Background" Value="Lime" />
-                                                                <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="Lime" />
-                                                            </Trigger>
-                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                <!--  ToDo: Add Style for Isenabled == False  -->
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </Grid.Resources>
+                                    <Style TargetType="{x:Type Button}"
+                                        BasedOn="{StaticResource TimingButton}">                                        
+                                    </Style>
+                                        
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="FontSize" Value="20"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                
+                                <ListBox >
+
+                                </ListBox>
+
+
+                                <ToggleButton Name="TestToggleButton" 
+                                              Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, 
+                                    Converter={dx:BooleanToVisibilityConverter Invert=True}}"
+                                              Content="編輯"/>
+                                <ToggleButton Name="FinishToggleButton" 
+                                              Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, 
+                                    Converter={dx:BooleanToVisibilityConverter  Invert=True}}"
+                                              Content="完成" IsChecked="{Binding ElementName=TestToggleButton,Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"/>
+                                
+                                <Grid>
+
 
                                     
                                     
@@ -1436,7 +1335,16 @@
                                     </Expander>
 
                                     <Button Grid.Column="1"  HorizontalContentAlignment="Left">
-
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TimingButton}">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=SwitchCheckBox ,Path=IsChecked}" Value="false">
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
                                         <StackPanel >
                                             <TextBlock Text="7:23" FontSize="50"/>
                                             <TextBlock Text="每個平日"/>
@@ -1444,13 +1352,20 @@
                                     </Button>
 
 
+                                    <Expander Grid.Column="2" 
+                                        IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked, Converter={GD_Common:InvertBooleanConverter}}"
+                                        Background="Transparent" ExpandDirection="Right" >
+                                        <CheckBox  Name="SwitchCheckBox" IsThreeState="False"
+                                            Style="{StaticResource GreenSwitch}" />
 
-                                    <CheckBox Grid.Column="2" />
+                                    </Expander>
+                                    
+                                    
 
                                     <Expander Grid.Column="3" ExpandDirection="Left"
                                         IsExpanded="{Binding ElementName=PrepareDeleteButton, Path=IsChecked}">
                          
-                                            <Button Background="Red" 
+                                            <Button Background="Red"  
                                                     Content="刪除"  Foreground="White" FontSize="16"
                                                     Padding="10,0"/>
 
@@ -1460,12 +1375,50 @@
 
                                 </Grid>
 
+                                <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Center">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
 
-                                <GD_Common:CircularRangeSlider Name="CRangeSlider" Width="200" Height="200"
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" HorizontalAlignment="Right" Margin="5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                                <materialDesign:PackIcon Kind="TimerStart" Foreground="Aqua" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                            </StackPanel>
+                                            <TextBlock Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
+                                                Text="{Binding ElementName=CRangeSlider, Path=Start, Converter={GD_Common:HourToDateTimeConverter}}" />
+                                        </Grid>
+                                        <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                            </StackPanel>
+                                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
+                                                Text="{Binding ElementName=CRangeSlider, Path=End, Converter={GD_Common:HourToDateTimeConverter}}" />
+                                        </Grid>
+
+                                        <GD_Common:CircularRangeSlider 
+                                            Grid.ColumnSpan="2"
+                                            Grid.Row="1"
+                                            Name="CRangeSlider" Width="200" Height="200"
                                                                        Minimum="0"
                                                                        Maximum="24"
                                                                        Radius="130"
-                                                                       Tick="0.5"
                                                                        LargeCalibration="24"
                                                                        SmallCalibration="96"
                                             >
@@ -1642,16 +1595,16 @@
                                                                                     <Canvas>
                                                                                         <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
                                                                                             <Border Background="DimGray" CornerRadius="15" >
-                                                                                                <Border.LayoutTransform>
-                                                                                                    <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleStart}"/>
-                                                                                                </Border.LayoutTransform>
-
-                                                                                                <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                                <Grid>
+                                                                                                            <Grid.LayoutTransform>
+                                                                                                                <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleStart}"/>
+                                                                                                            </Grid.LayoutTransform>
+                                                                                                            <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                                                         Kind="TimerStart" Width="25" Height="25" Foreground="LightGray">
 
-
-                                                                                                </materialDesign:PackIcon>
-                                                                                                <Border.Triggers>
+                                                                                                            </materialDesign:PackIcon>
+                                                                                                        </Grid>
+                                                                                                        <Border.Triggers>
                                                                                                     <EventTrigger RoutedEvent="MouseDown">
                                                                                                         <EventTrigger.Actions>
                                                                                                             <BeginStoryboard>
@@ -1706,15 +1659,16 @@
                                                                                 <ContentControl.Content>
                                                                                     <Canvas>
                                                                                         <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
-                                                                                            <Border Background="DimGray" CornerRadius="15" >
-                                                                                                <Border.LayoutTransform>
-                                                                                                    <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
-                                                                                                </Border.LayoutTransform>
-                                                                                                <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                            <Border Background="Black" CornerRadius="15" >
+                                                                                                <Grid>
+                                                                                                    <Grid.LayoutTransform>
+                                                                                                        <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
+                                                                                                </Grid.LayoutTransform>
+                                                                                                            <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                                                         Kind="TimerStop" Width="25" Height="25" Foreground="LightGray">
-
-                                                                                                </materialDesign:PackIcon>
-                                                                                                <Border.Triggers>
+                                                                                                            </materialDesign:PackIcon>
+                                                                                                        </Grid>
+                                                                                                        <Border.Triggers>
                                                                                                     <EventTrigger RoutedEvent="MouseDown">
                                                                                                         <EventTrigger.Actions>
                                                                                                             <BeginStoryboard>
@@ -1782,8 +1736,15 @@
                                             </Setter>
                                         </Style>
                                     </GD_Common:CircularRangeSlider.Style>
-                                </GD_Common:CircularRangeSlider>
-
+                                        </GD_Common:CircularRangeSlider>
+                                        <TextBlock Grid.Row="2" Grid.ColumnSpan="2"
+                                                   Text="123" HorizontalAlignment="Center">
+                                            
+                                        </TextBlock>
+                                            
+                                            
+                                    </Grid>
+                                </Border>
 
 
 

@@ -17,7 +17,7 @@ namespace GD_CommonLibrary
             }
             return false;
         }
-
+        
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool booleanValue)
