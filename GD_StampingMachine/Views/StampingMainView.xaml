@@ -1736,13 +1736,12 @@
                                         <StackPanel VerticalAlignment="Center">
                                             <TextBlock Foreground="{DynamicResource DarkHueDarkForegroundBrush}"
                                                 Text="{DynamicResource textCultureSetting}" HorizontalAlignment="Center" FontSize="16" />
-                                            <ComboBox  Width="auto" Margin="0" Style="{StaticResource GD_BlackComboBox}"
+                                            <ComboBox  Width="auto" Margin="0" 
+                                                       DataContext="{Binding Source={x:Static GD_Singletons:CultureViewModel.Instance}}"
+                                                       Style="{StaticResource GD_BlackComboBox}"
                                                    
                                     ItemsSource="{Binding SupportedCultures}" 
                                           SelectedValue="{Binding SelectedCulture}">
-                                                <ComboBox.DataContext>
-                                                    <GD_ViewModels:CultureViewModel/>
-                                                </ComboBox.DataContext>
                                             </ComboBox>
                                         </StackPanel>
                                     </StackPanel>

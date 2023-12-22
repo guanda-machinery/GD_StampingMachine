@@ -492,4 +492,12 @@
     <sys:String x:Key="Name_StampMachineDataSingleton">機台連線</sys:String>
 
     <sys:String x:Key="Name_OperatingLogViewModel">操作紀錄</sys:String>
+
+
+    <sys:String x:Key="Hour">小時</sys:String>
+    <sys:String x:Key="Minute">分鐘</sys:String>
+    <sys:String x:Key="Second">秒</sys:String>
+
+
+
 </ResourceDictionary>

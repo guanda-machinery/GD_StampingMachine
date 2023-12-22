@@ -1145,6 +1145,11 @@
                         </GroupBox>
 
                         <GroupBox Grid.Row="1" Header="{DynamicResource Text_TimingSetting}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
                             <StackPanel>
                                 <StackPanel.Resources>
                                     <Style TargetType="{x:Type Expander}">
@@ -1291,18 +1296,14 @@
                                     <Style TargetType="{x:Type Button}"
                                         BasedOn="{StaticResource TimingButton}">                                        
                                     </Style>
-                                        
+
                                     <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                                         <Setter Property="FontWeight" Value="Bold"/>
                                         <Setter Property="FontSize" Value="20"/>
                                     </Style>
                                 </StackPanel.Resources>
                                 
-                                <ListBox >
-
-                                </ListBox>
-
-
                                 <ToggleButton Name="TestToggleButton" 
                                               Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, 
                                     Converter={dx:BooleanToVisibilityConverter Invert=True}}"
@@ -1334,7 +1335,9 @@
 
                                     </Expander>
 
-                                    <Button Grid.Column="1"  HorizontalContentAlignment="Left">
+                                    <Button Grid.Column="1"  HorizontalContentAlignment="Left"
+                                            BorderThickness="1"
+                                            Background="Transparent">
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TimingButton}">
                                                 <Setter Property="Opacity" Value="1"/>
@@ -1346,7 +1349,9 @@
                                             </Style>
                                         </Button.Style>
                                         <StackPanel >
-                                            <TextBlock Text="7:23" FontSize="50"/>
+                                            <TextBlock 
+                                                 Text="{Binding ElementName=CRangeSlider, Path=Start, Converter={GD_Common:HourToDateTimeConverter}}"
+                                                FontSize="50"/>
                                             <TextBlock Text="每個平日"/>
                                         </StackPanel>
                                     </Button>
@@ -1737,18 +1742,133 @@
                                         </Style>
                                     </GD_Common:CircularRangeSlider.Style>
                                         </GD_Common:CircularRangeSlider>
-                                        <TextBlock Grid.Row="2" Grid.ColumnSpan="2"
-                                                   Text="123" HorizontalAlignment="Center">
+                                        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10">
+                                        <TextBlock 
+                                                HorizontalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{GD_Common:HourDiffToDateTimeMultiConverter}" >
+                                                    
+                                                    <Binding ElementName="CRangeSlider" Path="Start"/>
+                                                    <Binding ElementName="CRangeSlider" Path="End"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
                                             
                                         </TextBlock>
-                                            
-                                            
+                                        </Grid>
+
                                     </Grid>
                                 </Border>
 
 
 
-                            </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <ItemsControl >
+                                        <ItemsControl.ItemsSource>
+                                            <x:Array Type="{x:Type sys:String}">
+                                                <sys:String>星期一</sys:String>
+                                                <sys:String>星期二</sys:String>
+                                                <sys:String>星期三</sys:String>
+                                            </x:Array>
+                                        </ItemsControl.ItemsSource>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <ToggleButton 
+                                                    Foreground="White" Content="{Binding}">
+                                                    <ToggleButton.Style>
+                                                        <Style TargetType="ToggleButton" 
+                                                               BasedOn="{StaticResource SiegCustomButton}">
+                                                            <Setter Property="Margin" Value="0"/>
+                                                            <Setter Property="Padding" Value="5,0"/>
+                                                            <Setter Property="Background" Value="Gray"/>
+
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="ToggleButton">
+                                                                        <Grid>
+                                                                            <Border Background="{TemplateBinding Background}"        
+                                                                                    Margin="0" 
+                                                                                    CornerRadius="5"
+                                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                                    Padding="{TemplateBinding Padding}"
+                                                                                    BorderBrush="{TemplateBinding BorderBrush}">
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition/>
+                                                                                        <ColumnDefinition Width="auto"/>
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                                    <Border Grid.Column="1" Margin="5" Name="TickBorder"
+                                                                                            >
+                                                                                        <materialDesign:PackIcon Kind="Tick"  
+                                                                                                                 Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
+                                                                                                                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
+                                                                                            Foreground="Orange">
+                                                                                            
+                                                                                        </materialDesign:PackIcon>
+                                                                                    </Border>
+                                                                                </Grid>
+                                                                            </Border>
+                    
+                                                                                
+                                                                        </Grid>
+                                                                        <ControlTemplate.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Background" Value="LightSkyBlue"/>
+                                                                                <Setter Property="Foreground" Value="Black"/>
+                                                                            </Trigger>
+                                                                            <Trigger Property="IsPressed" Value="True">
+                                                                                <Setter Property="Background" Value="Orange"/>
+                                                                                <Setter Property="Foreground" Value="Black"/>
+                                                                            </Trigger>
+
+                                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                                <Setter Property="Opacity" Value="0.3"/>
+                                                                            </Trigger>
+                                                                            <Trigger Property="IsChecked" Value="False">
+                                                                                <Setter TargetName="TickBorder" Property="Opacity" Value="0.0"/>
+                                                                            </Trigger>
+                                                                        </ControlTemplate.Triggers>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                        
+                                                        
+                                                    </ToggleButton.Style>
+                                                </ToggleButton>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+
+                                        <!--
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <ToggleButton Background="Gray" Foreground="Red">
+                                                    <ToggleButton.Template>
+                                                        <ControlTemplate TargetType="ToggleButton">
+                                                            <Border Background="{TemplateBinding Background}">
+                                                                <Grid 
+                                                                    MaxWidth="{TemplateBinding MaxWidth}" 
+                                                                    MaxHeight="{TemplateBinding MaxHeight}"
+                                                                    MinWidth="{TemplateBinding MinWidth}" 
+                                                                    MinHeight="{TemplateBinding MinHeight}"
+                                                                    Width="{TemplateBinding Width}" 
+                                                                    Height="{TemplateBinding Height}">
+                                                                    <ItemsPresenter/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </ToggleButton.Template>
+
+                                                </ToggleButton>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>-->
+                                    </ItemsControl>
+                                </StackPanel>
+                                
+                            </Grid>
+                            
                         </GroupBox>
                         
                         

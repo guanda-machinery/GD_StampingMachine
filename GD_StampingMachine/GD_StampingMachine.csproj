@@ -461,7 +461,7 @@
     </Compile>
     <Compile Include="ValueConverters\EnumToBrushesConverter.cs" />
     <Compile Include="ValueConverters\EnumToPackIconKindConverter.cs" />
-    <Compile Include="ViewModels\CultureViewModel.cs" />
+    <Compile Include="Singletons\CultureViewModel.cs" />
     <Compile Include="ViewModels\MachineFunctionViewModel.cs" />
     <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitorViewModel.cs" />

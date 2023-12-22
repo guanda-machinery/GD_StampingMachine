@@ -7,12 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace GD_StampingMachine.ViewModels
+namespace GD_StampingMachine.Singletons
 {
-    public class CultureViewModel : GD_CommonLibrary.BaseViewModel
+    
+   // public class CultureViewModel : GD_CommonLibrary.BaseViewModel
+    public class CultureViewModel : GD_CommonLibrary.BaseSingleton<CultureViewModel>
     {
-        public CultureViewModel()
+        private CultureViewModel()
         {
             var defaultCulture = CultureInfo.InvariantCulture;
             try
@@ -39,7 +42,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LanguageSettingViewModel");
+         public string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LanguageSettingViewModel");
 
         public List<CultureInfo> SupportedCultures
         {
@@ -70,6 +73,7 @@ namespace GD_StampingMachine.ViewModels
                         Properties.Settings.Default.DefaultCulture = _selectedCulture;
                         Properties.Settings.Default.Save();
 
+                        System.Threading.Thread.CurrentThread.CurrentCulture = value;
                     }
                     catch (Exception ex)
                     {
