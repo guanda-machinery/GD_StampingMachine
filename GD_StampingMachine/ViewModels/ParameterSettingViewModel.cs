@@ -81,14 +81,14 @@ namespace GD_StampingMachine.ViewModels
         {
             _parameterSetting = ParameterSetting;
             NumberSettingPageVM = new NumberSettingPageViewModel();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out List<StampPlateSettingModel> nSavedCollection))
+            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, out List<StampPlateSettingModel> nSavedCollection, false))
             {
                 NumberSettingPageVM.NumberSettingModelCollection = nSavedCollection.Select(x => new NumberSettingViewModel(x)).ToObservableCollection();
             }
             QRSettingPageVM = new QRSettingPageViewModel();
             if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, out List<StampPlateSettingModel> qrSavedCollection, false))
             {
-                QRSettingPageVM.QRSettingModelCollection = nSavedCollection.Select(x => new QRSettingViewModel(x)).ToObservableCollection();
+                QRSettingPageVM.QRSettingModelCollection = qrSavedCollection.Select(x => new QRSettingViewModel(x)).ToObservableCollection();
             }
             AxisSettingVM = new AxisSettingViewModel(_parameterSetting.AxisSetting);
             TimingSettingVM = new TimingSettingViewModel(_parameterSetting.TimingSetting);

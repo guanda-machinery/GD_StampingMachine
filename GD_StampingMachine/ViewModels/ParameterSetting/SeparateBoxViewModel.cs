@@ -1,4 +1,5 @@
 ﻿using GD_StampingMachine.GD_Model;
+using System.Text.Json.Serialization;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -6,13 +7,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateBoxViewModel");
 
-
         public SeparateBoxViewModel(SeparateBoxModel SeparateBox)
         {
             _separateBox= SeparateBox  ;
         }
 
-        public SeparateBoxModel _separateBox;
+        [JsonIgnore]
+        public readonly SeparateBoxModel _separateBox;
 
         public SeparateBoxViewModel()
         {
@@ -28,10 +29,19 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        private double _boxPieceValue;
         /// <summary>
         /// 箱子內容物的值
         /// </summary>
-        public double BoxPieceValue { get; set; }
+        [JsonIgnore]
+        public double BoxPieceValue 
+        {
+            get => _boxPieceValue;
+            set
+            {
+                _boxPieceValue = value;OnPropertyChanged();
+            }
+        }
 
         public double BoxSliderValue
         {

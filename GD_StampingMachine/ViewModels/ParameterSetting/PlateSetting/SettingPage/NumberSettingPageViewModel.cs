@@ -39,6 +39,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.NormalSheetStamping;
 
 
+        public override int PlateNumberListMax => 8;
 
 
         private NumberSettingViewModel _numberSettingVM;

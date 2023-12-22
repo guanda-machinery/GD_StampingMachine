@@ -1,13 +1,10 @@
-﻿using DevExpress.Xpf.WindowsUI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
-using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
-
 
 namespace GD_CommonLibrary.Method
 {
@@ -26,7 +23,7 @@ namespace GD_CommonLibrary.Method
                     WindowStartupLocation = WindowStartupLocation.CenterScreen
                 };
 
-                messageBoxReturn = WinUIMessageBox.Show(newWindow, MessageString,
+                messageBoxReturn = DevExpress.Xpf.WindowsUI.WinUIMessageBox.Show(newWindow, MessageString,
                     MessageTitle, MB_Button, MB_Image, MessageBoxResult.None, MessageBoxOptions.None, DevExpress.Xpf.Core.FloatingMode.Window);
             }));
 

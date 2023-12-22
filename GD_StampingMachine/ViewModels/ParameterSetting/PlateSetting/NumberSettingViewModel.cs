@@ -42,7 +42,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         protected override int SequenceCountMax => 8;
-        public override Visibility QRCodeVisibility { get => Visibility.Collapsed; }
+        public override Visibility QRCodeVisibility => Visibility.Collapsed; }
+
+
 
 
     }
@@ -55,5 +57,3 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-
-}

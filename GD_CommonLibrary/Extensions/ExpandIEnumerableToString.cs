@@ -1,6 +1,4 @@
-﻿using DevExpress.Mvvm.Native;
-using DevExpress.Office;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,10 +16,10 @@ namespace GD_CommonLibrary.Extensions
         public static string ExpandToString<T>(this IEnumerable<T> IEnumerableValue , char splitCharacter)
         {
             var RString = "";
-            IEnumerableValue.ForEach(obj =>
+            foreach(var obj in IEnumerableValue)
             {
                 RString += obj.ToString() + splitCharacter;
-            });
+            }
 
             RString = RString.TrimEnd(splitCharacter);
             return RString;

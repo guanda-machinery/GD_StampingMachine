@@ -36,18 +36,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
         [JsonIgnore]
-        public int PlateNumberListMax
-        { 
-            get 
-            {
-                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.QRSheetStamping)
-                    return 6;
-                if (SheetStampingTypeForm == SheetStampingTypeFormEnum.NormalSheetStamping)
-                    return 8;
+        public abstract int PlateNumberListMax { get; }
 
-                return 0;
-            }
-        }
         [JsonIgnore]
         public ObservableCollection<int> SequenceCountCollection
         {

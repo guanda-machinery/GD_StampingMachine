@@ -29,14 +29,18 @@ namespace GD_CommonLibrary
                     {
                         if (_instance == null)
                         {
-                            try
+                            for(int i=0;i<10;i++)
                             {
-                                _instance = Lazy.Value;
-                                _instance.Init();
-                            }
-                            catch (Exception ex)
-                            {
-                                Debugger.Break();
+                                try
+                                {
+                                    _instance = Lazy.Value;
+                                    _instance.Init();
+                                    break;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debugger.Break();
+                                }
                             }
                         }
                     }

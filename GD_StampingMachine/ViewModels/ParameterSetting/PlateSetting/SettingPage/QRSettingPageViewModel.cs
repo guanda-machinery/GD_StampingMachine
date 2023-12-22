@@ -39,6 +39,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
         public override SheetStampingTypeFormEnum SheetStampingTypeForm => SheetStampingTypeFormEnum.QRSheetStamping;
+
+
+        public override int PlateNumberListMax => 6;
+
         /// <summary>
         /// 選擇
         /// </summary>
@@ -157,7 +161,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         });
                     }
 
-                 await   this.JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection.Select(x=>x.StampPlateSetting), true);
+                 await   this.JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
             });
         }
 
@@ -170,7 +174,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (QRSettingModelCollectionSelected != null)
                 {
                     QRSettingModelCollection.Remove(QRSettingModelCollectionSelected);
-                    await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection.Select(x=>x.StampPlateSetting));
+                    await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection);
                 }
             });
         }

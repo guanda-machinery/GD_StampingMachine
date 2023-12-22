@@ -272,7 +272,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             BorderBrush="{TemplateBinding BorderBrush}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                         <ProgressBar 
                             Name="ProgressBar" Height="{TemplateBinding Height}" HorizontalAlignment="Left" VerticalAlignment="Center" 
@@ -382,6 +382,9 @@
         </Setter>
     </Style>
 
+    
+    
+    
     <Style x:Key="GD_RepeatButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
 
         <Setter Property="Width"

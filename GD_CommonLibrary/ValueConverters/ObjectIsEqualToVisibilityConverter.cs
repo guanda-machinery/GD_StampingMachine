@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using DevExpress.Xpf.Gauges;
 using GD_CommonLibrary;
 
 

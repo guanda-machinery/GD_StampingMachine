@@ -9,9 +9,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
-using DevExpress.Charts.Native;
-using DevExpress.Data.Extensions;
-using DevExpress.Xpf.Bars;
 using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
@@ -146,9 +143,9 @@ namespace GD_CommonLibrary
                 {
                     if(((double)(i+1.0)* Brush_step) > Result_step)
                     {
-                        if (BrushArray.TryGetValue(i, out var oLeftBrush))
+                        if (TryGetValue(BrushArray,i, out var oLeftBrush))
                             LeftBrush = oLeftBrush;
-                        if(BrushArray.TryGetValue(i+1, out var oRightBrush))
+                        if(TryGetValue(BrushArray,i + 1, out var oRightBrush))
                             RightBrush = oRightBrush;
 
                         //若有三種顏色
@@ -197,6 +194,25 @@ namespace GD_CommonLibrary
         {
             return value;
         }
+
+        private bool TryGetValue<T>(IList<T> array, int index, out T value)
+        {
+            if (array != null && index >= 0)
+            {
+                if( index < array.Count)
+                {
+                    value = array[index];
+                    return true;
+                }
+            }
+
+            value = default(T);
+            return false;
+        }
+
+
+
+
     }
 
 

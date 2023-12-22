@@ -93,7 +93,7 @@ namespace GD_StampingMachine
             }
         }
 
-        private static ResourceDictionary LoadResourceDictionary(CultureInfo culture)
+        public static ResourceDictionary LoadResourceDictionary(CultureInfo culture)
         {
             if (!GetSupportedCultures().Contains(culture))
                 return null;

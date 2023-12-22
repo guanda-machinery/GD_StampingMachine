@@ -290,7 +290,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
 
                 });
-                _addNewPartsParameterVM.SettingBaseVM.SheetStampingTypeForm = this.SheetStampingTypeForm;
+                //_addNewPartsParameterVM.SettingBaseVM.SheetStampingTypeForm = this.SheetStampingTypeForm;
                 return _addNewPartsParameterVM;
             }
             set
@@ -449,8 +449,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public void RefreshNumberSettingSavedCollection()
         {
             var newSavedCollection = new DXObservableCollection<SettingBaseViewModel>();
-            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection.Select(x => new NumberSettingViewModel(x.StampPlateSetting.DeepCloneByJson())));
-            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection.Select(x => new QRSettingViewModel(x.StampPlateSetting.DeepCloneByJson())));
+           // newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection.Select(x => new NumberSettingViewModel(x.StampPlateSetting.DeepCloneByJson())));
+          //  newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection.Select(x => new QRSettingViewModel(x.StampPlateSetting.DeepCloneByJson())));
+            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection.DeepCloneByJson());
+            newSavedCollection.AddRange(Singletons.StampingMachineSingleton.Instance.ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection.DeepCloneByJson());
             NumberSettingSavedCollection = newSavedCollection;
 
              AddNumberSettingSavedCollection = NumberSettingSavedCollection
@@ -577,8 +579,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    EditPartsParameterVM_Cloned = new PartsParameterViewModel(PartsParameterVMObservableCollection[Findex].PartsParameter.DeepCloneByJson());
-                   // EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex] .DeepCloneByJson();
+                   // EditPartsParameterVM_Cloned = new PartsParameterViewModel(PartsParameterVMObservableCollection[Findex].PartsParameter.DeepCloneByJson());
+                     EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex] .DeepCloneByJson();
                 }
             });
         }
@@ -590,7 +592,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    PartsParameterVMObservableCollection[Findex] = new PartsParameterViewModel( EditPartsParameterVM_Cloned.PartsParameter.DeepCloneByJson());
+                    //PartsParameterVMObservableCollection[Findex] = new PartsParameterViewModel(EditPartsParameterVM_Cloned.PartsParameter.DeepCloneByJson());
+                    PartsParameterVMObservableCollection[Findex] = EditPartsParameterVM_Cloned.DeepCloneByJson();
                 }
             });
         }
@@ -781,7 +784,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             if (_erp.QrCode)
                             {
                                 SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
-                                SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+                               // SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
 
                                 //QRcode展開
 
@@ -819,8 +822,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             else
                             {
                                 SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
-                                SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
-
+                                //SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
 
                                 PartsParameterModel PParameter = new PartsParameterModel()
                                 {
@@ -961,7 +963,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get =>_createPartCommand ??= new AsyncRelayCommand(async () =>
             {
-                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel( AddNewPartsParameterVM.PartsParameter.DeepCloneByJson()));
+                PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
                 //儲存 ProductProject
                 ProductProjectEditTime = DateTime.Now;
                await SaveProductProjectAsync();

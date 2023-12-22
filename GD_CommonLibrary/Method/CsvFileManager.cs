@@ -9,11 +9,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using DevExpress.XtraRichEdit.Model;
-using DevExpress.Mvvm.Native;
-using DevExpress.XtraGrid.Registrator;
 using System.Security.Policy;
-using DevExpress.Utils.Extensions;
 
 namespace GD_StampingMachine.Method
 {
@@ -38,7 +34,7 @@ namespace GD_StampingMachine.Method
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        public bool WriteCSVFileIEnumerable<T>(string fileName , List<T> CSVDataIEnumerable , bool isAppend)
+        public bool WriteCSVFileIEnumerable<T>(string fileName , List<T> CSVDataIEnumerable , bool isAppend=false)
         {
             try
             {

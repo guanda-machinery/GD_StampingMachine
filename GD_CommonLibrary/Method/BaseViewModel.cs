@@ -1,6 +1,4 @@
-﻿using DevExpress.Mvvm.Native;
-using DevExpress.Xpf.Core.Native;
-using GD_CommonLibrary;
+﻿using GD_CommonLibrary;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using Newtonsoft.Json;

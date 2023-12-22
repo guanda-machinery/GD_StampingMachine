@@ -156,15 +156,22 @@ namespace GD_StampingMachine.Singletons
             {
                 PathList.ForEach(EPath =>
                 {
+                    string fileName = null;
+                    if (!string.IsNullOrEmpty(EPath.ProjectPath) && !string.IsNullOrEmpty(EPath.Name))
+                    {
+                        fileName = System.IO.Path.Combine(EPath.ProjectPath, EPath.Name);
+                    }
+
                     //加工專案為到處放的形式 沒有固定位置
-                    if (JsonHM.ReadJsonFile(System.IO.Path.Combine(EPath.ProjectPath, EPath.Name), out ProductProjectModel PProject))
+                    if (!string.IsNullOrEmpty(fileName) &&
+                    JsonHM.ReadJsonFile(fileName, out ProductProjectModel PProject))
                     {
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
                     }
                     else
                     {
                         //需註解找不到檔案!
-                       _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {System.IO.Path.Combine(EPath.ProjectPath, EPath.Name)}");
+                       _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {fileName}");
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,

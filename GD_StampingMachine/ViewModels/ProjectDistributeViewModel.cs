@@ -20,6 +20,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Data.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
+using Microsoft.VisualStudio.RpcContracts.Commands;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -81,13 +82,18 @@ namespace GD_StampingMachine.ViewModels
                 _projectDistribute = new ProjectDistributeModel();
             ProjectDistribute = _projectDistribute;
 
+
+
             StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
             {
                 ProjectDistributeName = this.ProjectDistributeName,
+                //ProductProjectCollection = this.ProductProjectVMObservableCollection,
+                //SeparateBoxCollection = this.SeparateBoxVMObservableCollection.Select(x=>x._separateBox).ToList(),
+                GridControl_MachiningStatusColumnVisible = false,
                 ProductProjectVMObservableCollection = this.ProductProjectVMObservableCollection,
-                SeparateBoxVMObservableCollection = this.SeparateBoxVMObservableCollection,
-                GridControl_MachiningStatusColumnVisible = true,
+                SeparateBoxVMObservableCollection = this.ProjectDistribute.SeparateBoxVMObservableCollection.DeepCloneByJson(),
             });
+
 
             if (_projectDistribute.ProductProjectNameList != null)
             {
@@ -431,7 +437,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 盒子列表
         /// </summary>
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
+       /* public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
         {
             get => ProjectDistribute.SeparateBoxVMObservableCollection;
             set
@@ -439,7 +445,7 @@ namespace GD_StampingMachine.ViewModels
                 ProjectDistribute.SeparateBoxVMObservableCollection = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
 
         /// <summary>
@@ -464,10 +470,10 @@ namespace GD_StampingMachine.ViewModels
                                 e.Effects = System.Windows.DragDropEffects.Move;
                             }
                         }
+
+
                         await SaveProductProjectVMObservableCollectionAsync();
-
                         OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
-
                     }
                 });
             }

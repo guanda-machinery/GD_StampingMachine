@@ -35,7 +35,7 @@ namespace GD_StampingMachine.Model
     /// <summary>
     /// 型態
     /// </summary>
-    public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
+        public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
         /// <summary>
         /// 目前模式
         /// </summary>

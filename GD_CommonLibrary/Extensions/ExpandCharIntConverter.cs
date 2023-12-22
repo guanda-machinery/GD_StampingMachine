@@ -1,6 +1,4 @@
-﻿using DevExpress.CodeParser;
-using DevExpress.Mvvm.Native;
-using DevExpress.Xpo.Helpers;
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,10 +26,10 @@ namespace GD_CommonLibrary.Extensions
         public static int[] ToASC(this string S)
         {
           var N = new List<int>();
-            S.ForEach(eachS =>
+          foreach(var eachS in S)
             {
                  N.Add(Convert.ToInt32(eachS));
-            });
+            }
             return N.ToArray();
         }
         public static int ToASC(this char C)

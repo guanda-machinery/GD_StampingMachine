@@ -38,14 +38,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public QRSettingViewModel(StampPlateSettingModel stampPlateSetting)
         : base(stampPlateSetting)
         {
-            this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+             this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+
         }
 
         protected override int SequenceCountMax => 6;
 
         public override Visibility QRCodeVisibility { get => Visibility.Visible; }
 
-
+        //public override SheetStampingTypeFormEnum SheetStampingTypeForm { get => SheetStampingTypeFormEnum.QRSheetStamping; }
 
 
 

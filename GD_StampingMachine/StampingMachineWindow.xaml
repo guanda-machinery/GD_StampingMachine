@@ -22,10 +22,23 @@
      
         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMachineWindowViewModel}"
         IsEnabled="{Binding IsEnabled}"
-        Topmost="{Binding Topmost}"
-        Visibility="{Binding Visibility}" 
-StateChanged="Window_StateChanged"
+        Topmost="{Binding Topmost}" 
+        Visibility="{Binding Visibility}"  
+        StateChanged="Window_StateChanged"  
         >
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="Cursor" Value="Arrow"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False">
+                    <Setter Property="Cursor" Value="Wait" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+    
+    
+    
     <WindowChrome.WindowChrome>
         <WindowChrome 
             CaptionHeight="0" ResizeBorderThickness="10"/>
@@ -53,8 +66,6 @@ StateChanged="Window_StateChanged"
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-
-
 
     <Grid  >
         <Grid Margin="0" x:Name="MainGrid" >

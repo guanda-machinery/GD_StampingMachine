@@ -6,6 +6,7 @@ using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
@@ -34,6 +35,19 @@ namespace GD_StampingMachine.ViewModels
         {
             StampingBoxPart = _stampingBoxPart;
             ReLoadBoxPartsParameterVMObservableCollection();
+            _ = Task.Run(async () =>
+            {
+                while (true)
+                {
+                    for (int i = 0; i < SeparateBoxVMObservableCollection.Count; i++)
+                    {
+                        var separateBox = SeparateBoxVMObservableCollection[i];
+                        separateBox.BoxPieceValue = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == separateBox.BoxIndex);
+                    }
+                    await Task.Delay(500);
+                }
+            });
+
         }
 
 
@@ -101,6 +115,7 @@ namespace GD_StampingMachine.ViewModels
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
         {
             get => StampingBoxPart.SeparateBoxVMObservableCollection;
+            set { StampingBoxPart.SeparateBoxVMObservableCollection = value; OnPropertyChanged(); }
         }
 
         /// <summary>

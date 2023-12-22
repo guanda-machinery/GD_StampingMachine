@@ -158,6 +158,7 @@
                                                                 <Grid.LayoutTransform>
                                                                     <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
                                                                 </Grid.LayoutTransform>
+                                                                <!--
                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl
                                                                     DataContext="{Binding Row.SettingBaseVM}" 
                                                                     Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
@@ -165,7 +166,7 @@
                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
                                                                     DataContext="{Binding Row.SettingBaseVM}" 
                                                                     Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                                                                    RedMeasurementLineVisibility="Collapsed"/>
+                                                                    RedMeasurementLineVisibility="Collapsed"/>-->
                                                             </Grid>
                                                         </ToggleButton>
 
@@ -374,6 +375,7 @@
                                                         <RowDefinition/>
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                <!--
                                                     <StackPanel Grid.Row="1" Orientation="Horizontal" >
                                                         <Grid 
                                                             RenderTransformOrigin="0.0,0.0" >
@@ -391,7 +393,7 @@
                                                             </StackPanel>
 
                                                         </Grid>
-                                                    </StackPanel>
+                                                    </StackPanel>-->
                                                 </Grid>
                                             </Grid>
                                         </DataTemplate>
@@ -418,22 +420,8 @@
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                                                     <StackPanel Grid.Row="1" Orientation="Horizontal" >
-                                                        <Grid 
-                                                            RenderTransformOrigin="0.0,0.0" >
-                                                            <Grid.LayoutTransform>
-                                                                <ScaleTransform ScaleX="0.15" ScaleY="0.15" />
-                                                            </Grid.LayoutTransform>
-                                                            <StackPanel>
-                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
-                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
-                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
-                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
 
-                                                            </StackPanel>
-
-                                                        </Grid>
+                                                        
                                                     </StackPanel>
                                                 </Grid>
                                             </Grid>
@@ -531,15 +519,8 @@
                                                                                                         ScaleY="{c:Binding StampWidth/350}" />
                                                                             </Grid.LayoutTransform>
                                                                             <Grid DataContext="{Binding SettingBaseVM}">
-                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl 
-                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                                                                                                                    
+                                                                                <GD_SchematicDiagram:QRPlateRowDiagramControl 
                                                                                              PlateRowBackground="Transparent"       
-                                                                                                    RedMeasurementLineVisibility="Collapsed" />
-                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl 
-                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                                                                                                               
-                                                                                             PlateRowBackground="Transparent"         
                                                                                                     RedMeasurementLineVisibility="Collapsed" />
                                                                             </Grid>
 

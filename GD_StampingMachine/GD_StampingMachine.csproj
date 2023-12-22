@@ -4,6 +4,7 @@
     <LangVersion>9</LangVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -16,7 +17,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -55,8 +55,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CalcBinding, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -111,7 +110,7 @@
     <Reference Include="DevExpress.Xpf.Controls.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.Controls.21.1.4\lib\net452\DevExpress.Xpf.Controls.v21.1.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.Core.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Diagram.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.Diagram.21.1.4\lib\net452\DevExpress.Xpf.Diagram.v21.1.dll</HintPath>
     </Reference>
@@ -123,6 +122,9 @@
     </Reference>
     <Reference Include="DevExpress.Xpf.ExpressionEditor.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.ExpressionEditor.21.1.4\lib\net452\DevExpress.Xpf.ExpressionEditor.v21.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Gauges.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Wpf.Gauges.21.1.4\lib\net452\DevExpress.Xpf.Gauges.v21.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpf.Grid.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Wpf.Grid.Core.21.1.4\lib\net452\DevExpress.Xpf.Grid.v21.1.dll</HintPath>
@@ -171,6 +173,9 @@
     </Reference>
     <Reference Include="DevExpress.XtraEditors.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Win.Navigation.21.1.4\lib\net452\DevExpress.XtraEditors.v21.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExpress.Gauges.Core.21.1.4\lib\net452\DevExpress.XtraGauges.v21.1.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraGrid.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Win.Grid.21.1.4\lib\net452\DevExpress.XtraGrid.v21.1.dll</HintPath>
@@ -382,20 +387,32 @@
     <Compile Include="Const\MachineConst.cs" />
     <Compile Include="Cultures\CulturesHelper.cs" />
     <Compile Include="Commands\BoxDrapDragRecordCommand.cs" />
+    <Compile Include="Method\MessageBoxResultShow.cs" />
     <Compile Include="Method\StampingMachineJsonHelper.cs" />
     <Compile Include="Singletons\ColorSettingSingleton.cs" />
     <Compile Include="Singletons\LogDataSingleton.cs" />
     <Compile Include="Singletons\StampingMachineSingleton.cs" />
     <Compile Include="Singletons\StampMachineDataSingleton.cs" />
+    <Compile Include="SplashScreenWindows\ProcessingScreenWindow.xaml.cs">
+      <DependentUpon>ProcessingScreenWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreenWindows\StartSplashScreen.xaml.cs">
+      <DependentUpon>StartSplashScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MachineFunctionTestUserControl.xaml.cs">
       <DependentUpon>MachineFunctionTestUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
     <Compile Include="UserControls\NumberSettingSchematicDiagram\QRPlateRowDiagramControl.xaml.cs">
       <DependentUpon>QRPlateRowDiagramControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Simple\RotateCircularKnob.xaml.cs">
+      <DependentUpon>RotateCircularKnob.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Simple\SimpleCircularProgressBar.xaml.cs">
+      <DependentUpon>SimpleCircularProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MachineMonitor\IO_InfoViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\PlateMonitorViewModel.cs" />
@@ -417,12 +434,6 @@
     </Compile>
     <Compile Include="UserControls\MachineMonitorUserControl.xaml.cs">
       <DependentUpon>MachineMonitorUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramViewUserControl.xaml.cs">
-      <DependentUpon>PlateRowDiagramViewUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRViewUserControl.xaml.cs">
-      <DependentUpon>PlateRowDiagramWithQRViewUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ParamaterSettingUserControl.xaml.cs">
       <DependentUpon>ParamaterSettingUserControl.xaml</DependentUpon>
@@ -480,10 +491,10 @@
     <Compile Include="ViewModels\StampingTypeViewModel.cs" />
     <Compile Include="ViewModels\ProjectDistributeViewModel.cs" />
     <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />
-    <Compile Include="Views\RadialPanel.cs" />
     <Compile Include="Views\StampingMainView.xaml.cs">
       <DependentUpon>StampingMainView.xaml</DependentUpon>
     </Compile>
+    <Resource Include="Logo.ico" />
     <Resource Include="Image\SNP-0001.bmp" />
     <Resource Include="Image\刻印組.bmp" />
     <Resource Include="Resources\Logo.ico" />
@@ -505,6 +516,14 @@
     <Page Include="Dictionary\IconDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashScreenWindows\ProcessingScreenWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplashScreenWindows\StartSplashScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="StampingMachineWindow.xaml">
       <SubType>Designer</SubType>
@@ -570,14 +589,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramViewUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRViewUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UserControls\NumberSettingSchematicDiagram\QRPlateRowDiagramControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -587,6 +598,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ProductSettingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Simple\RotateCircularKnob.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Simple\SimpleCircularProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

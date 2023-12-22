@@ -5,8 +5,10 @@ using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
+using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Windows;
@@ -184,6 +186,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 SeparateBoxVMObservableCollectionClone  = SeparateBoxVMObservableCollection.DeepCloneByJson();
                 SeparateSetting = new SeparateSettingModel();
                 initSeparateSetting();
+                UpdateProjectDistributeSeparateBox();
             });
         }
 
@@ -193,7 +196,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
 
-               await  JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);       
+               await  JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);
+
+                //刷新所有排版的盒子
+
+
+                UpdateProjectDistributeSeparateBox();
             });
         }
         public override ICommand LoadSettingCommand
@@ -207,9 +215,22 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
                     OnPropertyChanged(nameof(SeparateBoxVMObservableCollection));
                     OnPropertyChanged(nameof(SeparateBoxVMObservableCollectionClone));
+                    UpdateProjectDistributeSeparateBox();
                 }
             });
         }
+
+        private void UpdateProjectDistributeSeparateBox()
+        {
+           foreach(var obj in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+            {
+                obj.StampingBoxPartsVM.SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollection.DeepCloneByJson();
+            }
+                
+                
+        }
+
+
 
         public override ICommand DeleteSettingCommand => throw new NotImplementedException();
 

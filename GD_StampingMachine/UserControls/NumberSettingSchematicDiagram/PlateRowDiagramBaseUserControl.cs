@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace GD_StampingMachine.UserControls.NumberSettingSchematicDiagram
 {
-    public class PlateRowDiagramBaseUserControl :UserControl
+    public abstract class PlateRowDiagramBaseUserControl :UserControl
     {
 
         public PlateRowDiagramBaseUserControl()

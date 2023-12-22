@@ -1,7 +1,4 @@
-﻿using DevExpress.CodeParser;
-using DevExpress.Mvvm.Native;
-using GD_StampingMachine.UserControls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,9 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace GD_StampingMachine.Views
+namespace GD_CommonLibrary
 {
-    public class RadialPanel : Panel , INotifyPropertyChanged 
+    public class RadialPanel : Panel //, INotifyPropertyChanged 
     {
         public enum RotationDirectionEnum
         {
@@ -228,16 +225,16 @@ namespace GD_StampingMachine.Views
 
 
 
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+        //public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
         /// <summary>
         /// 屬性變更事件
         /// </summary>
         /// <param name="propertyName">屬性名稱</param>
-        public void OnPropertyChanged(string propertyName)
+      /*  public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        }*/
 
 
 

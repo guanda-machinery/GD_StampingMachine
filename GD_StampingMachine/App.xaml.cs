@@ -2,6 +2,8 @@
 using DevExpress.Diagram.Core.Shapes;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.Editors.Helpers;
+using DevExpress.Xpf.Utils.Themes;
 using DevExpress.XtraSplashScreen.Utils;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Method;
@@ -11,10 +13,13 @@ using GD_StampingMachine.ViewModels;
 using Microsoft.Build.Framework;
 using Microsoft.VisualStudio.Threading;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +32,7 @@ namespace GD_StampingMachine
     /// </summary>
     public partial class App : Application
     {
-   
+
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -38,10 +43,10 @@ namespace GD_StampingMachine
             if (!ret)
             {
                 Debugger.Break();
-                 MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
-            
+
 
             //啟用掃描
             var ManagerVM = new DXSplashScreenViewModel
@@ -62,14 +67,14 @@ namespace GD_StampingMachine
             StampingMachineWindowViewModel stampingMachineWindowVM = new StampingMachineWindowViewModel
             {
                 Opacity = 0,
-                IsEnabled = false,      
-        };
+                IsEnabled = false,
+            };
             MachineWindow.DataContext = stampingMachineWindowVM;
             MachineWindow.Show();
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
 
             manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
-       
+
             _ = Task.Run(async () =>
             {
                 try
@@ -113,7 +118,35 @@ namespace GD_StampingMachine
                     System.Diagnostics.Debugger.Break();
                 }
             });
+
+
+            /*
+            var resourceDictionary = CulturesHelper.LoadResourceDictionary(new CultureInfo("zh-tw"));
+
+            Dictionary<string, string> dictionary = resourceDictionary
+                .Cast<DictionaryEntry>()
+                .ToDictionary(entry => entry.Key.ToString(), entry => entry.Value.ToString());
+
+            var list = dictionary.Keys.ToList();
+            list.Sort();
+
+            List<Tuple<int, string, string>> dict = new();
+            int i = 1;
+            foreach(var key in list)
+            {
+                dict.Add(new(i, key.ToString(), dictionary[key].ToString()));
+                    i++;
+            }
+
+            new CsvFileManager().WriteCSVFileIEnumerable(@"C:\Users\USER\Desktop\cult.csv",dict);
+            */
         }
+
+
+
+
+
+
 
 
         protected override void OnExit(ExitEventArgs e)

@@ -7,7 +7,7 @@
                        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
                         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-                        xmlns:local="clr-namespace:GD_CommonLibrary" 
+                        xmlns:GD_CommonLibrary="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
                         WindowStyle="None"
                        Topmost="False"
                        WindowStartupLocation="CenterScreen"
@@ -40,7 +40,7 @@
                          Style="{ StaticResource MaterialDesignCircularProgressBar }"
                      >
                 <i:Interaction.Behaviors>
-                    <local:ProgresBarAnimateBehavior />
+                    <GD_CommonLibrary:ProgresBarAnimateBehavior />
                 </i:Interaction.Behaviors>
             </ProgressBar>
             <StackPanel Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal"
@@ -64,7 +64,7 @@
                    ToolTip="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
                    HorizontalAlignment="Left"
                    Style="{ StaticResource MaterialDesignBody1TextBlock }" />
-                <TextBlock  Margin="0,-2,0,0"   Padding="0" Grid.Row="1"   VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter={local:ObjectIsNullToVisibilityConverter}}"
+                <TextBlock  Margin="0,-2,0,0"   Padding="0" Grid.Row="1"   VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text, Converter={GD_CommonLibrary:ObjectIsNullToVisibilityConverter}}"
                    FontSize="12"
                    Text="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}"
                    ToolTip="{Binding Subtitle, UpdateSourceTrigger=PropertyChanged}"
@@ -82,7 +82,7 @@
                      Style="{ StaticResource MaterialDesignLinearProgressBar }"
                      >
                 <i:Interaction.Behaviors>
-                    <local:ProgresBarAnimateBehavior />
+                    <GD_CommonLibrary:ProgresBarAnimateBehavior />
                 </i:Interaction.Behaviors>
 
             </ProgressBar>

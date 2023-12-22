@@ -44,15 +44,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         [JsonIgnore]
         public StampPlateSettingModel StampPlateSetting ;
 
-        public SheetStampingTypeFormEnum SheetStampingTypeForm
-        {
-            get => StampPlateSetting.SheetStampingTypeForm;
-            set 
-            { 
-                StampPlateSetting.SheetStampingTypeForm = value; 
-                OnPropertyChanged(); 
-            }
-        }
+        public SheetStampingTypeFormEnum SheetStampingTypeForm { get => StampPlateSetting.SheetStampingTypeForm; set { StampPlateSetting.SheetStampingTypeForm = value;OnPropertyChanged(); } }
+
 
         [JsonIgnore]
         /// <summary>

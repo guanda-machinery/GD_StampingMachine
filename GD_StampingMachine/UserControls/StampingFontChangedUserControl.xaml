@@ -247,12 +247,11 @@
                                 </ListBox.ItemContainerStyle>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <GD_Views:RadialPanel
+                                    <GD_Common:RadialPanel
                                         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
                                         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
                                         RotationDirection="Clockwise"
                                         StartAngle="90" RotateAngle="{Binding StampingFontTurntable_RorateAngle}"  RoundAngle="360"
-                                        
                                         ItemRotateAngle="-90"  />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>

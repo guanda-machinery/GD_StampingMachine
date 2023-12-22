@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.GD_Enum
 {
+
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum SheetStampingTypeFormEnum
     {

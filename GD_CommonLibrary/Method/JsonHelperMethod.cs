@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using DevExpress.XtraSpreadsheet.Model;
 using GD_StampingMachine.Method;
 using Newtonsoft.Json;
 using Application = System.Windows.Application;
@@ -150,15 +149,15 @@ namespace GD_CommonLibrary.Method
             }
             catch (JsonException JEX) 
             {
-                if(showMessageBox)
+              /*  if(showMessageBox)
                     _ =  MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                        fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));
+                        fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));*/
                 //Debugger.Break();
             }
             catch (Exception ex)
             {
-                if (showMessageBox)
-                    _ =   MessageBoxResultShow.ShowExceptionAsync(ex);
+               // if (showMessageBox)
+                //    _ =   MessageBoxResultShow.ShowExceptionAsync(ex);
                 //Debugger.Break();
             }
             return false;
@@ -193,7 +192,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                   // _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
             }
@@ -216,7 +215,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                  //  _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
             }

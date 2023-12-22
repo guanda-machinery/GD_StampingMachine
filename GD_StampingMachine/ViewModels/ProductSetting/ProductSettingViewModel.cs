@@ -223,8 +223,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             return;
                         }
 
-                        ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
-                        await SaveProductListSettingAsync();
+                        if(ReadProductProject.CreateTime != default)
+                        {
+                            ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
+                            await SaveProductListSettingAsync();
+
+                        }
                     }
                 }
                 catch(Exception ex)

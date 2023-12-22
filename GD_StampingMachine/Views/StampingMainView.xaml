@@ -27,7 +27,7 @@
     xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
     xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads"
-    xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
+    xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:sys="clr-namespace:System;assembly=mscorlib"
     d:DesignHeight="800" d:DesignWidth="1000"    
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
              DataContext="{GD_ViewModels:StampingMainViewModel}">
@@ -725,6 +725,340 @@
                                         </x:Array>
                                     </StackPanel.Resources>
                                     <TextBlock Text="各種功能測試區 - test"/>
+                                        <GD_UserControls:SimpleCircularProgressBar Value="50"/>
+
+                                        <GD_Common:CircularRangeSlider Name="CRangeSlider" Width="200" Height="200"
+                                                                       Minimum="0"
+                                                                       Maximum="24"
+                                                                       Radius="130"
+                                                                       Tick="0.5"
+                                                                       LargeCalibration="24"
+                                                                       SmallCalibration="96"
+                                            >
+                                            <GD_Common:CircularRangeSlider.Style>
+                                                <Style TargetType="{x:Type GD_Common:CircularRangeSlider}" >
+                                                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Template" >
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type GD_Common:CircularRangeSlider}">
+                                                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    Background="{TemplateBinding Background}" 
+                                                                    Width="{TemplateBinding Width}"
+                                                                    Height="{TemplateBinding Height}"
+                                                                    Padding="{TemplateBinding Padding}"
+                                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                                <Grid>
+                                                                    <Viewbox Margin="5">
+                                                                            <Grid Width="300" Height="300">
+                                                                                <Grid Width="200" Height="200">
+                                                                                    <Border Background="DimGray"  CornerRadius="100">
+                                                                                    </Border>
+
+                                                                                    <ListBox Margin="-12"
+                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=LargeCalibration, Converter={GD_Common:IntToCollectionConverter}}">
+                                                                                        <ListBox.ItemContainerStyle>
+                                                                                            <Style TargetType="ListBoxItem">
+                                                                                                <Setter Property="Height" Value="12"/>
+                                                                                                <Setter Property="Width" Value="3"/>
+                                                                                                <Setter Property="BorderBrush" Value="#f0f0f0"/>
+                                                                                                <Setter Property="Background" Value="#f0f0f0"/>
+                                                                                                <Setter Property="Template">
+                                                                                                    <Setter.Value>
+                                                                                                        <ControlTemplate TargetType="ListBoxItem" >
+                                                                                                            <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
+                                                                                                                <Grid>
+                                                                                                                    <Border BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush }" Width="auto" Height="auto"
+                                                        Background="{TemplateBinding Background }"  >
+                                                                                                                    </Border>
+                                                                                                                </Grid>
+                                                                                                            </Border>
+                                                                                                        </ControlTemplate>
+                                                                                                    </Setter.Value>
+                                                                                                </Setter>
+                                                                                            </Style>
+                                                                                        </ListBox.ItemContainerStyle>
+                                                                                        <ListBox.ItemsPanel>
+                                                                                            <ItemsPanelTemplate>
+                                                                                                <GD_Common:RadialPanel
+                                                                                                    RotationDirection="Clockwise"
+                                        StartAngle="0"  RoundAngle="360"
+                                        ItemRotateAngle="90"  />
+                                                                                            </ItemsPanelTemplate>
+                                                                                        </ListBox.ItemsPanel>
+                                                                                    </ListBox>
+
+                                                                                    <ListBox Margin="-16"
+                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=SmallCalibration, Converter={GD_Common:IntToCollectionConverter}}">
+                                                                                        <ListBox.ItemContainerStyle>
+                                                                                            <Style TargetType="ListBoxItem">
+                                                                                                <Setter Property="Height" Value="6"/>
+                                                                                                <Setter Property="Width" Value="1.5"/>
+                                                                                                <Setter Property="BorderBrush" Value="#f0f0f0"/>
+                                                                                                <Setter Property="Background" Value="#f0f0f0"/>
+                                                                                                <Setter Property="Template">
+                                                                                                    <Setter.Value>
+                                                                                                        <ControlTemplate TargetType="ListBoxItem" >
+                                                                                                            <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
+                                                                                                                <Grid>
+                                                                                                                    <Border BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush }" Width="auto" Height="auto"
+                                                                                                                            Background="{TemplateBinding Background }"  >
+                                                                                                                    </Border>
+                                                                                                                </Grid>
+                                                                                                            </Border>
+                                                                                                        </ControlTemplate>
+                                                                                                    </Setter.Value>
+                                                                                                </Setter>
+                                                                                            </Style>
+                                                                                        </ListBox.ItemContainerStyle>
+                                                                                        <ListBox.ItemsPanel>
+                                                                                            <ItemsPanelTemplate>
+                                                                                                <GD_Common:RadialPanel
+                                                                                                    RotationDirection="Clockwise"
+                                        StartAngle="0"  RoundAngle="360"
+                                        ItemRotateAngle="90"  />
+                                                                                            </ItemsPanelTemplate>
+                                                                                        </ListBox.ItemsPanel>
+                                                                                    </ListBox>
+                                                                                    <ListBox    Margin="12"
+                                                                                                   >
+                                                                                        <ListBox.ItemsSource>
+                                                                                            <x:Array Type="{x:Type sys:Double}">
+                                                                                                <sys:Double>0</sys:Double>
+                                                                                                <sys:Double>2</sys:Double>
+                                                                                                <sys:Double>4</sys:Double>
+                                                                                                <sys:Double>6</sys:Double>
+                                                                                                <sys:Double>8</sys:Double>
+                                                                                                <sys:Double>10</sys:Double>
+                                                                                                <sys:Double>12</sys:Double>
+                                                                                                <sys:Double>14</sys:Double>
+                                                                                                <sys:Double>16</sys:Double>
+                                                                                                <sys:Double>18</sys:Double>
+                                                                                                <sys:Double>20</sys:Double>
+                                                                                                <sys:Double>22</sys:Double>
+                                                                                                <!-- 添加更多的项目 -->
+                                                                                            </x:Array>
+                                                                                        </ListBox.ItemsSource>
+
+                                                                                        <ListBox.ItemContainerStyle>
+                                                                                            <Style TargetType="ListBoxItem">
+
+                                                                                                <Setter Property="Height" Value="auto"/>
+                                                                                                <Setter Property="BorderBrush" Value="#f0f0f0"/>
+                                                                                                <Setter Property="Background" Value="#f0f0f0"/>
+                                                                                                <Setter Property="Template">
+                                                                                                    <Setter.Value>
+                                                                                                        <ControlTemplate TargetType="ListBoxItem" >
+                                                                                                            <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5" >
+                                                                                                                <Grid>
+                                                                                                                    <TextBlock Text="{Binding}" Foreground="White" FontSize="20" Margin="0,0"/>
+                                                                                                                </Grid>
+                                                                                                            </Border>
+                                                                                                        </ControlTemplate>
+                                                                                                    </Setter.Value>
+                                                                                                </Setter>
+                                                                                            </Style>
+                                                                                        </ListBox.ItemContainerStyle>
+                                                                                        <ListBox.ItemsPanel>
+                                                                                            <ItemsPanelTemplate>
+                                                                                                <GD_Common:RadialPanel
+                                                                                                    RotationDirection="Clockwise"
+                                                                                                    StartAngle="-90"  RoundAngle="360"
+                                        ItemRotateAngle="0"  />
+                                                                                            </ItemsPanelTemplate>
+                                                                                        </ListBox.ItemsPanel>
+                                                                                    </ListBox>
+                                                                                </Grid>
+
+
+
+                                                                                <Canvas   Name="PART_SliderContainer">
+                                                                                <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="1"
+                                                                                         Stroke="Black" StrokeThickness="40"/>
+                                                                                    <Canvas Name="PART_Arc"  Cursor="Hand"
+                                                                                        Canvas.Top="150" Canvas.Left="150">
+                                                                                <Path Stroke="DimGray" StrokeThickness="30" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                                                                    <Path.Data>
+                                                                                        <PathGeometry>
+                                                                                            <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                                                                <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                                                            Size="130,130" 
+                                                                                                            RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
+                                                                                            </PathFigure>
+                                                                                        </PathGeometry>
+                                                                                    </Path.Data>
+                                                                                </Path>
+                                                                                        <Path Stroke="Black" StrokeThickness="0,15" Margin="0" StrokeDashArray="0.3" >
+                                                                                    <Path.Data>
+                                                                                        <PathGeometry>
+                                                                                            <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                                                                <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                    Size="130,130" 
+                                                                    RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
+                                                                                            </PathFigure>
+                                                                                        </PathGeometry>
+                                                                                    </Path.Data>
+                                                                                </Path>
+
+                                                                            </Canvas>
+                                                                            <ContentControl Width="150" Height="150" Cursor="Hand"
+                                        Name="PART_StartCanvas" Canvas.Left="150"  >
+                                                                                <ContentControl.Content>
+                                                                                        <Canvas>
+                                                                                            <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
+                                                                                                <Border Background="DimGray" CornerRadius="15" >
+                                                                                                        <Border.LayoutTransform>
+                                                                                                            <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleStart}"/>
+                                                                                                        </Border.LayoutTransform>
+
+                                                                                                        <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                                        Kind="TimerStart" Width="25" Height="25" Foreground="LightGray">
+                                                                                                        
+
+                                                                                                    </materialDesign:PackIcon>
+                                                                                                    <Border.Triggers>
+                                                                                                        <EventTrigger RoutedEvent="MouseDown">
+                                                                                                            <EventTrigger.Actions>
+                                                                                                                <BeginStoryboard>
+                                                                                                                    <Storyboard Duration="00:00:01">
+                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DarkGray" />
+                                                                                                                    </Storyboard>
+                                                                                                                </BeginStoryboard>
+                                                                                                            </EventTrigger.Actions>
+                                                                                                        </EventTrigger>
+                                                                                                        <EventTrigger RoutedEvent="MouseUp">
+                                                                                                            <EventTrigger.Actions>
+                                                                                                                <BeginStoryboard>
+                                                                                                                    <Storyboard Duration="00:00:01">
+                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DimGray" />
+                                                                                                                    </Storyboard>
+                                                                                                                </BeginStoryboard>
+                                                                                                            </EventTrigger.Actions>
+                                                                                                        </EventTrigger>
+                                                                                                        <EventTrigger RoutedEvent="MouseLeave">
+                                                                                                            <EventTrigger.Actions>
+                                                                                                                <BeginStoryboard>
+                                                                                                                    <Storyboard Duration="00:00:01">
+                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DimGray" />
+                                                                                                                    </Storyboard>
+                                                                                                                </BeginStoryboard>
+                                                                                                            </EventTrigger.Actions>
+                                                                                                        </EventTrigger>
+                                                                                                    </Border.Triggers>
+                                                                                                </Border>
+                                                                                                
+                                                                                            </Grid>
+                                                                                        </Canvas>
+                                                                                </ContentControl.Content>
+                                                                                <ContentControl.RenderTransform>
+                                                                                    <RotateTransform CenterX="0" CenterY="150" >
+                                                                                        <RotateTransform.Angle>
+                                                                                            <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
+                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                                                            </MultiBinding>
+                                                                                        </RotateTransform.Angle>
+                                                                                    </RotateTransform>
+                                                                                </ContentControl.RenderTransform>
+
+                                                                            </ContentControl>
+                                                                                    <ContentControl Width="150" Height="150"  Cursor="Hand"
+                                        Name="PART_EndCanvas" Canvas.Left="150"  >
+                                                                                    <ContentControl.Content>
+                                                                                        <Canvas>
+                                                                                            <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
+                                                                                                <Border Background="DimGray" CornerRadius="15" >
+                                                                                                        <Border.LayoutTransform>
+                                                                                                            <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
+                                                                                                        </Border.LayoutTransform>
+                                                                                                        <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                                        Kind="TimerStop" Width="25" Height="25" Foreground="LightGray">
+
+                                                                                                    </materialDesign:PackIcon>
+                                                                                                    <Border.Triggers>
+                                                                                                        <EventTrigger RoutedEvent="MouseDown">
+                                                                                                            <EventTrigger.Actions>
+                                                                                                                <BeginStoryboard>
+                                                                                                                    <Storyboard Duration="00:00:01">
+                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DarkGray" />
+                                                                                                                    </Storyboard>
+                                                                                                                </BeginStoryboard>
+                                                                                                            </EventTrigger.Actions>
+                                                                                                        </EventTrigger>
+                                                                                                        <EventTrigger RoutedEvent="MouseUp">
+                                                                                                            <EventTrigger.Actions>
+                                                                                                                <BeginStoryboard>
+                                                                                                                    <Storyboard Duration="00:00:01">
+                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DimGray" />
+                                                                                                                    </Storyboard>
+                                                                                                                </BeginStoryboard>
+                                                                                                            </EventTrigger.Actions>
+                                                                                                        </EventTrigger>
+                                                                                                        <EventTrigger RoutedEvent="MouseLeave">
+                                                                                                            <EventTrigger.Actions>
+                                                                                                                <BeginStoryboard>
+                                                                                                                    <Storyboard Duration="00:00:01">
+                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DimGray" />
+                                                                                                                    </Storyboard>
+                                                                                                                </BeginStoryboard>
+                                                                                                            </EventTrigger.Actions>
+                                                                                                        </EventTrigger>
+                                                                                                    </Border.Triggers>
+                                                                                                </Border>
+
+                                                                                            </Grid>
+                                                                                        </Canvas>
+                                                                                    </ContentControl.Content>
+
+                                                                                <ContentControl.RenderTransform>
+                                                                                    <RotateTransform CenterX="0" CenterY="150" >
+                                                                                        <RotateTransform.Angle>
+                                                                                            <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
+                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                                                            </MultiBinding>
+                                                                                        </RotateTransform.Angle>
+                                                                                    </RotateTransform>
+                                                                                </ContentControl.RenderTransform>
+
+                                                                            </ContentControl>     
+                                                                        </Canvas>
+                                                               
+
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                    </Grid>
+                                                                    </Viewbox>
+                                                                </Grid>
+                                                            </Border>
+
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                </Style>
+                                            </GD_Common:CircularRangeSlider.Style>
+                                        </GD_Common:CircularRangeSlider>
+
+                                    
+                                        <TextBox Text="{Binding ElementName=CRangeSlider, Path=Start}"/>
+                                        <TextBox Text="{Binding ElementName=CRangeSlider, Path=End}"/>
+
+
+                                    
+
+
+
                                         <materialDesign:PopupBox  Padding="50"
                                                                   
                                                 Style="{StaticResource GD_PopUpBox}"
@@ -1237,7 +1571,7 @@
                                     </GD_UserControls:FunctionToggleUserControl.Style>
                                 </GD_UserControls:FunctionToggleUserControl>
 
-                                <GD_UserControls:FunctionToggleUserControl  x:Name="TBtn_LightUpSwitch">
+                                <GD_UserControls:FunctionToggleUserControl  x:Name="TBtn_LightUpSwitch" >
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_LightUpSwitch}"      />
