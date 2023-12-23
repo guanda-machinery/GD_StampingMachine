@@ -180,9 +180,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _deleteCommand ??= new AsyncRelayCommand<object>(async obj=> 
             { 
+                if(obj is ObservableCollection<GD_StampingMachine.ViewModels.ParameterSetting.TimingControlViewModel> collection)
+                {
+                    if(collection.Contains(this))
+                        collection.Remove(this);
+                }
 
-            
-            });
+
+        });
         }
 
 

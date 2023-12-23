@@ -1313,7 +1313,7 @@
                                 <ToggleButton Name="FinishToggleButton" 
                                               Content="完成" IsChecked="{Binding ElementName=TestToggleButton,Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"/>
 
-                                    <ListBox Name="TimingControlVMCollectionListBox"
+                                    <ListBox Name="TimingControlVMCollectionListBox" 
                                         ItemsSource="{Binding TimingControlVMCollection}" SelectedItem="{Binding TimingControlVMSelected}">
                                         <ListBox.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -1322,9 +1322,12 @@
                                         </ListBox.ItemsPanel>
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="ListBoxItem">
+                                                <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                                <Setter Property="Cursor" Value="Hand"/>
                                                 <Setter Property="Template">
                                                     <Setter.Value>
-                                                        <ControlTemplate>
+                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                            <Border Background="{TemplateBinding Background}">
                                                             <Grid  
                                                                 d:DataContext="{d:DesignInstance Type=ParameterSetting:TimingControlViewModel}">
                                                                 <Grid.ColumnDefinitions>
@@ -1336,15 +1339,19 @@
                                                                 <Expander 
                                         IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked}"
                                         Background="Transparent" ExpandDirection="Right" >
-                                                                    <ToggleButton x:Name="PrepareDeleteButton" Background="Transparent">
-                                                                        <materialDesign:PackIcon 
+
+                                                                        <Expander 
+                                        IsExpanded="{Binding ElementName=PrepareDeleteButton,Path=IsChecked, Converter={GD_Common:InvertBooleanConverter}}"
+                                        Background="Transparent" ExpandDirection="Right" >
+                                                                            <ToggleButton x:Name="PrepareDeleteButton" Background="Transparent">
+                                                                                <materialDesign:PackIcon 
                                                 Kind="MinusCircle"  Foreground="Red" Width="30" Height="30"/>
-                                                                    </ToggleButton>
+                                                                            </ToggleButton>
+                                                                        </Expander>
+                                                                    
+                                                                    </Expander>
 
-                                                                </Expander>
-
-
-                                                                <Grid Grid.Column="1" Margin="5,0">
+                                                                    <Grid Grid.Column="1" Margin="5,0">
                                                                     <Grid.Style>
                                                                         <Style TargetType="{x:Type Grid}" >
                                                                             <Setter Property="Opacity" Value="1"/>
@@ -1355,7 +1362,6 @@
                                                                             </Style.Triggers>
                                                                         </Style>
                                                                     </Grid.Style>
-                                                                    <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5"/>
                                                                     <StackPanel 
                                                                             Margin="10,5">
                                                                         <TextBlock 
@@ -1366,8 +1372,14 @@
                                                                     </StackPanel>
                                                                 </Grid>
 
+                                                                    <Grid Grid.Column="1"  >
+                                                                        <ToggleButton Style="{x:Null}"
+                                                                            Background="Transparent" BorderThickness="0"
+                                                                                      IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"
+                                                                                      IsChecked="{Binding ElementName=PrepareDeleteButton, Path=IsChecked ,Converter={GD_Common:InvertBooleanConverter}}"/>
+                                                                    </Grid>
 
-                                                                <Expander Grid.Column="2" 
+                                                                    <Expander Grid.Column="2" 
                                         IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked, Converter={GD_Common:InvertBooleanConverter}}"
                                         Background="Transparent" ExpandDirection="Right" >
                                                                     <CheckBox  IsThreeState="False" IsChecked="{Binding IsEnable}"
@@ -1387,10 +1399,20 @@
                                                     Padding="10,0"/>
 
                                                                 </Expander>
-                                                            </Grid>
+                                                                </Grid>
+                                                            </Border>
                                                         </ControlTemplate>
                                                     </Setter.Value>
                                                 </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource  PrimaryHueMidBrush}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                                    </Trigger>
+
+                                                </Style.Triggers>
                                             </Style>
                                         </ListBox.ItemContainerStyle>
 
