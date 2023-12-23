@@ -51,6 +51,33 @@ namespace GD_CommonLibrary
         }
     }
 
+
+    public class DateTimeToHourConverter : BaseValueConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is DateTime time)
+            {
+                var ts = (time - time.Date).TotalHours;
+                return ts;
+            }
+
+            return 0d;
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value is double dValue)
+            {
+                return new DateTime().AddHours(dValue);
+            }
+
+            return new DateTime();
+
+        }
+    }
+
+
     public class HourDiffToDateTimeMultiConverter : BaseMultiValueConverter
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

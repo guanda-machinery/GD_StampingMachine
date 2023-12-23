@@ -7,6 +7,8 @@
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
+            xmlns:ParameterSetting="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting"
+             
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
@@ -1311,74 +1313,90 @@
                                 <ToggleButton Name="FinishToggleButton" 
                                               Content="完成" IsChecked="{Binding ElementName=TestToggleButton,Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"/>
 
-                                    <ItemsControl ItemsSource="{Binding TimingControlVMCollection}">
-                                        <ItemsControl.Template>
-                                            <ControlTemplate>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Expander 
+                                    <ListBox Name="TimingControlVMCollectionListBox"
+                                        ItemsSource="{Binding TimingControlVMCollection}" SelectedItem="{Binding TimingControlVMSelected}">
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <Grid  
+                                                                d:DataContext="{d:DesignInstance Type=ParameterSetting:TimingControlViewModel}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Expander 
                                         IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked}"
                                         Background="Transparent" ExpandDirection="Right" >
-                                                        <ToggleButton x:Name="PrepareDeleteButton" Background="Transparent">
-                                                            <materialDesign:PackIcon 
+                                                                    <ToggleButton x:Name="PrepareDeleteButton" Background="Transparent">
+                                                                        <materialDesign:PackIcon 
                                                 Kind="MinusCircle"  Foreground="Red" Width="30" Height="30"/>
-                                                        </ToggleButton>
+                                                                    </ToggleButton>
 
-                                                    </Expander>
+                                                                </Expander>
 
-                                                    <Button Grid.Column="1"  HorizontalContentAlignment="Left"
-                                            BorderThickness="1"
-                                            Background="{DynamicResource PrimaryHueDarkBrush}">
-                                                        <Button.Style>
-                                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TimingButton}">
-                                                                <Setter Property="Opacity" Value="1"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ElementName=SwitchCheckBox ,Path=IsChecked}" Value="false">
-                                                                        <Setter Property="Opacity" Value="0.5"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Button.Style>
-                                                        <StackPanel >
-                                                            <TextBlock 
+
+                                                                <Grid Grid.Column="1" Margin="5,0">
+                                                                    <Grid.Style>
+                                                                        <Style TargetType="{x:Type Grid}" >
+                                                                            <Setter Property="Opacity" Value="1"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding Path=IsEnable}" Value="false">
+                                                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Grid.Style>
+                                                                    <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5"/>
+                                                                    <StackPanel 
+                                                                            Margin="10,5">
+                                                                        <TextBlock 
                                                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                                 Text="{Binding ElementName=CRangeSlider, Path=Start, Converter={GD_Common:HourToDateTimeConverter}}"
+                                                 Text="{Binding RestTime, StringFormat='HH:mm'}"
                                                 FontSize="50"/>
-                                                            <TextBlock Text="每個平日"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                        </StackPanel>
-                                                    </Button>
+                                                                        <TextBlock Text="每個平日"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                    </StackPanel>
+                                                                </Grid>
 
 
-                                                    <Expander Grid.Column="2" 
+                                                                <Expander Grid.Column="2" 
                                         IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked, Converter={GD_Common:InvertBooleanConverter}}"
                                         Background="Transparent" ExpandDirection="Right" >
-                                                        <CheckBox  Name="SwitchCheckBox" IsThreeState="False"
+                                                                    <CheckBox  IsThreeState="False" IsChecked="{Binding IsEnable}"
                                             Style="{StaticResource GreenSwitch}" />
 
-                                                    </Expander>
+                                                                </Expander>
 
 
 
-                                                    <Expander Grid.Column="3" ExpandDirection="Left"
+                                                                <Expander Grid.Column="3" ExpandDirection="Left"
                                         IsExpanded="{Binding ElementName=PrepareDeleteButton, Path=IsChecked}">
 
-                                                        <Button Background="Red"  
-                                                    Content="刪除"  Foreground="White" FontSize="16"
+                                                                    <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=TimingControlVMCollectionListBox,Path=ItemsSource}"
+                                                                        
+                                                                        Background="Red"  
+                                                    Content="{DynamicResource btnDelete}"  Foreground="White" FontSize="16"
                                                     Padding="10,0"/>
 
-                                                    </Expander>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </ItemsControl.Template>
-                                    </ItemsControl>
+                                                                </Expander>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
 
+                                    </ListBox>
                                     <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Center">
-                                    <Grid>
+                                        <Grid DataContext="{Binding TimingControlVMSelected}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>
@@ -1400,23 +1418,22 @@
                                             </StackPanel>
                                                 <TextBox Width="auto"
                                                     Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
-                                                Text="{Binding ElementName=CRangeSlider, Path=Start, Converter={GD_Common:HourToDateTimeConverter}}" />
+                                                Text="{Binding RestTime, StringFormat='HH:mm' ,UpdateSourceTrigger=PropertyChanged}" />
                                         </Grid>
-                                        <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="5">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
-                                            </StackPanel>
-                                            <TextBox Width="auto"
+                                            <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                </StackPanel>
+                                                <TextBox Width="auto"
                                                 Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
-                                                Text="{Binding ElementName=CRangeSlider, Path=End, Converter={GD_Common:HourToDateTimeConverter}}" />
-                                        </Grid>
-
-                                        <GD_Common:CircularRangeSlider 
+                                                Text="{Binding OpenTime, StringFormat='HH:mm', UpdateSourceTrigger=PropertyChanged}" />
+                                            </Grid>
+                                            <GD_Common:CircularRangeSlider 
                                             Grid.ColumnSpan="2"
                                             Grid.Row="1"
                                             Name="CRangeSlider" Width="200" Height="200"
@@ -1425,6 +1442,9 @@
                                                                        Radius="130"
                                                                        LargeCalibration="24"
                                                                        SmallCalibration="96"
+                                                Start="{Binding RestTime , Converter={GD_Common:DateTimeToHourConverter}}"
+                                                End="{Binding OpenTime, Converter={GD_Common:DateTimeToHourConverter}}"
+                                                
                                             >
                                     <GD_Common:CircularRangeSlider.Style>
                                         <Style TargetType="{x:Type GD_Common:CircularRangeSlider}" >

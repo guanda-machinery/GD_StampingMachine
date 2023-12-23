@@ -32,8 +32,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
             TimingControlVMCollection = new ObservableCollection<TimingControlViewModel>(timingSetting.TimingControlCollection?.Select(x => new TimingControlViewModel(x)));
 
-            if(Debugger.IsAttached)
+            if (Debugger.IsAttached)
+            {
                 TimingControlVMCollection.Add(new TimingControlViewModel());
+                TimingControlVMCollection.Add(new TimingControlViewModel());
+                TimingControlVMCollection.Add(new TimingControlViewModel());
+
+            }
         }
 
         //private TimingSettingModel _timingSetting;
@@ -62,6 +67,19 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 TimingSetting.TimingControlCollection = value.Select(x => x.timingControlModel).ToList();
                 OnPropertyChanged(); 
             } 
+        }
+
+
+
+        private TimingControlViewModel _timingControlVMSelected;
+        public TimingControlViewModel TimingControlVMSelected
+        {
+            get => _timingControlVMSelected??=new();
+            set
+            { 
+                _timingControlVMSelected = value;
+                OnPropertyChanged(); 
+            }
         }
 
 
@@ -157,7 +175,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private bool _isDeleteButtonTrigger;
         public bool IsDeleteButtonTrigger { get=> _isDeleteButtonTrigger; set { _isDeleteButtonTrigger = value;OnPropertyChanged(); } }
 
-        public ICommand _deleteCommand;
+        private ICommand _deleteCommand;
         public ICommand DeleteCommand 
         {
             get => _deleteCommand ??= new AsyncRelayCommand<object>(async obj=> 
