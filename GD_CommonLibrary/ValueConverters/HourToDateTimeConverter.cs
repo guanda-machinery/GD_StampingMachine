@@ -32,11 +32,18 @@ namespace GD_CommonLibrary
             {
 
             }
+            else if (DateTime.TryParseExact(timeString, "H:mm", null, DateTimeStyles.None, out result))
+            {
+
+            }
             else if (DateTime.TryParseExact(timeString, "HH", null, DateTimeStyles.None, out result))
             {
 
             }
+            else if (DateTime.TryParseExact(timeString, "H", null, DateTimeStyles.None, out result))
+            {
 
+            }
 
             var timeDifference = result - result.Date;
 

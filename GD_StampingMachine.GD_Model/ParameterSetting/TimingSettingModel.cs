@@ -30,7 +30,26 @@ namespace GD_StampingMachine.GD_Model
         public int RepeatCount { get; set; }
 
 
+        private List<TimingControlModel> timingControlCollection;
+        public List<TimingControlModel> TimingControlCollection { get => timingControlCollection ??= new(); set => timingControlCollection = value; }
+    }
+    public class TimingControlModel
+    {
+        /// <summary>
+        /// 休息時間
+        /// </summary>
+        public DateTime RestTime { get; set; }
+        /// <summary>
+        /// 開啟時間
+        /// </summary>
+        public DateTime OpenTime { get; set; }
+        /// <summary>
+        /// 已啟用
+        /// </summary>
+        public bool IsEnable { get; set; }
 
 
     }
+
+
 }

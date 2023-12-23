@@ -1303,84 +1303,81 @@
                                         <Setter Property="FontSize" Value="20"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                
+                                    <!--           Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, 
+ Converter={dx:BooleanToVisibilityConverter Invert=True}}"-->
                                 <ToggleButton Name="TestToggleButton" 
-                                              Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, 
-                                    Converter={dx:BooleanToVisibilityConverter Invert=True}}"
+                                   
                                               Content="編輯"/>
                                 <ToggleButton Name="FinishToggleButton" 
-                                              Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, 
-                                    Converter={dx:BooleanToVisibilityConverter  Invert=True}}"
                                               Content="完成" IsChecked="{Binding ElementName=TestToggleButton,Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"/>
-                                
-                                <Grid>
 
-
-                                    
-                                    
-                                    
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Expander 
+                                    <ItemsControl ItemsSource="{Binding TimingControlVMCollection}">
+                                        <ItemsControl.Template>
+                                            <ControlTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Expander 
                                         IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked}"
                                         Background="Transparent" ExpandDirection="Right" >
-                                        <ToggleButton x:Name="PrepareDeleteButton" Background="Transparent">
-                                            <materialDesign:PackIcon 
+                                                        <ToggleButton x:Name="PrepareDeleteButton" Background="Transparent">
+                                                            <materialDesign:PackIcon 
                                                 Kind="MinusCircle"  Foreground="Red" Width="30" Height="30"/>
-                                        </ToggleButton>
+                                                        </ToggleButton>
 
-                                    </Expander>
+                                                    </Expander>
 
-                                    <Button Grid.Column="1"  HorizontalContentAlignment="Left"
+                                                    <Button Grid.Column="1"  HorizontalContentAlignment="Left"
                                             BorderThickness="1"
-                                            Background="Transparent">
-                                        <Button.Style>
-                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TimingButton}">
-                                                <Setter Property="Opacity" Value="1"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=SwitchCheckBox ,Path=IsChecked}" Value="false">
-                                                        <Setter Property="Opacity" Value="0.5"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                        <StackPanel >
-                                            <TextBlock 
+                                            Background="{DynamicResource PrimaryHueDarkBrush}">
+                                                        <Button.Style>
+                                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TimingButton}">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ElementName=SwitchCheckBox ,Path=IsChecked}" Value="false">
+                                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <StackPanel >
+                                                            <TextBlock 
+                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                  Text="{Binding ElementName=CRangeSlider, Path=Start, Converter={GD_Common:HourToDateTimeConverter}}"
                                                 FontSize="50"/>
-                                            <TextBlock Text="每個平日"/>
-                                        </StackPanel>
-                                    </Button>
+                                                            <TextBlock Text="每個平日"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                        </StackPanel>
+                                                    </Button>
 
 
-                                    <Expander Grid.Column="2" 
+                                                    <Expander Grid.Column="2" 
                                         IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked, Converter={GD_Common:InvertBooleanConverter}}"
                                         Background="Transparent" ExpandDirection="Right" >
-                                        <CheckBox  Name="SwitchCheckBox" IsThreeState="False"
+                                                        <CheckBox  Name="SwitchCheckBox" IsThreeState="False"
                                             Style="{StaticResource GreenSwitch}" />
 
-                                    </Expander>
-                                    
-                                    
+                                                    </Expander>
 
-                                    <Expander Grid.Column="3" ExpandDirection="Left"
+
+
+                                                    <Expander Grid.Column="3" ExpandDirection="Left"
                                         IsExpanded="{Binding ElementName=PrepareDeleteButton, Path=IsChecked}">
-                         
-                                            <Button Background="Red"  
+
+                                                        <Button Background="Red"  
                                                     Content="刪除"  Foreground="White" FontSize="16"
                                                     Padding="10,0"/>
 
-                                    </Expander>
+                                                    </Expander>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </ItemsControl.Template>
+                                    </ItemsControl>
 
-
-
-                                </Grid>
-
-                                <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Center">
+                                    <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Center">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -1401,7 +1398,8 @@
                                                 <materialDesign:PackIcon Kind="TimerStart" Foreground="Aqua" VerticalAlignment="Center"/>
                                                 <TextBlock Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                             </StackPanel>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
+                                                <TextBox Width="auto"
+                                                    Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
                                                 Text="{Binding ElementName=CRangeSlider, Path=Start, Converter={GD_Common:HourToDateTimeConverter}}" />
                                         </Grid>
                                         <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="5">
@@ -1413,7 +1411,8 @@
                                                 <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
                                                 <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                             </StackPanel>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
+                                            <TextBox Width="auto"
+                                                Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
                                                 Text="{Binding ElementName=CRangeSlider, Path=End, Converter={GD_Common:HourToDateTimeConverter}}" />
                                         </Grid>
 
