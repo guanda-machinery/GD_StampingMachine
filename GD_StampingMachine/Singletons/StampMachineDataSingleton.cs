@@ -2975,8 +2975,8 @@ namespace GD_StampingMachine.Singletons
                         ret = await SetEngravingFeedingSetupVelocityAsync((float)e.NewValue);
                         ret = await SetEngravingFeedingVelocityAsync((float)e.NewValue);
 
-                        ret = await SetEngravingRotateSetupVelocityAsync((float)e.NewValue);
-                        ret = await SetEngravingRotateVelocityAsync((float)e.NewValue);
+                        //ret = await SetEngravingRotateSetupVelocityAsync((float)e.NewValue);
+                        //ret = await SetEngravingRotateVelocityAsync((float)e.NewValue);
                     }
                     else
                     {
