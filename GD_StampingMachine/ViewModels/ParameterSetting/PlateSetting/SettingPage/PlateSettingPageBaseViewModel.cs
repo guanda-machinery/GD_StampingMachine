@@ -1,21 +1,14 @@
-﻿using GD_CommonLibrary.Extensions;
-using GD_CommonLibrary;
-using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Method;
+﻿using GD_StampingMachine.GD_Enum;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
     public abstract class PlateSettingPageBaseViewModel : ParameterSettingBaseViewModel
     {
 
-        public abstract SheetStampingTypeFormEnum SheetStampingTypeForm{get;}
+        public abstract SheetStampingTypeFormEnum SheetStampingTypeForm { get; }
 
         [JsonIgnore]
         public Array HorizontalAlignmentCollection
@@ -73,5 +66,5 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     }
 
 
-    
+
 }

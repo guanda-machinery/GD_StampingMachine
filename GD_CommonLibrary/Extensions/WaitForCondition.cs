@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
 
 namespace GD_CommonLibrary.Extensions
 {
@@ -17,10 +14,10 @@ namespace GD_CommonLibrary.Extensions
 
         public static async Task WaitAsyncIsFalse(Func<bool> conditionFunc)
         {
-            await WaitAsync(conditionFunc,false);
+            await WaitAsync(conditionFunc, false);
         }
 
-        public static async Task WaitIsTrueAsync(Func<bool> conditionFunc , CancellationToken token)
+        public static async Task WaitIsTrueAsync(Func<bool> conditionFunc, CancellationToken token)
         {
             await WaitAsync(conditionFunc, true, token);
         }
@@ -34,13 +31,13 @@ namespace GD_CommonLibrary.Extensions
         public static async Task WaitIsTrueAsync(Func<bool> conditionFunc, int millisecondsDelay)
         {
             using CancellationTokenSource cts = new(millisecondsDelay);
-            await WaitAsync(conditionFunc ,true, cts.Token);
+            await WaitAsync(conditionFunc, true, cts.Token);
         }
 
         public static async Task WaitAsyncIsFalse(Func<bool> conditionFunc, int millisecondsDelay)
         {
             using CancellationTokenSource cts = new(millisecondsDelay);
-            await WaitAsync(conditionFunc,false, cts.Token);
+            await WaitAsync(conditionFunc, false, cts.Token);
         }
 
         public static async Task WaitIsTrueAsync(Func<bool> conditionFunc, int millisecondsDelay, CancellationToken token)
@@ -52,7 +49,7 @@ namespace GD_CommonLibrary.Extensions
         public static async Task WaitAsyncIsFalse(Func<bool> conditionFunc, int millisecondsDelay, CancellationToken token)
         {
             using CancellationTokenSource cts = new(millisecondsDelay);
-            await WaitAsync(conditionFunc, false, cts.Token , token);
+            await WaitAsync(conditionFunc, false, cts.Token, token);
         }
 
 
@@ -67,7 +64,7 @@ namespace GD_CommonLibrary.Extensions
         /// <returns></returns>
         public static async Task WaitAsync<T>(Func<T> conditionFunc, T result)
         {
-             await WaitAsync(conditionFunc, result, true);
+            await WaitAsync(conditionFunc, result, true);
         }
         /// <summary>
         /// 等待
@@ -78,7 +75,7 @@ namespace GD_CommonLibrary.Extensions
         /// <returns></returns>
         public static async Task WaitNotAsync<T>(Func<T> conditionFunc, T result)
         {
-             await WaitAsync(conditionFunc, result, false);
+            await WaitAsync(conditionFunc, result, false);
         }
 
         /// <summary>
@@ -92,7 +89,7 @@ namespace GD_CommonLibrary.Extensions
         public static async Task WaitAsync<T>(Func<T> conditionFunc, T result, int millisecondsDelay)
         {
             using CancellationTokenSource cts = new(millisecondsDelay);
-            await WaitAsync(conditionFunc, result, true , cts.Token);
+            await WaitAsync(conditionFunc, result, true, cts.Token);
         }
 
         /// <summary>
@@ -106,7 +103,7 @@ namespace GD_CommonLibrary.Extensions
         public static async Task WaitNotAsync<T>(Func<T> conditionFunc, T result, int millisecondsDelay)
         {
             using CancellationTokenSource cts = new(millisecondsDelay);
-            await WaitAsync(conditionFunc, result, false ,cts.Token);
+            await WaitAsync(conditionFunc, result, false, cts.Token);
         }
 
 
@@ -119,7 +116,7 @@ namespace GD_CommonLibrary.Extensions
         /// <returns></returns>
         public static async Task WaitAsync<T>(Func<T> conditionFunc, T result, params CancellationToken[] tokens)
         {
-             await WaitAsync(conditionFunc , result , true ,  tokens);
+            await WaitAsync(conditionFunc, result, true, tokens);
         }
         /// <summary>
         /// 等待
@@ -130,7 +127,7 @@ namespace GD_CommonLibrary.Extensions
         /// <returns></returns>
         public static async Task WaitNotAsync<T>(Func<T> conditionFunc, T result, params CancellationToken[] tokens)
         {
-             await WaitAsync(conditionFunc, result, false, tokens);
+            await WaitAsync(conditionFunc, result, false, tokens);
         }
 
 
@@ -142,12 +139,12 @@ namespace GD_CommonLibrary.Extensions
         /// <param name="result"></param>
         /// <param name="isEqual"></param>
         /// <returns></returns>
-        public static async Task<bool> WaitAsync<T>(Func<T> conditionFunc, T result ,bool isEqual , params CancellationToken[] tokens)
+        public static async Task<bool> WaitAsync<T>(Func<T> conditionFunc, T result, bool isEqual, params CancellationToken[] tokens)
         {
             // 创建 TaskCompletionSource
             var tcs = new TaskCompletionSource<bool>();
             // 啟動一個異步
-            _ = MonitorConditionAsync(conditionFunc, result, isEqual, tcs , tokens);
+            _ = MonitorConditionAsync(conditionFunc, result, isEqual, tcs, tokens);
             await Task.Yield();
             // 等待條件滿足
             return await tcs.Task;
@@ -160,7 +157,7 @@ namespace GD_CommonLibrary.Extensions
 
 
 
-        static async Task<bool> MonitorConditionAsync<T>(Func<T> conditionFunc,   T result, bool isEqual, TaskCompletionSource<bool> tcs , params CancellationToken[] tokens)
+        static async Task<bool> MonitorConditionAsync<T>(Func<T> conditionFunc, T result, bool isEqual, TaskCompletionSource<bool> tcs, params CancellationToken[] tokens)
         {
             try
             {

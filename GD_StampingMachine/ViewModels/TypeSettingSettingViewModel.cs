@@ -1,22 +1,14 @@
-﻿using DevExpress.CodeParser;
-using DevExpress.Mvvm.DataAnnotations;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.Extensions;
+using DevExpress.Mvvm.Native;
 using GD_CommonLibrary.Extensions;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using GD_CommonLibrary;
-using Newtonsoft.Json;
-using DevExpress.Mvvm.Native;
-using DevExpress.Data.Extensions;
-using GD_CommonLibrary.Method;
-using GD_StampingMachine.Method;
-using CommunityToolkit.Mvvm.Input;
 using System.Threading;
 using System.Windows;
 
@@ -25,14 +17,14 @@ namespace GD_StampingMachine.ViewModels
     //public class TypeSettingSettingModel
     //{
 
-        /// <summary>
-        /// 製品清單
-        /// </summary>
-        //public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; } 
-        /// <summary>
-        /// 盒子列表
-        /// </summary>
-        //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
+    /// <summary>
+    /// 製品清單
+    /// </summary>
+    //public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; } 
+    /// <summary>
+    /// 盒子列表
+    /// </summary>
+    //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
     //}
     /// <summary>
     /// 排版設定
@@ -89,7 +81,7 @@ namespace GD_StampingMachine.ViewModels
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                     //存檔
 
-                  await  JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
+                    await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
 
                 }, () => !CreateProjectDistributeCommand.IsRunning);
             }
@@ -114,7 +106,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public AsyncRelayCommand<object> DeleteProjectDistributeCommand
         {
-            get => _deleteProjectDistributeCommand??=new AsyncRelayCommand<object>(async obj =>
+            get => _deleteProjectDistributeCommand ??= new AsyncRelayCommand<object>(async obj =>
             {
                 if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {
@@ -132,7 +124,7 @@ namespace GD_StampingMachine.ViewModels
                                     obj.BoxIndex = null;
                                 }
                             });
-                            await  _selectItem.SaveProductProjectVMObservableCollectionAsync();
+                            await _selectItem.SaveProductProjectVMObservableCollectionAsync();
 
                             var F_Index = ProjectDistributeVMObservableCollection.FindIndex(x => x == _selectItem);
                             Removed_List.Add(F_Index);
@@ -145,7 +137,7 @@ namespace GD_StampingMachine.ViewModels
                                 ProjectDistributeVMObservableCollection.RemoveAt(DescendingRemovedIndex);
                             }
                         }
-                    await    new StampingMachineJsonHelper().WriteProjectDistributeListJsonAsync(ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList());
+                        await new StampingMachineJsonHelper().WriteProjectDistributeListJsonAsync(ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList());
                     }
                 }
             });
@@ -154,7 +146,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         private bool _addProjectDistributeDarggableIsPopup;
-        public bool AddProjectDistributeDarggableIsPopup { get=> _addProjectDistributeDarggableIsPopup; set { _addProjectDistributeDarggableIsPopup = value;OnPropertyChanged(); } }
+        public bool AddProjectDistributeDarggableIsPopup { get => _addProjectDistributeDarggableIsPopup; set { _addProjectDistributeDarggableIsPopup = value; OnPropertyChanged(); } }
 
 
 
@@ -162,7 +154,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 全加工專案
         /// </summary>
-        public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; }= new();
+        public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; } = new();
         [JsonIgnore]
         public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand
         {
@@ -182,7 +174,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 準備加工的排版專案
         /// </summary>
-        public ProjectDistributeViewModel ProjectDistributeVM { get=> _projectDistributeVM; set { _projectDistributeVM = value; OnPropertyChanged(); } }
+        public ProjectDistributeViewModel ProjectDistributeVM { get => _projectDistributeVM; set { _projectDistributeVM = value; OnPropertyChanged(); } }
 
 
     }

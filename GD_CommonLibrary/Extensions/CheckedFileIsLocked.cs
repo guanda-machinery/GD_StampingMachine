@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
     public static partial class CommonExtensions
-    {   
+    {
         /// <summary>
-         /// 檢查檔案是否被上鎖
-         /// </summary>
-         /// <param name="file"></param>
-         /// <returns></returns>
+        /// 檢查檔案是否被上鎖
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static bool IsFileLocked(string file)
         {
             try

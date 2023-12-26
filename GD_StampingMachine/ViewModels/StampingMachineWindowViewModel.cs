@@ -1,13 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using GD_CommonLibrary.Method;
-using GD_StampingMachine.Method;
-using GD_StampingMachine.Singletons;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -48,8 +41,8 @@ namespace GD_StampingMachine.ViewModels
             {
                 var MessageBoxReturn = MessageBoxResultShow.Show(
                     (string)Application.Current.TryFindResource("Text_notify"),
-                    (string)Application.Current.TryFindResource("Text_AskCloseProgram"),MessageBoxButton.YesNo , MessageBoxImage.Exclamation);
-                if ( MessageBoxReturn == MessageBoxResult.Yes)
+                    (string)Application.Current.TryFindResource("Text_AskCloseProgram"), MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                if (MessageBoxReturn == MessageBoxResult.Yes)
                 {
                     e.Cancel = false;
                 }
@@ -69,13 +62,13 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private WindowState _windowState= WindowState.Normal;
+        private WindowState _windowState = WindowState.Normal;
         public WindowState WindowState
         {
             get => _windowState;
             set
             {
-                _windowState= value;
+                _windowState = value;
                 if (_windowState != WindowState.Minimized)
                 {
                     try
@@ -115,17 +108,17 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private double _opacity =1;
+        private double _opacity = 1;
         public double Opacity
         {
-            get => _opacity; set { _opacity = value;OnPropertyChanged(); }
+            get => _opacity; set { _opacity = value; OnPropertyChanged(); }
         }
 
 
 
 
         private ICommand _maximizeWindowCommand;
-       public ICommand MaximizeWindowCommand
+        public ICommand MaximizeWindowCommand
         {
             get => _maximizeWindowCommand ??= new RelayCommand(() =>
             {
@@ -151,10 +144,10 @@ namespace GD_StampingMachine.ViewModels
             get => _closeWindowCommand ??= new RelayCommand<System.Windows.RoutedEventArgs>(e =>
             {
                 Window parentWindow = Window.GetWindow((DependencyObject)e.Source);
-                 if (parentWindow != null)
-                 {
-                     parentWindow.Close();
-                 }
+                if (parentWindow != null)
+                {
+                    parentWindow.Close();
+                }
 
 
             });

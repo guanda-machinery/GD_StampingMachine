@@ -9,7 +9,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public SeparateBoxViewModel(SeparateBoxModel SeparateBox)
         {
-            _separateBox= SeparateBox  ;
+            _separateBox = SeparateBox;
         }
 
         [JsonIgnore]
@@ -34,12 +34,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// 箱子內容物的值
         /// </summary>
         [JsonIgnore]
-        public double BoxPieceValue 
+        public double BoxPieceValue
         {
             get => _boxPieceValue;
             set
             {
-                _boxPieceValue = value;OnPropertyChanged();
+                _boxPieceValue = value; OnPropertyChanged();
             }
         }
 

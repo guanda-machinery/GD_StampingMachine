@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_CommonLibrary.Extensions
 {
@@ -24,7 +22,7 @@ namespace GD_CommonLibrary.Extensions
                 if (ValueString.Contains(c))
                 {
                     illegalChar.Add(c);
-                    illegal = true; 
+                    illegal = true;
                 }
             }
             return illegal;
@@ -34,7 +32,7 @@ namespace GD_CommonLibrary.Extensions
         /// </summary>
         /// <param name="ValueString">路徑</param>
         /// <returns></returns>
-        public static bool IsContain_illegalFileNameChars(this string ValueString , out List<char> illegalChar)
+        public static bool IsContain_illegalFileNameChars(this string ValueString, out List<char> illegalChar)
         {
             illegalChar = new List<char>();
             var illegal = false;
@@ -62,7 +60,7 @@ namespace GD_CommonLibrary.Extensions
         /// </summary>
         /// <param name="ValueString"></param>
         /// <returns></returns>
-        public static bool IsLegalPath(this string ValueString , out List<char> illegalChar)
+        public static bool IsLegalPath(this string ValueString, out List<char> illegalChar)
         {
             illegalChar = new List<char>();
             return Path.IsPathRooted(ValueString) && !ValueString.IsContain_illegalPathChars(out illegalChar);
@@ -72,7 +70,7 @@ namespace GD_CommonLibrary.Extensions
         /// </summary>
         /// <param name="ValueString"></param>
         /// <returns></returns>
-        public static bool IsLegalFileName(this string ValueString , out List<char> illegalChar)
+        public static bool IsLegalFileName(this string ValueString, out List<char> illegalChar)
         {
             illegalChar = new List<char>();
             return Path.IsPathRooted(ValueString) && !ValueString.IsContain_illegalFileNameChars(out illegalChar);

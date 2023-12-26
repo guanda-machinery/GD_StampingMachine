@@ -1,11 +1,4 @@
-﻿using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GD_StampingMachine.Model;
 
 namespace GD_StampingMachine.GD_Model.ProductionSetting
 {
@@ -62,7 +55,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// <summary>
         /// 鐵牌字串
         /// </summary>
-        public string IronPlateString { get ; set; }
+        public string IronPlateString { get; set; }
         /// <summary>
         /// QR內容
         /// </summary>
@@ -103,7 +96,7 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public int? BoxIndex { get; set; }
 
-   
+
         /// <summary>
         /// 機台命令
         /// </summary>

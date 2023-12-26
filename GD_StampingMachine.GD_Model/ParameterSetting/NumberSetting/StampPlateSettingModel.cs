@@ -1,11 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.GD_Model;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Model
 {
@@ -23,18 +17,18 @@ namespace GD_StampingMachine.Model
                 rYAxisPos1 = 14,
                 rYAxisPos2 = 14,
             };
-            IronPlateMargin  = new IronPlateMarginStruct();
+            IronPlateMargin = new IronPlateMarginStruct();
 
         }
 
-    /// <summary>
-    /// 自動換行
-    /// </summary>
-    //public bool DashAutoWrapping { get; set; }
+        /// <summary>
+        /// 自動換行
+        /// </summary>
+        //public bool DashAutoWrapping { get; set; }
 
-    /// <summary>
-    /// 型態
-    /// </summary>
+        /// <summary>
+        /// 型態
+        /// </summary>
         public SheetStampingTypeFormEnum SheetStampingTypeForm { get; set; }
         /// <summary>
         /// 目前模式
@@ -48,7 +42,7 @@ namespace GD_StampingMachine.Model
         /// <summary>
         /// 單排數量
         /// </summary>
-        public int SequenceCount { get; set; } 
+        public int SequenceCount { get; set; }
 
 
         public string PlateNumber { get; set; }
@@ -97,7 +91,7 @@ namespace GD_StampingMachine.Model
         public CharactersFormEnum CharactersForm { get; set; }
 
         public string ModelSize { get; set; }
-        
+
         public IronPlateMarginStruct IronPlateMargin { get; set; } = new IronPlateMarginStruct();
 
         public StampingMarginPosModel StampingMarginPos { get; set; } = new StampingMarginPosModel();
@@ -122,10 +116,10 @@ namespace GD_StampingMachine.Model
 
 
 
-        public float rXAxisPos1 { get; set; } 
+        public float rXAxisPos1 { get; set; }
         public float rYAxisPos1 { get; set; }
-        public float rXAxisPos2 { get; set; } 
-        public float rYAxisPos2 { get; set; } 
+        public float rXAxisPos2 { get; set; }
+        public float rYAxisPos2 { get; set; }
     }
 
 

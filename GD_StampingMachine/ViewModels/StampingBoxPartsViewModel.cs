@@ -131,7 +131,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
-            get => _separateBoxVMObservableCollectionelectionChangedCommand??=new RelayCommand<object>(obj =>
+            get => _separateBoxVMObservableCollectionelectionChangedCommand ??= new RelayCommand<object>(obj =>
             {
                 OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
             });
@@ -143,20 +143,20 @@ namespace GD_StampingMachine.ViewModels
 
         //篩選器
         [JsonIgnore]
-        public  ICommand BoxPartsParameterVMRowFilterCommand
+        public ICommand BoxPartsParameterVMRowFilterCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
             {
-                    if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
+                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
+                {
+                    if (SelectedSeparateBoxVM != null)
                     {
-                        if (SelectedSeparateBoxVM != null)
-                        {
-                            if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex)
-                                args.Visible = true;
-                            else
-                                args.Visible = false;
-                        }
+                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex)
+                            args.Visible = true;
+                        else
+                            args.Visible = false;
                     }
+                }
             });
         }
 
@@ -193,7 +193,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         if (gridcontrol.View is DevExpress.Xpf.Grid.TableView tableview)
                         {
-                            var pageSize = ((tableview.ActualHeight - tableview.HeaderPanelMinHeight - 30) / 40) ;
+                            var pageSize = ((tableview.ActualHeight - tableview.HeaderPanelMinHeight - 30) / 40);
                             tableview.PageSize = (pageSize < 3 ? 3 : (int)pageSize);
                         }
                     }

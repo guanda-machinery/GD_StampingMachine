@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace GD_CommonLibrary
 {
-    public abstract class BaseSingleton<T>: IAsyncDisposable, INotifyPropertyChanged where T : BaseSingleton<T>  
+    public abstract class BaseSingleton<T> : IAsyncDisposable, INotifyPropertyChanged where T : BaseSingleton<T>
     {
 
         private static readonly Lazy<T> Lazy = new(() => (Activator.CreateInstance(typeof(T), true) as T)!);
@@ -18,7 +14,7 @@ namespace GD_CommonLibrary
         private static T _instance;
         private bool disposedValue;
 
-        public static T Instance 
+        public static T Instance
         {
             //雙重鎖同步
             get
@@ -29,7 +25,7 @@ namespace GD_CommonLibrary
                     {
                         if (_instance == null)
                         {
-                            for(int i=0;i<10;i++)
+                            for (int i = 0; i < 10; i++)
                             {
                                 try
                                 {
@@ -56,7 +52,7 @@ namespace GD_CommonLibrary
         /// <summary>
         /// 如果有需要初始化 複寫這裡！
         /// </summary>
-        protected virtual void Init()  
+        protected virtual void Init()
         {
 
         }
@@ -98,12 +94,12 @@ namespace GD_CommonLibrary
 
         }
 
-      /*  public void Dispose()
-        {
-            // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }*/
+        /*  public void Dispose()
+          {
+              // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
+              Dispose(disposing: true);
+              GC.SuppressFinalize(this);
+          }*/
 
         public virtual async ValueTask DisposeAsync()
         {

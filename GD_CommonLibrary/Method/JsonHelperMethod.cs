@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Globalization;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
-using GD_StampingMachine.Method;
-using Newtonsoft.Json;
-using Application = System.Windows.Application;
 
 namespace GD_CommonLibrary.Method
 {
@@ -21,11 +12,11 @@ namespace GD_CommonLibrary.Method
         {
             return await Task.Run(async () =>
             {
-                for (int i = 0; i < 10 ; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     await Task.Yield();
                     var ret = WriteJsonFile(fileName, JsonData);
-                    if(ret)
+                    if (ret)
                         return true;
                 }
                 return false;
@@ -68,7 +59,7 @@ namespace GD_CommonLibrary.Method
 
                     File.Delete(fileName);
                     File.Copy(Temp_fileName, fileName);
-                    if(File.Exists(fileName))
+                    if (File.Exists(fileName))
                         File.Delete(Temp_fileName);
                     //File.Move(Temp_fileName, fileName);
                 }
@@ -96,7 +87,7 @@ namespace GD_CommonLibrary.Method
         /// <returns></returns>
         public bool ReadJsonFileWithoutMessageBox<T>(string fileName, out T JsonData)
         {
-            return readJson(fileName,out JsonData, false); 
+            return readJson(fileName, out JsonData, false);
         }
 
         /// <summary>
@@ -109,7 +100,7 @@ namespace GD_CommonLibrary.Method
         /// <returns></returns>
         public bool ReadJsonFile<T>(string fileName, out T JsonData)
         {
-            return readJson(fileName,out JsonData,true); ;
+            return readJson(fileName, out JsonData, true); ;
         }
         /// <summary>
         /// 一般json
@@ -119,7 +110,7 @@ namespace GD_CommonLibrary.Method
         /// <param name="JsonData"></param>
         /// <param name="showMessageBox"></param>
         /// <returns></returns>
-        private bool readJson<T>(string fileName, out T JsonData , bool showMessageBox)
+        private bool readJson<T>(string fileName, out T JsonData, bool showMessageBox)
         {
             JsonData = default(T);
             if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase))
@@ -135,7 +126,7 @@ namespace GD_CommonLibrary.Method
 
             if (!Directory.Exists(Path.GetDirectoryName(fileName)))
                 return false;
-            
+
             if (!File.Exists(fileName))
                 return false;
 
@@ -147,16 +138,16 @@ namespace GD_CommonLibrary.Method
 
                 return JsonData != null;
             }
-            catch (JsonException JEX) 
+            catch (JsonException JEX)
             {
-              /*  if(showMessageBox)
-                    _ =  MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                        fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));*/
+                /*  if(showMessageBox)
+                      _ =  MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                          fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));*/
                 //Debugger.Break();
             }
             catch (Exception ex)
             {
-               // if (showMessageBox)
+                // if (showMessageBox)
                 //    _ =   MessageBoxResultShow.ShowExceptionAsync(ex);
                 //Debugger.Break();
             }
@@ -192,7 +183,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                   // _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                    // _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
             }
@@ -203,10 +194,10 @@ namespace GD_CommonLibrary.Method
         public async Task<bool> ManualWriteJsonFile<T>(T JsonData)
         {
             SaveFileDialog sfd = new SaveFileDialog()
-            { 
+            {
                 Filter = "Json files (*.json)|*.json"
             };
-           
+
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -215,19 +206,19 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
-                  //  _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                    //  _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
             }
             return false;
         }
 
-        
 
 
 
 
 
 
-        }
+
+    }
 }

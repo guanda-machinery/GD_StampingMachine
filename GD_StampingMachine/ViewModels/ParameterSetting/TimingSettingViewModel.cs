@@ -1,20 +1,17 @@
-﻿using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.GD_Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using GD_CommonLibrary;
-using GD_StampingMachine.Method;
-using CommunityToolkit.Mvvm.Input;
-using System.Text.Json.Serialization;
+﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Native;
-using System.Diagnostics;
-using System.Windows.Controls;
+using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
+using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.Method;
+using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -73,7 +70,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private bool _isNewTimingControl;
         public bool IsNewTimingControl
-        { get => _isNewTimingControl; set { _isNewTimingControl = value;OnPropertyChanged(); } }
+        { get => _isNewTimingControl; set { _isNewTimingControl = value; OnPropertyChanged(); } }
 
 
 
@@ -119,7 +116,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _timingControlVMSelectedClone;
             set
             {
-                _timingControlVMSelectedClone = value;OnPropertyChanged();
+                _timingControlVMSelectedClone = value; OnPropertyChanged();
             }
         }
 
@@ -128,10 +125,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _timingControlVMCollectionListBox_SelectionChangedlCommand ??= new RelayCommand<object>(obj =>
             {
-                if(obj is SelectionChangedEventArgs e)
+                if (obj is SelectionChangedEventArgs e)
                 {
                     IsNewTimingControl = false;
-                    if (e.AddedItems.Count>0)
+                    if (e.AddedItems.Count > 0)
                     {
                         IsBottomDrawerOpen = true;
                     }
@@ -165,7 +162,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ICommand _editTimingControlCommand;
         public ICommand EditTimingControlCommand
         {
-            get => _editTimingControlCommand ??= new RelayCommand(() => 
+            get => _editTimingControlCommand ??= new RelayCommand(() =>
             {
                 TimingControlVMCollection.ForEach(x => x.IsEdit = true);
 
@@ -179,7 +176,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _finishEditTimingControlCommand ??= new RelayCommand(() =>
             {
-                TimingControlVMCollection.ForEach(x => 
+                TimingControlVMCollection.ForEach(x =>
                 {
                     x.IsEdit = false;
                     x.IsDeleteButtonTrigger = false;
@@ -204,7 +201,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 EnumList.Add(2);
                 EnumList.Add(3);
                 EnumList.Add(4);
-                EnumList.Add(5); 
+                EnumList.Add(5);
                 EnumList.Add(6);
                 EnumList.Add(7);
 
@@ -219,8 +216,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _isBottomDrawerOpen; set
             {
-                _isBottomDrawerOpen= value;
-                OnPropertyChanged(); }
+                _isBottomDrawerOpen = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -234,24 +232,24 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {/*
                 if (IsThumbDragDeltaDown)
                         IsBottomDrawerOpen = false;*/
-                if(obj is System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+                if (obj is System.Windows.Controls.Primitives.DragCompletedEventArgs e)
                 {
-                  if  (e.VerticalChange > 10)
+                    if (e.VerticalChange > 10)
                     {
                         IsBottomDrawerOpen = false;
                     }
                 }
-        });
+            });
         }
 
 
 
 
-        public override ICommand LoadSettingCommand 
+        public override ICommand LoadSettingCommand
         {
             get => new RelayCommand(() =>
             {
-                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel NewTiming ,true))
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel NewTiming, true))
                 {
                     TimingSetting = NewTiming;
                 }
@@ -279,8 +277,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override ICommand DeleteSettingCommand => throw new NotImplementedException();
     }
-      
-    public  class TimingControlViewModel : GD_CommonLibrary.BaseViewModel
+
+    public class TimingControlViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => "TimingControlViewModel";
         public TimingControlViewModel()
@@ -306,7 +304,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 已啟用
         /// </summary>
-        public bool IsEnable { get=> timingControlModel.IsEnable; set { timingControlModel.IsEnable = value;OnPropertyChanged(); } }
+        public bool IsEnable { get => timingControlModel.IsEnable; set { timingControlModel.IsEnable = value; OnPropertyChanged(); } }
 
 
 
@@ -315,12 +313,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                if(_dayOfWeekWorkVMObservableCollection== null)
+                if (_dayOfWeekWorkVMObservableCollection == null)
                 {
                     _dayOfWeekWorkVMObservableCollection = timingControlModel.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
-               
-                
-                    foreach(var obj in _dayOfWeekWorkVMObservableCollection)
+
+
+                    foreach (var obj in _dayOfWeekWorkVMObservableCollection)
                     {
                         obj.IsWorkChanged += (sender, e) =>
                         {
@@ -338,7 +336,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (value != null)
                 {
                     timingControlModel.DayOfWeekWorkCollection = value.Select(x => x.DayOfWeekWork).ToList();
-                  
+
                     foreach (var obj in value)
                     {
                         obj.IsWorkChanged += (sender, e) =>
@@ -349,7 +347,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
                 }
-                OnPropertyChanged(); } 
+                OnPropertyChanged();
+            }
         }
 
 
@@ -363,23 +362,23 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
         private bool _isDeleteButtonTrigger;
-        public bool IsDeleteButtonTrigger { get=> _isDeleteButtonTrigger; set { _isDeleteButtonTrigger = value;OnPropertyChanged(); } }
+        public bool IsDeleteButtonTrigger { get => _isDeleteButtonTrigger; set { _isDeleteButtonTrigger = value; OnPropertyChanged(); } }
 
         private ICommand _deleteCommand;
-        public ICommand DeleteCommand 
+        public ICommand DeleteCommand
         {
-            get => _deleteCommand ??= new AsyncRelayCommand<object>(async obj=> 
+            get => _deleteCommand ??= new AsyncRelayCommand<object>(async obj =>
             {
                 await Task.CompletedTask;
 
-                if(obj is ObservableCollection<GD_StampingMachine.ViewModels.ParameterSetting.TimingControlViewModel> collection)
+                if (obj is ObservableCollection<GD_StampingMachine.ViewModels.ParameterSetting.TimingControlViewModel> collection)
                 {
-                    if(collection.Contains(this))
+                    if (collection.Contains(this))
                         collection.Remove(this);
                 }
 
 
-        });
+            });
         }
 
 
@@ -416,7 +415,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _onThumbMouseDownCommand ??= new RelayCommand<object>(obj =>
             {
-          
+
                 mouseIsDown = true;
 
                 /*
@@ -488,9 +487,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public readonly DayOfWeekWorkModel DayOfWeekWork;
 
         public DayOfWeek DayOfWeek { get => DayOfWeekWork.DayOfWeek; set { DayOfWeekWork.DayOfWeek = value; OnPropertyChanged(); } }
-        public bool IsWork 
+        public bool IsWork
         {
-            get => DayOfWeekWork.IsWork; 
+            get => DayOfWeekWork.IsWork;
             set
             {
                 bool oldValue = DayOfWeekWork.IsWork;

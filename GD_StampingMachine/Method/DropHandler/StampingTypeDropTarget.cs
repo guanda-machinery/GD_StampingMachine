@@ -1,7 +1,6 @@
 ﻿
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
-using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
@@ -10,17 +9,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace GD_StampingMachine.Method
 {
     /// <summary>
     /// 鋼印字模拖曳
     /// </summary>
-    public class StampingTypeDropTarget: BaseDropTarget
+    public class StampingTypeDropTarget : BaseDropTarget
     {
         public override void DragOver(IDropInfo dropInfo)
         {
@@ -148,16 +144,16 @@ namespace GD_StampingMachine.Method
                 //沒資料不須處理
                 return;
             }
-                var DDMethodType = DragDropMethod.Exchange;
-                //符合資料結構 可進行互換值
-                if (dropInfo.Data is StampingTypeViewModel)//&& dropInfo.TargetItem is StampingTypeViewModel)
+            var DDMethodType = DragDropMethod.Exchange;
+            //符合資料結構 可進行互換值
+            if (dropInfo.Data is StampingTypeViewModel)//&& dropInfo.TargetItem is StampingTypeViewModel)
+            {
+                //新字模區不能放東西進來
+                if ((TargetData as StampingTypeViewModel)?.IsNewAddStamping == true)
                 {
-                    //新字模區不能放東西進來
-                    if ((TargetData as StampingTypeViewModel)?.IsNewAddStamping == true)
-                    {
-                        DDMethodType = DragDropMethod.None;
-                        return;
-                    }
+                    DDMethodType = DragDropMethod.None;
+                    return;
+                }
 
                 if (SourceData != null)
                 {
@@ -180,7 +176,7 @@ namespace GD_StampingMachine.Method
                     if (SourceData is StampingTypeViewModel && TargetTypeNumber.HasValue)
                         (SourceData as StampingTypeViewModel).StampingTypeNumber = TargetTypeNumber.Value;
                 }
-                
+
                 //如果來源是新字模 將模式從互換更改為增加
                 if ((SourceData as StampingTypeViewModel)?.IsNewAddStamping == true)
                 {
@@ -191,15 +187,15 @@ namespace GD_StampingMachine.Method
                         return;
                     }
                     //不可以把新建的字模丟掉
-                    else if (TargetData is null && targetList is null )
+                    else if (TargetData is null && targetList is null)
                     {
                         DDMethodType = DragDropMethod.None;
                         return;
                     }
                     else
                     {
-                       SourceData = (SourceData as StampingTypeViewModel).DeepCloneByJson();
-                        
+                        SourceData = (SourceData as StampingTypeViewModel).DeepCloneByJson();
+
                         (SourceData as StampingTypeViewModel).IsNewAddStamping = false;
                         DDMethodType = DragDropMethod.Copy;
                     }
@@ -208,7 +204,7 @@ namespace GD_StampingMachine.Method
                 var SIndex = dropInfo.DragInfo.SourceIndex;
                 var TIndex = -1;
 
-                if(targetList is IList)
+                if (targetList is IList)
                     TIndex = targetList.IndexOf(TargetData);
 
 
@@ -266,7 +262,7 @@ namespace GD_StampingMachine.Method
                     if (SourceData is StampingTypeViewModel)
                         targetList.Insert(dropInfo.UnfilteredInsertIndex, SourceData);
                 }
-                catch 
+                catch
                 {
 
                 }

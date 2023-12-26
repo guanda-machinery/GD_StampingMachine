@@ -1,34 +1,22 @@
-﻿
-using DevExpress.Mvvm.DataAnnotations;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
-using DevExpress.Xpf.WindowsUI;
-
+using DevExpress.Mvvm.Xpf;
 using GD_CommonLibrary.Extensions;
+using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Method;
 using GD_StampingMachine.GD_Model;
-using GD_CommonLibrary.SplashScreenWindows;
-using GD_StampingMachine.ViewModels.ParameterSetting;
+using GD_StampingMachine.Method;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using GD_CommonLibrary;
-using GD_CommonLibrary.Method;
-using Newtonsoft.Json;
-using DevExpress.Data.Extensions;
-using DevExpress.XtraScheduler;
-using GD_StampingMachine.Properties;
-using static DevExpress.XtraEditors.Mask.MaskSettings;
-using DevExpress.Mvvm.Xpf;
-using DevExpress.XtraScheduler.Commands;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -93,7 +81,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-       
+
 
 
 
@@ -121,14 +109,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 var sfd = new System.Windows.Forms.SaveFileDialog()
                 {
-                    Filter = "Json files (*.json)|*.json" ,
+                    Filter = "Json files (*.json)|*.json",
                     FileName = CreatedProjectVM.ProductProjectName
                 };
 
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     CreatedProjectVM.ProductProjectName = Path.GetFileNameWithoutExtension(sfd.FileName);
-                    CreatedProjectVM.ProductProjectPath = Path.GetDirectoryName(sfd.FileName); 
+                    CreatedProjectVM.ProductProjectPath = Path.GetDirectoryName(sfd.FileName);
                 }
             });
         }
@@ -137,7 +125,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-               await  Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
+                await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
                 //檔案已存在 詢問是否要覆蓋
                 if (ExistedIndex != -1)
@@ -223,7 +211,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             return;
                         }
 
-                        if(ReadProductProject.CreateTime != default)
+                        if (ReadProductProject.CreateTime != default)
                         {
                             ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
                             await SaveProductListSettingAsync();
@@ -231,7 +219,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message);
                     Debugger.Break();
@@ -251,7 +239,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (JsonHM.ManualReadProductProject(out ProductProjectModel ReadProductProject))
                     {
                         //如果檔案已存在 跳過
-                        if (ProductProjectVMObservableCollection.FindIndex(x=>x.ProductProjectName == ReadProductProject.Name) != -1)
+                        if (ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name) != -1)
                         {
                             //
                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
@@ -261,8 +249,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                         var index = ProductProjectVMObservableCollection.FindIndex(x => x == productProjectVM);
                         ProductProjectVMObservableCollection[index] = new ProductProjectViewModel(ReadProductProject);
-                       await this.SaveProductListSettingAsync(); 
-                        
+                        await this.SaveProductListSettingAsync();
+
                         await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                                       (string)Application.Current.TryFindResource("Text_LoadSuccessful"));
                     }
@@ -330,15 +318,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 新增零件的vm
         /// </summary>
-        
-        public ProductProjectViewModel SelectProductProjectVM 
+
+        public ProductProjectViewModel SelectProductProjectVM
         {
-            get => _selectProductProjectVM??= new ProductProjectViewModel(new ProductProjectModel());
-            set 
-            { 
+            get => _selectProductProjectVM ??= new ProductProjectViewModel(new ProductProjectModel());
+            set
+            {
                 _selectProductProjectVM = value;
-                OnPropertyChanged(); 
-                
+                OnPropertyChanged();
+
             }
         }
 
@@ -347,14 +335,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         private bool _showHiddenProject;
         private bool _showAllProject;
 
-        public bool ShowHiddenProject { get=> _showHiddenProject; set { _showHiddenProject = value;OnPropertyChanged(); } }
+        public bool ShowHiddenProject { get => _showHiddenProject; set { _showHiddenProject = value; OnPropertyChanged(); } }
         public bool ShowAllProject { get => _showAllProject; set { _showAllProject = value; OnPropertyChanged(); } }
 
 
         public ICommand _updateFiltrationLogicCommand;
         public ICommand UpdateFiltrationLogicCommand
         {
-            get => _updateFiltrationLogicCommand??=new RelayCommand(() =>
+            get => _updateFiltrationLogicCommand ??= new RelayCommand(() =>
             {
                 UpdateFiltrationLogic();
             });
@@ -367,14 +355,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-       // private DevExpress.Mvvm.DelegateCommand<RowFilterArgs> _productProjectRowFilterCommand;
+        // private DevExpress.Mvvm.DelegateCommand<RowFilterArgs> _productProjectRowFilterCommand;
         //篩選器
         [JsonIgnore]
         public ICommand ProductProjectRowFilterCommand
         {
-            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args=>
+            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
             {
-                if(args?.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel PProject)
+                if (args?.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel PProject)
                 {
                     if (ShowAllProject)
                     {
@@ -396,7 +384,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        
+
 
         /*
 

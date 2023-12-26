@@ -1,16 +1,6 @@
-﻿using DevExpress.Xpf.Core.Native;
-using GD_CommonLibrary.Extensions;
-using GD_CommonLibrary.Method;
+﻿using GD_CommonLibrary.Method;
 using GD_StampingMachine.UserControls;
 using GongSolutions.Wpf.DragDrop;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GD_StampingMachine.Method
 {

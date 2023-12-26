@@ -1,19 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using DevExpress.Data.Extensions;
-using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.Model;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -32,8 +23,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private QRSettingViewModel _qrSetting;
         public QRSettingViewModel QRSettingVM
         {
-            get=>  _qrSetting ??= new QRSettingViewModel() { SequenceCount=6};
-            
+            get => _qrSetting ??= new QRSettingViewModel() { SequenceCount = 6 };
+
             set { _qrSetting = value; OnPropertyChanged(); }
         }
 
@@ -62,7 +53,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ObservableCollection<QRSettingViewModel> _qrSettingModelModelCollection;
         public ObservableCollection<QRSettingViewModel> QRSettingModelCollection
         {
-            get => _qrSettingModelModelCollection??=new();
+            get => _qrSettingModelModelCollection ??= new();
             set
             {
                 _qrSettingModelModelCollection = value;
@@ -136,32 +127,32 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ICommand _saveSettingCommand;
         public override ICommand SaveSettingCommand
         {
-            get => _saveSettingCommand??= new AsyncRelayCommand(async () =>
+            get => _saveSettingCommand ??= new AsyncRelayCommand(async () =>
             {
-                    var FIndex = QRSettingModelCollection.ToList().FindIndex(x => x.NumberSettingMode == QRSettingVM.NumberSettingMode);
-                    if (FIndex != -1)
-                    {
-                        if (await Method.MethodWinUIMessageBox.AskOverwriteOrNotAsync() == MessageBoxResult.Yes)
-                        {
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
-                            });
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else
+                var FIndex = QRSettingModelCollection.ToList().FindIndex(x => x.NumberSettingMode == QRSettingVM.NumberSettingMode);
+                if (FIndex != -1)
+                {
+                    if (await Method.MethodWinUIMessageBox.AskOverwriteOrNotAsync() == MessageBoxResult.Yes)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
+                            QRSettingModelCollection[FIndex] = QRSettingVM.DeepCloneByJson();
                         });
                     }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        QRSettingModelCollection.Add(QRSettingVM.DeepCloneByJson());
+                    });
+                }
 
-                 await   this.JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
+                await this.JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.QRSetting, QRSettingModelCollection, true);
             });
         }
 
@@ -169,7 +160,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public ICommand _deleteSettingCommand;
         public override ICommand DeleteSettingCommand
         {
-            get => _deleteSettingCommand??= new AsyncRelayCommand(async () =>
+            get => _deleteSettingCommand ??= new AsyncRelayCommand(async () =>
             {
                 if (QRSettingModelCollectionSelected != null)
                 {

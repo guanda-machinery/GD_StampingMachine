@@ -1,28 +1,19 @@
-﻿using DevExpress.Mvvm.Native;
-using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Method;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Mvvm;
+using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.Core;
 using GD_StampingMachine.GD_Model;
+using GD_StampingMachine.Method;
+using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using GD_CommonLibrary;
-using Newtonsoft.Json;
-using GD_CommonLibrary.Extensions;
-using DevExpress.Xpf.Core;
 using System.Windows;
-using DevExpress.Mvvm;
-using System.Windows.Controls;
-using System.Windows.Media;
-using GD_CommonLibrary.Method;
-using CommunityToolkit.Mvvm.Input;
-using GD_StampingMachine.Singletons;
 
 
 namespace GD_StampingMachine.ViewModels
@@ -41,7 +32,7 @@ namespace GD_StampingMachine.ViewModels
             Dispose(disposing: false);
         }
         private bool disposedValue;
-   
+
         protected override void Dispose(bool disposing)
         {
 
@@ -49,7 +40,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (disposing)
                 {
-                  // _ = SaveStampingMachineJsonAsync();
+                    // _ = SaveStampingMachineJsonAsync();
                     // TODO: 處置受控狀態 (受控物件)
                 }
 
@@ -151,9 +142,9 @@ namespace GD_StampingMachine.ViewModels
                     {
                         await SaveStampingMachineJsonAsync();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                       _= LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName ,ex.Message);
+                        _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex.Message);
                     }
                     await Task.Delay(30000);
                 }
@@ -243,20 +234,20 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public MachineFunctionViewModel MachineFunctionVM { get => stampingMain.MachineFunctionVM; set => stampingMain.MachineFunctionVM = value; }
 
-       // private MachineFunctionTestViewModel _machineFunctionTestVM;
+        // private MachineFunctionTestViewModel _machineFunctionTestVM;
         //public MachineFunctionTestViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTestViewModel(); set => _machineFunctionTestVM = value; }
 
 
         /// <summary>
         /// 機台警報
         /// </summary>
-       /* public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
-        {
-            get
-            {
-                return Singletons.LogDataSingleton.Instance.DataObservableCollection;
-            }
-        }*/
+        /* public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
+         {
+             get
+             {
+                 return Singletons.LogDataSingleton.Instance.DataObservableCollection;
+             }
+         }*/
 
         #endregion
 
@@ -295,7 +286,7 @@ namespace GD_StampingMachine.ViewModels
 
         public RelayCommand JumpToEngineeringModeCommand
         {
-            get=> new(()=>
+            get => new(() =>
             {
                 StampingMachineSingleton.Instance.ParameterSettingVM.TbtnSeEngineeringModeIsChecked = true;
             });

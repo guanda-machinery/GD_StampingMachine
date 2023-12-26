@@ -1,15 +1,11 @@
-﻿using CsvHelper.Configuration;
-using CsvHelper;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Globalization;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Security.Policy;
 
 namespace GD_StampingMachine.Method
 {
@@ -25,7 +21,7 @@ namespace GD_StampingMachine.Method
         public bool WriteCSVFile<T>(string fileName, T CSVData, bool isAppend)
         {
             var CSVDataIEnumerable = new List<T>() { CSVData };
-            return WriteCSVFileIEnumerable(fileName, CSVDataIEnumerable , true);
+            return WriteCSVFileIEnumerable(fileName, CSVDataIEnumerable, true);
         }
         /// <summary>
         /// 寫入檔案
@@ -34,7 +30,7 @@ namespace GD_StampingMachine.Method
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        public bool WriteCSVFileIEnumerable<T>(string fileName , List<T> CSVDataIEnumerable , bool isAppend=false)
+        public bool WriteCSVFileIEnumerable<T>(string fileName, List<T> CSVDataIEnumerable, bool isAppend = false)
         {
             try
             {
@@ -117,7 +113,7 @@ namespace GD_StampingMachine.Method
         /// <param name="fileName"></param>
         /// <param name="CSVData"></param>
         /// <returns></returns>
-        public bool ReadCSVFile<T>(string fileName , out List<T> CSVDataIEnumerable, bool hasHeaderRecord = true )
+        public bool ReadCSVFile<T>(string fileName, out List<T> CSVDataIEnumerable, bool hasHeaderRecord = true)
         {
             CSVDataIEnumerable = new List<T>();
 

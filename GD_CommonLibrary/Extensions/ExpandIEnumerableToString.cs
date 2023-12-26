@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GD_CommonLibrary.Extensions
 {
@@ -10,13 +6,13 @@ namespace GD_CommonLibrary.Extensions
     {
         public static string ExpandToString<T>(this IEnumerable<T> IEnumerableValue)
         {
-           return IEnumerableValue.ExpandToString(',');
+            return IEnumerableValue.ExpandToString(',');
         }
 
-        public static string ExpandToString<T>(this IEnumerable<T> IEnumerableValue , char splitCharacter)
+        public static string ExpandToString<T>(this IEnumerable<T> IEnumerableValue, char splitCharacter)
         {
             var RString = "";
-            foreach(var obj in IEnumerableValue)
+            foreach (var obj in IEnumerableValue)
             {
                 RString += obj.ToString() + splitCharacter;
             }

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
 {
@@ -16,14 +12,14 @@ namespace GD_CommonLibrary
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value!=null)
+            if (value != null)
             {
-                if(value is IEnumerable<object> ValueArray)
+                if (value is IEnumerable<object> ValueArray)
                 {
                     if (!Invert)
                         return ValueArray.Count() == 0 ? Visibility.Visible : Visibility.Collapsed;
-                   else
-                        return ValueArray.Count() == 0 ?  Visibility.Collapsed: Visibility.Visible;
+                    else
+                        return ValueArray.Count() == 0 ? Visibility.Collapsed : Visibility.Visible;
                 }
             }
 

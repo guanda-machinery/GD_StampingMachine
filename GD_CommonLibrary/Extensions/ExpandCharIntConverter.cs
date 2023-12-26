@@ -1,11 +1,6 @@
 ﻿
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace GD_CommonLibrary.Extensions
 {
@@ -13,7 +8,7 @@ namespace GD_CommonLibrary.Extensions
     {
         public static char ToChar(this int Num)
         {
-            if(Num <0)
+            if (Num < 0)
                 return '\0';
             char C = Convert.ToChar(Num);
             return C;
@@ -25,10 +20,10 @@ namespace GD_CommonLibrary.Extensions
 
         public static int[] ToASC(this string S)
         {
-          var N = new List<int>();
-          foreach(var eachS in S)
+            var N = new List<int>();
+            foreach (var eachS in S)
             {
-                 N.Add(Convert.ToInt32(eachS));
+                N.Add(Convert.ToInt32(eachS));
             }
             return N.ToArray();
         }

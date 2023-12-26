@@ -13,10 +13,10 @@ namespace GD_StampingMachine.GD_Enum
         BT40,
         [Display(Name = "BT50", Description = "")]
         BT50,
-        HSK_A, 
-        HSK_B, 
+        HSK_A,
+        HSK_B,
         HSK_C,
-        HSK_D, 
+        HSK_D,
         HSK_E,
         HSK_F
 

@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Media;
-using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
 {
@@ -30,9 +23,9 @@ namespace GD_CommonLibrary
             //比較兩個色碼的差值
             //計算目前落在哪個區間->變色
 
-            if (double.TryParse(value.ToString() , out double result))
+            if (double.TryParse(value.ToString(), out double result))
             {
-                var A_Diff = MaxBrush.Color.A- MinBrush.Color.A;
+                var A_Diff = MaxBrush.Color.A - MinBrush.Color.A;
                 var R_Diff = MaxBrush.Color.R - MinBrush.Color.R;
                 var G_Diff = MaxBrush.Color.G - MinBrush.Color.G;
                 var B_Diff = MaxBrush.Color.B - MinBrush.Color.B;
@@ -82,7 +75,7 @@ namespace GD_CommonLibrary
                 //return System.Windows.Media.Brushes.Violet;
             }
 
-           return null;
+            return null;
         }
 
 
@@ -138,14 +131,14 @@ namespace GD_CommonLibrary
 
                 SolidColorBrush LeftBrush = BrushArray.FirstOrDefault();
                 SolidColorBrush RightBrush = BrushArray.LastOrDefault();
-                var Brush_step = 1.0 / (BrushCount-1);
-                for (int i = 0; i <= BrushCount; i ++)
+                var Brush_step = 1.0 / (BrushCount - 1);
+                for (int i = 0; i <= BrushCount; i++)
                 {
-                    if(((double)(i+1.0)* Brush_step) > Result_step)
+                    if (((double)(i + 1.0) * Brush_step) > Result_step)
                     {
-                        if (TryGetValue(BrushArray,i, out var oLeftBrush))
+                        if (TryGetValue(BrushArray, i, out var oLeftBrush))
                             LeftBrush = oLeftBrush;
-                        if(TryGetValue(BrushArray,i + 1, out var oRightBrush))
+                        if (TryGetValue(BrushArray, i + 1, out var oRightBrush))
                             RightBrush = oRightBrush;
 
                         //若有三種顏色
@@ -199,7 +192,7 @@ namespace GD_CommonLibrary
         {
             if (array != null && index >= 0)
             {
-                if( index < array.Count)
+                if (index < array.Count)
                 {
                     value = array[index];
                     return true;

@@ -1,29 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
-using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
 {
     public class ObservableCollectionToOneObjectConverter : BaseValueConverter
     {
-         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is IEnumerable<object>)
+            if (value is IEnumerable<object>)
             {
-               var ObservableCollectionValue = (value as IEnumerable<object>).ToList();
+                var ObservableCollectionValue = (value as IEnumerable<object>).ToList();
 
                 int CollectionCount = 0;
                 if (parameter is int)
                 {
-                    CollectionCount = (int)parameter ;
+                    CollectionCount = (int)parameter;
                 }
 
                 if (parameter is string)
@@ -49,6 +42,6 @@ namespace GD_CommonLibrary
             throw new NotImplementedException();
         }
 
-       
+
     }
 }

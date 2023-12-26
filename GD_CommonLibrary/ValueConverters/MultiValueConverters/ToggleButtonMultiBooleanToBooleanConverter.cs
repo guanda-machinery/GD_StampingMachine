@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
 {
@@ -27,7 +22,7 @@ namespace GD_CommonLibrary
             if (value is bool ConvertBoolean)
             {
                 var FalseList = new List<object>();
-                foreach(var obj in targetTypes)
+                foreach (var obj in targetTypes)
                 {
                     FalseList.Add(false);
                 }

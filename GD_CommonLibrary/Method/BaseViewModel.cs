@@ -1,24 +1,13 @@
-﻿using GD_CommonLibrary;
-using GongSolutions.Wpf.DragDrop;
-using GongSolutions.Wpf.DragDrop.Utilities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Markup;
 
 namespace GD_CommonLibrary
 {
-    public abstract class BaseViewModel : MarkupExtension , INotifyPropertyChanged, IDisposable //, IAsyncDisposable
+    public abstract class BaseViewModel : MarkupExtension, INotifyPropertyChanged, IDisposable //, IAsyncDisposable
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -77,23 +66,23 @@ namespace GD_CommonLibrary
             GC.SuppressFinalize(this);
         }
 
-   /*     public async ValueTask DisposeAsync()
-        {
-            // Perform async cleanup.
-            await DisposeAsyncCore().ConfigureAwait(false);
-            // Dispose of unmanaged resources.
-            Dispose(false);
+        /*     public async ValueTask DisposeAsync()
+             {
+                 // Perform async cleanup.
+                 await DisposeAsyncCore().ConfigureAwait(false);
+                 // Dispose of unmanaged resources.
+                 Dispose(false);
 
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
-        }
+                 // Suppress finalization.
+                 GC.SuppressFinalize(this);
+             }
 
-        protected virtual async ValueTask DisposeAsyncCore()
-        {
-            await Task.CompletedTask;
-        }*/
+             protected virtual async ValueTask DisposeAsyncCore()
+             {
+                 await Task.CompletedTask;
+             }*/
 
-        public bool IsDebuggerAttached => Debugger.IsAttached; 
+        public bool IsDebuggerAttached => Debugger.IsAttached;
 
 
     }

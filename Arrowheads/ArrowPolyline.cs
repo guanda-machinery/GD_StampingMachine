@@ -1,7 +1,6 @@
 //----------------------------------------------
 // ArrowPolyline.cs (c) 2007 by Charles Petzold
 //----------------------------------------------
-using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -45,7 +44,7 @@ namespace Petzold.Media2D
         /// </summary>
         protected override Geometry DefiningGeometry
         {
-            get 
+            get
             {
                 // Clear out the PathGeometry.
                 pathgeo.Figures.Clear();

@@ -1,19 +1,9 @@
-﻿using CsvHelper.Configuration;
-using CsvHelper;
-using DevExpress.Xpf.Core.Native;
-using DevExpress.Xpf.WindowsUI;
-using GD_StampingMachine.GD_Model;
+﻿using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using GD_CommonLibrary.Method;
 
 namespace GD_StampingMachine.Method
 {
@@ -81,14 +71,14 @@ namespace GD_StampingMachine.Method
             return WriteJsonSettingByEnumAsync(ParameterSettingName, JsonData, ShowMessageBox);
         }
 
-        
-       public bool ReadCommunicationSetting(out CommunicationSettingModel JsonData, bool ShowMessageBox = false)
+
+        public bool ReadCommunicationSetting(out CommunicationSettingModel JsonData, bool ShowMessageBox = false)
         {
             return ReadJsonSettingByEnum(MachineSettingNameEnum.CommunicationSetting, out JsonData, ShowMessageBox);
         }
-       public Task<bool> WriteCommunicationSettingAsync(CommunicationSettingModel JsonData, bool ShowMessageBox = false)
+        public Task<bool> WriteCommunicationSettingAsync(CommunicationSettingModel JsonData, bool ShowMessageBox = false)
         {
-           return WriteJsonSettingByEnumAsync(MachineSettingNameEnum.CommunicationSetting, JsonData, ShowMessageBox);
+            return WriteJsonSettingByEnumAsync(MachineSettingNameEnum.CommunicationSetting, JsonData, ShowMessageBox);
         }
 
         public bool ReadIO_Table<T>(out T JsonData, bool ShowMessageBox = false)
@@ -202,9 +192,9 @@ namespace GD_StampingMachine.Method
         {
             var FilePath = GetJsonFilePath(ParameterSettingName);
 
-            var Result = await this.WriteJsonFileAsync(FilePath, JsonData); 
+            var Result = await this.WriteJsonFileAsync(FilePath, JsonData);
             if (ShowMessageBox)
-               MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath , Result);
+                MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath, Result);
 
             return Result;
         }
@@ -240,10 +230,10 @@ namespace GD_StampingMachine.Method
 
             var FileName = Path.ChangeExtension(ParameterSettingName.ToString(), "json");
 
-            return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings ,FilePath, FileName);
+            return Path.Combine(Directory.GetCurrentDirectory(), ConstSettings, FilePath, FileName);
         }
 
-        
+
 
     }
 }

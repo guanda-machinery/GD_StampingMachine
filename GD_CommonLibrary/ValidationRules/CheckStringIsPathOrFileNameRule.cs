@@ -1,18 +1,12 @@
 ﻿using GD_CommonLibrary.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace GD_CommonLibrary.ValidationRules
 {
     public enum PathTypeEnum
     {
-        Path, 
+        Path,
         FileName
     }
 
@@ -35,7 +29,7 @@ namespace GD_CommonLibrary.ValidationRules
                         return new ValidationResult(false, "路徑須包含根目錄");
                     }
 
-                    if (ValueString.IsContain_illegalPathChars(out var illegal)) 
+                    if (ValueString.IsContain_illegalPathChars(out var illegal))
                     {
                         return new ValidationResult(false, $"路徑包含不合法的字元[{illegal.ExpandToString()}]");
                     }

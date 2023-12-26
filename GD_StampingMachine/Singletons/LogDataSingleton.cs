@@ -1,13 +1,9 @@
 ﻿using DevExpress.Mvvm.Native;
-using DevExpress.Office.Utils;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -72,7 +68,7 @@ namespace GD_StampingMachine.Singletons
                 }));
 
 
-                _ = Task.Run(async() =>
+                _ = Task.Run(async () =>
                 {
                     await semaphoreSlim.WaitAsync();
                     try

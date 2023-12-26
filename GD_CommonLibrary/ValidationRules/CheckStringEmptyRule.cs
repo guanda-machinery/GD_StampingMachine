@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace GD_CommonLibrary.ValidationRules
 {
@@ -11,7 +6,7 @@ namespace GD_CommonLibrary.ValidationRules
     {
         public uint StringLengthMin { get; set; } = 0;
         public uint? StringLengthMax { get; set; }
-        public bool IsNullable{ get; set; }
+        public bool IsNullable { get; set; }
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
             //先檢查參數
@@ -25,12 +20,12 @@ namespace GD_CommonLibrary.ValidationRules
 
             if (string.IsNullOrEmpty(ValidString))
             {
-                if(!IsNullable)
+                if (!IsNullable)
                     return new ValidationResult(false, $"不可為空字串");
                 else
                     return ValidationResult.ValidResult;
             }
-            else if(string.IsNullOrWhiteSpace(ValidString))
+            else if (string.IsNullOrWhiteSpace(ValidString))
             {
                 if (!IsNullable && ValidString is null)
                     return ValidationResult.ValidResult;
@@ -41,7 +36,7 @@ namespace GD_CommonLibrary.ValidationRules
             {
                 return new ValidationResult(false, $"字串過短!");
             }
-            else if(ValidString.Length> StringLengthMax)
+            else if (ValidString.Length > StringLengthMax)
             {
                 return new ValidationResult(false, $"字串過長!");
             }

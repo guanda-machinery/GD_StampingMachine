@@ -1,28 +1,10 @@
-﻿
-using DevExpress.CodeParser;
-using DevExpress.Utils.MVVM;
-using DevExpress.Xpf.Core.Internal;
-using GD_CommonLibrary.GD_Popup;
+﻿using DevExpress.Xpf.Core.Internal;
 using MaterialDesignThemes.Wpf;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GD_StampingMachine.UserControls
 {
@@ -44,10 +26,10 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty ControlTitleTextProperty = DependencyProperty.Register(nameof(ControlTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
         //public static readonly DependencyProperty UnCheckedTitleTextProperty = DependencyProperty.Register(nameof(UnCheckedTitleText), typeof(string), typeof(FunctionToggleUserControl), new PropertyMetadata());
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(FunctionToggleUserControl), new PropertyMetadata());
-        
+
         public static readonly DependencyProperty PackIconKindProperty = DependencyProperty.Register(nameof(PackIconKind), typeof(PackIconKind), typeof(FunctionToggleUserControl), new PropertyMetadata(PackIconKind.None));
 
-        public static readonly DependencyProperty ButtonContentProperty =  DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+        public static readonly DependencyProperty ButtonContentProperty = DependencyProperty.Register(nameof(ButtonContent), typeof(UIElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
         public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool?), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         //public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(false, OnIsCheckedChanged));
@@ -63,7 +45,7 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new CornerRadius(0)));
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Orientation.Vertical));
         public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(nameof(TextMargin), typeof(Thickness), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(new Thickness(0)));
-       
+
         public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register(nameof(Progress), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty IsIndeterminateProperty = DependencyProperty.Register(nameof(IsIndeterminate), typeof(bool), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty ProgressVisibilityProperty = DependencyProperty.Register(nameof(ProgressVisibility), typeof(Visibility), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Visibility.Collapsed, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -75,7 +57,7 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
         public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
-      
+
         private static void OnIsCheckedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var thisobj = (FunctionToggleUserControl)obj;
@@ -92,17 +74,19 @@ namespace GD_StampingMachine.UserControls
             {
                 return (double)GetValue(ProgressProperty);
             }
-            set 
-            { 
+            set
+            {
                 SetValue(ProgressProperty, value);
             }
         }
 
         public bool IsIndeterminate
         {
-            get { return (bool) GetValue(IsIndeterminateProperty);
+            get
+            {
+                return (bool)GetValue(IsIndeterminateProperty);
             }
-            set 
+            set
             {
                 SetValue(IsIndeterminateProperty, value);
             }
@@ -128,14 +112,14 @@ namespace GD_StampingMachine.UserControls
 
         public string ControlTitleText
         {
-            get=>(string)GetValue(ControlTitleTextProperty); 
-            set => SetValue(ControlTitleTextProperty, value); 
+            get => (string)GetValue(ControlTitleTextProperty);
+            set => SetValue(ControlTitleTextProperty, value);
         }
-      /*  public string UnCheckedTitleText
-        {
-            get => (string)GetValue(UnCheckedTitleTextProperty);
-            set => SetValue(UnCheckedTitleTextProperty, value);
-        }*/
+        /*  public string UnCheckedTitleText
+          {
+              get => (string)GetValue(UnCheckedTitleTextProperty);
+              set => SetValue(UnCheckedTitleTextProperty, value);
+          }*/
 
         public ImageSource ImageSource
         {
@@ -210,7 +194,7 @@ namespace GD_StampingMachine.UserControls
                 }
                 return (bool)value;
             }
-            set=>SetValue(IsCheckedProperty, value.HasValue? BooleanBoxes.Box(value.Value) : null);
+            set => SetValue(IsCheckedProperty, value.HasValue ? BooleanBoxes.Box(value.Value) : null);
         }
 
 

@@ -1,18 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using DevExpress.Xpf.Scheduling.Themes;
-using DevExpress.XtraRichEdit.Printing;
-using GD_CommonLibrary;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
 using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
@@ -90,7 +82,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
         public StampMachineDataSingleton StampMachineData
-        { 
+        {
             get => GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
         }
 
@@ -124,11 +116,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private AsyncRelayCommand _opcuaStartScanCommand;
         public AsyncRelayCommand OpcuaStartScanCommand
         {
-            get => _opcuaStartScanCommand??=new AsyncRelayCommand(async() =>
+            get => _opcuaStartScanCommand ??= new AsyncRelayCommand(async () =>
             {
                 //設定為自動開始
-                try 
-                { 
+                try
+                {
                     Properties.Settings.Default.ConnectOnStartUp = true;
                     Properties.Settings.Default.Save();// = false;               
                 }
@@ -137,24 +129,24 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 }
 
-                    await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
+                await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
 
-            } ,()=> !_opcuaStartScanCommand.IsRunning);
+            }, () => !_opcuaStartScanCommand.IsRunning);
         }
 
         private AsyncRelayCommand _opcuaStopScanCommand;
         public AsyncRelayCommand OpcuaStopScanCommand
         {
-            get => _opcuaStopScanCommand??=new(async () =>
+            get => _opcuaStopScanCommand ??= new(async () =>
             {
                 //設定為不自動開始
                 try
-                { 
+                {
                     Properties.Settings.Default.ConnectOnStartUp = false;
                     Properties.Settings.Default.Save();// = false;
                     await Task.WhenAny(GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync(), Task.Delay(5000));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debugger.Break();
                 }

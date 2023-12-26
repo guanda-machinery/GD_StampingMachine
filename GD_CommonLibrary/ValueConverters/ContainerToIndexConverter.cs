@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
+using System.Windows.Controls;
 using System.Windows.Media;
-using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
 {
@@ -26,14 +19,14 @@ namespace GD_CommonLibrary
             //Finds the parent ItemsControl by looking up the visual tree
             var itemControls = (ItemsControl)FindParentOfType<ItemsControl>(container);
             //Gets the index of the container from the parent ItemsControl
-            var index =  itemControls.ItemContainerGenerator.IndexFromContainer(container);
+            var index = itemControls.ItemContainerGenerator.IndexFromContainer(container);
 
-            if(itemControls is ListBox ItemListBox)
+            if (itemControls is ListBox ItemListBox)
             {
                 if (container is ContentPresenter containerControl)
                 {
-                   var ListboxIndex = ItemListBox.Items.IndexOf(containerControl.DataContext);
-                    if(ListboxIndex!=-1)
+                    var ListboxIndex = ItemListBox.Items.IndexOf(containerControl.DataContext);
+                    if (ListboxIndex != -1)
                     {
                         return ListboxIndex;
                     }

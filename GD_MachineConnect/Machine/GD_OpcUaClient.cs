@@ -1,32 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IdentityModel.Protocols.WSTrust;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Policy;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using GD_CommonLibrary;
-using GD_CommonLibrary.Extensions;
+﻿using GD_CommonLibrary;
 using GD_MachineConnect.Machine.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Linq;
 using Opc.Ua;
 using Opc.Ua.Client;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GD_MachineConnect.Machine
 {
 
 
-    public class GD_OpcUaClient: AbstractOpcuaConnect, IDisposable
+    public class GD_OpcUaClient : AbstractOpcuaConnect, IDisposable
     {
         private Session m_session;
 
@@ -190,7 +177,7 @@ namespace GD_MachineConnect.Machine
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
                 userIdentity = new Opc.Ua.UserIdentity(user, password);
 
-            if(IsConnected)
+            if (IsConnected)
                 await DisconnectAsync();
 
             EndpointDescription endpointDescription = CoreClientUtils.SelectEndpoint(hostPath, UseSecurity);
@@ -288,7 +275,7 @@ namespace GD_MachineConnect.Machine
         /// <param name="NodeTreeString"></param>
         /// <param name="WriteValue"></param>
         /// <returns></returns>
-        public override Task<IEnumerable<bool>> WriteNodesAsync(Dictionary<string ,object> NodeTrees)
+        public override Task<IEnumerable<bool>> WriteNodesAsync(Dictionary<string, object> NodeTrees)
         {
 
             WriteValueCollection valuesToWrite = new WriteValueCollection();
@@ -316,7 +303,7 @@ namespace GD_MachineConnect.Machine
                 {
                     ClientBase.ValidateResponse(results, valuesToWrite);
                     ClientBase.ValidateDiagnosticInfos(diagnosticInfos, valuesToWrite);
-                   var  goodList = results.Select(x => StatusCode.IsGood(x));
+                    var goodList = results.Select(x => StatusCode.IsGood(x));
                     taskCompletionSource.TrySetResult(goodList);
                 }
                 catch (Exception exception)
@@ -380,7 +367,7 @@ namespace GD_MachineConnect.Machine
         public override Task<IEnumerable<object>> ReadNodesAsync(IEnumerable<string> nodeIds)
         {
             ReadValueIdCollection readValueIdCollection = new ReadValueIdCollection();
-            
+
             foreach (string nodeId in nodeIds)
             {
                 readValueIdCollection.Add(new ReadValueId
@@ -549,7 +536,7 @@ namespace GD_MachineConnect.Machine
             return ret.FirstOrDefault();
         }
 
-        public override async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, EventHandler<ValueChangedEventArgs <T>> updateHandler, int samplingInterval, bool checkDuplicates)> nodeList)
+        public override async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval, bool checkDuplicates)> nodeList)
         {
 
             TaskCompletionSource<IEnumerable<bool>> taskCompletionSource = new TaskCompletionSource<IEnumerable<bool>>();
@@ -601,7 +588,7 @@ namespace GD_MachineConnect.Machine
                                 SamplingInterval = samplingInterval
                             };
 
-                            T oldValue= default(T);
+                            T oldValue = default(T);
                             item.Notification += (sender, e) =>
                             {
                                 //將action返還值
@@ -611,7 +598,7 @@ namespace GD_MachineConnect.Machine
                                     {
                                         if (notification.Value.Value is T Tvalue)
                                         {
-                                           // updateAction?.Invoke(Tvalue);
+                                            // updateAction?.Invoke(Tvalue);
                                             updateAction?.Invoke(this, new ValueChangedEventArgs<T>(oldValue, Tvalue));
                                             oldValue = Tvalue;
                                         }
@@ -690,7 +677,7 @@ namespace GD_MachineConnect.Machine
                     }
                     opcSubscription.ApplyChanges();
 
-                    if(opcSubscription.MonitoredItemCount == 0)
+                    if (opcSubscription.MonitoredItemCount == 0)
                     {
                         m_session.RemoveSubscription(opcSubscription);
                     }
@@ -701,7 +688,7 @@ namespace GD_MachineConnect.Machine
                 else
                     taskCompletionSource.TrySetResult(false);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 taskCompletionSource.TrySetException(ex);
             }

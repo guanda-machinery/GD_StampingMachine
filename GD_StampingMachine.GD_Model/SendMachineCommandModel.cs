@@ -1,10 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.GD_Model
 {
@@ -17,7 +12,7 @@ namespace GD_StampingMachine.GD_Model
         /// </summary>
         public int WorkNumber { get; set; }
 
-        
+
         /// <summary>
         /// 工作移動到下一個工站的相對距離(由計算得出 輪到他加工時他需移動的距離)
         /// </summary>
@@ -35,7 +30,7 @@ namespace GD_StampingMachine.GD_Model
         /// <summary>
         /// 鐵牌寬度
         /// </summary>
-        public  double StampWidth { get; set; }
+        public double StampWidth { get; set; }
 
 
 

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace GD_StampingMachine.GD_Model
 {
@@ -41,7 +37,7 @@ namespace GD_StampingMachine.GD_Model
         public TimingControlModel()
         {
             DayOfWeekWorkCollection = new List<DayOfWeekWorkModel>();
-            for(int i = 0; i < 7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 DayOfWeekWorkCollection.Add(new DayOfWeekWorkModel((DayOfWeek)i, false));
             }

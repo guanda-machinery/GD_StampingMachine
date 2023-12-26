@@ -1,18 +1,12 @@
-﻿using GD_StampingMachine.Singletons;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GD_StampingMachine.Singletons
 {
-    
-   // public class CultureViewModel : GD_CommonLibrary.BaseViewModel
+
+    // public class CultureViewModel : GD_CommonLibrary.BaseViewModel
     public class CultureViewModel : GD_CommonLibrary.BaseSingleton<CultureViewModel>
     {
         private CultureViewModel()
@@ -42,7 +36,7 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-         public string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LanguageSettingViewModel");
+        public string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LanguageSettingViewModel");
 
         public List<CultureInfo> SupportedCultures
         {

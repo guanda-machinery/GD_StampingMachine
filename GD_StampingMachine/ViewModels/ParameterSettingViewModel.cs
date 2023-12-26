@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DevExpress.Mvvm.Native;
+﻿using DevExpress.Mvvm.Native;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Model;
 using GD_StampingMachine.ViewModels.ParameterSetting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -109,26 +105,26 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// QR設定
         /// </summary>
-        public QRSettingPageViewModel QRSettingPageVM { get; set; } 
+        public QRSettingPageViewModel QRSettingPageVM { get; set; }
         /// <summary>
         /// 軸向設定
         /// </summary>
-        public AxisSettingViewModel AxisSettingVM { get; set; } 
+        public AxisSettingViewModel AxisSettingVM { get; set; }
         /// <summary>
         /// 計時設定
         /// </summary>
-        public TimingSettingViewModel TimingSettingVM { get; set; } 
+        public TimingSettingViewModel TimingSettingVM { get; set; }
         /// <summary>
         /// 分料設定
         /// </summary>
-        public SeparateSettingViewModel SeparateSettingVM { get; set; } 
+        public SeparateSettingViewModel SeparateSettingVM { get; set; }
         /// <summary>
         /// Inputoutput
         /// </summary>
-        public InputOutputViewModel InputOutputVM { get; set; } 
+        public InputOutputViewModel InputOutputVM { get; set; }
         /// <summary>
         /// 工程模式
         /// </summary>
-        public EngineerSettingViewModel EngineerSettingVM { get; set; } 
+        public EngineerSettingViewModel EngineerSettingVM { get; set; }
     }
 }

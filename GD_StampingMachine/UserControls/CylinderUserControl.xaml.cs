@@ -1,21 +1,8 @@
-﻿using GD_CommonLibrary;
-using GD_StampingMachine.Views;
-using MaterialDesignThemes.Wpf;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GD_StampingMachine.UserControls
 {
@@ -39,7 +26,7 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty CylinderIsMiddleSingal_IsTriggeredProperty =
             DependencyProperty.Register(nameof(CylinderIsMiddleSingal_IsTriggered), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty CylinderIsDownSingal_IsTriggeredProperty =
-            DependencyProperty.Register(nameof(CylinderIsDownSingal_IsTriggered), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true , FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            DependencyProperty.Register(nameof(CylinderIsDownSingal_IsTriggered), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty CylinderUpIsActivedProperty =
             DependencyProperty.Register(nameof(CylinderUpIsActived), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));

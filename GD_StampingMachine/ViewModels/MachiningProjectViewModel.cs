@@ -1,11 +1,4 @@
-﻿using DevExpress.Utils.Drawing;
-using GD_CommonLibrary;
-using GD_StampingMachine.GD_Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GD_StampingMachine.GD_Model;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -21,7 +14,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 專案名稱
         /// </summary>
-        public string ProjectName { get => MachiningProject.ProjectName; set { MachiningProject.ProjectName = value;OnPropertyChanged(); } }
+        public string ProjectName { get => MachiningProject.ProjectName; set { MachiningProject.ProjectName = value; OnPropertyChanged(); } }
         /// <summary>
         /// 製作數量
         /// </summary>

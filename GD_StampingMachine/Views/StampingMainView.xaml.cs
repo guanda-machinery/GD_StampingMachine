@@ -1,9 +1,4 @@
-﻿using DevExpress.Utils;
-using GD_StampingMachine.ViewModels;
-using System;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 

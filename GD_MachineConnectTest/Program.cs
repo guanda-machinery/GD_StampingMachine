@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using GD_MachineConnect.Machine;
+using GD_MachineConnect.Machine.Interfaces;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using GD_MachineConnect;
-using GD_MachineConnect.Machine;
-using GD_MachineConnect.Machine.Interfaces;
 
 namespace GD_MachineConnectTest
 {
@@ -21,7 +14,7 @@ namespace GD_MachineConnectTest
 
 
 
-           // string HostString = "127.0.0.1";
+            // string HostString = "127.0.0.1";
             //int Port = 62541;
             //string ServerDataPath = "SharpNodeSettings/OpcUaServer";
             string HostString = "192.168.1.123";
@@ -37,7 +30,7 @@ namespace GD_MachineConnectTest
             var BaseUrl = new Uri($"opc.tcp://{HostString}:{Port}");
             var CombineUrl = new Uri(BaseUrl, ServerDataPath);
             var ServerUrl = CombineUrl.ToString();
-            
+
             OpcUaHelper.Forms.FormBrowseServer formBrowseServer = new OpcUaHelper.Forms.FormBrowseServer(ServerUrl);
             formBrowseServer.ShowDialog();
 
@@ -46,8 +39,8 @@ namespace GD_MachineConnectTest
                 try
                 {
                     //IOpcuaConnect Opcua = new GD_OpcUaHelperClient();
-                   IOpcuaConnect Opcua = new GD_OpcUaClient();
-                  await  Opcua.ConnectAsync("opc.tcp://192.168.101.100:4842");
+                    IOpcuaConnect Opcua = new GD_OpcUaClient();
+                    await Opcua.ConnectAsync("opc.tcp://192.168.101.100:4842");
                     var node = "ns=4;s=APPL.Application.POU_AbdomenWing.arArc_Abdomen[1000].P3_X";
 
                     await Opcua.SubscribeNodeDataChangeAsync<double>(node, value =>
@@ -77,7 +70,7 @@ namespace GD_MachineConnectTest
                             var a = await Opcua.ReadNodeAsync<double>(node);
                             Console.WriteLine(a);
 
-                            await Opcua.WriteNodeAsync(node, a+100);
+                            await Opcua.WriteNodeAsync(node, a + 100);
 
                             var b = await Opcua.ReadNodeAsync<double>(node);
                             Console.WriteLine(b);
@@ -85,19 +78,19 @@ namespace GD_MachineConnectTest
 
                             if (i > 5)
                             {
-                               await Opcua.UnsubscribeNodeAsync(node , 10);
+                                await Opcua.UnsubscribeNodeAsync(node, 10);
                             }
 
 
                             await Task.Delay(100);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
 
                             Console.WriteLine(ex);
                         }
                     }
-                    await  Opcua.DisconnectAsync();
+                    await Opcua.DisconnectAsync();
                     /*Opcua.UserIdentity = new UserIdentity("Administrator", "pass");
                     if (await Opcua.OpcuaConnectAsync(HostString, Port, ServerDataPath))
                     {
@@ -139,7 +132,7 @@ namespace GD_MachineConnectTest
 
             Thread.Sleep(1000);
 
-           // short input = 0;
+            // short input = 0;
             /*
             while (true)
             {

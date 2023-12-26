@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace GD_CommonLibrary.ValidationRules
@@ -20,20 +17,20 @@ namespace GD_CommonLibrary.ValidationRules
                 var IPString = value as string;
 
                 if (IPString.Count(x => x == ':') == 1)
-                { 
-                    if(IPString.Last() == '/')
+                {
+                    if (IPString.Last() == '/')
                     {
                         return new ValidationResult(false, $"IP格式不正確，不可以用'/'當結尾");
                     }
 
 
 
-                    var SplitedAddress =  IPString.Split(':');
+                    var SplitedAddress = IPString.Split(':');
                     if (SplitedAddress.Count() == 2)   //冗餘驗證，上面IPString.Count已確保只會出現兩個
                     {
                         if (IPAddress.TryParse(SplitedAddress.FirstOrDefault(), out var Parse_IPaddress))
                         {
-                            
+
                         }
                         else if (SplitedAddress.FirstOrDefault().Equals(localhostString, StringComparison.OrdinalIgnoreCase))
                         {

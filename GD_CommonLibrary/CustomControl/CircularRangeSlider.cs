@@ -1,25 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GD_CommonLibrary
 {
@@ -30,7 +15,7 @@ namespace GD_CommonLibrary
         //FrameworkElement EndArea; 
         FrameworkElement StartCanvas, ArcCanvas, EndCanvas;
         public static readonly DependencyProperty RadiusProperty;
-        public static readonly DependencyProperty StartProperty;   
+        public static readonly DependencyProperty StartProperty;
         public static readonly DependencyProperty EndProperty;
         public static readonly DependencyProperty TickProperty;
         public static readonly DependencyProperty ArcStartProperty;
@@ -38,14 +23,14 @@ namespace GD_CommonLibrary
         public static readonly DependencyProperty ArcAngleStartProperty;
         public static readonly DependencyProperty ArcAngleEndProperty;
 
-        
+
 
         public static readonly DependencyProperty IsLargeArcProperty;
         public static readonly DependencyProperty FontCalibrationProperty;
         public static readonly DependencyProperty LargeCalibrationProperty;
         public static readonly DependencyProperty SmallCalibrationProperty;
 
-        
+
 
         public static readonly RoutedEvent StartChangedEvent;
         public static readonly RoutedEvent EndChangedEvent;
@@ -81,7 +66,7 @@ namespace GD_CommonLibrary
         private static void OnStartChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             CircularRangeSlider RangeSlider = (CircularRangeSlider)d;
-        //    (UIElementAutomationPeer.FromElement(RangeSlider) as RangeBaseAutomationPeer)?.RaiseValuePropertyChangedEvent((double)e.OldValue, (double)e.NewValue);
+            //    (UIElementAutomationPeer.FromElement(RangeSlider) as RangeBaseAutomationPeer)?.RaiseValuePropertyChangedEvent((double)e.OldValue, (double)e.NewValue);
             RangeSlider.OnStartChanged((double)e.OldValue, (double)e.NewValue);
         }
 
@@ -123,16 +108,16 @@ namespace GD_CommonLibrary
             }
 
             //篩選值 依照tick
-          /*  if (rangeSlider.Tick>0)
-            {
-                var numFloor = Math.Floor(num / rangeSlider.Tick) * rangeSlider.Tick;
-                return numFloor
-            }*/
+            /*  if (rangeSlider.Tick>0)
+              {
+                  var numFloor = Math.Floor(num / rangeSlider.Tick) * rangeSlider.Tick;
+                  return numFloor
+              }*/
 
 
             return value;
         }
-   
+
         private static bool IsValidDoubleValue(object value)
         {
             if (value != null)
@@ -149,29 +134,29 @@ namespace GD_CommonLibrary
 
 
 
-       // const double Radius = 150;
+        // const double Radius = 150;
 
         public double Radius
         {
             get => (double)GetValue(RadiusProperty);
-            set=> SetValue(RadiusProperty, value); 
+            set => SetValue(RadiusProperty, value);
         }
 
         public double Start
         {
             get => (double)GetValue(StartProperty);
-            set=> SetValue(StartProperty, value); 
+            set => SetValue(StartProperty, value);
         }
         public double End
         {
             get => (double)GetValue(EndProperty);
-            set=> SetValue(EndProperty, value);         
+            set => SetValue(EndProperty, value);
         }
 
         public double Tick
         {
             get => (double)GetValue(TickProperty);
-            set =>SetValue(TickProperty, value); 
+            set => SetValue(TickProperty, value);
         }
 
 
@@ -196,7 +181,7 @@ namespace GD_CommonLibrary
             get => (double)GetValue(ArcAngleEndProperty);
             set => SetValue(ArcAngleEndProperty, value);
         }
-        
+
 
 
 
@@ -214,7 +199,7 @@ namespace GD_CommonLibrary
         }*/
 
 
-        
+
 
         public uint LargeCalibration
         {
@@ -240,9 +225,9 @@ namespace GD_CommonLibrary
             TickProperty = DependencyProperty.Register("Tick", typeof(double), typeof(CircularRangeSlider),
                 new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
             ArcStartProperty = DependencyProperty.Register("ArcStart", typeof(Point), typeof(CircularRangeSlider),
-                new FrameworkPropertyMetadata(new Point(0,-130), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.None));
+                new FrameworkPropertyMetadata(new Point(0, -130), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.None));
             ArcEndProperty = DependencyProperty.Register("ArcEnd", typeof(Point), typeof(CircularRangeSlider),
-                new FrameworkPropertyMetadata(new Point(0,-130), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.None));
+                new FrameworkPropertyMetadata(new Point(0, -130), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.None));
 
             ArcAngleStartProperty = DependencyProperty.Register("ArcAngleStart", typeof(double), typeof(CircularRangeSlider),
                 new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.None));
@@ -280,17 +265,17 @@ namespace GD_CommonLibrary
                 SliderContainer.MouseMove += SliderContainer_MouseMove;
             }
 
-           // StartArea = GetTemplateChild("PART_StartArea") as FrameworkElement;
-           // EndArea = GetTemplateChild("PART_EndArea") as FrameworkElement;
+            // StartArea = GetTemplateChild("PART_StartArea") as FrameworkElement;
+            // EndArea = GetTemplateChild("PART_EndArea") as FrameworkElement;
 
-           // StartThumb = GetTemplateChild("PART_StartThumb") as Thumb;
-           // EndThumb = GetTemplateChild("PART_EndThumb") as Thumb;
+            // StartThumb = GetTemplateChild("PART_StartThumb") as Thumb;
+            // EndThumb = GetTemplateChild("PART_EndThumb") as Thumb;
 
 
             StartCanvas = GetTemplateChild("PART_StartCanvas") as FrameworkElement;
             EndCanvas = GetTemplateChild("PART_EndCanvas") as FrameworkElement;
             ArcCanvas = GetTemplateChild("PART_Arc") as FrameworkElement;
-       
+
             if (StartCanvas != null)
             {
                 StartCanvas.MouseDown += StartCanvas_MouseDown;
@@ -328,12 +313,12 @@ namespace GD_CommonLibrary
             double range = Maximum - Minimum;
 
             var startArc = (2 * Math.PI * Start / range) - Math.PI / 2;
-           ArcAngleStart = startArc*180/Math.PI +90.0;
+            ArcAngleStart = startArc * 180 / Math.PI + 90.0;
             var p1x = Math.Round(Radius * Math.Cos(startArc), 2);
             var p1y = Math.Round(Radius * Math.Sin(startArc), 2);
 
             var endArc = (2 * Math.PI * End / range) - Math.PI / 2;
-            ArcAngleEnd = endArc * 180 / Math.PI +90.0;
+            ArcAngleEnd = endArc * 180 / Math.PI + 90.0;
             var p2x = Math.Round(Radius * Math.Cos(endArc), 2);
             var p2y = Math.Round(Radius * Math.Sin(endArc), 2);
 
@@ -362,9 +347,9 @@ namespace GD_CommonLibrary
         }
         private void ArcCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-           // _start = null;
+            // _start = null;
             //_end = null;
-           // _LastMousePosition = e.GetPosition((IInputElement)sender);
+            // _LastMousePosition = e.GetPosition((IInputElement)sender);
             _ArcCanvasisPressed = true;
         }
 
@@ -382,11 +367,11 @@ namespace GD_CommonLibrary
         private void SliderContainer_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _StartCanvasisPressed = false;
-            _EndCanvasisPressed = false; 
+            _EndCanvasisPressed = false;
             _ArcCanvasisPressed = false;
             _LastMousePosition = null;
-           // _start = null;
-          //  _end = null;
+            // _start = null;
+            //  _end = null;
         }
         private void SliderContainer_MouseMove(object sender, MouseEventArgs e)
         {
@@ -441,7 +426,7 @@ namespace GD_CommonLibrary
                 {
                     if (Math.Abs(Start - end) > 0)
                     {
-                        if(Tick>0)
+                        if (Tick > 0)
                             end = Math.Floor(end / Tick) * Tick;
                         End = end;
                     }
@@ -454,7 +439,7 @@ namespace GD_CommonLibrary
 
             if (_ArcCanvasisPressed)
             {
-                if(_LastMousePosition.HasValue)
+                if (_LastMousePosition.HasValue)
                 {
                     Point newPos = e.GetPosition((IInputElement)sender);
                     double newAngle = GetAngleR(newPos, Radius);
@@ -462,7 +447,7 @@ namespace GD_CommonLibrary
                     var angle = newAngle - oldAngle;
                     var rTick = (Maximum - Minimum) * angle / (2 * Math.PI);
                     //if(!_start.HasValue)
-                      var  _start = this.Start; 
+                    var _start = this.Start;
 
 
 
@@ -494,7 +479,7 @@ namespace GD_CommonLibrary
                     }*/
 
                     //if (!_end.HasValue)
-                       var _end = this.End;
+                    var _end = this.End;
 
                     if (_end + rTick > this.Maximum)
                     {
@@ -604,11 +589,11 @@ namespace GD_CommonLibrary
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(int.TryParse(value.ToString(), out int result))
+            if (int.TryParse(value.ToString(), out int result))
             {
                 ObservableCollection<double> list = new ObservableCollection<double>();
-               
-                for(int i=0; i< result;i++ )
+
+                for (int i = 0; i < result; i++)
                 {
                     list.Add(i);
                 }

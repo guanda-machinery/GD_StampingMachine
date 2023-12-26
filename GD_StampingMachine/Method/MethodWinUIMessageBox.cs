@@ -1,9 +1,4 @@
-﻿using DevExpress.Xpf.WindowsUI;
-using GD_CommonLibrary.Method;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GD_CommonLibrary.Method;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -40,8 +35,8 @@ namespace GD_StampingMachine.Method
         {
             var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
-                (string)Application.Current.TryFindResource("Text_TSProjectExistedInBox") + 
-                "\r\n"+
+                (string)Application.Current.TryFindResource("Text_TSProjectExistedInBox") +
+                "\r\n" +
                 (string)Application.Current.TryFindResource("Text_CloseTSProject") +
                 "\r\n" +
                 $"{ProjectName}" +
@@ -54,7 +49,7 @@ namespace GD_StampingMachine.Method
         /// 儲存成功
         /// </summary>
         /// <param name="IsSuccessful"></param>
-        public static async Task SaveSuccessfulAsync(string Path  ,bool IsSuccessful)
+        public static async Task SaveSuccessfulAsync(string Path, bool IsSuccessful)
         {
             string _message = string.Empty;
             if (!string.IsNullOrEmpty(Path))
@@ -68,7 +63,7 @@ namespace GD_StampingMachine.Method
             }
             else
             {
-                _message +=  (string)Application.Current.TryFindResource("Text_SaveFail");
+                _message += (string)Application.Current.TryFindResource("Text_SaveFail");
             }
             await ShowOKAsync(
                        (string)Application.Current.TryFindResource("Text_notify"),
@@ -79,7 +74,7 @@ namespace GD_StampingMachine.Method
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="IsSuccessful"></param>
-        public static async Task LoadSuccessfulAsync(string Path , bool IsSuccessful)
+        public static async Task LoadSuccessfulAsync(string Path, bool IsSuccessful)
         {
             string _message = Path;
             if (IsSuccessful)
@@ -99,7 +94,7 @@ namespace GD_StampingMachine.Method
 
         public static async Task CanNotCloseProjectAsync()
         {
-           await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
         }
 
         public static async Task CanNotDeleteProjectAsync()
@@ -123,21 +118,21 @@ namespace GD_StampingMachine.Method
         public static async Task CanNotCreateProjectFileNameIsEmptyAsync()
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty") 
+                (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty")
                 , MessageBoxImage.Warning);
         }
 
         /// <summary>
         /// 無法建立專案
         /// </summary>
-        public async static Task CanNotCreateProjectAsync(string ProjectName =null)
+        public async static Task CanNotCreateProjectAsync(string ProjectName = null)
         {
             string AddMessage = "";
             if (ProjectName != null)
                 AddMessage = "\r\n" + ProjectName;
 
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantCreateProject")+ AddMessage
+                (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantCreateProject") + AddMessage
                 , MessageBoxImage.Warning);
         }
 

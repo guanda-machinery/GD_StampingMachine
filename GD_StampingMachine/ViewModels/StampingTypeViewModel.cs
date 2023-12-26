@@ -1,10 +1,4 @@
 ﻿using GD_StampingMachine.GD_Model;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -12,9 +6,9 @@ namespace GD_StampingMachine.ViewModels
     {
         public override bool Equals(object obj)
         {
-            if(obj is StampingTypeViewModel StampObj)
+            if (obj is StampingTypeViewModel StampObj)
             {
-                var e1=   this. StampingTypeString == StampObj.StampingTypeString;
+                var e1 = this.StampingTypeString == StampObj.StampingTypeString;
                 var e2 = this.StampingTypeNumber == StampObj.StampingTypeNumber;
                 var e3 = this.StampingTypeUseCount == StampObj.StampingTypeUseCount;
                 return e1 && e2 && e3;
@@ -30,7 +24,7 @@ namespace GD_StampingMachine.ViewModels
 
         public StampingTypeViewModel(StampingTypeModel _StampingType)
         {
-                StampingType = _StampingType;
+            StampingType = _StampingType;
         }
 
         public StampingTypeViewModel()

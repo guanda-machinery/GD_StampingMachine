@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows.Controls;
 
 namespace GD_CommonLibrary.ValidationRules
@@ -18,11 +13,11 @@ namespace GD_CommonLibrary.ValidationRules
                 //用空白或逗號切開
                 var ValueArray = ((string)value).Split(' ', ',');
 
-                foreach(var SpiltedValue in ValueArray)
+                foreach (var SpiltedValue in ValueArray)
                 {
                     if (double.TryParse(SpiltedValue, out var DoubleValue))
                     {
-                        if(DoubleValue > 0)
+                        if (DoubleValue > 0)
                         {
                             if (int.TryParse(SpiltedValue, out var IntValue))
                             {
@@ -44,7 +39,7 @@ namespace GD_CommonLibrary.ValidationRules
                     }
                 }
             }
-            else if(!Nullable)
+            else if (!Nullable)
             {
                 return new ValidationResult(false, $"需輸入數值!");
             }

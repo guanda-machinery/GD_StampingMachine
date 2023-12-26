@@ -11,13 +11,13 @@ namespace GD_CommonLibrary
     /// </summary>
     public class ProgresBarAnimateBehavior : Microsoft.Xaml.Behaviors.Behavior<ProgressBar>
     {
-       //使用方式
-       //<ProgressBar Height="7"
-       //    Value="{Binding LoadingValue}">
-       //     <i:Interaction.Behaviors>
-       //   <b:ProgresBarAnimateBehavior />
-       //   </i:Interaction.Behaviors>
-       //    </ProgressBar>
+        //使用方式
+        //<ProgressBar Height="7"
+        //    Value="{Binding LoadingValue}">
+        //     <i:Interaction.Behaviors>
+        //   <b:ProgresBarAnimateBehavior />
+        //   </i:Interaction.Behaviors>
+        //    </ProgressBar>
 
 
         bool _IsAnimating = false;

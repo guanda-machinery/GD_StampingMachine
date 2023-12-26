@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
-using MaterialDesignThemes.Wpf;
 
 namespace GD_CommonLibrary.GD_Popup
 {
@@ -25,7 +25,7 @@ namespace GD_CommonLibrary.GD_Popup
         protected override void OnInitialized(EventArgs e)
         {
             var contents = Child as FrameworkElement;
-        
+
             Debug.Assert(contents != null, "DraggablePopup either has no content if content that " +
              "does not derive from FrameworkElement. Must be fixed for dragging to work.");
 
@@ -34,7 +34,8 @@ namespace GD_CommonLibrary.GD_Popup
                 contents.MouseLeftButtonDown += Child_MouseLeftButtonDown;
                 contents.MouseLeftButtonUp += Child_MouseLeftButtonUp;
                 contents.MouseMove += Child_MouseMove;
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 Debugger.Break();
             }
@@ -42,8 +43,8 @@ namespace GD_CommonLibrary.GD_Popup
 
         }
         private void Child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        { 
-            if(!AllowDrag)
+        {
+            if (!AllowDrag)
                 e.Handled = false;
 
             var element = sender as FrameworkElement;
@@ -57,8 +58,8 @@ namespace GD_CommonLibrary.GD_Popup
             if (_isDragging)
             {
                 var currentPoint = e.GetPosition(null);
-                HorizontalOffset +=  (currentPoint.X - _initialMousePosition.X);
-                VerticalOffset +=  (currentPoint.Y - _initialMousePosition.Y);
+                HorizontalOffset += (currentPoint.X - _initialMousePosition.X);
+                VerticalOffset += (currentPoint.Y - _initialMousePosition.Y);
             }
         }
         private void Child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -119,7 +120,7 @@ namespace GD_CommonLibrary.GD_Popup
 
 
 
-            void OnPopupLoaded(object sender, RoutedEventArgs e)
+        void OnPopupLoaded(object sender, RoutedEventArgs e)
         {
             if (_alreadyLoaded)
                 return;
@@ -241,7 +242,7 @@ namespace GD_CommonLibrary.GD_Popup
             if (!executedRoutedEventArgs.Handled)
             {
                 //InternalOpen(executedRoutedEventArgs.Parameter);
-                if(executedRoutedEventArgs.Parameter is bool parameterBoolean)
+                if (executedRoutedEventArgs.Parameter is bool parameterBoolean)
                 {
                     InternalOpen(parameterBoolean);
                 }
@@ -273,7 +274,7 @@ namespace GD_CommonLibrary.GD_Popup
         {
             if (parameter != null)
                 if (bool.TryParse(parameter.ToString(), out var BooleanParameter))
-                    InternalOpen(BooleanParameter);  
+                    InternalOpen(BooleanParameter);
         }
         internal void InternalOpen(bool BooleanParameter)
         {

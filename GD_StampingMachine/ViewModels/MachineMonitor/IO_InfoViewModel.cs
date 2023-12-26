@@ -2,14 +2,10 @@
 using GD_StampingMachine.GD_Model;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class IO_InfoViewModel:BaseViewModel
+    public class IO_InfoViewModel : BaseViewModel
     {
         public override string ViewModelName => nameof(IO_InfoViewModel);
 
@@ -26,7 +22,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 功能或狀態說明
         /// </summary>
-        public string Info { get=> IO_Info.Info; set { IO_Info.Info = value;OnPropertyChanged(); } }
+        public string Info { get => IO_Info.Info; set { IO_Info.Info = value; OnPropertyChanged(); } }
 
         /// <summary>
         /// OPCUA 對應ID

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Interop;
 
 namespace GD_CommonLibrary.Method
 {
@@ -17,7 +13,7 @@ namespace GD_CommonLibrary.Method
             MessageBoxResult messageBoxReturn = MessageBoxResult.None;
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                Window newWindow = Application.Current.MainWindow?? new()
+                Window newWindow = Application.Current.MainWindow ?? new()
                 {
                     Topmost = true,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen
@@ -35,7 +31,7 @@ namespace GD_CommonLibrary.Method
             MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
             await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
-                MessageBoxReturn= Show(MessageTitle, MessageString,MB_Button,MB_Image);
+                MessageBoxReturn = Show(MessageTitle, MessageString, MB_Button, MB_Image);
             }));
             return MessageBoxReturn;
         }
@@ -47,7 +43,7 @@ namespace GD_CommonLibrary.Method
                 MessageBoxButton.YesNo, BoxImage);
         }
 
-        public static async Task ShowOKAsync(string MessageTitle, string MessageString , MessageBoxImage BoxImage = MessageBoxImage.Information)
+        public static async Task ShowOKAsync(string MessageTitle, string MessageString, MessageBoxImage BoxImage = MessageBoxImage.Information)
         {
             await ShowAsync(MessageTitle, MessageString,
                 MessageBoxButton.OK, BoxImage);

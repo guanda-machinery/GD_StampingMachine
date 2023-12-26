@@ -1,36 +1,12 @@
-﻿
-using DevExpress.Office.Forms;
-using DevExpress.Utils.StructuredStorage.Internal;
-using DevExpress.Xpf.Core.Native;
-using DevExpress.Xpf.Editors.Themes;
+﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Xpf.Grid;
-using DevExpress.Xpf.WindowsUI;
-using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Interfaces;
-using GD_StampingMachine.Method;
-using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.GD_Model.ProductionSetting;
-using GD_StampingMachine.Properties;
+using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using System.Xml.Linq;
-using GD_StampingMachine.Model;
-using GD_CommonLibrary.Extensions;
-using Microsoft.Xaml.Behaviors;
-using DevExpress.CodeParser;
-using Newtonsoft.Json.Linq;
-using System.Threading;
-using CommunityToolkit.Mvvm.Input;
-using GD_StampingMachine.Singletons;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -47,15 +23,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             PartsParameter = new();
             SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate;
         }
-       public PartsParameterViewModel(PartsParameterModel PParameter)
-       {
+        public PartsParameterViewModel(PartsParameterModel PParameter)
+        {
             PartsParameter = PParameter;
-          SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate ;
+            SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate;
         }
 
 
         //private PartsParameterModel _partsParameter;
-        public readonly PartsParameterModel PartsParameter ;
+        public readonly PartsParameterModel PartsParameter;
 
         /// <summary>
         /// 加工進程
@@ -153,11 +129,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public bool IsSended
         {
-            get => PartsParameter.SendMachineCommand.IsSended; 
+            get => PartsParameter.SendMachineCommand.IsSended;
             set
-            { 
-                PartsParameter.SendMachineCommand.IsSended = value; 
-                OnPropertyChanged(); 
+            {
+                PartsParameter.SendMachineCommand.IsSended = value;
+                OnPropertyChanged();
             }
         }
 
@@ -168,9 +144,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => PartsParameter.SendMachineCommand.WorkIndex;
             set
-            { 
-                PartsParameter.SendMachineCommand.WorkIndex = value; 
-                OnPropertyChanged(); 
+            {
+                PartsParameter.SendMachineCommand.WorkIndex = value;
+                OnPropertyChanged();
             }
         }
 
@@ -240,7 +216,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 OnPropertyChanged();
             }
         }
-        
+
         /*public MachiningStatusEnum MachiningStatus
         {
             get => PartsParameter.MachiningStatus;
@@ -289,14 +265,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
             set
             {
-                 _settingBaseVM = value;
-                if(value!=null)
+                _settingBaseVM = value;
+                if (value != null)
                     PartsParameter.StampingPlate = value.StampPlateSetting;
                 OnPropertyChanged();
             }
         }
-        
-                                           
+
+
 
         public bool _editPartDarggableIsPopup;
         /// <summary>
@@ -305,7 +281,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public bool EditPartDarggableIsPopup
         {
             get => _editPartDarggableIsPopup;
-            set  { _editPartDarggableIsPopup = value;OnPropertyChanged();
+            set
+            {
+                _editPartDarggableIsPopup = value; OnPropertyChanged();
             }
         }
 
@@ -322,37 +300,37 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public AsyncRelayCommand<GridControl> ProjectDeleteCommand
         {
-            get => new (async obj =>
+            get => new(async obj =>
             {
-                    if (obj is not null)
+                if (obj is not null)
+                {
+                    if (obj.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
                     {
-                        if (obj.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
+                        if (SettingBaseVM != null)
                         {
-                            if (SettingBaseVM != null)
+                            if (await MethodWinUIMessageBox.AskDelProjectAsync(this.SettingBaseVM.PlateNumber) == MessageBoxResult.Yes)
                             {
-                                if (await MethodWinUIMessageBox.AskDelProjectAsync(this.SettingBaseVM.PlateNumber) == MessageBoxResult.Yes)
-                                {
-                                    GridItemSource.Remove(this);
-                                }
-                            }
-                            else
                                 GridItemSource.Remove(this);
-
+                            }
                         }
+                        else
+                            GridItemSource.Remove(this);
+
                     }
+                }
             });
         }
 
 
 
-       // private SendMachineCommandViewModel _sendMachineCommandVM;
+        // private SendMachineCommandViewModel _sendMachineCommandVM;
 
-      //  [JsonIgnore]
-       /* public SendMachineCommandViewModel SendMachineCommandVM
-        {
-            get => _sendMachineCommandVM ??= new SendMachineCommandViewModel(PartsParameter.SendMachineCommand);
-            set { _sendMachineCommandVM = value;OnPropertyChanged();}
-        }*/
+        //  [JsonIgnore]
+        /* public SendMachineCommandViewModel SendMachineCommandVM
+         {
+             get => _sendMachineCommandVM ??= new SendMachineCommandViewModel(PartsParameter.SendMachineCommand);
+             set { _sendMachineCommandVM = value;OnPropertyChanged();}
+         }*/
     }
 
 

@@ -1,15 +1,7 @@
-﻿
-using GD_CommonLibrary;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace GD_CommonLibrary
 {
@@ -41,7 +33,7 @@ namespace GD_CommonLibrary
             {
                 case SetOperationEnum.Intersection:
                     {
-                        if(ValueList.Contains(false))
+                        if (ValueList.Contains(false))
                             return (!Invert) ? Visibility.Collapsed : Visibility.Visible;
                         else
                             return (!Invert) ? Visibility.Visible : Visibility.Collapsed;
@@ -65,6 +57,6 @@ namespace GD_CommonLibrary
             throw new NotImplementedException();
         }
 
-       
+
     }
 }

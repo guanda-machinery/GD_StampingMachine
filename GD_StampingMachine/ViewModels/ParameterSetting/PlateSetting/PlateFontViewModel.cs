@@ -1,11 +1,6 @@
 ﻿using GD_CommonLibrary;
 using GD_StampingMachine.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -28,7 +23,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public readonly PlateFontModel PlateFont = new PlateFontModel();
 
         public override string ViewModelName => nameof(PlateFontViewModel);
-        
+
         public ushort FontIndex
         {
             get => PlateFont.FontIndex;
@@ -38,7 +33,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged();
             }
         }
-        
+
         public bool IsUsed
         {
             get => PlateFont.IsUsed;

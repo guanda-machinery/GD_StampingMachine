@@ -1,33 +1,22 @@
-﻿using DevExpress.CodeParser;
+﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using GD_CommonLibrary.Extensions;
-using GD_StampingMachine.GD_Enum;
+using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
-using GongSolutions.Wpf.DragDrop;
-using GongSolutions.Wpf.DragDrop.Utilities;
-
+using GD_StampingMachine.Singletons;
+using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using GD_CommonLibrary;
-using Newtonsoft.Json;
-using System.Threading;
-using CommunityToolkit.Mvvm.Input;
-using DevExpress.XtraPrinting.Preview;
-using GD_StampingMachine.Singletons;
-using System.Drawing;
-using GD_CommonLibrary.Method;
-using GD_StampingMachine.GD_Model;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -138,44 +127,44 @@ namespace GD_StampingMachine.ViewModels
         private ObservableCollection<StampingTypeViewModel> _newUnusedStampingFont;
         [JsonIgnore]
         public ObservableCollection<StampingTypeViewModel> NewUnusedStampingFont
-          {
-              get
-              {
-                  if (_newUnusedStampingFont == null)
-                  {
-                      _newUnusedStampingFont = new ObservableCollection<StampingTypeViewModel>();
-                  }
+        {
+            get
+            {
+                if (_newUnusedStampingFont == null)
+                {
+                    _newUnusedStampingFont = new ObservableCollection<StampingTypeViewModel>();
+                }
 
-                  if (_newUnusedStampingFont.Count == 0)
-                  {
-                      _newUnusedStampingFont.Add(new StampingTypeViewModel(new GD_Model.StampingTypeModel
-                      {
-                          StampingTypeNumber = 0,
-                          StampingTypeUseCount = 0,
-                          StampingTypeString = null,
-                          IsNewAddStamping = true,
-                      }));
-                  };
+                if (_newUnusedStampingFont.Count == 0)
+                {
+                    _newUnusedStampingFont.Add(new StampingTypeViewModel(new GD_Model.StampingTypeModel
+                    {
+                        StampingTypeNumber = 0,
+                        StampingTypeUseCount = 0,
+                        StampingTypeString = null,
+                        IsNewAddStamping = true,
+                    }));
+                };
                 /*if (_newUnusedStampingFont.Count > 1)
                 {
                     _newUnusedStampingFont.remove
                 }*/
 
                 return _newUnusedStampingFont;
-              }
-              set
-              {
-                  _newUnusedStampingFont = value;
-                  OnPropertyChanged(nameof(NewUnusedStampingFont));
-              }
-          }
+            }
+            set
+            {
+                _newUnusedStampingFont = value;
+                OnPropertyChanged(nameof(NewUnusedStampingFont));
+            }
+        }
 
 
         public ICommand UnusedStampingFontAddCommand
         {
             get => new RelayCommand(() =>
             {
-                
+
                 var FirstFont = NewUnusedStampingFont.FirstOrDefault().DeepCloneByJson();
                 FirstFont.IsNewAddStamping = false;
                 UnusedStampingTypeVMObservableCollection.Add(FirstFont);
@@ -212,11 +201,11 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private StampingTypeModelMartixViewModel _stampingTypeModelMartix= new();
+        private StampingTypeModelMartixViewModel _stampingTypeModelMartix = new();
 
         public StampingTypeModelMartixViewModel StampingTypeModelMartix
         {
-            get => _stampingTypeModelMartix; 
+            get => _stampingTypeModelMartix;
             set
             {
                 _stampingTypeModelMartix = value;
@@ -225,19 +214,19 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-       
-     
+
+
 
 
         private SweepDirection? _direction;
         [JsonIgnore]
         public SweepDirection? Direction
         {
-            get=> _direction; 
-            set 
-            { 
+            get => _direction;
+            set
+            {
                 _direction = value;
-                OnPropertyChanged(); 
+                OnPropertyChanged();
             }
         }
 
@@ -266,7 +255,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
                 _ = Task.Run(async () =>
                 {
-                    if(RotatingTask!=null)
+                    if (RotatingTask != null)
                         await RotatingTask.ConfigureAwait(false);
                     cancellationToken.Cancel();
                     cancellationToken = new CancellationTokenSource();
@@ -507,7 +496,7 @@ namespace GD_StampingMachine.ViewModels
         /// 
         public AsyncRelayCommand StampingFontCollectionData_MachineToSoftware_Command
         {
-            get => _stampingFontCollectionData_MachineToSoftware_Command??=new(async () =>
+            get => _stampingFontCollectionData_MachineToSoftware_Command ??= new(async () =>
             {
                 if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
                 (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware")) != MessageBoxResult.Yes)
@@ -590,7 +579,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftwareAsync(
                      StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection))
-                { 
+                {
                     await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                         (string)Application.Current.TryFindResource("Notify_PunchedFontsIsCompared"));
                 }
@@ -691,7 +680,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public StampingTypeViewModel BottomStampingTypeModel
         {
-            get=> _bottomStampingTypeModel;
+            get => _bottomStampingTypeModel;
             set
             {
                 _bottomStampingTypeModel = value;

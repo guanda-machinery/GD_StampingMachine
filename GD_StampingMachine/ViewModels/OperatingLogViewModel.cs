@@ -1,9 +1,5 @@
 ﻿using GD_StampingMachine.GD_Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -17,9 +13,9 @@ namespace GD_StampingMachine.ViewModels
         private readonly OperatingLogModel _operatingLog = new();
 
 
-        public DateTime LogDatetime 
-        { 
-            get=> _operatingLog.LogDatetime; 
+        public DateTime LogDatetime
+        {
+            get => _operatingLog.LogDatetime;
             set
             {
                 _operatingLog.LogDatetime = value;
@@ -41,7 +37,7 @@ namespace GD_StampingMachine.ViewModels
             get => _operatingLog.LogString;
             set
             {
-                _operatingLog.LogString = value; 
+                _operatingLog.LogString = value;
                 OnPropertyChanged();
             }
         }

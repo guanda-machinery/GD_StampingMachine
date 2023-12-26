@@ -1,23 +1,6 @@
-﻿using DevExpress.Data.Extensions;
-using DevExpress.Mvvm.Native;
-using GD_CommonLibrary.Extensions;
-using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Method;
-using GD_StampingMachine.GD_Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using GD_CommonLibrary;
-using GD_StampingMachine.Interfaces;
+﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
-using DevExpress.Mvvm.DataAnnotations;
 using System.Windows;
-using Newtonsoft.Json.Linq;
-using System.Security.Policy;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -38,7 +21,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public QRSettingViewModel(StampPlateSettingModel stampPlateSetting)
         : base(stampPlateSetting)
         {
-             this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+            this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
 
         }
 

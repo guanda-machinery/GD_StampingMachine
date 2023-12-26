@@ -1,26 +1,11 @@
-﻿
-using DevExpress.Diagram.Core.Shapes;
-using DevExpress.Mvvm;
-using DevExpress.Mvvm.Native;
-using DevExpress.Xpf.Editors.Helpers;
-using DevExpress.Xpf.Utils.Themes;
-using DevExpress.XtraSplashScreen.Utils;
+﻿using DevExpress.Mvvm;
 using GD_CommonLibrary.Method;
-using GD_StampingMachine.Method;
 using GD_StampingMachine.Properties;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels;
-using Microsoft.Build.Framework;
 using Microsoft.VisualStudio.Threading;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -154,7 +139,7 @@ namespace GD_StampingMachine
             SemaphoreSlim semaphore = new SemaphoreSlim(0);
             var DisconnectTask = Task.Run(async () =>
             {
-               await  StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
+                await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
                 semaphore.Release();
             });
 

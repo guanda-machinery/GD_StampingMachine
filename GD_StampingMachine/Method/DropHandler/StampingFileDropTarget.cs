@@ -1,16 +1,9 @@
 ﻿using GD_CommonLibrary.Method;
 using GongSolutions.Wpf.DragDrop;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace GD_StampingMachine.Method
 {
-    public class StampingFileDropTarget: BaseDropTarget
+    public class StampingFileDropTarget : BaseDropTarget
     {
 
         public override void DragEnter(IDropInfo dropInfo)

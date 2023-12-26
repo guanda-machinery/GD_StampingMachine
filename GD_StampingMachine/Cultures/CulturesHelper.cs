@@ -1,12 +1,9 @@
 ﻿using DevExpress.Utils.Extensions;
-using DevExpress.Xpf.Utils.Themes;
-using GD_StampingMachine.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 namespace GD_StampingMachine
@@ -99,12 +96,12 @@ namespace GD_StampingMachine
                 return null;
 
             var cultureFName = _resourcePrefix + "." + culture.Name + ".xaml";
-            string source = Path.Combine(_culturesFolder,  cultureFName);
+            string source = Path.Combine(_culturesFolder, cultureFName);
             string LoadedFileName = Path.Combine(System.Windows.Forms.Application.StartupPath, source);
 
             FileStream fileStream = new FileStream(LoadedFileName, FileMode.Open);
             ResourceDictionary resourceDictionary = XamlReader.Load(fileStream) as ResourceDictionary;
-            resourceDictionary.Source = new System.Uri(source , UriKind.Relative);
+            resourceDictionary.Source = new System.Uri(source, UriKind.Relative);
             return resourceDictionary;
         }
 

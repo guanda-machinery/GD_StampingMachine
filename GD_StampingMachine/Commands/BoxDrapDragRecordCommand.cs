@@ -1,13 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Xpf;
-using GD_CommonLibrary;
-using GD_StampingMachine.ViewModels.ProductSetting;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine
 {

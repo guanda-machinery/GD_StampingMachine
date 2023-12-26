@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GD_StampingMachine.GD_Model
+﻿namespace GD_StampingMachine.GD_Model
 {
     public class IronPlateDataModel
     {
@@ -56,7 +49,7 @@ namespace GD_StampingMachine.GD_Model
         /// <summary>
         /// 字串2的內容
         /// </summary>
-        public string sIronPlateName2 { get=> _sIronPlateName2 ??= string.Empty; set=> _sIronPlateName2 = value; }
+        public string sIronPlateName2 { get => _sIronPlateName2 ??= string.Empty; set => _sIronPlateName2 = value; }
         /// <summary>
         /// 分料盒
         /// </summary>

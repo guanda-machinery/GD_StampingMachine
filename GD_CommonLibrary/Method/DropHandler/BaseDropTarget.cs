@@ -2,12 +2,7 @@
 using GongSolutions.Wpf.DragDrop.Utilities;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Markup;
 
 namespace GD_CommonLibrary.Method
@@ -15,7 +10,7 @@ namespace GD_CommonLibrary.Method
     /// <summary>
     /// https://qiita.com/mkuwan/items/35d91e7c2f9edfe9884a#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB
     /// </summary>
-    public class BaseDropTarget : MarkupExtension,IDropTarget
+    public class BaseDropTarget : MarkupExtension, IDropTarget
     {
 
         public virtual void DragEnter(IDropInfo dropInfo)
@@ -43,7 +38,7 @@ namespace GD_CommonLibrary.Method
                 return;
             }
             //drop預設
-            
+
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
             return;
         }
@@ -75,7 +70,7 @@ namespace GD_CommonLibrary.Method
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-          return this;
+            return this;
         }
     }
 

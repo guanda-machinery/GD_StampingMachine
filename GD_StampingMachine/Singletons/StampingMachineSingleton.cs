@@ -1,33 +1,26 @@
-﻿using DevExpress.Mvvm.Native;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Mvvm.Native;
+using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
-using GD_CommonLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.ViewModels.ProductSetting;
 using GD_StampingMachine.ViewModels;
-using System;
+using GD_StampingMachine.ViewModels.ProductSetting;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 using System.Windows;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using DevExpress.Data.Extensions;
-using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json.Linq;
+using System.Windows.Media;
 
 namespace GD_StampingMachine.Singletons
 {
 
-    public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton> 
+    public class StampingMachineSingleton : BaseSingleton<StampingMachineSingleton>
     {
-        
+
         protected override void Init()
         {
             StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
@@ -75,7 +68,7 @@ namespace GD_StampingMachine.Singletons
             StampingFontChangedVM = new StampingFontChangedViewModel();
 
 
-       
+
             if (JsonHM.ReadUseStampingFont(out var SReaduse))
             {
                 StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
@@ -101,7 +94,7 @@ namespace GD_StampingMachine.Singletons
             }
 
 
-             if (JsonHM.ReadUnUseStampingFont(out List<StampingTypeModel> SReadunuse))
+            if (JsonHM.ReadUnUseStampingFont(out List<StampingTypeModel> SReadunuse))
             {
                 StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
                     SReadunuse.Select(unuse => new StampingTypeViewModel(unuse)));
@@ -171,7 +164,7 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         //需註解找不到檔案!
-                       _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {fileName}");
+                        _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {fileName}");
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,
@@ -179,7 +172,7 @@ namespace GD_StampingMachine.Singletons
                         })
                         {
                             FileIsNotExisted = true
-                        }); 
+                        });
                     }
                 });
             }
@@ -228,7 +221,7 @@ namespace GD_StampingMachine.Singletons
             {
                 IsBrightMode = Properties.Settings.Default.IsBrightMode;
             }
-            catch 
+            catch
             {
 
             }
@@ -323,14 +316,14 @@ namespace GD_StampingMachine.Singletons
 
 
         private ProjectDistributeViewModel _selectedProjectDistributeVM;
-         /// <summary>
-         /// 目前選定的加工專案
-         /// </summary>
+        /// <summary>
+        /// 目前選定的加工專案
+        /// </summary>
         public ProjectDistributeViewModel SelectedProjectDistributeVM
         {
-            get => _selectedProjectDistributeVM; 
+            get => _selectedProjectDistributeVM;
             set
-            { 
+            {
                 _selectedProjectDistributeVM = value;
                 try
                 {
@@ -344,7 +337,7 @@ namespace GD_StampingMachine.Singletons
                 {
 
                 }
-               OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
 

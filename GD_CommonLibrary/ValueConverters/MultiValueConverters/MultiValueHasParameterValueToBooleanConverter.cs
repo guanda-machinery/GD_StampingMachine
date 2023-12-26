@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
-using GD_CommonLibrary;
 
 namespace GD_CommonLibrary
 {
@@ -16,7 +10,7 @@ namespace GD_CommonLibrary
     {
         public bool Invert { get; set; } = false;
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {   
+        {
             if (parameter != null)
             {
                 foreach (var item in values)
@@ -36,10 +30,10 @@ namespace GD_CommonLibrary
             {
                 if (!(bool)value)
                 {
-                    if(parameter is bool)
+                    if (parameter is bool)
                     {
-                        var FalseList = new List<object> ();
-                        for(int i=0;i<   targetTypes.Count();i++)
+                        var FalseList = new List<object>();
+                        for (int i = 0; i < targetTypes.Count(); i++)
                         {
                             FalseList.Add(Invert);
                         }
@@ -51,6 +45,6 @@ namespace GD_CommonLibrary
             throw new NotImplementedException();
         }
 
-       
+
     }
 }

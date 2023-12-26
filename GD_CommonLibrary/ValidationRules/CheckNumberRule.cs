@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace GD_CommonLibrary.ValidationRules
@@ -24,12 +20,12 @@ namespace GD_CommonLibrary.ValidationRules
         /// <summary>
         /// 是否為整數型
         /// </summary>
-        public bool IsINTValidate { get; set; } 
+        public bool IsINTValidate { get; set; }
 
         /// <summary>
         /// 欄位是否可為空
         /// </summary>
-        public bool IsNullable { get; set; } 
+        public bool IsNullable { get; set; }
 
         /// <summary>
         /// 若數值為特定值則直接通過
@@ -45,7 +41,7 @@ namespace GD_CommonLibrary.ValidationRules
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             //先檢查參數
-            if(NumberMax is double && NumberMin is double)
+            if (NumberMax is double && NumberMin is double)
             {
                 if (NumberMax < NumberMin)
                     throw new Exception("驗證值設定錯誤，最大值不可小於最小值");
@@ -53,10 +49,10 @@ namespace GD_CommonLibrary.ValidationRules
 
             if (!string.IsNullOrEmpty((string)value))
             {
-                if(((string)value).EndsWith("."))
+                if (((string)value).EndsWith("."))
                     return new ValidationResult(false, $"結尾不可為小數點");
 
-       
+
 
                 if (double.TryParse((string)value, out var DoubleValue))
                 {
@@ -72,9 +68,9 @@ namespace GD_CommonLibrary.ValidationRules
                         }
                     }
 
-                        if(SpecificValue != null) 
-                            if (DoubleValue == SpecificValue)
-                                return ValidationResult.ValidResult;
+                    if (SpecificValue != null)
+                        if (DoubleValue == SpecificValue)
+                            return ValidationResult.ValidResult;
 
                     if (NumberMax != null)
                     {
@@ -101,7 +97,7 @@ namespace GD_CommonLibrary.ValidationRules
             }
             else
             {
-                if(!IsNullable)
+                if (!IsNullable)
                     return new ValidationResult(false, $"欄位不可為空!");
             }
 
@@ -120,7 +116,7 @@ namespace GD_CommonLibrary.ValidationRules
             else
             {
                 //不可以是空白
-                if(string.IsNullOrWhiteSpace((string)value))
+                if (string.IsNullOrWhiteSpace((string)value))
                 {
                     return new ValidationResult(false, $"欄位不可為空白!");
                 }

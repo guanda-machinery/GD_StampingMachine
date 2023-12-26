@@ -1,22 +1,14 @@
-﻿using GD_CommonLibrary;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace GD_CommonLibrary
 {
     /// <summary>
     /// 聯集
     /// </summary>
-    public class MultiBooleanArrayAndParameterArrayToBooleanConverter  : BaseMultiValueConverter
+    public class MultiBooleanArrayAndParameterArrayToBooleanConverter : BaseMultiValueConverter
     {
         public bool Invert { get; set; }
         /// <summary>
@@ -25,13 +17,13 @@ namespace GD_CommonLibrary
         public bool ConvertBackForceToFalse { get; set; }
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            List<bool> parameterList =null;
+            List<bool> parameterList = null;
             if (parameter is IList<bool> pList)
             {
                 parameterList = pList.ToList();
             }
-              
-            for(int i =0;  i< values.Length;i++)
+
+            for (int i = 0; i < values.Length; i++)
             {
                 object parameterObject = null;
                 if (parameterList != null)
@@ -46,10 +38,10 @@ namespace GD_CommonLibrary
                     }
                 }
 
-                if(!Equals(values[i] , parameterObject))
+                if (!Equals(values[i], parameterObject))
                 {
                     return Invert;
-                   // return false;
+                    // return false;
                 }
             }
             // return true;
@@ -60,7 +52,7 @@ namespace GD_CommonLibrary
         {
 
 
-            if(ConvertBackForceToFalse)
+            if (ConvertBackForceToFalse)
             {
                 if (value is false)
                 {
@@ -70,7 +62,7 @@ namespace GD_CommonLibrary
                         array[i] = false;
                     }
                     return array;
-                 }
+                }
             }
 
 
@@ -82,10 +74,10 @@ namespace GD_CommonLibrary
             }
 
             List<object> result = new List<object>();
-            if(value is bool boolvalue)
+            if (value is bool boolvalue)
             {
-                for (int i=0; i < targetTypes.Length;i++)
-                { 
+                for (int i = 0; i < targetTypes.Length; i++)
+                {
                     var parameterObject = true;
                     if (parameterList != null)
                     {
@@ -99,7 +91,7 @@ namespace GD_CommonLibrary
                         }
                     }
 
-                    if(boolvalue)
+                    if (boolvalue)
                     {
                         result.Add(parameterObject);
                     }
@@ -113,6 +105,6 @@ namespace GD_CommonLibrary
             return result.ToArray();
         }
 
-       
+
     }
 }

@@ -1,10 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model.ProductionSetting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
@@ -24,7 +19,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => StampingSteelBelt.BeltString;
             set
             {
-                StampingSteelBelt.BeltString=value; 
+                StampingSteelBelt.BeltString = value;
                 OnPropertyChanged();
             }
         }
@@ -33,7 +28,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => StampingSteelBelt.BeltNumberString;
             set
             {
-                StampingSteelBelt.BeltNumberString = value; 
+                StampingSteelBelt.BeltNumberString = value;
                 OnPropertyChanged();
             }
         }
@@ -42,7 +37,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => StampingSteelBelt.MachiningStatus;
             set
             {
-                StampingSteelBelt.MachiningStatus = value; 
+                StampingSteelBelt.MachiningStatus = value;
                 OnPropertyChanged();
             }
         }

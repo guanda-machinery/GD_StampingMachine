@@ -1,15 +1,6 @@
-﻿using GD_CommonLibrary;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
+﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace GD_CommonLibrary
 {
@@ -20,7 +11,7 @@ namespace GD_CommonLibrary
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-           
+
             foreach (var EachValue in values)
             {
                 if (EachValue is null)
@@ -33,8 +24,8 @@ namespace GD_CommonLibrary
                 {
                     if (string.IsNullOrEmpty(EachValue as string) || (string.IsNullOrWhiteSpace(EachValue as string)))
                         return false;
-                } 
-                
+                }
+
             }
             return true;
         }

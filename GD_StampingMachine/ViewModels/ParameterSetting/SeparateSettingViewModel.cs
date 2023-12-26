@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Native;
-using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
@@ -8,9 +7,6 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Policy;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -27,7 +23,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("NameSeparateSettingViewModel");
         public SeparateSettingViewModel(SeparateSettingModel _SeparateSetting)
         {
-            SeparateSetting= _SeparateSetting;
+            SeparateSetting = _SeparateSetting;
             initSeparateSetting();
         }
 
@@ -76,12 +72,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        
+
 
         private SeparateBoxViewModel _singleSetting_SeparateBoxModel;
         public SeparateBoxViewModel SingleSetting_SeparateBoxModel
         {
-            get=> _singleSetting_SeparateBoxModel??=new SeparateBoxViewModel(SeparateSetting.SingleSetting_SeparateBox);
+            get => _singleSetting_SeparateBoxModel ??= new SeparateBoxViewModel(SeparateSetting.SingleSetting_SeparateBox);
 
             set
             {
@@ -98,7 +94,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public double SingleSetting_SeparateBoxValue
         {
-            get=> SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
+            get => SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue;
             set
             {
                 SeparateSetting.SingleSetting_SeparateBox.BoxSliderValue = value;
@@ -172,8 +168,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 SeparateSetting.SettingType = value;
                 OnPropertyChanged();
-               // OnPropertyChanged(nameof(IsUnifiedSetting));
-              //  OnPropertyChanged(nameof(IsSingleSetting));
+                // OnPropertyChanged(nameof(IsUnifiedSetting));
+                //  OnPropertyChanged(nameof(IsSingleSetting));
             }
         }
 
@@ -183,7 +179,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                SeparateBoxVMObservableCollectionClone  = SeparateBoxVMObservableCollection.DeepCloneByJson();
+                SeparateBoxVMObservableCollectionClone = SeparateBoxVMObservableCollection.DeepCloneByJson();
                 SeparateSetting = new SeparateSettingModel();
                 initSeparateSetting();
                 UpdateProjectDistributeSeparateBox();
@@ -196,7 +192,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
 
-               await  JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);
+                await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);
 
                 //刷新所有排版的盒子
 
@@ -222,12 +218,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private void UpdateProjectDistributeSeparateBox()
         {
-           foreach(var obj in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+            foreach (var obj in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
             {
                 obj.StampingBoxPartsVM.SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollection.DeepCloneByJson();
             }
-                
-                
+
+
         }
 
 
@@ -238,7 +234,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand<object>(Parameter =>
             {
-                if(Parameter is bool ParameterBoolean)
+                if (Parameter is bool ParameterBoolean)
                 {
                     SeparateBoxVMObservableCollectionClone.ForEach(obj =>
                     {
@@ -263,7 +259,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         BoxIndex = i,
                         BoxSliderValue = 0,
                         BoxIsEnabled = true,
-                    }) ;
+                    });
                 }
             }
         }

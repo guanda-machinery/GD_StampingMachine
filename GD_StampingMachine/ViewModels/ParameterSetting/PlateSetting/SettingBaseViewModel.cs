@@ -1,19 +1,14 @@
 ﻿
 using CommunityToolkit.Mvvm.Input;
-using DevExpress.CodeParser;
 using DevExpress.Mvvm.Native;
 using GD_CommonLibrary;
-using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
-using GongSolutions.Wpf.DragDrop.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -24,7 +19,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// <summary>
     /// 金屬片設定
     /// </summary>
-    public abstract class SettingBaseViewModel :  ParameterSettingBaseViewModel
+    public abstract class SettingBaseViewModel : ParameterSettingBaseViewModel
     {
 
         public SettingBaseViewModel()
@@ -42,9 +37,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         [JsonIgnore]
-        public StampPlateSettingModel StampPlateSetting ;
+        public StampPlateSettingModel StampPlateSetting;
 
-        public SheetStampingTypeFormEnum SheetStampingTypeForm { get => StampPlateSetting.SheetStampingTypeForm; set { StampPlateSetting.SheetStampingTypeForm = value;OnPropertyChanged(); } }
+        public SheetStampingTypeFormEnum SheetStampingTypeForm { get => StampPlateSetting.SheetStampingTypeForm; set { StampPlateSetting.SheetStampingTypeForm = value; OnPropertyChanged(); } }
 
 
         //[JsonIgnore]
@@ -79,7 +74,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// </summary>
         public int SequenceCount
         {
-            get=> StampPlateSetting.SequenceCount = Math.Min(StampPlateSetting.SequenceCount, SequenceCountMax);
+            get => StampPlateSetting.SequenceCount = Math.Min(StampPlateSetting.SequenceCount, SequenceCountMax);
             set
             {
                 StampPlateSetting.SequenceCount = Math.Min(value, SequenceCountMax);
@@ -107,11 +102,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// 水平對齊
         /// </summary>
         public HorizontalAlignEnum HorizontalAlign
-        { 
-            get => StampPlateSetting.HorizontalAlign; 
+        {
+            get => StampPlateSetting.HorizontalAlign;
             set
-            { 
-                StampPlateSetting.HorizontalAlign = value; 
+            {
+                StampPlateSetting.HorizontalAlign = value;
                 OnPropertyChanged();
                 ChangeHorizontalStampingMarginPosVM();
 
@@ -121,12 +116,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 垂直對齊
         /// </summary>
-        public VerticalAlignEnum VerticalAlign { get => StampPlateSetting.VerticalAlign; set
+        public VerticalAlignEnum VerticalAlign
+        {
+            get => StampPlateSetting.VerticalAlign; set
             {
-                StampPlateSetting.VerticalAlign = value; 
+                StampPlateSetting.VerticalAlign = value;
                 OnPropertyChanged();
                 ChangeVerticalStampingMarginPosVM();
-            } 
+            }
         }
 
 
@@ -134,7 +131,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private void ChangeVerticalStampingMarginPosVM()
         {
-            if(SpecialSequence == SpecialSequenceEnum.OneRow)
+            if (SpecialSequence == SpecialSequenceEnum.OneRow)
             {
                 switch (StampPlateSetting.VerticalAlign)
                 {
@@ -146,9 +143,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         StampingMarginPosVM.rXAxisPos1 = 10 + MachineConst.FontVerticalInterval / 2; ;
                         StampingMarginPosVM.rXAxisPos2 = 25 + MachineConst.FontVerticalInterval / 2;
                         break;
-                case VerticalAlignEnum.Bottom:
-                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConst.FontVerticalInterval ; 
-                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConst.FontVerticalInterval ; 
+                    case VerticalAlignEnum.Bottom:
+                        StampingMarginPosVM.rXAxisPos1 = 10 + MachineConst.FontVerticalInterval;
+                        StampingMarginPosVM.rXAxisPos2 = 25 + MachineConst.FontVerticalInterval;
                         break;
                     default:
                         break;
@@ -187,8 +184,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private IronPlateMarginViewModel _ironPlateMarginVM;
         public IronPlateMarginViewModel IronPlateMarginVM
-        { 
-            get=> _ironPlateMarginVM ??= new (StampPlateSetting.IronPlateMargin);
+        {
+            get => _ironPlateMarginVM ??= new(StampPlateSetting.IronPlateMargin);
             set
             {
                 _ironPlateMarginVM = value;
@@ -322,7 +319,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         if (i < StampPlateSetting.StampableList2.Count)
                             plateFont = StampPlateSetting.StampableList2[i];
                         else
-                            plateFont =  new PlateFontModel()
+                            plateFont = new PlateFontModel()
                             {
                                 FontIndex = (ushort)i,
                                 IsUsed = true
@@ -454,7 +451,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ObservableCollection<PlateFontViewModel> _plateNumberList1;
         private ObservableCollection<PlateFontViewModel> _plateNumberList2;
 
-  
+
         public ObservableCollection<PlateFontViewModel> PlateNumberList1
         {
             get
@@ -482,7 +479,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     _plateNumberList2 = StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
                 }
-                   
+
                 return _plateNumberList2;
             }
             set
@@ -611,7 +608,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         internal readonly StampingMarginPosModel _stampingMarginPos;
         public float rXAxisPos1 { get => _stampingMarginPos.rXAxisPos1; set { _stampingMarginPos.rXAxisPos1 = value; OnPropertyChanged(); } }
-         public float rYAxisPos1 { get => _stampingMarginPos.rYAxisPos1; set { _stampingMarginPos.rYAxisPos1 = value; OnPropertyChanged(); } }
+        public float rYAxisPos1 { get => _stampingMarginPos.rYAxisPos1; set { _stampingMarginPos.rYAxisPos1 = value; OnPropertyChanged(); } }
         public float rXAxisPos2 { get => _stampingMarginPos.rXAxisPos2; set { _stampingMarginPos.rXAxisPos2 = value; OnPropertyChanged(); } }
         public float rYAxisPos2 { get => _stampingMarginPos.rYAxisPos2; set { _stampingMarginPos.rYAxisPos2 = value; OnPropertyChanged(); } }
     }

@@ -1,28 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using DevExpress.CodeParser;
 using DevExpress.Data.Extensions;
-using DevExpress.Office.Utils;
-using DevExpress.Utils.Extensions;
-using DevExpress.Utils.StructuredStorage.Internal;
-using DevExpress.Xpf.Grid;
-using DevExpress.Xpo.DB.Helpers;
-using DevExpress.XtraRichEdit.Import.Doc;
-using DevExpress.XtraScheduler.Native;
-using GD_CommonLibrary;
-using GD_CommonLibrary.Extensions;
-using GD_CommonLibrary.Method;
-using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
-using GD_StampingMachine.ViewModels.ParameterSetting;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -36,7 +16,7 @@ namespace GD_StampingMachine.ViewModels
 
         public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
         public StampingFontChangedViewModel StampingFontChangedVM { get => Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM; }
-     
+
         /// <summary>
         /// 已選擇的加工專案
         /// </summary>
@@ -87,7 +67,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         if (gridcontrol.View is DevExpress.Xpf.Grid.TableView tableview)
                         {
-                            var pageSize = ((tableview.ActualHeight - tableview.HeaderPanelMinHeight - 30) / 40) ;
+                            var pageSize = ((tableview.ActualHeight - tableview.HeaderPanelMinHeight - 30) / 40);
                             tableview.PageSize = (pageSize < 3 ? 3 : (int)pageSize);
                         }
                     }
@@ -114,7 +94,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        
+
 
 
 
@@ -189,7 +169,7 @@ namespace GD_StampingMachine.ViewModels
         private AsyncRelayCommand _separateBox_ClockwiseRotateCommand;
         public AsyncRelayCommand SeparateBox_ClockwiseRotateCommand
         {
-            get => _separateBox_ClockwiseRotateCommand??=new(async () =>
+            get => _separateBox_ClockwiseRotateCommand ??= new(async () =>
             {
 
                 try
@@ -219,13 +199,13 @@ namespace GD_StampingMachine.ViewModels
 
                 }
 
-            },()=> !_separateBox_ClockwiseRotateCommand.IsRunning);
+            }, () => !_separateBox_ClockwiseRotateCommand.IsRunning);
         }
 
         private AsyncRelayCommand _separateBox_CounterClockwiseRotateCommand;
         public AsyncRelayCommand SeparateBox_CounterClockwiseRotateCommand
         {
-            get => _separateBox_CounterClockwiseRotateCommand??=new AsyncRelayCommand(async () =>
+            get => _separateBox_CounterClockwiseRotateCommand ??= new AsyncRelayCommand(async () =>
             {
                 try
                 {
@@ -253,7 +233,7 @@ namespace GD_StampingMachine.ViewModels
                 {
 
                 }
-            },()=> _separateBox_CounterClockwiseRotateCommand.IsRunning);
+            }, () => _separateBox_CounterClockwiseRotateCommand.IsRunning);
         }
 
 
@@ -266,7 +246,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        
+
         private int NextSeparateBox_Rotate(int step)
         {
             var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);

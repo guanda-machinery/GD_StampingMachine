@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace GD_StampingMachine.GD_Enum
 {
@@ -11,8 +6,8 @@ namespace GD_StampingMachine.GD_Enum
     public enum VerticalAlignEnum
     {
         //[LocalizedDescription("Top", typeof(EnumResources))]
-        Top, 
-       // [LocalizedDescription("Center", typeof(EnumResources))]
+        Top,
+        // [LocalizedDescription("Center", typeof(EnumResources))]
         Center,
         //[LocalizedDescription("Bottom", typeof(EnumResources))]
         Bottom,

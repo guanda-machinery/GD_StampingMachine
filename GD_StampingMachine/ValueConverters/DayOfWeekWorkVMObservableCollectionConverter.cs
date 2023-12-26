@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine
 {
@@ -19,14 +16,14 @@ namespace GD_StampingMachine
                 var ci = CultureInfo.CurrentCulture;
 
                 var weekday = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
-                var weekend = new List<DayOfWeek>() {  DayOfWeek.Saturday, DayOfWeek.Sunday };
+                var weekend = new List<DayOfWeek>() { DayOfWeek.Saturday, DayOfWeek.Sunday };
 
 
                 if (IsWeekday(list) && (IsWeekend(list)))
                 {
                     return (string)System.Windows.Application.Current.TryFindResource("Text_Everyday");
                 }
-               else if (IsWeekday(list))
+                else if (IsWeekday(list))
                 {
                     return (string)System.Windows.Application.Current.TryFindResource("Text_EveryWeekday");
                 }
@@ -34,13 +31,13 @@ namespace GD_StampingMachine
                 {
                     return (string)System.Windows.Application.Current.TryFindResource("Text_EveryWeekend");
                 }
-                else if(list.Count>0)
+                else if (list.Count > 0)
                 {
                     const char cut = '，';
                     var retrunString = "";
-                    foreach (var dayOfWeek in list) 
+                    foreach (var dayOfWeek in list)
                     {
-                        retrunString +=ci.DateTimeFormat.GetDayName(dayOfWeek);
+                        retrunString += ci.DateTimeFormat.GetDayName(dayOfWeek);
                         retrunString += cut;
                     }
 

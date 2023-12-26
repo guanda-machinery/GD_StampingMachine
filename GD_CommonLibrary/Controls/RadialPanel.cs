@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -58,14 +53,14 @@ namespace GD_CommonLibrary
         public static readonly DependencyProperty RoundAngleProperty = DependencyProperty.Register(
             nameof(RoundAngle),
             typeof(double),
-            typeof(RadialPanel), new PropertyMetadata(360.0 , Angle_PropertyChanged));
+            typeof(RadialPanel), new PropertyMetadata(360.0, Angle_PropertyChanged));
 
         /// <summary>
         /// 旋轉範圍
         /// </summary>
         public double RoundAngle
         {
-            get=> (double)GetValue(RoundAngleProperty);
+            get => (double)GetValue(RoundAngleProperty);
             set => SetValue(RoundAngleProperty, value);
         }
 
@@ -104,7 +99,7 @@ namespace GD_CommonLibrary
 
 
         private static void Angle_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {          
+        {
             //刷新是否有更好做法?
             var TempWidth = (d as RadialPanel).Width;
             (d as RadialPanel).Width = 0;
@@ -137,7 +132,7 @@ namespace GD_CommonLibrary
 
             //double _marginalAngle = 360 / Children.Count;
             double _marginalAngle = RoundAngle / Children.Count;
-            double _radian =( StartAngle+ RotateAngle) * (Math.PI / 180);
+            double _radian = (StartAngle + RotateAngle) * (Math.PI / 180);
             //Degrees converted to Radian by multiplying with PI/180
             double _incrementalAngularSpaceRadian = _marginalAngle * (Math.PI / 180);
 

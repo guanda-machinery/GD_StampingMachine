@@ -3,22 +3,15 @@ using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
 using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Markup;
-using System.Xml.Linq;
 
 namespace GD_StampingMachine
 {
     public class EnumToPackIconKindConverter : BaseValueConverter
     {
-         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is System.Enum EnumValue)
+            if (value is System.Enum EnumValue)
             {
                 if (EnumValue is VerticalAlignEnum VerticalAlign)
                 {
@@ -85,6 +78,6 @@ namespace GD_StampingMachine
             return value;
         }
 
-       
+
     }
 }

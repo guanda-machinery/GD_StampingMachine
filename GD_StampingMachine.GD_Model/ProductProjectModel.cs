@@ -3,18 +3,14 @@ using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model.ProductionSetting;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_StampingMachine.GD_Model
 {
     public class ProductProjectModel
-    { 
-         /// <summary>
-         /// 路徑
-         /// </summary
+    {
+        /// <summary>
+        /// 路徑
+        /// </summary
         public string ProjectPath { get; set; }
         /// <summary>
         /// 工程編號
@@ -46,7 +42,7 @@ namespace GD_StampingMachine.GD_Model
         /// <summary>
         /// 是否為已完成專案
         /// </summary>
-       public bool ProductProjectIsFinish { get; set; }
+        public bool ProductProjectIsFinish { get; set; }
 
         /// <summary>
         /// 專案不存在

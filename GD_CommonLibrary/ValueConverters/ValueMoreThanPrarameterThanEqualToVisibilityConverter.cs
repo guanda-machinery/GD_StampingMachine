@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
-using GD_CommonLibrary;
 
 
 namespace GD_CommonLibrary
@@ -15,7 +8,7 @@ namespace GD_CommonLibrary
     public class ValueMoreThanPrarameterThanEqualToVisibilityConverter : BaseValueConverter
     {
         public bool Invert { get; set; }
-         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null && parameter != null)
             {
@@ -42,7 +35,7 @@ namespace GD_CommonLibrary
             throw new NotImplementedException();
         }
 
-       
-        
+
+
     }
 }

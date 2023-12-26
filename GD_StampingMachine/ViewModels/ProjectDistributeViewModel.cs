@@ -1,26 +1,15 @@
-﻿using DevExpress.CodeParser;
-using DevExpress.Xpf.Grid;
-using GD_StampingMachine;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.Extensions;
+using DevExpress.Mvvm.Native;
 using GD_CommonLibrary.Extensions;
-using GD_StampingMachine.Method;
-using GD_StampingMachine.GD_Model;
-using GD_StampingMachine.GD_Model.ProductionSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Input;
-using GD_CommonLibrary;
-using Newtonsoft.Json;
-using DevExpress.Mvvm.Native;
-using DevExpress.Data.Extensions;
-using CommunityToolkit.Mvvm.Input;
 using System.Windows;
-using Microsoft.VisualStudio.RpcContracts.Commands;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -41,7 +30,7 @@ namespace GD_StampingMachine.ViewModels
         public DateTime? EditDate { get; set; }
 
 
-        public ObservableCollection<string> ProductProjectNameList{get;set;} = new ObservableCollection<string>();
+        public ObservableCollection<string> ProductProjectNameList { get; set; } = new ObservableCollection<string>();
 
         /// <summary>
         /// 製品清單
@@ -506,7 +495,7 @@ namespace GD_StampingMachine.ViewModels
                         if (!ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Contains(PartsParameterVM))
                         {
                             //不在陣列內但名稱一樣的也能放
-                            if(ReadyToTypeSettingProductProjectVMSelected.ProductProjectName != PartsParameterVM.ProductProjectName)
+                            if (ReadyToTypeSettingProductProjectVMSelected.ProductProjectName != PartsParameterVM.ProductProjectName)
                             {
                                 return false;
                             }
@@ -519,7 +508,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         }
-    
+
 
 
 
@@ -532,7 +521,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand Box_OnDropRecordCommand
         {
-            get => _box_OnDropRecordCommand??=new AsyncRelayCommand<object>(async obj =>
+            get => _box_OnDropRecordCommand ??= new AsyncRelayCommand<object>(async obj =>
             {
                 if (obj is DevExpress.Xpf.Core.DropRecordEventArgs e)
                 {
@@ -549,7 +538,7 @@ namespace GD_StampingMachine.ViewModels
                                     PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
                                     e.Effects = System.Windows.DragDropEffects.Move;
 
-                                   await SaveProductProjectVMObservableCollectionAsync();
+                                    await SaveProductProjectVMObservableCollectionAsync();
                                 }
                             }
                         }
@@ -562,7 +551,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand
         {
-            get => _box_OnDragRecordOverCommand??= GD_Command.Box_OnDragRecordOverCommand;
+            get => _box_OnDragRecordOverCommand ??= GD_Command.Box_OnDragRecordOverCommand;
         }
 
         public ICommand PartsParameterVMCollection_Unassigned_RowFilterCommand
@@ -610,7 +599,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ICommand ProjectGridControlInsertToBoxCommand
         {
-            get => _projectGridControlInsertToBoxCommand ??= new AsyncRelayCommand (async()=>
+            get => _projectGridControlInsertToBoxCommand ??= new AsyncRelayCommand(async () =>
             {
                 _ = Task.Run(async () =>
                 {
@@ -623,7 +612,7 @@ namespace GD_StampingMachine.ViewModels
                             await Application.Current.Dispatcher.InvokeAsync(() =>
                             {
                                 StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
-                               // this.PartsParameterVMObservableCollection.Remove(partsParameterVM);
+                                // this.PartsParameterVMObservableCollection.Remove(partsParameterVM);
                             });
                         }
                         this.PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();

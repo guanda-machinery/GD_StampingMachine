@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace GD_StampingMachine.GD_Enum
 {
     public enum CharactersFormEnum
     {
         [Description("A~Z")]
-        UpperCaseAlphabet, 
+        UpperCaseAlphabet,
         [Description("0~9")]
-        CardinalNumber, 
+        CardinalNumber,
         [Description("a~z")]
         LowerCaseAlphabet
     }

@@ -1,8 +1,6 @@
 ﻿using GD_CommonLibrary;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GD_MachineConnect.Machine.Interfaces
@@ -31,7 +29,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         public abstract Task<IEnumerable<object>> ReadNodesAsync(IEnumerable<string> NodeTrees);
 
         public abstract Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> updateAction, int samplingInterval = 10, bool checkDuplicates = true);
-       public abstract Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList);
+        public abstract Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList);
         public abstract Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval = 10, bool checkDuplicates = true);
         public abstract Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, EventHandler<ValueChangedEventArgs<T>> updateHandler, int samplingInterval, bool checkDuplicates)> nodeList);
 

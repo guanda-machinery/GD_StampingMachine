@@ -1,24 +1,15 @@
-﻿using GD_CommonLibrary;
-using GD_CommonLibrary.Extensions;
-using GD_StampingMachine.GD_Enum;
+﻿using GD_CommonLibrary.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Markup;
-using System.Xml.Linq;
 
 namespace GD_CommonLibrary
 {
     public class EnumGetNameConverter : BaseValueConverter
     {
-         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-           if (value is System.Enum EnumValue)
-          {
+            if (value is System.Enum EnumValue)
+            {
                 var description = EnumValue.GetDescription();
                 var CultResource = (string)System.Windows.Application.Current.TryFindResource("Enum_" + EnumValue.ToString());
                 if (!string.IsNullOrEmpty(CultResource))
@@ -55,6 +46,6 @@ namespace GD_CommonLibrary
             return value;
         }
 
-       
+
     }
 }

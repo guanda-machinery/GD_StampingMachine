@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GD_CommonLibrary
 {
@@ -11,7 +8,7 @@ namespace GD_CommonLibrary
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is double Hour)
+            if (value is double Hour)
             {
                 var ts = TimeSpan.FromHours(Hour);
                 return $"{ts.Hours}:{ts.Minutes:D2}";
@@ -23,8 +20,8 @@ namespace GD_CommonLibrary
         {
             var timeString = value.ToString();
 
-            DateTime result=default(DateTime);
-            if (DateTime.TryParseExact(timeString , "HH:mm:ss",null, DateTimeStyles.None, out result))
+            DateTime result = default(DateTime);
+            if (DateTime.TryParseExact(timeString, "HH:mm:ss", null, DateTimeStyles.None, out result))
             {
 
             }
@@ -67,7 +64,7 @@ namespace GD_CommonLibrary
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is double dValue)
+            if (value is double dValue)
             {
                 return new DateTime().AddHours(dValue);
             }
@@ -85,16 +82,16 @@ namespace GD_CommonLibrary
             if (values.Length > 3)
                 throw new NotImplementedException();
 
-           var first = values.FirstOrDefault();
-           var last = values.LastOrDefault();
-            if(first is double firstHour && last is double lastHour)
+            var first = values.FirstOrDefault();
+            var last = values.LastOrDefault();
+            if (first is double firstHour && last is double lastHour)
             {
                 var diff = lastHour - firstHour;
                 if (diff < 0)
                     diff += 24;
                 var ts = TimeSpan.FromHours(diff);
 
-                var hourString =(string)System.Windows.Application.Current.TryFindResource("Hour");
+                var hourString = (string)System.Windows.Application.Current.TryFindResource("Hour");
                 var minuteString = (string)System.Windows.Application.Current.TryFindResource("Minute");
 
                 if (ts.Minutes < 1)
@@ -102,7 +99,7 @@ namespace GD_CommonLibrary
                     return $"{ts.Hours}{hourString}";
                 }
 
-                if(hourString == null)
+                if (hourString == null)
                     return $"{ts.Hours}:{ts.Minutes:D2}";
                 else
                     return $"{ts.Hours}{hourString}{ts.Minutes:D2}{minuteString}";

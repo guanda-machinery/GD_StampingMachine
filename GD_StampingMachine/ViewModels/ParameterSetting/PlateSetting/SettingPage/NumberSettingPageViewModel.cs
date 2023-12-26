@@ -1,28 +1,14 @@
-﻿using DevExpress.Data.Extensions;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
-using DevExpress.Pdf.Native;
-using DevExpress.Utils.Extensions;
-using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Enum;
-using GD_StampingMachine.Interfaces;
 using GD_StampingMachine.Method;
-using GD_StampingMachine.GD_Model;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
-using GD_StampingMachine.Model;
-using Newtonsoft.Json.Linq;
-using CommunityToolkit.Mvvm.Input;
-using System.Windows.Data;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -45,7 +31,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private NumberSettingViewModel _numberSettingVM;
         public NumberSettingViewModel NumberSettingVM
         {
-            get=> _numberSettingVM ??= new NumberSettingViewModel()
+            get => _numberSettingVM ??= new NumberSettingViewModel()
             {
                 SequenceCount = 8
             };
@@ -88,7 +74,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ICommand _loadSettingCommand;
         public override ICommand LoadSettingCommand
         {
-            get => _loadSettingCommand??= new RelayCommand(() =>
+            get => _loadSettingCommand ??= new RelayCommand(() =>
             {
                 if (NumberSettingModelCollectionSelected != null)
                     NumberSettingVM = NumberSettingModelCollectionSelected.DeepCloneByJson();
@@ -98,7 +84,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ICommand _recoverSettingCommand;
         public override ICommand RecoverSettingCommand
         {
-            get => _recoverSettingCommand??=new RelayCommand(() =>
+            get => _recoverSettingCommand ??= new RelayCommand(() =>
             {
                 NumberSettingVM = new NumberSettingViewModel();
             });
@@ -107,7 +93,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public ICommand _saveSettingCommand;
         public override ICommand SaveSettingCommand
         {
-            get => _saveSettingCommand??= new AsyncRelayCommand(async () =>
+            get => _saveSettingCommand ??= new AsyncRelayCommand(async () =>
             {
                 var FIndex = NumberSettingModelCollection.FindIndex(x => x.NumberSettingMode == NumberSettingVM.NumberSettingMode);
                 if (FIndex != -1)
@@ -134,19 +120,19 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     });
                 }
 
-               await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection.Select(x => x.StampPlateSetting), true);
+                await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection.Select(x => x.StampPlateSetting), true);
             });
         }
 
         private ICommand _deleteSettingCommand;
         public override ICommand DeleteSettingCommand
         {
-            get => _deleteSettingCommand??= new AsyncRelayCommand(async () =>
+            get => _deleteSettingCommand ??= new AsyncRelayCommand(async () =>
             {
                 if (NumberSettingModelCollectionSelected != null)
                 {
                     NumberSettingModelCollection.Remove(NumberSettingModelCollectionSelected);
-                   await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection.Select(x => x.StampPlateSetting));
+                    await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection.Select(x => x.StampPlateSetting));
                 }
             });
         }
