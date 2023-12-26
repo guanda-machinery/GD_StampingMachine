@@ -45,7 +45,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         //private TimingSettingModel _timingSetting;
         [JsonIgnore]
-        public TimingSettingModel TimingSetting;
+        public TimingSettingModel TimingSetting { get; private set; }
 
 
 
@@ -348,7 +348,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public ICommand DeleteCommand 
         {
             get => _deleteCommand ??= new AsyncRelayCommand<object>(async obj=> 
-            { 
+            {
+                await Task.CompletedTask;
+
                 if(obj is ObservableCollection<GD_StampingMachine.ViewModels.ParameterSetting.TimingControlViewModel> collection)
                 {
                     if(collection.Contains(this))

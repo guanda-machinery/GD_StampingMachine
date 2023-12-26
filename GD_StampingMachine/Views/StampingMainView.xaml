@@ -1053,9 +1053,14 @@
                                     
                                         <TextBox Text="{Binding ElementName=CRangeSlider, Path=Start}"/>
                                         <TextBox Text="{Binding ElementName=CRangeSlider, Path=End}"/>
+                                        <Grid>
+                                            
 
 
-                                    
+                                        </Grid>
+
+                                        <Slider/>
+
 
 
 
