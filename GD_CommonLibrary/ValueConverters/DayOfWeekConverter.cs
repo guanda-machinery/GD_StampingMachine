@@ -14,7 +14,7 @@ namespace GD_CommonLibrary
         {
             if (value is DayOfWeek dayOfWeek)
             {
-                var ci = Thread.CurrentThread.CurrentCulture;
+                var ci = CultureInfo.CurrentCulture;
                 //CultureInfo ci = new CultureInfo("zh-tw");
                 return ci.DateTimeFormat.GetDayName(dayOfWeek);
             }

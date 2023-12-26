@@ -318,6 +318,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if(_dayOfWeekWorkVMObservableCollection== null)
                 {
                     _dayOfWeekWorkVMObservableCollection = timingControlModel.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
+               
+                
+                    foreach(var obj in _dayOfWeekWorkVMObservableCollection)
+                    {
+                        obj.IsWorkChanged += (sender, e) =>
+                        {
+                            OnPropertyChanged(nameof(DayOfWeekWorkVMObservableCollection));
+                        };
+                    }
                 }
 
 
@@ -329,9 +338,21 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (value != null)
                 {
                     timingControlModel.DayOfWeekWorkCollection = value.Select(x => x.DayOfWeekWork).ToList();
+                  
+                    foreach (var obj in value)
+                    {
+                        obj.IsWorkChanged += (sender, e) =>
+                        {
+                            OnPropertyChanged(nameof(DayOfWeekWorkVMObservableCollection));
+                        };
+                    }
+
+
                 }
                 OnPropertyChanged(); } 
         }
+
+
 
         private bool _isEdit;
         /// <summary>
@@ -472,15 +493,25 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => DayOfWeekWork.IsWork; 
             set
             {
-               // this.IsWorkChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<bool>(DayOfWeekWork.IsWork, value));
-                DayOfWeekWork.IsWork = value; 
-                OnPropertyChanged();
+                bool oldValue = DayOfWeekWork.IsWork;
+
+                if (oldValue != value)
+                {
+                    OnIsWorkChanged(new GD_CommonLibrary.ValueChangedEventArgs<bool>(oldValue, value));
+                    DayOfWeekWork.IsWork = value;
+                    OnPropertyChanged();
+                }
+
             }
         }
 
 
-        //public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<bool>> IsWorkChanged;
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<bool>> IsWorkChanged;
 
+        protected virtual void OnIsWorkChanged(GD_CommonLibrary.ValueChangedEventArgs<bool> e)
+        {
+            IsWorkChanged?.Invoke(this, e);
+        }
 
 
     }

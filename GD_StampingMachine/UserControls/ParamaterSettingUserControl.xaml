@@ -21,7 +21,7 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              
              xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
-             xmlns:GD_ValidationRules="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:GD_ValidationRules="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine"
              mc:Ignorable="d" >
     <Grid  Margin="150,0,0,0">
         <Grid.Resources>
@@ -1916,7 +1916,8 @@
                                                                                             </MultiBinding>
                                                                                         </TextBlock.Text>
                                                                                     </TextBlock>
-                                                                                    <TextBlock Text="每個平日"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                    <TextBlock Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
+                                                                                               Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                                                                                 </StackPanel>
                                                                             </Grid>
                                                                             <Grid Grid.Column="1" >

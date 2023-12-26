@@ -33,7 +33,7 @@ namespace GD_StampingMachine.Singletons
             }
             else
             {
-                var CurrentCulture = Thread.CurrentThread.CurrentCulture;
+                var CurrentCulture = CultureInfo.CurrentCulture;
                 if (SupportedCultures.Contains(CurrentCulture))
                 {
                     SelectedCulture = CurrentCulture;
@@ -73,8 +73,9 @@ namespace GD_StampingMachine.Singletons
                         Properties.Settings.Default.DefaultCulture = _selectedCulture;
                         Properties.Settings.Default.Save();
 
-                        System.Threading.Thread.CurrentThread.CurrentCulture = value;
-                       
+                        Thread.CurrentThread.CurrentCulture = value;
+                        CultureInfo.CurrentCulture = value;
+
                     }
                     catch (Exception ex)
                     {

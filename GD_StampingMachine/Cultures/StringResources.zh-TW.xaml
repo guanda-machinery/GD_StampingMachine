@@ -393,6 +393,11 @@
 
     <sys:String x:Key="Text_JsonError">Json檔案讀取錯誤</sys:String>
 
+    <sys:String x:Key="Text_Everyday">每天</sys:String>
+    <sys:String x:Key="Text_EveryWeekday">每個平日</sys:String>
+    <sys:String x:Key="Text_EveryWeekend">每個周末</sys:String>
+    
+    
     
     <!--連線-->
 
