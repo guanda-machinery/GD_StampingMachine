@@ -318,7 +318,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if(_dayOfWeekWorkVMObservableCollection== null)
                 {
                     _dayOfWeekWorkVMObservableCollection = timingControlModel.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
-                    _dayOfWeekWorkVMObservableCollection.ForEach(x => x.IsWorkChanged += X_IsWorkChanged);
                 }
 
 
@@ -332,11 +331,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     timingControlModel.DayOfWeekWorkCollection = value.Select(x => x.DayOfWeekWork).ToList();
                 }
                 OnPropertyChanged(); } 
-        }
-
-        private void X_IsWorkChanged(object sender, ValueChangedEventArgs<bool> e)
-        {
-
         }
 
         private bool _isEdit;
