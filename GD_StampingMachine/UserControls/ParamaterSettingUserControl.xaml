@@ -361,6 +361,7 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                         <RowDefinition/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
                                  <!--   <StackPanel Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textCurrentMode}"/>
@@ -411,9 +412,14 @@
                                         SelectedValue="{Binding NumberSettingVM.VerticalAlign}"
                                         ItemsSource="{Binding VerticalAlignmentCollection}"
                                         >
+                                        
+                                        
+                                        
 
                                         
                                     </ComboBox>
+
+
 
                                 </Grid>
 
@@ -682,34 +688,11 @@
                                             <TextBlock Text="{DynamicResource textAlignmentMode}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <Border Visibility="Collapsed"  Grid.Row="5" Grid.Column="1"   BorderThickness="1" BorderBrush="White" HorizontalAlignment="Left" Margin="10,0">
-                                        <Grid Margin="5"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Grid.Resources>
-                                                    <Style TargetType="RadioButton" BasedOn="{StaticResource SquareRadioButton}">
-                                                        <Setter Property="Margin" Value="5"/>
-                                                    </Style>
-                                                </Grid.Resources>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <RadioButton Grid.Column="0" Grid.Row="0"/>
-                                            <RadioButton Grid.Column="1" Grid.Row="0"/>
-                                            <RadioButton Grid.Column="2" Grid.Row="0"/>
-                                            <RadioButton Grid.Column="0" Grid.Row="1"/>
-                                            <RadioButton Grid.Column="1" Grid.Row="1"/>
-                                            <RadioButton Grid.Column="2" Grid.Row="1"/>
-                                            <RadioButton Grid.Column="0" Grid.Row="2"/>
-                                            <RadioButton Grid.Column="1" Grid.Row="2"/>
-                                            <RadioButton Grid.Column="2" Grid.Row="2"/>
-                                        </Grid>
-                                        </Border>
+
+
+
+
+
 
                                     </Grid>
 
@@ -1150,7 +1133,6 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                             <StackPanel>
                                 <StackPanel.Resources>
@@ -1305,157 +1287,124 @@
                                         <Setter Property="FontSize" Value="20"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                    <!--           Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, 
- Converter={dx:BooleanToVisibilityConverter Invert=True}}"-->
-                                <ToggleButton Name="TestToggleButton" 
-                                   
-                                              Content="編輯"/>
-                                <ToggleButton Name="FinishToggleButton" 
-                                              Content="完成" IsChecked="{Binding ElementName=TestToggleButton,Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"/>
-
-                                    <ListBox Name="TimingControlVMCollectionListBox" 
-                                        ItemsSource="{Binding TimingControlVMCollection}" SelectedItem="{Binding TimingControlVMSelected}">
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical"/>
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem">
-                                                <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
-                                                <Setter Property="Cursor" Value="Hand"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ListBoxItem">
-                                                            <Border Background="{TemplateBinding Background}">
-                                                            <Grid  
-                                                                d:DataContext="{d:DesignInstance Type=ParameterSetting:TimingControlViewModel}">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                    <ColumnDefinition/>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Expander 
-                                        IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked}"
-                                        Background="Transparent" ExpandDirection="Right" >
-
-                                                                        <Expander 
-                                        IsExpanded="{Binding ElementName=PrepareDeleteButton,Path=IsChecked, Converter={GD_Common:InvertBooleanConverter}}"
-                                        Background="Transparent" ExpandDirection="Right" >
-                                                                            <ToggleButton x:Name="PrepareDeleteButton" Background="Transparent">
-                                                                                <materialDesign:PackIcon 
-                                                Kind="MinusCircle"  Foreground="Red" Width="30" Height="30"/>
-                                                                            </ToggleButton>
-                                                                        </Expander>
-                                                                    
-                                                                    </Expander>
-
-                                                                    <Grid Grid.Column="1" Margin="5,0">
-                                                                    <Grid.Style>
-                                                                        <Style TargetType="{x:Type Grid}" >
-                                                                            <Setter Property="Opacity" Value="1"/>
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding Path=IsEnable}" Value="false">
-                                                                                    <Setter Property="Opacity" Value="0.5"/>
-                                                                                </DataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Grid.Style>
-                                                                    <StackPanel 
-                                                                            Margin="10,5">
-                                                                        <TextBlock 
-                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                                 Text="{Binding RestTime, StringFormat='HH:mm'}"
-                                                FontSize="50"/>
-                                                                        <TextBlock Text="每個平日"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                                    </StackPanel>
-                                                                </Grid>
-
-                                                                    <Grid Grid.Column="1"  >
-                                                                        <ToggleButton Style="{x:Null}"
-                                                                            Background="Transparent" BorderThickness="0"
-                                                                                      IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked,Converter={GD_Common:InvertBooleanConverter}}"
-                                                                                      IsChecked="{Binding ElementName=PrepareDeleteButton, Path=IsChecked ,Converter={GD_Common:InvertBooleanConverter}}"/>
-                                                                    </Grid>
-
-                                                                    <Expander Grid.Column="2" 
-                                        IsExpanded="{Binding ElementName=TestToggleButton,Path=IsChecked, Converter={GD_Common:InvertBooleanConverter}}"
-                                        Background="Transparent" ExpandDirection="Right" >
-                                                                    <CheckBox  IsThreeState="False" IsChecked="{Binding IsEnable}"
-                                            Style="{StaticResource GreenSwitch}" />
-
-                                                                </Expander>
+                                    <!--         -->
+                                    <StackPanel Orientation="Horizontal">
+                                    <Button Command="{Binding EditTimingControlCommand}"
+                                              Content="{DynamicResource btnEdit}"/>
+                                    <Button  Command="{Binding FinishEditTimingControlCommand}"
+                                              Content="{DynamicResource btnFinish}" />
 
 
+                                    <Button Foreground="Orange" Background="Transparent" BorderThickness="0"
+                                              Content="{materialDesign:PackIcon Kind=Plus}" Command="{Binding AddNewTimingControlCommand}"/>
+                                    </StackPanel>
 
-                                                                <Expander Grid.Column="3" ExpandDirection="Left"
-                                        IsExpanded="{Binding ElementName=PrepareDeleteButton, Path=IsChecked}">
 
-                                                                    <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=TimingControlVMCollectionListBox,Path=ItemsSource}"
-                                                                        
-                                                                        Background="Red"  
-                                                    Content="{DynamicResource btnDelete}"  Foreground="White" FontSize="16"
-                                                    Padding="10,0"/>
-
-                                                                </Expander>
-                                                                </Grid>
-                                                            </Border>
+                                    <materialDesign:DrawerHost Name="TimingControlDrawerHost"
+                                        IsBottomDrawerOpen="{Binding IsBottomDrawerOpen}"  BottomDrawerBackground="Transparent"
+                                        TopDrawerCloseOnClickAway="true">
+                                        <materialDesign:DrawerHost.BottomDrawerContent>
+                                            <Grid>
+                                                <Thumb>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DragCompleted">
+                                                            <i:InvokeCommandAction Command="{Binding OnThumb_DragCompletedCommand}" PassEventArgsToCommand="True"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <Thumb.Template>
+                                                        <ControlTemplate>
+                                                            <Border  Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Stretch" />
                                                         </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsSelected" Value="True">
-                                                        <Setter Property="Background" Value="{DynamicResource  PrimaryHueMidBrush}"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                                    </Trigger>
+                                                    </Thumb.Template>
+                                                </Thumb>
+                                                <StackPanel Orientation="Vertical">
+                                                    <Grid Margin="10,5" >
+                                                    <Button HorizontalAlignment="Left"
+                                                          Background="Transparent"
+                                                            FontSize="16" 
+                                                            Content="{DynamicResource btnCancel}" Foreground="Orange" FontWeight="Bold" BorderThickness="0"
+                                                            >
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"  CommandParameter="{x:Static Dock.Bottom}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
 
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ListBox.ItemContainerStyle>
 
-                                    </ListBox>
-                                    <Border Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Center">
-                                        <Grid DataContext="{Binding TimingControlVMSelected}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
+                                                        </Button>
+                                                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                            <Button Visibility="{Binding IsNewTimingControl, Converter={dx:BooleanToVisibilityConverter}}"
+                                                          Background="Transparent"
+                                                            FontSize="16" 
+                                                            Content="{DynamicResource btnSave}" Foreground="Orange" FontWeight="Bold" BorderThickness="0"
+                                                            >
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Click">
+                                                                        <i:InvokeCommandAction Command="{Binding SaveNewTimingControlCommand}"/>
+                                                                    <i:InvokeCommandAction Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"  CommandParameter="{x:Static Dock.Bottom}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
 
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" HorizontalAlignment="Right" Margin="5">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                                                <materialDesign:PackIcon Kind="TimerStart" Foreground="Aqua" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
-                                            </StackPanel>
-                                                <TextBox Width="auto"
+
+                                                        </Button>
+                                                            <Button Visibility="{Binding IsNewTimingControl, Converter={dx:BooleanToVisibilityConverter Invert=True}}"
+                                                          Background="Transparent"
+                                                            FontSize="16" 
+                                                            Content="{DynamicResource btnFinish}" Foreground="Orange" FontWeight="Bold" BorderThickness="0"
+                                                            >
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Click">
+                                                                    <i:InvokeCommandAction Command="{Binding FinsihTimingControlChangedlCommand}"/>
+                                                                    <i:InvokeCommandAction Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"  CommandParameter="{x:Static Dock.Bottom}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+
+
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                    <Grid DataContext="{Binding TimingControlVMSelectedClone}">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="0" HorizontalAlignment="Right" Margin="5">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                                                <materialDesign:PackIcon Kind="TimerStart" Foreground="Aqua" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                            </StackPanel>
+                                                            <TextBox Width="auto"
                                                     Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
                                                 Text="{Binding RestTime, StringFormat='HH:mm' ,UpdateSourceTrigger=PropertyChanged}" />
-                                        </Grid>
-                                            <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="5">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
-                                                    <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
-                                                </StackPanel>
-                                                <TextBox Width="auto"
+                                                        </Grid>
+                                                        <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="5">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                                <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                            </StackPanel>
+                                                            <TextBox Width="auto"
                                                 Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
                                                 Text="{Binding OpenTime, StringFormat='HH:mm', UpdateSourceTrigger=PropertyChanged}" />
-                                            </Grid>
-                                            <GD_Common:CircularRangeSlider 
+                                                        </Grid>
+                                                        <GD_Common:CircularRangeSlider 
                                             Grid.ColumnSpan="2"
                                             Grid.Row="1"
                                             Name="CRangeSlider" Width="200" Height="200"
@@ -1468,445 +1417,570 @@
                                                 End="{Binding OpenTime, Converter={GD_Common:DateTimeToHourConverter}}"
                                                 
                                             >
-                                    <GD_Common:CircularRangeSlider.Style>
-                                        <Style TargetType="{x:Type GD_Common:CircularRangeSlider}" >
-                                            <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="Template" >
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type GD_Common:CircularRangeSlider}">
-                                                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                                            <GD_Common:CircularRangeSlider.Style>
+                                                                <Style TargetType="{x:Type GD_Common:CircularRangeSlider}" >
+                                                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                    <Setter Property="Template" >
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="{x:Type GD_Common:CircularRangeSlider}">
+                                                                                <Border BorderBrush="{TemplateBinding BorderBrush}"
                                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                                     Background="{TemplateBinding Background}" 
                                                                     Width="{TemplateBinding Width}"
                                                                     Height="{TemplateBinding Height}"
                                                                     Padding="{TemplateBinding Padding}"
                                                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                                                            <Grid>
-                                                                <Viewbox Margin="5">
-                                                                    <Grid Width="300" Height="300">
-                                                                        <Grid Width="200" Height="200">
-                                                                            <Border Background="DimGray"  CornerRadius="100">
-                                                                            </Border>
+                                                                                    <Grid>
+                                                                                        <Viewbox Margin="5">
+                                                                                            <Grid Width="300" Height="300">
+                                                                                                <Grid Width="200" Height="200">
+                                                                                                    <Border Background="DimGray"  CornerRadius="100">
+                                                                                                    </Border>
 
-                                                                            <ListBox Margin="-12"
+                                                                                                    <ListBox Margin="-12"
                                                                                         ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=LargeCalibration, Converter={GD_Common:IntToCollectionConverter}}">
-                                                                                <ListBox.ItemContainerStyle>
-                                                                                    <Style TargetType="ListBoxItem">
-                                                                                        <Setter Property="Height" Value="12"/>
-                                                                                        <Setter Property="Width" Value="3"/>
-                                                                                        <Setter Property="BorderBrush" Value="#f0f0f0"/>
-                                                                                        <Setter Property="Background" Value="#f0f0f0"/>
-                                                                                        <Setter Property="Template">
-                                                                                            <Setter.Value>
-                                                                                                <ControlTemplate TargetType="ListBoxItem" >
-                                                                                                    <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
-                                                                                                        <Grid>
-                                                                                                            <Border BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush }" Width="auto" Height="auto"
+                                                                                                        <ListBox.ItemContainerStyle>
+                                                                                                            <Style TargetType="ListBoxItem">
+                                                                                                                <Setter Property="Height" Value="12"/>
+                                                                                                                <Setter Property="Width" Value="3"/>
+                                                                                                                <Setter Property="BorderBrush" Value="#f0f0f0"/>
+                                                                                                                <Setter Property="Background" Value="#f0f0f0"/>
+                                                                                                                <Setter Property="Template">
+                                                                                                                    <Setter.Value>
+                                                                                                                        <ControlTemplate TargetType="ListBoxItem" >
+                                                                                                                            <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
+                                                                                                                                <Grid>
+                                                                                                                                    <Border BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush }" Width="auto" Height="auto"
                                                         Background="{TemplateBinding Background }"  >
-                                                                                                            </Border>
-                                                                                                        </Grid>
-                                                                                                    </Border>
-                                                                                                </ControlTemplate>
-                                                                                            </Setter.Value>
-                                                                                        </Setter>
-                                                                                    </Style>
-                                                                                </ListBox.ItemContainerStyle>
-                                                                                <ListBox.ItemsPanel>
-                                                                                    <ItemsPanelTemplate>
-                                                                                        <GD_Common:RadialPanel
+                                                                                                                                    </Border>
+                                                                                                                                </Grid>
+                                                                                                                            </Border>
+                                                                                                                        </ControlTemplate>
+                                                                                                                    </Setter.Value>
+                                                                                                                </Setter>
+                                                                                                            </Style>
+                                                                                                        </ListBox.ItemContainerStyle>
+                                                                                                        <ListBox.ItemsPanel>
+                                                                                                            <ItemsPanelTemplate>
+                                                                                                                <GD_Common:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                         StartAngle="0"  RoundAngle="360"
                                         ItemRotateAngle="90"  />
-                                                                                    </ItemsPanelTemplate>
-                                                                                </ListBox.ItemsPanel>
-                                                                            </ListBox>
+                                                                                                            </ItemsPanelTemplate>
+                                                                                                        </ListBox.ItemsPanel>
+                                                                                                    </ListBox>
 
-                                                                            <ListBox Margin="-16"
+                                                                                                    <ListBox Margin="-16"
                                                                                         ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=SmallCalibration, Converter={GD_Common:IntToCollectionConverter}}">
-                                                                                <ListBox.ItemContainerStyle>
-                                                                                    <Style TargetType="ListBoxItem">
-                                                                                        <Setter Property="Height" Value="6"/>
-                                                                                        <Setter Property="Width" Value="1.5"/>
-                                                                                        <Setter Property="BorderBrush" Value="#f0f0f0"/>
-                                                                                        <Setter Property="Background" Value="#f0f0f0"/>
-                                                                                        <Setter Property="Template">
-                                                                                            <Setter.Value>
-                                                                                                <ControlTemplate TargetType="ListBoxItem" >
-                                                                                                    <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
-                                                                                                        <Grid>
-                                                                                                            <Border BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush }" Width="auto" Height="auto"
+                                                                                                        <ListBox.ItemContainerStyle>
+                                                                                                            <Style TargetType="ListBoxItem">
+                                                                                                                <Setter Property="Height" Value="6"/>
+                                                                                                                <Setter Property="Width" Value="1.5"/>
+                                                                                                                <Setter Property="BorderBrush" Value="#f0f0f0"/>
+                                                                                                                <Setter Property="Background" Value="#f0f0f0"/>
+                                                                                                                <Setter Property="Template">
+                                                                                                                    <Setter.Value>
+                                                                                                                        <ControlTemplate TargetType="ListBoxItem" >
+                                                                                                                            <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5">
+                                                                                                                                <Grid>
+                                                                                                                                    <Border BorderThickness="0" BorderBrush="{TemplateBinding BorderBrush }" Width="auto" Height="auto"
                                                                                                                             Background="{TemplateBinding Background }"  >
-                                                                                                            </Border>
-                                                                                                        </Grid>
-                                                                                                    </Border>
-                                                                                                </ControlTemplate>
-                                                                                            </Setter.Value>
-                                                                                        </Setter>
-                                                                                    </Style>
-                                                                                </ListBox.ItemContainerStyle>
-                                                                                <ListBox.ItemsPanel>
-                                                                                    <ItemsPanelTemplate>
-                                                                                        <GD_Common:RadialPanel
+                                                                                                                                    </Border>
+                                                                                                                                </Grid>
+                                                                                                                            </Border>
+                                                                                                                        </ControlTemplate>
+                                                                                                                    </Setter.Value>
+                                                                                                                </Setter>
+                                                                                                            </Style>
+                                                                                                        </ListBox.ItemContainerStyle>
+                                                                                                        <ListBox.ItemsPanel>
+                                                                                                            <ItemsPanelTemplate>
+                                                                                                                <GD_Common:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                         StartAngle="0"  RoundAngle="360"
                                         ItemRotateAngle="90"  />
-                                                                                    </ItemsPanelTemplate>
-                                                                                </ListBox.ItemsPanel>
-                                                                            </ListBox>
-                                                                            <ListBox    Margin="12"
+                                                                                                            </ItemsPanelTemplate>
+                                                                                                        </ListBox.ItemsPanel>
+                                                                                                    </ListBox>
+                                                                                                    <ListBox    Margin="12"
                                                                                                    >
-                                                                                <ListBox.ItemsSource>
-                                                                                    <x:Array Type="{x:Type sys:Double}">
-                                                                                        <sys:Double>0</sys:Double>
-                                                                                        <sys:Double>2</sys:Double>
-                                                                                        <sys:Double>4</sys:Double>
-                                                                                        <sys:Double>6</sys:Double>
-                                                                                        <sys:Double>8</sys:Double>
-                                                                                        <sys:Double>10</sys:Double>
-                                                                                        <sys:Double>12</sys:Double>
-                                                                                        <sys:Double>14</sys:Double>
-                                                                                        <sys:Double>16</sys:Double>
-                                                                                        <sys:Double>18</sys:Double>
-                                                                                        <sys:Double>20</sys:Double>
-                                                                                        <sys:Double>22</sys:Double>
-                                                                                        <!-- 添加更多的项目 -->
-                                                                                    </x:Array>
-                                                                                </ListBox.ItemsSource>
+                                                                                                        <ListBox.ItemsSource>
+                                                                                                            <x:Array Type="{x:Type sys:Double}">
+                                                                                                                <sys:Double>0</sys:Double>
+                                                                                                                <sys:Double>2</sys:Double>
+                                                                                                                <sys:Double>4</sys:Double>
+                                                                                                                <sys:Double>6</sys:Double>
+                                                                                                                <sys:Double>8</sys:Double>
+                                                                                                                <sys:Double>10</sys:Double>
+                                                                                                                <sys:Double>12</sys:Double>
+                                                                                                                <sys:Double>14</sys:Double>
+                                                                                                                <sys:Double>16</sys:Double>
+                                                                                                                <sys:Double>18</sys:Double>
+                                                                                                                <sys:Double>20</sys:Double>
+                                                                                                                <sys:Double>22</sys:Double>
+                                                                                                                <!-- 添加更多的项目 -->
+                                                                                                            </x:Array>
+                                                                                                        </ListBox.ItemsSource>
 
-                                                                                <ListBox.ItemContainerStyle>
-                                                                                    <Style TargetType="ListBoxItem">
+                                                                                                        <ListBox.ItemContainerStyle>
+                                                                                                            <Style TargetType="ListBoxItem">
 
-                                                                                        <Setter Property="Height" Value="auto"/>
-                                                                                        <Setter Property="BorderBrush" Value="#f0f0f0"/>
-                                                                                        <Setter Property="Background" Value="#f0f0f0"/>
-                                                                                        <Setter Property="Template">
-                                                                                            <Setter.Value>
-                                                                                                <ControlTemplate TargetType="ListBoxItem" >
-                                                                                                    <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5" >
-                                                                                                        <Grid>
-                                                                                                            <TextBlock Text="{Binding}" Foreground="White" FontSize="20" Margin="0,0"/>
-                                                                                                        </Grid>
-                                                                                                    </Border>
-                                                                                                </ControlTemplate>
-                                                                                            </Setter.Value>
-                                                                                        </Setter>
-                                                                                    </Style>
-                                                                                </ListBox.ItemContainerStyle>
-                                                                                <ListBox.ItemsPanel>
-                                                                                    <ItemsPanelTemplate>
-                                                                                        <GD_Common:RadialPanel
+                                                                                                                <Setter Property="Height" Value="auto"/>
+                                                                                                                <Setter Property="BorderBrush" Value="#f0f0f0"/>
+                                                                                                                <Setter Property="Background" Value="#f0f0f0"/>
+                                                                                                                <Setter Property="Template">
+                                                                                                                    <Setter.Value>
+                                                                                                                        <ControlTemplate TargetType="ListBoxItem" >
+                                                                                                                            <Border x:Name="RadiaListBoxItemBorder" RenderTransformOrigin="0.5,0.5" >
+                                                                                                                                <Grid>
+                                                                                                                                    <TextBlock Text="{Binding}" Foreground="White" FontSize="20" Margin="0,0"/>
+                                                                                                                                </Grid>
+                                                                                                                            </Border>
+                                                                                                                        </ControlTemplate>
+                                                                                                                    </Setter.Value>
+                                                                                                                </Setter>
+                                                                                                            </Style>
+                                                                                                        </ListBox.ItemContainerStyle>
+                                                                                                        <ListBox.ItemsPanel>
+                                                                                                            <ItemsPanelTemplate>
+                                                                                                                <GD_Common:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                                                                                     StartAngle="-90"  RoundAngle="360"
                                         ItemRotateAngle="0"  />
-                                                                                    </ItemsPanelTemplate>
-                                                                                </ListBox.ItemsPanel>
-                                                                            </ListBox>
-                                                                        </Grid>
+                                                                                                            </ItemsPanelTemplate>
+                                                                                                        </ListBox.ItemsPanel>
+                                                                                                    </ListBox>
+                                                                                                </Grid>
 
 
 
-                                                                        <Canvas   Name="PART_SliderContainer">
-                                                                            <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="1"
+                                                                                                <Canvas   Name="PART_SliderContainer">
+                                                                                                    <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="1"
                                                                                          Stroke="Black" StrokeThickness="40"/>
-                                                                            <Canvas Name="PART_Arc"  Cursor="Hand"
+                                                                                                    <Canvas Name="PART_Arc"  Cursor="Hand"
                                                                                         Canvas.Top="150" Canvas.Left="150">
-                                                                                <Path Stroke="DimGray" StrokeThickness="30" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">
-                                                                                    <Path.Data>
-                                                                                        <PathGeometry>
-                                                                                            <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
-                                                                                                <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                                                        <Path Stroke="DimGray" StrokeThickness="30" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                                                                                            <Path.Data>
+                                                                                                                <PathGeometry>
+                                                                                                                    <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                                                                                        <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
                                                                                                             Size="130,130" 
                                                                                                             RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
-                                                                                            </PathFigure>
-                                                                                        </PathGeometry>
-                                                                                    </Path.Data>
-                                                                                </Path>
-                                                                                <Path Stroke="Black" StrokeThickness="0,15" Margin="0" StrokeDashArray="0.3" >
-                                                                                    <Path.Data>
-                                                                                        <PathGeometry>
-                                                                                            <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
-                                                                                                <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                                                                    </PathFigure>
+                                                                                                                </PathGeometry>
+                                                                                                            </Path.Data>
+                                                                                                        </Path>
+                                                                                                        <Path Stroke="Black" StrokeThickness="0,15" Margin="0" StrokeDashArray="0.3" >
+                                                                                                            <Path.Data>
+                                                                                                                <PathGeometry>
+                                                                                                                    <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                                                                                        <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
                                                                     Size="130,130" 
                                                                     RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
-                                                                                            </PathFigure>
-                                                                                        </PathGeometry>
-                                                                                    </Path.Data>
-                                                                                </Path>
+                                                                                                                    </PathFigure>
+                                                                                                                </PathGeometry>
+                                                                                                            </Path.Data>
+                                                                                                        </Path>
 
-                                                                            </Canvas>
-                                                                            <ContentControl Width="150" Height="150" Cursor="Hand"
+                                                                                                    </Canvas>
+                                                                                                    <ContentControl Width="150" Height="150" Cursor="Hand"
                                         Name="PART_StartCanvas" Canvas.Left="150"  >
-                                                                                <ContentControl.Content>
-                                                                                    <Canvas>
-                                                                                        <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
-                                                                                            <Border Background="DimGray" CornerRadius="15" >
-                                                                                                <Grid>
-                                                                                                            <Grid.LayoutTransform>
-                                                                                                                <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleStart}"/>
-                                                                                                            </Grid.LayoutTransform>
-                                                                                                            <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                                        <ContentControl.Content>
+                                                                                                            <Canvas>
+                                                                                                                <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
+                                                                                                                    <Border Background="DimGray" CornerRadius="15" >
+                                                                                                                        <Grid>
+                                                                                                                            <Grid.LayoutTransform>
+                                                                                                                                <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleStart}"/>
+                                                                                                                            </Grid.LayoutTransform>
+                                                                                                                            <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                                                         Kind="TimerStart" Width="25" Height="25" Foreground="LightGray">
 
-                                                                                                            </materialDesign:PackIcon>
-                                                                                                        </Grid>
-                                                                                                        <Border.Triggers>
-                                                                                                    <EventTrigger RoutedEvent="MouseDown">
-                                                                                                        <EventTrigger.Actions>
-                                                                                                            <BeginStoryboard>
-                                                                                                                <Storyboard Duration="00:00:01">
-                                                                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                            </materialDesign:PackIcon>
+                                                                                                                        </Grid>
+                                                                                                                        <Border.Triggers>
+                                                                                                                            <EventTrigger RoutedEvent="MouseDown">
+                                                                                                                                <EventTrigger.Actions>
+                                                                                                                                    <BeginStoryboard>
+                                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DarkGray" />
-                                                                                                                </Storyboard>
-                                                                                                            </BeginStoryboard>
-                                                                                                        </EventTrigger.Actions>
-                                                                                                    </EventTrigger>
-                                                                                                    <EventTrigger RoutedEvent="MouseUp">
-                                                                                                        <EventTrigger.Actions>
-                                                                                                            <BeginStoryboard>
-                                                                                                                <Storyboard Duration="00:00:01">
-                                                                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                                        </Storyboard>
+                                                                                                                                    </BeginStoryboard>
+                                                                                                                                </EventTrigger.Actions>
+                                                                                                                            </EventTrigger>
+                                                                                                                            <EventTrigger RoutedEvent="MouseUp">
+                                                                                                                                <EventTrigger.Actions>
+                                                                                                                                    <BeginStoryboard>
+                                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                </Storyboard>
-                                                                                                            </BeginStoryboard>
-                                                                                                        </EventTrigger.Actions>
-                                                                                                    </EventTrigger>
-                                                                                                    <EventTrigger RoutedEvent="MouseLeave">
-                                                                                                        <EventTrigger.Actions>
-                                                                                                            <BeginStoryboard>
-                                                                                                                <Storyboard Duration="00:00:01">
-                                                                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                                        </Storyboard>
+                                                                                                                                    </BeginStoryboard>
+                                                                                                                                </EventTrigger.Actions>
+                                                                                                                            </EventTrigger>
+                                                                                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                                                                                <EventTrigger.Actions>
+                                                                                                                                    <BeginStoryboard>
+                                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                </Storyboard>
-                                                                                                            </BeginStoryboard>
-                                                                                                        </EventTrigger.Actions>
-                                                                                                    </EventTrigger>
-                                                                                                </Border.Triggers>
-                                                                                            </Border>
+                                                                                                                                        </Storyboard>
+                                                                                                                                    </BeginStoryboard>
+                                                                                                                                </EventTrigger.Actions>
+                                                                                                                            </EventTrigger>
+                                                                                                                        </Border.Triggers>
+                                                                                                                    </Border>
 
-                                                                                        </Grid>
-                                                                                    </Canvas>
-                                                                                </ContentControl.Content>
-                                                                                <ContentControl.RenderTransform>
-                                                                                    <RotateTransform CenterX="0" CenterY="150" >
-                                                                                        <RotateTransform.Angle>
-                                                                                            <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
-                                                                                            </MultiBinding>
-                                                                                        </RotateTransform.Angle>
-                                                                                    </RotateTransform>
-                                                                                </ContentControl.RenderTransform>
+                                                                                                                </Grid>
+                                                                                                            </Canvas>
+                                                                                                        </ContentControl.Content>
+                                                                                                        <ContentControl.RenderTransform>
+                                                                                                            <RotateTransform CenterX="0" CenterY="150" >
+                                                                                                                <RotateTransform.Angle>
+                                                                                                                    <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
+                                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                                                                                    </MultiBinding>
+                                                                                                                </RotateTransform.Angle>
+                                                                                                            </RotateTransform>
+                                                                                                        </ContentControl.RenderTransform>
 
-                                                                            </ContentControl>
-                                                                            <ContentControl Width="150" Height="150"  Cursor="Hand"
+                                                                                                    </ContentControl>
+                                                                                                    <ContentControl Width="150" Height="150"  Cursor="Hand"
                                         Name="PART_EndCanvas" Canvas.Left="150"  >
-                                                                                <ContentControl.Content>
-                                                                                    <Canvas>
-                                                                                        <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
-                                                                                            <Border Background="Black" CornerRadius="15" >
-                                                                                                <Grid>
-                                                                                                    <Grid.LayoutTransform>
-                                                                                                        <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
-                                                                                                </Grid.LayoutTransform>
-                                                                                                            <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                                        <ContentControl.Content>
+                                                                                                            <Canvas>
+                                                                                                                <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
+                                                                                                                    <Border Background="Black" CornerRadius="15" >
+                                                                                                                        <Grid>
+                                                                                                                            <Grid.LayoutTransform>
+                                                                                                                                <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
+                                                                                                                            </Grid.LayoutTransform>
+                                                                                                                            <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                                                         Kind="TimerStop" Width="25" Height="25" Foreground="LightGray">
-                                                                                                            </materialDesign:PackIcon>
-                                                                                                        </Grid>
-                                                                                                        <Border.Triggers>
-                                                                                                    <EventTrigger RoutedEvent="MouseDown">
-                                                                                                        <EventTrigger.Actions>
-                                                                                                            <BeginStoryboard>
-                                                                                                                <Storyboard Duration="00:00:01">
-                                                                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                            </materialDesign:PackIcon>
+                                                                                                                        </Grid>
+                                                                                                                        <Border.Triggers>
+                                                                                                                            <EventTrigger RoutedEvent="MouseDown">
+                                                                                                                                <EventTrigger.Actions>
+                                                                                                                                    <BeginStoryboard>
+                                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DarkGray" />
-                                                                                                                </Storyboard>
-                                                                                                            </BeginStoryboard>
-                                                                                                        </EventTrigger.Actions>
-                                                                                                    </EventTrigger>
-                                                                                                    <EventTrigger RoutedEvent="MouseUp">
-                                                                                                        <EventTrigger.Actions>
-                                                                                                            <BeginStoryboard>
-                                                                                                                <Storyboard Duration="00:00:01">
-                                                                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                                        </Storyboard>
+                                                                                                                                    </BeginStoryboard>
+                                                                                                                                </EventTrigger.Actions>
+                                                                                                                            </EventTrigger>
+                                                                                                                            <EventTrigger RoutedEvent="MouseUp">
+                                                                                                                                <EventTrigger.Actions>
+                                                                                                                                    <BeginStoryboard>
+                                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                </Storyboard>
-                                                                                                            </BeginStoryboard>
-                                                                                                        </EventTrigger.Actions>
-                                                                                                    </EventTrigger>
-                                                                                                    <EventTrigger RoutedEvent="MouseLeave">
-                                                                                                        <EventTrigger.Actions>
-                                                                                                            <BeginStoryboard>
-                                                                                                                <Storyboard Duration="00:00:01">
-                                                                                                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                                        </Storyboard>
+                                                                                                                                    </BeginStoryboard>
+                                                                                                                                </EventTrigger.Actions>
+                                                                                                                            </EventTrigger>
+                                                                                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                                                                                <EventTrigger.Actions>
+                                                                                                                                    <BeginStoryboard>
+                                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                </Storyboard>
-                                                                                                            </BeginStoryboard>
-                                                                                                        </EventTrigger.Actions>
-                                                                                                    </EventTrigger>
-                                                                                                </Border.Triggers>
-                                                                                            </Border>
+                                                                                                                                        </Storyboard>
+                                                                                                                                    </BeginStoryboard>
+                                                                                                                                </EventTrigger.Actions>
+                                                                                                                            </EventTrigger>
+                                                                                                                        </Border.Triggers>
+                                                                                                                    </Border>
 
-                                                                                        </Grid>
-                                                                                    </Canvas>
-                                                                                </ContentControl.Content>
+                                                                                                                </Grid>
+                                                                                                            </Canvas>
+                                                                                                        </ContentControl.Content>
 
-                                                                                <ContentControl.RenderTransform>
-                                                                                    <RotateTransform CenterX="0" CenterY="150" >
-                                                                                        <RotateTransform.Angle>
-                                                                                            <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
-                                                                                            </MultiBinding>
-                                                                                        </RotateTransform.Angle>
-                                                                                    </RotateTransform>
-                                                                                </ContentControl.RenderTransform>
+                                                                                                        <ContentControl.RenderTransform>
+                                                                                                            <RotateTransform CenterX="0" CenterY="150" >
+                                                                                                                <RotateTransform.Angle>
+                                                                                                                    <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
+                                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                                                                                    </MultiBinding>
+                                                                                                                </RotateTransform.Angle>
+                                                                                                            </RotateTransform>
+                                                                                                        </ContentControl.RenderTransform>
 
-                                                                            </ContentControl>
-                                                                        </Canvas>
-
-
+                                                                                                    </ContentControl>
+                                                                                                </Canvas>
 
 
 
 
-                                                                    </Grid>
-                                                                </Viewbox>
-                                                            </Grid>
-                                                        </Border>
 
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </GD_Common:CircularRangeSlider.Style>
-                                        </GD_Common:CircularRangeSlider>
-                                        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10">
-                                        <TextBlock 
+
+                                                                                            </Grid>
+                                                                                        </Viewbox>
+                                                                                    </Grid>
+                                                                                </Border>
+
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </GD_Common:CircularRangeSlider.Style>
+                                                        </GD_Common:CircularRangeSlider>
+                                                        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10">
+                                                            <TextBlock 
                                                 HorizontalAlignment="Center">
-                                            <TextBlock.Text>
-                                                <MultiBinding Converter="{GD_Common:HourDiffToDateTimeMultiConverter}" >
-                                                    
-                                                    <Binding ElementName="CRangeSlider" Path="Start"/>
-                                                    <Binding ElementName="CRangeSlider" Path="End"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                            
-                                        </TextBlock>
-                                        </Grid>
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding Converter="{GD_Common:DateTimeDiffToDateTimeMultiConverter}" >
+                                                                        <Binding Path="RestTime"/>
+                                                                        <Binding Path="OpenTime"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                            
+                                                            
+                                                        </Grid>
 
-                                    </Grid>
-                                </Border>
-
-
-
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="1">
-                                    <ItemsControl >
-                                        <ItemsControl.ItemsSource>
-                                            <x:Array Type="{x:Type sys:String}">
-                                                <sys:String>星期一</sys:String>
-                                                <sys:String>星期二</sys:String>
-                                                <sys:String>星期三</sys:String>
-                                            </x:Array>
-                                        </ItemsControl.ItemsSource>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <ToggleButton 
-                                                    Foreground="White" Content="{Binding}">
-                                                    <ToggleButton.Style>
-                                                        <Style TargetType="ToggleButton" 
+                                                        <ItemsControl Grid.Row="3"   Grid.ColumnSpan="2" ItemsSource="{Binding DayOfWeekWorkVMObservableCollection}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <ToggleButton  IsChecked="{Binding IsWork}"
+                                                    Foreground="White" Content="{Binding DayOfWeek, Converter={GD_Common:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                        <ToggleButton.Style>
+                                                                            <Style TargetType="ToggleButton" 
                                                                BasedOn="{StaticResource SiegCustomButton}">
-                                                            <Setter Property="Margin" Value="0"/>
-                                                            <Setter Property="Padding" Value="5,0"/>
-                                                            <Setter Property="Background" Value="Gray"/>
+                                                                                <Setter Property="Margin" Value="0"/>
+                                                                                <Setter Property="Padding" Value="5,0"/>
+                                                                                <Setter Property="Background" Value="Gray"/>
 
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="ToggleButton">
-                                                                        <Grid>
-                                                                            <Border Background="{TemplateBinding Background}"        
+                                                                                <Setter Property="Template">
+                                                                                    <Setter.Value>
+                                                                                        <ControlTemplate TargetType="ToggleButton">
+                                                                                            <Grid>
+                                                                                                <Border Background="{TemplateBinding Background}"        
                                                                                     Margin="0" 
                                                                                     CornerRadius="5"
                                                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                                                     Padding="{TemplateBinding Padding}"
                                                                                     BorderBrush="{TemplateBinding BorderBrush}">
-                                                                                <Grid>
-                                                                                    <Grid.ColumnDefinitions>
-                                                                                        <ColumnDefinition/>
-                                                                                        <ColumnDefinition Width="auto"/>
-                                                                                    </Grid.ColumnDefinitions>
-                                                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                                                    <Border Grid.Column="1" Margin="5" Name="TickBorder"
+                                                                                                    <Grid>
+                                                                                                        <Grid.ColumnDefinitions>
+                                                                                                            <ColumnDefinition/>
+                                                                                                            <ColumnDefinition Width="auto"/>
+                                                                                                        </Grid.ColumnDefinitions>
+                                                                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                                                        <Border Grid.Column="1" Margin="5" Name="TickBorder"
                                                                                             >
-                                                                                        <materialDesign:PackIcon Kind="Tick"  
+                                                                                                            <materialDesign:PackIcon Kind="Tick"  
                                                                                                                  Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
                                                                                                                  Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
                                                                                             Foreground="Orange">
-                                                                                            
-                                                                                        </materialDesign:PackIcon>
-                                                                                    </Border>
-                                                                                </Grid>
-                                                                            </Border>
-                    
-                                                                                
+
+                                                                                                            </materialDesign:PackIcon>
+                                                                                                        </Border>
+                                                                                                    </Grid>
+                                                                                                </Border>
+
+
+                                                                                            </Grid>
+                                                                                            <ControlTemplate.Triggers>
+                                                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                                                    <Setter Property="Background" Value="LightSkyBlue"/>
+                                                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                                                </Trigger>
+                                                                                                <Trigger Property="IsPressed" Value="True">
+                                                                                                    <Setter Property="Background" Value="Orange"/>
+                                                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                                                </Trigger>
+
+                                                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                                                    <Setter Property="Opacity" Value="0.3"/>
+                                                                                                </Trigger>
+                                                                                                <Trigger Property="IsChecked" Value="False">
+                                                                                                    <Setter TargetName="TickBorder" Property="Opacity" Value="0.0"/>
+                                                                                                </Trigger>
+                                                                                            </ControlTemplate.Triggers>
+                                                                                        </ControlTemplate>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </Style>
+
+
+                                                                        </ToggleButton.Style>
+                                                                    </ToggleButton>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+
+                                                        </ItemsControl>
+
+                                                        
+                                                        
+                                                        
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Grid>
+                                        </materialDesign:DrawerHost.BottomDrawerContent>
+                                        <materialDesign:DrawerHost.Content>
+                                            <ListBox Name="TimingControlVMCollectionListBox"   
+                                                     ItemsSource="{Binding TimingControlVMCollection}"
+                                                     SelectedItem="{Binding TimingControlVMSelected}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding TimingControlVMCollectionListBox_SelectionChangedlCommand}" PassEventArgsToCommand="True"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Vertical"/>
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style TargetType="ListBoxItem">
+                                                        <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                                        <Setter Property="Cursor" Value="Hand"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ListBoxItem">
+                                                                    <Border Background="{TemplateBinding Background}">
+                                                                        <Grid  
+                                                                d:DataContext="{d:DesignInstance Type=ParameterSetting:TimingControlViewModel}">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                                <ColumnDefinition/>
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Expander 
+                                        IsExpanded="{Binding IsEdit}"
+                                        Background="Transparent" ExpandDirection="Right" >
+
+                                                                                <Expander 
+                                                                                    IsExpanded="{Binding IsDeleteButtonTrigger, Converter={GD_Common:InvertBooleanConverter}}"
+                                        Background="Transparent" ExpandDirection="Right" >
+                                                                                    <ToggleButton IsChecked="{Binding IsDeleteButtonTrigger}"
+                                                                                x:Name="PrepareDeleteButton" Background="Transparent">
+                                                                                        <materialDesign:PackIcon 
+                                                Kind="MinusCircle"  Foreground="Red" Width="30" Height="30"/>
+                                                                                    </ToggleButton>
+                                                                                </Expander>
+
+                                                                            </Expander>
+
+                                                                            <Grid Grid.Column="1" Margin="5,0" >
+                                                                                <Grid.Style>
+                                                                                    <Style TargetType="{x:Type Grid}" >
+                                                                                        <Setter Property="Opacity" Value="1"/>
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding Path=IsEnable}" Value="false">
+                                                                                                <Setter Property="Opacity" Value="0.5"/>
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Grid.Style>
+                                                                                <StackPanel 
+                                                                            Margin="10,5">
+                                                                                    <Grid>
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition  Width="auto"/>
+                                                                                            <ColumnDefinition Width="auto"/>
+                                                                                            <ColumnDefinition  Width="auto"/>
+                                                                                        </Grid.ColumnDefinitions>
+
+                                                                                        <TextBlock 
+                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                 Text="{Binding RestTime, StringFormat='HH:mm'}"
+                                                FontSize="50"/>
+                                                                                        <TextBlock  Grid.Column="1"
+                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                 Text="-"
+                                                FontSize="50"/>
+
+
+                                                                                        <TextBlock  Grid.Column="2"
+                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                 Text="{Binding OpenTime, StringFormat='HH:mm'}"
+                                                FontSize="50"/>
+                                                                                    </Grid>
+                                                                                    <TextBlock  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                                                                        <TextBlock.Text>
+                                                                                            <MultiBinding Converter="{GD_Common:DateTimeDiffToDateTimeMultiConverter}" >
+                                                                                                <Binding Path="RestTime"/>
+                                                                                                <Binding Path="OpenTime"/>
+                                                                                            </MultiBinding>
+                                                                                        </TextBlock.Text>
+                                                                                    </TextBlock>
+                                                                                    <TextBlock Text="每個平日"  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                </StackPanel>
+                                                                            </Grid>
+                                                                            <Grid Grid.Column="1" >
+                                                                                <Thumb  Background="Transparent" Opacity="0.5" >
+                                                                                    <i:Interaction.Triggers>
+                                                                                        <i:EventTrigger EventName="DragDelta">
+                                                                                            <i:InvokeCommandAction Command="{Binding OnThumbDragDeltaCommand}" PassEventArgsToCommand="True"/>
+                                                                                        </i:EventTrigger>
+                                                                                        <i:EventTrigger EventName="PreviewMouseDown">
+                                                                                            <i:InvokeCommandAction Command="{Binding OnThumbMouseDownCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"  />
+                                                                                        </i:EventTrigger>
+                                                                                        <i:EventTrigger EventName="PreviewMouseUp">
+                                                                                            <i:InvokeCommandAction Command="{Binding OnThumbMouseUpCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"  />
+                                                                                        </i:EventTrigger>
+
+                                                                                    </i:Interaction.Triggers>
+
+
+
+                                                                                </Thumb>
+                                                                            </Grid>
+
+                                                                            <Expander Grid.Column="2" 
+                                        IsExpanded="{Binding IsEdit, Converter={GD_Common:InvertBooleanConverter}}"
+                                        Background="Transparent" ExpandDirection="Right" >
+                                                                                <CheckBox  IsThreeState="False" IsChecked="{Binding IsEnable}"
+                                            Style="{StaticResource GreenSwitch}" />
+
+                                                                            </Expander>
+
+
+
+                                                                            <Expander Grid.Column="3" ExpandDirection="Left"
+                                        IsExpanded="{Binding IsDeleteButtonTrigger}">
+                                                                                <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=TimingControlVMCollectionListBox,Path=ItemsSource}"
+                                                                        
+                                                                        Background="Red"  
+                                                    Content="{DynamicResource btnDelete}"  Foreground="White" FontSize="16"
+                                                    Padding="10,0"/>
+
+                                                                            </Expander>
                                                                         </Grid>
-                                                                        <ControlTemplate.Triggers>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter Property="Background" Value="LightSkyBlue"/>
-                                                                                <Setter Property="Foreground" Value="Black"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsPressed" Value="True">
-                                                                                <Setter Property="Background" Value="Orange"/>
-                                                                                <Setter Property="Foreground" Value="Black"/>
-                                                                            </Trigger>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource  PrimaryHueMidBrush}"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                                            </Trigger>
 
-                                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                                <Setter Property="Opacity" Value="0.3"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsChecked" Value="False">
-                                                                                <Setter TargetName="TickBorder" Property="Opacity" Value="0.0"/>
-                                                                            </Trigger>
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-                                                        
-                                                        
-                                                    </ToggleButton.Style>
-                                                </ToggleButton>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
 
-                                        <!--
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <ToggleButton Background="Gray" Foreground="Red">
-                                                    <ToggleButton.Template>
-                                                        <ControlTemplate TargetType="ToggleButton">
-                                                            <Border Background="{TemplateBinding Background}">
-                                                                <Grid 
-                                                                    MaxWidth="{TemplateBinding MaxWidth}" 
-                                                                    MaxHeight="{TemplateBinding MaxHeight}"
-                                                                    MinWidth="{TemplateBinding MinWidth}" 
-                                                                    MinHeight="{TemplateBinding MinHeight}"
-                                                                    Width="{TemplateBinding Width}" 
-                                                                    Height="{TemplateBinding Height}">
-                                                                    <ItemsPresenter/>
-                                                                </Grid>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </ToggleButton.Template>
+                                            </ListBox>
 
-                                                </ToggleButton>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>-->
-                                    </ItemsControl>
+                                        </materialDesign:DrawerHost.Content>
+                                    </materialDesign:DrawerHost>
                                 </StackPanel>
+
                                 
                             </Grid>
                             

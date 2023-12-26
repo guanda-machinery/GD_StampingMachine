@@ -74,6 +74,7 @@ namespace GD_StampingMachine.Singletons
                         Properties.Settings.Default.Save();
 
                         System.Threading.Thread.CurrentThread.CurrentCulture = value;
+                       
                     }
                     catch (Exception ex)
                     {

@@ -40,6 +40,12 @@ namespace GD_CommonLibrary
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if(value is false)
+            {
+                return null;
+            }
+
+
             return parameter;
         }
 

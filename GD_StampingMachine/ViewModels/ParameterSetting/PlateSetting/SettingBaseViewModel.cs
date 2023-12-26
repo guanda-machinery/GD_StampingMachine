@@ -47,13 +47,23 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public SheetStampingTypeFormEnum SheetStampingTypeForm { get => StampPlateSetting.SheetStampingTypeForm; set { StampPlateSetting.SheetStampingTypeForm = value;OnPropertyChanged(); } }
 
 
-        [JsonIgnore]
+        //[JsonIgnore]
         /// <summary>
         /// 遇到- 換行的功能
         /// </summary>
-        public bool DashAutoWrapping
+       /* public bool DashAutoWrapping
         {
             get => !PlateNumber.Contains(" ");
+        }*/
+        public bool DashAutoWrapping
+        {
+            get => StampPlateSetting.DashAutoWrapping;
+            set
+            {
+                StampPlateSetting.DashAutoWrapping = value;
+                OnPropertyChanged();
+                ChangePlateNumberList(PlateNumber);
+            }
         }
 
         public string NumberSettingMode { get => StampPlateSetting.NumberSettingMode; set { StampPlateSetting.NumberSettingMode = value; OnPropertyChanged(); } }

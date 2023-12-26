@@ -109,6 +109,8 @@
     <sys:String x:Key="textAlignmentMode">對齊模式</sys:String>
     <sys:String x:Key="textMargin">間距</sys:String>
 
+    <sys:String x:Key="textDashAutoWrapping">自動換行</sys:String>
+
     <sys:String x:Key="textSelectMode">請選擇模式</sys:String>
     <sys:String x:Key="textSelectCount">請選擇數量</sys:String>
     <sys:String x:Key="textSelectSequence">請選擇排序</sys:String>
@@ -154,6 +156,7 @@
     <sys:String x:Key="Text_RestTime">休息時間</sys:String>
     <sys:String x:Key="Text_OpenTime">開啟時間</sys:String>
     <sys:String x:Key="Text_RepeatCount">重複次數</sys:String>
+    <sys:String x:Key="Text_Repeat">重複</sys:String>
 
     <sys:String x:Key="Text_lubricationSystem">潤滑系統</sys:String>
     <sys:String x:Key="Text_CycleTime">循環時間</sys:String>
@@ -216,7 +219,8 @@
     <sys:String x:Key="btnDelete">刪除</sys:String>
     <sys:String x:Key="btnReplace">替換</sys:String>
     <sys:String x:Key="btnEdit">編輯</sys:String>
-    <sys:String x:Key="btnFinish">完成專案</sys:String>
+    <sys:String x:Key="btnFinish">完成</sys:String>
+    <sys:String x:Key="btnFinishProject">完成專案</sys:String>
     <sys:String x:Key="btnCancelFinish">取消完成</sys:String>
     <sys:String x:Key="btnImport">匯入</sys:String>
     <sys:String x:Key="btnExport">匯出</sys:String>

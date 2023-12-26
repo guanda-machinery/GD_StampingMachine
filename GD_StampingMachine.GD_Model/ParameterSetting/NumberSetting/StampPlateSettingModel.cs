@@ -40,6 +40,11 @@ namespace GD_StampingMachine.Model
         /// 目前模式
         /// </summary>
         public string NumberSettingMode { get; set; }
+
+        /// <summary>
+        /// 遇到- 換行的功能
+        /// </summary>
+        public bool DashAutoWrapping { get; set; }
         /// <summary>
         /// 單排數量
         /// </summary>

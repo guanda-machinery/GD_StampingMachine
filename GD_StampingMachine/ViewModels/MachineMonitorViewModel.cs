@@ -1076,7 +1076,12 @@ namespace GD_StampingMachine.ViewModels
                             ironPlateDataCollection = getIronPlate.Item2;
                         } while (!isGetIronPlate);
 
-                        var NewEmptyIronPlateDataCollection = Enumerable.Repeat(new IronPlateDataModel(), ironPlateDataCollection.Count).ToList();
+                        var NewEmptyIronPlateDataCollection = Enumerable.Repeat(new IronPlateDataModel()
+                        { 
+                            sDataMatrixName1 = string.Empty, 
+                            sDataMatrixName2 = string.Empty,
+                            sIronPlateName1 = string.Empty, 
+                            sIronPlateName2 = string.Empty}, ironPlateDataCollection.Count).ToList();
 
                         bool isSetIronPlate = false;
                         do

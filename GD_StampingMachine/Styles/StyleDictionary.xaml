@@ -1258,7 +1258,6 @@
 
 
     <Style TargetType="{x:Type CheckBox}" x:Key="GreenSwitch">
-        <Setter Property="Foreground" Value="{StaticResource solidclr_CreamyGray}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Opacity" Value="1"/>
@@ -1384,6 +1383,136 @@
         </Style.Triggers>
         
         
+    </Style>
+
+
+
+    <Style TargetType="{x:Type CheckBox}" x:Key="SkyBlueSwitch">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Opacity" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="OnChecking">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="slider"
+                                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="29" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="OnUnchecking">
+                            <DoubleAnimationUsingKeyFrames
+                                BeginTime="00:00:00"
+                                Storyboard.TargetName="slider"
+                                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Viewbox x:Name="dockPanel">
+                        <Grid>
+                            <Border
+                                x:Name="BackgroundBorder"
+                                Width="65"
+                                Height="34"
+                                BorderBrush="#FF939393"
+                                BorderThickness="1"
+                                CornerRadius="16">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#FFBCBCBC" />
+                                        <GradientStop Offset="0.33" Color="#FFC3C3C3" />
+                                        <GradientStop Offset="0.67" Color="#FFDADADA" />
+                                        <GradientStop Offset="1" Color="#FFECECEC" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Line
+                                        x:Name="On"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Stroke="White"
+                                        StrokeThickness="1.5"
+                                        X1="0"
+                                        X2="0"
+                                        Y1="0"
+                                        Y2="16" />
+                                    <Ellipse
+                                        x:Name="Off"
+                                        Grid.Column="2"
+                                        Width="16"
+                                        Height="16"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Stroke="White"
+                                        StrokeThickness="1.5" />
+                                </Grid>
+                            </Border>
+                            <Border
+                                x:Name="slider"
+                                Width="30"
+                                Height="30"
+                                Margin="3,0,0,0"
+                                HorizontalAlignment="Left"
+                                BorderBrush="#FF939393"
+                                BorderThickness="1"
+                                CornerRadius="15"
+                                RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <SkewTransform AngleX="0" AngleY="0" />
+                                        <RotateTransform Angle="0" />
+                                        <TranslateTransform X="0" Y="0" />
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#FFF4F4F4" />
+                                        <GradientStop Offset="0.1" Color="#FFF9F9F9" />
+                                        <GradientStop Offset="1" Color="#FFFFFFFF" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                        </Grid>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.ExitActions>
+                                <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
+                            </Trigger.ExitActions>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
+                            </Trigger.EnterActions>
+                            <Setter TargetName="Off" Property="Stroke" Value="White" />
+                            <!--  Change Orange or Blue color here  -->
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="SkyBlue" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="SkyBlue" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <!--  ToDo: Add Style for Isenabled == False  -->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.3"/>
+            </Trigger>
+        </Style.Triggers>
+
+
     </Style>
 
 

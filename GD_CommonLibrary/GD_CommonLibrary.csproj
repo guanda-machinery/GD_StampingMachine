@@ -220,6 +220,7 @@
     <Compile Include="ValidationRules\CheckStringIsPathOrFileNameRule.cs" />
     <Compile Include="ValueConverters\BooleanToBrushesConverter.cs" />
     <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
+    <Compile Include="ValueConverters\DayOfWeekConverter.cs" />
     <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
     <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
     <Compile Include="ValueConverters\HourToDateTimeConverter.cs" />

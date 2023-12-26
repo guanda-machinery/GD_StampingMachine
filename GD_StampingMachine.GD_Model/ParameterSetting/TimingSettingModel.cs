@@ -33,8 +33,21 @@ namespace GD_StampingMachine.GD_Model
         private List<TimingControlModel> timingControlCollection;
         public List<TimingControlModel> TimingControlCollection { get => timingControlCollection ??= new(); set => timingControlCollection = value; }
     }
+
+
+
     public class TimingControlModel
     {
+        public TimingControlModel()
+        {
+            DayOfWeekWorkCollection = new List<DayOfWeekWorkModel>();
+            for(int i = 0; i < 7; i++)
+            {
+                DayOfWeekWorkCollection.Add(new DayOfWeekWorkModel((DayOfWeek)i, false));
+            }
+        }
+
+
         /// <summary>
         /// 休息時間
         /// </summary>
@@ -48,7 +61,28 @@ namespace GD_StampingMachine.GD_Model
         /// </summary>
         public bool IsEnable { get; set; }
 
+        public List<DayOfWeekWorkModel> DayOfWeekWorkCollection { get; set; }
 
+
+    }
+
+    public class DayOfWeekWorkModel
+    {
+        public DayOfWeekWorkModel()
+        {
+
+        }
+        public DayOfWeekWorkModel(DayOfWeek dayOfWeek, bool isWork)
+        {
+            DayOfWeek = dayOfWeek;
+            IsWork = isWork;
+        }
+
+
+
+
+        public DayOfWeek DayOfWeek { get; set; }
+        public bool IsWork { get; set; }
     }
 
 
