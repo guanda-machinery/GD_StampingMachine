@@ -35,6 +35,7 @@ namespace GD_CommonLibrary
                                 }
                                 catch (Exception ex)
                                 {
+                                    Debug.WriteLine(ex);
                                     Debugger.Break();
                                 }
                             }

@@ -148,6 +148,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine(ex);
                     Debugger.Break();
                 }
             }, () => !_opcuaStopScanCommand.IsRunning);

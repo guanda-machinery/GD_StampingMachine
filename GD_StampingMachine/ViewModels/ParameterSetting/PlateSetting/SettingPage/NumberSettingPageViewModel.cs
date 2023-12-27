@@ -100,11 +100,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     if (await Method.MethodWinUIMessageBox.AskOverwriteOrNotAsync() == MessageBoxResult.Yes)
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
-                         {
+                        //Application.Current.Dispatcher.Invoke(() =>
+                        // {
                              //NumberSettingModelCollection[FIndex] = new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson());
                              NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
-                         });
+                         //});
                     }
                     else
                     {
@@ -113,11 +113,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
+               //  await  Application.Current.Dispatcher.InvokeAsync(async() =>
+                   // {
                         // NumberSettingModelCollection.Add(new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson()));
                         NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());
-                    });
+                   // });
                 }
 
                 await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.NumberSetting, NumberSettingModelCollection.Select(x => x.StampPlateSetting), true);

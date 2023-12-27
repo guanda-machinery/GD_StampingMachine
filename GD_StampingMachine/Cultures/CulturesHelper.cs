@@ -10,7 +10,7 @@ namespace GD_StampingMachine
 {
     public class CulturesHelper
     {
-        private static bool _isFoundInstalledCultures = false;
+        //private static bool _isFoundInstalledCultures = false;
 
         private static string _resourcePrefix = "StringResources";
 

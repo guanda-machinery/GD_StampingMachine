@@ -69,13 +69,15 @@ namespace GD_StampingMachine.Method
                     return true;
                 }
             }
-            catch (IOException ex)
+            catch (IOException iex)
             {
+                Debug.WriteLine(iex);
                 Debugger.Break();
                 return false;
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 Debugger.Break();
                 return false;
             }

@@ -3,6 +3,7 @@ using DevExpress.Data.Extensions;
 using GD_StampingMachine.Singletons;
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -44,14 +45,10 @@ namespace GD_StampingMachine.ViewModels
         //private int SeparateBoxIndexNow =-1;
 
 
-
-
-
-
-
         /// <summary>
         /// 從機台端蒐集到的資料
         /// </summary>
+        [JsonIgnore]
         public StampMachineDataSingleton StampMachineData { get; set; } = Singletons.StampMachineDataSingleton.Instance;
 
 

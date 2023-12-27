@@ -6,6 +6,7 @@ using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -601,7 +602,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _projectGridControlInsertToBoxCommand ??= new AsyncRelayCommand(async () =>
             {
-                _ = Task.Run(async () =>
+               await Task.Run(async () =>
                 {
                     try
                     {
@@ -623,6 +624,7 @@ namespace GD_StampingMachine.ViewModels
                     catch (Exception ex)
                     {
 
+                        Debug.WriteLine(ex);
                     }
                 });
             });

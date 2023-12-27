@@ -194,7 +194,7 @@ namespace GD_StampingMachine.Method
 
             var Result = await this.WriteJsonFileAsync(FilePath, JsonData);
             if (ShowMessageBox)
-                MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath, Result);
+                await MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath, Result);
 
             return Result;
         }
@@ -205,7 +205,7 @@ namespace GD_StampingMachine.Method
 
             var Result = this.WriteJsonFile(FilePath, JsonData);
             if (ShowMessageBox)
-                MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath, Result);
+                _ = MethodWinUIMessageBox.SaveSuccessfulAsync(FilePath, Result);
 
             return Result;
         }

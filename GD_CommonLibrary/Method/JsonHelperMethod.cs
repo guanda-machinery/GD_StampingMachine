@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -72,6 +73,7 @@ namespace GD_CommonLibrary.Method
             catch (Exception ex)
             {
 
+                Debug.WriteLine(ex);
             }
             return false;
         }
@@ -140,6 +142,7 @@ namespace GD_CommonLibrary.Method
             }
             catch (JsonException JEX)
             {
+                Debug.WriteLine(JEX);
                 /*  if(showMessageBox)
                       _ =  MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                           fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));*/
@@ -147,6 +150,7 @@ namespace GD_CommonLibrary.Method
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 // if (showMessageBox)
                 //    _ =   MessageBoxResultShow.ShowExceptionAsync(ex);
                 //Debugger.Break();
@@ -183,6 +187,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine(ex);
                     // _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
@@ -206,6 +211,7 @@ namespace GD_CommonLibrary.Method
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine(ex);
                     //  _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                 }
                 return false;
