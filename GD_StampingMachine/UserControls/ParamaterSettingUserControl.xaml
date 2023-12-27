@@ -1376,6 +1376,8 @@
                                                                 <materialDesign:PackIcon Kind="TimerStart" Foreground="Aqua" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                                             </StackPanel>
+                                                            
+                                                            
                                                             <TextBox Width="auto"
                                                     Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
                                                 Text="{Binding RestTime, StringFormat='HH:mm' ,UpdateSourceTrigger=PropertyChanged}" />
@@ -1396,7 +1398,7 @@
                                                         <GD_Common:CircularRangeSlider 
                                             Grid.ColumnSpan="2"
                                             Grid.Row="1"
-                                            Name="CRangeSlider" Width="200" Height="200"
+                                            Name="CRangeSlider" Width="300" Height="300"
                                                                        Minimum="0"
                                                                        Maximum="24"
                                                                        Radius="130"

@@ -298,10 +298,11 @@ namespace GD_CommonLibrary
 
         private void SliderContainer_MouseLeave(object sender, MouseEventArgs e)
         {
+            /*
             _StartCanvasisPressed = false;
             _EndCanvasisPressed = false;
             _ArcCanvasisPressed = false;
-            _LastMousePosition = null;
+            _LastMousePosition = null;*/
         }
 
 
