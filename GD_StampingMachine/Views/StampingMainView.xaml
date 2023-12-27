@@ -1669,7 +1669,7 @@
                                                                                       MainSilderValueChanged="{Binding GlobalSpeedChangedCommand}"
                                                                                       >
                                                 <GD_UserControls:TriggerSliderUserControl.Foreground>
-                                                    <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MuiltBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                    <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
                                                         <Binding.ConverterParameter>
                                                             <x:Array Type="SolidColorBrush">
                                                                 <SolidColorBrush Color="Red"/>

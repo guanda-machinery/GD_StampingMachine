@@ -157,9 +157,19 @@ namespace GD_StampingMachine.Method
         /// </summary>
         /// <param name="ProductProject"></param>
         /// <returns></returns>
-        public bool ManualReadProductProject(out ProductProjectModel ProductProject)
+        public bool ManualReadProductProject( out ProductProjectModel ProductProject)
         {
-            var Result = ManualReadJsonFile(out ProductProject, out string FilePath);
+            return  this.ManualReadProductProject(string.Empty, out ProductProject);
+        }
+
+        /// <summary>
+        /// 取得加工專案 並將更改路徑和檔名對應到正確的位置
+        /// </summary>
+        /// <param name="ProductProject"></param>
+        /// <returns></returns>
+        public bool ManualReadProductProject(string fileName ,out ProductProjectModel ProductProject)
+        {
+            var Result = ManualReadJsonFile(fileName ,out ProductProject, out string FilePath);
             if (Result)
             {
                 ProductProject.Name = Path.GetFileNameWithoutExtension(FilePath);

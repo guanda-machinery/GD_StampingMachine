@@ -988,7 +988,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (ProductProject.SheetStampingTypeForm == 0)
                     {
-                        Debugger.Break();
+                        //Debugger.Break();
                         return false;
                     }
                 }

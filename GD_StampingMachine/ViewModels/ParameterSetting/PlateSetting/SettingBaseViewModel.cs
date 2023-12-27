@@ -357,7 +357,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                         var SearchCount = firstPlateNumber.Count;
                         do
                         {
-                            MinusIndex = pNumber.LastIndexOf('-', SearchIndexStart, SearchCount);
+                            MinusIndex = pNumber.LastIndexOf('-', SearchIndexStart, SearchCount+1);
                             if (MinusIndex != -1)
                             {
                                 SearchIndexStart = MinusIndex - 1;

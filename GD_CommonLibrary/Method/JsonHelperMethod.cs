@@ -158,21 +158,26 @@ namespace GD_CommonLibrary.Method
             return false;
         }
 
-
         public bool ManualReadJsonFile<T>(out T JsonData)
         {
-            return ManualReadJsonFile(out JsonData, out _);
+            return ManualReadJsonFile(string.Empty, out JsonData, out _);
+        }
+
+        public bool ManualReadJsonFile<T>(string fileName, out T JsonData)
+        {
+            return ManualReadJsonFile(fileName,out JsonData, out _);
         }
 
 
 
-        public bool ManualReadJsonFile<T>(out T JsonData, out string FilePath)
+        public bool ManualReadJsonFile<T>(string fileName, out T JsonData, out string FilePath)
         {
             FilePath = null;
             JsonData = default;
 
             OpenFileDialog sfd = new()
             {
+                FileName = fileName,
                 Filter = "Json files (*.json)|*.json"
             };
             if (sfd.ShowDialog() == DialogResult.OK)

@@ -23,11 +23,11 @@ namespace GD_StampingMachine
                 {
                     return (string)System.Windows.Application.Current.TryFindResource("Text_Everyday");
                 }
-                else if (IsWeekday(list))
+                else if (IsWeekday(list) && !IsAnyWeekend(list))
                 {
                     return (string)System.Windows.Application.Current.TryFindResource("Text_EveryWeekday");
                 }
-                else if (IsWeekend(list))
+                else if (IsWeekend(list) && !IsAnyWeekday(list))
                 {
                     return (string)System.Windows.Application.Current.TryFindResource("Text_EveryWeekend");
                 }
@@ -44,9 +44,10 @@ namespace GD_StampingMachine
                     retrunString = retrunString.TrimEnd(cut);
                     return retrunString;
                 }
-
-
-
+                else
+                {
+                    return (string)System.Windows.Application.Current.TryFindResource("Text_Never");
+                }
             }
             return null;
         }
@@ -57,16 +58,49 @@ namespace GD_StampingMachine
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 陣列是否包含所有平日
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         private bool IsWeekday(List<DayOfWeek> list)
         {
             var weekday = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
             return weekday.All(element => list.Contains(element));
         }
 
+        /// <summary>
+        /// 陣列是否包含任一平日
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        private bool IsAnyWeekday(List<DayOfWeek> list)
+        {
+            var weekday = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
+            return weekday.Any(element => list.Contains(element));
+        }
+
+
+        /// <summary>
+        /// 陣列是否包含所有周末
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         private bool IsWeekend(List<DayOfWeek> list)
         {
             var weekend = new List<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
             return weekend.All(element => list.Contains(element));
+        }
+
+        /// <summary>
+        /// 陣列是否包含任一周末
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        private bool IsAnyWeekend(List<DayOfWeek> list)
+        {
+            var weekend = new List<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
+            return weekend.Any(element => list.Contains(element));
         }
 
 

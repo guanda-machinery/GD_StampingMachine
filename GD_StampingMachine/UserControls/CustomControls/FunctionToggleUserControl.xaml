@@ -98,7 +98,7 @@
                                                     <GD_Common:ProgresBarAnimateBehavior />
                                                 </i:Interaction.Behaviors>
                                                 <ProgressBar.Foreground>
-                                                    <Binding Path="Value" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MuiltBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                    <Binding Path="Value" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
                                                         <Binding.ConverterParameter>
                                                             <x:Array Type="SolidColorBrush">
                                                                 <SolidColorBrush Color="Red"/>

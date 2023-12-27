@@ -85,8 +85,8 @@ namespace GD_CommonLibrary
         }
 
     }
-
-    public class MuiltBrushes_DoubleToSolidBrushConverter : BaseValueConverter
+    
+    public class MultiBrushes_DoubleToSolidBrushConverter : BaseValueConverter
     {
         public double SliderMin { get; set; } = 0;
         public double SliderMax { get; set; } = 100;
