@@ -36,7 +36,7 @@ namespace GD_StampingMachine.Method
                 }
             }
 
-
+            //if(dropInfo.DropPosition)
             dropInfo.NotHandled = false;
             dropInfo.Effects = System.Windows.DragDropEffects.None;
         }

@@ -241,6 +241,7 @@ namespace GD_StampingMachine.ViewModels
                     StampMachineData.LastIronPlateIDChanged += StampMachineData_LastIronPlateIDChanged;
 
                     StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
+                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged; 
                     //開始計算剪切數量
                     //鋼印下壓
                     //_ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
@@ -276,8 +277,8 @@ namespace GD_StampingMachine.ViewModels
                                          });
                                          //等待連線
 
-                                         if (!Debugger.IsAttached)
-                                             await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
+                                        // if (!Debugger.IsAttached)
+                                          //   await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.IsConnected, token);
 
                                      }
                                      catch
@@ -498,7 +499,7 @@ namespace GD_StampingMachine.ViewModels
                     StampMachineData.FirstIronPlateIDChanged -= StampMachineData_FirstIronPlateIDChanged;
                     StampMachineData.LastIronPlateIDChanged -= StampMachineData_LastIronPlateIDChanged;
                     StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
-
+                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
 
                     //cts.Cancel();
                     //取消第一格的訂閱
@@ -514,7 +515,52 @@ namespace GD_StampingMachine.ViewModels
             }, () => !_sendMachiningCommand.IsRunning);
         }
 
+        private void StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
+        {
 
+            try
+            {
+                if (e.NewValue)
+                {
+                    //取得id
+                    var eRotateStation = StampMachineData.EngravingRotateStation;
+                    _ = Task.Run(async () =>
+                    {
+                        //找出正在被敲的那片id
+                        //StampMachineData.Cylinder_GuideRod_Fixed_IsUp
+                        var FirstIronPlateTuple = await Singletons.StampMachineDataSingleton.Instance.GetFirstIronPlateIDAsync();
+                        if (FirstIronPlateTuple.Item1)
+                        {
+                            foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                            {
+                                var FirstIronID = FirstIronPlateTuple.Item2;
+                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == FirstIronID);
+                                if (finishPartParameter != null)
+                                {
+                                    finishPartParameter.ShearingIsFinish = true;
+                                    //  finishPartParameter.IsFinish = true;
+                                    try              
+                                    {
+                                        await projectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _ = LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
+            }
+
+
+        }
 
         private double _completeMachininProgress;
         public double CompleteMachininProgress { get => _completeMachininProgress; set { _completeMachininProgress = value; OnPropertyChanged(); } }
@@ -552,6 +598,7 @@ namespace GD_StampingMachine.ViewModels
                     StampMachineData.FirstIronPlateIDChanged += StampMachineData_FirstIronPlateIDChanged;
                     StampMachineData.LastIronPlateIDChanged += StampMachineData_LastIronPlateIDChanged;
                     StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
+                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
 
                     // _ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
 
@@ -685,7 +732,8 @@ namespace GD_StampingMachine.ViewModels
 
                     StampMachineData.FirstIronPlateIDChanged -= StampMachineData_FirstIronPlateIDChanged;
                     StampMachineData.LastIronPlateIDChanged -= StampMachineData_LastIronPlateIDChanged;
-                    StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
+                    StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged; 
+                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
 
 
                     cts.Cancel();
@@ -834,8 +882,8 @@ namespace GD_StampingMachine.ViewModels
                                         finishPartParameter.FinishProgress += ((float)33.3 / numberLength);
                                     }
 
-                                    finishPartParameter.ShearingIsFinish = true;
-                                    finishPartParameter.IsFinish = true;
+                                   // finishPartParameter.ShearingIsFinish = true;
+                                   // finishPartParameter.IsFinish = true;
                                     try
                                     {
                                         await projectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
@@ -901,8 +949,8 @@ namespace GD_StampingMachine.ViewModels
                                         finishPartParameter.FinishProgress += ((float)33.3 / numberLength);
                                     }
 
-                                    finishPartParameter.ShearingIsFinish = true;
-                                    finishPartParameter.IsFinish = true;
+                                   // finishPartParameter.ShearingIsFinish = true;
+                                  //  finishPartParameter.IsFinish = true;
                                     try
                                     {
                                         await projectDistributeVM.SaveProductProjectVMObservableCollectionAsync();

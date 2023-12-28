@@ -296,7 +296,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override string ViewModelName => "TimingControlViewModel";
         public TimingControlViewModel()
         {
-
             timingControlModel = new();
         }
         public TimingControlViewModel(TimingControlModel timingControl)
@@ -309,11 +308,34 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 休息時間
         /// </summary>
-        public DateTime RestTime { get => timingControlModel.RestTime; set { timingControlModel.RestTime = value; OnPropertyChanged(); } }
+        public DateTime RestTime
+        {
+            get
+            {
+                var ts = timingControlModel.RestTime - timingControlModel.RestTime.Date;
+                return new DateTime(ts.Ticks);
+            }
+            set 
+            {
+                timingControlModel.RestTime =value; 
+                OnPropertyChanged(); 
+            }
+        }
         /// <summary>
         /// 開啟時間
         /// </summary>
-        public DateTime OpenTime { get => timingControlModel.OpenTime; set { timingControlModel.OpenTime = value; OnPropertyChanged(); } }
+        public DateTime OpenTime
+        {
+            get
+            {
+                var ts = timingControlModel.OpenTime - timingControlModel.OpenTime.Date;
+                return new DateTime(ts.Ticks);
+            }
+            set 
+            { 
+                timingControlModel.OpenTime = value; OnPropertyChanged();
+            } 
+        }
         /// <summary>
         /// 已啟用
         /// </summary>
@@ -323,7 +345,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private bool _dayOfWeekWorkVMObservableCollectionDropDownListlsShow;
         /// <summary>
-        /// 顯示選ㄉ單
+        /// 顯示選單
         /// </summary>
         public bool DayOfWeekWorkVMObservableCollectionDropDownListlsShow
         {
@@ -339,8 +361,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (_dayOfWeekWorkVMObservableCollection == null)
                 {
                     _dayOfWeekWorkVMObservableCollection = timingControlModel.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
-
-
                     foreach (var obj in _dayOfWeekWorkVMObservableCollection)
                     {
                         obj.IsWorkChanged += (sender, e) =>
@@ -486,7 +506,34 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
+        /// <summary>
+        /// 確認某個時間段是否介於開始與休息之間
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public bool DateTimeIsBetween(DateTime dateTime)
+        {
+            DateTime RTime = this.RestTime;
+            DateTime OTime;
+            if(this.OpenTime >= this.RestTime)
+            {
+                OTime = this.OpenTime;
+            }
+            else
+            {
+                OTime = this.OpenTime.AddDays(1);
+            }
 
+            if (this.DayOfWeekWorkVMObservableCollection.Any(x=>x.IsWork && x.DayOfWeek == dateTime.DayOfWeek))
+            {
+                var time = new DateTime( dateTime.TimeOfDay.Ticks);
+                if(RestTime < time && time< OpenTime)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
 
 

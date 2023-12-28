@@ -529,9 +529,13 @@
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding StampMachineData.DI_Start}" Value="true">
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding StampMachineData.IsConnected}" Value="True" />
+                                                        <Condition Binding="{Binding StampMachineData.DI_Start}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
                                                     <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
-                                                </DataTrigger>
+                                                </MultiDataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
@@ -896,12 +900,10 @@
                                           UpPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"
 
                                     
-                                    CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsOrigin}"
-                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsUpSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"                      
+                                    CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsOrigin}"       
                                     
                  
                              CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsStandbyPoint}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                     
                                            DownPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicEngraving_Down_Command}"
                                           DownPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
@@ -909,7 +911,6 @@
                                           DownPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"
                                     
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsStopDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />

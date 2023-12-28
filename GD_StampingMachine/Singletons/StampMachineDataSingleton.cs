@@ -867,6 +867,12 @@ namespace GD_StampingMachine.Singletons
 
 
 
+        private List<(DateTime, DateTime)> _sleepRangeList;
+        protected List<(DateTime RestTime, DateTime OpenTime)> SleepRangeList
+        {
+            get => _sleepRangeList ??= new List<(DateTime, DateTime)>();
+            set=> _sleepRangeList = value;
+        }
 
 
         private Task RunScanTaskAsync(CancellationToken cancelToken)
@@ -1147,9 +1153,24 @@ namespace GD_StampingMachine.Singletons
                                          {
                                              if (!string.IsNullOrWhiteSpace(e.NewValue))
                                                  if (!AlarmMessageCollection.Contains(e.NewValue))
+                                                 {
                                                      AlarmMessageCollection.Add(e.NewValue);
+                                                     _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
+                                                 }
                                          });
 
+                                        var alarmTask = await this.GetAlarmMessageAsync();
+                                        if (alarmTask.Item1)
+                                        {
+                                            var message = alarmTask.Item2;
+                                            if (!AlarmMessageCollection.Contains(message))
+                                            {
+                                                AlarmMessageCollection.Add(message);
+                                               _ =  LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
+                                            }
+                                        }
+
+                           
                                         await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.OpcMonitor1.sv_OpcAlarmCount,
                                           (sender, e) =>
                                           {
@@ -1221,8 +1242,8 @@ namespace GD_StampingMachine.Singletons
                                             }
                                             try
                                             {
-                                                manager?.Close();
 
+                                                manager?.Close();
 
                                                 var fPos = await GetFeedingPositionAsync();
                                                 if (fPos.Item1)
@@ -1610,6 +1631,78 @@ namespace GD_StampingMachine.Singletons
                                     await LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, ex.Message);
                                 }
                             }, cancelToken);
+
+                            var sleepTask = Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    while (true)
+                                    {
+                                        if (cancelToken.IsCancellationRequested)
+                                            cancelToken.ThrowIfCancellationRequested();
+                                        //找出現在是否在自動狀態
+                                        //   DateTime.Now
+                            
+                                       if( OperationMode == OperationModeEnum.FullAutomatic)
+                                       {
+                                            var EnableTimingControl = StampingMachineSingleton.Instance.ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable);
+                                            //若目前時間落在之間
+                                            if (cancelToken.IsCancellationRequested)
+                                                cancelToken.ThrowIfCancellationRequested();
+
+
+                                            if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))
+                                            {
+                                                var restTimeRange = EnableTimingControl.Where(x => x.DateTimeIsBetween(DateTime.Now)).ToList();
+                                                if (restTimeRange.Count != 0)
+                                                {
+                                                    //找出啟動和休息的最大區間
+
+                                                    List<DateTime> restList = new List<DateTime>();
+                                                    List<DateTime> openList = new List<DateTime>();
+                                                    foreach (var timeRange in restTimeRange)
+                                                    {
+                                                        DateTime rtime = timeRange.RestTime;
+                                                        DateTime oTime;
+                                                        if (timeRange.OpenTime >= timeRange.RestTime)
+                                                        {
+                                                            oTime = timeRange.OpenTime;
+                                                        }
+                                                        else
+                                                        {
+                                                            oTime = timeRange.OpenTime.AddDays(1);
+                                                        }
+                                                        restList.Add(rtime);
+                                                        openList.Add(oTime);
+                                                    }
+                                                    var restMin = DateTime.Now.Date.AddTicks(restList.Min().Ticks);
+                                                    var openMax = DateTime.Now.Date.AddTicks(openList.Max().Ticks);
+
+                                                    //在休息時間內不會再問是否要啟動
+                                                    //sleeptime
+                                                    SleepRangeList.Add(new(restMin, openMax));
+                                                    await Task.Delay(1000);
+                                                }
+
+                                                await SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
+                                            }
+
+
+                                        }
+
+
+
+
+                                    }
+                                }
+                                catch(Exception ex)
+                                {
+
+                                }
+                                
+                            },cancelToken);
+
+
                             await Task.WhenAll(machineTask);
                         }
                         catch (OperationCanceledException ocex)
@@ -3366,8 +3459,22 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public bool Cylinder_HydraulicCutting_IsCutPoint
         {
-            get => _cylinder_HydraulicCutting_IsCutPoint; set { _cylinder_HydraulicCutting_IsCutPoint = value; OnPropertyChanged(); }
+            get => _cylinder_HydraulicCutting_IsCutPoint; 
+            set
+            {
+
+                Cylinder_HydraulicCutting_IsCutPointChanged?.Invoke(this, new GD_CommonLibrary.ValueChangedEventArgs<bool>(_cylinder_HydraulicCutting_IsCutPoint, value));
+                _cylinder_HydraulicCutting_IsCutPoint = value;
+                OnPropertyChanged(); 
+            }
         }
+
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<bool>> Cylinder_HydraulicCutting_IsCutPointChanged;
+
+
+
+
+
 
         private (int oldValue, int newValue) _lastIronPlateID = (0, 0);
         /// <summary>
@@ -5086,6 +5193,19 @@ Y軸馬達位置移動命令
         {
             return await this.ReadNodeAsync<object>($"{StampingOpcUANode.Lubrication1.sv_LubricationActValues.dOffTime}");
         }
+
+
+
+        /// <summary>
+        /// 取得錯誤訊息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool, string)> GetAlarmMessageAsync()
+        {
+            return await this.ReadNodeAsync<string>($"{StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText}");
+        }
+
+
 
 
         /// <summary>

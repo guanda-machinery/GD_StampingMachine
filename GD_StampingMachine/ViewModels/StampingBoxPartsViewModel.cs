@@ -22,8 +22,8 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
 
-        [JsonIgnore]
-        public bool GridControl_MachiningStatusColumnVisible { get; set; } = false;
+       // [JsonIgnore]
+        //public bool GridControl_MachiningStatusColumnVisible { get; set; } = false;
     }
 
 
@@ -74,11 +74,11 @@ namespace GD_StampingMachine.ViewModels
 
         public string ProjectDistributeName { get => StampingBoxPart.ProjectDistributeName; set => StampingBoxPart.ProjectDistributeName = value; }
 
-        public bool MachiningStatusIsVisible
+        /*public bool MachiningStatusIsVisible
         {
             get => StampingBoxPart.GridControl_MachiningStatusColumnVisible;
             set { StampingBoxPart.GridControl_MachiningStatusColumnVisible = value; OnPropertyChanged(); }
-        }
+        }*/
 
         public StampingBoxPartModel StampingBoxPart = new();
 

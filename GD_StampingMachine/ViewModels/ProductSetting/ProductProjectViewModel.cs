@@ -777,8 +777,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                     PartsParameterModel PParameter = new PartsParameterModel()
                                     {
                                         IronPlateString = _erp.PartNumber,
-                                        QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
-                                        QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
+                                        QrCodeContent = string.Empty,
+                                        QR_Special_Text = string.Empty,
                                         StampingPlate = SettingBaseVM.StampPlateSetting
                                     };
                                     importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
@@ -788,17 +788,24 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                     int maxLength = _erp.QrCodeContent.CountCompare(_erp.TrainNumber);
                                     for (int i = 0; i < maxLength; i++)
                                     {
-                                        _erp.QrCodeContent.TryGetValue(i, out var qrcode);
-                                        _erp.TrainNumber.TryGetValue(i, out var trainNum);
-
-                                        PartsParameterModel PParameter = new PartsParameterModel()
+                                        try
                                         {
-                                            IronPlateString = _erp.PartNumber,
-                                            QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
-                                            QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
-                                            StampingPlate = SettingBaseVM.StampPlateSetting
-                                        };
-                                        importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
+                                            _erp.QrCodeContent.TryGetValue(i, out var qrcode);
+                                            _erp.TrainNumber.TryGetValue(i, out var trainNum);
+
+                                            PartsParameterModel PParameter = new PartsParameterModel()
+                                            {
+                                                IronPlateString = _erp.PartNumber,
+                                                QrCodeContent = _erp.QrCodeContent[i],
+                                                QR_Special_Text = _erp.TrainNumber[i],
+                                                StampingPlate = SettingBaseVM.StampPlateSetting
+                                            };
+                                            importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
+                                        }
+                                        catch(Exception ex)
+                                        {
+                                            _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex.Message, true);
+                                        }
                                     }
                                 }
                             }

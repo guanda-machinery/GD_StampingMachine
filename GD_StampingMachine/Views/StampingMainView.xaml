@@ -1098,7 +1098,8 @@
                                                     <StackPanel>
                                                         <StackPanel Height="150" Background="White" Orientation="Horizontal">
 
-                                                            <Button x:Name="ButtonOpenMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                                            <Button x:Name="ButtonOpenMenu" Content="彈出"
+                                                                    Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right">
                                                                 <Button.Triggers>
                                                                     <EventTrigger RoutedEvent="ButtonBase.Click" >
                                                                         <BeginStoryboard >
@@ -1111,9 +1112,10 @@
                                                                         </BeginStoryboard>
                                                                     </EventTrigger>
                                                                 </Button.Triggers>
-                                                                <materialDesign:PackIcon Kind="Menu" Foreground="#FF1B3861" Width="25" Height="25"/>
+                                                                
                                                             </Button>
-                                                            <Button x:Name="ButtonCloseMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" >
+                                                            <Button Content="收納"
+                                                                x:Name="ButtonCloseMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" >
                                                                 <Button.Triggers>
                                                                     <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
                                                                         <BeginStoryboard>
@@ -1126,7 +1128,7 @@
                                                                         </BeginStoryboard>
                                                                     </EventTrigger>
                                                                 </Button.Triggers>
-                                                                <materialDesign:PackIcon Kind="ArrowLeft" Foreground="#FF1B3861" Width="25" Height="25"/>
+                                                           
                                                             </Button>
                                                         </StackPanel>
                                                         <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#FF1368BD">

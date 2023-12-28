@@ -79,7 +79,7 @@ namespace GD_StampingMachine.ViewModels
                 ProjectDistributeName = this.ProjectDistributeName,
                 //ProductProjectCollection = this.ProductProjectVMObservableCollection,
                 //SeparateBoxCollection = this.SeparateBoxVMObservableCollection.Select(x=>x._separateBox).ToList(),
-                GridControl_MachiningStatusColumnVisible = false,
+                //GridControl_MachiningStatusColumnVisible = false,
                 ProductProjectVMObservableCollection = this.ProductProjectVMObservableCollection,
                 SeparateBoxVMObservableCollection = this.ProjectDistribute.SeparateBoxVMObservableCollection.DeepCloneByJson(),
             });
