@@ -1210,7 +1210,7 @@
                             </TabControl>
                         </Grid>
                         <!--彈出式按鈕-->
-                        <materialDesign:DrawerHost  Opacity="0.95"
+                        <materialDesign:DrawerHost  Opacity="0.95" 
                                                     IsLeftDrawerOpen="{Binding ElementName=TBtn_MainSysyem, Path=IsChecked}" LeftDrawerBackground="Transparent"
                                             IsRightDrawerOpen="{Binding ElementName=TBtn_Alarm, Path=IsChecked}" RightDrawerBackground="Transparent"
                                             >
@@ -1432,6 +1432,7 @@
 
                                 </materialDesign:ColorZone>
                             </materialDesign:DrawerHost.RightDrawerContent>
+                            
                         </materialDesign:DrawerHost>
 
 

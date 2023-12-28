@@ -527,7 +527,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             if (this.DayOfWeekWorkVMObservableCollection.Any(x=>x.IsWork && x.DayOfWeek == dateTime.DayOfWeek))
             {
                 var time = new DateTime( dateTime.TimeOfDay.Ticks);
-                if(RestTime < time && time< OpenTime)
+                if(RTime < time && time< OTime)
                 {
                     return true;
                 }
