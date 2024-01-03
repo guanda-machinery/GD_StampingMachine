@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DevExpress.Mvvm.Native;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading;
 
@@ -38,11 +40,11 @@ namespace GD_StampingMachine.Singletons
 
         public string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_LanguageSettingViewModel");
 
-        public List<CultureInfo> SupportedCultures
+        public ObservableCollection<CultureInfo> SupportedCultures
         {
             get
             {
-                return CulturesHelper.GetSupportedCultures();
+                return CulturesHelper.GetSupportedCultures().ToObservableCollection();
             }
         }
 

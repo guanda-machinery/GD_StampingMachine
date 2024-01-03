@@ -508,7 +508,7 @@
     <Resource Include="Image\擷取2.PNG" />
     <Content Include="Cultures\StringResources.en-US.xaml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Page Include="Dictionary\DrawingDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -556,7 +556,7 @@
     </Page>
     <Content Include="Cultures\StringResources.zh-TW.xaml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

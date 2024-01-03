@@ -23,12 +23,11 @@ namespace GD_StampingMachine
         public static List<CultureInfo> GetSupportedCultures()
         {
             var CultList = new List<CultureInfo>();
-            // if (!_isFoundInstalledCultures)
-            //{
+
+
             CultureInfo cultureInfo = new CultureInfo("");
             List<string> files = Directory.GetFiles(string.Format("{0}\\{1}", System.Windows.Forms.Application.StartupPath, _culturesFolder))
                 .Where(s => s.Contains(_resourcePrefix) && Path.GetExtension(s).Equals(".xaml", StringComparison.OrdinalIgnoreCase)).ToList();
-
             foreach (string file in files)
             {
                 try
