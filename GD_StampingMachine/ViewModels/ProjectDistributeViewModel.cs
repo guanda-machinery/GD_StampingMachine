@@ -595,10 +595,10 @@ namespace GD_StampingMachine.ViewModels
         }
         */
 
-        private ICommand _projectGridControlInsertToBoxCommand;
+        private AsyncRelayCommand _projectGridControlInsertToBoxCommand;
 
         [JsonIgnore]
-        public ICommand ProjectGridControlInsertToBoxCommand
+        public AsyncRelayCommand ProjectGridControlInsertToBoxCommand
         {
             get => _projectGridControlInsertToBoxCommand ??= new AsyncRelayCommand(async () =>
             {
@@ -610,6 +610,8 @@ namespace GD_StampingMachine.ViewModels
                         {
                             partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
                             partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+
+
                             await Application.Current.Dispatcher.InvokeAsync(() =>
                             {
                                 StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
@@ -627,7 +629,7 @@ namespace GD_StampingMachine.ViewModels
                         Debug.WriteLine(ex);
                     }
                 });
-            });
+            },()=> !ProjectGridControlInsertToBoxCommand.IsRunning);
         }
 
 

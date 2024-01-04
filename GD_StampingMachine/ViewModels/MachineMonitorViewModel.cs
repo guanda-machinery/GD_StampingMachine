@@ -1246,7 +1246,7 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
 
-            });
+            }, e=> !ArrangeWorkCommand.IsRunning);
         }
 
         private void SetPartsParameterWork(PartsParameterViewModel partsParameter)
