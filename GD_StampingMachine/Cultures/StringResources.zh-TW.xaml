@@ -117,6 +117,7 @@
     <sys:String x:Key="textSelectAlignment">請選擇對齊方式</sys:String>
     <sys:String x:Key="textInputMargin">請輸入間距</sys:String>
 
+    <sys:String x:Key="textCount">數量</sys:String>
 
     <!--#endregion-->
 

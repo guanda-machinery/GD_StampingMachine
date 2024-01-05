@@ -20,9 +20,10 @@ namespace GD_CommonLibrary
                 if (EachValue == DependencyProperty.UnsetValue)
                     return false;
 
-                if (EachValue is string)
+                if (EachValue is string valueString)
                 {
-                    if (string.IsNullOrEmpty(EachValue as string) || (string.IsNullOrWhiteSpace(EachValue as string)))
+                  //  if (string.IsNullOrEmpty(EachValue as string) || (string.IsNullOrWhiteSpace(EachValue as string)))
+                  if (string.IsNullOrEmpty(valueString))
                         return false;
                 }
 

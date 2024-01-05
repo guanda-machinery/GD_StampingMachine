@@ -1025,9 +1025,11 @@
                                     <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
 
 
-                                        <TextBlock Grid.Column="1" Grid.Row="5"  VerticalAlignment="Center"
+                                    <TextBlock Grid.Column="1" Grid.Row="5"  VerticalAlignment="Center"
                                                    Text="{DynamicResource textDashAutoWrapping}"/>
-             
+                                    <TextBlock Grid.Column="1" Grid.Row="6"  VerticalAlignment="Center"
+                                                   Text="{DynamicResource textCount}"/>
+
 
 
 
@@ -1037,6 +1039,7 @@
 
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="：" VerticalAlignment="Center"/>
                                     <TextBlock Grid.Column="2" Grid.Row="5" Text="：" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="6" Text="：" VerticalAlignment="Center"/>
 
 
 
@@ -1118,10 +1121,13 @@
                                         VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Grid.Row="5" Grid.Column="3" IsChecked="{Binding AddNewPartsParameterVM.SettingBaseVM.DashAutoWrapping}" IsThreeState="False"
                                               Margin="10,0"/>
+                                    <TextBox  Text="{Binding AddNewPartsCount, UpdateSourceTrigger=PropertyChanged}"
+                                        VerticalAlignment="Center" HorizontalAlignment="Left"
+                                        Grid.Row="6" Grid.Column="3" 
+                                              Margin="10,0"/>
 
 
-
-                                    <StackPanel  Grid.Row="6" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
+                                    <StackPanel  Grid.Row="7" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
                                         <Button   
                                                                     Content="{DynamicResource btnCancel}"
                                                                   Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}" CommandParameter="{StaticResource FalseValue}">

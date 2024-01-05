@@ -283,6 +283,24 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+        private ushort _addNewPartsCount = 1;
+        public ushort AddNewPartsCount
+        {
+            get
+            {
+               if( _addNewPartsCount==0)
+                    _addNewPartsCount = 1;
+               return _addNewPartsCount;
+             }
+            set
+            {
+                _addNewPartsCount = value; 
+                OnPropertyChanged();
+            }
+        }
+
+
+
 
         public string AddNewPartsParameterVM_ParameterA
         {
@@ -953,16 +971,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _createPartCommand ??= new AsyncRelayCommand(async () =>
             {
-                PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
-                //儲存 ProductProject
-                ProductProjectEditTime = DateTime.Now;
-                await SaveProductProjectAsync();
+                for(int i =0;i< AddNewPartsCount; i++)
+                {
+                    PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
+                    //儲存 ProductProject
+                    ProductProjectEditTime = DateTime.Now;
+                    await SaveProductProjectAsync();
+                }
             });
-            set
+           /* set
             {
                 _createPartCommand = value;
                 OnPropertyChanged(nameof(CreatePartCommand));
-            }
+            }*/
         }
 
         private ICommand _saveProductProjectCommand;
