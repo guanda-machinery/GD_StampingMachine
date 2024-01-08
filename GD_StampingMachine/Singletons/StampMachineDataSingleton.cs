@@ -751,6 +751,7 @@ namespace GD_StampingMachine.Singletons
             //一啟動就建立一個alarm
             //HasAlarm = true;
             AlarmMessageCollection.Add("PLC Is Not Connected");
+            _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, "PLC Is Not Connected", true);
 
         }
 
@@ -1243,21 +1244,22 @@ namespace GD_StampingMachine.Singletons
 
                                         //刻字下壓
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>($"{StampingOpcUANode.Engraving1.di_StopDown}", (sender, e) =>
+                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>($"{StampingOpcUANode.Engraving1.di_StopDown}", 
+                                            (sender, e) =>
                                         {
                                             Cylinder_HydraulicEngraving_IsStopDown = e.NewValue;
                                         }, 100, true);
 
                                         await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText,
-                                         (sender, e) =>
-                                         {
-                                             if (!string.IsNullOrWhiteSpace(e.NewValue))
-                                                 if (!AlarmMessageCollection.Contains(e.NewValue))
-                                                 {
-                                                     AlarmMessageCollection.Add(e.NewValue);
-                                                     _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
-                                                 }
-                                         });
+                                            (sender, e) =>
+                                            {
+                                                if (!string.IsNullOrWhiteSpace(e.NewValue))
+                                                    if (!AlarmMessageCollection.Contains(e.NewValue))
+                                                    {
+                                                        AlarmMessageCollection.Add(e.NewValue);
+                                                        _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
+                                                    }
+                                            });
 
                                         var alarmTask = await this.GetAlarmMessageAsync();
                                         if (alarmTask.Item1)
@@ -1271,7 +1273,7 @@ namespace GD_StampingMachine.Singletons
                                         }
 
                            
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.OpcMonitor1.sv_OpcAlarmCount,
+                                     /*   await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.OpcMonitor1.sv_OpcAlarmCount,
                                           (sender, e) =>
                                           {
                                               if (e.NewValue > 0)
@@ -1282,7 +1284,7 @@ namespace GD_StampingMachine.Singletons
                                               {
                                                   //HasAlarm = false;
                                               }
-                                          });
+                                          });*/
 
 
                                         await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm,
