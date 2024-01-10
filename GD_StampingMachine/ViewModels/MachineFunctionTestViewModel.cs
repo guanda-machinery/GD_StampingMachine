@@ -18,6 +18,8 @@ namespace GD_StampingMachine.ViewModels
 {
     public class MachineFunctionTestViewModel : GD_CommonLibrary.BaseViewModel
     {
+
+
         public override string ViewModelName => "MachineFunctionTestViewModel";
 
         #region 機台移動命令

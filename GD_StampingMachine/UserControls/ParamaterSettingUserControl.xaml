@@ -1378,9 +1378,18 @@
                                                             </StackPanel>
                                                             
                                                             
-                                                            <TextBox Width="auto"
+                                                      <!--      <TextBox Width="auto"
                                                     Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
-                                                Text="{Binding RestTime, StringFormat='HH:mm' ,UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding RestTime, StringFormat='HH:mm' ,UpdateSourceTrigger=PropertyChanged}" />-->
+
+                                                            <materialDesign:TimePicker Grid.Row="1"   MinWidth="120"  Style="{StaticResource MaterialDesignTimePicker}" Padding="0"
+                                                           materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
+                                                           WithSeconds="False"  SelectedTimeFormat="Long"
+                                                           SelectedTime="{Binding RestTime}">
+                                                            </materialDesign:TimePicker>
+
+
+
                                                         </Grid>
                                                         <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="5">
                                                             <Grid.RowDefinitions>
@@ -1391,9 +1400,19 @@
                                                                 <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                                             </StackPanel>
-                                                            <TextBox Width="auto"
+                                                           <!-- <TextBox Width="auto"
                                                 Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
-                                                Text="{Binding OpenTime, StringFormat='HH:mm', UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding OpenTime, StringFormat='HH:mm', UpdateSourceTrigger=PropertyChanged}" />-->
+                                                           
+                                                            <materialDesign:TimePicker Grid.Row="1"   MinWidth="120" Style="{StaticResource MaterialDesignTimePicker}" Padding="0"
+                                                           materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
+                                                           WithSeconds="False"  SelectedTimeFormat="Long"
+                                                           SelectedTime="{Binding OpenTime}">
+                                                            </materialDesign:TimePicker>
+
+
+
+
                                                         </Grid>
                                                         <GD_Common:CircularRangeSlider 
                                             Grid.ColumnSpan="2"

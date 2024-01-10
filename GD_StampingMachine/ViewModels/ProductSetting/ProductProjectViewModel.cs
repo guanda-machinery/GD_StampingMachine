@@ -224,7 +224,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             var existedCanNotCloseList = partsParameterIsTypeSettingedCollection.FindAll(x => StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FindIndex(y => y.ProjectDistributeName == x.DistributeName) != -1);
                             if (existedCanNotCloseList.Count != 0)
                             {
-                                await MethodWinUIMessageBox.CanNotCloseProjectAsync();
+                                await MethodWinUIMessageBox.CanNotDeleteProjectAsync();
                             }
                             else
                             {
@@ -1225,7 +1225,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 Eobj.DistributeName = null;
                                 Eobj.BoxIndex = null;
                             });
-                            ProjectDistributeVM.StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollection();
+                          await   ProjectDistributeVM.StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollectionAsync();
                             //  ProjectDistributeVM.StampingBoxPartsVM.ProductProjectVMObservableCollection
                         }
 

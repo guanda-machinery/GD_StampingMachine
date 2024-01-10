@@ -133,7 +133,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-            _ = Task.Run(async () =>
+          /*  _ = Task.Run(async () =>
             {
                 await Task.Delay(30000);
                 while (!disposedValue)
@@ -148,7 +148,7 @@ namespace GD_StampingMachine.ViewModels
                     }
                     await Task.Delay(30000);
                 }
-            });
+            });*/
 
 
         }
@@ -234,8 +234,8 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public MachineFunctionViewModel MachineFunctionVM { get => stampingMain.MachineFunctionVM; set => stampingMain.MachineFunctionVM = value; }
 
-        // private MachineFunctionTestViewModel _machineFunctionTestVM;
-        //public MachineFunctionTestViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTestViewModel(); set => _machineFunctionTestVM = value; }
+        private MachineFunctionTest2ViewModel _machineFunctionTestVM;
+        public MachineFunctionTest2ViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTest2ViewModel(); set => _machineFunctionTestVM = value; }
 
 
         /// <summary>

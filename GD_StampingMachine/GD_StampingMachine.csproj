@@ -415,6 +415,7 @@
       <DependentUpon>SimpleCircularProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\DayOfWeekWorkVMObservableCollectionConverter.cs" />
+    <Compile Include="ViewModels\MachineFunctionTest2ViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\IO_InfoViewModel.cs" />
     <Compile Include="ViewModels\MachineMonitor\PlateMonitorViewModel.cs" />
     <Compile Include="ViewModels\ParameterSetting\PlateSetting\PlateFontViewModel.cs" />

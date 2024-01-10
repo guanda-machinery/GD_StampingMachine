@@ -138,9 +138,9 @@
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Button Name="AlarmButton"       
+                        <Button Name="AlarmButton"
                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
-                            Path=AlarmMessageCollection,Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True} }"
+                            Path=AlarmMessageCollection.Count,Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True} }"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=MachineWarningDraggablePopup}"       
                                 BorderThickness="0" 
@@ -173,7 +173,8 @@
                             <Border  MinHeight="50" MinWidth="300" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
                                 <GroupBox Header="{DynamicResource Text_MachineAlarm}" Padding="5">
                                     <Grid>
-                                        <ItemsControl ItemsSource="{Binding Path=AlarmMessageCollection}">
+                                        <ItemsControl Name="AlarmMessageItemsControl"
+                                            ItemsSource="{Binding Path=AlarmMessageCollection}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid Margin="2">
@@ -235,7 +236,11 @@
                                             </ListBox>
                                         </GroupBox>
 
-                                        <StackPanel Visibility="{Binding ElementName=RotatingTurntableInfoFontsListBox, Path=HasItems,Converter={dx:BooleanToVisibilityConverter}}"
+
+
+
+                                        <StackPanel IsEnabled="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection.Count, ConverterParameter={StaticResource IntZero},
+                                            Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}"
                                             Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <Button IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}"
                                                 Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
@@ -244,15 +249,14 @@
                                             <Button Content="{materialDesign:PackIcon Kind=ConnectWithoutContact, Size=22}" Command="{Binding StampingFontChangedVM.CompareFontsSettingBetweenMachineAndSoftwareCommand}"/>
                                         </StackPanel>
 
-                                        <GroupBox  Visibility="{Binding ElementName=RotatingTurntableInfoFontsListBox, Path=HasItems,Converter={dx:BooleanToVisibilityConverter}}"
+                                        <GroupBox  
                                             Grid.Column="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                                            <ListBox      Name="RotatingTurntableInfoFontsListBox"
+                                            <ListBox Visibility="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection.Count,
+                                                Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True}}"
                                                 Margin="10,0"  
                          ItemsSource="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection}"          
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
-
-
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <WrapPanel Margin="5,0"/>
@@ -710,7 +714,7 @@
                             </TabItem>
 
                             <TabItem IsSelected="{Binding ElementName=TBtn_LightUpSwitch, Path=IsChecked}">
-                                <Grid>
+                                <Grid DataContext="{Binding MachineFunctionTestVM}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
@@ -723,8 +727,11 @@
                                             <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="1" StampingTypeString="B"/>
                                             <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="2" StampingTypeString="C"/>
                                         </x:Array>
-                                    </StackPanel.Resources>
-                                    <TextBlock Text="各種功能測試區 - test"/>
+                                        </StackPanel.Resources>
+                                        <Button Content="ClearAlarm" Command="{Binding ResetAlarmCommand}"/>
+                                        <Button Content="AddAlarm" Command="{Binding AddAlarmCommand}"/>
+
+                                        <TextBlock Text="各種功能測試區 - test"/>
                                         <GD_UserControls:SimpleCircularProgressBar Value="50"/>
 
                                         <GD_Common:CircularRangeSlider Name="CRangeSlider" Width="200" Height="200"

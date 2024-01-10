@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
@@ -34,7 +35,7 @@ namespace GD_StampingMachine.ViewModels
         public StampingBoxPartsViewModel(StampingBoxPartModel _stampingBoxPart)
         {
             StampingBoxPart = _stampingBoxPart;
-            ReLoadBoxPartsParameterVMObservableCollection();
+            _ = ReLoadBoxPartsParameterVMObservableCollectionAsync();
             _ = Task.Run(async () =>
             {
                 while (true)
@@ -42,6 +43,7 @@ namespace GD_StampingMachine.ViewModels
                     for (int i = 0; i < SeparateBoxVMObservableCollection.Count; i++)
                     {
                         var separateBox = SeparateBoxVMObservableCollection[i];
+
                         separateBox.BoxPieceValue = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == separateBox.BoxIndex);
                     }
                     await Task.Delay(500);
@@ -51,9 +53,9 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        public void ReLoadBoxPartsParameterVMObservableCollection()
+        public async Task ReLoadBoxPartsParameterVMObservableCollectionAsync()
         {
-            BoxPartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+            var newCollection = new ObservableCollection<PartsParameterViewModel>();
             if (ProductProjectVMObservableCollection != null)
             {
                 ProductProjectVMObservableCollection.ForEach(productProject =>
@@ -62,9 +64,17 @@ namespace GD_StampingMachine.ViewModels
                     {
                         if (productProjectPartViewModel.BoxIndex.HasValue)
                             if (productProjectPartViewModel.DistributeName == StampingBoxPart.ProjectDistributeName)
-                                if (!BoxPartsParameterVMObservableCollection.Contains(productProjectPartViewModel))
-                                    BoxPartsParameterVMObservableCollection.Add(productProjectPartViewModel);
+                                if (!newCollection.Contains(productProjectPartViewModel))
+                                    newCollection.Add(productProjectPartViewModel);
                     });
+                });
+            }
+            BoxPartsParameterVMObservableCollection = new();
+            foreach (var pParameter in newCollection)
+            {
+                await Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    BoxPartsParameterVMObservableCollection.Add(pParameter);
                 });
             }
         }
@@ -133,9 +143,19 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _separateBoxVMObservableCollectionelectionChangedCommand ??= new RelayCommand<object>(obj =>
             {
-                OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+                RefreshBoxPartsParameterVMRowFilter();
             });
         }
+
+        /// <summary>
+        /// 重新整理篩選器
+        /// </summary>
+        public void RefreshBoxPartsParameterVMRowFilter()
+        {
+            OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+        }
+
+
 
 
 

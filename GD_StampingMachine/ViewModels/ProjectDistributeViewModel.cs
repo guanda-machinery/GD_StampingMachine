@@ -1,16 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
+using DevExpress.Office.Utils;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static DevExpress.CodeParser.CodeStyle.Formatting.Rules.Spacing;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -71,9 +74,6 @@ namespace GD_StampingMachine.ViewModels
             if (_projectDistribute == null)
                 _projectDistribute = new ProjectDistributeModel();
             ProjectDistribute = _projectDistribute;
-
-
-
             StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
             {
                 ProjectDistributeName = this.ProjectDistributeName,
@@ -83,7 +83,6 @@ namespace GD_StampingMachine.ViewModels
                 ProductProjectVMObservableCollection = this.ProductProjectVMObservableCollection,
                 SeparateBoxVMObservableCollection = this.ProjectDistribute.SeparateBoxVMObservableCollection.DeepCloneByJson(),
             });
-
 
             if (_projectDistribute.ProductProjectNameList != null)
             {
@@ -112,6 +111,9 @@ namespace GD_StampingMachine.ViewModels
                     if (!NotReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
                         NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
             }
+
+
+            ReadyToTypeSettingProductProjectVMCurrentItem = ReadyToTypeSettingProductProjectVMObservableCollection.FirstOrDefault();
         }
         /// <summary>
         /// 資料結構
@@ -201,7 +203,6 @@ namespace GD_StampingMachine.ViewModels
                 //PartsParameterVMObservableCollectionRefresh();
             }
         }
-
         private ProductProjectViewModel _readyToTypeSettingProductProjectVMCurrentItem;
         public ProductProjectViewModel ReadyToTypeSettingProductProjectVMCurrentItem
         {
@@ -409,11 +410,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public ObservableCollection<PartsParameterViewModel> PartsParameterVMObservableCollection
         {
-            get
-            {
-                _partsParameterVMObservableCollection ??= new ObservableCollection<PartsParameterViewModel>();
-                return _partsParameterVMObservableCollection;
-            }
+            get=>_partsParameterVMObservableCollection ??= new ObservableCollection<PartsParameterViewModel>();
             set
             {
                 _partsParameterVMObservableCollection = value;
@@ -606,21 +603,71 @@ namespace GD_StampingMachine.ViewModels
                 {
                     try
                     {
+
+                        int startIndex = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FindIndex(x => x == StampingBoxPartsVM.SelectedSeparateBoxVM);
+                        if (startIndex == -1)
+                            startIndex = 0;
+                        int stopIndex = startIndex - 1;
+                        if(stopIndex == -1)
+                        {
+                            if (StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count != 0)
+                                stopIndex = StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count - 1;
+                            else
+                                stopIndex = 0;
+                        }
+
+                        int currentIndex = startIndex;
+                        //依照選擇的盒子往後放
+                        //被停用的盒子不放
+
+                        List<ParameterSetting.SeparateBoxViewModel> separateBoxCollection = new();
+                        do
+                        {
+                            var currentElement = StampingBoxPartsVM.SeparateBoxVMObservableCollection[currentIndex];
+                            if (currentElement.BoxIsEnabled)
+                            {
+                                separateBoxCollection.Add(currentElement);
+                            }
+                            // Console.WriteLine(currentElement);
+                            currentIndex = (currentIndex + 1) % StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count;
+                        }
+                        while (currentIndex != ((stopIndex + 1) % StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count));
+
+
+
                         foreach (var partsParameterVM in PartsParameterVMObservableCollection)
                         {
-                            partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
-                            partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                            if (partsParameterVM.BoxIndex != null)
+                                continue;
 
-
-                            await Application.Current.Dispatcher.InvokeAsync(() =>
+                            //照順序放入 找出條件後將東西丟進去
+                            foreach (var sepratebox in separateBoxCollection)
                             {
-                                StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
-                                // this.PartsParameterVMObservableCollection.Remove(partsParameterVM);
-                            });
-                        }
-                        this.PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+                                //確認盒子內有多少
+                               var boxCount = StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Count(x => x.IsFinish == false && x.BoxIndex == sepratebox.BoxIndex);
+                                if(boxCount< sepratebox.BoxSliderValue)
+                                {
+                                    //partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
+                                    //partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                                    partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
+                                    partsParameterVM.BoxIndex = sepratebox.BoxIndex;
 
+                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
+                                    }));
+
+                                    break;
+                                }
+                            }
+                        }
+
+                    //  this.PartsParameterVMObservableCollectionRefresh();
+                        //  this.PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+                        StampingBoxPartsVM.RefreshBoxPartsParameterVMRowFilter();
+                      // await StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollectionAsync();
                         await SaveProductProjectVMObservableCollectionAsync();
+
                         OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
                     }
                     catch (Exception ex)

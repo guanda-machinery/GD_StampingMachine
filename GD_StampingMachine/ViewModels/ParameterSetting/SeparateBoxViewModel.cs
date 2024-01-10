@@ -29,11 +29,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private double _boxPieceValue;
+       private double _boxPieceValue;
         /// <summary>
         /// 箱子內容物的值
         /// </summary>
-        [JsonIgnore]
+      //  [JsonIgnore]
         public double BoxPieceValue
         {
             get => _boxPieceValue;

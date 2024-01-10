@@ -2663,7 +2663,7 @@ namespace GD_StampingMachine.Singletons
         private ObservableCollection<string> _alarmMessageCollection;
         public ObservableCollection<string> AlarmMessageCollection
         {
-            get => _alarmMessageCollection ??= new ObservableCollection<string>();
+            get=>_alarmMessageCollection??= new ObservableCollection<string>();
             set
             {
                 _alarmMessageCollection = value;

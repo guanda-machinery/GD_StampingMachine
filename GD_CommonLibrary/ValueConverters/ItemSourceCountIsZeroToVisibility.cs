@@ -21,6 +21,16 @@ namespace GD_CommonLibrary
                     else
                         return ValueArray.Count() == 0 ? Visibility.Collapsed : Visibility.Visible;
                 }
+
+                if(value is int IntValue)
+                {
+                    if (!Invert)
+                        return IntValue == 0 ? Visibility.Visible : Visibility.Collapsed;
+                    else
+                        return IntValue == 0 ? Visibility.Collapsed : Visibility.Visible;
+                }
+
+
             }
 
 
