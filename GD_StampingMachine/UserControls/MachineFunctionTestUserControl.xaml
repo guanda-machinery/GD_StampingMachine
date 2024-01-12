@@ -451,7 +451,7 @@
             <StackPanel Grid.Column="1" Grid.Row="1">
                 <WrapPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Top">
                     <WrapPanel.Resources>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                         </Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">

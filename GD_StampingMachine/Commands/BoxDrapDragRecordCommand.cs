@@ -26,7 +26,7 @@ namespace GD_StampingMachine
         /// <summary>
         /// 篩選無註冊的零件
         /// </summary>
-        public static DevExpress.Mvvm.ICommand<RowFilterArgs> PartsParameterVMCollection_Unassigned_RowFilterCommand
+        /*public static DevExpress.Mvvm.ICommand<RowFilterArgs> PartsParameterVMCollection_Unassigned_RowFilterCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
             {
@@ -38,6 +38,6 @@ namespace GD_StampingMachine
                         args.Visible = false;
                 }
             });
-        }
+        }*/
     }
 }

@@ -165,7 +165,7 @@ namespace GD_StampingMachine.ViewModels
                     if (ProjectDistributeVM != ProjectItem)
                         ProjectDistributeVM = ProjectItem;
                     ProjectDistributeVM.IsInDistributePage = true;
-                    ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
+                    //ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
                 }
             });
         }

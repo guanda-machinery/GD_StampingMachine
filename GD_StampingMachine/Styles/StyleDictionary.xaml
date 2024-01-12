@@ -14,10 +14,23 @@
                     xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
                     >
 
+    <FontFamily x:Key="Inter">.Fonts/#Inter</FontFamily>
+    <Style x:Key="Body1TextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignButtonTextBlock}" >
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="TextBlock.FontSize" Value="16"/>
+        <Setter Property="TextBlock.FontWeight" Value="Regular"/>
+        <Setter Property="TextBlock.Margin" Value="0,0"/>
+        <Setter Property="TextBlock.Padding" Value="0,2,0,0"/>
+    </Style>
 
+    <Style x:Key="Body1TextBlockBold" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body1TextBlock}" >
+        <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+    </Style>
+    
 
     <Style TargetType="TextBox" x:Key="GD_TextBox" BasedOn="{StaticResource MaterialDesignTextBox}" >
         <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"  Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="Foreground"  Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -47,6 +60,8 @@
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
     <Style TargetType="{x:Type GroupBox}" x:Key="ParameterBaseStyleGroupBox">
         <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Padding" Value="5"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="BorderBrush" Value="#666666"/>
@@ -103,13 +118,19 @@
         </Setter>
 
     </Style>
+
     <Style TargetType="{x:Type GroupBox}" x:Key="UnderLineStyleGroupBox">
-        <Setter Property="FontSize" Value="18"/>
+
+        
+        
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="Padding" Value="5,15,5,5"/>
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="BorderThickness" Value="0,2,0,0" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
@@ -131,17 +152,17 @@
                         </Border>
                         <Border
                             Name="Header"
-                            Padding="10,0,0,5">
+                            Padding="10,0,0,0">
                             <ContentPresenter
-                                ContentSource="Header"
+                                ContentSource="Header" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.Foreground="{TemplateBinding Foreground}"
                                 RecognizesAccessKey="true"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
-                        <ContentPresenter 
+                        <ContentPresenter  
                             Grid.Row="1" Grid.ColumnSpan="2"
                             Margin="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                            TextBlock.FontSize="{TemplateBinding FontSize}" />
+                     />
 
                     </Grid>
                 </ControlTemplate>
@@ -184,10 +205,8 @@
         <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp5" />
     </Style>
 
-
-
-
-    <Style x:Key="ToolBarButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
+<!--工具列-->
+    <Style x:Key="ToolBarButton" TargetType="ButtonBase">
         <Setter Property="Width"
                             Value="40" />
         <Setter Property="Height"
@@ -206,17 +225,21 @@
                             Value="0" />
         <Setter Property="Padding"
                             Value="0" />
+        <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+        <Setter Property="HorizontalContentAlignment"
+                            Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
-                    <Grid>
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                         <Border Background="{TemplateBinding Background}"        
                             Margin="0"
                             CornerRadius="0"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             BorderBrush="{TemplateBinding BorderBrush}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -242,6 +265,11 @@
 
 
     <Style x:Key="SiegCustomButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
+
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight"  Value="Bold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextBlock.Margin" Value="0,2,0,0"/>
         <Setter Property="MinWidth"
                             Value="24" />
         <Setter Property="MinHeight"
@@ -262,6 +290,10 @@
                             Value="Black" />
         <Setter Property="Background"
                             Value="WhiteSmoke" />
+        <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+        <Setter Property="HorizontalContentAlignment"
+                            Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -272,7 +304,11 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             BorderBrush="{TemplateBinding BorderBrush}">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ContentPresenter
+                            TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                            TextBlock.FontWeight="{TemplateBinding FontWeight}"
+                            TextBlock.FontSize="{TemplateBinding FontSize}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                         <ProgressBar 
                             Name="ProgressBar" Height="{TemplateBinding Height}" HorizontalAlignment="Left" VerticalAlignment="Center" 
@@ -328,9 +364,20 @@
         <Setter Property="Background"
                             Value="DarkCyan" />
     </Style>
+    
+    <Style x:Key="SiegCustomButton_Gray" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
+        <Setter Property="Foreground"
+                            Value="WhiteSmoke" />
+        <Setter Property="Background"
+                            Value="#909090" />
+    </Style>
+
+
+
 
     <Style x:Key="SiegCustomRepeatButton" TargetType="RepeatButton" BasedOn="{StaticResource MaterialDesignFlatButton}">
     
+        
         <Setter Property="Opacity"
                             Value="0.9" />
         <Setter Property="BorderThickness"
@@ -348,8 +395,9 @@
         <Setter Property="Foreground" 
                 Value="White"/>
         <Setter Property="Width" Value="20"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Regular"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
@@ -383,9 +431,10 @@
     </Style>
 
     
-    
-    
     <Style x:Key="GD_RepeatButton" TargetType="ButtonBase" BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="FontWeight"  Value="Regular"/>
+        <Setter Property="FontSize" Value="16"/>
 
         <Setter Property="Width"
                             Value="auto" />
@@ -413,8 +462,8 @@
                             Value="White" />
         <Setter Property="Foreground" 
                 Value="Black"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Regular"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -1109,7 +1158,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="TextElement.FontWeight" Value="Normal" />
+            <Setter Property="TextElement.FontWeight" Value="Regular" />
             <Setter Property="materialDesign:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
         </Style>
 
@@ -1126,9 +1175,12 @@
 
 
 
-
     <Style TargetType="GD_UserControls:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        
+        
         <Setter Property="TextMargin" Value="2,0,3,2"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="ImageWidth" Value="40"/>
@@ -1178,6 +1230,7 @@
 
     <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
+    
     <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
         <Setter Property="Placement" Value="MousePoint"/>
         <Setter Property="PopupAnimation"  Value="Fade"/>
@@ -1517,6 +1570,7 @@
 
 
 
+    
 
 
 </ResourceDictionary>

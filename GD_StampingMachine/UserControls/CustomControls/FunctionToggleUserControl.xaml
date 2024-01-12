@@ -14,7 +14,7 @@
              x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <ToggleButton
+        <ToggleButton 
             Command="{Binding Command}"
             CommandTarget="{Binding CommandTarget}"
             CommandParameter="{Binding CommandParameter}"          
@@ -26,8 +26,8 @@
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
                     <Setter Property="FontSize" Value="{Binding Path=FontSize}"/>
-                    <Setter Property="FontWeight" Value="{Binding Path=FontWeight}"/>
-                    <Setter Property="FontFamily" Value="{Binding Path=FontFamily}"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
                     <Setter Property="FontStretch" Value="{Binding Path=FontStretch}"/>
 
                     <Setter Property="Template">
@@ -112,20 +112,13 @@
                                             </ProgressBar>
                                         </Grid>
                                         <Grid Grid.Row="1" >
-                                            <Grid.Resources>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Margin" Value="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}"/>
-                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                                    <Setter Property="FontSize" Value="{Binding FontSize , ElementName=MainFunctionToggleUserControl}"/>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="False">
-                                                            <Setter Property="Opacity" Value="0.5"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Grid.Resources>
                                             <TextBlock   MaxWidth="80" 
+                                                         Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}"
+                                                         
+                                                         FontFamily="{Binding FontFamily , ElementName=MainFunctionToggleUserControl}"
+                                                         FontSize="{Binding FontSize , ElementName=MainFunctionToggleUserControl}"
+                                                         FontWeight="{Binding FontWeight , ElementName=MainFunctionToggleUserControl}"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Text="{Binding ControlTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
                                                 <TextBlock.Visibility>
                                                     <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >

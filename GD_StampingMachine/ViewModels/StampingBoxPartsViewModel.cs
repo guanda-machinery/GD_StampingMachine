@@ -4,7 +4,9 @@ using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,11 +42,18 @@ namespace GD_StampingMachine.ViewModels
             {
                 while (true)
                 {
-                    for (int i = 0; i < SeparateBoxVMObservableCollection.Count; i++)
+                    try
                     {
-                        var separateBox = SeparateBoxVMObservableCollection[i];
+                        for (int i = 0; i < SeparateBoxVMObservableCollection.Count; i++)
+                        {
+                            var separateBox = SeparateBoxVMObservableCollection[i];
 
-                        separateBox.BoxPieceValue = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == separateBox.BoxIndex);
+                            separateBox.BoxPieceValue = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == separateBox.BoxIndex);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                     //   Debugger.Break();
                     }
                     await Task.Delay(500);
                 }
@@ -251,7 +260,8 @@ namespace GD_StampingMachine.ViewModels
                                     {
                                         PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
                                         PartsParameterVM.BoxIndex = SelectedSeparateBoxVM.BoxIndex;
-                                        e.Effects = System.Windows.DragDropEffects.Copy;
+                                        e.Effects = System.Windows.DragDropEffects.Move;
+                                        //RefreshBoxPartsParameterVMRowFilter();
                                     }
                                 }
                             }

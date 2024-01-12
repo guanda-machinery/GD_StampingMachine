@@ -736,7 +736,6 @@
                                 materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                                 materialDesign:ButtonProgressAssist.Value="{Binding SendMachininProgress}"
-                                
                                 >
 
                                 <Button.IsEnabled>

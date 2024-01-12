@@ -661,6 +661,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="App.config" />
+    <Resource Include="Fonts\Inter.ttf" />
     <None Include="Image\鋼印機外型資料%281%29.pdf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -8,8 +8,9 @@
                     xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary">
 
         <Style  x:Key="ProjectGridControlCellStyle" TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
-            <Setter Property="TextBlock.FontSize" Value="16"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="TextBlock.FontSize" Value="16"/>
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Opacity" Value="1"/>
         <Style.Triggers>
@@ -27,6 +28,8 @@
 
     <Style  x:Key="ProjectGridControlGroupRowControlStyle" TargetType="dxg:GroupRowControl">
         <Setter Property="Background" Value="DimGray" />
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="TextBlock.FontWeight" Value="Bold"/>
         <Style.Triggers>
 
             <DataTrigger Binding="{Binding GroupLevel}" Value="1">
@@ -62,6 +65,7 @@
 
 
     <Style x:Key="ProjectGridControl" TargetType="dxg:GridControl">
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="MaxHeight" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"/>
         <Setter Property="AllowInitiallyFocusedRow" Value="False"/>
         <Setter Property="SelectionMode" Value="Row"/>
@@ -89,6 +93,8 @@
                         <Style TargetType="{x:Type dxg:RowControl}" >
                             <Setter Property="Cursor" Value="Hand"/>
                             <Setter Property="Height" Value="40"/>
+                            <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+                            <Setter Property="FontWeight" Value="Regular"/>
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                             <Setter Property="Background" Value="Transparent" />
                             <Style.Triggers>
@@ -135,6 +141,8 @@
                 <Setter Property="ColumnHeaderContentStyle">
                     <Setter.Value>
                         <Style TargetType="{x:Type ContentControl}">
+                            <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
+                            <Setter Property="TextBlock.FontWeight" Value="Bold"/>
                             <Setter Property="FontSize" Value="14" />
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                         </Style>
@@ -171,12 +179,10 @@
                         <ControlTemplate TargetType="{x:Type dxg:GroupPanelControl}">
                             <dx:MeasurePixelSnapper>
                                 <Border x:Name="GroupPanelBorder" Background="Gray" 
-                                       
                                         BorderBrush="{DynamicResource {dxgt:TableViewThemeKey ResourceKey=GroupPanelBorderBrush}}" 
                                         BorderThickness="{DynamicResource {dxgt:TableViewThemeKey ResourceKey=GroupPanelBorderThickness}}">
-                                    <Grid Margin="10" >
-
-                                        <TextBlock x:Name="PART_GroupPanelDragText" Foreground="White" FontSize="16">
+                                    <Grid  Margin="10,5">
+                                        <TextBlock x:Name="PART_GroupPanelDragText" Foreground="White" FontSize="20" >
                                             <TextBlock.Text>
                                                 <Binding Path="View.LocalizationDescriptor" RelativeSource="{RelativeSource TemplatedParent}" ConverterParameter="GridGroupPanelText">
                                                     <Binding.Converter>
@@ -205,7 +211,7 @@
 
             <Style TargetType="dxe:PagerControl">
                 <Style.Resources>
-                    <Style TargetType="TextBlock">
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
                     </Style>
                 </Style.Resources>
@@ -233,6 +239,7 @@
                 <Setter Property="CellStyle">
                     <Setter.Value>
                         <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
+                            <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
                             <Setter Property="TextBlock.FontSize" Value="16"/>
                             <Setter Property="HorizontalAlignment" Value="Left"/>
                             <Setter Property="Background" Value="Transparent"/>
@@ -314,9 +321,10 @@
                 <Style TargetType="dxg:TableView">
                     <Setter Property="CellStyle">
                         <Setter.Value>
-                            <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
-                                <Setter Property="TextBlock.FontSize" Value="14"/>
-                                <Style.Triggers>
+                        <Style TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
+                            <Setter Property="TextBlock.FontSize" Value="14"/>
+                            <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
+                            <Style.Triggers>
                                     <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True" >
                                         <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_Common:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}"/>

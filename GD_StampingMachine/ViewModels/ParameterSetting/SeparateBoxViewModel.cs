@@ -29,6 +29,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        [JsonIgnore]
+        public bool BoxIsFull => BoxPieceValue >= BoxSliderValue;
+
+
        private double _boxPieceValue;
         /// <summary>
         /// 箱子內容物的值
@@ -39,10 +43,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _boxPieceValue;
             set
             {
-                _boxPieceValue = value; OnPropertyChanged();
+                _boxPieceValue = value; 
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(BoxIsFull));
             }
         }
 
+        /// <summary>
+        /// 箱子的容量
+        /// </summary>
         public double BoxSliderValue
         {
             get => _separateBox.BoxSliderValue;
@@ -50,6 +59,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _separateBox.BoxSliderValue = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(BoxIsFull));
             }
         }
 

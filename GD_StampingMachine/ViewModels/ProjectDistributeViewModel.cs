@@ -2,6 +2,7 @@
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using DevExpress.Office.Utils;
+using DevExpress.Utils.Extensions;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
@@ -114,6 +115,8 @@ namespace GD_StampingMachine.ViewModels
 
 
             ReadyToTypeSettingProductProjectVMCurrentItem = ReadyToTypeSettingProductProjectVMObservableCollection.FirstOrDefault();
+
+
         }
         /// <summary>
         /// 資料結構
@@ -225,19 +228,38 @@ namespace GD_StampingMachine.ViewModels
             {
                 _readyToTypeSettingProductProjectVMSelected = value;
                 OnPropertyChanged();
-                PartsParameterVMObservableCollectionRefresh();
+                //PartsParameterVMObservableCollectionRefresh();
             }
         }
 
-        [JsonIgnore]
-        public ICommand ReloadTypeSettingSettingsCommand
+
+
+
+
+        public ICommand ReadyToTypeSettingProductProjectVMSelectedChangedCommand
         {
-            get => new RelayCommand(() =>
+            get => new RelayCommand<object>(obj =>
             {
-                PartsParameterVMObservableCollectionRefresh();
+
+                if(obj is DevExpress.Xpf.Grid.SelectedItemChangedEventArgs e)
+                {
+                    if(e.NewItem is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel selectProductProject)
+                    {
+                        PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>(selectProductProject.PartsParameterVMObservableCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
+
+                    }
+                }
+
+                //EditPartsParameterVM_Cloned = PartsParameterViewModelSelectItem.DeepCloneByJson();
+                //RefreshNumberSettingSavedCollection();
             });
         }
 
+
+
+
+
+        /*
         public void PartsParameterVMObservableCollectionRefresh()
         {
             PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
@@ -293,7 +315,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         }
-
+        */
 
 
 
@@ -458,9 +480,9 @@ namespace GD_StampingMachine.ViewModels
                             }
                         }
 
-
+                        //StampingBoxPartsVM.RefreshBoxPartsParameterVMRowFilter();
                         await SaveProductProjectVMObservableCollectionAsync();
-                        OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
+                        //OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
                     }
                 });
             }
@@ -552,10 +574,10 @@ namespace GD_StampingMachine.ViewModels
             get => _box_OnDragRecordOverCommand ??= GD_Command.Box_OnDragRecordOverCommand;
         }
 
-        public ICommand PartsParameterVMCollection_Unassigned_RowFilterCommand
+        /*public ICommand PartsParameterVMCollection_Unassigned_RowFilterCommand
         {
             get => GD_Command.PartsParameterVMCollection_Unassigned_RowFilterCommand;
-        }
+        }*/
 
 
         /*
@@ -620,28 +642,28 @@ namespace GD_StampingMachine.ViewModels
                         //依照選擇的盒子往後放
                         //被停用的盒子不放
 
-                        List<ParameterSetting.SeparateBoxViewModel> separateBoxCollection = new();
+                        //可用的盒子
+                        List<ParameterSetting.SeparateBoxViewModel> availableSeparateBoxCollection = new();
                         do
                         {
                             var currentElement = StampingBoxPartsVM.SeparateBoxVMObservableCollection[currentIndex];
                             if (currentElement.BoxIsEnabled)
                             {
-                                separateBoxCollection.Add(currentElement);
+                                availableSeparateBoxCollection.Add(currentElement);
                             }
                             // Console.WriteLine(currentElement);
                             currentIndex = (currentIndex + 1) % StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count;
                         }
                         while (currentIndex != ((stopIndex + 1) % StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count));
 
-
-
+                        List<PartsParameterViewModel> addPartsParameterViewModel = new();
                         foreach (var partsParameterVM in PartsParameterVMObservableCollection)
                         {
                             if (partsParameterVM.BoxIndex != null)
                                 continue;
 
                             //照順序放入 找出條件後將東西丟進去
-                            foreach (var sepratebox in separateBoxCollection)
+                            foreach (var sepratebox in availableSeparateBoxCollection)
                             {
                                 //確認盒子內有多少
                                var boxCount = StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Count(x => x.IsFinish == false && x.BoxIndex == sepratebox.BoxIndex);
@@ -652,6 +674,8 @@ namespace GD_StampingMachine.ViewModels
                                     partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
                                     partsParameterVM.BoxIndex = sepratebox.BoxIndex;
 
+                                    addPartsParameterViewModel.Add(partsParameterVM);
+
                                     Application.Current.Dispatcher.Invoke(new Action(() =>
                                     {
                                         StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
@@ -661,14 +685,23 @@ namespace GD_StampingMachine.ViewModels
                                 }
                             }
                         }
+                        //將多餘的部分移除
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            foreach(var part in addPartsParameterViewModel)
+                            {
+                               var remove = PartsParameterVMObservableCollection.Remove(part);
+                            }
+                        }));
 
-                    //  this.PartsParameterVMObservableCollectionRefresh();
+
+                        //  this.PartsParameterVMObservableCollectionRefresh();
                         //  this.PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-                        StampingBoxPartsVM.RefreshBoxPartsParameterVMRowFilter();
-                      // await StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollectionAsync();
+                        //  StampingBoxPartsVM.RefreshBoxPartsParameterVMRowFilter();
+                        //  await StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollectionAsync();
                         await SaveProductProjectVMObservableCollectionAsync();
 
-                        OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
+                       // OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
                     }
                     catch (Exception ex)
                     {

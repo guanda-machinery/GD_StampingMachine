@@ -67,7 +67,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <StackPanel.Resources>
-                        <Style TargetType="TextBlock">
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                             <Setter Property="FontSize" Value="18"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}"/>
@@ -124,20 +124,15 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <Image Source="{StaticResource Logo}" Height="50" Margin="10,0"/>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="GUANDA" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" FontWeight="UltraBold" FontFamily="{StaticResource MaterialDesignFont}"  FontSize="20" Margin="0,0,0,-8"/>
+                            <TextBlock Text="GUANDA" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" FontWeight="UltraBold" FontFamily="{StaticResource MaterialDesignFont}"  FontSize="20" Margin="0,0,0,-5"/>
                             <TextBlock Text="Machinery" Foreground="{DynamicResource SecondaryAccentBrush}"  FontFamily="{StaticResource MaterialDesignFont}"  FontWeight="Bold" FontSize="18"/>
                     </StackPanel>
                 </StackPanel>
-                
-                
-                
-                
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
-                                <Setter Property="FontWeight" Value="Bold"/>
-                            </Style>
-                        </StackPanel.Resources>
+
+
+
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0">
                         <Button Name="AlarmButton"
                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
                             Path=AlarmMessageCollection.Count,Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True} }"
@@ -398,7 +393,8 @@
                                 </materialDesign:PackIcon.Style>
                             </materialDesign:PackIcon>
                 </ToggleButton>
-                        <TextBlock Text="{Binding DateTimeNow,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:hh:mm tt}' }" Margin="15,0" />
+                        <TextBlock Style="{StaticResource Body1TextBlockBold}" FontSize="25"
+                            Text="{Binding DateTimeNow,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:hh:mm tt}' }" Margin="15,0" />
                         <materialDesign:PackIcon Kind="InformationOutline" Width="30" Height="{Binding}" Foreground="#99cff9"/>
                     </StackPanel>
 
@@ -486,7 +482,7 @@
                                                 <Border Background="White" Margin="5">
                                                     <Grid Margin="1">
                                                         <Grid.Resources>
-                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                                                                 <Setter Property="Padding" Value="1"/>
                                                                 <Setter Property="FontWeight" Value="Bold"/>
                                                             </Style>

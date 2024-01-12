@@ -26,12 +26,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             SeparateSetting = _SeparateSetting;
             initSeparateSetting();
         }
+        public SeparateSettingViewModel()
+        {
+            SeparateSetting = new();
+            initSeparateSetting();
+        }
 
 
 
 
 
-        public SeparateSettingModel SeparateSetting = new();
+        public SeparateSettingModel SeparateSetting;
 
         private ObservableCollection<SeparateBoxViewModel> _separateBoxVMObservableCollection;
         public ObservableCollection<SeparateBoxViewModel> SeparateBoxVMObservableCollection
@@ -78,7 +83,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public SeparateBoxViewModel SingleSetting_SeparateBoxModel
         {
             get => _singleSetting_SeparateBoxModel ??= new SeparateBoxViewModel(SeparateSetting.SingleSetting_SeparateBox);
-
             set
             {
                 _singleSetting_SeparateBoxModel = value;
