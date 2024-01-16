@@ -30,14 +30,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         [JsonIgnore]
-        public bool BoxIsFull => BoxPieceValue >= BoxSliderValue;
+        public bool BoxIsFull => UntransportedFinishedBoxPieceValue >= BoxSliderValue;
 
 
        private double _boxPieceValue;
         /// <summary>
-        /// 箱子內容物的值
+        /// 箱子內分配到加工的值
         /// </summary>
-      //  [JsonIgnore]
+        [JsonIgnore]
         public double BoxPieceValue
         {
             get => _boxPieceValue;
@@ -45,9 +45,62 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _boxPieceValue = value; 
                 OnPropertyChanged();
+            }
+        }
+
+        private double _untransportedFinishedBoxPieceValue;
+        /// <summary>
+        /// 箱子內已加工但尚未被移除的鐵牌
+        /// </summary>
+        [JsonIgnore]
+        public double UntransportedFinishedBoxPieceValue
+        {
+            get => _untransportedFinishedBoxPieceValue;
+            set
+            {
+                _untransportedFinishedBoxPieceValue = value;
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(BoxIsFull));
             }
         }
+
+
+
+        private double _finishedBoxPieceValue;
+        /// <summary>
+        /// 箱子內已加工的鐵牌
+        /// </summary>
+        [JsonIgnore]
+        public double FinishedBoxPieceValue
+        {
+            get => _finishedBoxPieceValue;
+            set
+            {
+                _finishedBoxPieceValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private double _unFinishedBoxPieceValue;
+        /// <summary>
+        /// 箱子內未加工的鐵牌
+        /// </summary>
+        [JsonIgnore]
+        public double UnFinishedBoxPieceValue
+        {
+            get => _unFinishedBoxPieceValue;
+            set
+            {
+                _unFinishedBoxPieceValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
+
+
 
         /// <summary>
         /// 箱子的容量

@@ -21,12 +21,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public PartsParameterViewModel()
         {
             PartsParameter = new();
-            SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate;
+            //SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate;
         }
         public PartsParameterViewModel(PartsParameterModel PParameter)
         {
             PartsParameter = PParameter;
-            SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate;
+            //SettingBaseVM.StampPlateSetting = PartsParameter.StampingPlate;
         }
 
 
@@ -113,7 +113,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.ShearingIsFinish = value; OnPropertyChanged();
             }
         }
-
+        /// <summary>
+        /// 已完成
+        /// </summary>
         public bool IsFinish
         {
             get => PartsParameter.IsFinish;
@@ -122,6 +124,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.IsFinish = value; OnPropertyChanged();
             }
         }
+
+        public bool IsTransported
+        {
+            get => PartsParameter.IsTransported;
+            set
+            {
+                PartsParameter.IsTransported = value; OnPropertyChanged();
+            }
+        }
+
+
+
+
 
 
         /// <summary>

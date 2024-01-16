@@ -68,22 +68,27 @@
                 </StackPanel>
                 <StackPanel  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
 
-                    <ToggleButton Name="btnShowAll" Style="{StaticResource GD_ToggleButton_White}" Content="{DynamicResource btnShowAll}" Width="auto" Height="auto" Padding="10,0" Margin="5" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowAllProject}"/>
+                    <ToggleButton Padding="10,3,10,0"  
+                        Name="btnShowAll" Margin="5,0"
+                                  Style="{StaticResource GD_ToggleButton_White}" Content="{DynamicResource btnShowAll}" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowAllProject}"/>
 
-                    <ToggleButton Style="{StaticResource GD_ToggleButton_White}" Content="{DynamicResource btnShowHistory}" IsEnabled="{Binding ElementName=btnShowAll, Path=IsChecked,UpdateSourceTrigger=PropertyChanged, Converter={dx:BoolInverseConverter}}" Width="auto" Height="auto" Padding="10,0" Margin="5" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowHiddenProject}"/>
+                    <ToggleButton Padding="10,3,10,0"  Margin="5,0"
+                        Style="{StaticResource GD_ToggleButton_White}" Content="{DynamicResource btnShowHistory}" IsEnabled="{Binding ElementName=btnShowAll, Path=IsChecked,UpdateSourceTrigger=PropertyChanged, Converter={dx:BoolInverseConverter}}" 
+                     Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowHiddenProject}"/>
 
 
-                    <Button Width="auto" Height="auto" Content="{DynamicResource btnLoadProject}" Padding="10,0" Command="{Binding LoadProductSettingCommand}"
+                    <Button  Padding="10,3,10,0" 
+                        Content="{DynamicResource btnLoadProject}"  Command="{Binding LoadProductSettingCommand}"
                                 />
-                    <Button Width="auto" Height="auto" Content="{DynamicResource btnSaveChange}" Padding="10,0" Command="{Binding SaveProductSettingCommand}"
+                    <Button Padding="10,3,10,0"
+                        Content="{DynamicResource btnSaveChange}" Command="{Binding SaveProductSettingCommand}"
                                 />
-                    <Button x:Name="AddProjectToggleButton"
+                    <Button Padding="10,3,10,0"
+                        x:Name="AddProjectToggleButton"
                             
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=AddProjectDarggablePopup}"
-                                      Width="auto"
-                                                      Height="auto" Padding="10,0" Margin="6"
                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                       materialDesign:ButtonAssist.CornerRadius="5"
                                                       Content="{DynamicResource Text_AddNewProject}" >
@@ -525,7 +530,8 @@
                         </dxg:GridColumn.HeaderStyle>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50">
+                                <Button Command="{Binding Row.ProjectEditCommand}"  Padding="5,2,5,0"  Margin="5,0"
+                                        MinWidth="50">
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
                                             <Setter Property="BorderThickness" Value="0.5"/>
@@ -562,7 +568,7 @@
                         </dxg:GridColumn.HeaderStyle>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Height="30" MinWidth="50">
+                                <Button  MinWidth="50" Padding="5,2,5,0"   Margin="5,0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
@@ -613,7 +619,8 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnFinishProject}" IsEnabled="{Binding Row.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
+                                    <Button MinWidth="70"  Padding="5,2,5,0"   Margin="5,0"
+                                            Content="{DynamicResource btnFinishProject}" IsEnabled="{Binding Row.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Row.ProjectFinishCommand}" />
@@ -647,7 +654,8 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnReLoad}" Style="{StaticResource SiegCustomButton_Dark}"
+                                    <Button MinWidth="70" Height="30"   Margin="5,0"
+                                            Content="{DynamicResource btnReLoad}" Style="{StaticResource SiegCustomButton_Dark}"
                                        IsEnabled="{Binding Row.FileIsNotExisted}" Visibility="{Binding  Row.FileIsNotExisted, Converter={dx:BooleanToVisibilityConverter}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">

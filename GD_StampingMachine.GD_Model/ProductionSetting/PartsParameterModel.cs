@@ -51,6 +51,12 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         /// </summary>
         public bool IsFinish { get; set; }
 
+        /// <summary>
+        /// 被搬走
+        /// </summary>
+        public bool IsTransported { get; set; }
+        
+
 
         /// <summary>
         /// 鐵牌字串

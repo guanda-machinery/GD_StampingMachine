@@ -15,8 +15,8 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
              xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
-                         xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
-            xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
+             xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
+             xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:GD_Extensions="clr-namespace:GD_CommonLibrary.Extensions;assembly=GD_CommonLibrary" 
@@ -201,8 +201,24 @@
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"       
                                 MinWidth="10"  BorderThickness="0"
-                            Margin="0" Padding="0" Width="30" Height="30" 
-                                Content="{materialDesign:PackIcon Kind=PushNotification, Size=30}" Foreground="SlateGray">
+                            Margin="0" Padding="0" Width="30" Height="30">
+                            <Image Height="30" Width="30">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{StaticResource Character_BlackDrawingImage }"/>
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Source" Value="{StaticResource Character_WhiteDrawingImage}"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+
+
 
                         </Button>
                         <GD_Popup:DraggablePopup  Name="StampingWarningDraggablePopup"
@@ -267,11 +283,13 @@
 
 
 
-                        <materialDesign:PackIcon Margin="2"
-                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="Green">
-                            <materialDesign:PackIcon.Style>
-                                <Style TargetType="materialDesign:PackIcon">
-                                    <Setter Property="Kind" Value="None"/>
+
+
+                        <Image Margin="2"
+                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" >
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Source" Value="{StaticResource MachineStatus_Unknown_DrawingImage}"/>
                                     <Style.Triggers>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -280,7 +298,7 @@
                                                 <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.Setup}" />
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Kind"  Value="Manufacturing"/>
+                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_Setup_DrawingImage}"/>
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -289,7 +307,7 @@
                                                 <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.Manual}"/>
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Kind"  Value="Braille"/>
+                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_Manual_DrawingImage}"/>
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -298,7 +316,7 @@
                                                 <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"/>
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Kind"  Value="ProgressStarFourPoints"/>
+                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_HalfAutomatic_DrawingImage}"/>
                                         </MultiDataTrigger>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
@@ -307,16 +325,20 @@
                                                 <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"/>
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Kind"  Value="RefreshAuto"/>
+                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_FullAutomatic_DrawingImage}"/>
                                         </MultiDataTrigger>
                                         <DataTrigger  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="false" >
-                                            <Setter Property="Kind"  Value="GpsUnknown"/>
+                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_Unknown_DrawingImage}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </materialDesign:PackIcon.Style>
-                        </materialDesign:PackIcon>
+                            </Image.Style>
+                        </Image>
+
+
+
+
 
                         <Border Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self},Path=Width}"
                                CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Mode=Self},Path=Width/2}">
@@ -379,19 +401,22 @@
 
                         <ToggleButton Command="{Binding JumpToEngineeringModeCommand}" ToolTip="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=ClientState}"
                             MinWidth="0" MinHeight="0" Width="30" Height="30" Style="{StaticResource SiegCustomButton_Transparent}" Padding="0" BorderThickness="0" Margin="0" >
-                        <materialDesign:PackIcon Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" Foreground="#99cff9">
-                                <materialDesign:PackIcon.Style>
-                                    <Style TargetType="materialDesign:PackIcon">
-                                        <Setter Property="Kind" Value="LanDisconnect"/>
+                            
+                        <Image Width="26" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" >
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{StaticResource DisconnectDrawingImage}"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
-                                                <Setter Property="Kind"  Value="LanConnect"/>
+                                                <Setter Property="Source"  Value="{StaticResource ConnectDrawingImage}"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-
-                                </materialDesign:PackIcon.Style>
-                            </materialDesign:PackIcon>
+                                </Image.Style>
+                            </Image>
+                            
+                            
+                            
                 </ToggleButton>
                         <TextBlock Style="{StaticResource Body1TextBlockBold}" FontSize="25"
                             Text="{Binding DateTimeNow,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:hh:mm tt}' }" Margin="15,0" />

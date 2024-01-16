@@ -554,15 +554,16 @@
                            
                                 <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="10" VerticalAlignment="Bottom">
 
-                                    <Button Visibility="Collapsed"
+                                    <Button Visibility="Collapsed" Padding="5,3,5,5"
                                         HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                     Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
-                                    
-                                    <Button HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+
+                                <Button Padding="5,3,5,0"
+                                        HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
-                                    
-                                    <Button HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                <Button HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  
+
+                                <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  
                                         IsEnabled="{Binding NumberSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                         Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
                             </StackPanel>
@@ -919,11 +920,11 @@
                                             <Button Visibility="Collapsed"
                                                  IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                                 Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
-                                            <Button HorizontalAlignment="Left" 
+                                            <Button HorizontalAlignment="Left"   Padding="5,3,5,0"
                                                     IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
-                                            <Button Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                            <Button Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding QRSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding QRSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
                                                     Margin="10" Command="{Binding SaveSettingCommand}"/>
                                         </StackPanel>
                                     </Grid>
@@ -2069,9 +2070,12 @@
                         
                         
                         <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"   Margin="10,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                            <Button Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
-                            <Button Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                            <Button Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                            <Button  Padding="5,3,5,0"
+                                Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
+                            <Button  Padding="5,3,5,0"
+                                Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                            <Button  Padding="5,3,5,0"
+                                Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
                         </StackPanel>
                         
                         
@@ -2168,9 +2172,9 @@
                             </StackPanel>
                     </GroupBox>
                         <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
-                            <Button Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}" />
-                            <Button Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}" Visibility="Collapsed"/>
-                            <Button Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}" />
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}" Visibility="Collapsed"/>
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem>
@@ -2294,7 +2298,7 @@
                                 <TextBlock Text="{DynamicResource Text_CycleTime}"/>
                                 <TextBlock Text="："/>
                             </StackPanel>
-                            <materialDesign:TimePicker Grid.Row="0"  Grid.Column="1"  Width="300"
+                            <materialDesign:TimePicker Grid.Row="0"  Grid.Column="1"  Width="300"   VerticalContentAlignment="Bottom" VerticalAlignment="Top"
                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
                                                            WithSeconds="True" 
                                                            SelectedTime="{Binding CycleTimeTimePicker}">
@@ -2305,7 +2309,7 @@
                                 <TextBlock Text="{DynamicResource Text_Intervals}"/>
                                 <TextBlock Text="："/>
                             </StackPanel>
-                            <materialDesign:TimePicker  Grid.Row="1" Grid.Column="1"  Width="300"
+                                <materialDesign:TimePicker  Grid.Row="1" Grid.Column="1"  Width="300"   VerticalContentAlignment="Bottom" VerticalAlignment="Top"
                                                             materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
                                                             WithSeconds="True"
                                                              SelectedTime="{Binding IntervalsTimePicker}"
@@ -2328,10 +2332,10 @@
                                 </GD_UserControls:FunctionToggleUserControl>
 
 
-                                <Button  Content="Opcua StartScan"
+                                <Button  Content="Opcua StartScan" Margin="5" Padding="5,3,5,0"
                                     IsEnabled="{Binding StampMachineData.IsScaning, Converter={dx:BoolInverseConverter}}"
                                     Command="{Binding OpcuaStartScanCommand}"/>
-                                <Button Content="Opcua StopScan"
+                                <Button Content="Opcua StopScan"  Margin="5" Padding="5,3,5,0"
                                     IsEnabled="{Binding StampMachineData.IsScaning}"
                                     Command="{Binding OpcuaStopScanCommand}"/>
 

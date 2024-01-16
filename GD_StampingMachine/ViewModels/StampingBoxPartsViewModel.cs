@@ -47,15 +47,25 @@ namespace GD_StampingMachine.ViewModels
                         for (int i = 0; i < SeparateBoxVMObservableCollection.Count; i++)
                         {
                             var separateBox = SeparateBoxVMObservableCollection[i];
+                            var indexCollection = BoxPartsParameterVMObservableCollection.Where(x => x.BoxIndex == separateBox.BoxIndex).ToList();
 
-                            separateBox.BoxPieceValue = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == separateBox.BoxIndex);
+                            //已排定
+                            separateBox.BoxPieceValue = indexCollection.Count;
+
+                            //加工完成但尚未被移除的
+                            separateBox.UntransportedFinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish && !x.IsTransported).Count;
+
+                            //只有已完成
+                            separateBox.FinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish).Count;
+                            separateBox.UnFinishedBoxPieceValue = indexCollection.FindAll(x => !x.IsFinish).Count;
+
                         }
                     }
                     catch(Exception ex)
                     {
                      //   Debugger.Break();
                     }
-                    await Task.Delay(500);
+                    await Task.Delay(100);
                 }
             });
 
@@ -180,7 +190,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (SelectedSeparateBoxVM != null)
                     {
-                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex)
+                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex && !PParameter.IsTransported)
                             args.Visible = true;
                         else
                             args.Visible = false;

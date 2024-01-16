@@ -42,14 +42,14 @@
                 </Grid.RowDefinitions>
                 <StackPanel HorizontalAlignment="Left">
                     <Button Name="AddProjectDistributeToggleButton"
- 
+
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=AddProjectDistributeDraggablePopup}"
                                     
                                   
                                   Style="{StaticResource SiegCustomButton}"
-                                  Padding="10,0" Width="auto" Margin="10,5" 
+                                  Padding="10,2,10,0" Width="auto" Margin="10,5" 
                             Content="{DynamicResource btnAddTypeSettingProject}"/>
                     <GD_Popup:DraggablePopup Name="AddProjectDistributeDraggablePopup"
                         AllowsTransparency="True" Margin="16"   

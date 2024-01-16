@@ -549,7 +549,7 @@
                     </StackPanel>
                     <GroupBox Header="{DynamicResource textCurrentMode}">
                         <StackPanel>
-                            <Button Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
+                            <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
                                 Content="{materialDesign:PackIcon Kind=Manufacturing}">
                           <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
@@ -567,7 +567,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
+                            <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
                                 Content="{materialDesign:PackIcon Kind=Braille}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
@@ -585,7 +585,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
+                            <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
                                 Content="{materialDesign:PackIcon Kind=ProgressStarFourPoints}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
@@ -603,7 +603,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button  Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
+                            <Button  Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
                                 Content="{materialDesign:PackIcon Kind=RefreshAuto}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">

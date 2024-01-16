@@ -58,41 +58,85 @@
                 </Grid.RowDefinitions>
                 <!--TextBlock  Text="{Binding ProjectDistributeVMSelected.ProjectDistributeName}" Grid.ColumnSpan="2" FontSize="30"/-->
                 <StackPanel Grid.Row="1"  Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="50,0">
-                    <Border  BorderBrush="#e82127" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150">
-                        <Image Source="pack://application:,,,/image/stamp1.PNG"  Margin="5"/>
-                    </Border>
+                        <Border  BorderBrush="#e82127" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150">
+                            <!--Image Source="pack://application:,,,/image/Machine/Machine_QR_Dark.svg"  Margin="5"/-->
+                            <Image Margin="5">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{StaticResource QR_Machine_DarkDrawingImage}"/>
+                                        <Setter Property="Width" Value="auto"/>
+                                        <Setter Property="Height" Value="auto"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource  QR_Machine_LightDrawingImage}"/>
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+
+                                </Image.Style>
+                            </Image>
+                        </Border>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <StackPanel.Resources>
-                            <Style TargetType="materialDesign:PackIcon">
-                                <Setter Property="Foreground" Value="#e82127"/>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Width" Value="50"/>
+                                    <Setter Property="Height" Value="50"/>
+                                    <Setter Property="Foreground" Value="#e82127"/>
                                 <Setter Property="Margin" Value="5"/>
                             </Style>
                         </StackPanel.Resources>
                         <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    </StackPanel>
+                            <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                        </StackPanel>
                     <Border  BorderBrush="#ff9900" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150" >
-                        <Image Source="pack://application:,,,/image/stamp2.PNG"  Margin="5"/>
-                    </Border>
+                            <Image Margin="5">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{StaticResource Stamper_DarkDrawingImage}"/>
+                                        <Setter Property="Width" Value="auto"/>
+                                        <Setter Property="Height" Value="auto"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource  Stamper_LightDrawingImage}"/>
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+
+                                </Image.Style>
+                            </Image>
+                        </Border>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <StackPanel.Resources>
-                            <Style TargetType="materialDesign:PackIcon">
-                                <Setter Property="Foreground" Value="#ff9900"/>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Width" Value="50"/>
+                                    <Setter Property="Height" Value="50"/>
+                                    <Setter Property="Foreground" Value="#ff9900"/>
                                 <Setter Property="Margin" Value="5"/>
                             </Style>
                         </StackPanel.Resources>
                         <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                        <materialDesign:PackIcon Kind="ChevronDoubleRight" />
-                    </StackPanel>
-                    <Border  BorderBrush="#25cb55" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150">
-                        <Image Source="pack://application:,,,/image/stamp3.PNG" Margin="5"/>
-                    </Border>
+                            <materialDesign:PackIcon Kind="ChevronDoubleRight" />
+                        </StackPanel>
+                        <Border  BorderBrush="#25cb55" BorderThickness="0,0,0,5" CornerRadius="0"  Width="150">
+                            <Image Margin="5">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{StaticResource Cutter_DarkDrawingImage}"/>
+                                        <Setter Property="Width" Value="auto"/>
+                                        <Setter Property="Height" Value="auto"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource  Cutter_LightDrawingImage}"/>
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+
+                                </Image.Style>
+                            </Image>
+                        </Border>
                 </StackPanel>
 
                 <Border Grid.Row="2" Margin="10" Background="{DynamicResource PrimaryHueLightForegroundBrush}"/>
@@ -298,7 +342,8 @@
                     </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
 
-                        <Button Name="MachiningDataManageToggleButton"
+                        <Button  Margin="5,0" Padding="5,2,5,0"
+                            Name="MachiningDataManageToggleButton"
                             Content="{DynamicResource btnMachiningDataManage}"
                         Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}"  
                                            CommandTarget="{Binding ElementName=WorkControlDraggablePopup}"
@@ -370,18 +415,9 @@
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IronPlateString" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.EditSettings>
-                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                    </dxg:GridColumn.EditSettings>
-                                                </dxg:GridColumn>
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="QrCodeContent" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.EditSettings>
-                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                    </dxg:GridColumn.EditSettings>
-                                                </dxg:GridColumn>
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
+
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
                                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                                     </dxg:GridColumn.EditSettings>
@@ -534,6 +570,7 @@
                                                     </dxg:TableView>
                                                 </dxg:GridControl.View>
 
+
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningIndex}"  FieldName="WorkIndex"  
                                                          SortOrder="Ascending"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
@@ -557,23 +594,13 @@
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProjectID" Width="auto" AllowMoving="false"  IsSmart="True">
+                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
                                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                                     </dxg:GridColumn.EditSettings>
                                                 </dxg:GridColumn>
 
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="IronPlateString" FieldName="IronPlateString" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.EditSettings>
-                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                    </dxg:GridColumn.EditSettings>
-                                                </dxg:GridColumn>
-                                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="QrCodeContent" FieldName="QrCodeContent" Width="auto" AllowMoving="false"  IsSmart="True">
-                                                    <dxg:GridColumn.EditSettings>
-                                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                                                    </dxg:GridColumn.EditSettings>
-                                                </dxg:GridColumn>
-
+                                          
 
                                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
                                                     <dxg:GridColumn.EditSettings>
@@ -677,8 +704,11 @@
                                 CornerRadius="{c:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}">
                                                                 <Border.Style>
                                                                     <Style TargetType="Border" >
-                                                                        <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                                        <Setter Property="Background" Value="{DynamicResource DataMatrixIsReadySolidColorBrush}"/>
                                                                         <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Row.WorkIndex }" Value="-1">
+                                                                                <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                                            </DataTrigger>
                                                                             <DataTrigger Binding="{Binding Row.IsSended }" Value="true">
                                                                                 <Setter Property="Background" Value="{DynamicResource DataMatrixIsSendedSolidColorBrush}"/>
                                                                             </DataTrigger>
@@ -703,8 +733,32 @@
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
 
+                                                <dxg:GridColumn 
+                                                    HorizontalHeaderContentAlignment="Left"  Header="IsFinish"   FieldName="IsTransported"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.IsFinish}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
+                                                </dxg:GridColumn>
+                                                <dxg:GridColumn  
+                                                    HorizontalHeaderContentAlignment="Left"  Header="IsSended"   FieldName="IsTransported"
+                                                                   AllowEditing="true"
+                                                         Width="auto" AllowMoving="false"  IsSmart="True">
+                                                    <dxg:GridColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <ToggleButton IsChecked="{Binding Row.IsTransported}" Height="20"  Width="20" Style="{StaticResource GD_ToggleButton_White}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </dxg:GridColumn.CellTemplate>
+                                                </dxg:GridColumn>
 
-
+               
 
 
 
@@ -726,16 +780,14 @@
                         </GD_Popup:DraggablePopup>
 
 
-                        <Grid>
 
-                            <Button 
+                        <Button Margin="5"  Padding="5,2,5,0"
                                 Command="{Binding SendMachiningCommand}" Style="{StaticResource SiegCustomButton}" 
-                                Padding="0"
-                                Content="{DynamicResource btnMachiningDataTransfer}"
-                                materialDesign:ButtonProgressAssist.IndicatorForeground="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"
+                                Content="{DynamicResource btnMachiningDataTransfer}"                                materialDesign:ButtonProgressAssist.IndicatorForeground="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"
                                 materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                                 materialDesign:ButtonProgressAssist.Value="{Binding SendMachininProgress}"
+
                                 >
 
                                 <Button.IsEnabled>
@@ -749,9 +801,9 @@
                                 </Button.IsEnabled>
                             </Button>
 
-                        </Grid>
-                
-                        <Button Command="{Binding CompleteMachiningDataCommand}" 
+                        <Button Margin="5"
+                            Padding="5,2,5,0"
+                            Command="{Binding CompleteMachiningDataCommand}"   
                                 Content="{DynamicResource btnCompleteMachining}">
                             <Button.IsEnabled>
                                 <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter Invert=True}" ConverterParameter="{StaticResource TrueValue}">
@@ -764,7 +816,9 @@
                             </Button.IsEnabled>
                         </Button>
 
-                        <Button Command="{Binding SendMachiningCancelCommand}" 
+                        <Button Margin="5"
+                            Padding="5,2,5,0"
+                            Command="{Binding SendMachiningCancelCommand}" 
                                 Content="{DynamicResource btnMachiningDataTransferDisrupt}">
                             <Button.IsEnabled>
                                 <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource TrueValue}">
@@ -779,7 +833,9 @@
                         </Button>
 
 
-                        <Button Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
+                        <Button  Margin="5"
+                            Padding="5,2,5,0"
+                            Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
                                 Content="{DynamicResource btnMachiningDataClear}"/>
 
 
@@ -943,8 +999,11 @@
                                 CornerRadius="{c:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}">
                                         <Border.Style>
                                             <Style TargetType="Border" >
-                                                <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsReadySolidColorBrush}"/>
                                                 <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Row.WorkIndex }" Value="-1">
+                                                        <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                    </DataTrigger>
                                                     <DataTrigger Binding="{Binding Row.IsSended }" Value="true">
                                                         <Setter Property="Background" Value="{DynamicResource DataMatrixIsSendedSolidColorBrush}"/>
                                                     </DataTrigger>
@@ -958,6 +1017,9 @@
                                                         <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding Row.IsFinish}" Value="true">
+                                                        <Setter Property="Background" Value="ForestGreen"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Row.is}" Value="true">
                                                         <Setter Property="Background" Value="ForestGreen"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
