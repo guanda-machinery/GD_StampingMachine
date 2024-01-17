@@ -1376,7 +1376,8 @@
                                                             </Grid.RowDefinitions>
                                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                                                                 <materialDesign:PackIcon Kind="TimerStart" Foreground="Aqua" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                                <TextBlock Padding="0,4,0,0"
+                                                                    Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                                             </StackPanel>
                                                             
                                                             
@@ -1384,9 +1385,10 @@
                                                     Grid.Row="1" HorizontalAlignment="Center"  FontSize="18" 
                                                 Text="{Binding RestTime, StringFormat='HH:mm' ,UpdateSourceTrigger=PropertyChanged}" />-->
 
-                                                            <materialDesign:TimePicker Grid.Row="1"   MinWidth="120"  Style="{StaticResource MaterialDesignTimePicker}" Padding="0"
+                                                            <materialDesign:TimePicker
+                                                                Grid.Row="1"   MinWidth="120"  Style="{StaticResource MaterialDesignTimePicker}" Padding="0,3,0,0"
                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
-                                                           WithSeconds="False"  SelectedTimeFormat="Long"
+                                                           WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"
                                                            SelectedTime="{Binding RestTime}">
                                                             </materialDesign:TimePicker>
 
@@ -1400,15 +1402,16 @@
                                                             </Grid.RowDefinitions>
                                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                                 <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                                <TextBlock Padding="0,4,0,0" 
+                                                                    Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                                             </StackPanel>
                                                            <!-- <TextBox Width="auto"
                                                 Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
                                                 Text="{Binding OpenTime, StringFormat='HH:mm', UpdateSourceTrigger=PropertyChanged}" />-->
-                                                           
-                                                            <materialDesign:TimePicker Grid.Row="1"   MinWidth="120" Style="{StaticResource MaterialDesignTimePicker}" Padding="0"
+
+                                                            <materialDesign:TimePicker Grid.Row="1"   MinWidth="120" Style="{StaticResource MaterialDesignTimePicker}"  Padding="0,3,0,0"
                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
-                                                           WithSeconds="False"  SelectedTimeFormat="Long"
+                                                           WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"
                                                            SelectedTime="{Binding OpenTime}">
                                                             </materialDesign:TimePicker>
 

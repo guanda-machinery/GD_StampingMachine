@@ -683,188 +683,185 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 try
                 {
                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "...";
-
-                    //跳出轉圈圈
-                    List<string> importFileList = new();
-                    //var importFile = ImportFilePath;
-                    if (File.Exists(ImportFilePath))
-                    {
-                        importFileList.Add(ImportFilePath);
-                    }
-                    else if (Directory.Exists(ImportFilePath))
-                    {
-                        //取得路徑下所有檔案
-                        string[] files = Directory.GetFiles(ImportFilePath);
-                        var availableFiles = files.Where(xfileName =>
-                        Path.GetExtension(xfileName).Equals(".csv", StringComparison.OrdinalIgnoreCase) ||
-                        Path.GetExtension(xfileName).Equals(".json", StringComparison.OrdinalIgnoreCase));
-
-                        //如果沒有檔案->跳出提示
-                        if (availableFiles.Count() == 0)
-                        {
-                            //await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportableFileNotExisted"));
-                            throw new Exception((string)Application.Current.TryFindResource("Text_ImportableFileNotExisted")); ;
-                        }
-
-                        importFileList.AddRange(availableFiles);
-                    }
-                    else
-                    {
-                        //都不是
-                        return;
-                    }
-
                     List<PartsParameterViewModel> importPartsParameterVMList = new();
-
-
-
-
-                    int fileCount = importFileList.Count;
-                    int fileProgress = 0;
-                    foreach (var importFile in importFileList)
+                    await Task.Run(async () =>
                     {
-                        ManagerVM.IsIndeterminate = false;
-                        ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "..." + $"{Path.GetFileName(importFile)}" + $"({fileProgress}/{fileCount})";
-                        ManagerVM.Progress = (fileProgress * 100.0) / fileCount;
+                        //跳出轉圈圈
+                        List<string> importFileList = new();
+                        //var importFile = ImportFilePath;
+                        if (File.Exists(ImportFilePath))
+                        {
+                            importFileList.Add(ImportFilePath);
+                        }
+                        else if (Directory.Exists(ImportFilePath))
+                        {
+                            //取得路徑下所有檔案
+                            string[] files = Directory.GetFiles(ImportFilePath);
+                            var availableFiles = files.Where(xfileName =>
+                            Path.GetExtension(xfileName).Equals(".csv", StringComparison.OrdinalIgnoreCase) ||
+                            Path.GetExtension(xfileName).Equals(".json", StringComparison.OrdinalIgnoreCase));
 
-                        List<ERP_IronPlateModel> ErpFile = new();
-                        CsvFileManager csvManager = new();
-                        if (JsonHM.ReadJsonFileWithoutMessageBox(importFile, out ErpFile))
-                        {
-                            //陣列型
-                        }
-                        else if (JsonHM.ReadJsonFileWithoutMessageBox(importFile, out ERP_IronPlateModel ErpOneFile))
-                        {
-                            ErpFile = new()
+                            //如果沒有檔案->跳出提示
+                            if (availableFiles.Count() == 0)
                             {
-                                ErpOneFile
-                            };
-                            //單筆
-                        }
-                        else if (csvManager.ReadCSVFile(importFile, out ErpFile))
-                        {
-
-                        }
-                        else if (csvManager.ReadCSVFile<SimpleErpClass>(importFile, out var CsvFileWithoutHeader, false))
-                        {
-                            ErpFile = new();
-                            //僅有檔頭
-                            foreach (var item in CsvFileWithoutHeader)
-                            {
-                                ERP_IronPlateModel erpIronPlate = new()
-                                {
-                                    PartNumber = item.Plate,
-                                    QrCode = false
-                                };
-                                var erpIronPlateList = Enumerable.Repeat(erpIronPlate, item.Count);
-                                ErpFile.AddRange(erpIronPlateList);
+                                //await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportableFileNotExisted"));
+                                throw new Exception((string)Application.Current.TryFindResource("Text_ImportableFileNotExisted")); ;
                             }
+
+                            importFileList.AddRange(availableFiles);
                         }
                         else
                         {
-                            continue;
-                        }
-
-                        //將資料拆分為QR/一般
-                        if (ErpFile.Exists(x => !x.QrCode) && ImportProjectNumberSettingBaseVM == null)
-                        {
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetNumberCode"));
-                            return;
-                        }
-                        if (ErpFile.Exists(x => x.QrCode) && ImportProjectQRSettingBaseVM == null)
-                        {
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetQrCode"));
+                            //都不是
                             return;
                         }
 
-                        //檢查字長度
-                        foreach (var _erp in ErpFile)
+
+                        int fileCount = importFileList.Count;
+                        int fileProgress = 0;
+                        foreach (var importFile in importFileList)
                         {
-                            //開始轉換檔案
-                            SettingBaseViewModel SettingBaseVM;
-                            if (_erp.QrCode)
+                            ManagerVM.IsIndeterminate = false;
+                            ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "..." + $"{Path.GetFileName(importFile)}" + $"({fileProgress}/{fileCount})";
+                            ManagerVM.Progress = (fileProgress * 100.0) / fileCount;
+
+                            List<ERP_IronPlateModel> ErpFile = new();
+                            CsvFileManager csvManager = new();
+                            if (JsonHM.ReadJsonFileWithoutMessageBox(importFile, out ErpFile))
                             {
-                                SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
-                                // SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+                                //陣列型
+                            }
+                            else if (JsonHM.ReadJsonFileWithoutMessageBox(importFile, out ERP_IronPlateModel ErpOneFile))
+                            {
+                                ErpFile = new()
+                            {
+                                ErpOneFile
+                            };
+                                //單筆
+                            }
+                            else if (csvManager.ReadCSVFile(importFile, out ErpFile))
+                            {
 
-                                //QRcode展開
-
-                                if (_erp.QrCodeContent == null || _erp.QrCodeContent.Count == 0)
+                            }
+                            else if (csvManager.ReadCSVFile<SimpleErpClass>(importFile, out var CsvFileWithoutHeader, false))
+                            {
+                                ErpFile = new();
+                                //僅有檔頭
+                                foreach (var item in CsvFileWithoutHeader)
                                 {
-                                    //沒有Content
-                                    PartsParameterModel PParameter = new PartsParameterModel()
+                                    ERP_IronPlateModel erpIronPlate = new()
                                     {
-                                        IronPlateString = _erp.PartNumber,
-                                        QrCodeContent = string.Empty,
-                                        QR_Special_Text = string.Empty,
-                                        StampingPlate = SettingBaseVM.StampPlateSetting
+                                        PartNumber = item.Plate,
+                                        QrCode = false
                                     };
-                                    importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
-                                }
-                                else
-                                {
-                                    int maxLength = _erp.QrCodeContent.CountCompare(_erp.TrainNumber);
-                                    for (int i = 0; i < maxLength; i++)
-                                    {
-                                        try
-                                        {
-                                            _erp.QrCodeContent.TryGetValue(i, out var qrcode);
-                                            _erp.TrainNumber.TryGetValue(i, out var trainNum);
-
-                                            PartsParameterModel PParameter = new PartsParameterModel()
-                                            {
-                                                IronPlateString = _erp.PartNumber,
-                                                QrCodeContent = _erp.QrCodeContent[i],
-                                                QR_Special_Text = _erp.TrainNumber[i],
-                                                StampingPlate = SettingBaseVM.StampPlateSetting
-                                            };
-                                            importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
-                                        }
-                                        catch(Exception ex)
-                                        {
-                                            _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex.Message, true);
-                                        }
-                                    }
+                                    var erpIronPlateList = Enumerable.Repeat(erpIronPlate, item.Count);
+                                    ErpFile.AddRange(erpIronPlateList);
                                 }
                             }
                             else
                             {
-                                SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
-                                //SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
-
-                                PartsParameterModel PParameter = new PartsParameterModel()
-                                {
-                                    IronPlateString = _erp.PartNumber,
-                                    QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
-                                    QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
-                                    StampingPlate = SettingBaseVM.StampPlateSetting
-                                };
-                                importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
+                                continue;
                             }
 
+                            //將資料拆分為QR/一般
+                            if (ErpFile.Exists(x => !x.QrCode) && ImportProjectNumberSettingBaseVM == null)
+                            {
+                                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetNumberCode"));
+                                return;
+                            }
+                            if (ErpFile.Exists(x => x.QrCode) && ImportProjectQRSettingBaseVM == null)
+                            {
+                                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetQrCode"));
+                                return;
+                            }
+
+                            //檢查字長度
+                            foreach (var _erp in ErpFile)
+                            {
+                                //開始轉換檔案
+                                SettingBaseViewModel SettingBaseVM;
+                                if (_erp.QrCode)
+                                {
+                                    SettingBaseVM = ImportProjectQRSettingBaseVM.DeepCloneByJson();
+                                    // SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
+
+                                    //QRcode展開
+
+                                    if (_erp.QrCodeContent == null || _erp.QrCodeContent.Count == 0)
+                                    {
+                                        //沒有Content
+                                        PartsParameterModel PParameter = new PartsParameterModel()
+                                        {
+                                            IronPlateString = _erp.PartNumber,
+                                            QrCodeContent = string.Empty,
+                                            QR_Special_Text = string.Empty,
+                                            StampingPlate = SettingBaseVM.StampPlateSetting
+                                        };
+                                        importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
+                                    }
+                                    else
+                                    {
+                                        int maxLength = _erp.QrCodeContent.CountCompare(_erp.TrainNumber);
+                                        for (int i = 0; i < maxLength; i++)
+                                        {
+                                            try
+                                            {
+                                                _erp.QrCodeContent.TryGetValue(i, out var qrcode);
+                                                _erp.TrainNumber.TryGetValue(i, out var trainNum);
+
+                                                PartsParameterModel PParameter = new PartsParameterModel()
+                                                {
+                                                    IronPlateString = _erp.PartNumber,
+                                                    QrCodeContent = _erp.QrCodeContent[i],
+                                                    QR_Special_Text = _erp.TrainNumber[i],
+                                                    StampingPlate = SettingBaseVM.StampPlateSetting
+                                                };
+                                                importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex.Message, true);
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    SettingBaseVM = ImportProjectNumberSettingBaseVM.DeepCloneByJson();
+                                    //SettingBaseVM.SheetStampingTypeForm = SheetStampingTypeFormEnum.NormalSheetStamping;
+
+                                    PartsParameterModel PParameter = new PartsParameterModel()
+                                    {
+                                        IronPlateString = _erp.PartNumber,
+                                        QrCodeContent = _erp.QrCodeContent?.FirstOrDefault(),
+                                        QR_Special_Text = _erp.TrainNumber?.FirstOrDefault(),
+                                        StampingPlate = SettingBaseVM.StampPlateSetting
+                                    };
+                                    importPartsParameterVMList.Add(new PartsParameterViewModel(PParameter));
+                                }
 
 
 
 
 
-                            ProductProjectEditTime = DateTime.Now;
+
+                                ProductProjectEditTime = DateTime.Now;
+                            }
+
+                            fileProgress++;
+                        }
+                        if (importPartsParameterVMList.Count == 0)
+                        {
+                            // await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportFail"));
+                            throw new Exception((string)Application.Current.TryFindResource("Text_ImportFail"));
                         }
 
-                        fileProgress++;
-                    }
+                        if (importPartsParameterVMList.Count == 1)
+                        {
+                            ManagerVM.IsIndeterminate = true;
+                        }
 
-                    if (importPartsParameterVMList.Count == 0)
-                    {
-                        // await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportFail"));
-                        throw new Exception((string)Application.Current.TryFindResource("Text_ImportFail"));
-                    }
-
-                    if (importPartsParameterVMList.Count == 1)
-                    {
-                        ManagerVM.IsIndeterminate = true;
-                    }
-
-
+                    });
                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_ImportFinishing");
 
                     await Task.Delay(1000);

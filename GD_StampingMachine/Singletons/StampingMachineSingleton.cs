@@ -248,7 +248,7 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ProductSettingViewModel ProductSettingVM { get; set; }
         /// <summary>
-        /// 生產設定
+        /// 排版設定(生產設定)
         /// </summary>
         public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
         /// <summary>

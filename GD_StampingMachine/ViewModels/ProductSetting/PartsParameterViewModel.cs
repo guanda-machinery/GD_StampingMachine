@@ -47,7 +47,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         /// <summary>
-        /// 加工專案名
+        ///加工分配專案名
         /// </summary>
         public string DistributeName
         {
@@ -58,7 +58,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
         /// <summary>
-        /// 專案名
+        /// 製品設定專案名
         /// </summary>
         public string ProductProjectName
         {

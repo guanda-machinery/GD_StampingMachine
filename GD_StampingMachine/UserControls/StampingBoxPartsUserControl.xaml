@@ -34,7 +34,11 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.RowSpan="2">
             <ListBox ItemsSource="{Binding SeparateBoxVMObservableCollection}"  SelectedItem="{Binding SelectedSeparateBoxVM}">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
@@ -219,11 +223,17 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </ScrollViewer>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0">
+            <Button Visibility="{Binding All_ItemtoProjectButtonVisibility, ElementName=StampingBoxPartsUC}"
+                Content="{DynamicResource btnBoxToProject}" Padding="5,3,5,0" Command="{Binding AllBoxItemReturnToProjectCommand}" Margin="5"></Button>
+            <Button Visibility="{Binding ClearFinishButtonVisibility, ElementName=StampingBoxPartsUC}"
+                Content="{DynamicResource btnClearFinishItem}" Padding="5,3,5,0" Command="{Binding ClearFinishItemCommand}" Margin="5"></Button>
+        </StackPanel>
 
-        <dxg:GridControl 
+        <dxg:GridControl Grid.Row="1" 
+            Grid.Column="1"
             IsEnabled="{Binding SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
-            Grid.Column="1"
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"
             Background="Transparent"  MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"

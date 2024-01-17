@@ -26,10 +26,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:TypeSettingSettingViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction  Command="{Binding ProjectDistributeVM.ReloadTypeSettingSettingsCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid >
 
-    <Grid>
-        
-        
+
         <Border Name="ProjectDistributeListBorder" Visibility="{Binding ProjectDistributeVM.IsInDistributePage, Converter={dx:BooleanToVisibilityConverter Invert=True}}"
                     Grid.Column="1" Grid.Row="1" Margin="0,10"
                                                      Background="Transparent" 
@@ -208,7 +212,7 @@
                  BorderBrush="#595E60" >
 
 
-                    <Grid >
+                    <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*"/>
@@ -216,15 +220,14 @@
                 <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                     Text="{Binding ProjectDistributeName}" 
                     Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Margin="10,0" FontSize="30"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <StackPanel Margin="5,0"
+                    Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Button Command="{Binding ProjectGridControlInsertToBoxCommand}"
-                        Content="{materialDesign:PackIcon Kind=ArrowDownBold}"
-                        Width="auto"
-                        Height="auto" Padding="20,10" Margin="10" />
+                        Content="{DynamicResource btnProjectToBox}"
+                            Padding="10,5" Margin="5" />
                 <ToggleButton IsThreeState = "False" Style="{StaticResource SiegCustomButton}"
                                               IsChecked="{Binding IsInDistributePage, Converter={dx:BoolInverseConverter}}"
-                                              Width="auto"
-                                              Height="auto" Padding="20,10" Margin="10"
+                                                   Padding="20,5" Margin="5"
                                               Content="{DynamicResource btnExit}" />
                 </StackPanel>
                 <Grid Grid.Row="1" Name="MainGrid">
@@ -513,7 +516,7 @@
                                     </dxg:GridColumn.HeaderStyle>
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{StaticResource SiegCustomButton_Gray}"
+                                            <Button Style="{StaticResource SiegCustomButton_Gray}" Margin="5,0"
                                                 Height="30" Width="auto" Padding="10,0" IsEnabled="{Binding Row.IsFinish, Converter={dx:BoolInverseConverter}}"
                                                                         Content="{DynamicResource btnClose}"  >
                                                 <i:Interaction.Triggers>
@@ -717,7 +720,13 @@
                                                                       Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="5"  />
                         <Border Grid.Column="3" Width="5" Margin="5,5,10,5" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" CornerRadius="2.5"/>
                     </Grid>
-                    <local:StampingBoxPartsUserControl Grid.Row="2" DataContext="{Binding StampingBoxPartsVM}" BoxPartsParameterGridControlAllowDragDrop="True" BoxPartsParameterGridControlAllowDrop="True"/>
+                    <local:StampingBoxPartsUserControl Grid.Row="2"
+                                                       DataContext="{Binding StampingBoxPartsVM}" 
+                                                       BoxPartsParameterGridControlAllowDragDrop="True" 
+                                                       BoxPartsParameterGridControlAllowDrop="True"
+                                                       All_ItemtoProjectButtonVisibility="Visible"
+                                                       ClearFinishButtonVisibility="Collapsed"
+                                                       />
                     <GridSplitter 
                                   Grid.Row="1"   
                                   Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" 

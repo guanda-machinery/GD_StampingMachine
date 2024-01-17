@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
+using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
 using System;
@@ -131,11 +132,60 @@ namespace GD_StampingMachine.ViewModels
                 _selectedSeparateBoxVM = value;
                 OnPropertyChanged();
             }
+        }
 
+        private ICommand _allBoxItemReturnToProjectCommand;
+        public ICommand AllBoxItemReturnToProjectCommand
+        {
+            get => _allBoxItemReturnToProjectCommand ??= new AsyncRelayCommand(async() =>
+            {
+                var selectedBoxIndex = this.SelectedSeparateBoxVM.BoxIndex;
+                var movableCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => 
+                x.BoxIndex == selectedBoxIndex &&
+                (x.IsFinish || x.IsSended || !x.IsTransported));
+
+                foreach (var moveableItem in movableCollection)
+                {
+                    moveableItem.BoxIndex = null;
+                    moveableItem.DistributeName = null;
+                    BoxPartsParameterVMObservableCollection.Remove(moveableItem);
+                }
+
+                //需要重新刷新的專案
+            //   var needRefreshProductProjectCollection = movableCollection.Select(x=>x.ProductProjectName).Distinct();
+               // foreach(var needRefreshProductProject in needRefreshProductProjectCollection)
+                //{
+                    var projectList = StampingMachineSingleton.Instance.TypeSettingSettingVM?.ProjectDistributeVMObservableCollection;
+                if (projectList != null)
+                {
+                    foreach (var project in projectList)
+                    {
+                        project?.ReloadPartsParameterVMObservableCollection();
+                    }
+                }
+             //   }
+
+                RefreshBoxPartsParameterVMRowFilter();
+            });
         }
 
 
 
+        private ICommand _clearFinishItemCommand;
+        public ICommand ClearFinishItemCommand
+        {
+            get => _clearFinishItemCommand ??= new RelayCommand(() =>
+            {
+                var selectedBoxIndex=     this.SelectedSeparateBoxVM.BoxIndex;
+                var unTransportedCollection  = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
+                foreach(var unTransPorted in unTransportedCollection)
+                {
+                    unTransPorted.IsTransported = true;
+                }
+                RefreshBoxPartsParameterVMRowFilter();
+
+            });
+        }
 
 
         /// <summary>
@@ -199,6 +249,11 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+
+
+
+
+
         /// <summary>
         /// 盒子內的專案
         /// </summary>
@@ -219,6 +274,8 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
+
+
         private ICommand _gridControlSizeChangedCommand;
         [JsonIgnore]
         public ICommand GridControlSizeChangedCommand
@@ -232,7 +289,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         if (gridcontrol.View is DevExpress.Xpf.Grid.TableView tableview)
                         {
-                            var pageSize = ((tableview.ActualHeight - tableview.HeaderPanelMinHeight - 30) / 40);
+                            var pageSize = ((tableview.ActualHeight - tableview.HeaderPanelMinHeight - 30) / 45);
                             tableview.PageSize = (pageSize < 3 ? 3 : (int)pageSize);
                         }
                     }

@@ -35,6 +35,33 @@ namespace GD_StampingMachine.UserControls
 
 
 
+        public Visibility All_ItemtoProjectButtonVisibility
+        {
+            set { SetValue(All_ItemtoProjectButtonVisibilityProperty, value); }
+            get { return (Visibility)GetValue(All_ItemtoProjectButtonVisibilityProperty); }
+        }
+
+        public static readonly DependencyProperty All_ItemtoProjectButtonVisibilityProperty = DependencyProperty.Register(nameof(All_ItemtoProjectButtonVisibility),
+                typeof(Visibility),
+                typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata(Visibility.Visible));
+
+        public Visibility ClearFinishButtonVisibility
+        {
+            set { SetValue(ClearFinishButtonVisibilityProperty, value); }
+            get { return (Visibility)GetValue(ClearFinishButtonVisibilityProperty); }
+        }
+
+        public static readonly DependencyProperty ClearFinishButtonVisibilityProperty = DependencyProperty.Register(nameof(ClearFinishButtonVisibility),
+                typeof(Visibility),
+                typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata(Visibility.Visible));
+
+
+
+
+
+
+
+
 
         /*public bool GridControl_MachiningStatusIsVisible
         {

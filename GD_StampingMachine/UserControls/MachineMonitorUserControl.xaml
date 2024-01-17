@@ -1042,7 +1042,10 @@
         </ScrollViewer>
         <Grid Grid.Row="1" Margin="0,0"    >
             <GD_StampingMachine_UserControls:StampingBoxPartsUserControl Margin="10" 
-                      DataContext="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM}"  HorizontalAlignment="Left"/>
+                                                                         All_ItemtoProjectButtonVisibility="Collapsed"
+                                                                         ClearFinishButtonVisibility="Visible"   
+                                                                         DataContext="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM}"  
+                                                                         HorizontalAlignment="Left"/>
         </Grid>
 
         <GridSplitter Grid.Row="1" Height="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
