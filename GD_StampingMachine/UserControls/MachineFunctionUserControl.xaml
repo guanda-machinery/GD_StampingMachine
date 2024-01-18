@@ -41,8 +41,27 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="5">
                                 <local:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}"
-                                                                     PackIconKind="Import"
-                                                                             ControlTitleText="{DynamicResource Text_Feeding_Component}" />
+                                                                             ControlTitleText="{DynamicResource Text_Feeding_Component}" >
+                                    <local:FunctionToggleUserControl.Style>
+                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}" >
+                                            <Setter Property="ImageSource" Value="{StaticResource Feeding_Component_BlackDrawingImage}" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="ImageSource" Value="{StaticResource Feeding_Component_BlueDrawingImage}"/>
+                                                </Trigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="ImageSource" Value="{StaticResource Feeding_Component_WhiteDrawingImage}"/>
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:FunctionToggleUserControl.Style>
+                                </local:FunctionToggleUserControl>
+
                                 <local:FunctionToggleUserControl IsChecked="{Binding QRCode_Component_Button_IsChecked}"
                                    PackIconKind="QrcodeEdit"
                                 ControlTitleText="{DynamicResource Text_QRCode_Component}" />

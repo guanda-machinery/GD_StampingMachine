@@ -134,58 +134,10 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private ICommand _allBoxItemReturnToProjectCommand;
-        public ICommand AllBoxItemReturnToProjectCommand
-        {
-            get => _allBoxItemReturnToProjectCommand ??= new AsyncRelayCommand(async() =>
-            {
-                var selectedBoxIndex = this.SelectedSeparateBoxVM.BoxIndex;
-                var movableCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => 
-                x.BoxIndex == selectedBoxIndex &&
-                (x.IsFinish || x.IsSended || !x.IsTransported));
-
-                foreach (var moveableItem in movableCollection)
-                {
-                    moveableItem.BoxIndex = null;
-                    moveableItem.DistributeName = null;
-                    BoxPartsParameterVMObservableCollection.Remove(moveableItem);
-                }
-
-                //需要重新刷新的專案
-            //   var needRefreshProductProjectCollection = movableCollection.Select(x=>x.ProductProjectName).Distinct();
-               // foreach(var needRefreshProductProject in needRefreshProductProjectCollection)
-                //{
-                    var projectList = StampingMachineSingleton.Instance.TypeSettingSettingVM?.ProjectDistributeVMObservableCollection;
-                if (projectList != null)
-                {
-                    foreach (var project in projectList)
-                    {
-                        project?.ReloadPartsParameterVMObservableCollection();
-                    }
-                }
-             //   }
-
-                RefreshBoxPartsParameterVMRowFilter();
-            });
-        }
 
 
 
-        private ICommand _clearFinishItemCommand;
-        public ICommand ClearFinishItemCommand
-        {
-            get => _clearFinishItemCommand ??= new RelayCommand(() =>
-            {
-                var selectedBoxIndex=     this.SelectedSeparateBoxVM.BoxIndex;
-                var unTransportedCollection  = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
-                foreach(var unTransPorted in unTransportedCollection)
-                {
-                    unTransPorted.IsTransported = true;
-                }
-                RefreshBoxPartsParameterVMRowFilter();
 
-            });
-        }
 
 
         /// <summary>
@@ -206,48 +158,12 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand _separateBoxVMObservableCollectionelectionChangedCommand;
-        [JsonIgnore]
-        public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
-        {
-            get => _separateBoxVMObservableCollectionelectionChangedCommand ??= new RelayCommand<object>(obj =>
-            {
-                RefreshBoxPartsParameterVMRowFilter();
-            });
-        }
-
-        /// <summary>
-        /// 重新整理篩選器
-        /// </summary>
-        public void RefreshBoxPartsParameterVMRowFilter()
-        {
-            OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
-        }
 
 
 
 
 
 
-
-        //篩選器
-        [JsonIgnore]
-        public ICommand BoxPartsParameterVMRowFilterCommand
-        {
-            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
-            {
-                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
-                {
-                    if (SelectedSeparateBoxVM != null)
-                    {
-                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == SelectedSeparateBoxVM.BoxIndex && !PParameter.IsTransported)
-                            args.Visible = true;
-                        else
-                            args.Visible = false;
-                    }
-                }
-            });
-        }
 
 
 
@@ -327,6 +243,7 @@ namespace GD_StampingMachine.ViewModels
                                     {
                                         PartsParameterVM.DistributeName = ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
                                         PartsParameterVM.BoxIndex = SelectedSeparateBoxVM.BoxIndex;
+                                        PartsParameterVM.WorkIndex = -1;
                                         e.Effects = System.Windows.DragDropEffects.Move;
                                         //RefreshBoxPartsParameterVMRowFilter();
                                     }

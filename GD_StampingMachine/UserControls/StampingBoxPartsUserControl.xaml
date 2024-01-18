@@ -16,7 +16,7 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+             xmlns:dx="http://schemas.denvexpress.com/winfx/2008/xaml/core" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:local="clr-namespace:GD_StampingMachine"
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" 
@@ -39,192 +39,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.RowSpan="2">
-            <ListBox ItemsSource="{Binding SeparateBoxVMObservableCollection}"  SelectedItem="{Binding SelectedSeparateBoxVM}">
+            <ListBox Style="{StaticResource SeparateBoxVMListBox}"
+                ItemsSource="{Binding SeparateBoxVMObservableCollection}"  SelectedItem="{Binding SelectedSeparateBoxVM}">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
                 </dxmvvm:Interaction.Behaviors>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
-                        <Setter Property="IsEnabled" Value="{Binding BoxIsEnabled}"/>
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Grid Margin="28,0,28,16"   d:DataContext="{d:DesignInstance Type=GD_ParameterSettingViewModels:SeparateBoxViewModel}" IsEnabled="{Binding BoxIsEnabled, UpdateSourceTrigger=PropertyChanged}">
-                                        <Grid.Style>
-                                            <Style TargetType="Grid">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Opacity" Value="0.4"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Grid.Style>
-                                        <Grid.Resources>
-                                            <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
-                                                        <Setter Property="Foreground" Value="#FFF3430B"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Grid.Resources>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
-                                        <!--<Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"
-                                                                                    CornerRadius="7.5" Padding="0" Margin="10,5"
-                                                                                    Width="auto"
-                                                                                    Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                            <Border.Style>
-                                                <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Style.Triggers>
-                                                        <EventTrigger RoutedEvent="MouseEnter">
-                                                            <EventTrigger.Actions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.200" To="Orange" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger.Actions>
-                                                        </EventTrigger>
-                                                        <EventTrigger RoutedEvent="MouseLeave">
-                                                            <EventTrigger.Actions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.200" To="Transparent" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger.Actions>
-                                                        </EventTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                        </Border> -->
-                                        
-                                        <Border Width="80" Height="80"
-                                            CornerRadius="7.5"  Margin="0,5" BorderThickness="1.5"  Padding="1">
-                                            <Border.Style>
-                                                <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
-                                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="True">
-                                                            <Setter Property="Background" Value="#40c4ff"/>
-                                                        </DataTrigger>
-
-                                                        <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
-                                                            <Setter Property="BorderBrush" Value="#f3430b"/>
-                                                        </DataTrigger>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition  Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},   Path=IsSelected}" Value="True"/>
-                                                                <Condition Binding="{Binding BoxIsFull}" Value="True" />
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Background" Value="#FFBABA"/>
-                                                        </MultiDataTrigger>
-
-
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                            <Grid Margin="5">
-                                                <Grid.Resources>
-                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
-                                                        <Setter Property="FontWeight" Value="Bold"/>
-                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush }"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger  Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}}, 
-                                                                    Path=IsSelected}" Value="True">
-                                                                <Setter Property="Foreground" Value="#40c4ff"/>
-                                                            </DataTrigger>
-
-
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition  Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},   Path=IsSelected}" Value="True"/>
-                                                                    <Condition Binding="{Binding BoxIsFull}" Value="True" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="Foreground" Value="#FFBABA"/>
-                                                            </MultiDataTrigger>
-
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Grid.Resources>
-                                                <Image>
-                                                    <Image.Style>
-                                                        <Style TargetType="Image">
-                                                            <Setter Property="Source" Value="{StaticResource DosingBox_WhDrawingImage}"/>
-                                                            <Setter Property="Width" Value="auto"/>
-                                                            <Setter Property="Height" Value="auto"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                                    <Setter Property="Source" Value="{StaticResource  DosingBox_BkDrawingImage}"/>
-                                                                </DataTrigger>
-
-                                                                <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
-                                                                    <Setter Property="Source" Value="{StaticResource DosingBox_RdDrawingImage}"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-
-                                                    </Image.Style>
-                                                </Image>
-                                                <TextBlock  FontSize="20"  Margin="0,10" 
-                                                                                                    Text="{Binding BoxIndex}"
-                                                                                                            HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-
-                                            </Grid>
-                                        </Border>
-                                        <StackPanel Grid.Row="1"
-                                                Orientation="Horizontal" HorizontalAlignment="Center" >
-                                            <TextBlock Text="{Binding UntransportedFinishedBoxPieceValue}" />
-                                                <TextBlock Text="/" />
-                                                <TextBlock Text="{Binding BoxSliderValue}" />
-                                            </StackPanel>
-                                            <Border  Grid.Row="2"
-                                                BorderThickness="0,0,0,1" HorizontalAlignment="Center">
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
-                                                                <Setter Property="BorderBrush" Value="#FFF3430B"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding UnFinishedBoxPieceValue}" />
-                                            </StackPanel>
-
-                                            </Border>
-
-
-
-
-                                    </Grid>
-                                    
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
+ 
             </ListBox>
         </ScrollViewer>
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0">
-            <Button Visibility="{Binding All_ItemtoProjectButtonVisibility, ElementName=StampingBoxPartsUC}"
+            <Button Visibility="{Binding All_ItemtoProjectButtonVisibility , ElementName=StampingBoxPartsUC}"
                 Content="{DynamicResource btnBoxToProject}" Padding="5,3,5,0" Command="{Binding AllBoxItemReturnToProjectCommand}" Margin="5"></Button>
             <Button Visibility="{Binding ClearFinishButtonVisibility, ElementName=StampingBoxPartsUC}"
                 Content="{DynamicResource btnClearFinishItem}" Padding="5,3,5,0" Command="{Binding ClearFinishItemCommand}" Margin="5"></Button>
@@ -234,7 +58,7 @@
             Grid.Column="1"
             IsEnabled="{Binding SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
-            CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"
+                       
             Background="Transparent"  MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
             ItemsSource="{Binding BoxPartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -280,7 +104,8 @@
 
 
 
-            <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningIndex}"  FieldName="WorkIndex"  
+            <dxg:GridColumn Visible="{Binding WorkIndexVisible , ElementName=StampingBoxPartsUC}"
+                HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningIndex}"  FieldName="WorkIndex"  
                                                          SortOrder="Ascending"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
                 <dxg:GridColumn.EditSettings>

@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using DevExpress.Mvvm.Xpf;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.UserControls
 {
@@ -31,11 +33,22 @@ namespace GD_StampingMachine.UserControls
                 typeof(bool),
                 typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata());
 
+        
 
+        /*public ICommand BoxPartsParameterVMRowFilterCommand
+        {
+            set { SetValue(BoxPartsParameterVMRowFilterCommandProperty, value); }
+            get { return (ICommand)GetValue(BoxPartsParameterVMRowFilterCommandProperty); }
+        }
+                    
+    public static readonly DependencyProperty BoxPartsParameterVMRowFilterCommandProperty = DependencyProperty.Register(nameof(BoxPartsParameterVMRowFilterCommand),
+            typeof(ICommand),
+            typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata(new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args => { })));
+        
 
+        */
 
-
-        public Visibility All_ItemtoProjectButtonVisibility
+    public Visibility All_ItemtoProjectButtonVisibility
         {
             set { SetValue(All_ItemtoProjectButtonVisibilityProperty, value); }
             get { return (Visibility)GetValue(All_ItemtoProjectButtonVisibilityProperty); }
@@ -54,8 +67,19 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty ClearFinishButtonVisibilityProperty = DependencyProperty.Register(nameof(ClearFinishButtonVisibility),
                 typeof(Visibility),
                 typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata(Visibility.Visible));
+ 
+        
+        
+        public bool WorkIndexVisible
+        {
+            set { SetValue(WorkIndexVisibleProperty, value); }
+            get { return (bool)GetValue(WorkIndexVisibleProperty); }
+        }
+        
 
-
+        public static readonly DependencyProperty WorkIndexVisibleProperty = DependencyProperty.Register(nameof(WorkIndexVisible),
+                typeof(bool),
+                typeof(StampingBoxPartsUserControl), new FrameworkPropertyMetadata(true));
 
 
 

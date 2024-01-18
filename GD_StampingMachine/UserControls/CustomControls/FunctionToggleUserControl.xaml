@@ -112,9 +112,8 @@
                                             </ProgressBar>
                                         </Grid>
                                         <Grid Grid.Row="1" >
-                                            <TextBlock   MaxWidth="80" 
+                                            <TextBlock   MaxWidth="80"  
                                                          Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}"
-                                                         
                                                          FontFamily="{Binding FontFamily , ElementName=MainFunctionToggleUserControl}"
                                                          FontSize="{Binding FontSize , ElementName=MainFunctionToggleUserControl}"
                                                          FontWeight="{Binding FontWeight , ElementName=MainFunctionToggleUserControl}"

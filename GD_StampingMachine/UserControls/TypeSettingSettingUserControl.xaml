@@ -25,7 +25,9 @@
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
-             d:DataContext="{d:DesignInstance Type=GD_ViewModels:TypeSettingSettingViewModel}">
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:TypeSettingSettingViewModel}"
+             Name="TypeSettingSettingUC"
+             >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction  Command="{Binding ProjectDistributeVM.ReloadTypeSettingSettingsCommand}" PassEventArgsToCommand="True" />
@@ -720,13 +722,251 @@
                                                                       Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="5"  />
                         <Border Grid.Column="3" Width="5" Margin="5,5,10,5" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" CornerRadius="2.5"/>
                     </Grid>
-                    <local:StampingBoxPartsUserControl Grid.Row="2"
-                                                       DataContext="{Binding StampingBoxPartsVM}" 
-                                                       BoxPartsParameterGridControlAllowDragDrop="True" 
-                                                       BoxPartsParameterGridControlAllowDrop="True"
-                                                       All_ItemtoProjectButtonVisibility="Visible"
-                                                       ClearFinishButtonVisibility="Collapsed"
-                                                       />
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.RowSpan="2">
+                                <ListBox Style="{StaticResource SeparateBoxVMListBox}"
+                                         ItemsSource="{Binding StampingBoxPartsVM.SeparateBoxVMObservableCollection}"  
+                                         SelectedItem="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM}">
+                                    <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
+                                    </dxmvvm:Interaction.Behaviors>
+
+                                </ListBox>
+                            </ScrollViewer>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0">
+                                <Button 
+                Content="{DynamicResource btnBoxToProject}" Padding="5,3,5,0" Command="{Binding AllBoxItemReturnToProjectCommand}" Margin="5"></Button>
+                               
+                            </StackPanel>
+
+                            <dxg:GridControl Grid.Row="1" 
+            Grid.Column="1"
+            IsEnabled="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+            Margin="10,0"
+                       
+            CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
+            Background="Transparent"  MaxHeight="5000"
+            Style="{StaticResource ProjectGridControl}"
+            ItemsSource="{Binding StampingBoxPartsVM.BoxPartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+          >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SizeChanged">
+                                    <i:InvokeCommandAction Command="{Binding StampingBoxPartsVM.GridControlSizeChangedCommand}" 
+                                                   PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                                <dxg:GridControl.View >
+                                    <dxg:TableView   
+                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        IsColumnMenuEnabled ="False"
+                                AllowPaging="True"
+                                                        AllowSorting="false"
+                                                        AllowColumnFiltering="False"
+                                                        AllowColumnMoving="False"
+                                                        AllowEditing="False"
+                                                        ShowColumnHeaders="True"
+                                                        HeaderHorizontalAlignment="Center"
+                                                        VerticalScrollbarVisibility="Auto"
+                                                        HorizontalScrollbarVisibility="Auto"
+                                                        ShowHorizontalLines="False"     
+                                                        ShowVerticalLines="False"
+                                                        ShowGroupPanel="False"
+                                                        ShowSearchPanelMode="Never"
+                                                        SearchPanelNullText="Search Tasks(Ctrl + F)" 
+                                                        SearchPanelFindMode="Always"
+                                                        ShowIndicator="False"
+                                                        SearchDelay="0"                            
+                                                        AllowDragDrop="True"
+                                                        AllowDrop="True"
+                                                        ShowDragDropHint="False"
+                                                    >
+                                        <dxmvvm:Interaction.Behaviors>
+                                            <dxmvvm:EventToCommand EventName="DragRecordOver" Command="{Binding Box_OnDragRecordOverCommand}" PassEventArgsToCommand="True"/>
+                                            <dxmvvm:EventToCommand EventName="DropRecord" Command="{Binding Box_OnDropRecordCommand}" PassEventArgsToCommand="True"/>
+                                        </dxmvvm:Interaction.Behaviors>
+                                    </dxg:TableView>
+                                </dxg:GridControl.View>
+
+
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left" Visible="False" Header="{DynamicResource Text_Box}" FieldName="BoxIndex" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+
+
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+
+                                <dxg:GridColumn  
+                            HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                    </dxg:GridColumn.EditSettings>
+                                    <dxg:GridColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <ToggleButton Padding="0" Margin="1" x:Name="MachiningFormTButton">
+                                                    <ToggleButton.Style>
+                                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
+                                                            <Setter Property="Width" Value="auto"/>
+                                                            <Setter Property="Height" Value="auto"/>
+                                                            <Setter Property="BorderThickness" Value="0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="ToggleButton">
+                                                                        <Grid>
+                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Grid>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="IsChecked" Value="True"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                    <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ToggleButton.Style>
+
+                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                                        DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
+                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                            <TransformGroup>
+                                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                            </TransformGroup>
+                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                                    <!--
+                                <Grid  RenderTransformOrigin="0.5,0.5">
+                                    <Grid.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
+                                    </Grid.LayoutTransform>
+                                    <GD_SchematicDiagram:PlateRowDiagramViewUserControl
+                            DataContext="{Binding Row.SettingBaseVM}" 
+                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
+                                    <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
+                            DataContext="{Binding Row.SettingBaseVM}" 
+                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                            RedMeasurementLineVisibility="Collapsed"/>
+                                </Grid>-->
+                                                </ToggleButton>
+
+                                            </Grid>
+
+                                        </DataTemplate>
+                                    </dxg:GridColumn.CellTemplate>
+                                </dxg:GridColumn>
+
+                                <dxg:GridColumn  Header="{DynamicResource Text_FinishProgress}" FieldName="ProductProject.FinishProgress"
+                                 Width="100" AllowMoving="false"  IsSmart="True" HorizontalHeaderContentAlignment="Center">
+                                    <dxg:GridColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid Height="auto" Margin="2,5">
+                                                <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"   
+                                             BorderThickness="0" 
+                                             Height="auto" Minimum="0" Maximum="100" Background="White" >
+                                                    <ProgressBar.Foreground>
+                                                        <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                    </ProgressBar.Foreground>
+                                                </ProgressBar>
+
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
+                                                    <TextBlock Foreground="Black"
+                                        Text="{CalcB:Binding Row.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </dxg:GridColumn.CellTemplate>
+                                </dxg:GridColumn>
+
+
+                                <dxg:GridColumn 
+                HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                                    <dxg:GridColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                Width="20" 
+                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                                CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}">
+
+                                                <Border.Style>
+                                                    <Style TargetType="Border" >
+                                                        <Setter Property="Background" Value="{DynamicResource DataMatrixIsReadySolidColorBrush}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Row.WorkIndex }" Value="-1">
+                                                                <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Row.IsSended }" Value="true">
+                                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsSendedSolidColorBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Row.DataMatrixIsFinish }" Value="true">
+                                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Row.EngravingIsFinish}" Value="true">
+                                                                <Setter Property="Background" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Row.ShearingIsFinish}" Value="true">
+                                                                <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Row.IsFinish}" Value="true">
+                                                                <Setter Property="Background" Value="ForestGreen"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+
+                                            </Border>
+                                        </DataTemplate>
+                                    </dxg:GridColumn.CellTemplate>
+                                </dxg:GridColumn>
+
+
+
+
+
+                            </dxg:GridControl>
+
+                    </Grid>
+
+
+
                     <GridSplitter 
                                   Grid.Row="1"   
                                   Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" 

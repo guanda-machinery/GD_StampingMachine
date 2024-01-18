@@ -8,6 +8,7 @@ using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -324,6 +325,7 @@ namespace GD_StampingMachine.Singletons
             get => _selectedProjectDistributeVM;
             set
             {
+                var oldvalue = _selectedProjectDistributeVM;
                 _selectedProjectDistributeVM = value;
                 try
                 {
@@ -338,8 +340,19 @@ namespace GD_StampingMachine.Singletons
 
                 }
                 OnPropertyChanged();
+                OnIsWorkChanged(new GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel>(oldvalue, value));
             }
         }
+
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel>> SelectedProjectDistributeVMChanged;
+
+        protected virtual void OnIsWorkChanged(GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
+        {
+            SelectedProjectDistributeVMChanged?.Invoke(this, e);
+        }
+
+
+
 
         public ICommand ProjectDistributeVMChangeCommand
         {

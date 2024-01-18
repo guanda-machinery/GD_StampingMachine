@@ -342,10 +342,9 @@
     
     
     <sys:String x:Key="Text_Separator_Component">分料組</sys:String>
-    <sys:String x:Key="Text_Feeding_Component">進料組</sys:String>
-    
-    <sys:String x:Key="Text_QRCode_Component">QR CODE組</sys:String>
 
+    <sys:String x:Key="Text_Feeding_Component">進料組</sys:String>
+    <sys:String x:Key="Text_QRCode_Component">QR CODE組</sys:String>
     <sys:String x:Key="Text_Custom_Component">自定義</sys:String>
 
 

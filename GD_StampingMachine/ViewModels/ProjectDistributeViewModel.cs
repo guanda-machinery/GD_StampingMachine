@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
+using DevExpress.Mvvm.Xpf;
 using DevExpress.Office.Utils;
 using DevExpress.Utils.Extensions;
+using DevExpress.XtraRichEdit.Model.History;
 using GD_CommonLibrary.Extensions;
+using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
 using System;
@@ -156,6 +159,10 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
+
+
 
 
 
@@ -609,6 +616,12 @@ namespace GD_StampingMachine.ViewModels
 
                             partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
                             partsParameterVM.BoxIndex = sepratebox.BoxIndex;
+                            partsParameterVM.WorkIndex = -1;
+                            partsParameterVM.IsSended = false;
+                            partsParameterVM.IsTransported = false;
+             
+
+
                             addPartsParameterViewModel.Add(partsParameterVM);
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
@@ -744,6 +757,91 @@ namespace GD_StampingMachine.ViewModels
 
 
         }
+
+
+        private ICommand _separateBoxVMObservableCollectionelectionChangedCommand;
+        [JsonIgnore]
+        public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
+        {
+            get => _separateBoxVMObservableCollectionelectionChangedCommand ??= new RelayCommand<object>(obj =>
+            {
+                RefreshBoxPartsParameterVMRowFilter();
+            });
+        }
+
+        /// <summary>
+        /// 重新整理篩選器
+        /// </summary>
+        public void RefreshBoxPartsParameterVMRowFilter()
+        {
+            OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+        }
+
+
+
+        private ICommand _allBoxItemReturnToProjectCommand;
+        public ICommand AllBoxItemReturnToProjectCommand
+        {
+            get => _allBoxItemReturnToProjectCommand ??= new AsyncRelayCommand(async () =>
+            {
+                var selectedBoxIndex = this.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                var movableCollection = this.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x =>
+                x.BoxIndex == selectedBoxIndex &&
+                (x.IsFinish || x.IsSended || !x.IsTransported));
+
+                foreach (var moveableItem in movableCollection)
+                {
+                    moveableItem.BoxIndex = null;
+                    moveableItem.WorkIndex = -1;
+                    moveableItem.DistributeName = null;
+                    this.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Remove(moveableItem);
+                }
+
+                //需要重新刷新的專案
+                //   var needRefreshProductProjectCollection = movableCollection.Select(x=>x.ProductProjectName).Distinct();
+                // foreach(var needRefreshProductProject in needRefreshProductProjectCollection)
+                //{
+                var projectList = StampingMachineSingleton.Instance.TypeSettingSettingVM?.ProjectDistributeVMObservableCollection;
+                if (projectList != null)
+                {
+                    foreach (var project in projectList)
+                    {
+                        project?.ReloadPartsParameterVMObservableCollection();
+                    }
+                }
+                //   }
+
+                RefreshBoxPartsParameterVMRowFilter();
+            });
+        }
+
+
+
+
+
+
+
+        [JsonIgnore]
+        public ICommand BoxPartsParameterVMRowFilterCommand
+        {
+            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
+            {
+                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
+                {
+                    if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                    {
+                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex && !PParameter.IsTransported)
+                            args.Visible = true;
+                        else
+                            args.Visible = false;
+                    }
+                }
+            });
+        }
+
+
+
+
 
 
 

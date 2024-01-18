@@ -20,6 +20,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -82,6 +83,13 @@ namespace GD_StampingMachine.ViewModels
                         }));
             }*/
 
+            StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += Instance_SelectedProjectDistributeVMChanged;
+
+        }
+
+        private void Instance_SelectedProjectDistributeVMChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
+        {
+            SelectedProjectDistributeVM = e.NewValue;
         }
 
         readonly StampMachineDataSingleton StampMachineData = GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
@@ -97,45 +105,16 @@ namespace GD_StampingMachine.ViewModels
         public double StampWidth { get; set; } = 50;
 
 
-        private ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection => StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection => StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
 
-
-        /*public ICommand SetStatusSendMachineCommand
+        private ProjectDistributeViewModel _selectedProjectDistributeVM;
+        public ProjectDistributeViewModel SelectedProjectDistributeVM 
         {
-            get => new RelayCommand(() =>
-            {
-               var smc = BoxPartsParameterVMObservableCollection.OrderBy(x => x.SendMachineCommandVM.WorkIndex).
-                ToList().FindAll(x=>!x.SendMachineCommandVM.IsFinish && x.SendMachineCommandVM.WorkIndex>=0);
-                if (smc != null)
-                {
-                    for (int i = 0; i < smc.Count; i++)
-                    {
-                        var steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
-                        if (i < 3)
-                        {
-                            steelBeltStampingStatus = SteelBeltStampingStatusEnum.Shearing;
-                        }
-                        else if (i < 9)
-                        {
-                            steelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping;
-                        }
-                        else if (i < 14)
-                        {
-                            steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
-                        }
-                        else
-                        {
-                            steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
-                        }
-                        smc[i].SendMachineCommandVM.WorkingSteelBeltStampingStatus = steelBeltStampingStatus;
-                        smc[i].SendMachineCommandVM.SteelBeltStampingStatus = steelBeltStampingStatus;
-                    }
-                }
+            get => _selectedProjectDistributeVM; set { _selectedProjectDistributeVM = value;OnPropertyChanged(); }
+        } 
 
 
 
-            });
-        }*/
 
 
 
@@ -293,7 +272,11 @@ namespace GD_StampingMachine.ViewModels
                                  //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection
                                  //取得歷史資料
                                  //var history = await StampMachineData.GetIronPlateDataCollection();
-                                 var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
+                                
+                                 var workableMachiningCollection = SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
+                                 //var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
+
+
 
                                  var a = workableMachiningCollection.Count(x => x.IsFinish);
 
@@ -1218,6 +1201,10 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
+
+
+
+
         private AsyncRelayCommand<object> _arrangeWorkCommand;
         /// <summary>
         /// 排定加工
@@ -1245,22 +1232,36 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
                 OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
+                RefreshBoxPartsParameterVMRowFilter();
 
             }, e=> !ArrangeWorkCommand.IsRunning);
         }
 
-        private void SetPartsParameterWork(PartsParameterViewModel partsParameter)
+        private bool SetPartsParameterWork(PartsParameterViewModel partsParameter)
         {
             //找清單中最大的index
             partsParameter.IsFinish = false;
-            var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
-            if (indexMax < 0)
+            partsParameter.IsTransported = false;
+
+            var box = SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.First(x => x.BoxIndex == partsParameter.BoxIndex);
+           
+           var unWorkCount = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsFinish);
+            if (unWorkCount < box.BoxSliderValue)
             {
-                partsParameter.WorkIndex = 0;
+                var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
+                if (indexMax < 0)
+                {
+                    partsParameter.WorkIndex = 0;
+                }
+                else
+                {
+                    partsParameter.WorkIndex = indexMax + 1;
+                }
+                return true;
             }
             else
             {
-                partsParameter.WorkIndex = indexMax + 1;
+                return false;
             }
         }
 
@@ -1307,27 +1308,63 @@ namespace GD_StampingMachine.ViewModels
                      }
                      OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
                      OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+                     RefreshBoxPartsParameterVMRowFilter();
                  });
             });
         }
 
 
-
-
-        //分組排列
-        // CustomColumnSortCommand="{Binding CustomColumnSortByWorkIndex}"
-        /*public DevExpress.Mvvm.ICommand<RowSortArgs> CustomColumnSortByWorkIndex
+        private ICommand _separateBoxVMObservableCollectionelectionChangedCommand;
+        [JsonIgnore]
+        public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
-            get => new DevExpress.Mvvm.DelegateCommand<RowSortArgs>(args =>
+            get => _separateBoxVMObservableCollectionelectionChangedCommand ??= new RelayCommand<object>(obj =>
             {
-                if (args.FieldName == "Day")
+                RefreshBoxPartsParameterVMRowFilter();
+            });
+        }
+
+        public void RefreshBoxPartsParameterVMRowFilter()
+        {
+            OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+        }
+
+
+        [JsonIgnore]
+        public ICommand BoxPartsParameterVMRowFilterCommand
+        {
+            get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
+            {
+                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
                 {
-                    // int dayIndex1 = GetDayIndex(args.FirstValue);
-                    // int dayIndex2 = GetDayIndex(args.SecondValue);
-                    //  args.Result = dayIndex1.CompareTo(dayIndex2);
+                    if (SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                    {
+                        if (PParameter.DistributeName == SelectedProjectDistributeVM.ProjectDistributeName && 
+                        PParameter.BoxIndex == SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex &&
+                        PParameter.WorkIndex>=0&& !PParameter.IsTransported)
+                            args.Visible = true;
+                        else
+                            args.Visible = false;
+                    }
                 }
             });
-        }*/
+        }
+
+        private ICommand _clearFinishItemCommand;
+        public ICommand ClearFinishItemCommand
+        {
+            get => _clearFinishItemCommand ??= new RelayCommand(() =>
+            {
+                var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
+                var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
+                foreach (var unTransPorted in unTransportedCollection)
+                {
+                    unTransPorted.IsTransported = true;
+                }
+                RefreshBoxPartsParameterVMRowFilter();
+
+            });
+        }
 
 
 

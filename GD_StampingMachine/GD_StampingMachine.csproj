@@ -446,9 +446,6 @@
     <Compile Include="UserControls\SoftwareUpdateUserControl.xaml.cs">
       <DependentUpon>SoftwareUpdateUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\StampingBoxPartsUserControl.xaml.cs">
-      <DependentUpon>StampingBoxPartsUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\StampingFontChangedUserControl.xaml.cs">
       <DependentUpon>StampingFontChangedUserControl.xaml</DependentUpon>
     </Compile>
@@ -543,6 +540,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\ListBoxStyleDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ScrollViews.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -612,10 +613,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SoftwareUpdateUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\StampingBoxPartsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

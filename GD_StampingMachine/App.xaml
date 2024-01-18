@@ -31,6 +31,9 @@
                 <ResourceDictionary Source="Styles/GridControlStyleDictionary.xaml" />
                 <ResourceDictionary Source="Styles/ComboBoxStyleDictionary.xaml" />
                 <ResourceDictionary Source="Styles/ScrollViews.xaml" />
+
+                <ResourceDictionary Source="Styles/ListBoxStyleDictionary.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
             <sys:Int32 x:Key="IntZero">0</sys:Int32>
             <sys:Int32 x:Key="MinusOne">-1</sys:Int32>

@@ -145,9 +145,9 @@
                                 CommandTarget="{Binding ElementName=MachineWarningDraggablePopup}"       
                                 BorderThickness="0" 
                                   Margin="2,0" Padding="0" Width="30" Height="30" 
-                                Content="{materialDesign:PackIcon Kind=Warning, Size=30}" Foreground="Red"
                                 Style="{StaticResource SiegCustomButton_Transparent}">
-                            <Button.Triggers>
+                                    <Image Width="30" Height="30" Source="{StaticResource WarningDrawingImage}"/>
+                                    <Button.Triggers>
                                 <EventTrigger RoutedEvent="Loaded">
                                     <BeginStoryboard >
                                         <Storyboard  RepeatBehavior="Forever">
@@ -232,21 +232,21 @@
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
                             <Grid>
-                                <Border  MaxHeight="500" MaxWidth="600" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
+                                <Border  MaxHeight="500"  Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="300"/>
                                             <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="300"/>
                                         </Grid.ColumnDefinitions>
                                         <GroupBox Grid.Column="0" Header="{DynamicResource Text_SteelPunchedFont}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                                            <ListBox Margin="10,0" 
+                                            <ListBox Margin="5,0" 
                          ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}"      
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <WrapPanel Margin="5,0"/>
+                                                        <WrapPanel Margin="0,0"/>
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
                                             </ListBox>
@@ -1764,12 +1764,12 @@
                                 <GD_UserControls:FunctionToggleUserControl  IsChecked="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}">
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
-                                            <Setter Property="PackIconKind" Value="MoonAndStars"/>
+                                            <Setter Property="ImageSource" Value="{StaticResource Dark_Mode_DrawingImage_Mono}"/>
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_DarkMode}"      />
                                             <Style.Triggers>
                                                 <Trigger Property="IsChecked" Value="True">
                                                     <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_BrightMode}"      />
-                                                    <Setter Property="PackIconKind" Value="Brightness5"/>
+                                                    <Setter Property="ImageSource" Value="{StaticResource Light_Mode_DrawingImage_Mono}"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
