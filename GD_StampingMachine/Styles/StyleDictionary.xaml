@@ -119,8 +119,6 @@
 
     <Style TargetType="{x:Type GroupBox}" x:Key="UnderLineStyleGroupBox">
 
-        
-        
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="Padding" Value="5,15,5,5"/>
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -150,7 +148,7 @@
                         </Border>
                         <Border
                             Name="Header"
-                            Padding="10,0,0,0">
+                            Padding="10,2,0,2">
                             <ContentPresenter
                                 ContentSource="Header" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.Foreground="{TemplateBinding Foreground}"
                                 RecognizesAccessKey="true"
@@ -366,10 +364,12 @@
     </Style>
     
     <Style x:Key="SiegCustomButton_Gray" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="BorderBrush"     Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="Foreground"
-                            Value="WhiteSmoke" />
+                            Value="{DynamicResource  PrimaryHueDarkForegroundBrush}" />
         <Setter Property="Background"
-                            Value="#909090" />
+                            Value="{DynamicResource PrimaryHueDarkBrush}" />
     </Style>
 
 
@@ -590,6 +590,27 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton_Gray" BasedOn="{StaticResource SiegCustomButton_Gray}">
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="SkyBlue"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="Orange"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Orange"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
 
     <Style TargetType="{x:Type ToggleButton}" x:Key="GD_MainToggleButton" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="Background" Value="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
@@ -1169,8 +1190,8 @@
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
-        
-        
+
+        <Setter Property="materialDesign:ShadowAssist.ShadowEdges" Value="None"/> 
         <Setter Property="TextMargin" Value="2,0,3,2"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="ImageWidth" Value="40"/>
@@ -1219,7 +1240,8 @@
 
 
     <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
-    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}"/>
+    
+    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}"/>
     
     <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
         <Setter Property="Placement" Value="MousePoint"/>

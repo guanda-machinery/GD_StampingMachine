@@ -36,11 +36,11 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel >
             <materialDesign:Card Background="Transparent" Padding="10"
-                            materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
+                            materialDesign:ShadowAssist.ShadowEdges="None" materialDesign:ElevationAssist.Elevation="Dp0" >
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel Margin="5">
-                                <local:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}"
+                        <StackPanel Margin="5,5,20,5">
+                                <local:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}" 
                                                                              ControlTitleText="{DynamicResource Text_Feeding_Component}" >
                                     <local:FunctionToggleUserControl.Style>
                                         <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}" >
@@ -63,22 +63,120 @@
                                 </local:FunctionToggleUserControl>
 
                                 <local:FunctionToggleUserControl IsChecked="{Binding QRCode_Component_Button_IsChecked}"
-                                   PackIconKind="QrcodeEdit"
-                                ControlTitleText="{DynamicResource Text_QRCode_Component}" />
+                                   
+                                ControlTitleText="{DynamicResource Text_QRCode_Component}" >
+                                    <local:FunctionToggleUserControl.Style>
+                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
+                                            <Setter Property="ImageSource" Value="{StaticResource QRCode_Component_BlackDrawingImage}" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="ImageSource" Value="{StaticResource QRCode_Component_BlueDrawingImage}"/>
+                                                </Trigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="ImageSource" Value="{StaticResource QRCode_Component_WhiteDrawingImage}"/>
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:FunctionToggleUserControl.Style>
+                                </local:FunctionToggleUserControl>
+                            
                                 <local:FunctionToggleUserControl IsChecked="{Binding Stamping_Component_Button_IsChecked}"
-                                   PackIconKind="Stamper"
-                                ControlTitleText="{DynamicResource Text_Stamping_Component}" />
+                                ControlTitleText="{DynamicResource Text_Stamping_Component}" >
+                                    <local:FunctionToggleUserControl.Style>
+                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
+                                            <Setter Property="ImageSource" Value="{StaticResource Stamping_Component_BlackDrawingImage}" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="ImageSource" Value="{StaticResource Stamping_Component_BlueDrawingImage}"/>
+                                                </Trigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="ImageSource" Value="{StaticResource Stamping_Component_WhiteDrawingImage}"/>
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:FunctionToggleUserControl.Style>
+                                </local:FunctionToggleUserControl>
+                            
                                 <local:FunctionToggleUserControl IsChecked="{Binding ShearCut_Component_Button_IsChecked}"
-                                   PackIconKind="ScissorsCutting"
-                                ControlTitleText="{DynamicResource Text_ShearCut_Component_Hydraulic}" />
+
+                                ControlTitleText="{DynamicResource Text_ShearCut_Component_Hydraulic}" >
+                                    <local:FunctionToggleUserControl.Style>
+                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
+                                            <Setter Property="ImageSource" Value="{StaticResource ShearCut_Component_Hydraulic_BlackDrawingImage}" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="ImageSource" Value="{StaticResource ShearCut_Component_Hydraulic_BlueDrawingImage}"/>
+                                                </Trigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="ImageSource" Value="{StaticResource ShearCut_Component_Hydraulic_WhiteDrawingImage}"/>
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:FunctionToggleUserControl.Style>
+                                </local:FunctionToggleUserControl>
+                            
                                 <local:FunctionToggleUserControl IsChecked="{Binding Separator_Component_Button_IsChecked}"
-                                   PackIconKind="PackageVariantClosed"
-                                ControlTitleText="{DynamicResource Text_Separator_Component}" />
+
+                                ControlTitleText="{DynamicResource Text_Separator_Component}" >
+                                    <local:FunctionToggleUserControl.Style>
+                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
+                                            <Setter Property="ImageSource" Value="{StaticResource Separator_Component_BlackDrawingImage}" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="ImageSource" Value="{StaticResource Separator_Component_BlueDrawingImage}"/>
+                                                </Trigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="ImageSource" Value="{StaticResource Separator_Component_WhiteDrawingImage}"/>
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:FunctionToggleUserControl.Style>
+                                </local:FunctionToggleUserControl>
 
                                 <local:FunctionToggleUserControl x:Name="Custom_Component_TButton"
-                                   PackIconKind="Download"
-                                ControlTitleText="{DynamicResource Text_Custom_Component}" />
+                                ControlTitleText="{DynamicResource Text_Custom_Component}" >
+                                    <local:FunctionToggleUserControl.Style>
+                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
+                                            <Setter Property="ImageSource" Value="{StaticResource Custom_Component_BlackDrawingImage}" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="ImageSource" Value="{StaticResource Custom_Component_BlueDrawingImage}"/>
+                                                </Trigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="ImageSource" Value="{StaticResource Custom_Component_WhiteDrawingImage}"/>
+                                                </MultiDataTrigger>
 
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:FunctionToggleUserControl.Style>
+                                </local:FunctionToggleUserControl>
+
+                            
+                            
                                 <GD_Popup:NonTopmostPopup
                                     PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
                                     Placement="Right"  
@@ -513,23 +611,47 @@
                     <StackPanel>
                     <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
                         <StackPanel>
-                            <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding StampMachineData.HydraulicPumpIsActive}" Value="true">
-                                                <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
+                                                    <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
                                     </Style>
                                 </Button.Style>
-                            </Button>
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource OilPresssure_WhiteDrawingImage}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource OilPresssure_BlackDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </Button>
                         </StackPanel>
                     </GroupBox>
 
                         <GroupBox  Header="{DynamicResource btnDescription_ReturningToOriginPoint}">
                             <StackPanel>
                                 <Button  Command="{Binding StampMachineData.ReturnToOriginCommand}">
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource Origin_WhiteDrawingImage}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource Origin_BlackDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
                                 </Button>
                             </StackPanel>
 
@@ -537,6 +659,18 @@
                         <GroupBox  Header="{DynamicResource Reset}">
                             <StackPanel>
                                 <Button  Command="{Binding StampMachineData.ResetCommand}">
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource Reset_WhiteDrawingImage}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource Reset_BlackDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
                                 </Button>
                             </StackPanel>
 
@@ -546,7 +680,7 @@
                             <StackPanel>
                                 <Button  Command="{Binding StampMachineData.CycleStartCommand}">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                             <Style.Triggers>
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
@@ -558,6 +692,18 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource CycleStartDrawingImage}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource CycleStartDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
                                 </Button>
                             </StackPanel>
 
@@ -569,9 +715,9 @@
                     <GroupBox Header="{DynamicResource textCurrentMode}">
                         <StackPanel>
                             <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
-                                Content="{materialDesign:PackIcon Kind=Manufacturing}">
+                              >
                           <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -585,11 +731,26 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
+
+                                <Image>
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{StaticResource Setup_WhiteDrawingImage}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Setup_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                             </Button>
-                            <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
-                                Content="{materialDesign:PackIcon Kind=Braille}">
+                            <Button Margin="5" 
+                                    Command="{Binding StampMachineData.SetOperationModeCommand}" 
+                                    CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
+                         >
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -603,11 +764,24 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
+
+                                <Image >
+                                    <Image.Style>
+                                        <Style TargetType="Image" >
+                                            <Setter Property="Source" Value="{StaticResource Manual_WhiteDrawingImage}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Manual_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                             </Button>
                             <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
-                                Content="{materialDesign:PackIcon Kind=ProgressStarFourPoints}">
+                           >
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -621,11 +795,24 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
+
+                                <Image>
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{StaticResource HalfAutomatic_WhiteDrawingImage}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource HalfAutomatic_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                             </Button>
                             <Button  Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
-                                Content="{materialDesign:PackIcon Kind=RefreshAuto}">
+                         >
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -639,6 +826,19 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
+
+                                <Image>
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{StaticResource FullAutomatic_WhiteDrawingImage}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource FullAutomatic_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                             </Button>
 
 
@@ -1110,10 +1310,10 @@
                                                         Background="{TemplateBinding Background }" CornerRadius="5" >
                                                             </Border>
 
-                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center">
-                                                        <TextBlock FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center" >
+                                                                    <TextBlock FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"  Padding="0,2,0,0"
                                                                    Text="{DynamicResource Text_Box}" Foreground="{TemplateBinding Foreground}"/>
-                                                    <TextBlock FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2" 
+                                                                    <TextBlock FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2" Padding="0,2,0,0"
                                                                Foreground="{TemplateBinding Foreground}">
                                                                         <TextBlock.Text>
                                                             <MultiBinding StringFormat="{}{0}">
@@ -1167,13 +1367,35 @@
                             <Grid IsEnabled="{Binding IsRotating, Converter={dx:BoolInverseConverter}}">
                                 <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                         Command="{Binding SeparateBox_CounterClockwiseRotateCommand}" 
-                                        Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
-                                <materialDesign:PackIcon Kind="ArrowURightTop" Width="auto" Height="auto"/>
-                            </Button>
+                                        Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource turnRight_WhiteDrawingImage}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource turnRight_BlackDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </Button>
                                 <Button Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                         Command="{Binding SeparateBox_ClockwiseRotateCommand}" 
-                                        Style="{StaticResource GD_RepeatButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
-                                <materialDesign:PackIcon Kind="ArrowULeftTop" Width="auto" Height="auto"/>
+                                     Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource turnLeft_WhiteDrawingImage}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource turnLeft_BlackDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
                             </Button>
                         </Grid>
                     </StackPanel>

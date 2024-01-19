@@ -2089,40 +2089,42 @@
                     <GroupBox Header="{DynamicResource Text_Separate}" Margin="10" HorizontalAlignment="Left" Padding="20">
                         <StackPanel>
 
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <TextBlock Text="{DynamicResource Text_SelectSeparateMode}"/>
-                                <TextBlock Text="："/>
-                                <StackPanel Orientation="Horizontal" Margin="40,0">
-                                    <StackPanel.Resources>
+                                    <Grid Margin="0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.Resources>
                                             <Style TargetType="ToggleButton" BasedOn="{StaticResource SiegToggleButton_UnderLine}">
                                                 <Setter Property="Cursor" Value="Hand"/>
                                             </Style>
-                                    </StackPanel.Resources>
-                                        <ToggleButton Name="IsSingleSettingToggleButton"
+                                        </Grid.Resources>
+                                        <ToggleButton  Grid.Column="0" HorizontalAlignment="Stretch" Width="auto"
+                                            Name="IsSingleSettingToggleButton" Style="{StaticResource GD_ToggleButton_Gray}" Margin="0,0,2,0"
                                             Content="{DynamicResource Text_SingleSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                      IsChecked="{Binding SettingType , Converter={GD_Common:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.SingleSetting}}"
                                                       />
-                                        <ToggleButton  Name="IsUnifiedSettingToggleButton"
+                                        <ToggleButton Grid.Column="1" HorizontalAlignment="Stretch" Width="auto"
+                                            Name="IsUnifiedSettingToggleButton" Style="{StaticResource GD_ToggleButton_Gray}" Margin="2,0,0,0"
                                             Content="{DynamicResource Text_UnifiedSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                      IsChecked="{Binding SettingType , Converter={GD_Common:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}}"
                                                      />
-                                </StackPanel>
-                            </StackPanel>
+                                    </Grid>
 
-                                <Grid Grid.Row="1"  Margin="0,8,0,7" 
+                                    <Grid Grid.Row="1"  Margin="0,8,0,0" 
                                       Visibility="{Binding SettingType, Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="150"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{DynamicResource Text_Box_AllSetting}"   />
+                                    <TextBlock Text="{DynamicResource Text_Box_AllSetting}"  />
                                     <GD_UserControls:TriggerSliderUserControl
                                         Width="250"  Maximum="500"
                                     Grid.Row="0" Grid.Column="1"  MainSilderValueChanged="{Binding SingleSetting_SeparateBoxValueChanged}"
                                     MainSilderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>
                             
-                                <CheckBox Margin="0.5,5" VerticalAlignment="Center"
+                                <CheckBox Margin="0.5,10" VerticalAlignment="Center"
                                                                 Style="{StaticResource MaterialDesignUserForegroundCheckBox}" HorizontalAlignment="Left" IsChecked="True"
                                                                       Command="{Binding SetAllSeparateBoxIsEnabled}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" 
                                           Content="{DynamicResource Text_Box_AllSetting}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" FontSize="16" >

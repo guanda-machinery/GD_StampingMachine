@@ -70,7 +70,8 @@
         <Setter Property="AllowInitiallyFocusedRow" Value="False"/>
         <Setter Property="SelectionMode" Value="Row"/>
         <Setter Property="AutoGenerateColumns" Value="None"/>
-        <Setter Property="ShowBorder" Value="False"/>
+        <Setter Property="ShowBorder" Value="true"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="True">
                 <Setter Property="Opacity" Value="1"/>
@@ -85,18 +86,20 @@
                 <Setter Property="AllowGroupSummaryCascadeUpdate" Value="True"/>
                 <Setter Property="AllowCascadeUpdate" Value="True"/>
                 <Setter Property="RowAnimationKind" Value="Opacity"/>
-                    
+                <Setter Property="ShowHorizontalLines" Value="True"/>
+                <Setter Property="ShowVerticalLines" Value="False"/>
                 <Setter Property="FadeSelectionOnLostFocus" Value="False"/>
                 <Setter Property="CellStyle" Value="{StaticResource ProjectGridControlCellStyle}"/>
                 <Setter Property="RowStyle">
                     <Setter.Value>
                         <Style TargetType="{x:Type dxg:RowControl}" >
+                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Setter Property="Height" Value="40"/>
                             <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
                             <Setter Property="FontWeight" Value="Regular"/>
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                                     <Setter Property="Background" Value="DeepSkyBlue" />
@@ -156,8 +159,8 @@
                     <Setter.Value>
                         <Style TargetType="dxg:BaseGridHeader">
                             <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
-                            <Setter Property="BorderBrush" Value="#858585" />
-                            <Setter Property="BorderThickness" Value="0,0,1,0" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                            <Setter Property="BorderThickness" Value="0.5,0,0.5,1" />
                         </Style>
                     </Setter.Value>
                 </Setter>

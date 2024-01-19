@@ -132,13 +132,13 @@
 
 
 
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0">
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0,0,0">
                         <Border Padding="15,5" CornerRadius="20"
                             Background="{DynamicResource PrimaryHueMidBrush}" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}" BorderThickness="2">
                         <StackPanel Orientation="Horizontal">
                             
                         
-                        <Button Name="AlarmButton" 
+                        <Button Name="AlarmButton"  
                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
                             Path=AlarmMessageCollection.Count,Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True} }"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
@@ -432,7 +432,6 @@
                         <TextBlock 
                             Style="{StaticResource Body1TextBlockBold}" FontSize="25" VerticalAlignment="Center"
                             Text="{Binding DateTimeNow,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:hh:mm tt}' }" Margin="15,0" />
-                        <materialDesign:PackIcon Kind="InformationOutline" Width="30" Height="30" Foreground="#99cff9" VerticalAlignment="Center"/>
                     </StackPanel>
 
             </Grid>

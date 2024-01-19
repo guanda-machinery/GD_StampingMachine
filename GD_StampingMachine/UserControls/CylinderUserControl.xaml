@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              Name="cylinderUserControl" >
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <materialDesign:ColorZone CornerRadius="2" Padding="1">
+        <materialDesign:ColorZone CornerRadius="2" Padding="1" Background="{DynamicResource PrimaryHueDarkBrush}">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="materialDesign:PackIcon" x:Key="CylinderIsSingalPackIconStyle">

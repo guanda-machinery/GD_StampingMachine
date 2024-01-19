@@ -29,6 +29,7 @@
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              
+             
              d:DataContext="{d:DesignInstance Type=GD_ProductSettingViewModels:ProductSettingViewModel}"
              Name="ProductSettingUControl"
              
@@ -61,7 +62,8 @@
                                 Text="{DynamicResource Text_Search}" FontSize="20"  />
                     <TextBox BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}" Width="300"  Text="{x:Null}"
                                      materialDesign:HintAssist.Hint="Search Tasks(Ctrl + F)"
-                                     materialDesign:HintAssist.Foreground="Blue"                   
+                                     materialDesign:HintAssist.Foreground="Blue"            
+                             FontWeight="Bold" 
                                      Margin="5,0"  Padding="5,1" Name="SearchTextBox" 
                                      Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
 
@@ -70,10 +72,10 @@
 
                     <ToggleButton Padding="10,3,10,0"  
                         Name="btnShowAll" Margin="5,0"
-                                  Style="{StaticResource GD_ToggleButton_White}" Content="{DynamicResource btnShowAll}" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowAllProject}"/>
+                                  Style="{StaticResource GD_ToggleButton_Gray}" Content="{DynamicResource btnShowAll}" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowAllProject}"/>
 
                     <ToggleButton Padding="10,3,10,0"  Margin="5,0"
-                        Style="{StaticResource GD_ToggleButton_White}" Content="{DynamicResource btnShowHistory}" IsEnabled="{Binding ElementName=btnShowAll, Path=IsChecked,UpdateSourceTrigger=PropertyChanged, Converter={dx:BoolInverseConverter}}" 
+                        Style="{StaticResource GD_ToggleButton_Gray}" Content="{DynamicResource btnShowHistory}" IsEnabled="{Binding ElementName=btnShowAll, Path=IsChecked,UpdateSourceTrigger=PropertyChanged, Converter={dx:BoolInverseConverter}}" 
                      Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowHiddenProject}"/>
 
 
@@ -108,6 +110,7 @@
                                 <Setter Property="Foreground" Value="Black"/>
                                 <Setter Property="FontWeight" Value="Regular"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,3"/>
                             </Style>
                             <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
                                 <Setter Property="Foreground" Value="Black"/>
@@ -145,9 +148,9 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_CreateProject}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_CreateProject}" Grid.ColumnSpan="3"  FontWeight="Bold"/>
 
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="※"  VerticalAlignment="Center" Foreground="Red"/>
 
                             <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_SavePath}"/>
                             <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_ProjectName}"/>
@@ -263,6 +266,9 @@
                         <Border.Resources >
                             <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                                 <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Padding" Value="0,2,0,0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,3"/>
                             </Style>
                             <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
                                 <Setter Property="Foreground" Value="Black"/>
@@ -304,15 +310,15 @@
 
                             <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_EditProject}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
 
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0"  Foreground="Red"/>
 
-                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_SavePath}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_SavePath}" />
                             <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_ProjectName}"/>
                             <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_ConstructionNumber}"/>
                             <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_MachiningForm}"/>
 
                             <TextBlock Grid.Column="2" Grid.Row="1" Text="："/>
-                            <TextBlock Grid.Column="2" Grid.Row="2" Text="："/>
+                            <TextBlock Grid.Column="2" Grid.Row="2" Text="：" />
                             <TextBlock Grid.Column="2" Grid.Row="3" Text="："/>
                             <TextBlock Grid.Column="2" Grid.Row="4" Text="："/>
 
@@ -417,7 +423,7 @@
                  Background="Transparent" 
                  BorderThickness="0" 
                  BorderBrush="#595E60" >
-                <dxg:GridControl  Background="Transparent"  
+                <dxg:GridControl  Background="Transparent"  VerticalAlignment="Top"
                     CustomRowFilterCommand="{Binding ProductProjectRowFilterCommand }"
                     Style="{StaticResource ProjectGridControl}" 
 
@@ -426,7 +432,6 @@
                     ItemsSource="{Binding ProductProjectVMObservableCollection}"
                     SelectedItem="{Binding SelectProductProjectVM}"
                     MinHeight="100"
-                                      MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"
                                       
                                       >
                     <dxg:GridControl.View >
@@ -446,8 +451,6 @@
                                 HeaderHorizontalAlignment="Center"
                                 VerticalScrollbarVisibility="Auto"
                                 HorizontalScrollbarVisibility="Auto"
-                                ShowHorizontalLines="False"
-                                ShowVerticalLines="False"
                                 ShowGroupPanel="True"
                                 ShowSearchPanelMode="Never"
                                 SearchPanelNullText="Search Tasks(Ctrl + F)" 
@@ -455,12 +458,8 @@
                                 ShowIndicator="False"
                                 SearchDelay="0"/>
                     </dxg:GridControl.View>
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="!!"  Width="auto"   IsSmart="True" >
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
-                        </dxg:GridColumn.EditSettings>
-                    </dxg:GridColumn>
 
+                    
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProjectNumber" Width="auto"   IsSmart="True" >
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
@@ -530,24 +529,36 @@
                         </dxg:GridColumn.HeaderStyle>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Command="{Binding Row.ProjectEditCommand}"  Padding="5,2,5,0"  Margin="5,0"
+                                <Button 
+                                    Command="{Binding Row.ProjectEditCommand}"  Padding="5,2"  Margin="5,0"
+                                        ToolTip="{DynamicResource btnEdit}"
                                         MinWidth="50">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                            <Setter Property="BorderThickness" Value="0.5"/>
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
-                                                    <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnEdit}" Foreground="Black"/>
+                                                    <Image Name="EditImage"
+                                                            Source="{StaticResource Edit_WhiteDrawingImage }"/>
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
                                                     <Setter Property="Content">
                                                         <Setter.Value>
-                                                            <materialDesign:PackIcon Kind="Edit" Width="20" Height="20"/>
+                                                            <Image Source="{StaticResource Edit_BlackDrawingImage}"/>
                                                         </Setter.Value>
                                                     </Setter>
+                                                </DataTrigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <Image Source="{StaticResource Edit_FocusDrawingImage}"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="Background" Value="#f8cbff"/>
+                                                    <Setter Property="BorderBrush" Value="#d24fe8"/>
                                                 </Trigger>
+                                             
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
@@ -568,41 +579,45 @@
                         </dxg:GridColumn.HeaderStyle>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  MinWidth="50" Padding="5,2,5,0"   Margin="5,0">
+                                <Button  MinWidth="50" Padding="5,2"   Margin="5,0" ToolTip="{DynamicResource btnDelete}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
                                             <i:InvokeCommandAction Command="{Binding ElementName=MainGrid ,Path=DataContext.SaveProductListSettingCommand}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-
-
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                            <Setter Property="BorderThickness" Value="0.5"/>
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
-                                                    <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnDelete}" Foreground="Black"/>
+                                                    <Image Name="EditImage"
+                                                            Source="{StaticResource Delete_WhiteDrawingImage }"/>
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
                                                     <Setter Property="Content">
                                                         <Setter.Value>
-                                                            <materialDesign:PackIcon Kind="Delete" Width="20" Height="20"/>
+                                                            <Image Source="{StaticResource Delete_BlackDrawingImage}"/>
                                                         </Setter.Value>
                                                     </Setter>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed"  Value="True">
+                                                </DataTrigger>
+                                                <Trigger Property="IsPressed" Value="True">
                                                     <Setter Property="Content">
                                                         <Setter.Value>
-                                                            <materialDesign:PackIcon Kind="Dad"  Width="20" Height="20"/>
+                                                            <Image Source="{StaticResource Delete_FocusDrawingImage}"/>
                                                         </Setter.Value>
                                                     </Setter>
+                                                    <Setter Property="Background" Value="#ffdcdc"/>
+                                                    <Setter Property="BorderBrush" Value="#ee2f2f"/>
                                                 </Trigger>
+
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
+
+
+
                                 </Button>
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>
@@ -619,16 +634,46 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button MinWidth="70"  Padding="5,2,5,0"   Margin="5,0"
-                                            Content="{DynamicResource btnFinishProject}" IsEnabled="{Binding Row.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
+                                    <Button MinWidth="50"  Padding="5,2"   Margin="5,0"
+                                            ToolTip="{DynamicResource btnFinishProject}" IsEnabled="{Binding Row.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Row.ProjectFinishCommand}" />
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl},Path=DataContext.UpdateFiltrationLogicCommand}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <Image Name="EditImage"
+                                                            Source="{StaticResource Done_WhiteDrawingImage }"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Done_BlackDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Done_FocusDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Background" Value="#b4ff9a"/>
+                                                        <Setter Property="BorderBrush" Value="#289c00"/>
+                                                    </Trigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
                                     </Button>
-                                    <Button MinWidth="70" Height="30" Content="{DynamicResource btnCancelFinish}" Style="{StaticResource SiegCustomButton_Dark}"
+                                    <Button MinWidth="50" Margin="5,0"
+                                            Height="30" ToolTip="{DynamicResource btnCancelFinish}"
                                             IsEnabled="{Binding Row.ProductProjectIsFinish}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}" >
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
@@ -636,6 +681,35 @@
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl},Path=DataContext.UpdateFiltrationLogicCommand}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Dark}">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <Image Name="EditImage"
+                                                            Source="{StaticResource Done_WhiteDrawingImage }"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Done_BlackDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Done_FocusDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Background" Value="#b4ff9a"/>
+                                                        <Setter Property="BorderBrush" Value="#289c00"/>
+                                                    </Trigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>
@@ -722,6 +796,7 @@
                         <StackPanel.Resources >
                             <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                                 <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Margin" Value="0,3"/>
                             </Style>
                             <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
                                 <Setter Property="Foreground" Value="Black"/>
@@ -954,7 +1029,7 @@
 
 
                                     <StackPanel  Grid.Row="8" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                        <Button Content="{DynamicResource btnClose}">
+                                        <Button Content="{DynamicResource btnClose}" Padding="15,2,15,0">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
                                                     <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}"/>
@@ -967,7 +1042,7 @@
 
 
                                         </Button>
-                                        <Button Content="{DynamicResource btnSaveChange}"
+                                        <Button Content="{DynamicResource btnSaveChange}" Padding="15,2,15,0"
                                             Command="{Binding OverwritePartsParameterByCloneCommand}"
                                             >
 
@@ -1399,11 +1474,12 @@
 
 
                                     <StackPanel  Grid.Row="6" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                        <Button   
+                                        <Button   Padding="15,2,15,0"
                                                                     Content="{DynamicResource btnCancel}"
                                                                     Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}" CommandParameter="{StaticResource FalseValue}">
                                         </Button>
-                                        <Button Content="{DynamicResource btnImport}">
+                                        <Button Padding="15,2,15,0"
+                                            Content="{DynamicResource btnImport}">
                                             <Button.IsEnabled>
                                                 <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                                     <Binding Path="ImportFilePath"/>
@@ -1594,8 +1670,6 @@
                                 HeaderHorizontalAlignment="Center"
                                 VerticalScrollbarVisibility="Auto"
                                 HorizontalScrollbarVisibility="Auto"
-                                ShowHorizontalLines="False"
-                                ShowVerticalLines="False"
                                 ShowGroupPanel="False"
                                 ShowSearchPanelMode="Never"
                                 SearchPanelNullText="Search Tasks(Ctrl + F)" 
@@ -1622,9 +1696,8 @@
                         </dxg:GridColumn.EditSettings>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid HorizontalAlignment="Center">
-                                    <materialDesign:PackIcon Height="auto" Width="auto" Margin="8"
-                                            Kind="Gear" Visibility="{Binding Row.DistributeName , Converter={GD_Common:ObjectIsNullToVisibilityConverter}}"/>
+                                <Grid HorizontalAlignment="Center" Visibility="{Binding Row.DistributeName , Converter={GD_Common:ObjectIsNullToVisibilityConverter}}">
+                                    <Image Source="{StaticResource GreenChecked_DrawingImage}"/>
                                 </Grid>
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>
@@ -1793,9 +1866,40 @@
                         </dxg:GridColumn.HeaderStyle>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="{DynamicResource btnEdit}"     
+                                <Button ToolTip="{DynamicResource btnEdit}"     Margin="5,0"
                                         IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_Common:InvertBooleanConverter}}"
-                                        Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50"/>
+                                        Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50">
+
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <Image Name="EditImage"
+                                                            Source="{StaticResource Edit_WhiteDrawingImage }"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <Image Source="{StaticResource Edit_BlackDrawingImage}"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <Image Source="{StaticResource Edit_FocusDrawingImage}"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="Background" Value="#f8cbff"/>
+                                                    <Setter Property="BorderBrush" Value="#d24fe8"/>
+                                                </Trigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>
                     </dxg:GridColumn>
@@ -1813,9 +1917,40 @@
                         </dxg:GridColumn.HeaderStyle>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Height="30" MinWidth="50"
+                                <Button Height="30" MinWidth="50" Margin="5,0"
                                         IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_Common:InvertBooleanConverter}}"
-                                        Content="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
+                                        ToolTip="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" >
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <Image Name="EditImage"
+                                                            Source="{StaticResource Delete_WhiteDrawingImage }"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <Image Source="{StaticResource Delete_BlackDrawingImage}"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <Image Source="{StaticResource Delete_FocusDrawingImage}"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="Background" Value="#ffdcdc"/>
+                                                    <Setter Property="BorderBrush" Value="#ee2f2f"/>
+                                                </Trigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                </Button>
                             </DataTemplate>
                         </dxg:GridColumn.CellTemplate>
                     </dxg:GridColumn>
