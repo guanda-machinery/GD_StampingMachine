@@ -8,9 +8,12 @@ namespace GD_CommonLibrary
     {
         public bool Invert { get; set; }
 
+        public bool IsHidden { get; set; }
+
+
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Visibility _visibility = Visibility.Collapsed;
+            Visibility _visibility = IsHidden? Visibility.Hidden:Visibility.Collapsed;
             if (value == null)
             {
                 return (Invert) ? Visibility.Visible : _visibility;

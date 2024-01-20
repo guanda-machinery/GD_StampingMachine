@@ -30,7 +30,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         [JsonIgnore]
-        public bool BoxIsFull => UntransportedFinishedBoxPieceValue >= BoxSliderValue;
+        public bool BoxIsFull
+        {
+            get
+            {
+                if (UntransportedFinishedBoxPieceValue > 0) 
+                    return UntransportedFinishedBoxPieceValue >= BoxSliderValue;
+                else 
+                    return false;
+            }
+        }
 
 
        private double _boxPieceValue;

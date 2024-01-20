@@ -208,7 +208,7 @@
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <Border  Margin="0,4,5,5"  x:Name="MachiningPlateBorder"
+                                        <Border  Margin="0,5,5,5"  x:Name="MachiningPlateBorder"
                                                                                         BorderThickness="1" BorderBrush="Black" CornerRadius="5"
                                                                                         HorizontalAlignment="Center"
                                                                                         >
@@ -843,29 +843,57 @@
                     </StackPanel>
 
 
-                    <ScrollViewer Grid.RowSpan="2"  Grid.Row="4"   Grid.ColumnSpan="3" Margin="10,0">
-                        <ItemsControl        
-                        ItemsSource="{Binding IsAsync=True, Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <GD_SchematicDiagram:QRPlateRowDiagramControl   
-                                                        IsEnabled="False"    PlateRowBackground="Transparent"
-                                                                        DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                            </TransformGroup>
-                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </ScrollViewer>
+                   
+                <Grid 
+                    Grid.RowSpan="2"  Grid.Row="4"   Grid.ColumnSpan="4" Margin="10,0,10,0">
+                        <Grid.Resources>
+                            <Style TargetType="GD_SchematicDiagram:QRPlateRowDiagramControl">
+
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="PlateRowBackground" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                <!--<Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext,
+                                    Converter={GD_Common:ObjectIsNullToVisibilityConverter IsHidden=True}}"/>-->
+
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.DataMatrixIsFinish, RelativeSource={RelativeSource AncestorType=Grid}}" Value="true">
+                                        <Setter Property="PlateRowBackground" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DataContext.EngravingIsFinish, RelativeSource={RelativeSource AncestorType=Grid}}" Value="true">
+                                        <Setter Property="PlateRowBackground" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DataContext.ShearingIsFinish, RelativeSource={RelativeSource AncestorType=Grid}}" Value="true">
+                                        <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=DataContext , RelativeSource={RelativeSource AncestorType=Grid}}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        <Grid Margin="5"  Grid.Column="0" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+Path=MachineSettingBaseCollection[25]}">
+                            <GD_SchematicDiagram:QRPlateRowDiagramControl DataContext="{Binding SettingBaseVM}"/>
+                        </Grid>
+                        <Grid Margin="5"  Grid.Column="1"  DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+Path=MachineSettingBaseCollection[10]}"
+                           >
+                            <GD_SchematicDiagram:QRPlateRowDiagramControl DataContext="{Binding SettingBaseVM}" />
+                        </Grid>
+                        <Grid Margin="5"  Grid.Column="2"  DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+Path=MachineSettingBaseCollection[0]}" 
+                          >
+                            <GD_SchematicDiagram:QRPlateRowDiagramControl DataContext="{Binding SettingBaseVM}" />
+                        </Grid>
+
+                    </Grid>
+ 
 
                     <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="3"  Visibility="Collapsed"
                                         Grid.Row="4" 

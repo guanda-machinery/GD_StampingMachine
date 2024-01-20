@@ -899,28 +899,27 @@ namespace GD_StampingMachine.Singletons
                 DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
                 try
                 {
-
-
-
-                    var sleepTask = Task.Run(async () =>
+                    _ = Task.Run(async () =>
                     {
-                    try
-                    {
-                        // while (this.IsConnected)
+                           
+                        Debugger.Break();
+                        
+                        while (!cancelToken.IsCancellationRequested)
                         {
-                            if (cancelToken.IsCancellationRequested)
-                                cancelToken.ThrowIfCancellationRequested();
-                            //找出現在是否在自動狀態
-                            //   DateTime.Now
-
-                            // if (OperationMode == OperationModeEnum.FullAutomatic)
-
-                            if (OperationMode == OperationModeEnum.Setup)
+                            try
                             {
-                                var EnableTimingControl = StampingMachineSingleton.Instance.ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable).ToList();
-                                //若目前時間落在之間
                                 if (cancelToken.IsCancellationRequested)
                                     cancelToken.ThrowIfCancellationRequested();
+                                //找出現在是否在自動狀態
+                                //   DateTime.Now
+
+
+                               if (OperationMode == OperationModeEnum.FullAutomatic)
+                                {
+                                    var EnableTimingControl = StampingMachineSingleton.Instance.ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable).ToList();
+                                    //若目前時間落在之間
+                                    if (cancelToken.IsCancellationRequested)
+                                        cancelToken.ThrowIfCancellationRequested();
                                     if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))
                                     {
                                         var restTimeRange = EnableTimingControl.Where(x => x.DateTimeIsBetween(DateTime.Now)).ToList();
@@ -960,7 +959,7 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 while (true)
                                                 {
-                                                    if (DateTime.Now> openMax)
+                                                    if (DateTime.Now > openMax)
                                                     {
                                                         break;
                                                     }
@@ -972,7 +971,7 @@ namespace GD_StampingMachine.Singletons
 
 
                                             var completedTask = await Task.WhenAny(openTask, isNotHalfAutoTask, isNotConnectedTask);
-                                            if(openTask == completedTask)
+                                            if (openTask == completedTask)
                                             {
                                                 await SetOperationModeAsync(OperationModeEnum.FullAutomatic);
                                             }
@@ -982,18 +981,14 @@ namespace GD_StampingMachine.Singletons
 
 
                                 }
-
-
-
+                            }
+                            catch (Exception ex)
+                            {
 
                             }
                         }
-                        catch (Exception ex)
-                        {
 
-                        }
-
-                    }, cancelToken);
+                    });
 
 
                     do

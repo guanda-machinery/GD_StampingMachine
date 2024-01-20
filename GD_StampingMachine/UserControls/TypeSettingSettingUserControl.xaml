@@ -134,7 +134,7 @@
                         </Border>
                     </GD_Popup:DraggablePopup>
                 </StackPanel>
-                <dxg:GridControl  Grid.Row="1" x:Name="ProjectDistributeGridControl"
+                <dxg:GridControl  Grid.Row="1" x:Name="ProjectDistributeGridControl" HorizontalAlignment="Stretch"
                 Background="Transparent"  Margin="5"
                                       Style="{StaticResource ProjectGridControl}" 
                                       AutoGenerateColumns="None"
