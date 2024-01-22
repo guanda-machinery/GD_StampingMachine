@@ -1163,11 +1163,16 @@ namespace GD_StampingMachine.ViewModels
                       {
                           args.Visible = true;
                       }*/
-                    if (!PartsParameter.IsSended)
+
+                    if (PartsParameter.IsTransported)
+                    {
+                        args.Visible = false;
+                    }
+                   /* if (!PartsParameter.IsSended)
                     {
                         args.Visible = true;
-                    }
-                    if (PartsParameter.IsSended && !ShowIsSended)
+                    }*/
+                    else if(PartsParameter.IsSended && !ShowIsSended)
                     {
                         args.Visible = false;
                     }

@@ -513,7 +513,9 @@ namespace GD_StampingMachine.ViewModels
                                 }
                             }
                         }
+                        RefreshBoxPartsParameterVMRowFilter();
                     }
+                   
                 }
             });
         }
