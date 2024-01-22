@@ -28,7 +28,7 @@
                     </Style>
 
                 </Grid.Resources>
-                <Border  
+                <Border 
             Background="{Binding ElementName=MainDiagramBaseUserControl ,Path=PlateRowBackground}" CornerRadius="2" 
                                                          HorizontalAlignment="Stretch" />
                 <Canvas  >

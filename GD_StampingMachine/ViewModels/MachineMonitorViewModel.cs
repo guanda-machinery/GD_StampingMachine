@@ -1244,9 +1244,10 @@ namespace GD_StampingMachine.ViewModels
             partsParameter.IsTransported = false;
 
             var box = SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.First(x => x.BoxIndex == partsParameter.BoxIndex);
-           
-           var unWorkCount = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsFinish);
-            if (unWorkCount < box.BoxSliderValue)
+
+           // var unWorkCount = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsFinish);
+            var unTransportedCount = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0  && !x.IsTransported);
+            if (unTransportedCount < box.BoxSliderValue)
             {
                 var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
                 if (indexMax < 0)
