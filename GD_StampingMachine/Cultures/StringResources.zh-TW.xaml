@@ -3,6 +3,8 @@
           
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="btnOk">OK</sys:String>
+    <sys:String x:Key="btnYes">是</sys:String>
+    <sys:String x:Key="btnNo">否</sys:String>
 
     <!--#region主介面 -->
     <sys:String x:Key="btnDescription_MainSystem">主系統</sys:String> 
@@ -398,6 +400,8 @@
 
     <sys:String x:Key="Text_Starting">正在啟動...</sys:String>
     <sys:String x:Key="Text_Loading">讀取中...</sys:String>
+
+    <sys:String x:Key="Text_ClearBoxConfirm">確定清空「盒子{0}」？</sys:String>
 
 
     <sys:String x:Key="Text_JsonError">Json檔案讀取錯誤</sys:String>

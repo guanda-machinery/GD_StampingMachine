@@ -362,7 +362,15 @@
         <Setter Property="Background"
                             Value="DarkCyan" />
     </Style>
-    
+
+    <Style x:Key="SiegCustomButtonSkyBlue" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
+        <Setter Property="Foreground"
+                            Value="WhiteSmoke" />
+        <Setter Property="Background"
+                            Value="#40cfff" />
+    </Style>
+
+
     <Style x:Key="SiegCustomButton_Gray" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="BorderThickness" Value="1.5"/>
         <Setter Property="BorderBrush"     Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>

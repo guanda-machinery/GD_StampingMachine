@@ -41,9 +41,6 @@
                 <Setter Property="IsEnabled" Value="False"/>
                 <Setter Property="Visibility" Value="Visible"/>
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=DataContext , RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger>
                     <DataTrigger Binding="{Binding DataContext.DataMatrixIsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
                         <Setter Property="PlateRowBackground" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
                     </DataTrigger>
@@ -870,40 +867,56 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ContentControl}">
-                                            <Border BorderBrush="Black" BorderThickness="1"  Margin="10" CornerRadius="10">
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="Background" Value="Transparent"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding SettingBaseVM}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Hidden"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding DataMatrixIsFinish}" Value="true">
-                                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding EngravingIsFinish}" Value="true">
-                                                                <Setter Property="Background" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding ShearingIsFinish}" Value="true">
-                                                                <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
+                                            <ControlTemplate.Resources>
+                                                <Style TargetType="Border" x:Key="ContentBorder">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=DataContext , RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Hidden"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding DataMatrixIsFinish}" Value="true">
+                                                            <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding EngravingIsFinish}" Value="true">
+                                                            <Setter Property="Background" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ShearingIsFinish}" Value="true">
+                                                            <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ControlTemplate.Resources>
 
 
-                                                    </Style>
-                                                </Border.Style>
-                                                
-                                                
-                                                <ContentPresenter  Margin="20"
+
+                                            <Border Style="{StaticResource ContentBorder}"
+                                                BorderBrush="Black" BorderThickness="1"  Margin="10" CornerRadius="10">
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <ContentPresenter  Margin="20"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Grid>
                                             </Border>
+
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
                             </Style>
                         </Grid.Resources>
                         <ContentControl   Grid.Column="0" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-Path=MachineSettingBaseCollection[25]}">
+Path=MachineSettingBaseCollection[24]}">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
                         </ContentControl>
@@ -913,7 +926,7 @@ Path=MachineSettingBaseCollection[10]}">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
                         </ContentControl>
-                        
+
                         <ContentControl  Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[0]}">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"

@@ -10,6 +10,7 @@ using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using GD_StampingMachine.Windows;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -21,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -1359,15 +1361,26 @@ namespace GD_StampingMachine.ViewModels
         private ICommand _clearFinishItemCommand;
         public ICommand ClearFinishItemCommand
         {
-            get => _clearFinishItemCommand ??= new RelayCommand(() =>
+            get => _clearFinishItemCommand ??= new AsyncRelayCommand(async () =>
             {
                 var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
-                foreach (var unTransPorted in unTransportedCollection)
+                string Outputstring = "";
+                var clearBoxConfirmNotify = (string)Application.Current.TryFindResource("Text_ClearBoxConfirm");
+                if (clearBoxConfirmNotify != null)
                 {
-                    unTransPorted.IsTransported = true;
+                     Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
                 }
-                RefreshBoxPartsParameterVMRowFilter();
+                var result =  await  MessageBoxResultShow.FloatShowAsync( null , Outputstring, MessageBoxButton.OKCancel , GD_MessageBoxFloatResult.NotifyRd);
+                if (result is MessageBoxResult.OK || result is MessageBoxResult.Yes)
+                {
+                    var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
+                    foreach (var unTransPorted in unTransportedCollection)
+                    {
+                        unTransPorted.IsTransported = true;
+                    }
+                    RefreshBoxPartsParameterVMRowFilter();
+                }
+
 
             });
         }

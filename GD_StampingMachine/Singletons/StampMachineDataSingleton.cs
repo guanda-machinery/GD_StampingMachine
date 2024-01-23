@@ -3258,11 +3258,14 @@ namespace GD_StampingMachine.Singletons
 
                         };
 
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 4; i < 25; i++)
                         {
                             _machineSettingBaseCollection.Add(new PlateMonitorViewModel()
                             {
                                 SettingBaseVM = new QRSettingViewModel()
+                                {
+                                    PlateNumber = "Test"+i
+                                }
                             });
                         }
 

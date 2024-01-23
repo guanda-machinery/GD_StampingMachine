@@ -36,9 +36,7 @@
             </Style.Triggers>
         </Style>
     </Window.Style>
-    
-    
-    
+
     <WindowChrome.WindowChrome>
         <WindowChrome 
             CaptionHeight="0" ResizeBorderThickness="10"/>
