@@ -6,10 +6,9 @@
              xmlns:local="clr-namespace:GD_StampingMachine"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800" 
-                      
              
-                    xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-               xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
@@ -36,7 +35,7 @@
 
         <Grid>
         <Grid.Resources>
-            <Style TargetType="GD_SchematicDiagram:QRPlateRowDiagramControl" >
+            <Style TargetType= "{x:Type GD_SchematicDiagram:QRPlateRowDiagramControl}" >
                 <Setter Property="PlateRowBackground" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
                 <Setter Property="IsEnabled" Value="False"/>
                 <Setter Property="Visibility" Value="Visible"/>
@@ -863,10 +862,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.Resources>
-                            <Style TargetType="{x:Type ContentControl}">
+
+                            <Style TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
                                 <Setter Property="Template">
                                     <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ContentControl}">
+                                        <ControlTemplate TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
                                             <ControlTemplate.Resources>
                                                 <Style TargetType="Border" x:Key="ContentBorder">
                                                     <Setter Property="Background" Value="Transparent"/>
@@ -887,11 +887,10 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </ControlTemplate.Resources>
-
-
-
                                             <Border Style="{StaticResource ContentBorder}"
-                                                BorderBrush="Black" BorderThickness="1"  Margin="10" CornerRadius="10">
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                                    Margin="10" CornerRadius="10">
 
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
@@ -907,6 +906,8 @@
 
                                                     <ContentPresenter  Margin="20"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                                    <TextBlock Text="{TemplateBinding PlateDiagramIndex}" Foreground="Red"/>
                                                 </Grid>
                                             </Border>
 
@@ -914,24 +915,30 @@
                                     </Setter.Value>
                                 </Setter>
                             </Style>
+
+
                         </Grid.Resources>
-                        <ContentControl   Grid.Column="0" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                        <GD_StampingMachine_UserControls:PlateDiagramCustomControl PlateDiagramIndex="0"
+                            Grid.Column="0" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[24]}">
+                            
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
-                        </ContentControl>
-                        
-                        <ContentControl   Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                        </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+
+                        <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="10"
+                            Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[10]}">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
-                        </ContentControl>
+                        </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
 
-                        <ContentControl  Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                        <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="24"
+                            Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[0]}">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
-                        </ContentControl>
+                        </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
 
 
                     </Grid>
