@@ -27,6 +27,28 @@ namespace GD_StampingMachine.ViewModels.MachineMonitor
 
         }
 
+        private int _id;
+        public int ID
+        {
+            get => _id; 
+            set
+            {
+                _id = value; OnPropertyChanged();
+            }
+        }
+
+        private string _productProjectName;
+        public string ProductProjectName
+        {
+            get => _productProjectName;
+            set
+            {
+                _productProjectName = value; OnPropertyChanged();
+            }
+        }
+
+
+
         private bool _dataMatrixIsFinish;
         public bool DataMatrixIsFinish
         {

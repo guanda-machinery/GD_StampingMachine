@@ -177,11 +177,7 @@ namespace GD_StampingMachine.ViewModels
 
         public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection
         {
-            get
-            {
-                _boxPartsParameterVMObservableCollection ??= new ObservableCollection<PartsParameterViewModel>();
-                return _boxPartsParameterVMObservableCollection;
-            }
+            get=>_boxPartsParameterVMObservableCollection ??= new ObservableCollection<PartsParameterViewModel>();
             set
             {
                 _boxPartsParameterVMObservableCollection = value;

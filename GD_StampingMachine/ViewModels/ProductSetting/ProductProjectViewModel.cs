@@ -727,11 +727,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                             List<ERP_IronPlateModel> ErpFile = new();
                             CsvFileManager csvManager = new();
-                            if (JsonHM.ReadJsonFileWithoutMessageBox(importFile, out ErpFile))
+                            if (JsonHM.ReadJsonFile(importFile, out ErpFile))
                             {
                                 //陣列型
                             }
-                            else if (JsonHM.ReadJsonFileWithoutMessageBox(importFile, out ERP_IronPlateModel ErpOneFile))
+                            else if (JsonHM.ReadJsonFile(importFile, out ERP_IronPlateModel ErpOneFile))
                             {
                                 ErpFile = new()
                             {

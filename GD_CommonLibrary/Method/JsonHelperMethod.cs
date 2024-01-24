@@ -16,9 +16,11 @@ namespace GD_CommonLibrary.Method
                 for (int i = 0; i < 10; i++)
                 {
                     await Task.Yield();
-                    var ret = WriteJsonFile(fileName, JsonData);
-                    if (ret)
+                    var Wret = WriteJsonFile(fileName, JsonData);
+                    if (Wret)
+                    {
                         return true;
+                    }
                 }
                 return false;
             });
@@ -50,6 +52,8 @@ namespace GD_CommonLibrary.Method
 
             //檢查檔案是否存在於該目錄 若存在則將先將檔案寫入temp
 
+            var wirteRet = false;
+
             try
             {
                 if (File.Exists(fileName))
@@ -68,14 +72,24 @@ namespace GD_CommonLibrary.Method
                 {
                     File.WriteAllText(fileName, output);
                 }
-                return true;
+                wirteRet = true;
             }
             catch (Exception ex)
             {
 
                 Debug.WriteLine(ex);
             }
-            return false;
+
+
+            //檢查是否有成功寫入
+            var readRet = ReadJsonFile<T>(fileName, out _);
+            if (!readRet)
+            {
+                Debugger.Break();
+            }
+
+
+            return wirteRet && readRet;
         }
 
 
@@ -87,10 +101,10 @@ namespace GD_CommonLibrary.Method
         /// <param name="JsonData"></param>
         /// <param name="showMessageBox"></param>
         /// <returns></returns>
-        public bool ReadJsonFileWithoutMessageBox<T>(string fileName, out T JsonData)
+        /*public bool ReadJsonFileWithoutMessageBox<T>(string fileName, out T JsonData)
         {
-            return readJson(fileName, out JsonData, false);
-        }
+            return ReadJsonFile(fileName, out JsonData, false);
+        }*/
 
         /// <summary>
         /// 讀取json
@@ -100,19 +114,18 @@ namespace GD_CommonLibrary.Method
         /// <param name="JsonData"></param>
         /// <param name="showMessageBox"></param>
         /// <returns></returns>
-        public bool ReadJsonFile<T>(string fileName, out T JsonData)
+        /*public bool ReadJsonFile<T>(string fileName, out T JsonData)
         {
             return readJson(fileName, out JsonData, true); ;
-        }
+        }*/
         /// <summary>
-        /// 一般json
+        /// 讀取json
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <param name="JsonData"></param>
-        /// <param name="showMessageBox"></param>
         /// <returns></returns>
-        private bool readJson<T>(string fileName, out T JsonData, bool showMessageBox)
+        public bool ReadJsonFile<T>(string fileName, out T JsonData )
         {
             JsonData = default(T);
             if (!Path.HasExtension(fileName) || !Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase))
@@ -122,7 +135,6 @@ namespace GD_CommonLibrary.Method
 
             if (string.IsNullOrEmpty(Path.GetDirectoryName(fileName)))
             {
-                //如果檔案名不包含根目錄 幫他建在工作目錄下
                 fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(fileName));
             }
 
@@ -143,8 +155,8 @@ namespace GD_CommonLibrary.Method
             catch (JsonException JEX)
             {
                 Debug.WriteLine(JEX);
-                /*  if(showMessageBox)
-                      _ =  MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                /* if(showMessageBox)
+                      _ = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                           fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));*/
                 //Debugger.Break();
             }
@@ -157,6 +169,8 @@ namespace GD_CommonLibrary.Method
             }
             return false;
         }
+
+
 
         public bool ManualReadJsonFile<T>(out T JsonData)
         {

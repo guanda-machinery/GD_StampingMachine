@@ -37,54 +37,6 @@ namespace GD_StampingMachine.ViewModels
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineMonitoring");
         public MachineMonitorViewModel()
         {
-            /*StampingSteelBeltVMObservableCollection = new();
-
-            //由右到左排列 
-            for (int i = 0; i < 3; i++)
-            {
-                StampingSteelBeltVMObservableCollection.Add(
-                    new StampingSteelBeltViewModel(
-                        new StampingSteelBeltModel()
-                        {
-                            BeltString = "Guanda",
-                            BeltNumberString = "001",
-                            MachiningStatus = SteelBeltStampingStatusEnum.Shearing
-                        }));
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                StampingSteelBeltVMObservableCollection.Add(
-                    new StampingSteelBeltViewModel(
-                        new StampingSteelBeltModel()
-                        {
-                            BeltString = "Guanda",
-                            BeltNumberString = "001",
-                            MachiningStatus = SteelBeltStampingStatusEnum.Stamping
-                        }));
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                StampingSteelBeltVMObservableCollection.Add(
-                    new StampingSteelBeltViewModel(
-                        new StampingSteelBeltModel()
-                        {
-                            BeltString = null,
-                            BeltNumberString = null,
-                            MachiningStatus = SteelBeltStampingStatusEnum.QRCarving
-                        }));
-            }
-            for (int i = 0; i < 2; i++)
-            {
-                StampingSteelBeltVMObservableCollection.Add(
-                    new StampingSteelBeltViewModel(
-                        new StampingSteelBeltModel()
-                        {
-                            BeltString = null,
-                            BeltNumberString = null,
-                            MachiningStatus = SteelBeltStampingStatusEnum.None
-                        }));
-            }*/
-
             StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += Instance_SelectedProjectDistributeVMChanged;
 
         }

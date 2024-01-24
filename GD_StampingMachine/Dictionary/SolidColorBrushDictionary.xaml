@@ -49,12 +49,36 @@
     <SolidColorBrush x:Key="NoneIsFinishSolidColorBrush" Color="White"/>
     <SolidColorBrush x:Key="DataMatrixIsReadySolidColorBrush" Color="SkyBlue"/>
     <SolidColorBrush x:Key="DataMatrixIsSendedSolidColorBrush" Color="Gray"/>
+    
+    
     <SolidColorBrush x:Key="DataMatrixIsFinishSolidColorBrush" Color="#e82127"/>
     <SolidColorBrush x:Key="ShearingIsFinishSolidColorBrush" Color="#ff9900"/>
     <SolidColorBrush x:Key="EngravingIsFinishSolidColorBrush" Color="#25cb55"/>
+
+
+
+    <SolidColorBrush x:Key="DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush" Color="#ee2929"/>
+    <SolidColorBrush x:Key="DataMatrixIsFinish_Background_Dark_SolidColorBrush" Color="#a53131"/>
+    <SolidColorBrush x:Key="DataMatrixIsFinish_BorderBrush_Bright_SolidColorBrush" Color="#ee2929"/>
+    <SolidColorBrush x:Key="DataMatrixIsFinish_Background_Bright_SolidColorBrush" Color="#FFC2C2"/>
+
+
+    <SolidColorBrush x:Key="ShearingIsFinish_BorderBrush_Dark_SolidColorBrush" Color="#FFBA00"/>
+    <SolidColorBrush x:Key="ShearingIsFinish_Background_Dark_SolidColorBrush" Color="#BD6D0E"/>
+    <SolidColorBrush x:Key="ShearingIsFinish_BorderBrush_Bright_SolidColorBrush" Color="#FF8A00"/>
+    <SolidColorBrush x:Key="ShearingIsFinish_Background_Bright_SolidColorBrush" Color="#FFE0BB"/>
+
+    
+    <SolidColorBrush x:Key="EngravingIsFinish_BorderBrush_Dark_SolidColorBrush" Color="#00FF38"/>
+    <SolidColorBrush x:Key="EngravingIsFinish_Background_Dark_SolidColorBrush" Color="#0BA908"/>
+    <SolidColorBrush x:Key="EngravingIsFinish_BorderBrush_Bright_SolidColorBrush" Color="#00FF38"/>
+    <SolidColorBrush x:Key="EngravingIsFinish_Background_Bright_SolidColorBrush" Color="#DDFFDC"/>
     
 
-
+    
+    
+    
+    
 
 
     <Color x:Key="clr_CreamyWhite">#FFF3F3F3</Color>

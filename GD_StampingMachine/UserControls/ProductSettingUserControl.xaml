@@ -728,7 +728,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button MinWidth="70" Height="30"   Margin="5,0"
+                                    <Button MinWidth="70" Height="30"   Margin="5,0" Padding="5,3,5,0"
                                             Content="{DynamicResource btnReLoad}" Style="{StaticResource SiegCustomButton_Dark}"
                                        IsEnabled="{Binding Row.FileIsNotExisted}" Visibility="{Binding  Row.FileIsNotExisted, Converter={dx:BooleanToVisibilityConverter}}">
                                         <i:Interaction.Triggers>

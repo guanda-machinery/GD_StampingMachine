@@ -753,6 +753,85 @@ namespace GD_StampingMachine.Singletons
             AlarmMessageCollection.Add("PLC Is Not Connected");
             _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, "PLC Is Not Connected", true);
 
+            if (Debugger.IsAttached)
+            {
+                    MachineSettingBaseCollection = new AsyncObservableCollection<PlateMonitorViewModel>()
+                        {
+                            new PlateMonitorViewModel()
+                            {
+                                SettingBaseVM=new  NumberSettingViewModel()
+                                {
+                                    PlateNumber = "Test1 23456789",
+
+                                },
+                                DataMatrixIsFinish = true ,
+                                ShearingIsFinish = true,
+                                EngravingIsFinish = true
+                            },
+                            new PlateMonitorViewModel()
+                    {
+                        SettingBaseVM=new  QRSettingViewModel()
+                        {
+                            PlateNumber = "Test2"
+                        },
+                        DataMatrixIsFinish = true ,
+                        ShearingIsFinish = true,
+                        EngravingIsFinish = false
+                    },
+                    new PlateMonitorViewModel()
+                    {
+                        SettingBaseVM=new  QRSettingViewModel()
+                        {
+                            PlateNumber = "Test3"
+                        },
+                        DataMatrixIsFinish = true ,
+                        ShearingIsFinish = false,
+                        EngravingIsFinish = false
+                    },
+                    new PlateMonitorViewModel()
+                    {
+                        SettingBaseVM=new  QRSettingViewModel()
+                        {
+                            PlateNumber = "Test4"
+                        },
+                        DataMatrixIsFinish = false ,
+                        ShearingIsFinish = false,
+                        EngravingIsFinish = false
+                    }
+
+                        };
+
+                    for (int i = 4; i < 25; i++)
+                    {
+                        MachineSettingBaseCollection.Add(new PlateMonitorViewModel()
+                        {
+                            SettingBaseVM = new QRSettingViewModel()
+                            {
+                                PlateNumber = "Test" + i
+                            }
+                        });
+                    }
+
+                    foreach (var _machineSetting in MachineSettingBaseCollection)
+                    {
+                        foreach (var num1 in _machineSetting.SettingBaseVM.PlateNumberList1)
+                        {
+                            if (string.IsNullOrWhiteSpace(num1.FontString))
+                                num1.IsUsed = false;
+                        }
+
+                        foreach (var num2 in _machineSetting.SettingBaseVM.PlateNumberList2)
+                        {
+                            if (string.IsNullOrWhiteSpace(num2.FontString))
+                                num2.IsUsed = false;
+                        }
+                    }
+
+
+
+                
+            }
+
         }
 
 
@@ -1292,14 +1371,6 @@ namespace GD_StampingMachine.Singletons
                                             });
 
 
-
-
-
-
-
-
-
-
                                         break;
                                     }
                                     else
@@ -1346,12 +1417,10 @@ namespace GD_StampingMachine.Singletons
                                                 if (fPos.Item1)
                                                     FeedingPosition = fPos.Item2;
 
-
-
-                                                var PlateDataCollectionTask = await GetIronPlateDataCollectionAsync();
-                                                if (PlateDataCollectionTask.result)
+                                                var (result, ironPlateCollection) = await GetIronPlateDataCollectionAsync();
+                                                if (result)
                                                 {
-                                                    List<IronPlateDataModel> plateDataCollection = PlateDataCollectionTask.ironPlateCollection;
+                                                    List<IronPlateDataModel> plateDataCollection = ironPlateCollection;
 
                                                     var plateMonitorVMCollection = new ObservableCollection<PlateMonitorViewModel>();
                                                     //產出圖形
@@ -1411,17 +1480,46 @@ namespace GD_StampingMachine.Singletons
                                                         }
 
 
+                                                        string productProjectName = string.Empty;
+                                                        foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                                                        {
+                                                            //去盒子裡面找是否有對應的鐵片
+                                                            var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+                                                            var foundPart = boxPartsCollection.FirstOrDefault(x => x.ID == plateData.iIronPlateID && x.IsSended);
+                                                            if (foundPart !=null)
+                                                            {
+                                                                foundPart.DataMatrixIsFinish = plateData.bDataMatrixFinish;
+                                                                foundPart.EngravingIsFinish = plateData.bEngravingFinish;
+                                                                productProjectName = foundPart.ProductProjectName;
+
+                                                                try
+                                                                {
+                                                                    await projectDistribute.SaveProductProjectVMObservableCollectionAsync();
+                                                                }
+                                                                catch
+                                                                {
+
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+
                                                         PlateMonitorViewModel PlateMonitorVM = new PlateMonitorViewModel()
                                                         {
+                                                            ID = plateData.iIronPlateID,
+                                                            ProductProjectName = productProjectName,
                                                             SettingBaseVM = settingBaseVM,
                                                             StampingStatus = steelBeltStampingStatus,
                                                             DataMatrixIsFinish = plateData.bDataMatrixFinish,
                                                             EngravingIsFinish = plateData.bEngravingFinish,
                                                         };
                                                         plateMonitorVMCollection.Add(PlateMonitorVM);
+
+
+
+
                                                     }
 
-                                                    //MachineSettingBaseCollection = plateMonitorVMCollection;
                                                     if (MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
                                                     {
                                                         Application.Current.Dispatcher.Invoke(() =>
@@ -1455,65 +1553,10 @@ namespace GD_StampingMachine.Singletons
                                                         if (invokeList.Count > 0)
                                                         {
                                                             OnPropertyChanged(nameof(MachineSettingBaseCollection));
-                                                            // MachineSettingBaseCollection = plateMonitorVMCollection;
                                                         }
                                                     }
 
-                                                    //將現在的資料展開後寫入
-                                                    //  if (lastIronDataIList != null)
-                                                    //  {
-                                                    //foreach (var lastIronData in lastIronDataIList)
-                                                    // {
-                                                    var newlronDataIList = plateDataCollection.Select(x => x.iIronPlateID).ToList();
-                                                    foreach (var plateData in plateDataCollection)
-                                                    {
-                                                        //先找
-                                                        foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
-                                                        {
-                                                            //去盒子裡面找是否有對應的鐵片
-                                                            var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
-                                                            var partIndex = boxPartsCollection.FindIndex(x => x.ID == plateData.iIronPlateID && x.IsSended);
-                                                            if (partIndex != -1)
-                                                            {
-                                                                //boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Run;
-                                                                boxPartsCollection[partIndex].DataMatrixIsFinish = plateData.bDataMatrixFinish;
-                                                                boxPartsCollection[partIndex].EngravingIsFinish = plateData.bEngravingFinish;
-                                                                try
-                                                                {
-                                                                    await projectDistribute.SaveProductProjectVMObservableCollectionAsync();
-                                                                }
-                                                                catch
-                                                                {
-
-                                                                }
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                    //比較新舊兩個加工陣列
-                                                    //先檢查新陣列的id是否只有0 若只有0代表是被重新設定 不設定為完成(若有需要則另外設定)
-                                                    /*    if (newlronDataIList.Count(x => x != 0) > 0)
-                                                        {
-                                                            var lastIronDataIListExcept = lastIronDataIList.Except(newlronDataIList).ToList();
-                                                            foreach (var ironDataID in lastIronDataIListExcept)
-                                                            {
-                                                                foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
-                                                                {
-                                                                    //去盒子裡面找是否有對應的鐵片
-                                                                    var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
-                                                                    var partIndex = boxPartsCollection.FindIndex(x => x.ID == ironDataID && x.IsSended);
-                                                                    if (partIndex != -1)
-                                                                    {
-                                                                        boxPartsCollection[partIndex].MachiningStatus = MachiningStatusEnum.Finish;
-                                                                        boxPartsCollection[partIndex].ShearingIsFinish = true;
-                                                                        boxPartsCollection[partIndex].IsFinish = true;
-                                                                        break;
-                                                                    }
-                                                                }
-
-                                                            }
-                                                        }
-                                                        lastIronDataIList = newlronDataIList;*/
+       
                                                 }
 
 
@@ -3206,99 +3249,13 @@ namespace GD_StampingMachine.Singletons
         /// </summary>
         public ObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
         {
-            get
-            {
-                if (Debugger.IsAttached)
-                {
-                    if (_machineSettingBaseCollection == null)
-                    {
-                        _machineSettingBaseCollection ??= new AsyncObservableCollection<PlateMonitorViewModel>()
-                        {
-                            new PlateMonitorViewModel()
-                            {
-                                SettingBaseVM=new  NumberSettingViewModel()
-                                {
-                                    PlateNumber = "Test1 23456789",
-
-                                },
-                                DataMatrixIsFinish = true ,
-                                ShearingIsFinish = true,
-                                EngravingIsFinish = true
-                            },
-                            new PlateMonitorViewModel()
-                    {
-                        SettingBaseVM=new  QRSettingViewModel()
-                        {
-                            PlateNumber = "Test2"
-                        },
-                        DataMatrixIsFinish = true ,
-                        ShearingIsFinish = true,
-                        EngravingIsFinish = false
-                    },
-                    new PlateMonitorViewModel()
-                    {
-                        SettingBaseVM=new  QRSettingViewModel()
-                        {
-                            PlateNumber = "Test3"
-                        },
-                        DataMatrixIsFinish = true ,
-                        ShearingIsFinish = false,
-                        EngravingIsFinish = false
-                    },
-                    new PlateMonitorViewModel()
-                    {
-                        SettingBaseVM=new  QRSettingViewModel()
-                        {
-                            PlateNumber = "Test4"
-                        },
-                        DataMatrixIsFinish = false ,
-                        ShearingIsFinish = false,
-                        EngravingIsFinish = false
-                    }
-
-                        };
-
-                        for (int i = 4; i < 25; i++)
-                        {
-                            _machineSettingBaseCollection.Add(new PlateMonitorViewModel()
-                            {
-                                SettingBaseVM = new QRSettingViewModel()
-                                {
-                                    PlateNumber = "Test"+i
-                                }
-                            });
-                        }
-
-                        foreach (var _machineSetting in _machineSettingBaseCollection)
-                        {
-                            foreach (var num1 in _machineSetting.SettingBaseVM.PlateNumberList1)
-                            {
-                                if (string.IsNullOrWhiteSpace(num1.FontString))
-                                    num1.IsUsed = false;
-                            }
-
-                            foreach (var num2 in _machineSetting.SettingBaseVM.PlateNumberList2)
-                            {
-                                if (string.IsNullOrWhiteSpace(num2.FontString))
-                                    num2.IsUsed = false;
-                            }
-                        }
-
-
-
-                    }
-                }
-                return _machineSettingBaseCollection ??= new AsyncObservableCollection<PlateMonitorViewModel>();
-            }
+            get=>  _machineSettingBaseCollection ??= new AsyncObservableCollection<PlateMonitorViewModel>(); 
             set
             {
                 _machineSettingBaseCollection = value;
                 OnPropertyChanged();
             }
         }
-
-
-
 
 
 
