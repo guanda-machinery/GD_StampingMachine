@@ -1,4 +1,5 @@
 ﻿using DevExpress.CodeParser;
+using GD_StampingMachine;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Windows;
 using System;
@@ -11,56 +12,60 @@ namespace GD_CommonLibrary.Method
 {
     public class MessageBoxResultShow
     {
-        /*public static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
+        public MessageBoxResultShow(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image)
+        {
+            var mainWindow = Application.Current.MainWindow ?? new Window();
+            newWindow = new MessageBoxWindow(mainWindow, MessageTitle, MessageString, MB_Button, MB_Image)
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            };
+        }
+        readonly MessageBoxWindow newWindow;
+        /// <summary>
+        /// 可被外部關閉的彈出式視窗
+        /// </summary>
+        /// <param name="MessageTitle"></param>
+        /// <param name="MessageString"></param>
+        /// <param name="MB_Button"></param>
+        /// <param name="MB_Image"></param>
+        /// <returns></returns>
+        public MessageBoxResult ShowMessageBox()
         {
             MessageBoxResult messageBoxReturn = MessageBoxResult.None;
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                Window newWindow = Application.Current.MainWindow ?? new()
-                {
-                    Topmost = true,
-                    WindowStartupLocation = WindowStartupLocation.CenterScreen
-                };
-                messageBoxReturn = DevExpress.Xpf.WindowsUI.WinUIMessageBox.Show(newWindow, MessageString,
-                    MessageTitle, MB_Button, MB_Image, MessageBoxResult.None, MessageBoxOptions.None, DevExpress.Xpf.Core.FloatingMode.Window);
+                messageBoxReturn = newWindow.FloatShow();
             }));
 
             return messageBoxReturn;
         }
-        */
-        /*public static async Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, MessageBoxImage MB_Image)
-{
-    MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
-    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
-    {
-        MessageBoxReturn = Show(MessageTitle, MessageString, MB_Button, MB_Image);
-    }));
-    return MessageBoxReturn;
-}*/
+        /// <summary>
+        /// 關閉彈出式視窗
+        /// </summary>
+        /// <param name="MessageTitle"></param>
+        /// <param name="MessageString"></param>
+        /// <param name="MB_Button"></param>
+        /// <param name="MB_Image"></param>
+        /// <returns></returns>
+        public void CloseMessageBox()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                newWindow?.Close();
+            }));
+        }
+
+
 
 
         public static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image)
         {
-            MessageBoxResult messageBoxReturn = MessageBoxResult.None;
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                MessageBoxWindow newWindow =  new MessageBoxWindow()
-                {
-                    WindowStartupLocation= WindowStartupLocation.CenterOwner,
-                };
-
-                var mainWindow = Application.Current.MainWindow ?? new Window();
-
-                messageBoxReturn =  newWindow.FloatShow(mainWindow, MessageTitle, MessageString, MB_Button, MB_Image);
-            }));
-            return messageBoxReturn;
+            return new MessageBoxResultShow(MessageTitle, MessageString, MB_Button, MB_Image).ShowMessageBox();
         }
-
-
 
         public static async Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image)
         {
-            MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
+            MessageBoxResult MessageBoxReturn= MessageBoxResult.None;
             await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
                 MessageBoxReturn = Show(MessageTitle, MessageString, MB_Button, MB_Image);

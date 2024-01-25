@@ -54,7 +54,10 @@ namespace GD_StampingMachine.ViewModels
                             separateBox.BoxPieceValue = indexCollection.Count;
 
                             //加工完成但尚未被移除的
-                            separateBox.UntransportedFinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish && !x.IsTransported).Count;
+                            separateBox.UnTransportedFinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish && !x.IsTransported).Count;
+
+                            //已經被分配加工且尚未被移除
+                            separateBox.UnTransportedBoxPieceValue = indexCollection.FindAll(x => x.WorkIndex >=0 && !x.IsTransported).Count;
 
                             //只有已完成
                             separateBox.FinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish).Count;

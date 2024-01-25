@@ -8,7 +8,10 @@ namespace GD_StampingMachine.Method
 {
     public class MethodWinUIMessageBox : MessageBoxResultShow
     {
+        public MethodWinUIMessageBox(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image) : base(MessageTitle, MessageString, MB_Button, MB_Image)
+        {
 
+        }
 
         public static async Task<MessageBoxResult> AskOverwriteOrNotAsync()
         {

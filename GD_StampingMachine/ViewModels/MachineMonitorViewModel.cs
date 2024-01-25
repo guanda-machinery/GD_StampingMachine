@@ -5,11 +5,13 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
+using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
+using GD_StampingMachine.ViewModels.MachineMonitor;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using GD_StampingMachine.Windows;
 using Newtonsoft.Json;
@@ -1193,10 +1195,21 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 if (!sbox.BoxIsFull && sbox.BoxIsEnabled && sbox.BoxIndex == group.Key)
                                 {
-                                    Debugger.Break();
-                                    var value = group.Count() - (int)sbox.UntransportedFinishedBoxPieceValue;
-                                    if (value > 0)
-                                        count += value;
+                                    var remainingSpace = (int)(sbox.BoxSliderValue- sbox.UnTransportedBoxPieceValue);
+                                    var gcount = group.Count();
+                                    if (remainingSpace ==0)
+                                    {
+
+                                    }
+                                    else if (remainingSpace > gcount)
+                                    {
+                                        count += gcount;
+                                    }
+                                    else
+                                    {
+                                        count += remainingSpace;
+                                    }
+
                                     break;
                                 }
                             }

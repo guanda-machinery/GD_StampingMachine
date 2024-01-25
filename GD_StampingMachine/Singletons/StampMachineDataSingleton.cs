@@ -994,8 +994,7 @@ namespace GD_StampingMachine.Singletons
                                 //   DateTime.Now
 
 
-                               if (OperationMode == OperationModeEnum.FullAutomatic)
-                                {
+
                                     var EnableTimingControl = StampingMachineSingleton.Instance.ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable).ToList();
                                     //若目前時間落在之間
                                     if (cancelToken.IsCancellationRequested)
@@ -1003,49 +1002,63 @@ namespace GD_StampingMachine.Singletons
                                     if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))
                                     {
                                         var restTimeRange = EnableTimingControl.Where(x => x.DateTimeIsBetween(DateTime.Now)).ToList();
-                                        if (restTimeRange.Count != 0)
+                                    if (restTimeRange.Count != 0)
+                                    {
+                                        //找出啟動和休息的最大區間
+
+                                        List<DateTime> restList = new List<DateTime>();
+                                        List<DateTime> openList = new List<DateTime>();
+                                        foreach (var timeRange in restTimeRange)
                                         {
-                                            //找出啟動和休息的最大區間
-
-                                            List<DateTime> restList = new List<DateTime>();
-                                            List<DateTime> openList = new List<DateTime>();
-                                            foreach (var timeRange in restTimeRange)
+                                            DateTime rtime = timeRange.RestTime;
+                                            DateTime oTime;
+                                            if (timeRange.OpenTime >= timeRange.RestTime)
                                             {
-                                                DateTime rtime = timeRange.RestTime;
-                                                DateTime oTime;
-                                                if (timeRange.OpenTime >= timeRange.RestTime)
-                                                {
-                                                    oTime = timeRange.OpenTime;
-                                                }
-                                                else
-                                                {
-                                                    oTime = timeRange.OpenTime.AddDays(1);
-                                                }
-                                                restList.Add(rtime);
-                                                openList.Add(oTime);
+                                                oTime = timeRange.OpenTime;
                                             }
-                                            var restMin = DateTime.Now.Date.AddTicks(restList.Min().Ticks);
-                                            var openMax = DateTime.Now.Date.AddTicks(openList.Max().Ticks);
-
-                                            //在休息時間內不會再問是否要啟動
-                                            //sleeptime
-                                            SleepRangeList.Add(new(restMin, openMax));
-
-
-                                            await SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
-                                            await Task.Delay(1000);
-
-                                            var openTask = Task.Run(async () =>
+                                            else
                                             {
-                                                while (true)
+                                                oTime = timeRange.OpenTime.AddDays(1);
+                                            }
+                                            restList.Add(rtime);
+                                            openList.Add(oTime);
+                                        }
+                                        var restMin = DateTime.Now.Date.AddTicks(restList.Min().Ticks);
+                                        var openMax = DateTime.Now.Date.AddTicks(openList.Max().Ticks);
+
+                                        //在休息時間內不會再問是否要啟動
+                                        //sleeptime
+                                        SleepRangeList.Add(new(restMin, openMax));
+
+                                        //跳出等待
+                                       await MessageBoxResultShow.ShowAsync("","", MessageBoxButton.OK , GD_MessageBoxNotifyResult.NotifyBl);
+                                        Debugger.Break();
+
+                                        if (OperationMode == OperationModeEnum.FullAutomatic)
+                                        {
+                                            await SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
+                                        
+                                            await Task.Delay(10000);
+                                            //等待停止
+
+                                            //關閉油壓
+
+
+
+
+                                        var openTask = Task.Run(async () =>
+                                        {
+                                            while (true)
+                                            {
+                                                if (DateTime.Now > openMax)
                                                 {
-                                                    if (DateTime.Now > openMax)
-                                                    {
-                                                        break;
-                                                    }
-                                                    await Task.Delay(1000);
+                                                    break;
                                                 }
-                                            }, cancelToken);
+                                                await Task.Delay(1000);
+                                            }
+                                        }, cancelToken);
+
+
                                             var isNotHalfAutoTask = WaitForCondition.WaitNotAsync(() => OperationMode, OperationModeEnum.HalfAutomatic);
                                             var isNotConnectedTask = WaitForCondition.WaitNotAsync(() => IsConnected, true);
 
@@ -1055,11 +1068,9 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 await SetOperationModeAsync(OperationModeEnum.FullAutomatic);
                                             }
-
                                         }
                                     }
-
-
+                                    
                                 }
                             }
                             catch (Exception ex)

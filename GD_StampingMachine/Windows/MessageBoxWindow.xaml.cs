@@ -24,23 +24,15 @@ namespace GD_StampingMachine.Windows
     /// </summary>
     public partial class MessageBoxWindow : Window
     {
-        public MessageBoxWindow()
+        public MessageBoxWindow(Window owner, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
         {
             InitializeComponent();
-        }
+            mb_Button = MB_Button;
 
-
-        public MessageBoxResult Result { get; set; } = MessageBoxResult.None;
-
-
-
-
-
-        public MessageBoxResult FloatShow(Window owner, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon , bool lockWindow = true)
-        {
-            Window overlay = null;
             if (lockWindow && owner != null)
             {
+                var ownerOriginTopmost = owner.Topmost;
+                owner.Topmost = true;
                 overlay = new Window
                 {
                     Width = owner.ActualWidth,
@@ -55,8 +47,12 @@ namespace GD_StampingMachine.Windows
                     Owner = owner,
                     ShowInTaskbar = false
                 };
+                overlay?.Show();
+
+                owner.Topmost = ownerOriginTopmost;
             }
-            overlay?.Show();
+
+
 
             Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
             Notify_Rd_Image.Visibility = Visibility.Collapsed; ;
@@ -112,14 +108,26 @@ namespace GD_StampingMachine.Windows
                     break;
             }
 
-            this.Owner = overlay;
+            this.Owner = overlay ?? new Window();
             this.Title = MessageTitle ?? string.Empty;
             this.ContentTextBlock.Text = MessageString ?? string.Empty;
+        }
 
+        public MessageBoxResult Result { get; set; } = MessageBoxResult.None;
+        readonly MessageBoxButton mb_Button;
+        readonly Window overlay = null;
+
+        public MessageBoxResult FloatShow()
+        {
             this.ShowDialog();
-
-            overlay?.Close();
+            this.CloseMessageBox();
             return Result;
+        }
+
+        private void CloseMessageBox()
+        {
+            this.Close();
+            overlay?.Close();
         }
 
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -132,34 +140,39 @@ namespace GD_StampingMachine.Windows
 
 
 
+
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Result = MessageBoxResult.None;
-            this.Close();
+
+            this.CloseMessageBox();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             Result = MessageBoxResult.Cancel;
-            this.Close();
+
+            this.CloseMessageBox();
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
         {
             Result = MessageBoxResult.No;
-            this.Close();
+
+            this.CloseMessageBox();
         }
 
         private void YesButton_Click(object sender, RoutedEventArgs e)
         {
             Result = MessageBoxResult.Yes;
-            this.Close();
+            this.CloseMessageBox();
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             Result = MessageBoxResult.OK;
-            this.Close();
+            this.CloseMessageBox();
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -167,16 +180,32 @@ namespace GD_StampingMachine.Windows
             if (e.Key == Key.Escape)
             {
                 Result = MessageBoxResult.None;
-                this.Close();
+                this.CloseMessageBox();
             }
-
-            /*if (e.Key == Key.Y)
+            else if (e.Key == Key.Y)
             {
-                Result = MessageBoxResult.Yes;
-                this.Close();
-            }*/
-
-
+                if (mb_Button is MessageBoxButton.YesNoCancel || mb_Button is MessageBoxButton.YesNo)
+                {
+                    Result = MessageBoxResult.Yes;
+                    this.Close();
+                }
+            }
+            else if (e.Key == Key.N)
+            {
+                if (mb_Button is MessageBoxButton.YesNoCancel || mb_Button is MessageBoxButton.YesNo)
+                {
+                    Result = MessageBoxResult.No;
+                    this.Close();
+                }
+            }
+            else if (e.Key == Key.C)
+            {
+                if (mb_Button is MessageBoxButton.OKCancel || mb_Button is MessageBoxButton.YesNoCancel)
+                {
+                    Result = MessageBoxResult.Cancel;
+                    this.Close();
+                }
+            }
 
 
         }

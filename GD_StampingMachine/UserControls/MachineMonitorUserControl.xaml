@@ -189,12 +189,11 @@
 
 
                     <Border Grid.Row="2" Background="White" Margin="0,0,0,0" />
-                    <Viewbox Grid.ColumnSpan="3"    Grid.Row="2"  MaxHeight="150">
-
+                    <Viewbox Grid.ColumnSpan="3"    Grid.Row="2" MaxHeight="120" >
                         <Grid >
-                            <Border Background="White" Margin="0,0,0,0" />
+                            <Border Background="White" Margin="0,0,5,0" />
                             <Grid HorizontalAlignment="Right">
-                                <Border Width="47.5" HorizontalAlignment="Right" Margin="0,0,455,0" >
+                                <Border Width="47.5" HorizontalAlignment="Right" Margin="0,0,475,0" >
                                     <Border.Style>
                                         <Style TargetType="Border" >
                                             <Setter Property="Background" Value="LightGray"/>
@@ -212,7 +211,7 @@
                                         </Style>
                                     </Border.Style>
                                 </Border>
-                                <Border  Margin="-0,0,0,0" Width="50"  HorizontalAlignment="Right" >
+                                <Border  Margin="0,0,5,0" Width="48"  HorizontalAlignment="Right" >
                                     <Border.Style>
                                         <Style TargetType="Border" >
                                             <Setter Property="Background" Value="Gray"/>
@@ -232,59 +231,51 @@
 
                                 </Border>
                             </Grid>
-                            <ItemsControl  HorizontalAlignment="Right" Margin="5,0"
-                            FlowDirection="RightToLeft"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Standard"
+                            <ItemsControl  HorizontalAlignment="Right" Margin="5,0"   
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=True}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
-                            <ItemsControl.LayoutTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="90"/>
-                                </TransformGroup>
-                            </ItemsControl.LayoutTransform>
-                            <ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid FlowDirection="LeftToRight"  Margin="5,2.5" >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <Border Width="100"
+                                        <Border 
                                             BorderThickness="1" BorderBrush="Black" CornerRadius="2" Padding="0" 
                                             HorizontalAlignment="Center">
                                             <Grid Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"    >
                                                 <ToggleButton Padding="0" Margin="0" x:Name="MachiningFormTButton" Opacity="0.95" >
                                                     <ToggleButton.Style>
-                                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
-                                                            <Setter Property="Width" Value="auto"/>
-                                                            <Setter Property="BorderThickness" Value="0"/>
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="ToggleButton">
-                                                                        <Grid>
-                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                        </Grid>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="IsChecked" Value="True"/>
-                                                                </Trigger>
-                                                                <Trigger Property="IsMouseOver" Value="False">
-                                                                    <Setter Property="IsChecked" Value="False"/>
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
+                                                            <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
+                                                                <Setter Property="BorderThickness" Value="0"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="ToggleButton">
+                                                                            <Grid>
+                                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                            </Grid>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                
+                                                            </Style>
                                                     </ToggleButton.Style>
-                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl   
+                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl   
                                                         IsEnabled="False"    
                                                                         DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                <TransformGroup>
+                                                                    <RotateTransform Angle="90"/>
+                                                                </TransformGroup>
+                                                            </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+
+                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                 </ToggleButton>
-                                                <GD_Popup:NonTopmostPopup StaysOpen="True" 
+                                                <GD_Popup:NonTopmostPopup StaysOpen="False"
                                                                         PopupAnimation="Fade"   FlowDirection="LeftToRight"  
-                                                                        Placement="Bottom"    PlacementRectangle="-20,40,0,0"
+                                                                        Placement="Mouse"    PlacementRectangle="-20,40,0,0"
                                                                         PlacementTarget="{Binding ElementName=MachiningFormTButton}"  
                                                                         HorizontalAlignment="Center" 
                                                                         IsOpen="{Binding ElementName=MachiningFormTButton, Path=IsChecked, Mode=TwoWay}" >
@@ -292,14 +283,8 @@
                                                     <Grid>
                                                         <Border   Name="theTransform" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Opacity="0.95" >
                                                             <Grid>
-                                                                <GD_SchematicDiagram:QRPlateRowDiagramControl    
+                                                                <GD_SchematicDiagram:QRPlateRowDiagramControl    Width="400"
                                                                     DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                                        <TransformGroup>
-                                                                            <ScaleTransform ScaleX="4" ScaleY="4"/>
-                                                                            <RotateTransform Angle="-90"/>
-                                                                        </TransformGroup>
-                                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                 </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                             </Grid>
                                                         </Border>
@@ -314,7 +299,7 @@
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
+                                    <StackPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>

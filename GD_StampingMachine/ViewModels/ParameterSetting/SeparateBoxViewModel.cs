@@ -34,8 +34,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                if (UntransportedFinishedBoxPieceValue > 0) 
-                    return UntransportedFinishedBoxPieceValue >= BoxSliderValue;
+                if (UnTransportedFinishedBoxPieceValue > 0) 
+                    return UnTransportedFinishedBoxPieceValue >= BoxSliderValue;
                 else 
                     return false;
             }
@@ -57,19 +57,34 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private double _untransportedFinishedBoxPieceValue;
+        private double _unTransportedFinishedBoxPieceValue;
         /// <summary>
         /// 箱子內已加工但尚未被移除的鐵牌
         /// </summary>
         [JsonIgnore]
-        public double UntransportedFinishedBoxPieceValue
+        public double UnTransportedFinishedBoxPieceValue
         {
-            get => _untransportedFinishedBoxPieceValue;
+            get => _unTransportedFinishedBoxPieceValue;
             set
             {
-                _untransportedFinishedBoxPieceValue = value;
+                _unTransportedFinishedBoxPieceValue = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(BoxIsFull));
+            }
+        }
+
+        private double _unTransportedBoxPieceValue;
+        /// <summary>
+        /// 箱子內已被分配的鐵片
+        /// </summary>
+        [JsonIgnore]
+        public double UnTransportedBoxPieceValue
+        {
+            get => _unTransportedBoxPieceValue;
+            set
+            {
+                _unTransportedBoxPieceValue = value;
+                OnPropertyChanged();
             }
         }
 
@@ -137,20 +152,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged();
             }
         }
-
-        /*private bool _boxSliderIsEnabled = true;
-        /// <summary>
-        /// SliderBar啟用/關閉
-        /// </summary>
-        public bool BoxSliderIsEnabled
-        {
-            get => _boxSliderIsEnabled;
-            set
-            {
-                _boxSliderIsEnabled = value;
-                OnPropertyChanged();
-            }
-        }*/
 
 
         public bool IsUsing
