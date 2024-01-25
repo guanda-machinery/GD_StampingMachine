@@ -45,6 +45,7 @@
     <Compile Include="CharactersFormEnum.cs" />
     <Compile Include="CommunicationProtocolEnum.cs" />
     <Compile Include="DirectionsEnum.cs" />
+    <Compile Include="GD_MessageBoxNotifyResult.cs" />
     <Compile Include="HorizontalAlignEnum.cs" />
     <Compile Include="MagneticSwitchType.cs" />
     <Compile Include="Method\EnumDescriptionTypeConverter.cs" />

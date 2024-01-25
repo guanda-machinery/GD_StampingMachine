@@ -337,11 +337,19 @@
                                              Placement="MousePoint"
                                              PlacementTarget="{Binding ElementName=MachiningDataManageToggleButton}"
                                              >
+                            <GD_Popup:DraggablePopup.Resources>
+                                <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
+                                    <Setter Property="MinWidth" Value="80"/>
+
+                                </Style>
+
+                            </GD_Popup:DraggablePopup.Resources>
                             <Border MinWidth="1000"  MaxWidth="1200"
                                                 CornerRadius="10"
                                                Background="{DynamicResource PrimaryHueDarkBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <GroupBox Header="{DynamicResource btnMachiningDataManage}" FontSize="30"  
                                           Style="{StaticResource MaterialDesignGroupBox}" Margin="5">
+                                    
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -501,15 +509,39 @@
 
                                             </dxg:GridControl>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                                                <Button Command="{Binding ArrangeWorkCommand}" Margin="5,0"
-                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowDownBold}"/>
+
+                                                
+                                                <Button Command="{Binding ArrangeWorkCommand}" Margin="5,0"  
+                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" >
+                                                    <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
+                                                        Height="15"
+                                                        DarkImageSource="{StaticResource Arrow_Down_WhiteDrawingImage}"
+                                                        BrightImageSource="{StaticResource Arrow_Down_BlackDrawingImage}"
+                                                        />
+                                                    
+                                                </Button>
                                                 <Button Command="{Binding ArrangeWorkCommand}"  Margin="5,0"
-                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferDown}"/>
+                                            CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                    <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
+                                                        Height="15"
+                                                        DarkImageSource="{StaticResource Arrow_Down_WhiteDrawingImage}"
+                                                        BrightImageSource="{StaticResource Arrow_Down_BlackDrawingImage}"
+                                                        />
+                                                        <TextBlock Text="ALL" Padding="5,2,0,0" />
+                                                    </StackPanel>
+
+
+                                                </Button>
 
                                                 <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
-                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowUpBold}"/>
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowUpBold}">
+                                                    
+                                                </Button>
                                                 <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
-                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferUp}"/>
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferUp}">
+                                                    
+                                                </Button>
 
                                             </StackPanel>
                                             <dxg:GridControl 
@@ -752,7 +784,7 @@
                                             </dxg:GridControl>
                                         </StackPanel>
 
-                                        <Button Grid.Row="1"  HorizontalAlignment="Right"
+                                        <Button Grid.Row="1"  HorizontalAlignment="Right" Margin="10,5" Padding="5,3,5,0"
                                     Content="{DynamicResource btnExit}"
                         Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  />
                                     </Grid>
@@ -770,7 +802,6 @@
                                 materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                                 materialDesign:ButtonProgressAssist.Value="{Binding SendMachininProgress}"
-
                                 >
 
                             <Button.IsEnabled>
@@ -842,126 +873,10 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid.Resources>
-                                <Style TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
-                                                <ControlTemplate.Resources>
-                                                    <Style TargetType="Border" x:Key="ContentBorder">
-                                                        <Setter Property="Background" Value="LightGray"/>
-                                                        <Setter Property="BorderBrush" Value="Gray"/>
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=DataContext , RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Hidden"/>
-                                                            </DataTrigger>
 
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
-                                                                    <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinish_Background_Dark_SolidColorBrush}"/>
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" />
-                                                                    <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
-                                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinish_Background_Bright_SolidColorBrush}"/>
-                                                            </MultiDataTrigger>
-
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
-                                                                    <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                                <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_Background_Dark_SolidColorBrush}"/>
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" />
-                                                                    <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
-                                                                <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_Background_Bright_SolidColorBrush}"/>
-                                                            </MultiDataTrigger>
-
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
-                                                                    <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                                <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"/>
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" />
-                                                                    <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
-                                                                <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_Background_Bright_SolidColorBrush}"/>
-                                                            </MultiDataTrigger>
-
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ControlTemplate.Resources>
-                                                <Border Style="{StaticResource ContentBorder}" 
-                                                    CornerRadius="5"
-                                                    BorderThickness="2" 
-                                                    Margin="0">
-
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="30"/>
-                                                            <ColumnDefinition />
-                                                            <ColumnDefinition Width="30"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition/>
-                                                            <RowDefinition/>
-                                                        </Grid.RowDefinitions>
-
-                                                        <Border Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,1,0" Background="Transparent">
-
-                                                        </Border>
-
-                                                        <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,0,1"  Background="Transparent">
-
-                                                            <TextBlock Text="{TemplateBinding ProjectName}" FontWeight="Black"  FontSize="12" Margin="5,2" Padding="0,0,0,0" 
-                                                                       Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center"/>
-                                                        </Border>
-
-                                                        <ContentPresenter  Margin="5"  Grid.Column="1" Grid.Row="1"
-                                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                                                        <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource ContentBorder}" BorderThickness="1,0,0,0" Background="Transparent">
-                                                            <TextBlock Text="{TemplateBinding PlateDiagramIndex}"  FontWeight="Bold" FontSize="20"
-                                                                       Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                        </Border>
-
-
-                                                    </Grid>
-                                                </Border>
-
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    
-                                    
-                                </Style>
-
-
-
-                            </Grid.Resources>
-                            <GD_StampingMachine_UserControls:PlateDiagramCustomControl PlateDiagramIndex="0"  Margin="5,0" 
+                            <GD_StampingMachine_UserControls:PlateDiagramCustomControl PlateDiagramIndex="24"  Margin="5,0" 
                             Grid.Column="0" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-Path=MachineSettingBaseCollection[24]}" ProjectName="{Binding ProductProjectName}" >
+Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName}" >
 
                                 <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"  
                                 DataContext="{Binding SettingBaseVM}"/>
@@ -969,13 +884,13 @@ Path=MachineSettingBaseCollection[24]}" ProjectName="{Binding ProductProjectName
 
                             <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="11"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-Path=MachineSettingBaseCollection[11]}" ProjectName="{Binding ProductProjectName}" >
+Path=MachineSettingBaseCollection[10]}" ProjectName="{Binding ProductProjectName}" >
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
                         </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
 
 
-                            <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="24" Margin="5,0" 
+                            <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="1" Margin="5,0" 
                             Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}" >
                             <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4" Width="auto" Height="auto"
@@ -1332,6 +1247,22 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                         </Grid>
                                     </ToggleButton>
+
+
+                                    <GD_Popup:NonTopmostPopup StaysOpen="True" Width="400" 
+                                                                        PopupAnimation="Scroll"   FlowDirection="LeftToRight"
+                                                                        Placement="Bottom"   
+                                                                        PlacementTarget="{Binding ElementName=MachiningFormTButton}"
+                                                                        HorizontalAlignment="Center" 
+                                                                        IsOpen="{Binding ElementName=MachiningFormTButton, Path=IsChecked, Mode=TwoWay}">
+
+                                        <Grid>
+                                            <GD_SchematicDiagram:QRPlateRowDiagramControl     
+                            DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
+                                            </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                        </Grid>
+                                    </GD_Popup:NonTopmostPopup>
+
 
                                 </Grid>
 

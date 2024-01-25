@@ -124,10 +124,10 @@
                             Content="{DynamicResource btnYes}" Style="{StaticResource SiegCustomButtonSkyBlue}"  
                             Padding="5,2,5,0"/>
                     <Button  Name="NoButton" Click="NoButton_Click"  MinWidth="60" Margin="5"
-                             Content="{DynamicResource btnNo}"  Style="{StaticResource SiegCustomButton_Gray}"  
+                             Content="{DynamicResource btnNo}"  Style="{StaticResource SiegCustomButton_Primary}"  
                              Padding="5,2,5,0"/>
-                    <Button Name="CancelButton"  Click="CancelButton_Click"  MinWidth="60" Margin="5"
-                        Content="{DynamicResource btnCancel}" Style="{StaticResource SiegCustomButton_Gray}"  
+                    <Button Name="CancelButton"  Click="CancelButton_Click"  MinWidth="60" Margin="5" 
+                        Content="{DynamicResource btnCancel}" Style="{StaticResource SiegCustomButton_Transparent}"  
                             Padding="5,2,5,0"/>
                 </StackPanel>
 

@@ -25,7 +25,7 @@ namespace GD_StampingMachine.UserControls
 
             PlateDiagramIndexProperty = DependencyProperty.Register(nameof(PlateDiagramIndex), typeof(string), typeof(PlateDiagramCustomControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
             ProjectNameProperty = DependencyProperty.Register(nameof(ProjectName), typeof(string), typeof(PlateDiagramCustomControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-           // ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(PlateDiagramCustomControl), new FrameworkPropertyMetadata((object)null, (PropertyChangedCallback)OnContentChanged));
+    
         }
 
         public static readonly DependencyProperty PlateDiagramIndexProperty;

@@ -162,7 +162,7 @@
                             </Button.Triggers>
                         </Button>
 
-                        <GD_Popup:DraggablePopup 
+                        <GD_Popup:DraggablePopup  
                             Name="MachineWarningDraggablePopup"
                                     PopupAnimation="Fade"   StaysOpen="False"
                                     Placement="Bottom"  
@@ -170,34 +170,27 @@
                             HorizontalAlignment="Center"
                             DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                             >
-                            <Border  MinHeight="50" MinWidth="300" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
-                                <GroupBox Header="{DynamicResource Text_MachineAlarm}" Padding="5">
-                                    <Grid>
-                                        <ItemsControl Name="AlarmMessageItemsControl"
+                                    <Border  MinHeight="50" MinWidth="300" Background="{DynamicResource PrimaryHueLightBrush}" CornerRadius="5"
+
+                                             Padding="10,10">
+                                        <GroupBox Header="{DynamicResource Text_MachineAlarm}" Padding="5">
+                                            <Grid>
+                                                <ItemsControl Name="AlarmMessageItemsControl"
                                             ItemsSource="{Binding Path=AlarmMessageCollection}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid Margin="2">
-                                                        <TextBlock Text="{Binding }"/>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                            
-                                        </ItemsControl>
-                                    </Grid>
-                                    
-                                </GroupBox>
-                            </Border>
-                            <GD_Popup:DraggablePopup.Style>
-                                <Style TargetType="GD_Popup:DraggablePopup">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=HasAlarm}" Value="false">
-                                            <Setter Property="IsOpen" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </GD_Popup:DraggablePopup.Style>
-                        </GD_Popup:DraggablePopup>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Margin="2">
+                                                                <TextBlock Text="{Binding }"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+
+                                                </ItemsControl>
+                                            </Grid>
+
+                                        </GroupBox>
+                                    </Border>
+                                </GD_Popup:DraggablePopup>
 
 
 

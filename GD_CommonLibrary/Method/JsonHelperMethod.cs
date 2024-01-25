@@ -9,9 +9,9 @@ namespace GD_CommonLibrary.Method
 {
     public class JsonHelperMethod
     {
-        public async Task<bool> WriteJsonFileAsync<T>(string fileName, T JsonData)
+        public Task<bool> WriteJsonFileAsync<T>(string fileName, T JsonData)
         {
-            return await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 for (int i = 0; i < 10; i++)
                 {
@@ -80,15 +80,12 @@ namespace GD_CommonLibrary.Method
                 Debug.WriteLine(ex);
             }
 
-
             //檢查是否有成功寫入
             var readRet = ReadJsonFile<T>(fileName, out _);
             if (!readRet)
             {
                 Debugger.Break();
             }
-
-
             return wirteRet && readRet;
         }
 

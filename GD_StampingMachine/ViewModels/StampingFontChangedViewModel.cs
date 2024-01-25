@@ -3,6 +3,7 @@ using DevExpress.Data.Extensions;
 using DevExpress.Mvvm.Native;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
@@ -322,8 +323,7 @@ namespace GD_StampingMachine.ViewModels
                             }
                             catch (Exception ex)
                             {
-                                await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message);
-
+                                await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message , GD_Enum.GD_MessageBoxNotifyResult.NotifyRd);
                             }
                             using (CancellationTokenSource cts = new(10000))
                             {
@@ -476,7 +476,7 @@ namespace GD_StampingMachine.ViewModels
                 catch (Exception ex)
                 {
 
-                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message);
+                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message, GD_MessageBoxNotifyResult.NotifyRd);
                 }
             }
             , e => !_stamping_SelectionChangedCommand.IsRunning);
@@ -499,7 +499,7 @@ namespace GD_StampingMachine.ViewModels
             get => _stampingFontCollectionData_MachineToSoftware_Command ??= new(async () =>
             {
                 if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
-                (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware")) != MessageBoxResult.Yes)
+                (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware"), GD_MessageBoxNotifyResult.NotifyBl) != MessageBoxResult.Yes)
                 {
                     return;
                 }
@@ -560,9 +560,9 @@ namespace GD_StampingMachine.ViewModels
                 }
 
                 if (await StampMachineData.SetRotatingTurntableInfoAsync(FontsCollection))
-                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"));
+                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"), GD_MessageBoxNotifyResult.NotifyGr);
                 else
-                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"));
+                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"), GD_MessageBoxNotifyResult.NotifyRd);
 
             }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }
@@ -581,7 +581,7 @@ namespace GD_StampingMachine.ViewModels
                      StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection))
                 {
                     await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                        (string)Application.Current.TryFindResource("Notify_PunchedFontsIsCompared"));
+                        (string)Application.Current.TryFindResource("Notify_PunchedFontsIsCompared"), GD_MessageBoxNotifyResult.NotifyGr);
                 }
             });
         }

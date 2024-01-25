@@ -54,7 +54,7 @@
                                            CommandTarget="{Binding ElementName=AddProjectDistributeDraggablePopup}"
                                     
                                   
-                                  Style="{StaticResource SiegCustomButton_Gray}"
+                                  Style="{StaticResource SiegCustomButton_Primary}"
                                   Padding="10,2,10,0" Width="auto" Margin="10,5" 
                             Content="{DynamicResource btnAddTypeSettingProject}"/>
                     <GD_Popup:DraggablePopup Name="AddProjectDistributeDraggablePopup"
@@ -114,12 +114,13 @@
                                          Text="{Binding NewProjectDistribute.ProjectDistributeName,UpdateSourceTrigger=PropertyChanged}"/>
 
                                 <StackPanel  Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                    <Button   
+                                    <Button    Padding="10,3,10,0"
                                                                     Content="{DynamicResource btnClose}"
                                           Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  
                                           CommandParameter="{StaticResource FalseValue}">
                                     </Button>
-                                    <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectDistributeCommand}">
+                                    <Button  Padding="10,3,10,0"
+                                        Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectDistributeCommand}">
                                         <Button.IsEnabled>
                                             <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                                 <Binding Path="NewProjectDistribute.ProjectDistributeName"/>
@@ -266,7 +267,7 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <Button Style="{StaticResource SiegCustomButton_Gray}" x:Name="btnAddProjectToggleButton"
+                            <Button Style="{StaticResource SiegCustomButton_Primary}" x:Name="btnAddProjectToggleButton"
                                 Content="{StaticResource btnAddProject}" Width="auto" Height="35" 
                                           Padding="5,0"
                                           Margin="10,5" HorizontalAlignment="Left" 
@@ -534,7 +535,7 @@
                                     </dxg:GridColumn.HeaderStyle>
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{StaticResource SiegCustomButton_Gray}" Margin="5,0"
+                                            <Button Style="{StaticResource SiegCustomButton_Primary}" Margin="5,0"
                                                 Height="30" Width="auto" Padding="10,0" IsEnabled="{Binding Row.IsFinish, Converter={dx:BoolInverseConverter}}"
                                                                         Content="{DynamicResource btnClose}"  >
                                                 <i:Interaction.Triggers>

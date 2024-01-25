@@ -46,7 +46,7 @@
     <SolidColorBrush x:Key="ToggleButtonBackgroundSkyBlueBrush" Color="{StaticResource cToggleButtonBackgroundSkyBlueBrush}"/>
 
 
-    <SolidColorBrush x:Key="NoneIsFinishSolidColorBrush" Color="White"/>
+    <SolidColorBrush x:Key="NoneIsFinishSolidColorBrush" Color="LightGray"/>
     <SolidColorBrush x:Key="DataMatrixIsReadySolidColorBrush" Color="SkyBlue"/>
     <SolidColorBrush x:Key="DataMatrixIsSendedSolidColorBrush" Color="Gray"/>
     

@@ -1,4 +1,6 @@
 ﻿using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Enum;
+using GD_StampingMachine.Windows;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -23,7 +25,7 @@ namespace GD_StampingMachine.Method
                 (string)Application.Current.TryFindResource("Text_AskDelProject") +
                 "\r\n" +
                 $"{NumberSetting}" +
-                "?");
+                "?", GD_MessageBoxNotifyResult.NotifyBl);
             return await MessageBoxReturn;
         }
         /// <summary>
@@ -40,7 +42,7 @@ namespace GD_StampingMachine.Method
                 (string)Application.Current.TryFindResource("Text_CloseTSProject") +
                 "\r\n" +
                 $"{ProjectName}" +
-                "?");
+                "?", GD_MessageBoxNotifyResult.NotifyBl);
 
             return await MessageBoxReturn;
         }
@@ -60,14 +62,18 @@ namespace GD_StampingMachine.Method
             if (IsSuccessful)
             {
                 _message += (string)Application.Current.TryFindResource("Text_SaveSuccessful");
+                await ShowOKAsync(
+                           (string)Application.Current.TryFindResource("Text_notify"),
+                           _message, GD_MessageBoxNotifyResult.NotifyGr);
             }
             else
             {
                 _message += (string)Application.Current.TryFindResource("Text_SaveFail");
+
+                await ShowOKAsync(
+                           (string)Application.Current.TryFindResource("Text_notify"),
+                           _message, GD_MessageBoxNotifyResult.NotifyRd);
             }
-            await ShowOKAsync(
-                       (string)Application.Current.TryFindResource("Text_notify"),
-                       _message);
         }
         /// <summary>
         /// 讀取成功
@@ -76,30 +82,35 @@ namespace GD_StampingMachine.Method
         /// <param name="IsSuccessful"></param>
         public static async Task LoadSuccessfulAsync(string Path, bool IsSuccessful)
         {
+            GD_MessageBoxNotifyResult notify;
+
             string _message = Path;
             if (IsSuccessful)
             {
                 _message += "\r\n" + (string)Application.Current.TryFindResource("Text_LoadSuccessful");
+                notify = GD_MessageBoxNotifyResult.NotifyGr;
             }
             else
             {
                 _message += "\r\n" + (string)Application.Current.TryFindResource("Text_LoadFail");
+                notify = GD_MessageBoxNotifyResult.NotifyRd;
             }
-            await ShowOKAsync(
-                       (string)Application.Current.TryFindResource("Text_notify"),
-                       _message);
+
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+           _message, notify);
+
         }
 
 
 
         public static async Task CanNotCloseProjectAsync()
         {
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject"));
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject") , GD_MessageBoxNotifyResult.NotifyYe);
         }
 
         public static async Task CanNotDeleteProjectAsync()
         {
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"));
+            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"), GD_MessageBoxNotifyResult.NotifyYe);
         }
 
 
@@ -108,7 +119,7 @@ namespace GD_StampingMachine.Method
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
-                , MessageBoxImage.Warning);
+                , GD_MessageBoxNotifyResult.NotifyYe);
         }
 
 
@@ -119,7 +130,7 @@ namespace GD_StampingMachine.Method
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty")
-                , MessageBoxImage.Warning);
+                , GD_MessageBoxNotifyResult.NotifyRd);
         }
 
         /// <summary>
@@ -133,7 +144,7 @@ namespace GD_StampingMachine.Method
 
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantCreateProject") + AddMessage
-                , MessageBoxImage.Warning);
+                , GD_MessageBoxNotifyResult.NotifyRd);
         }
 
 
@@ -142,7 +153,7 @@ namespace GD_StampingMachine.Method
         {
             await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsLoaded")
-                , MessageBoxImage.Warning);
+                , GD_MessageBoxNotifyResult.NotifyRd);
         }
 
 

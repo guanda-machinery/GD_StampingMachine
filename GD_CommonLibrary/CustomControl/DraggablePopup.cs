@@ -10,6 +10,10 @@ namespace GD_CommonLibrary.GD_Popup
 {
     public class DraggablePopup : NonTopmostPopup
     {
+        public DraggablePopup()
+        {
+            this.IsTopmost = false;
+        }
 
         Point _initialMousePosition;
         bool _isDragging;
@@ -153,6 +157,10 @@ namespace GD_CommonLibrary.GD_Popup
         {
             Debug.WriteLine("Parent Window Activated");
             SetTopmostState(true);
+            if (IsTopmost == false)
+            {
+                SetTopmostState(IsTopmost);
+            }
         }
 
         void OnParentWindowDeactivated(object sender, EventArgs e)
@@ -160,9 +168,9 @@ namespace GD_CommonLibrary.GD_Popup
             Debug.WriteLine("Parent Window Deactivated");
 
             //if (IsTopmost == false)
-            {
-                SetTopmostState(IsTopmost);
-            }
+          //  {
+               // SetTopmostState(IsTopmost);
+           // }
         }
         void OnChildPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -180,7 +188,6 @@ namespace GD_CommonLibrary.GD_Popup
         private static void OnIsTopmostChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var thisobj = (NonTopmostPopup)obj;
-
             thisobj.SetTopmostState(thisobj.IsTopmost);
         }
 
@@ -207,9 +214,8 @@ namespace GD_CommonLibrary.GD_Popup
                 return;
             var hwnd = hwndSource.Handle;
 
-            RECT rect;
 
-            if (!GetWindowRect(hwnd, out rect))
+            if (!GetWindowRect(hwnd, out RECT rect))
                 return;
 
             Debug.WriteLine("setting z-order " + isTop);

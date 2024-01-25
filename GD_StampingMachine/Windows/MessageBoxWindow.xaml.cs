@@ -1,5 +1,6 @@
 ﻿using DevExpress.CodeParser;
 using DevExpress.XtraScheduler;
+using GD_StampingMachine.GD_Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,7 @@ using System.Windows.Shapes;
 
 namespace GD_StampingMachine.Windows
 {
-    public enum GD_MessageBoxFloatResult
-    {
-        NotifyBl,
-        NotifyGr,
-        NotifyRd,
-        NotifyYe
-    }
+
 
     /// <summary>
     /// MessageBoxWindow.xaml 的互動邏輯
@@ -41,10 +36,10 @@ namespace GD_StampingMachine.Windows
 
 
 
-        public MessageBoxResult FloatShow(Window owner, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxFloatResult MB_Icon)
+        public MessageBoxResult FloatShow(Window owner, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon , bool lockWindow = true)
         {
             Window overlay = null;
-            if (owner != null)
+            if (lockWindow && owner != null)
             {
                 overlay = new Window
                 {
@@ -70,17 +65,17 @@ namespace GD_StampingMachine.Windows
 
             switch (MB_Icon)
             {
-                case GD_MessageBoxFloatResult.NotifyBl:
+                case GD_MessageBoxNotifyResult.NotifyBl:
                     Notify_Bl_Image.Visibility = Visibility.Visible;
                     break;
-                case GD_MessageBoxFloatResult.NotifyGr:
+                case GD_MessageBoxNotifyResult.NotifyGr:
                     Notify_Gr_Image.Visibility = Visibility.Visible;
                     break;
-                case GD_MessageBoxFloatResult.NotifyRd:
+                case GD_MessageBoxNotifyResult.NotifyRd:
 
                     Notify_Rd_Image.Visibility = Visibility.Visible;
                     break;
-                case GD_MessageBoxFloatResult.NotifyYe:
+                case GD_MessageBoxNotifyResult.NotifyYe:
 
                     Notify_Ye_Image.Visibility = Visibility.Visible;
                     break;

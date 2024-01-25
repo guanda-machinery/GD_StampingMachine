@@ -7,6 +7,7 @@ using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels.ProductSetting;
@@ -229,9 +230,6 @@ namespace GD_StampingMachine.ViewModels
                                 
                                  var workableMachiningCollection = SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
                                  //var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.WorkIndex >= 0);
-
-
-
                                  var a = workableMachiningCollection.Count(x => x.IsFinish);
 
                                  //準備加工(未上傳)
@@ -242,9 +240,9 @@ namespace GD_StampingMachine.ViewModels
                                  if (readyMachiningCollection.Count == 0)
                                  {
                                      //manager?.Close();
-                                     await MessageBoxResultShow.ShowOKAsync(
-                                         (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"));
-
+                                     /*  await MessageBoxResultShow.ShowOKAsync(
+                                           (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"));*/
+                                     var result = await MessageBoxResultShow.ShowAsync(("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
                                      _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("NoneMachiningData"));
                                      break;
                                  }
@@ -255,23 +253,13 @@ namespace GD_StampingMachine.ViewModels
                                  }
                                  var progress = ((double)sendedReadyMachiningCollection.Count * 100) / (double)workableMachiningCollection.Count;
                                  SendMachininProgress = progress;
-                                 //ManagerVM.Progress = progress;
-                                 //if(progress>0)
-                                 //    ManagerVM.IsIndeterminate = false;
 
-                                 //等待機台訊號 
 
                                  if (token.IsCancellationRequested)
                                      token.ThrowIfCancellationRequested();
-
-
                                  _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequsetSignal"));
-                                 //ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WaitRequsetSignal");
-                                 //ManagerVM.Subtitle = $"[{readymachining.WorkIndex}] [{readymachining.IronPlateString}]";
 
-                                 //將兩行字上傳到機器
-                                 //readymachining.
-                                 //           string ironPlateString = "";
+
 
                                  string plateFirstValue = "";
                                  string plateSecondValue = "";
@@ -554,17 +542,17 @@ namespace GD_StampingMachine.ViewModels
                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart");
                         }
 
-                        var ironPlateDataRet = await StampMachineData.GetIronPlateDataCollectionAsync();
-                        if (!ironPlateDataRet.Item1)
+                        var (result , ironPlateDataCollection) = await StampMachineData.GetIronPlateDataCollectionAsync();
+                        if (!result)
                         {
                             manager?.Close();
                             await MessageBoxResultShow.ShowOKAsync(
-                                (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("MachineOffline"));
+                                (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("MachineOffline"), GD_MessageBoxNotifyResult.NotifyBl);
                             break;
                         }
 
                         //檢查清單內若有待加工(id !=0 或 四種加工資料任一欄有值)
-                        var isNeedWorkList = ironPlateDataRet.Item2.FindAll(x => x.iIronPlateID != 0 ||
+                        var isNeedWorkList = ironPlateDataCollection.FindAll(x => x.iIronPlateID != 0 ||
                         !string.IsNullOrEmpty(x.sDataMatrixName1) ||
                         !string.IsNullOrEmpty(x.sDataMatrixName2) ||
                         !string.IsNullOrEmpty(x.sIronPlateName1) ||
@@ -596,7 +584,7 @@ namespace GD_StampingMachine.ViewModels
                         {
                             manager?.Close();
                             await MessageBoxResultShow.ShowOKAsync(
-                                (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"));
+                                (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"), GD_MessageBoxNotifyResult.NotifyBl);
                             break;
                         }
 
@@ -1066,7 +1054,7 @@ namespace GD_StampingMachine.ViewModels
                     else
                     {
                         await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                            (string)Application.Current.TryFindResource("MachineOffline"));
+                            (string)Application.Current.TryFindResource("MachineOffline") , GD_MessageBoxNotifyResult.NotifyRd);
                     }
                 }
                 catch (Exception ex)
@@ -1174,22 +1162,62 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(() =>
                 {
-                    if (e is IEnumerable Itemsources)
-                    {
-                        foreach (var item in Itemsources)
-                        {
+                    var partsParameterVMCollection = new List<PartsParameterViewModel>();
 
-                            if (item is PartsParameterViewModel partsParameter)
+                    if (e is IList<PartsParameterViewModel> Itemsources)
+                    {
+                        partsParameterVMCollection = Itemsources.ToList();
+                    }
+                    else if(e is IEnumerable enumerableSources)
+                    {
+                       foreach(var enumSource in enumerableSources)
+                        {
+                            if(enumSource is PartsParameterViewModel partsParameterVM)
                             {
-                                if (partsParameter.WorkIndex < 0)
-                                    SetPartsParameterWork(partsParameter);
-                                //partsParameter.MachiningStatus = MachiningStatusEnum.Ready;
+                                partsParameterVMCollection.Add(partsParameterVM);
                             }
                         }
                     }
+
+                    if (partsParameterVMCollection != null)
+                    {
+                        var workableData = partsParameterVMCollection.FindAll(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
+
+                        int count = 0;
+                        List<(int, int)> WorkIndexList = new();
+                        var groupCollection = workableData.GroupBy(x => x.BoxIndex);
+
+                        foreach (var group in groupCollection)
+                        {
+                            foreach (var sbox in SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
+                            {
+                                if (!sbox.BoxIsFull && sbox.BoxIsEnabled && sbox.BoxIndex == group.Key)
+                                {
+                                    Debugger.Break();
+                                    var value = group.Count() - (int)sbox.UntransportedFinishedBoxPieceValue;
+                                    if (value > 0)
+                                        count += value;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (count > 0)
+                        {
+                            foreach (var partsParameter in workableData)
+                            {
+                                SetPartsParameterWork(partsParameter);
+                                OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
+                                OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+                            }
+                        }
+                        else
+                        {
+                            Debugger.Break();
+                        }
+                    }
                 });
-                OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
-                OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
                 RefreshBoxPartsParameterVMRowFilter();
 
@@ -1202,11 +1230,11 @@ namespace GD_StampingMachine.ViewModels
             partsParameter.IsFinish = false;
             partsParameter.IsTransported = false;
 
-            var box = SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.First(x => x.BoxIndex == partsParameter.BoxIndex);
+            var box = SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.First(x => 
+            x.BoxIndex == partsParameter.BoxIndex);
 
-           // var unWorkCount = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsFinish);
             var unTransportedCount = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0  && !x.IsTransported);
-            if (unTransportedCount < box.BoxSliderValue)
+            if (unTransportedCount < box.BoxSliderValue && box.BoxIsEnabled)
             {
                 var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
                 if (indexMax < 0)
@@ -1238,32 +1266,46 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(async () =>
                  {
+                     var partsParameterVMCollection = new List<PartsParameterViewModel>();
 
-                     //全選
-                     if (e is IEnumerable partsParameterVMList)
+                     if (e is IList<PartsParameterViewModel> Itemsources)
                      {
+                         partsParameterVMCollection = Itemsources.ToList();
+                     }
+                     else if (e is IEnumerable enumerableSources)
+                     {
+                         foreach (var enumSource in enumerableSources)
+                         {
+                             if (enumSource is PartsParameterViewModel partsParameterVM)
+                             {
+                                 partsParameterVMCollection.Add(partsParameterVM);
+                             }
+                         }
+                     }
+
+                     if (partsParameterVMCollection != null)
+                     {
+                         var cancelableData = partsParameterVMCollection.FindAll(x => x.WorkIndex >= 0 && !x.IsFinish && !x.IsSended);
+
                          bool dataIsChanged = false;
                          bool selectedData = false;
-                         foreach (var item in partsParameterVMList)
+                         foreach (var item in cancelableData)
                          {
                              selectedData = true;
                              if (item is PartsParameterViewModel partsParameterVM)
                              {
-                                 if (!partsParameterVM.IsSended)
-                                 {
-                                     dataIsChanged = true;
-
-                                     partsParameterVM.IsFinish = false;
-                                     partsParameterVM.WorkIndex = -1;
-
-                                 }
+                                 dataIsChanged = true;
+                                 partsParameterVM.WorkIndex = -1;
+                                 OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
+                                 OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
                              }
                          }
 
                          if (selectedData && !dataIsChanged)
                          {
                              //沒有資料被移動 -   資料已進入機台，不可解除
-                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("MachiningDataIsAlreadySended"), MessageBoxImage.Exclamation);
+                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("MachiningDataIsAlreadySended"), 
+                                 GD_MessageBoxNotifyResult.NotifyRd);
                          }
                      }
                      OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
@@ -1322,7 +1364,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                      Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
                 }
-                var result =  await  MessageBoxResultShow.FloatShowAsync( null , Outputstring, MessageBoxButton.OKCancel , GD_MessageBoxFloatResult.NotifyRd);
+                var result =  await  MessageBoxResultShow.ShowAsync( null , Outputstring, MessageBoxButton.OKCancel , GD_MessageBoxNotifyResult.NotifyRd);
                 if (result is MessageBoxResult.OK || result is MessageBoxResult.Yes)
                 {
                     var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);

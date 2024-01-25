@@ -221,7 +221,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
                 catch (Exception ex)
                 {
-                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message);
+                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message , GD_MessageBoxNotifyResult.NotifyRd);
                     Debugger.Break();
                 }
             });
@@ -246,7 +246,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             if(ProductProjectVMObservableCollection[Findex] != productProjectVM)
                             {
                                 await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                          (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject"));
+                                          (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject"), GD_MessageBoxNotifyResult.NotifyRd);
                                 return;
                             }
                         }
@@ -261,7 +261,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             await this.SaveProductListSettingAsync();
 
                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                          (string)Application.Current.TryFindResource("Text_LoadSuccessful"));
+                                          (string)Application.Current.TryFindResource("Text_LoadSuccessful") , GD_MessageBoxNotifyResult.NotifyGr);
                         }
                     }
                 }

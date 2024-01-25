@@ -351,9 +351,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="SiegCustomButton_Transparent" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
-        <Setter Property="Background" Value="Transparent"/>
-    </Style>
+
 
 
     <Style x:Key="SiegCustomButton_Dark" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
@@ -371,14 +369,45 @@
     </Style>
 
 
-    <Style x:Key="SiegCustomButton_Gray" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
+    <Style x:Key="SiegCustomButton_Primary" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton}">
         <Setter Property="BorderThickness" Value="1.5"/>
         <Setter Property="BorderBrush"     Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="Foreground"
                             Value="{DynamicResource  PrimaryHueDarkForegroundBrush}" />
         <Setter Property="Background"
                             Value="{DynamicResource PrimaryHueDarkBrush}" />
+        <Style.Triggers>
+            
+            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="False">
+                <Setter Property="BorderBrush" Value="#f7f7f7"/>
+                <Setter Property="Background" Value="#6f6f6f"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                <Setter Property="BorderBrush" Value="#6f6f6f"/>
+                <Setter Property="Background" Value="#f7f7f7"/>
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LightSkyBlue"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Orange"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+
+        </Style.Triggers>
     </Style>
+
+    <Style x:Key="SiegCustomButton_Transparent" TargetType="ButtonBase" BasedOn="{StaticResource SiegCustomButton_Primary}">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+
+
+
+
+
 
 
 
@@ -600,7 +629,7 @@
     </Style>
 
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton_Gray" BasedOn="{StaticResource SiegCustomButton_Gray}">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="GD_ToggleButton_Gray" BasedOn="{StaticResource SiegCustomButton_Primary}">
         <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="2"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Style.Triggers>
@@ -1249,7 +1278,7 @@
 
     <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}"/>
     
-    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}"/>
+    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}"/>
     
     <Style TargetType="GD_Popup:DraggablePopup" BasedOn="{StaticResource MaterialDesignDialogHostPopup}">
         <Setter Property="Placement" Value="MousePoint"/>
@@ -1589,8 +1618,6 @@
     </Style>
 
 
-
-    
 
 
 </ResourceDictionary>

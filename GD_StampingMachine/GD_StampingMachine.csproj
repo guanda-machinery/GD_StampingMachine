@@ -402,6 +402,7 @@
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CustomControls\ImageBrightDarkCustomControl.cs" />
     <Compile Include="UserControls\CustomControls\PlateDiagramCustomControl.cs" />
     <Compile Include="UserControls\MachineFunctionTestUserControl.xaml.cs">
       <DependentUpon>MachineFunctionTestUserControl.xaml</DependentUpon>
@@ -497,6 +498,10 @@
     <Compile Include="Windows\MessageBoxWindow.xaml.cs">
       <DependentUpon>MessageBoxWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\MessageBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -536,23 +541,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ComboBoxStyleDictionary.xaml">
+    <Page Include="Themes\ComboBoxStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\DragDropStyleDictionary.xaml">
+    <Page Include="Themes\DragDropStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\GridControlStyleDictionary.xaml">
+    <Page Include="Themes\GridControlStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ListBoxStyleDictionary.xaml">
+    <Page Include="Themes\ListBoxStyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ScrollViews.xaml">
+    <Page Include="Themes\ScrollViews.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -560,7 +565,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\StyleDictionary.xaml">
+    <Page Include="Themes\StyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

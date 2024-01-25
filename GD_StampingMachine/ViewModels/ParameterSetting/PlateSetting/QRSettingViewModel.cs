@@ -7,7 +7,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     /// <summary>
     /// 繼承
     /// </summary>
-    public class QRSettingViewModel : SettingBaseViewModel//, IStampingPlateVM
+    public class QRSettingViewModel : SettingBaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
 
@@ -16,6 +16,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             this.SheetStampingTypeForm = SheetStampingTypeFormEnum.QRSheetStamping;
             this.SequenceCount = 6;
             this.SpecialSequence = SpecialSequenceEnum.TwoRow;
+            this.StampingMarginPosVM.rXAxisPos1 = 10;
+            this.StampingMarginPosVM.rXAxisPos2 = 25;
+            this.StampingMarginPosVM.rYAxisPos1 = 14;
+            this.StampingMarginPosVM.rYAxisPos2 = 14;
         }
 
         public QRSettingViewModel(StampPlateSettingModel stampPlateSetting)
@@ -29,7 +33,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override Visibility QRCodeVisibility { get => Visibility.Visible; }
 
-        //public override SheetStampingTypeFormEnum SheetStampingTypeForm { get => SheetStampingTypeFormEnum.QRSheetStamping; }
 
 
 
@@ -45,6 +48,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public string ModelSize { get => StampPlateSetting.ModelSize; set { StampPlateSetting.ModelSize = value; OnPropertyChanged(); } }
 
     }
+
+
+
 
 
 

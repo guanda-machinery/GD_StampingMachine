@@ -534,7 +534,7 @@
                                         ToolTip="{DynamicResource btnEdit}"
                                         MinWidth="50">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
                                                     <Image Name="EditImage"
@@ -587,7 +587,7 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
                                                     <Image Name="EditImage"
@@ -643,7 +643,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <Button.Style>
-                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                                 <Setter Property="Content">
                                                     <Setter.Value>
                                                         <Image Name="EditImage"
@@ -1787,39 +1787,17 @@
                                         </Grid>
                                     </ToggleButton>
 
-                                    <GD_Popup:NonTopmostPopup StaysOpen="True"
+                                    <GD_Popup:NonTopmostPopup StaysOpen="True" Width="400" 
                                                                         PopupAnimation="Scroll"   FlowDirection="LeftToRight"
                                                                         Placement="Bottom"   
                                                                         PlacementTarget="{Binding ElementName=MachiningFormTButton}"
                                                                         HorizontalAlignment="Center" 
                                                                         IsOpen="{Binding ElementName=MachiningFormTButton, Path=IsChecked, Mode=TwoWay}">
+
                                         <Grid>
-                                            <Border Background="{DynamicResource PrimaryHueMidBrush}">
-                                                <Border.LayoutTransform>
-                                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                                                </Border.LayoutTransform>
-                                                <Grid>
-                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl     
+                                            <GD_SchematicDiagram:QRPlateRowDiagramControl     
                             DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                            <TransformGroup>
-                                                                <TranslateTransform X="0" Y="0"/>
-                                                                <RotateTransform Angle="0"/>
-                                                                <ScaleTransform ScaleX="8" ScaleY="8"/>
-                                                            </TransformGroup>
-                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                                    <!--
-                                                    <GD_SchematicDiagram:PlateRowDiagramViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>
-                                                    <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>-->
-                                                </Grid>
-                                            </Border>
+                                            </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                         </Grid>
                                     </GD_Popup:NonTopmostPopup>
                                 </Grid>
@@ -1871,7 +1849,7 @@
                                         Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50">
 
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
                                                     <Image Name="EditImage"
@@ -1921,7 +1899,7 @@
                                         IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_Common:InvertBooleanConverter}}"
                                         ToolTip="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" >
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Setter Property="Content">
                                                 <Setter.Value>
                                                     <Image Name="EditImage"

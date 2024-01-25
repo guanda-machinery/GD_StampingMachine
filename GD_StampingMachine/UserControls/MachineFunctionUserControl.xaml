@@ -18,7 +18,7 @@
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
+             
              xmlns:Diagram="http://schemas.devexpress.com/winfx/2008/xaml/diagram" xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads" 
 
              xmlns:GD_Extensions="clr-namespace:GD_CommonLibrary.Extensions;assembly=GD_CommonLibrary" 
@@ -613,7 +613,7 @@
                         <StackPanel>
                                 <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding StampMachineData.HydraulicPumpIsActive}" Value="true">
                                                     <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
@@ -621,18 +621,9 @@
                                             </Style.Triggers>
                                     </Style>
                                 </Button.Style>
-                                    <Image>
-                                        <Image.Style>
-                                            <Style TargetType="Image">
-                                                <Setter Property="Source" Value="{StaticResource OilPresssure_WhiteDrawingImage}"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                        <Setter Property="Source" Value="{StaticResource OilPresssure_BlackDrawingImage}"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Image.Style>
-                                    </Image>
+                                    <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource OilPresssure_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource OilPresssure_BlackDrawingImage}"/>
                                 </Button>
                         </StackPanel>
                     </GroupBox>
@@ -680,7 +671,7 @@
                             <StackPanel>
                                 <Button  Command="{Binding StampMachineData.CycleStartCommand}">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Style.Triggers>
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
@@ -717,7 +708,7 @@
                             <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
                               >
                           <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -750,7 +741,7 @@
                                     CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
                          >
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -781,7 +772,7 @@
                             <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
                            >
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -812,7 +803,7 @@
                             <Button  Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
                          >
                                 <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Gray}">
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                         <Style.Triggers>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -907,7 +898,7 @@
                             </GroupBox>
 
                         <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1" >
-                            <GD_StampingMachine_UserControls:CylinderUserControl  HorizontalAlignment="left"
+                            <local:CylinderUserControl  HorizontalAlignment="left"
                                 CylinderUpIsActived="False"
                                                             
                                  MiddlePreviewMouseLeftButtonDownCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"           
@@ -933,7 +924,7 @@
                                 />
                             </GroupBox>
                             <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
-                                <GD_StampingMachine_UserControls:CylinderUserControl 
+                                <local:CylinderUserControl 
                                  CylinderUpIsActived="False"
                                     
                                  CylinderMiddleCommand="{Binding StampMachineData.GuideRod_Fixed_Up_Command}"   
@@ -950,7 +941,7 @@
                             </GroupBox>
 
                             <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}-2">
-                                <GD_StampingMachine_UserControls:CylinderUserControl 
+                                <local:CylinderUserControl 
                            
                                     
                                     
@@ -971,7 +962,7 @@
 
 
                             <GroupBox Header="{DynamicResource Text_BlockCylinder}" HeaderStringFormat="{}{0}">
-                                <GD_StampingMachine_UserControls:CylinderUserControl 
+                                <local:CylinderUserControl 
                                  CylinderUpIsActived="False"
                                
                                CylinderMiddleCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"   
@@ -1111,7 +1102,7 @@
 
                             <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}">
                                     <StackPanel Orientation="Horizontal">
-                                <GD_StampingMachine_UserControls:CylinderUserControl 
+                                <local:CylinderUserControl 
    
                                           UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
                                           UpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
@@ -1138,7 +1129,7 @@
                             </GroupBox>
 
                                 <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}">
-                                    <GD_StampingMachine_UserControls:CylinderUserControl 
+                                    <local:CylinderUserControl 
 
                                         
                                         UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.StampingSeat_Up_Command}"
@@ -1255,7 +1246,7 @@
 
                 <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Visibility="{Binding ShearCut_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <StackPanel>
-                            <GD_StampingMachine_UserControls:CylinderUserControl 
+                            <local:CylinderUserControl 
                                 
                                       
                                UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"   
@@ -1277,7 +1268,7 @@
                                 >
 
                                 
-                            </GD_StampingMachine_UserControls:CylinderUserControl>
+                            </local:CylinderUserControl>
 
                     </StackPanel>
                 </GroupBox>

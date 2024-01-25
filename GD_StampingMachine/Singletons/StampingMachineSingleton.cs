@@ -165,7 +165,7 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         //需註解找不到檔案!
-                        _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {fileName}");
+                        _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {fileName}" , GD_MessageBoxNotifyResult.NotifyRd);
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,

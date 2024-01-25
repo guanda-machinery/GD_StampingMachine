@@ -764,6 +764,7 @@ namespace GD_StampingMachine.Singletons
                                     PlateNumber = "Test1 23456789",
 
                                 },
+                                ProductProjectName = "new1",
                                 DataMatrixIsFinish = true ,
                                 ShearingIsFinish = true,
                                 EngravingIsFinish = true
@@ -1332,6 +1333,7 @@ namespace GD_StampingMachine.Singletons
                                                     {
                                                         AlarmMessageCollection.Add(e.NewValue);
                                                         _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
+                                                        OnPropertyChanged(nameof(AlarmMessageCollection));
                                                     }
                                             });
 
@@ -1343,6 +1345,7 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 AlarmMessageCollection.Add(message);
                                                _ =  LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
+                                                OnPropertyChanged(nameof(AlarmMessageCollection));
                                             }
                                         }
 
@@ -1867,7 +1870,7 @@ namespace GD_StampingMachine.Singletons
                                 settingCollection.Count);
                             //兩邊字模數量不合
                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                Outputstring);
+                                Outputstring , GD_MessageBoxNotifyResult.NotifyYe);
                         }
                     }
                     // else if (!hasSameContent)
@@ -1881,7 +1884,7 @@ namespace GD_StampingMachine.Singletons
                             string Outputstring = string.Format(dataIsDifferent, numberlist);
 
                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                Outputstring);
+                                Outputstring , GD_MessageBoxNotifyResult.NotifyYe);
                         }
 
 
@@ -2434,7 +2437,7 @@ namespace GD_StampingMachine.Singletons
                             {
                                 //油壓馬達尚未啟動
                                 var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                    (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
+                                    (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved") , GD_MessageBoxNotifyResult.NotifyRd);
 
                                 _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved"));
 
@@ -2451,7 +2454,7 @@ namespace GD_StampingMachine.Singletons
                                     {
                                         //需在工程模式才可執行
                                         var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                            (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
+                                            (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode") , GD_MessageBoxNotifyResult.NotifyYe);
 
                                         await LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
                                     }
@@ -2501,7 +2504,7 @@ namespace GD_StampingMachine.Singletons
                                             if (!EngravingToOriginSucessful)
                                             {
                                                 var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                                    (string)Application.Current.TryFindResource("Text_EngravingToOriginTimeout"));
+                                                    (string)Application.Current.TryFindResource("Text_EngravingToOriginTimeout") , GD_MessageBoxNotifyResult.NotifyRd);
                                                 return;
                                             }
 
@@ -2549,7 +2552,7 @@ namespace GD_StampingMachine.Singletons
                                             if (!CuttungToOriginSucessful)
                                             {
                                                 var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                                    (string)Application.Current.TryFindResource("Text_CuttingToOriginTimeout"));
+                                                    (string)Application.Current.TryFindResource("Text_CuttingToOriginTimeout") , GD_MessageBoxNotifyResult.NotifyRd);
                                                 //超時
                                                 return;
                                             }
@@ -2628,24 +2631,24 @@ namespace GD_StampingMachine.Singletons
                                                         if (await servoHomeTask)
                                                         {
                                                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                                                 (string)Application.Current.TryFindResource("Text_ToOriginisSuccessful"));
+                                                                 (string)Application.Current.TryFindResource("Text_ToOriginisSuccessful") , GD_MessageBoxNotifyResult.NotifyGr);
                                                         }
                                                         else
                                                         {
                                                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                                                 (string)Application.Current.TryFindResource("Text_ToOriginisFail"));
+                                                                 (string)Application.Current.TryFindResource("Text_ToOriginisFail") , GD_MessageBoxNotifyResult.NotifyRd);
                                                         }
                                                     }
                                                     else
                                                     {
                                                         await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                                            (string)Application.Current.TryFindResource("Text_ToOriginisTimeout"));
+                                                            (string)Application.Current.TryFindResource("Text_ToOriginisTimeout") , GD_MessageBoxNotifyResult.NotifyRd);
                                                     }
                                                 }
                                                 catch (OperationCanceledException)
                                                 {
                                                     await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                                        (string)Application.Current.TryFindResource("Text_ToOriginisCancel"));
+                                                        (string)Application.Current.TryFindResource("Text_ToOriginisCancel") , GD_MessageBoxNotifyResult.NotifyYe);
                                                 }
                                                 catch (Exception ex)
                                                 {
@@ -2668,7 +2671,7 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                            (string)Application.Current.TryFindResource("Connection_Error"));
+                            (string)Application.Current.TryFindResource("Connection_Error") , GD_MessageBoxNotifyResult.NotifyRd);
                     }
                     cts.Cancel();
                 }
@@ -2843,7 +2846,7 @@ namespace GD_StampingMachine.Singletons
                     var Result = MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"),
                         (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotAcitved") +
                         "\r\n" +
-                        (string)Application.Current.TryFindResource("Text_AskActiveHydraulicPumpMotor"));
+                        (string)Application.Current.TryFindResource("Text_AskActiveHydraulicPumpMotor") , GD_MessageBoxNotifyResult.NotifyYe);
 
 
                     if (await Result == MessageBoxResult.Yes)
@@ -2855,7 +2858,7 @@ namespace GD_StampingMachine.Singletons
                         else
                         {
                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                   (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure"));
+                                   (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure") , GD_MessageBoxNotifyResult.NotifyRd);
                         }
                     }
 
@@ -3549,7 +3552,7 @@ namespace GD_StampingMachine.Singletons
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowOKAsync(DataSingletonName, ex.Message);
+                    _ = MessageBoxResultShow.ShowExceptionAsync( ex);
                 }
 
                 _separateBoxIndex = value;
@@ -3745,7 +3748,7 @@ namespace GD_StampingMachine.Singletons
                     }
                     catch (Exception ex)
                     {
-                        _ = MessageBoxResultShow.ShowOKAsync(DataSingletonName, ex.Message);
+                        _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                     }
                 }
 

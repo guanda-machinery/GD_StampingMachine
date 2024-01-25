@@ -28,7 +28,7 @@ namespace GD_StampingMachine
             if (!ret)
             {
                 Debugger.Break();
-                MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK,  GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
                 Environment.Exit(0);
             }
 
@@ -99,7 +99,7 @@ namespace GD_StampingMachine
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowOKAsync("App", ex.Message);
+                    _ = MessageBoxResultShow.ShowExceptionAsync(ex);
                     System.Diagnostics.Debugger.Break();
                 }
             });
@@ -160,7 +160,7 @@ namespace GD_StampingMachine
                     await LogDataSingleton.Instance.AddLogDataAsync(exception.Source, exception.Message, true);
                     //切斷機台連線
                     await StampMachineDataSingleton.Instance.DisposeAsync();
-                    await MessageBoxResultShow.ShowOKAsync(exception.Source, exception.Message);
+                    await MessageBoxResultShow.ShowOKAsync(exception.Source, exception.Message , GD_Enum.GD_MessageBoxNotifyResult.NotifyRd);
                     semaphore.Release();
                 });
                 //顯示彈窗

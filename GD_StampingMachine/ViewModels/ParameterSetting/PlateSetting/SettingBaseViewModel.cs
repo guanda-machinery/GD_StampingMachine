@@ -25,7 +25,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public SettingBaseViewModel()
         {
             StampPlateSetting = new();
-
         }
 
         public SettingBaseViewModel(StampPlateSettingModel stampPlateSetting)
@@ -39,17 +38,21 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         [JsonIgnore]
         public StampPlateSettingModel StampPlateSetting;
 
-        public SheetStampingTypeFormEnum SheetStampingTypeForm { get => StampPlateSetting.SheetStampingTypeForm; set { StampPlateSetting.SheetStampingTypeForm = value; OnPropertyChanged(); } }
+        public SheetStampingTypeFormEnum SheetStampingTypeForm 
+        { 
+            get => StampPlateSetting.SheetStampingTypeForm;
+            set
+            {
+                StampPlateSetting.SheetStampingTypeForm = value;
+                OnPropertyChanged(); 
+            } 
+        }
 
 
         //[JsonIgnore]
         /// <summary>
         /// 遇到- 換行的功能
         /// </summary>
-       /* public bool DashAutoWrapping
-        {
-            get => !PlateNumber.Contains(" ");
-        }*/
         public bool DashAutoWrapping
         {
             get => StampPlateSetting.DashAutoWrapping;
@@ -61,7 +64,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        public string NumberSettingMode { get => StampPlateSetting.NumberSettingMode; set { StampPlateSetting.NumberSettingMode = value; OnPropertyChanged(); } }
+        public string NumberSettingMode
+        {
+            get => StampPlateSetting.NumberSettingMode; 
+            set 
+            {
+                StampPlateSetting.NumberSettingMode = value; 
+                OnPropertyChanged(); 
+            } 
+        }
 
 
         /// <summary>
@@ -494,7 +505,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
     }
 
-    // public IronPlateMarginStruct IronPlateMargin     
+    /// <summary>
+    /// 鐵片資料
+    /// </summary>
     public class IronPlateMarginViewModel : BaseViewModel
     {
         public override string ViewModelName => nameof(IronPlateMarginViewModel);
@@ -592,7 +605,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
     }
 
-
+    /// <summary>
+    /// 鐵片打點基準
+    /// </summary>
     public class StampingMarginPosViewModel : BaseViewModel
     {
         public override string ViewModelName => "StampingMarginPosViewModel";

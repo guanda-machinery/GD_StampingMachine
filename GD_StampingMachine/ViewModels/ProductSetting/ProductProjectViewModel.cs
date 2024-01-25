@@ -766,12 +766,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             //將資料拆分為QR/一般
                             if (ErpFile.Exists(x => !x.QrCode) && ImportProjectNumberSettingBaseVM == null)
                             {
-                                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetNumberCode"));
+                                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetNumberCode"), GD_MessageBoxNotifyResult.NotifyBl);
                                 return;
                             }
                             if (ErpFile.Exists(x => x.QrCode) && ImportProjectQRSettingBaseVM == null)
                             {
-                                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetQrCode"));
+                                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ImportNeedSetQrCode"), GD_MessageBoxNotifyResult.NotifyBl);
                                 return;
                             }
 
@@ -872,7 +872,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (cImportNotify != null)
                     {
                         string Outputstring = string.Format(cImportNotify, importPartsParameterVMList.Count);
-                        var ret = await MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
+                        var ret = await MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
                         if (ret != MessageBoxResult.Yes && ret != MessageBoxResult.OK)
                         {
                             throw new TaskCanceledException();
@@ -891,7 +891,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (ImportNotify != null)
                     {
                         string Outputstring = string.Format(ImportNotify, importPartsParameterVMList.Count);
-                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring);
+                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), Outputstring, GD_MessageBoxNotifyResult.NotifyGr);
                     }
                 }
                 catch (TaskCanceledException tcex)
@@ -900,7 +900,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
                 catch (Exception ex)
                 {
-                    await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), ex.Message);
+                    await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), ex.Message , GD_MessageBoxNotifyResult.NotifyRd);
                 }
                 finally
                 {

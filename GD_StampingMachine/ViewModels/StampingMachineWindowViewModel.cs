@@ -41,7 +41,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 var MessageBoxReturn = MessageBoxResultShow.Show(
                     (string)Application.Current.TryFindResource("Text_notify"),
-                    (string)Application.Current.TryFindResource("Text_AskCloseProgram"), MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                    (string)Application.Current.TryFindResource("Text_AskCloseProgram"), MessageBoxButton.YesNo , GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
                 if (MessageBoxReturn == MessageBoxResult.Yes)
                 {
                     e.Cancel = false;
