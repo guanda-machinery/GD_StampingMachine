@@ -244,7 +244,7 @@ namespace GD_StampingMachine.ViewModels
                                      //manager?.Close();
                                      /*  await MessageBoxResultShow.ShowOKAsync(
                                            (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"));*/
-                                     var result = await MessageBoxResultShow.ShowAsync(("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
+                                     var result = await MessageBoxResultShow.ShowAsync(string.Empty, (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
                                      _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("NoneMachiningData"));
                                      break;
                                  }

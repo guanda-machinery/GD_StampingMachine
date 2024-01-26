@@ -755,6 +755,8 @@ namespace GD_StampingMachine.Singletons
 
             if (Debugger.IsAttached)
             {
+                try
+                {
                     MachineSettingBaseCollection = new AsyncObservableCollection<PlateMonitorViewModel>()
                         {
                             new PlateMonitorViewModel()
@@ -829,8 +831,16 @@ namespace GD_StampingMachine.Singletons
                     }
 
 
+                    MachineSettingBaseCollection[10].EngravingIsFinish = true;
+                    MachineSettingBaseCollection[23].DataMatrixIsFinish = true;
+                }
+                catch
+                {
 
-                
+                }
+
+
+
             }
 
         }
@@ -4845,7 +4855,11 @@ Y軸馬達位置移動命令
             => await this.ReadNodeAsync<int[]>($"{StampingOpcUANode.system.sv_RotateCodeDefinition}");
 
         private async Task<bool> SetRotatingTurntableInfoINTAsync(int[] fonts)
-            => await this.WriteNodeAsync($"{StampingOpcUANode.system.sv_RotateCodeDefinition}", fonts);
+        {
+            var results = await Task.WhenAll(fonts.Select((font, i) =>
+            this.WriteNodeAsync($"{StampingOpcUANode.system.sv_RotateCodeDefinition}[{i + 1}]", font)));
+            return results.All(result => result == true);
+        }
 
 
 
@@ -4883,12 +4897,12 @@ Y軸馬達位置移動命令
         /// </summary>
         /// <param name="Info"></param>
         /// <returns></returns>
-        public async Task<bool> SetRotatingTurntableInfoAsync(List<StampingTypeModel> fonts)
+        public async Task<bool> SetRotatingTurntableInfoAsync(IEnumerable<string> fonts)
         {
             List<char> charList = new List<char>();
             foreach (var font in fonts)
             {
-                var charArray = font.StampingTypeString.ToCharArray();
+                var charArray = font.ToCharArray();
                 if (charArray.Length > 0)
                     charList.Add(charArray[0]);
                 else

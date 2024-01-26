@@ -92,7 +92,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Command="{Binding MaximizeWindowCommand}" Margin="0"  Height="30">
+                    <Button Command="{Binding MaximizeWindowCommand}" Margin="0"   Height="30">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource ToolBarButton}">
                                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -116,9 +116,6 @@
                                 <i:InvokeCommandAction Command="{Binding CloseWindowCommand}"  PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-
-
-
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Width"

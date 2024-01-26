@@ -220,7 +220,7 @@
 
                         </Button>
                         <GD_Popup:DraggablePopup  Name="StampingWarningDraggablePopup"
-                                    PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="True"
+                                    PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
                                     Placement="Bottom"  
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
@@ -247,18 +247,33 @@
 
 
 
+                                                <Grid  Grid.Column="1">
+                                                <StackPanel 
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                        <Button Margin="0,10"  Width="45" Height="45"
+                                                    Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}">
+                                                            <GD_UserControls:ImageBrightDarkCustomControl
+                                                                DarkImageSource="{StaticResource Arrow_Right_WhiteDrawingImage}"
+                                                                BrightImageSource="{StaticResource Arrow_Right_BlackDrawingImage}"/>
 
-                                        <StackPanel IsEnabled="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection.Count, ConverterParameter={StaticResource IntZero},
-                                            Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}"
-                                            Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                            <Button IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}"
-                                                Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}"/>
-                                            <Button IsEnabled="{Binding StampingFontChangedVM.StampMachineData.IsConnected}"
-                                                Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=22}" Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}"/>
-                                            <Button Content="{materialDesign:PackIcon Kind=ConnectWithoutContact, Size=22}" Command="{Binding StampingFontChangedVM.CompareFontsSettingBetweenMachineAndSoftwareCommand}"/>
-                                        </StackPanel>
+                                                        </Button>
+                                                        <Button Margin="0,10" Width="45" Height="45"
+                                         
+                                                                Command="{Binding StampingFontChangedVM.StampingFontCollectionData_SoftwareToMachine_Command}">
+                                                            <GD_UserControls:ImageBrightDarkCustomControl 
+                                                                DarkImageSource="{StaticResource Arrow_Left_WhiteDrawingImage}"
+                                                                BrightImageSource="{StaticResource Arrow_Left_BlackDrawingImage}"/>
+                                                        </Button>
+                                                        <Button Margin="0,10" Width="45" Height="45"
+                                                                Command="{Binding StampingFontChangedVM.CompareFontsSettingBetweenMachineAndSoftwareCommand}">
+                                                            <GD_UserControls:ImageBrightDarkCustomControl 
+                                                                DarkImageSource="{StaticResource Replace_WhiteDrawingImage}"
+                                                                BrightImageSource="{StaticResource Replace_BlackDrawingImage}"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
 
-                                        <GroupBox  
+                                                <GroupBox  
                                             Grid.Column="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
                                             <ListBox Visibility="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection.Count,
                                                 Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True}}"
@@ -520,7 +535,8 @@
                                                                 <Setter Property="Margin" Value="0"/>
                                                                 <Setter Property="Padding" Value="0,2"/>
                                                             </Style>
-                                                        <Style TargetType="TextBox">
+                                                        <Style TargetType="TextBox" BasedOn="{StaticResource GD_TextBox}">
+                                                            <Setter Property="Foreground" Value="{StaticResource BrightHueDarkForegroundBrush}"/>
                                                             <Setter Property="VerticalContentAlignment" Value="Center"/>
                                                             <Setter Property="VerticalAlignment" Value="Center"/>
                                                             <Setter Property="MinWidth" Value="5"/>
@@ -631,7 +647,7 @@
                                                             <TextBlock Text="kw"/>
                                                         </StackPanel>
 
-                                                        <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1" FontWeight="Bold"
+                                                        <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="1"   FontSize="14" 
                                                               EditValue="{Binding MachanicalSpecification.MachiningProperty.SpindleToolHolder, Mode=TwoWay}" 
                                                               IsTextEditable="False"         
                                                               ShowBorder="False" ShowEditorButtons="False"

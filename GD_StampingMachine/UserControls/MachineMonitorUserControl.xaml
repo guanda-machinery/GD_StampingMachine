@@ -231,7 +231,7 @@
 
                                 </Border>
                             </Grid>
-                            <ItemsControl  HorizontalAlignment="Right" Margin="5,0"   
+                            <ItemsControl  HorizontalAlignment="Right" Margin="5,0"   FlowDirection="RightToLeft"
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=True}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
@@ -273,7 +273,7 @@
 
                                                         </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                 </ToggleButton>
-                                                <GD_Popup:NonTopmostPopup StaysOpen="False"
+                                                <GD_Popup:DraggablePopup StaysOpen="False"
                                                                         PopupAnimation="Fade"   FlowDirection="LeftToRight"  
                                                                         Placement="Mouse"    PlacementRectangle="-20,40,0,0"
                                                                         PlacementTarget="{Binding ElementName=MachiningFormTButton}"  
@@ -289,7 +289,7 @@
                                                             </Grid>
                                                         </Border>
                                                     </Grid>
-                                                </GD_Popup:NonTopmostPopup>
+                                                </GD_Popup:DraggablePopup>
                                             </Grid>
                                         </Border>
 

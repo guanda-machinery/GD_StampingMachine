@@ -44,6 +44,7 @@ namespace GD_StampingMachine
                 Subtitle = "Alpha 23.7.4",
                 Copyright = "Copyright © 2023 GUANDA",
             };
+
             StampingMachineWindow MachineWindow = new StampingMachineWindow
             {
                 WindowStartupLocation = WindowStartupLocation.CenterScreen
@@ -156,12 +157,23 @@ namespace GD_StampingMachine
             {
                 _ = Task.Run(async () =>
                 {
-                    //紀錄異常
-                    await LogDataSingleton.Instance.AddLogDataAsync(exception.Source, exception.Message, true);
-                    //切斷機台連線
-                    await StampMachineDataSingleton.Instance.DisposeAsync();
-                    await MessageBoxResultShow.ShowOKAsync(exception.Source, exception.Message , GD_Enum.GD_MessageBoxNotifyResult.NotifyRd);
-                    semaphore.Release();
+                    try
+                    {
+                        //紀錄異常
+                        await LogDataSingleton.Instance.AddLogDataAsync(exception.Source, exception.Message, true);
+                        //切斷機台連線
+                        await StampMachineDataSingleton.Instance.DisposeAsync();
+                        await MessageBoxResultShow.ShowOKAsync(exception.Source, exception.Message, GD_Enum.GD_MessageBoxNotifyResult.NotifyRd);
+                    }
+                    catch
+                    {
+
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+
                 });
                 //顯示彈窗
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message} , Source:{exception.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -151,7 +151,7 @@
                         </Border>
                         <StackPanel Grid.Row="1"
                                                 Orientation="Horizontal" HorizontalAlignment="Center" >
-                            <TextBlock Text="{Binding UntransportedFinishedBoxPieceValue}" />
+                            <TextBlock Text="{Binding UnTransportedFinishedBoxPieceValue}" />
                             <TextBlock Text="/" />
                             <TextBlock Text="{Binding BoxSliderValue}" />
                         </StackPanel>

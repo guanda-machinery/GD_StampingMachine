@@ -44,7 +44,7 @@
 
 
         <Grid.Resources>
-            <Style TargetType="ToggleButton" BasedOn="{StaticResource SiegCustomButton}"/>
+            <Style TargetType="ToggleButton" BasedOn="{StaticResource SiegCustomButton_Primary}"/>
         </Grid.Resources>
         <Grid Name="MainGrid"
             Visibility="{Binding SelectProductProjectVM.IsInParameterPage, Converter={dx:BooleanToVisibilityConverter Invert=True}}">
@@ -112,11 +112,8 @@
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="Margin" Value="0,3"/>
                             </Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="BorderBrush" Value="Black"/>
-                                <Setter Property="BorderThickness" Value="0.5"/>
-                                <Setter Property="Padding" Value="10,0"/>
+                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
+                                <Setter Property="Padding" Value="10,2,10,0"/>
                                 <Setter Property="Margin" Value="5,0"/>
                             </Style>
                             <Style TargetType="TextBox" BasedOn="{StaticResource GD_TextBox}" >
@@ -227,11 +224,12 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <StackPanel  Grid.Row="5" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                <Button   
+                                <Button   Padding="10,2,10,0"   Margin="5,0"
                                                                     Content="{DynamicResource btnCancel}"
                                                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="{StaticResource FalseValue}">
                                 </Button>
-                                <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
+                                <Button Padding="10,2,10,0"   Margin="5,0"
+                                         Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
                                     <Button.IsEnabled>
                                         <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                             <Binding Path="CreatedProjectVM.ProductProjectPath"/>
@@ -798,13 +796,7 @@
                                 <Setter Property="Foreground" Value="Black"/>
                                 <Setter Property="Margin" Value="0,3"/>
                             </Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="BorderBrush" Value="Black"/>
-                                <Setter Property="BorderThickness" Value="0.5"/>
-                                <Setter Property="Padding" Value="10,0"/>
-                                <Setter Property="Margin" Value="5,0"/>
-                            </Style>
+
                             <Style TargetType="TextBox" BasedOn="{StaticResource GD_TextBox}" >
 
                                 <Setter Property="BorderBrush" Value="{DynamicResource DarkHueDarkBrush}"/>
@@ -822,7 +814,7 @@
                         <ToggleButton IsThreeState="False" 
                                               IsChecked="{Binding IsInParameterPage, Converter={dx:BoolInverseConverter}}"
                                               Width="auto"
-                                              Height="auto" Padding="20,5" Margin="10,0"
+                                              Height="auto" Padding="20,2,20,0"  Margin="10,0"
                                               HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Content="{DynamicResource btnExit}" />
 
@@ -832,7 +824,7 @@
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=AddParameterDarggablePopup}"
                                                   Width="auto"
-                                                      Height="auto" Padding="20,5" Margin="10,0"
+                                                      Height="auto" Padding="20,2,20,0" 
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                                       Content="{DynamicResource btnAdd}" >
                                 <i:Interaction.Triggers>
@@ -847,7 +839,7 @@
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=ImportParameterDarggablePopup}"
                                                   Width="auto"
-                                                      Height="auto" Padding="20,5" Margin="10,0"
+                                                      Height="auto" Padding="20,2,20,0"  Margin="10,0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                                       Content="{DynamicResource btnImport}" />
                             <Button  Name="ExportParameterToggleButton" Visibility="Collapsed"
@@ -1213,11 +1205,12 @@
 
 
                                     <StackPanel  Grid.Row="7" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                        <Button   
+                                        <Button  Padding="10,2,10,0"   Margin="5,0"
                                                                     Content="{DynamicResource btnCancel}"
                                                                   Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}" CommandParameter="{StaticResource FalseValue}">
                                         </Button>
-                                        <Button Content="{DynamicResource btnCreate}" Command="{Binding CreatePartCommand}">
+                                        <Button Padding="10,2,10,0"   Margin="5,0"
+                                            Content="{DynamicResource btnCreate}" Command="{Binding CreatePartCommand}">
                                             <Button.IsEnabled>
                                                 <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
                                                     <Binding Path="AddNewPartsParameterVM.ParameterA"/>
@@ -1474,11 +1467,11 @@
 
 
                                     <StackPanel  Grid.Row="6" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                        <Button   Padding="15,2,15,0"
+                                        <Button   Padding="10,2,10,0"   Margin="5,0"
                                                                     Content="{DynamicResource btnCancel}"
                                                                     Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}" CommandParameter="{StaticResource FalseValue}">
                                         </Button>
-                                        <Button Padding="15,2,15,0"
+                                        <Button Padding="10,2,10,0"   Margin="5,0"
                                             Content="{DynamicResource btnImport}">
                                             <Button.IsEnabled>
                                                 <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">

@@ -35,7 +35,7 @@
     <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#003c8f"/>
     <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="#FFFFFF"/>
     <!--ACCENT--> 
-    <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#EE2F2F"/>
+    <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#0081cc"/>
     <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Black"/>
     
     <SolidColorBrush x:Key="BackgroundColorBrush" Color="#FAFCFB"/>
@@ -55,19 +55,23 @@
     <SolidColorBrush x:Key="ShearingIsFinishSolidColorBrush" Color="#ff9900"/>
     <SolidColorBrush x:Key="EngravingIsFinishSolidColorBrush" Color="#25cb55"/>
 
-
-
+    <SolidColorBrush x:Key="DataMatrixIsFinish_RoundBottomGround_SolidColorBrush" Color="#fa7b7b"/>
+    
     <SolidColorBrush x:Key="DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush" Color="#ee2929"/>
     <SolidColorBrush x:Key="DataMatrixIsFinish_Background_Dark_SolidColorBrush" Color="#a53131"/>
     <SolidColorBrush x:Key="DataMatrixIsFinish_BorderBrush_Bright_SolidColorBrush" Color="#ee2929"/>
     <SolidColorBrush x:Key="DataMatrixIsFinish_Background_Bright_SolidColorBrush" Color="#FFC2C2"/>
 
 
-    <SolidColorBrush x:Key="ShearingIsFinish_BorderBrush_Dark_SolidColorBrush" Color="#FFBA00"/>
+    <SolidColorBrush x:Key="ShearingIsFinish_RoundBottomGround_SolidColorBrush" Color="#fec076"/>
+    
+    <SolidColorBrush x:Key="ShearingIsFinish_BorderBrush_Dark_SolidColorBrush" Color="#FF8A00"/>
     <SolidColorBrush x:Key="ShearingIsFinish_Background_Dark_SolidColorBrush" Color="#BD6D0E"/>
     <SolidColorBrush x:Key="ShearingIsFinish_BorderBrush_Bright_SolidColorBrush" Color="#FF8A00"/>
     <SolidColorBrush x:Key="ShearingIsFinish_Background_Bright_SolidColorBrush" Color="#FFE0BB"/>
 
+
+    <SolidColorBrush x:Key="EngravingIsFinish_RoundBottomGround_SolidColorBrush" Color="#b0fec1"/>
     
     <SolidColorBrush x:Key="EngravingIsFinish_BorderBrush_Dark_SolidColorBrush" Color="#00FF38"/>
     <SolidColorBrush x:Key="EngravingIsFinish_Background_Dark_SolidColorBrush" Color="#0BA908"/>

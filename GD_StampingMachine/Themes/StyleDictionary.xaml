@@ -375,18 +375,9 @@
         <Setter Property="Foreground"
                             Value="{DynamicResource  PrimaryHueDarkForegroundBrush}" />
         <Setter Property="Background"
-                            Value="{DynamicResource PrimaryHueDarkBrush}" />
+                            Value="{DynamicResource PrimaryHueMidBrush}" />
         <Style.Triggers>
             
-            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="False">
-                <Setter Property="BorderBrush" Value="#f7f7f7"/>
-                <Setter Property="Background" Value="#6f6f6f"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                <Setter Property="BorderBrush" Value="#6f6f6f"/>
-                <Setter Property="Background" Value="#f7f7f7"/>
-            </DataTrigger>
-
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="LightSkyBlue"/>
                 <Setter Property="Foreground" Value="Black"/>
@@ -1228,7 +1219,10 @@
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
 
-        <Setter Property="materialDesign:ShadowAssist.ShadowEdges" Value="None"/> 
+        <Setter Property="materialDesign:ShadowAssist.ShadowEdges" Value="None"/>
+
+        <Setter Property="ContentPadding" Value="4,2"/>
+        <Setter Property="Margin" Value="2"/>
         <Setter Property="TextMargin" Value="2,0,3,2"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="ImageWidth" Value="40"/>
@@ -1247,7 +1241,7 @@
 
 
     <Style x:Key="FunctionToggleUserControl_LeftDrawer"
-                                            TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
+           TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
         <Setter Property="Margin" Value="10,5"/>
         <Setter Property="TextMargin" Value="5,0,10,0"/>
         <Setter Property="Orientation" Value="Horizontal"/>
@@ -1268,6 +1262,7 @@
 
         <Setter Property="MouseIsOverBackground" Value="#99cff9"/>
         <Setter Property="IsCheckedBackground" Value="Transparent"/>
+        <Setter Property="Margin" Value="4,0"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="False">
                 <Setter Property="MouseIsOverBackground" Value="#125386"/>

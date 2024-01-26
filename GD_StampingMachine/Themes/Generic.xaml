@@ -7,10 +7,12 @@
     >
 
     <Style TargetType="{x:Type GD_StampingMachine_UserControls:ImageBrightDarkCustomControl}">
+        <Setter Property="Padding" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type GD_StampingMachine_UserControls:ImageBrightDarkCustomControl}">
-                    <Image Width="auto" Height="auto"
+                <ControlTemplate
+                    TargetType="{x:Type GD_StampingMachine_UserControls:ImageBrightDarkCustomControl}">
+                    <Image Width="auto" Height="auto" Margin="{TemplateBinding Padding}"
                         Name="PART_Image" Source="{TemplateBinding BrightImageSource}"/>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
@@ -25,7 +27,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
     
     <Style TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
         <Setter Property="Template">
@@ -63,16 +64,16 @@
                                         <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
                                         <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                    <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_Background_Dark_SolidColorBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                    <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"/>
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" />
                                         <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
-                                    <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_Background_Bright_SolidColorBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
+                                    <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_Background_Bright_SolidColorBrush}"/>
                                 </MultiDataTrigger>
 
                                 <MultiDataTrigger>
@@ -80,22 +81,22 @@
                                         <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
                                         <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                    <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                    <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_Background_Dark_SolidColorBrush}"/>
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" />
                                         <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
-                                    <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_Background_Bright_SolidColorBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
+                                    <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_Background_Bright_SolidColorBrush}"/>
                                 </MultiDataTrigger>
 
                             </Style.Triggers>
                         </Style>
                     </ControlTemplate.Resources>
-                    <Border Style="{StaticResource ContentBorder}" 
+                    <Border Style="{StaticResource ContentBorder}"  
                                                     CornerRadius="5"
                                                     BorderThickness="2" 
                                                     Margin="0">
@@ -112,7 +113,98 @@
                             </Grid.RowDefinitions>
 
                             <Border Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,1,0" Background="Transparent">
-                                <Border Background="Black" Width="15" CornerRadius="{Binding Width, RelativeSource={RelativeSource Mode=Self}}" Height="{Binding Width, RelativeSource={RelativeSource Mode=Self}}"/>
+                                <Border 
+                                     Width="15"  
+                                    CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
+                                    Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}">
+
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="Gray"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinish_RoundBottomGround_SolidColorBrush}"/>
+                                                </MultiDataTrigger>
+
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+
+                                                        <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
+                                                    </MultiDataTrigger.Conditions>
+
+                                                    <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_RoundBottomGround_SolidColorBrush}"/>
+                                                </MultiDataTrigger>
+
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
+                                                    </MultiDataTrigger.Conditions>
+                                            
+                                                    <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_RoundBottomGround_SolidColorBrush}"/>
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Width="12"
+                                            CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
+                                            Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
+                                            >
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="Black"/>
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                                    </MultiDataTrigger>
+
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+
+                                                            <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                                    </MultiDataTrigger>
+
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                                    </MultiDataTrigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <Border Background="Black"
+                                                    Width="10"
+                                            CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
+                                            Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
+                                                >
+                                            <Border.Effect>
+                                                <DropShadowEffect
+                                                    ShadowDepth="2"
+                                                    Direction="270"
+                                                    Color="Black"
+                                                    Opacity="0.3"
+                                                    BlurRadius="3"/>
+                                            </Border.Effect>
+                                        </Border>
+                                        
+                                        
+
+                                    </Border>
+
+                                </Border>
                             </Border>
 
                             <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,0,1"  Background="Transparent">

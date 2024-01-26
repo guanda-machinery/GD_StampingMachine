@@ -31,7 +31,8 @@
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
              >
-
+  
+    
     <Grid >
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel >
@@ -412,7 +413,7 @@
                             <!--       CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand }"-->
                             <dxg:GridControl 
                                 Name="WorkGridControl"
-                               Height="420"
+                               MaxHeight="600"
                                 Margin="10,0"
                                 Grid.Column="1"
 
@@ -603,15 +604,16 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                             <Style.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" Value="0.4"/>
+                                    <Setter Property="Opacity" Value="0.75"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                 </WrapPanel.Resources>
                     <StackPanel>
                     <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
-                        <StackPanel>
-                                <Button  Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
+                      
+                                <Button Width="40" Height="40" Margin="5"
+                                    Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Style.Triggers>
@@ -625,12 +627,13 @@
                                         DarkImageSource="{StaticResource OilPresssure_WhiteDrawingImage}"
                                         BrightImageSource="{StaticResource OilPresssure_BlackDrawingImage}"/>
                                 </Button>
-                        </StackPanel>
+                
                     </GroupBox>
 
                         <GroupBox  Header="{DynamicResource btnDescription_ReturningToOriginPoint}">
-                            <StackPanel>
-                                <Button  Command="{Binding StampMachineData.ReturnToOriginCommand}">
+                          
+                                <Button  Width="40" Height="40" Margin="5"
+                                    Command="{Binding StampMachineData.ReturnToOriginCommand}">
                                     <Image>
                                         <Image.Style>
                                             <Style TargetType="Image">
@@ -644,12 +647,13 @@
                                         </Image.Style>
                                     </Image>
                                 </Button>
-                            </StackPanel>
+                  
 
                         </GroupBox>
                         <GroupBox  Header="{DynamicResource Reset}">
-                            <StackPanel>
-                                <Button  Command="{Binding StampMachineData.ResetCommand}">
+                       
+                                <Button  Width="40" Height="40" Margin="5"
+                                    Command="{Binding StampMachineData.ResetCommand}">
                                     <Image>
                                         <Image.Style>
                                             <Style TargetType="Image">
@@ -663,13 +667,14 @@
                                         </Image.Style>
                                     </Image>
                                 </Button>
-                            </StackPanel>
+                   
 
                         </GroupBox>
 
                         <GroupBox  Header="{DynamicResource btn_CycleStart}">
-                            <StackPanel>
-                                <Button  Command="{Binding StampMachineData.CycleStartCommand}">
+                       
+                                <Button Width="40" Height="40" Margin="5"
+                                    Command="{Binding StampMachineData.CycleStartCommand}">
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Style.Triggers>
@@ -696,7 +701,7 @@
                                         </Image.Style>
                                     </Image>
                                 </Button>
-                            </StackPanel>
+                            
 
                         </GroupBox>
 
@@ -704,8 +709,9 @@
 
                     </StackPanel>
                     <GroupBox Header="{DynamicResource textCurrentMode}">
-                        <StackPanel>
-                            <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
+                        <StackPanel VerticalAlignment="Center">
+                            <Button Width="40" Height="40"
+                                Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
                               >
                           <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -723,6 +729,7 @@
                                     </Style>
                                 </Button.Style>
 
+                                
                                 <Image>
                                     <Image.Style>
                                         <Style TargetType="Image">
@@ -736,7 +743,8 @@
                                     </Image.Style>
                                 </Image>
                             </Button>
-                            <Button Margin="5" 
+                            <Button Width="40" Height="40"
+                                Margin="5" 
                                     Command="{Binding StampMachineData.SetOperationModeCommand}" 
                                     CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
                          >
@@ -769,7 +777,8 @@
                                     </Image.Style>
                                 </Image>
                             </Button>
-                            <Button Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
+                            <Button Width="40" Height="40"
+                                Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
                            >
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -800,7 +809,8 @@
                                     </Image.Style>
                                 </Image>
                             </Button>
-                            <Button  Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
+                            <Button Width="40" Height="40"
+                                Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
                          >
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -844,71 +854,74 @@
                     
                     
                     <GroupBox Header="{DynamicResource Text_Feeding_Component}" Visibility="{Binding Feeding_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
-                    <WrapPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
 
 
                             <GroupBox Header="{DynamicResource Text_XAxis_Motor}">
-                                <StackPanel>
-                            <materialDesign:ColorZone CornerRadius="2" Padding="1">
-                                <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource GD_RepeatButton}"  
-                                             Content="{materialDesign:PackIcon Kind=ArrowLeftBoldBoxOutline, Size=30}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="PreviewMouseDown">
-                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                                    </i:EventTrigger>
-                                                    <i:EventTrigger EventName="PreviewMouseUp">
-                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                    </i:EventTrigger>
-                                                    <i:EventTrigger EventName="MouseLeave">
-                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                    </i:EventTrigger>
+                                <StackPanel VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="40" Height="40" Margin="5">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="PreviewMouseUp">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="MouseLeave">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisBwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
 
-                                                </i:Interaction.Triggers>
-                                            </Button>
-                                            <Border Margin="5,0"/>
-                                            <Button Style="{StaticResource GD_RepeatButton}"    
-                                              Content="{materialDesign:PackIcon Kind=ArrowRightBoldBoxOutline, Size=30}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="PreviewMouseDown">
-                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                                    </i:EventTrigger>
-                                                    <i:EventTrigger EventName="PreviewMouseUp">
-                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                    </i:EventTrigger>
-                                                    <i:EventTrigger EventName="MouseLeave">
-                                                        <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                    </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            
+                                            <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource Arrow_Left_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource Arrow_Left_BlackDrawingImage}"/>
 
-                                                </i:Interaction.Triggers>
-                                            </Button>
-                            </StackPanel>
-                                    </materialDesign:ColorZone>
+                                        </Button>
+                                        <Button Width="40" Height="40" Margin="5"
+                                             >
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="PreviewMouseUp">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="MouseLeave">
+                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.FeedingXAxisFwdCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                                </i:EventTrigger>
 
-                                    <TextBlock Text="{Binding Path=StampMachineData.FeedingPosition , StringFormat={}{0:F3} }" Margin="0,2"/>
-                                    <TextBox Text="123" Margin="0,2"/>
-                                    <ToggleButton Style="{StaticResource GD_ToggleButton_White}">
-                                        <materialDesign:PackIcon Kind="AxisYArrow" Height="30" Width="30"/>
-                                    </ToggleButton>
-                                    <ToggleButton Style="{StaticResource GD_ToggleButton_White}">
-                                        <Image Source="{StaticResource MainIcon_06_ReturningToOriginPoint_DrawingImage_Mono}" Width="30" Height="30"/>
-                                    </ToggleButton>
+                                            </i:Interaction.Triggers>
+                                            <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource Arrow_Right_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource Arrow_Right_BlackDrawingImage}"/>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <TextBlock Text="{Binding Path=StampMachineData.FeedingPosition , StringFormat={}{0:F3} }" 
+                                               HorizontalAlignment="Center"
+                                               Margin="0,2"/>
+        
                                     
                                 </StackPanel>
                             </GroupBox>
 
                         <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1" >
-                            <local:CylinderUserControl  HorizontalAlignment="left"
-                                CylinderUpIsActived="False"
+                                <local:CylinderUserControl  
+                                    VerticalContentAlignment="Center"
+                                    HorizontalAlignment="left" 
+                                CylinderUpIsActived="True"
                                                             
-                                 MiddlePreviewMouseLeftButtonDownCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"           
-                                 MiddleMiddlePreviewMouseLeftButtonUpCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"                        
-                                 MiddlePreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"           
-                                 MiddleMiddlePreviewMouseLeftButtonUpCommandParameter="{StaticResource  FalseValue}"                         
+                                 UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"           
+                                 UpPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"                        
+                                 UpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"           
+                                 UpPreviewMouseLeftButtonUpCommandParameter="{StaticResource  FalseValue}"                         
                                                                                   
-                                CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsUp}" 
-                                CylinderMiddleIsActived="True"
-                                CylinderMiddle_IsEnabled="{Binding Cylinder_1_Middle_IsEnabled}"
+                                CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsUp}" 
+                            
+                                                        
+                               CylinderMiddleIsActived="False"
                                 
                                 
                              DownPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.GuideRod_Move_Down_Command}"           
@@ -919,18 +932,21 @@
                                                                                   
                                 CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsDown}" 
                                 CylinderDownIsActived="True" 
-                                CylinderDown_IsEnabled="{Binding Cylinder_1_Down_IsEnabled}"
+                                                        
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint"
                                 />
                             </GroupBox>
                             <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
                                 <local:CylinderUserControl 
-                                 CylinderUpIsActived="False"
+                                        VerticalContentAlignment="Center"
+                                 CylinderUpIsActived="True"
                                     
-                                 CylinderMiddleCommand="{Binding StampMachineData.GuideRod_Fixed_Up_Command}"   
+                                 CylinderUpCommand="{Binding StampMachineData.GuideRod_Fixed_Up_Command}"   
                                     
-                               CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsUp}"
+                               CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsUp}"
                                 
+                                    CylinderMiddleIsActived="False"
+                                    
                                  CylinderDownCommand="{Binding StampMachineData.GuideRod_Fixed_Down_Command}"   
 
                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsDown}"
@@ -940,36 +956,19 @@
                                 />
                             </GroupBox>
 
-                            <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}-2">
-                                <local:CylinderUserControl 
-                           
-                                    
-                                    
-                                CylinderMiddleCommand="{Binding StampMachineData.QRStamping_Up_Command}"   
-                                    CylinderUpIsActived="False"
-                               CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsUp}"
-                             CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
-                                
-                                 CylinderDownCommand="{Binding StampMachineData.QRStamping_Down_Command}"   
-                                  
-                               CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
-
-                                
-                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
-                                />
-                            </GroupBox>
-
+        
 
                             <GroupBox Header="{DynamicResource Text_BlockCylinder}" HeaderStringFormat="{}{0}">
-                                <local:CylinderUserControl 
-                                 CylinderUpIsActived="False"
+                                <local:CylinderUserControl     VerticalContentAlignment="Center"
+                                 CylinderUpIsActived="True"
                                
-                               CylinderMiddleCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"   
+                               CylinderUpCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"   
                                     
-                               CylinderIsMiddleSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylinder_IsUp}"
-                               CylinderMiddle_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
+                               CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylinder_IsUp}"
+                               CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
+                                    CylinderMiddleIsActived="False"
+                                    
                                CylinderDownCommand="{Binding StampMachineData.BlockingCylinder_Down_Command}"   
                                     
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylindere_IsDown}"
@@ -980,80 +979,59 @@
                             </GroupBox>
 
 
-                        </WrapPanel>
+                        </StackPanel>
                     </GroupBox>
                     <GroupBox Header="{DynamicResource Text_QRCode_Component}" Visibility="{Binding QRCode_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
-                        <Grid Margin="0,10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-
-                            <ComboBox Grid.Row="0"
-                                        Margin="10,0,10,10" Padding="0" Width="auto"   MaxDropDownHeight="275"
-                                      
-                                        ItemsSource="{Binding Path=ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection}"
-                                      >
+                        <Grid Margin="0,0">
+                            <GroupBox 
+                                Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}-2">
+                                <local:CylinderUserControl     VerticalContentAlignment="Center"
+                           
+                                    
+                                    
+                                CylinderUpCommand="{Binding StampMachineData.QRStamping_Up_Command}"   
+                               
+                               CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsUp}"
+                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
                                 
-                                <ComboBox.Style>
-                                    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_ComboBox}">
-                                        <Setter Property="ItemTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate >
-                                                    <Grid>
-                                                        <Grid Margin="5,0,5,5">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="auto"/>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                            <StackPanel Grid.Row="1" Orientation="Horizontal" >
-                                                                
-                                                            </StackPanel>
-                                                        </Grid>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ComboBox.Style>
-                            </ComboBox>
+                                         CylinderMiddleIsActived="False"
+                                    
+                                 CylinderDownCommand="{Binding StampMachineData.QRStamping_Down_Command}"   
+                                  
+                               CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsDown}"
+                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5,0">
-                                <RadioButton Name="PlayButton"  IsEnabled="{Binding ElementName=StopButton ,Path=IsChecked}"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
-                                    <materialDesign:PackIcon Kind="Play" Width="auto" Height="auto"/>
-                                </RadioButton>
-                                <RadioButton Name="StopButton" IsEnabled="{Binding ElementName=PlayButton ,Path=IsChecked}"
-                                        Style="{StaticResource Sieg_CylinderToggleButton}" Grid.Column="1" Grid.Row="1"  Width="40" Height="40">
-                                    <materialDesign:PackIcon Kind="Pause" Width="auto" Height="auto"/>
-                                </RadioButton>
-                            </StackPanel>
+                                
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
+                                />
+                            </GroupBox>
 
                         </Grid>
                     </GroupBox>
 
                     <GroupBox
                         Header="{DynamicResource Text_Stamping_Component}" Visibility="{Binding Stamping_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
-                    <StackPanel>
+                    <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
                         
-                    <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
+                    <ComboBox  Grid.Row="0" DisplayMemberPath="StampingTypeString"  Width="150" Margin="0,5" 
                 Style="{StaticResource GD_ComboBox}" 
                                SelectedValue="{Binding Path=StampingFontChangedVM.StampingTypeModel_ReadyStamping}"
                                ItemsSource="{Binding Path=StampingFontChangedVM.StampingTypeVMObservableCollection}"    
  
                                />
                      
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" >
                                 <GroupBox Header="{DynamicResource Text_YAxis_Motor}" >
-                                    <StackPanel>
-                                        <materialDesign:ColorZone CornerRadius="2" Padding="1" HorizontalAlignment="Center">
-
+                                    <StackPanel VerticalAlignment="Center">
+                      
                                         <StackPanel Orientation="Horizontal">
 
-                                                <Button Style="{StaticResource GD_RepeatButton}" 
-                                              Content="{materialDesign:PackIcon Kind=ArrowBottomLeftBoldBoxOutline, Size=30}">
+                                                <Button Width="40" Height="40" Margin="5" >
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseDown">
                                                             <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisFwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
@@ -1068,12 +1046,23 @@
 
 
                                                     </i:Interaction.Triggers>
-                                                </Button>
-                                                <Button Style="{StaticResource GD_RepeatButton}"   Command="{Binding StampMachineData.EngravingYAxisToStandbyPosCommand}" CommandParameter="{StaticResource TrueValue}"
-                                             Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
-                                            
-                                                <Button Style="{StaticResource GD_RepeatButton}" 
-                                             Content="{materialDesign:PackIcon Kind=ArrowTopRightBoldBoxOutline, Size=30}">
+
+                                                <local:ImageBrightDarkCustomControl Padding="2"
+                                        DarkImageSource="{StaticResource slashDown_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource  slashDown_BlackDrawingImage}">
+                                                    <local:ImageBrightDarkCustomControl.LayoutTransform>
+                                                        <RotateTransform Angle="90"/>
+                                                    </local:ImageBrightDarkCustomControl.LayoutTransform>
+                                                    
+                                                </local:ImageBrightDarkCustomControl>
+
+
+                                            </Button>
+                                            <Button Width="40" Height="40" Margin="5"  Command="{Binding StampMachineData.EngravingYAxisToStandbyPosCommand}" CommandParameter="{StaticResource TrueValue}"
+                                          >
+                                            </Button>
+
+                                            <Button Width="40" Height="40" Margin="5">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseDown">
                                                             <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingYAxisBwdCommand}" CommandParameter="{StaticResource TrueValue}"/>
@@ -1090,11 +1079,18 @@
 
 
                                                     </i:Interaction.Triggers>
+                                                <local:ImageBrightDarkCustomControl Padding="2"
+                                        DarkImageSource="{StaticResource slashUp_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource  slashUp_BlackDrawingImage}">
+                                                    <local:ImageBrightDarkCustomControl.LayoutTransform>
+                                                        <RotateTransform Angle="90"/>
+                                                    </local:ImageBrightDarkCustomControl.LayoutTransform>
 
-                                                </Button>
+                                                </local:ImageBrightDarkCustomControl>
+                                            </Button>
 
                                             </StackPanel>
-                                        </materialDesign:ColorZone>
+        
                                         <TextBlock Text="{Binding Path=StampMachineData.EngravingYAxisPosition}" Margin="0,2" HorizontalAlignment="Center"/>
 
                                     </StackPanel>
@@ -1102,7 +1098,7 @@
 
                             <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}">
                                     <StackPanel Orientation="Horizontal">
-                                <local:CylinderUserControl 
+                                        <local:CylinderUserControl     VerticalContentAlignment="Center"
    
                                           UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
                                           UpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
@@ -1124,12 +1120,12 @@
 
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
-                                        <TextBlock Text="{Binding StampMachineData.EngravingZAxisPosition}"/>
+                                        <TextBlock Text="{Binding StampMachineData.EngravingZAxisPosition}" VerticalAlignment="Center" Margin="5,0"/>
                                     </StackPanel>
                             </GroupBox>
 
                                 <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}">
-                                    <local:CylinderUserControl 
+                                    <local:CylinderUserControl     VerticalContentAlignment="Center"
 
                                         
                                         UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.StampingSeat_Up_Command}"
@@ -1161,35 +1157,30 @@
 
                             </StackPanel>
 
-                            <GroupBox Header="{DynamicResource Text_Stamping_Rotate_Component}">
-                                <Border Background="White" HorizontalAlignment="Left" CornerRadius="5">
+                            <GroupBox Grid.Row="2" Header="{DynamicResource Text_Stamping_Rotate_Component}">
                                 <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource GD_RepeatButton}"  
+                                    <Button Width="40" Height="40" Margin="5,0"
                                    >
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="PreviewMouseDown">
-                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource TrueValue}"/>
-                                                </i:EventTrigger>
-                                                <i:EventTrigger EventName="PreviewMouseUp">
-                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                </i:EventTrigger>
-                                                <i:EventTrigger EventName="MouseLeave">
-                                                    <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
-                                                </i:EventTrigger>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown">
+                                                <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="PreviewMouseUp">
+                                                <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="MouseLeave">
+                                                <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
+                                            </i:EventTrigger>
 
-                                                
-                                            </i:Interaction.Triggers>
-                                            <Grid>
-                                                <materialDesign:PackIcon Kind="ArrowURightTop" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <materialDesign:PackIcon Kind="CheckboxBlankOutline" Width="30" Height="30"/>
-                                            </Grid>
-                                            
-                                            
-                                        </Button>
-                                        <Button Style="{StaticResource GD_RepeatButton}"  Visibility="Collapsed"
-                                             Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}"/>
-                                    
-                                        <Button Style="{StaticResource GD_RepeatButton}"   
+
+                                        </i:Interaction.Triggers>
+
+                                        <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource turnRight_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource turnRight_BlackDrawingImage}"/>
+
+                                    </Button>
+                                    <Button  Width="40" Height="40"  Margin="5,0"
                                             >
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="PreviewMouseDown">
@@ -1201,23 +1192,21 @@
                                                 <i:EventTrigger EventName="MouseLeave">
                                                     <i:InvokeCommandAction Command="{Binding StampMachineData.EngravingRotateCounterClockwiseCommand}" CommandParameter="{StaticResource FalseValue}"/>
                                                 </i:EventTrigger>
-                                                
+
 
                                             </i:Interaction.Triggers>
-
-
-                                            <Grid>
-                                                <materialDesign:PackIcon Kind="ArrowULeftTop" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <materialDesign:PackIcon Kind="CheckboxBlankOutline" Width="30" Height="30"/>
-                                            </Grid>
+                                            <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource turnLeft_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource turnLeft_BlackDrawingImage}"/>
                                         </Button>
 
-                                        <TextBlock Text="{Binding StampMachineData.EngravingRotateStation}" Foreground="Black" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding StampMachineData.EngravingRotateStation}"  VerticalAlignment="Center"/>
 
                                     </StackPanel>
-                                </Border>
+                            
                             </GroupBox>
-                            <GroupBox Header="{StaticResource Text_SteelPunchedFontSetting}">
+                            <GroupBox Visibility="Collapsed"
+                                Header="{StaticResource Text_SteelPunchedFontSetting}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
@@ -1241,12 +1230,14 @@
                                 </Grid>
                             </GroupBox>
 
-                        </StackPanel>
+                        </Grid>
                 </GroupBox>
 
                 <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Visibility="{Binding ShearCut_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
-                    <StackPanel>
-                            <local:CylinderUserControl 
+              
+                            <local:CylinderUserControl    
+                                
+                                VerticalContentAlignment="Center"
                                 
                                       
                                UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"   
@@ -1270,7 +1261,6 @@
                                 
                             </local:CylinderUserControl>
 
-                    </StackPanel>
                 </GroupBox>
 
                 <GroupBox Header="{DynamicResource Text_Separator_Component}" Visibility="{Binding Separator_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
@@ -1359,35 +1349,21 @@
                                 <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                         Command="{Binding SeparateBox_CounterClockwiseRotateCommand}" 
                                         Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
-                                    <Image>
-                                        <Image.Style>
-                                            <Style TargetType="Image">
-                                                <Setter Property="Source" Value="{StaticResource turnRight_WhiteDrawingImage}"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                        <Setter Property="Source" Value="{StaticResource turnRight_BlackDrawingImage}"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Image.Style>
-                                    </Image>
+
+                                    <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource turnRight_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource turnRight_BlackDrawingImage}"/>
+
                                 </Button>
                                 <Button Margin="5,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                         Command="{Binding SeparateBox_ClockwiseRotateCommand}" 
                                      Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >
-                                    <Image>
-                                        <Image.Style>
-                                            <Style TargetType="Image">
-                                                <Setter Property="Source" Value="{StaticResource turnLeft_WhiteDrawingImage}"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                        <Setter Property="Source" Value="{StaticResource turnLeft_BlackDrawingImage}"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Image.Style>
-                                    </Image>
-                            </Button>
+
+                                    <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource turnLeft_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource turnLeft_BlackDrawingImage}"/>
+
+                                </Button>
                         </Grid>
                     </StackPanel>
                 </GroupBox>

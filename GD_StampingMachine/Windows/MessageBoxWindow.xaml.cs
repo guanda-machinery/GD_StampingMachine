@@ -1,19 +1,7 @@
-﻿using DevExpress.CodeParser;
-using DevExpress.XtraScheduler;
-using GD_StampingMachine.GD_Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GD_StampingMachine.GD_Enum;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GD_StampingMachine.Windows
 {
@@ -24,21 +12,27 @@ namespace GD_StampingMachine.Windows
     /// </summary>
     public partial class MessageBoxWindow : Window
     {
+
+        static MessageBoxWindow ()
+        {
+            BoxButtonProperty = DependencyProperty.Register(nameof(BoxButton), typeof(MessageBoxButton), typeof(MessageBoxWindow), new FrameworkPropertyMetadata(MessageBoxButton.OK, OnBoxButtonChanged));
+        }
         public MessageBoxWindow(Window owner, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
         {
             InitializeComponent();
-            mb_Button = MB_Button;
+            BoxButton= MB_Button;
 
             if (lockWindow && owner != null)
             {
                 var ownerOriginTopmost = owner.Topmost;
                 owner.Topmost = true;
+                
                 overlay = new Window
                 {
                     Width = owner.ActualWidth,
                     Height = owner.ActualHeight,
                     Background = Brushes.Gray,
-
+                    WindowState = owner.WindowState,
                     Left = owner.Left,
                     Top = owner.Top,
                     WindowStyle = WindowStyle.None,
@@ -48,17 +42,12 @@ namespace GD_StampingMachine.Windows
                     ShowInTaskbar = false
                 };
                 overlay?.Show();
-
                 owner.Topmost = ownerOriginTopmost;
             }
-
-
-
             Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
             Notify_Rd_Image.Visibility = Visibility.Collapsed; ;
             Notify_Gr_Image.Visibility = Visibility.Collapsed; ;
             Notify_Ye_Image.Visibility = Visibility.Collapsed; ;
-
             switch (MB_Icon)
             {
                 case GD_MessageBoxNotifyResult.NotifyBl:
@@ -81,40 +70,42 @@ namespace GD_StampingMachine.Windows
                     break;
             }
 
-
-            OkButton.Visibility = Visibility.Collapsed;
-            CancelButton.Visibility = Visibility.Collapsed;
-            YesButton.Visibility = Visibility.Collapsed;
-            NoButton.Visibility = Visibility.Collapsed;
-            switch (MB_Button)
-            {
-                case MessageBoxButton.OK:
-                    OkButton.Visibility = Visibility.Visible;
-                    break;
-                case MessageBoxButton.OKCancel:
-                    OkButton.Visibility = Visibility.Visible;
-                    CancelButton.Visibility = Visibility.Visible;
-                    break;
-                case MessageBoxButton.YesNoCancel:
-                    CancelButton.Visibility = Visibility.Visible;
-                    YesButton.Visibility = Visibility.Visible;
-                    NoButton.Visibility = Visibility.Visible;
-                    break;
-                case MessageBoxButton.YesNo:
-                    YesButton.Visibility = Visibility.Visible;
-                    NoButton.Visibility = Visibility.Visible;
-                    break;
-                default:
-                    break;
-            }
+            OkButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.OK) ? Visibility.Visible : Visibility.Collapsed;
+            OkCancelButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.OKCancel) ? Visibility.Visible : Visibility.Collapsed;
+            YesNoButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.YesNo) ? Visibility.Visible : Visibility.Collapsed;
+            YesNoCancelButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.YesNoCancel) ? Visibility.Visible : Visibility.Collapsed;
 
             this.Owner = overlay ?? new Window();
             this.Title = MessageTitle ?? string.Empty;
             this.ContentTextBlock.Text = MessageString ?? string.Empty;
         }
 
-        public MessageBoxResult Result { get; set; } = MessageBoxResult.None;
-        readonly MessageBoxButton mb_Button;
+        static readonly DependencyProperty BoxButtonProperty;
+
+
+        public MessageBoxButton BoxButton
+        {
+            get => (MessageBoxButton)GetValue(BoxButtonProperty);
+            set => SetValue(BoxButtonProperty, value);
+        }
+
+        private static void OnBoxButtonChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var thisobj = (MessageBoxWindow)obj;
+            if( e.NewValue is MessageBoxButton boxButton)
+            {
+                thisobj.OkButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.OK) ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.OkCancelButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.OKCancel) ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.YesNoButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.YesNo) ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.YesNoCancelButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.YesNoCancel) ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+
+
+        public MessageBoxResult Result { get; private set; }
+
+
         readonly Window overlay = null;
 
         public MessageBoxResult FloatShow()
@@ -184,7 +175,7 @@ namespace GD_StampingMachine.Windows
             }
             else if (e.Key == Key.Y)
             {
-                if (mb_Button is MessageBoxButton.YesNoCancel || mb_Button is MessageBoxButton.YesNo)
+                if (BoxButton is MessageBoxButton.YesNoCancel || BoxButton is MessageBoxButton.YesNo)
                 {
                     Result = MessageBoxResult.Yes;
                     this.Close();
@@ -192,7 +183,7 @@ namespace GD_StampingMachine.Windows
             }
             else if (e.Key == Key.N)
             {
-                if (mb_Button is MessageBoxButton.YesNoCancel || mb_Button is MessageBoxButton.YesNo)
+                if (BoxButton is MessageBoxButton.YesNoCancel || BoxButton is MessageBoxButton.YesNo)
                 {
                     Result = MessageBoxResult.No;
                     this.Close();
@@ -200,7 +191,7 @@ namespace GD_StampingMachine.Windows
             }
             else if (e.Key == Key.C)
             {
-                if (mb_Button is MessageBoxButton.OKCancel || mb_Button is MessageBoxButton.YesNoCancel)
+                if (BoxButton is MessageBoxButton.OKCancel || BoxButton is MessageBoxButton.YesNoCancel)
                 {
                     Result = MessageBoxResult.Cancel;
                     this.Close();

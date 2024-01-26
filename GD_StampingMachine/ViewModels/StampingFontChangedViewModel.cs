@@ -541,28 +541,33 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _stampingFontCollectionData_SoftwareToMachine_Command ??= new(async () =>
             {
-                if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
-                (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromSoftwareToMachine")) != MessageBoxResult.Yes)
+                await Task.Run(async() =>
                 {
-                    return;
-                }
-                List<StampingTypeModel> FontsCollection = new();
+                    if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
+                    (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromSoftwareToMachine")) != MessageBoxResult.Yes)
+                    {
+                        return;
+                    }
+                    // List<StampingTypeModel> FontsCollection = new();
 
-                for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
-                {
-                    var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
+                    //  for (int i = 0; i < StampMachineData.RotatingTurntableInfoCollection.Count; i++)
+                    //   {
+                    /*var rFont = StampMachineData.RotatingTurntableInfoCollection[i];
                     if (StampingTypeVMObservableCollection.TryGetValue(i, out var stamptypeVM))
                     {
                         FontsCollection.Add(rFont.StampingType);
                     }
                     else
-                        FontsCollection.Add(new StampingTypeModel());
-                }
+                        FontsCollection.Add(new StampingTypeModel());*/
+                    //}
 
-                if (await StampMachineData.SetRotatingTurntableInfoAsync(FontsCollection))
-                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"), GD_MessageBoxNotifyResult.NotifyGr);
-                else
-                    await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"), GD_MessageBoxNotifyResult.NotifyRd);
+                    var FontsCollection = StampingTypeVMObservableCollection.Select(x => x.StampingTypeString);
+
+                    if (await StampMachineData.SetRotatingTurntableInfoAsync(FontsCollection))
+                        await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"), GD_MessageBoxNotifyResult.NotifyGr);
+                    else
+                        await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"), GD_MessageBoxNotifyResult.NotifyRd);
+                });
 
             }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
         }

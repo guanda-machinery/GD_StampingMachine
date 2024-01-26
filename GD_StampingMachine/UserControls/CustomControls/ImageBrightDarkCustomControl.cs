@@ -18,6 +18,8 @@ namespace GD_StampingMachine.UserControls
 {
     public class ImageBrightDarkCustomControl : Control
     {
+
+
         static ImageBrightDarkCustomControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ImageBrightDarkCustomControl), new FrameworkPropertyMetadata(typeof(ImageBrightDarkCustomControl)));

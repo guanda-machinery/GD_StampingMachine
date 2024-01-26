@@ -12,135 +12,153 @@
        SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        MinWidth="300"
+        MinWidth="10"
        MinHeight="100" PreviewKeyDown="Grid_KeyDown"
         Title="MessageBoxWindow">
-    <Grid MouseDown="Grid_MouseLeftButtonDown"  >
-        <Border BorderThickness="2"
+    <Grid MouseDown="Grid_MouseLeftButtonDown">
+        <Border BorderThickness="2" 
                 BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"
             Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10"/>
-        <Grid Margin="0" x:Name="MainGrid"   >
+        <Grid>
+        <Grid  x:Name="MainGrid" Margin="16,20,24,20"   >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
         
-                <Grid Name="TitleGrid" Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="1" Margin="5,0" 
-                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                    Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                     AncestorType={x:Type Window}} ,Path=Title}" VerticalAlignment="Center" FontSize="16">
 
-                    </TextBlock>
-                    <Button Grid.Column="2"  
-                        HorizontalAlignment="Right"   VerticalAlignment="Top" Margin="10,2,2,1" 
-                        Content="{materialDesign:PackIcon Kind=Close, Size=20}"  Click="CloseButton_Click">
-                        <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Width"
-                            Value="40" />
-                            <Setter Property="Height"
-                            Value="30" />
-                            <Setter Property="Opacity"
-                            Value="0.95" />
-                            <Setter Property="BorderThickness"
-                            Value="0" />
-                            <Setter Property="BorderBrush"
-                            Value="Transparent" />
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource BrightHueLightBrush}"/>
-                                </Trigger>
-                                <EventTrigger RoutedEvent="MouseEnter">
-                                    <EventTrigger.Actions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.000" To="#e81123" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger.Actions>
-                                </EventTrigger>
-
-                                <EventTrigger RoutedEvent="MouseLeave">
-                                    <EventTrigger.Actions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.500" To="Transparent" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger.Actions>
-                                </EventTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        </Button.Style>
-
-
-                </Button>
-            </Grid>
-
-            <Grid Grid.Column="0" Grid.Row="1" MaxHeight="30">
+            <Grid Grid.Column="0" Grid.Row="0" MaxHeight="30" Margin="20,0,5,0">
                 <Image Name="Notify_Bl_Image"
-                    Source="{DynamicResource Notify_BlDrawingImage}" Margin="10,0,5,0"/>
+                    Source="{DynamicResource Notify_BlDrawingImage}" />
                 <Image  Name="Notify_Rd_Image"
-                    Source="{DynamicResource Notify_RdDrawingImage}" Margin="10,0,5,0"/>
+                    Source="{DynamicResource Notify_RdDrawingImage}"/>
                 <Image  Name="Notify_Gr_Image"
-                    Source="{DynamicResource Notify_GrDrawingImage}" Margin="10,0,5,0"/>
+                    Source="{DynamicResource Notify_GrDrawingImage}" />
                 <Image Name="Notify_Ye_Image"
-                    Source="{DynamicResource Notify_YeDrawingImage}" Margin="10,0,5,0"/>
+                    Source="{DynamicResource Notify_YeDrawingImage}"/>
             </Grid>
                     
-            <Grid Grid.Row="1" Grid.Column="1" >
-                <TextBlock Name="ContentTextBlock" VerticalAlignment="Center"
-                    Text="TestString" Style="{StaticResource Body1TextBlock}" FontSize="20" Margin="5,3,5,0"
+            <Grid Grid.Row="0" Grid.Column="1"  >
+                <TextBlock Name="ContentTextBlock" VerticalAlignment="Center"  
+                    Text="TestString" Style="{StaticResource Body1TextBlock}" FontSize="20" Margin="5,2,40,0"
                            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                            />
             </Grid>
-            <Grid Grid.Row="2" Grid.Column="2" >
-
-                <StackPanel Orientation="Horizontal" 
-                            HorizontalAlignment="Right" Margin="10">
-
-
-                    <Button Name="OkButton" Click="OkButton_Click"  MinWidth="60" Margin="5" 
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10,10,10,0">
+                    <StackPanel>
+                        <Grid Name="OkButtonGrid"   HorizontalAlignment="Right" >
+                            <Button
+                                Click="OkButton_Click"  MinWidth="100"   Grid.Column="1"
+                            Content="{DynamicResource btnOk}" Style="{StaticResource SiegCustomButtonSkyBlue}"
+                            Padding="5,2,5,0" Margin="5,0" 
+                            />
+                        </Grid>
+                        <Grid Name="OkCancelButtonGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Click="OkButton_Click"  MinWidth="60" Margin="5,0"  Grid.Column="0"
                             Content="{DynamicResource btnOk}" Style="{StaticResource SiegCustomButtonSkyBlue}"
                             Padding="5,2,5,0"
                             />
-                    <Button Name="YesButton" Click="YesButton_Click" MinWidth="60" Margin="5"
-                            Content="{DynamicResource btnYes}" Style="{StaticResource SiegCustomButtonSkyBlue}"  
-                            Padding="5,2,5,0"/>
-                    <Button  Name="NoButton" Click="NoButton_Click"  MinWidth="60" Margin="5"
-                             Content="{DynamicResource btnNo}"  Style="{StaticResource SiegCustomButton_Primary}"  
-                             Padding="5,2,5,0"/>
-                    <Button Name="CancelButton"  Click="CancelButton_Click"  MinWidth="60" Margin="5" 
+                            <Button Click="CancelButton_Click"  MinWidth="60" Margin="5,0"  Grid.Column="1"
                         Content="{DynamicResource btnCancel}" Style="{StaticResource SiegCustomButton_Transparent}"  
                             Padding="5,2,5,0"/>
-                </StackPanel>
+                        </Grid>
+                        <Grid Name="YesNoCancelButtonGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button  Click="YesButton_Click" MinWidth="60" Margin="5,0" Grid.Column="0"
+                            Content="{DynamicResource btnYes}" Style="{StaticResource SiegCustomButtonSkyBlue}"  
+                            Padding="5,2,5,0"/>
+                            <Button Click="NoButton_Click"  MinWidth="60" Margin="5,0" Grid.Column="1"
+                             Content="{DynamicResource btnNo}"  Style="{StaticResource SiegCustomButton_Primary}"  
+                             Padding="5,2,5,0"/>
+                            <Button Click="CancelButton_Click"  MinWidth="60" Margin="5,0"  Grid.Column="2"
+                        Content="{DynamicResource btnCancel}" Style="{StaticResource SiegCustomButton_Transparent}"  
+                            Padding="5,2,5,0"/>
+                        </Grid>
+                        <Grid Name="YesNoButtonGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button  Click="YesButton_Click" MinWidth="60" Margin="5,0" Grid.Column="0"
+                            Content="{DynamicResource btnYes}" Style="{StaticResource SiegCustomButtonSkyBlue}"  
+                            Padding="5,2,5,0"/>
+                            <Button   Click="NoButton_Click"  MinWidth="60" Margin="5,0" Grid.Column="1"
+                             Content="{DynamicResource btnNo}"  Style="{StaticResource SiegCustomButton_Transparent}"  
+                             Padding="5,2,5,0"/>
+
+                        </Grid>
+
+                    </StackPanel>
 
 
 
-
-
-            </Grid>
+                </Grid>
             
             
             
             
             
             </Grid>
+            <Button Grid.Column="2"  
+                        HorizontalAlignment="Right"   VerticalAlignment="Top" Margin="10,2,2,1" 
+                        Content="{materialDesign:PackIcon Kind=Close, Size=20}"  Click="CloseButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Width"
+                            Value="40" />
+                        <Setter Property="Height"
+                            Value="30" />
+                        <Setter Property="Opacity"
+                            Value="0.95" />
+                        <Setter Property="BorderThickness"
+                            Value="0" />
+                        <Setter Property="BorderBrush"
+                            Value="Transparent" />
+                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource BrightHueLightBrush}"/>
+                            </Trigger>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.000" To="#e81123" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.500" To="Transparent" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+
+            </Button>
+        </Grid>
     </Grid>
 </Window>

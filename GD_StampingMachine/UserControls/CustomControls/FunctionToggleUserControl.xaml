@@ -10,11 +10,11 @@
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              mc:Ignorable="d" 
              FontSize="14" 
-
              x:Name="MainFunctionToggleUserControl" d:Background="Black" Cursor="Hand" >
     <Grid 
-        DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
+        DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}">
         <ToggleButton 
+            Padding="{Binding ContentPaddingProperty}"
             Command="{Binding Command}"
             CommandTarget="{Binding CommandTarget}"
             CommandParameter="{Binding CommandParameter}"          
@@ -33,7 +33,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ToggleButton">
-                                <Grid>
+                                <Grid >
                                     <Border Name="MainBorder">
                                         <Border.Style>
                                             <Style TargetType="Border">
@@ -56,7 +56,7 @@
                                             </Style>
                                         </Border.Style>
                                     </Border>
-                                    <StackPanel 
+                                    <StackPanel Margin="{TemplateBinding Padding}"
                                         MinWidth="65" 
                                         Orientation="{Binding Orientation , ElementName=MainFunctionToggleUserControl}">
                                         <Grid >
@@ -79,7 +79,7 @@
                                                     Height="{Binding ImageHeight, ElementName=MainFunctionToggleUserControl}"/>
                                                     <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                                     <!--自定義方塊-->
-                                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40">
+                                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48">
 
                                                         <materialDesign:PackIcon Kind="{Binding PackIconKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
                                                                              Width="{Binding ImageWidth , ElementName=MainFunctionToggleUserControl}"  
@@ -112,7 +112,7 @@
                                             </ProgressBar>
                                         </Grid>
                                         <Grid Grid.Row="1" >
-                                            <TextBlock   MaxWidth="80"  
+                                            <TextBlock   MaxWidth="80"  Padding="0,2,0,0" d:Text="Test" d:Foreground="White"
                                                          Margin="{Binding TextMargin , ElementName=MainFunctionToggleUserControl}"
                                                          FontFamily="{Binding FontFamily , ElementName=MainFunctionToggleUserControl}"
                                                          FontSize="{Binding FontSize , ElementName=MainFunctionToggleUserControl}"
@@ -150,6 +150,10 @@
                                     </Trigger>
                                     <Trigger  Property="IsMouseOver" Value="True">
                                         <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=MouseIsOverBackground , ElementName=MainFunctionToggleUserControl}"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
                                     </Trigger>
 
 

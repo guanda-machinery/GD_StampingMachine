@@ -10,9 +10,8 @@
              xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
              mc:Ignorable="d" 
              Name="cylinderUserControl" >
-    <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-        <materialDesign:ColorZone CornerRadius="2" Padding="1" Background="{DynamicResource PrimaryHueDarkBrush}">
-            <Grid>
+    <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CylinderUserControl}}">
+       <Grid Margin="5" VerticalAlignment="{Binding VerticalContentAlignment}">
                 <Grid.Resources>
                     <Style TargetType="materialDesign:PackIcon" x:Key="CylinderIsSingalPackIconStyle">
                         <Setter Property="Foreground" Value="{Binding CylinderIsSingalPackIconForeground}"/>
@@ -20,47 +19,50 @@
                         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
                         <Setter Property="Kind" Value="{Binding CylinderIsSingalPackIcon}"/>
                     </Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton}">
+                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                         <Setter Property="Padding" Value="0"/>
-                        <Setter Property="Margin" Value="2"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Height" Value="auto"/>
+                        <Setter Property="Margin" Value="10"/>
+                        <Setter Property="Height" Value="40"/>
                         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"/>
                     </Style>
-                </Grid.Resources>               
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <StackPanel Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}" 
-                             Margin="2,0"  Grid.Column="0" Grid.Row="0" d:Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Margin="5,10"
+                    Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}" 
+                               Grid.Column="0" Grid.Row="0" d:Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Visibility="{Binding CylinderIsUpSingal_IsTriggered, Converter={dx:BooleanToVisibilityConverter}, ConverterParameter={StaticResource HiddenOnFalse}}">
-                        <materialDesign:PackIcon Style="{StaticResource CylinderIsSingalPackIconStyle}"/>
+                        <Image Source="{StaticResource Notify_GrDrawingImage}"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                <StackPanel Margin="5,10"
+                    Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                     Grid.Column="0" Grid.Row="1"      HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Visibility="{Binding CylinderIsMiddleSingal_IsTriggered, Converter={dx:BooleanToVisibilityConverter}, ConverterParameter={StaticResource HiddenOnFalse}}">
-                        <materialDesign:PackIcon Style="{StaticResource CylinderIsSingalPackIconStyle}"/>
+                        <Image Source="{StaticResource Notify_GrDrawingImage}"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel  Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                <StackPanel Margin="5,10"
+                    Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                     Grid.Column="0" Grid.Row="2"      HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Visibility="{Binding CylinderIsDownSingal_IsTriggered, Converter={dx:BooleanToVisibilityConverter}, ConverterParameter={StaticResource HiddenOnFalse}}">
-                        <materialDesign:PackIcon Style="{StaticResource CylinderIsSingalPackIconStyle}"/>
+                        <Image Source="{StaticResource Notify_GrDrawingImage}"/>
                     </StackPanel>
                 </StackPanel>
 
-                <Button Name="UpRadioButton" 
+                <Button Name="UpRadioButton" Margin="5"
                    IsEnabled="{Binding CylinderUp_IsEnabled}"  
                     Grid.Column="1" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"  
-                             Content="{materialDesign:PackIcon Kind=ArrowTopBoldBoxOutline, Size=30}">
+                           
+                        >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonDownCommandParameter}"/>
@@ -72,30 +74,35 @@
                             <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </Button>
-                <Button Name="MiddleRadioButton"
+
+                <local:ImageBrightDarkCustomControl Padding="2"
+                                        DarkImageSource="{StaticResource Arrow_Up_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+            </Button>
+                <Button Name="MiddleRadioButton" Margin="5"
                      IsEnabled="{Binding CylinderMiddle_IsEnabled}"
-                    Grid.Column="1" Grid.Row="1"  Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                    Grid.Column="1" Grid.Row="1"  
+                        Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderMiddleCommand}"  CommandParameter="{Binding CylinderMiddleCommandParameter}"
                               
-                                             Content="{materialDesign:PackIcon Kind=CheckboxBlankOutline, Size=30}">
+                                         >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
                             <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                            <i:InvokeCommandAction Command="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
-                            <i:InvokeCommandAction Command="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddleMiddlePreviewMouseLeftButtonUpCommandParameter}"/>
+                            <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Name="DownRadioButton" 
+                <Button Name="DownRadioButton" Margin="5"
                  IsEnabled="{Binding CylinderDown_IsEnabled}"
                     Grid.Column="1" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderDownCommand}"  CommandParameter="{Binding CylinderDownCommandParameter}"
-                                              Content="{materialDesign:PackIcon Kind=ArrowBottomBoldBoxOutline, Size=30}">
+                                          >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonDownCommandParameter}"/>
@@ -107,8 +114,11 @@
                             <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </Button>
+                <local:ImageBrightDarkCustomControl Padding="2"
+                                        DarkImageSource="{StaticResource Arrow_Down_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+
+            </Button>
             </Grid>
-        </materialDesign:ColorZone>
     </Grid>
 </UserControl>

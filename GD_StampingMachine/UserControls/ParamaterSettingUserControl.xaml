@@ -23,7 +23,7 @@
              xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:GD_ValidationRules="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
              mc:Ignorable="d" >
-    <Grid  Margin="150,0,0,0">
+    <Grid  >
         <Grid.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}" >
                 <Setter Property="FontSize" Value="16"/>
@@ -47,14 +47,15 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}">
 
-
+        <Border    HorizontalAlignment="Center" Padding="0,0,0,8"
+            BorderThickness="0,0,0,1" BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}">
             <ItemsControl 
                 Style="{StaticResource StampingToolbarItemsControl}"
                 dd:DragDrop.IsDragSource ="True"
                 dd:DragDrop.IsDropTarget ="False"
-                Margin="0,10,0,5">
+                Margin="30,10,30,0">
+
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -284,11 +285,13 @@
 
             </ItemsControl>
         </Border>
-        <ScrollViewer Name="MainScrollViewer"
+        
+        
+        <ScrollViewer Name="MainScrollViewer" 
             VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
             <TabControl>
                 <TabItem  IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
-                    <StackPanel HorizontalAlignment="Left">
+                    <StackPanel HorizontalAlignment="Center">
                         <Grid  Margin="20"  Visibility="Collapsed">
                             <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
                           <!--  <StackPanel>
@@ -572,7 +575,7 @@
                     </StackPanel>
                 </TabItem>
                 <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
-                    <Grid HorizontalAlignment="Left">
+                    <Grid HorizontalAlignment="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
@@ -944,8 +947,7 @@
                             <Setter Property="Padding" Value="20"/>
                         </Style>
                     </TabItem.Resources>
-
-                    <Grid >
+                    <Grid HorizontalAlignment="Center" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition MaxWidth="450"/>
                             <ColumnDefinition MaxWidth="450"/>
@@ -1066,7 +1068,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnTimimgSetting, Path=IsChecked}" DataContext="{Binding TimingSettingVM}">
-                    <Grid >
+                    <Grid HorizontalAlignment="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -2085,11 +2087,12 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}" DataContext="{Binding SeparateSettingVM}">
-                    <StackPanel Orientation="Horizontal"   VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
                     <GroupBox Header="{DynamicResource Text_Separate}" Margin="10" HorizontalAlignment="Left" Padding="20">
                         <StackPanel>
 
-                                    <Grid Margin="0,0">
+                                    <Grid Margin="0,0,0,16">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -2184,7 +2187,7 @@
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}" DataContext="{Binding InputOutputVM}">
-                    <Grid Name="IO_MainGrid">
+                    <Grid Name="IO_MainGrid" HorizontalAlignment="Center">
                         <dxg:GridControl 
                                 Style="{StaticResource ProjectGridControl}"  
                                     Background="Transparent"
@@ -2287,7 +2290,7 @@
                     
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSeEngineeringMode, Path=IsChecked}" DataContext="{Binding EngineerSettingVM}">
-                    <StackPanel HorizontalAlignment="Left" >
+                    <StackPanel HorizontalAlignment="Center" >
                         <GroupBox Grid.Row="1" Header="{DynamicResource Text_lubricationSystem}" Margin="10"  VerticalAlignment="Top" >
                         <Grid HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
