@@ -302,23 +302,16 @@
                                     DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" />
                             </StackPanel>-->
                         </Grid>
-                        <Grid  Margin="20">
+                        <Grid  Margin="20" Width="700">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl  
                             DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" >
-                                <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                    <TransformGroup>
-                                        <TranslateTransform X="0" Y="0"/>
-                                        <RotateTransform Angle="0"/>
-                                        <ScaleTransform ScaleX="8" ScaleY="8"/>
-                                    </TransformGroup>
-                                </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
 
                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                         </Grid>
 
-                        <Grid>
+                        <Grid HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
+                                <ColumnDefinition />
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -583,15 +576,9 @@
                         <StackPanel >
                             <Grid  Margin="20">
 
-                                <GD_SchematicDiagram:QRPlateRowDiagramControl  
+                                <GD_SchematicDiagram:QRPlateRowDiagramControl  Width="700"
                             DataContext="{Binding QRSettingVM}" RedMeasurementLineVisibility="Visible" >
-                                    <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                        <TransformGroup>
-                                            <TranslateTransform X="0" Y="0"/>
-                                            <RotateTransform Angle="0"/>
-                                            <ScaleTransform ScaleX="8" ScaleY="8"/>
-                                        </TransformGroup>
-                                    </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+
 
                                 </GD_SchematicDiagram:QRPlateRowDiagramControl>
                             </Grid>
@@ -1135,8 +1122,10 @@
 
                         </GroupBox>
 
-                        <GroupBox Grid.Row="1" Header="{DynamicResource Text_TimingSetting}" Margin="10" Padding="5">
-                            <Grid>
+                        <GroupBox  VerticalContentAlignment="Stretch"
+                            Grid.Row="1" Header="{DynamicResource Text_TimingSetting}" Margin="10" Padding="5">
+                            <StackPanel Orientation="Horizontal">
+                                <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
@@ -2070,26 +2059,29 @@
                                 </StackPanel>
 
 
-                            </Grid>
+                                </Grid>
+                                <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"   Margin="10,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                    <Button  Padding="5,3,5,0"
+                                Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
+                                    <Button  Padding="5,3,5,0"
+                                Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                    <Button  Padding="5,3,5,0"
+                                Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                                </StackPanel>
+                            </StackPanel>
                         </GroupBox>
                         
                         
-                        <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"   Margin="10,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                            <Button  Padding="5,3,5,0"
-                                Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
-                            <Button  Padding="5,3,5,0"
-                                Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                            <Button  Padding="5,3,5,0"
-                                Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
-                        </StackPanel>
                         
                         
                     </Grid>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}" DataContext="{Binding SeparateSettingVM}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center"
                                 VerticalAlignment="Top">
-                    <GroupBox Header="{DynamicResource Text_Separate}" Margin="10" HorizontalAlignment="Left" Padding="20">
+                        <GroupBox Header="{DynamicResource Text_Separate}" Margin="10"  Padding="20">
+                            <StackPanel Orientation="Horizontal">
+                                
                         <StackPanel>
 
                                     <Grid Margin="0,0,0,16">
@@ -2177,13 +2169,15 @@
 
                                 </ListBox>
 
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
+                                    <Button  Padding="5,3,5,0" Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}" />
+                                    <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}" Visibility="Collapsed"/>
+                                    <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                                </StackPanel>
                             </StackPanel>
-                    </GroupBox>
-                        <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}" />
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}" Visibility="Collapsed"/>
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
-                        </StackPanel>
+                        </GroupBox>
                     </StackPanel>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnInputOutput, Path=IsChecked}" DataContext="{Binding InputOutputVM}">

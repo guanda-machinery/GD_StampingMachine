@@ -402,6 +402,10 @@
     <Compile Include="StampingMachineWindow.xaml.cs">
       <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
+      <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\GradientEllipse.cs" />
     <Compile Include="UserControls\CustomControls\ImageBrightDarkCustomControl.cs" />
     <Compile Include="UserControls\CustomControls\PlateDiagramCustomControl.cs" />
     <Compile Include="UserControls\MachineFunctionTestUserControl.xaml.cs">
@@ -427,9 +431,6 @@
     <Compile Include="Method\MethodWinUIMessageBox.cs" />
     <Compile Include="Method\DropHandler\StampingTypeDropTarget.cs" />
     <Compile Include="Interfaces\ISettingCommandInterface.cs" />
-    <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
-      <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\CylinderUserControl.xaml.cs">
       <DependentUpon>CylinderUserControl.xaml</DependentUpon>
     </Compile>
@@ -501,6 +502,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\CustomControls\FunctionToggleUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Windows\MessageBoxWindow.xaml">
       <SubType>Designer</SubType>
@@ -584,10 +589,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UserControls\CustomControls\FunctionToggleUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\CylinderUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

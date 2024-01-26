@@ -219,6 +219,7 @@
     <Compile Include="ValidationRules\CheckStringEmptyRule.cs" />
     <Compile Include="ValidationRules\CheckStringIsPathOrFileNameRule.cs" />
     <Compile Include="ValueConverters\BooleanToBrushesConverter.cs" />
+    <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
     <Compile Include="ValueConverters\DayOfWeekConverter.cs" />
     <Compile Include="ValueConverters\EnumGetNameConverter.cs" />

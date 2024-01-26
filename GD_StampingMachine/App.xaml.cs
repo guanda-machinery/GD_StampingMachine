@@ -47,7 +47,8 @@ namespace GD_StampingMachine
 
             StampingMachineWindow MachineWindow = new StampingMachineWindow
             {
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
+                
+                WindowStartupLocation = WindowStartupLocation.Manual
             };
 
             StampingMachineWindowViewModel stampingMachineWindowVM = new StampingMachineWindowViewModel

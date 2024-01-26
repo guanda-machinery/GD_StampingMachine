@@ -36,9 +36,23 @@ namespace GD_CommonLibrary.Method
             {
                 messageBoxReturn = newWindow.FloatShow();
             }));
-
             return messageBoxReturn;
         }
+
+
+        public async Task<MessageBoxResult> ShowMessageBoxAsync()
+        {
+            MessageBoxResult messageBoxReturn = MessageBoxResult.None;
+            await Task.Run(() =>
+            {
+                messageBoxReturn = ShowMessageBox();
+            });
+            return messageBoxReturn;
+        }
+
+
+
+
         /// <summary>
         /// 關閉彈出式視窗
         /// </summary>
@@ -54,7 +68,15 @@ namespace GD_CommonLibrary.Method
                 newWindow?.Close();
             }));
         }
+        public async Task CloseMessageBoxAsync()
+        {
+            await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+            {
+                newWindow?.Close();
+            }));
 
+
+        }
 
 
 

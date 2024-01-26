@@ -30,8 +30,6 @@ namespace GD_StampingMachine.UserControls
 
         public static readonly DependencyProperty PlateDiagramIndexProperty;
         public static readonly DependencyProperty ProjectNameProperty;
-        //public static readonly DependencyProperty ContentProperty;
-
 
 
         public string PlateDiagramIndex

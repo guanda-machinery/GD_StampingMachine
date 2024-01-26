@@ -1,6 +1,4 @@
-﻿using DevExpress.DocumentView;
-using DevExpress.Xpf.Core.Internal;
-using DevExpress.Xpf.Diagram.Native;
+﻿using DevExpress.Xpf.Core.Internal;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.ComponentModel;
@@ -59,7 +57,7 @@ namespace GD_StampingMachine.UserControls
             CommandTargetProperty = DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
 
             ContentPaddingProperty = DependencyProperty.Register(nameof(ContentPadding), typeof(Thickness), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.AffectsParentMeasure));
-
+       
         }
 
 
@@ -100,6 +98,10 @@ namespace GD_StampingMachine.UserControls
         
         public static readonly DependencyProperty ContentPaddingProperty;
 
+
+
+        internal static readonly DependencyPropertyKey IsPressedPropertyKey;
+        public static readonly DependencyProperty IsPressedProperty;
 
 
         private static void OnIsCheckedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -391,6 +393,9 @@ namespace GD_StampingMachine.UserControls
                 SetValue(ContentPaddingProperty, value);
             }
         }
+
+
+
 
 
 

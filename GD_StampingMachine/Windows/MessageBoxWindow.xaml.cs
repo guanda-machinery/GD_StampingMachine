@@ -70,10 +70,10 @@ namespace GD_StampingMachine.Windows
                     break;
             }
 
-            OkButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.OK) ? Visibility.Visible : Visibility.Collapsed;
-            OkCancelButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.OKCancel) ? Visibility.Visible : Visibility.Collapsed;
-            YesNoButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.YesNo) ? Visibility.Visible : Visibility.Collapsed;
-            YesNoCancelButtonGrid.Visibility = MB_Button.HasFlag(MessageBoxButton.YesNoCancel) ? Visibility.Visible : Visibility.Collapsed;
+            OkButtonGrid.Visibility = MB_Button is MessageBoxButton.OK ? Visibility.Visible : Visibility.Collapsed;
+            OkCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.OKCancel ? Visibility.Visible : Visibility.Collapsed;
+            YesNoButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
+            YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
 
             this.Owner = overlay ?? new Window();
             this.Title = MessageTitle ?? string.Empty;
@@ -94,10 +94,10 @@ namespace GD_StampingMachine.Windows
             var thisobj = (MessageBoxWindow)obj;
             if( e.NewValue is MessageBoxButton boxButton)
             {
-                thisobj.OkButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.OK) ? Visibility.Visible : Visibility.Collapsed;
-                thisobj.OkCancelButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.OKCancel) ? Visibility.Visible : Visibility.Collapsed;
-                thisobj.YesNoButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.YesNo) ? Visibility.Visible : Visibility.Collapsed;
-                thisobj.YesNoCancelButtonGrid.Visibility = boxButton.HasFlag(MessageBoxButton.YesNoCancel) ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.OkButtonGrid.Visibility = boxButton is MessageBoxButton.OK ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.OkCancelButtonGrid.Visibility = boxButton is MessageBoxButton.OKCancel ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.YesNoButtonGrid.Visibility = boxButton is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.YesNoCancelButtonGrid.Visibility = boxButton is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

@@ -949,39 +949,8 @@
                 HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border
-                                Width="20" 
-                                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
-                                CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Self}, Path=ActualWidth/2}">
-
-                                                <Border.Style>
-                                                    <Style TargetType="Border" >
-                                                        <Setter Property="Background" Value="{DynamicResource DataMatrixIsReadySolidColorBrush}"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Row.WorkIndex }" Value="-1">
-                                                                <Setter Property="Background" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Row.IsSended }" Value="true">
-                                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsSendedSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Row.DataMatrixIsFinish }" Value="true">
-                                                                <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Row.EngravingIsFinish}" Value="true">
-                                                                <Setter Property="Background" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Row.ShearingIsFinish}" Value="true">
-                                                                <Setter Property="Background" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Row.IsFinish}" Value="true">
-                                                                <Setter Property="Background" Value="ForestGreen"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-
-                                            </Border>
-                                        </DataTemplate>
+                                        <local:GradientEllipse Width="20"  Height="20"/>
+                                    </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
                                 </dxg:GridColumn>
 

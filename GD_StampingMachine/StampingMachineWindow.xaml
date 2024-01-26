@@ -12,7 +12,8 @@
         mc:Ignorable="d" 
         BorderThickness="0" BorderBrush="Transparent"
 
-        Title="StampingMachineWindow" Height="700" Width="800" MinWidth="600" MinHeight="600" MaxWidth="50000"
+        Title="StampingMachineWindow" 
+        Height="700" Width="800" MinWidth="600" MinHeight="600" MaxWidth="50000"
         AllowsTransparency="True"
         WindowStyle ="None" Background="Transparent"   
         ResizeMode="CanResizeWithGrip"   

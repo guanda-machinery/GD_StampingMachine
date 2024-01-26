@@ -772,6 +772,45 @@
                                         <Button Content="ClearAlarm" Command="{Binding ResetAlarmCommand}"/>
                                         <Button Content="AddAlarm" Command="{Binding AddAlarmCommand}"/>
 
+                                        <Grid Width="100" Height="100" >
+                                            <Ellipse  Fill="Red"/>
+                                            <Ellipse Opacity="0.5">
+                                            <Ellipse.Fill>
+                                                <RadialGradientBrush 
+                                                    GradientOrigin="0.75,0" Center="0.5,0.5" RadiusX="1" RadiusY="1">
+                                                        <GradientStop Color="Transparent" Offset="0.0" />
+                                                        <GradientStop Color="Black" Offset="0.75" />
+                                                        <GradientStop Color="Black" Offset="1" />
+                                                    </RadialGradientBrush>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        </Grid>
+                                        <Ellipse Width="100" Height="100">
+                                            <Ellipse.Fill>
+                                                <RadialGradientBrush 
+GradientOrigin="0.5,0.5" Center="0.5,0.5" 
+RadiusX="0.5" RadiusY="0.5">
+                                                    <GradientStop Color="Yellow" Offset="0" />
+                                                    <GradientStop Color="Red" Offset="0.25" />
+                                                    <GradientStop Color="Blue" Offset="0.75" />
+                                                    <GradientStop Color="LimeGreen" Offset="1.0" />
+                                                </RadialGradientBrush>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                    
+                                        <Rectangle Width="100" Height="100">
+                                            <Rectangle.Fill>
+                                                <RadialGradientBrush 
+      GradientOrigin="0.5,0.5" Center="0.5,0.5" 
+      RadiusX="0.5" RadiusY="0.5">
+                                                    <GradientStop Color="Yellow" Offset="0" />
+                                                    <GradientStop Color="Red" Offset="0.25" />
+                                                    <GradientStop Color="Blue" Offset="0.75" />
+                                                    <GradientStop Color="LimeGreen" Offset="1" />
+                                                </RadialGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+
                                         <TextBlock Text="各種功能測試區 - test"/>
                                         <GD_UserControls:SimpleCircularProgressBar Value="50"/>
 
@@ -1784,6 +1823,26 @@
                                     </GD_UserControls:FunctionToggleUserControl.Style>
 
                                 </GD_UserControls:FunctionToggleUserControl>
+
+
+                                <GD_UserControls:FunctionToggleUserControl IsChecked="{StaticResource FalseValue}">
+                                    <GD_UserControls:FunctionToggleUserControl.Style>
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
+                                            <Setter Property="ImageSource" Value="{StaticResource Language_DrawingImage_Mono}"      />
+                                            <Style.Triggers>
+                                                <Trigger Property="ToggleButton.IsPressed" Value="True">
+                                                    <Setter Property="ImageSource" Value="{StaticResource Language_DrawingImage_Blue}"/>
+                                                </Trigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </GD_UserControls:FunctionToggleUserControl.Style>
+                                </GD_UserControls:FunctionToggleUserControl>
+
+                                
+
+
                                 <Expander  Foreground="White"
                                       materialDesign:ExpanderAssist.VerticalHeaderPadding="0" 
                                       Background="Transparent"  

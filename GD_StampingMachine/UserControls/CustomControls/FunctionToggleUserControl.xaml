@@ -14,22 +14,22 @@
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}">
         <ToggleButton 
-            Padding="{Binding ContentPaddingProperty}"
+            Padding="{Binding ContentPadding}"
             Command="{Binding Command}"
             CommandTarget="{Binding CommandTarget}"
             CommandParameter="{Binding CommandParameter}"          
-           IsChecked="{Binding IsChecked}"
+			IsChecked="{Binding IsChecked, Mode=TwoWay}"
             IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
-            Content="{Binding ButtonContent, Mode=OneWay}">
+            Content="{Binding ButtonContent, Mode=OneWay}"
+			Background="Transparent"
+			Foreground="{Binding Path=Foreground}"
+			FontSize="{Binding FontSize}"
+			FontWeight="{Binding FontWeight}"
+			FontFamily="{StaticResource Inter}"
+			FontStretch="{Binding Path=FontStretch}"
+			>
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Foreground" Value="{Binding Path=Foreground}"/>
-                    <Setter Property="FontSize" Value="{Binding Path=FontSize}"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
-                    <Setter Property="FontStretch" Value="{Binding Path=FontStretch}"/>
-
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ToggleButton">

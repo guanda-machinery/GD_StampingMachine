@@ -106,6 +106,7 @@ namespace GD_StampingMachine.ViewModels
 
         public StampingMainViewModel()
         {
+
             //測試模式
             if (Debugger.IsAttached)
             {
@@ -131,7 +132,12 @@ namespace GD_StampingMachine.ViewModels
                 }
             });
 
-
+            _ = Task.Run(async () =>
+            {
+                TBtn_MachineMonitorIsChecked = true;
+                await Task.Delay(5000);
+                TBtn_MachineMonitorIsChecked = false;
+            });
 
           /*  _ = Task.Run(async () =>
             {

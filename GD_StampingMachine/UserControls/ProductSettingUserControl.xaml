@@ -1767,15 +1767,8 @@
                                             </Style>
                                         </ToggleButton.Style>
                                         <Grid>
-                                            <GD_SchematicDiagram:QRPlateRowDiagramControl     
+                                            <GD_SchematicDiagram:QRPlateRowDiagramControl   
                             DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                                <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <TranslateTransform X="0" Y="0"/>
-                                                        <RotateTransform Angle="0"/>
-                                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                                    </TransformGroup>
-                                                </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                         </Grid>
                                     </ToggleButton>
@@ -1788,9 +1781,11 @@
                                                                         IsOpen="{Binding ElementName=MachiningFormTButton, Path=IsChecked, Mode=TwoWay}">
 
                                         <Grid>
+                                            <Viewbox>
                                             <GD_SchematicDiagram:QRPlateRowDiagramControl     
                             DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                            </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                                </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                            </Viewbox>
                                         </Grid>
                                     </GD_Popup:NonTopmostPopup>
                                 </Grid>

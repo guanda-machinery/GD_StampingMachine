@@ -833,6 +833,10 @@ namespace GD_StampingMachine.Singletons
 
                     MachineSettingBaseCollection[10].EngravingIsFinish = true;
                     MachineSettingBaseCollection[23].DataMatrixIsFinish = true;
+
+
+
+
                 }
                 catch
                 {
@@ -992,7 +996,7 @@ namespace GD_StampingMachine.Singletons
                     _ = Task.Run(async () =>
                     {
                            
-                        Debugger.Break();
+                        //Debugger.Break();
                         
                         while (!cancelToken.IsCancellationRequested)
                         {
@@ -1041,7 +1045,19 @@ namespace GD_StampingMachine.Singletons
                                         SleepRangeList.Add(new(restMin, openMax));
 
                                         //跳出等待
-                                       await MessageBoxResultShow.ShowAsync("","", MessageBoxButton.OK , GD_MessageBoxNotifyResult.NotifyBl);
+                                        var result =new MessageBoxResultShow("", "", MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
+
+
+                                        var showTask = result.ShowMessageBoxAsync();
+                                        var waitTask = Task.Delay(5000);
+                                        if (waitTask == await Task.WhenAny(waitTask , showTask))
+                                        {
+                                            await result.CloseMessageBoxAsync();
+                                        }
+
+
+
+
                                         Debugger.Break();
 
                                         if (OperationMode == OperationModeEnum.FullAutomatic)
@@ -1446,19 +1462,19 @@ namespace GD_StampingMachine.Singletons
                                                 {
                                                     List<IronPlateDataModel> plateDataCollection = ironPlateCollection;
 
-                                                    var plateMonitorVMCollection = new ObservableCollection<PlateMonitorViewModel>();
+                                                    var plateMonitorVMCollection = new AsyncObservableCollection<PlateMonitorViewModel>();
                                                     //產出圖形
                                                     foreach (var plateData in plateDataCollection)
                                                     {
                                                         //取得字元長度
                                                         var string1Length = plateData.sIronPlateName1.Length;
                                                         var string2Length = plateData.sIronPlateName2.Length;
-
                                                         SpecialSequenceEnum specialSequence;
                                                         if (string2Length > 0)
                                                             specialSequence = SpecialSequenceEnum.TwoRow;
                                                         else
                                                             specialSequence = SpecialSequenceEnum.OneRow;
+
 
                                                         SteelBeltStampingStatusEnum steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
                                                         if (plateData.bEngravingFinish)
@@ -3267,11 +3283,11 @@ namespace GD_StampingMachine.Singletons
             get => _rotatingTurntableInfo ??= new ObservableCollection<StampingTypeViewModel>(); set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
         }
 
-        private ObservableCollection<PlateMonitorViewModel> _machineSettingBaseCollection;
+        private AsyncObservableCollection<PlateMonitorViewModel> _machineSettingBaseCollection;
         /// <summary>
         /// 實際加工狀態[25]
         /// </summary>
-        public ObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
+        public AsyncObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
         {
             get=>  _machineSettingBaseCollection ??= new AsyncObservableCollection<PlateMonitorViewModel>(); 
             set
@@ -3280,6 +3296,9 @@ namespace GD_StampingMachine.Singletons
                 OnPropertyChanged();
             }
         }
+
+
+
 
 
 

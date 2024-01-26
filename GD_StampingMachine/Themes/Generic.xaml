@@ -3,8 +3,42 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:GD_StampingMachine"
     xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
+            
     xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
-    >
+    xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+
+    <Style TargetType="{x:Type GD_StampingMachine_UserControls:GradientEllipse}">
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Height" Value="auto"/>
+        <Setter Property="Fill" Value="Gray"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GD_StampingMachine_UserControls:GradientEllipse}">
+                    <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <Grid >
+                            <Ellipse Fill="{TemplateBinding Fill}"/>
+                        <Ellipse Opacity="0.5">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush 
+                                                    GradientOrigin="0.75,0" Center="0.5,0.5" RadiusX="1" RadiusY="1">
+                                    <GradientStop Color="Transparent" Offset="0.0" />
+                                    <GradientStop Color="Black" Offset="0.75" />
+                                    <GradientStop Color="Black" Offset="1" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
 
     <Style TargetType="{x:Type GD_StampingMachine_UserControls:ImageBrightDarkCustomControl}">
         <Setter Property="Padding" Value="1"/>
@@ -27,7 +61,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+
+
     <Style TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -117,7 +153,6 @@
                                      Width="15"  
                                     CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
                                     Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}">
-
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="Gray"/>
@@ -149,61 +184,39 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
+                                    <Grid Width="12" Height="12" >
+                                        <GD_StampingMachine_UserControls:GradientEllipse>
+                                            <GD_StampingMachine_UserControls:GradientEllipse.Style>
+                                                <Style TargetType="GD_StampingMachine_UserControls:GradientEllipse">
+                                                    <Setter Property="Fill" Value="Gray"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Fill" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                                        </MultiDataTrigger>
 
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            Width="12"
-                                            CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
-                                            Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
-                                            >
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background" Value="Black"/>
-                                                <Style.Triggers>
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                    </MultiDataTrigger>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
 
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Fill" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                                        </MultiDataTrigger>
 
-                                                            <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                    </MultiDataTrigger>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Fill" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                                                        </MultiDataTrigger>
 
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                    </MultiDataTrigger>
-
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-
-                                        <Border Background="Black"
-                                                    Width="10"
-                                            CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
-                                            Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
-                                                >
-                                            <Border.Effect>
-                                                <DropShadowEffect
-                                                    ShadowDepth="2"
-                                                    Direction="270"
-                                                    Color="Black"
-                                                    Opacity="0.3"
-                                                    BlurRadius="3"/>
-                                            </Border.Effect>
-                                        </Border>
-                                        
-                                        
-
-                                    </Border>
-
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </GD_StampingMachine_UserControls:GradientEllipse.Style>
+                                        </GD_StampingMachine_UserControls:GradientEllipse>
+                                    </Grid>
                                 </Border>
                             </Border>
 
@@ -231,5 +244,165 @@
 
 
     </Style>
+
+<!--
+    <Style TargetType="{x:Type GD_StampingMachine_UserControls:aFunctionToggleUserControl}">
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GD_StampingMachine_UserControls:aFunctionToggleUserControl}">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_StampingMachine_UserControls:FunctionToggleUserControl}}">
+                        <Border Name="MainBorder"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                RenderTransformOrigin="0.5,0.5"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                        </Border>
+                        <StackPanel Margin="{TemplateBinding Padding}"
+                                        MinWidth="65" 
+                                        Orientation="{TemplateBinding Orientation}">
+                            <Grid >
+                                <Grid Margin="5">
+                                    <Image Source="{TemplateBinding ImageSource}"
+                                                    Width="{TemplateBinding ImageWidth}"
+                                                    Height="{TemplateBinding ImageHeight}"/>
+                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48">
+                                        <materialDesign:PackIcon 
+                                                Kind="{TemplateBinding PackIconKind}"
+                                                Width="{TemplateBinding ImageWidth}"  
+                                                Height="{TemplateBinding ImageHeight}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Kind,Converter={dx:NullableToVisibilityConverter}}"/>
+
+                                    </Grid>
+                                </Grid>
+                                <ProgressBar Width="40" Height="40"
+                                            Opacity="0.95" Minimum="0" Maximum="100" 
+                                                             Visibility="{TemplateBinding ProgressVisibility}" Value="{TemplateBinding Progress}"
+                                                             IsIndeterminate="{TemplateBinding IsIndeterminate}">
+                                    <i:Interaction.Behaviors>
+                                        <GD_Common:ProgresBarAnimateBehavior />
+                                    </i:Interaction.Behaviors>
+                                    <ProgressBar.Foreground>
+                                        <Binding Path="Value" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                            <Binding.ConverterParameter>
+                                                <x:Array Type="SolidColorBrush">
+                                                    <SolidColorBrush Color="Red"/>
+                                                    <SolidColorBrush Color="SkyBlue"/>
+                                                    <SolidColorBrush Color="Green"/>
+                                                </x:Array>
+                                            </Binding.ConverterParameter>
+                                        </Binding>
+                                    </ProgressBar.Foreground>
+
+                                </ProgressBar>
+                            </Grid>
+                            <Grid Grid.Row="1" >
+                                <TextBlock   MaxWidth="80"  Padding="0,2,0,0" 
+                                             Margin="{TemplateBinding TextMargin}"
+                                             FontFamily="{TemplateBinding FontFamily}"
+                                             FontSize="{TemplateBinding FontSize}"
+                                             FontWeight="{TemplateBinding FontWeight}"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Text="{TemplateBinding ControlTitleText}"  TextWrapping="Wrap" >
+                                    <TextBlock.Visibility>
+                                        <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                            <MultiBinding.Bindings>
+                                                <Binding Path="ControlTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
+                                            </MultiBinding.Bindings>
+                                        </MultiBinding>
+                                    </TextBlock.Visibility>
+                                </TextBlock>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger  Property="IsChecked" Value="True">
+                            <Setter TargetName="MainBorder" Property="BorderThickness" Value="{Binding Path=IsCheckedBorderThickness, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_StampingMachine_UserControls:FunctionToggleUserControl}}" />
+                            <Setter TargetName="MainBorder" Property="BorderBrush" Value="#acacac" />
+                            <Setter TargetName="MainBorder" Property="Opacity" Value="0.4"/>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=IsCheckedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_StampingMachine_UserControls:FunctionToggleUserControl}}"/>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
+                            <Setter Property="Opacity" Value="0.3"/>
+                        </Trigger>
+                        <Trigger  Property="IsMouseOver" Value="True">
+                            <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=MouseIsOverBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_StampingMachine_UserControls:FunctionToggleUserControl}}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
+                        </Trigger>
+
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsPressed" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="MainBorder" Property="BorderThickness" Value="0" />
+                            <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
+                            <Setter TargetName="MainBorder" Property="Background" Value="DarkGray"/>
+                        </MultiTrigger>
+
+                        <EventTrigger RoutedEvent="DragOver">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="MainBorder">
+                                        <ColorAnimation 
+                                                            Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="Gray" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="DragEnter">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="MainBorder">
+                                        <ColorAnimation 
+                                                            Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="Orange" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="DragLeave">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="MainBorder">
+                                        <ColorAnimation 
+                                                        Storyboard.TargetProperty="Background.Color" Duration="0:0:0.500" To="Transparent"  />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+
+
+    </Style>
+-->
+
+
+
 </ResourceDictionary>
     

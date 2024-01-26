@@ -11,7 +11,8 @@
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
                     xmlns:internal="clr-namespace:MaterialDesignThemes.Wpf.Internal;assembly=MaterialDesignThemes.Wpf"
-                    xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
+                    xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons"                    
+    xmlns:GD_StampingMachine_UserControls="clr-namespace:GD_StampingMachine.UserControls"
                     >
 
     <FontFamily x:Key="Inter">.Fonts/#Inter</FontFamily>
@@ -149,12 +150,13 @@
                         <Border
                             Name="Header"
                             Padding="10,2,0,2">
-                            <ContentPresenter
+                            <ContentPresenter 
                                 ContentSource="Header" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.Foreground="{TemplateBinding Foreground}"
                                 RecognizesAccessKey="true"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
-                        <ContentPresenter  
+
+                        <ContentPresenter  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             Grid.Row="1" Grid.ColumnSpan="2"
                             Margin="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -1217,11 +1219,12 @@
     <Style TargetType="GD_UserControls:FunctionToggleUserControl" x:Key="FunctionToggleUserControlKey">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
 
         <Setter Property="materialDesign:ShadowAssist.ShadowEdges" Value="None"/>
 
-        <Setter Property="ContentPadding" Value="4,2"/>
+        <Setter Property="Padding" Value="4,2"/>
         <Setter Property="Margin" Value="2"/>
         <Setter Property="TextMargin" Value="2,0,3,2"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -1234,6 +1237,8 @@
     <Style x:Key="FunctionToggleUserControl_Bottom"
                                     TargetType="GD_UserControls:FunctionToggleUserControl" 
                                        BasedOn="{StaticResource FunctionToggleUserControlKey}">
+
+        <Setter Property="Padding" Value="2"/>
         <Setter Property="Foreground" Value="{DynamicResource DarkHueDarkForegroundBrush}"/>
         <Setter Property="IsCheckedBorderThickness" Value="2.0"/>
     </Style>
@@ -1242,7 +1247,8 @@
 
     <Style x:Key="FunctionToggleUserControl_LeftDrawer"
            TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-        <Setter Property="Margin" Value="10,5"/>
+        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Padding" Value="0,0"/>
         <Setter Property="TextMargin" Value="5,0,10,0"/>
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="IsDragable" Value="True"/>
@@ -1612,7 +1618,55 @@
 
     </Style>
 
+    <Style TargetType="GD_StampingMachine_UserControls:GradientEllipse">
+        <Setter Property="Fill" Value="{StaticResource NoneIsFinishSolidColorBrush}"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Fill" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+            </MultiDataTrigger>
 
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+
+                    <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Fill" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Fill" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding Row.WorkIndex }" Value="-1">
+                <Setter Property="Fill" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Row.IsSended }" Value="true">
+                <Setter Property="Fill" Value="{DynamicResource DataMatrixIsSendedSolidColorBrush}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Row.DataMatrixIsFinish }" Value="true">
+                <Setter Property="Fill" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Row.EngravingIsFinish}" Value="true">
+                <Setter Property="Fill" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Row.ShearingIsFinish}" Value="true">
+                <Setter Property="Fill" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Row.IsFinish}" Value="true">
+                <Setter Property="Fill" Value="ForestGreen"/>
+            </DataTrigger>
+
+
+
+        </Style.Triggers>
+    </Style>
+    
 
 
 </ResourceDictionary>
