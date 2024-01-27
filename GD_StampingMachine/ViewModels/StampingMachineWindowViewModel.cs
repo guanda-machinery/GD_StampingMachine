@@ -13,6 +13,8 @@ namespace GD_StampingMachine.ViewModels
 
         public StampingMachineWindowViewModel()
         {
+
+
             try
             {
                 if (Properties.Settings.Default.WindowState != WindowState.Minimized)
@@ -105,9 +107,6 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-
-
-
         private double _opacity = 1;
         public double Opacity
         {
@@ -153,12 +152,15 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-
-
-
-
-
-
+        private StampingMainViewModel _stampingMainVM;
+       public StampingMainViewModel StampingMainVM
+        {
+            get => _stampingMainVM ??= new StampingMainViewModel();
+            set
+            {
+                _stampingMainVM = value; OnPropertyChanged();
+            }
+        }
 
     }
 }

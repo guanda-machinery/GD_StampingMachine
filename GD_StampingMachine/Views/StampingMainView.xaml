@@ -29,8 +29,7 @@
     xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads"
     xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:sys="clr-namespace:System;assembly=mscorlib"
     d:DesignHeight="800" d:DesignWidth="1000"    
-             d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}"
-             DataContext="{GD_ViewModels:StampingMainViewModel}">
+             d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMainViewModel}">
 
     <materialDesign:DialogHost CloseOnClickAway="True"  >
         <materialDesign:DialogHost.IsOpen>
@@ -1813,10 +1812,14 @@ RadiusX="0.5" RadiusY="0.5">
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ImageSource" Value="{StaticResource Dark_Mode_DrawingImage_Mono}"/>
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_DarkMode}"      />
+                                            <Setter Property="IsCheckedBackground" Value="Transparent"/>
+                                            <Setter Property="IsCheckedBorderThickness" Value="0"/>
+                                            <Setter Property="IsCheckedOpacity" Value="1"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsChecked" Value="True">
                                                     <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_BrightMode}"      />
                                                     <Setter Property="ImageSource" Value="{StaticResource Light_Mode_DrawingImage_Mono}"/>
+                                                    
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -1825,10 +1828,13 @@ RadiusX="0.5" RadiusY="0.5">
                                 </GD_UserControls:FunctionToggleUserControl>
 
 
-                                <GD_UserControls:FunctionToggleUserControl IsChecked="{StaticResource FalseValue}">
+                                <GD_UserControls:FunctionToggleUserControl 
+                                    IsChecked="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=FalseValue}"
+                                    Command="{Binding Source={x:Static GD_Singletons:CultureViewModel.Instance},Path=ChangeToNextCultureCommand}"
+                                    >
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
-                                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_Alarm}"      />
+                                            <Setter Property="ControlTitleText" Value="{DynamicResource textCultureSetting}"      />
                                             <Setter Property="ImageSource" Value="{StaticResource Language_DrawingImage_Mono}"      />
                                             <Style.Triggers>
                                                 <Trigger Property="ToggleButton.IsPressed" Value="True">
@@ -1843,7 +1849,7 @@ RadiusX="0.5" RadiusY="0.5">
                                 
 
 
-                                <Expander  Foreground="White"
+                                <Expander  Foreground="White" Visibility="Collapsed"
                                       materialDesign:ExpanderAssist.VerticalHeaderPadding="0" 
                                       Background="Transparent"  
                                 Padding="0" Margin="0"  Style="{StaticResource MaterialDesignExpander}"  ExpandDirection="Right">

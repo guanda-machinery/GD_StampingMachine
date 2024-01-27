@@ -52,6 +52,10 @@ namespace GD_StampingMachine.UserControls
             MouseIsOverBackgroundProperty = DependencyProperty.Register(nameof(MouseIsOverBackground), typeof(Brush), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(Brushes.Gray, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
             IsCheckedBorderThicknessProperty = DependencyProperty.Register(nameof(IsCheckedBorderThickness), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(2.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+           // IsCheckedOpacityProperty = DependencyProperty.Register(nameof(IsCheckedOpacity), typeof(double), typeof(FunctionToggleUserControl), new UIPropertyMetadata(1d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            IsCheckedOpacityProperty = DependencyProperty.Register(nameof(IsCheckedOpacity), typeof(double), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
             CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata(null));
             CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
             CommandTargetProperty = DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(FunctionToggleUserControl), new FrameworkPropertyMetadata((object)null));
@@ -91,6 +95,7 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty IsCheckedBackgroundProperty;
         public static readonly DependencyProperty MouseIsOverBackgroundProperty;
         public static readonly DependencyProperty IsCheckedBorderThicknessProperty;
+       public static readonly DependencyProperty IsCheckedOpacityProperty;
 
         public static readonly DependencyProperty CommandProperty;
         public static readonly DependencyProperty CommandParameterProperty;
@@ -305,6 +310,18 @@ namespace GD_StampingMachine.UserControls
             set
             {
                 SetValue(IsCheckedBackgroundProperty, value);
+            }
+        }
+
+        public double IsCheckedOpacity
+        {
+            get
+            {
+                return (double)GetValue(IsCheckedOpacityProperty);
+            }
+            set
+            {
+                SetValue(IsCheckedOpacityProperty, value);
             }
         }
 

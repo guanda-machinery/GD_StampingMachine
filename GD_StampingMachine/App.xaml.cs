@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Mvvm.POCO;
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.Properties;
 using GD_StampingMachine.Singletons;
@@ -45,33 +46,43 @@ namespace GD_StampingMachine
                 Copyright = "Copyright © 2023 GUANDA",
             };
 
+
             StampingMachineWindow MachineWindow = new StampingMachineWindow
             {
-                
-                WindowStartupLocation = WindowStartupLocation.Manual
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
             };
 
-            StampingMachineWindowViewModel stampingMachineWindowVM = new StampingMachineWindowViewModel
+            MachineWindow.DataContext ??= new StampingMachineWindowViewModel()
             {
+               
                 Opacity = 0,
                 IsEnabled = false,
             };
-            MachineWindow.DataContext = stampingMachineWindowVM;
+            var stampingMachineWindowVM = (StampingMachineWindowViewModel)MachineWindow.DataContext;
             MachineWindow.Show();
-            DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
 
-            manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
+            DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
+           // manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window); 
+            manager.Show(null, WindowStartupLocation.Manual, true, DevExpress.Xpf.Core.InputBlockMode.Window);
 
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    await Task.Yield();
-                    await Task.Delay(1000);
+                    await Task.Delay(5000);
 
-                    //manager.Show(null, WindowStartupLocation.CenterScreen, true, InputBlockMode.Window);
                     ManagerVM.IsIndeterminate = true;
-                    await Task.Delay(100);
+                    var monitorTask = Task.Run(async () =>
+                    {
+
+                        stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = true;
+                        await Task.Delay(5000);
+                        stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = false;
+
+                    }); 
+                    await monitorTask;
+
+                    ManagerVM.IsIndeterminate = false;
 
                     for (int i = 0; i <= 100; i++)
                     {
@@ -82,7 +93,7 @@ namespace GD_StampingMachine
                     await Task.Delay(1000);
 
                     ManagerVM.Title = (string)System.Windows.Application.Current.TryFindResource("Text_Starting");
-                    //stampingMachineWindowVM.Visibility = Visibility.Visible;
+
                     await Task.Delay(1000);
                     stampingMachineWindowVM.IsEnabled = true;
                     manager.Close();

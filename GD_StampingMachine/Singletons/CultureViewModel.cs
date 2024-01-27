@@ -1,9 +1,12 @@
-﻿using DevExpress.Mvvm.Native;
+﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.Mvvm.Native;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
+using System.Windows.Input;
 
 namespace GD_StampingMachine.Singletons
 {
@@ -44,10 +47,26 @@ namespace GD_StampingMachine.Singletons
         {
             get
             {
-                return CulturesHelper.GetSupportedCultures().ToObservableCollection();
+                return CulturesHelper.GetSupportedCultures().ToObservableCollection() ?? new ObservableCollection<CultureInfo>();
             }
         }
 
+
+        private ICommand _changeToNextCultureCommand;
+        public  ICommand ChangeToNextCultureCommand
+        {
+            get => _changeToNextCultureCommand??= new RelayCommand(()=>
+            {
+                ChangeToNextCulture();
+            });
+        }
+
+
+        public void ChangeToNextCulture()
+        {
+            var index = SupportedCultures.IndexOf(SelectedCulture);
+            SelectedCulture = index != -1 ? SupportedCultures[(index + 1) % SupportedCultures.Count] : SupportedCultures.FirstOrDefault();
+        }
 
 
         private CultureInfo _selectedCulture;
@@ -71,7 +90,6 @@ namespace GD_StampingMachine.Singletons
 
                         Thread.CurrentThread.CurrentCulture = value;
                         CultureInfo.CurrentCulture = value;
-
                     }
                     catch (Exception ex)
                     {

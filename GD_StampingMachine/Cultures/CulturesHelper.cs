@@ -44,16 +44,7 @@ namespace GD_StampingMachine
                 }
 
             }
-
-            /*if (CultList.Count > 0 && Properties.Settings.Default.DefaultCulture == null)
-            {
-                ChangeCulture(Properties.Settings.Default.DefaultCulture);
-            }*/
-
-            //_isFoundInstalledCultures = true;
-            //}
-            return CultList;
-
+            return CultList ?? new List<CultureInfo>();
         }
 
 

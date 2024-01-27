@@ -311,6 +311,14 @@ namespace GD_StampingMachine.Singletons
         }
 
 
+        public bool FalseValue
+        {
+            get => false;
+            set
+            { 
+            }
+        }
+
 
 
 

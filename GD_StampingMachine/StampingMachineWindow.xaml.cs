@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GD_StampingMachine.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,7 +12,14 @@ namespace GD_StampingMachine
     {
         public StampingMachineWindow()
         {
+            this.DataContext = new StampingMachineWindowViewModel()
+            {
+                //Visibility = Visibility.Collapsed,
+                Opacity = 0,
+                IsEnabled = false,
+            };
             InitializeComponent();
+
 
         }
 

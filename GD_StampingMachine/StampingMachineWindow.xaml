@@ -18,11 +18,10 @@
         WindowStyle ="None" Background="Transparent"   
         ResizeMode="CanResizeWithGrip"   
         WindowState="{Binding WindowState}"
-        WindowStartupLocation="CenterScreen"
+
         Opacity="{Binding Opacity}"
-     
         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingMachineWindowViewModel}"
-        IsEnabled="{Binding IsEnabled}"
+        
         Topmost="{Binding Topmost}" 
         Visibility="{Binding Visibility}"  
         StateChanged="Window_StateChanged"  
@@ -65,7 +64,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid  >
+    <Grid Visibility="{Binding Visibility}"   >
         <Grid Margin="0" x:Name="MainGrid" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
@@ -166,7 +165,10 @@
                     </Button>
                 </StackPanel>
             </Grid>
-            <Views:StampingMainView Grid.Row="1" />
+            <Grid Grid.Row="1" IsEnabled="{Binding IsEnabled}"  >
+            <Views:StampingMainView 
+                DataContext="{Binding StampingMainVM}"/>
+            </Grid>
         </Grid>
     </Grid>
 
