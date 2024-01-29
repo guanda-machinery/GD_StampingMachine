@@ -81,6 +81,7 @@ namespace GD_StampingMachine.Windows
             YesNoButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
             YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
 
+            this.Topmost = true;
                 this.Owner = overlay?.IsActive == true? overlay :null;
             this.Title = MessageTitle ?? string.Empty;
             this.ContentTextBlock.Text = MessageString ?? string.Empty;

@@ -919,7 +919,7 @@
                         <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-1" >
                                 <local:CylinderUserControl  
                                     VerticalContentAlignment="Center"
-                                    HorizontalAlignment="left" 
+                                    HorizontalAlignment="Center" 
                                 CylinderUpIsActived="True"
                                                             
                                  UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.GuideRod_Move_Up_Command}"           
@@ -943,7 +943,7 @@
                             </GroupBox>
                             <GroupBox Header="{DynamicResource Text_DoubleGuideRodPneumaticCylinder}" HeaderStringFormat="{}{0}-2">
                                 <local:CylinderUserControl 
-                                        VerticalContentAlignment="Center"
+                                        VerticalContentAlignment="Center" HorizontalAlignment="Center"
                                  CylinderUpIsActived="True"
                                     
                                  CylinderUpCommand="{Binding StampMachineData.GuideRod_Fixed_Up_Command}"   
@@ -957,7 +957,7 @@
                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Fixed_IsDown}"
 
                                 
-                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
                                 />
                             </GroupBox>
 
@@ -965,7 +965,7 @@
 
                             <GroupBox Header="{DynamicResource Text_BlockCylinder}" HeaderStringFormat="{}{0}">
                                 <local:CylinderUserControl     VerticalContentAlignment="Center"
-                                 CylinderUpIsActived="True"
+                                 CylinderUpIsActived="True" HorizontalAlignment="Center"
                                
                                CylinderUpCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"   
                                     
@@ -979,7 +979,7 @@
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylindere_IsDown}"
                                CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
-                               CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
+                               CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
                                 />
                             </GroupBox>
 
@@ -990,7 +990,7 @@
                         <Grid Margin="0,0">
                             <GroupBox 
                                 Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}-2">
-                                <local:CylinderUserControl     VerticalContentAlignment="Center"
+                                <local:CylinderUserControl     VerticalContentAlignment="Center" HorizontalAlignment="Center"
                            
                                     
                                     
@@ -1007,7 +1007,7 @@
                              CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
-                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
                                 />
                             </GroupBox>
 
@@ -1102,8 +1102,8 @@
                                 </GroupBox>
 
                             <GroupBox Header="{DynamicResource Text_Stamping_ZAxis_Component}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <local:CylinderUserControl     VerticalContentAlignment="Center"
+                            
+                                        <local:CylinderUserControl     VerticalContentAlignment="Center" HorizontalAlignment="Center"
    
                                           UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicEngraving_Up_Command}"
                                           UpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
@@ -1123,14 +1123,14 @@
                                     
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicEngraving_IsStopDown}"
 
-                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
                                 />
                                        <!-- <TextBlock Text="{Binding StampMachineData.EngravingZAxisPosition}" VerticalAlignment="Center" Margin="5,0"/>-->
-                                    </StackPanel>
+                         
                             </GroupBox>
 
                                 <GroupBox Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}">
-                                    <local:CylinderUserControl     VerticalContentAlignment="Center"
+                                    <local:CylinderUserControl     VerticalContentAlignment="Center" HorizontalAlignment="Center"
 
                                         
                                         UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.StampingSeat_Up_Command}"
@@ -1156,14 +1156,14 @@
                                           DownPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.StampingSeat_Down_Command}"
                                           DownPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"
                                         
-                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint"
                                 />
                                 </GroupBox>
 
                             </StackPanel>
 
                             <GroupBox Grid.Row="2" Header="{DynamicResource Text_Stamping_Rotate_Component}">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                                     <Button Width="40" Height="40" Margin="5,0"
                                    >
                                         <i:Interaction.Triggers>
@@ -1242,7 +1242,7 @@
               
                             <local:CylinderUserControl    
                                 
-                                VerticalContentAlignment="Center"
+                                VerticalContentAlignment="Center" HorizontalAlignment="Center"
                                 
                                       
                                UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"   
@@ -1260,7 +1260,7 @@
                                 
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicCutting_IsCutPoint}"
 
-                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
+                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
                                 >
 
                                 

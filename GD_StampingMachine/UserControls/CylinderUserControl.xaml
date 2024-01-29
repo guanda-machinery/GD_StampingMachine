@@ -19,50 +19,39 @@
                         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}"/>
                         <Setter Property="Kind" Value="{Binding CylinderIsSingalPackIcon}"/>
                     </Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
+                <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}" x:Key="CylinderButton">
                         <Setter Property="Padding" Value="0"/>
                         <Setter Property="Margin" Value="10"/>
                         <Setter Property="Height" Value="40"/>
                         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"/>
                     </Style>
                 </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
+            <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <StackPanel Margin="5,10"
-                    Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}" 
-                               Grid.Column="0" Grid.Row="0" d:Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Visibility="{Binding CylinderIsUpSingal_IsTriggered, Converter={dx:BooleanToVisibilityConverter}, ConverterParameter={StaticResource HiddenOnFalse}}">
-                        <Image Source="{StaticResource Notify_GrDrawingImage}"/>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="5,10"
-                    Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
-                    Grid.Column="0" Grid.Row="1"      HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Visibility="{Binding CylinderIsMiddleSingal_IsTriggered, Converter={dx:BooleanToVisibilityConverter}, ConverterParameter={StaticResource HiddenOnFalse}}">
-                        <Image Source="{StaticResource Notify_GrDrawingImage}"/>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="5,10"
-                    Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
-                    Grid.Column="0" Grid.Row="2"      HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Visibility="{Binding CylinderIsDownSingal_IsTriggered, Converter={dx:BooleanToVisibilityConverter}, ConverterParameter={StaticResource HiddenOnFalse}}">
-                        <Image Source="{StaticResource Notify_GrDrawingImage}"/>
-                    </StackPanel>
-                </StackPanel>
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
 
-                <Button Name="UpRadioButton" Margin="5"
+            <Button Name="UpRadioButton" Margin="5"
                    IsEnabled="{Binding CylinderUp_IsEnabled}"  
-                    Grid.Column="1" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                    Grid.Column="0" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"  
                         >
-                    <i:Interaction.Triggers>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource CylinderButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CylinderUserControl},Path=CylinderIsUpSingal_IsTriggered}" 
+                                         Value="true">
+                                <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding UpPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding UpPreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
@@ -80,12 +69,24 @@
             </Button>
                 <Button Name="MiddleRadioButton" Margin="5"
                      IsEnabled="{Binding CylinderMiddle_IsEnabled}"
-                    Grid.Column="1" Grid.Row="1"  
+                    Grid.Column="0" Grid.Row="1"  
                         Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderMiddleCommand}"  CommandParameter="{Binding CylinderMiddleCommandParameter}"
                               
                                          >
-                    <i:Interaction.Triggers>
+
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource CylinderButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CylinderUserControl},Path=CylinderIsMiddleSingal_IsTriggered}" 
+                                         Value="true">
+                                <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
                             <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
@@ -99,10 +100,22 @@
                 </Button>
                 <Button Name="DownRadioButton" Margin="5"
                  IsEnabled="{Binding CylinderDown_IsEnabled}"
-                    Grid.Column="1" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                    Grid.Column="0" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderDownCommand}"  CommandParameter="{Binding CylinderDownCommandParameter}"
                                           >
-                    <i:Interaction.Triggers>
+
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource CylinderButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CylinderUserControl},Path=CylinderIsDownSingal_IsTriggered}" 
+                                         Value="true">
+                                <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding DownPreviewMouseLeftButtonDownCommand}" CommandParameter="{Binding DownPreviewMouseLeftButtonDownCommandParameter}"/>
                         </i:EventTrigger>
