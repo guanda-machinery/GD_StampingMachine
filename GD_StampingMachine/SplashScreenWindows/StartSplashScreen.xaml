@@ -35,7 +35,7 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <dx:DXImage  HorizontalAlignment="Center" VerticalAlignment="Center" MaxHeight="100" Margin="30"
+        <dx:DXImage  HorizontalAlignment="Center" VerticalAlignment="Center" MaxHeight="100" MaxWidth="500" Margin="30,30"
             x:Name="PART_Logo" Source="{Binding Logo}"/>
         <TextBlock x:Name="PART_Title" VerticalAlignment="Center"
                    Grid.Row="1" Text="{Binding Title}" Style="{DynamicResource ResourceKey={dxt:FluentSplashScreenThemeKey ResourceKey=TitleTextBoxStyle}}"/>

@@ -37,13 +37,13 @@ namespace GD_StampingMachine
             //啟用掃描
             var ManagerVM = new DXSplashScreenViewModel
             {
-                Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
+                Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Resources/svg/stmLight.svg"),
                 Title = "GD_StampingMachine",
                 Status = (string)System.Windows.Application.Current.TryFindResource("Text_Loading"),
                 Progress = 0,
                 IsIndeterminate = false,
-                Subtitle = "Alpha 23.7.4",
-                Copyright = "Copyright © 2023 GUANDA",
+                Subtitle = "Alpha 24.1.29",
+                Copyright = "Copyright © 2024 GUANDA",
             };
 
 
@@ -63,7 +63,7 @@ namespace GD_StampingMachine
 
             DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.StartSplashScreen(), ManagerVM);
            // manager.Show(Current.MainWindow, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window); 
-            manager.Show(null, WindowStartupLocation.Manual, true, DevExpress.Xpf.Core.InputBlockMode.Window);
+            manager.Show(null, WindowStartupLocation.CenterOwner, true, DevExpress.Xpf.Core.InputBlockMode.Window);
 
             _ = Task.Run(async () =>
             {
@@ -150,13 +150,15 @@ namespace GD_StampingMachine
         protected override void OnExit(ExitEventArgs e)
         {
             SemaphoreSlim semaphore = new SemaphoreSlim(0);
+
+            StampMachineDataSingleton.Instance.Disconnect();
             var DisconnectTask = Task.Run(async () =>
             {
                 await StampMachineDataSingleton.Instance.StopScanOpcuaAsync();
                 semaphore.Release();
             });
 
-            semaphore.Wait(5000);
+            semaphore.Wait(10000);
             base.OnExit(e);
         }
 

@@ -234,6 +234,9 @@
                                             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
                                                 <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
                                             </DataTrigger>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                            </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Image.Style>
@@ -246,7 +249,7 @@
 
                     <ToggleButton IsThreeState = "False" Style="{StaticResource GD_ToggleButton_Gray}"
                                               IsChecked="{Binding IsInDistributePage, Converter={dx:BoolInverseConverter}}"
-                                                   Padding="20,5" Margin="5"
+                                                   Padding="20,2,20,0" Margin="5"
                                               Content="{DynamicResource btnExit}" />
                 </StackPanel>
                 <Grid Grid.Row="1" Name="MainGrid">
@@ -269,7 +272,7 @@
                             </Grid.RowDefinitions>
                             <Button Style="{StaticResource SiegCustomButton_Primary}" x:Name="btnAddProjectToggleButton"
                                 Content="{StaticResource btnAddProject}" Width="auto" Height="35" 
-                                          Padding="5,0"
+                                          Padding="5,2,5,0"
                                           Margin="10,5" HorizontalAlignment="Left" 
                                     
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
@@ -536,7 +539,7 @@
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Style="{StaticResource SiegCustomButton_Primary}" Margin="5,0"
-                                                Height="30" Width="auto" Padding="10,0" IsEnabled="{Binding Row.IsFinish, Converter={dx:BoolInverseConverter}}"
+                                                Height="30" Width="auto" Padding="10,2,10,0" IsEnabled="{Binding Row.IsFinish, Converter={dx:BoolInverseConverter}}"
                                                                         Content="{DynamicResource btnClose}"  >
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
@@ -766,6 +769,9 @@
                                                 <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
                                                         <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>

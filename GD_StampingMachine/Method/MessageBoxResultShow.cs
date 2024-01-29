@@ -10,6 +10,9 @@ using System.Windows.Media;
 
 namespace GD_CommonLibrary.Method
 {
+    /// <summary>
+    /// 彈出式視窗
+    /// </summary>
     public class MessageBoxResultShow
     {
         public MessageBoxResultShow(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image)

@@ -345,7 +345,7 @@
                                 </Grid>
 
                             </GroupBox>
-                            <GroupBox  Grid.Row="1" Header="{DynamicResource textIronPlateMarginSetting}">
+                            <GroupBox Grid.Column="1"  Grid.Row="0" Header="{DynamicResource textIronPlateMarginSetting}">
                                 <Grid HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80"/>
@@ -701,14 +701,14 @@
                                 <GroupBox Grid.Row="0" Header="{DynamicResource Text_CodeSetting}">
                                     <Grid HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition MinWidth="80"/>
                                             <ColumnDefinition Width="300"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <StackPanel Orientation="Horizontal" >
+                                        <StackPanel Orientation="Horizontal" Margin="0,5" >
                                             <TextBlock Text="{DynamicResource Text_CharacterCount}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
@@ -718,7 +718,7 @@
                                         </ComboBox>
 
 
-                                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5" >
                                             <TextBlock Text="{DynamicResource Text_CharacterForm}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
@@ -945,7 +945,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <GroupBox Grid.Column="0" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10"  >
+                        <GroupBox Grid.Column="0" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10"  HorizontalContentAlignment="Stretch">
                             <Grid VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -961,8 +961,8 @@
                                                                           MainSilderValueChanged="{Binding FeedingVelocityChangedCommand}"/>
                             </Grid>
                         </GroupBox>
-                        <GroupBox Grid.Column="0" Grid.Row="1" Header="{DynamicResource Text_RouletteAxisSetting}" Margin="10" >
-                            <Grid VerticalAlignment="Top">
+                        <GroupBox Grid.Column="0" Grid.Row="1" Header="{DynamicResource Text_RouletteAxisSetting}" Margin="10"  HorizontalContentAlignment="Stretch">
+                            <Grid VerticalAlignment="Top" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition/>
@@ -2114,7 +2114,7 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{DynamicResource Text_Box_AllSetting}"  />
                                     <GD_UserControls:TriggerSliderUserControl
-                                        Width="250"  Maximum="500"
+                                        Width="250"  Maximum="500"  
                                     Grid.Row="0" Grid.Column="1"  MainSilderValueChanged="{Binding SingleSetting_SeparateBoxValueChanged}"
                                     MainSilderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>

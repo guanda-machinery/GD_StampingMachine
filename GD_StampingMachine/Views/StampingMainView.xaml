@@ -49,7 +49,12 @@
             </MultiBinding>
         </materialDesign:DialogHost.IsOpen>
     <Grid >
-        <Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
+                    <Setter Property="Padding" Value="0,2,0,0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
@@ -65,13 +70,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <StackPanel.Resources>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
-                            <Setter Property="FontSize" Value="18"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                            <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}"/>
-                        </Style>
-                        </StackPanel.Resources>
+
                         <TextBlock Text="{DynamicResource Text_TypeSettingProject}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                         <TextBlock Text="：" VerticalAlignment="Center" Margin="0,0"/>
                         <ToggleButton Name="OpenProjectFileToggleButton"  Width="250"  Background="Transparent" BorderThickness="0"
@@ -80,7 +79,8 @@
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
                             <Border BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
                                     BorderThickness="0,0,0,1.5">
-                                <TextBlock Text="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM.ProjectDistributeName}" Margin="4,1"/>
+                                <TextBlock Text="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM.ProjectDistributeName}"
+                                           Margin="4,-1"/>
                             </Border>
                         </ToggleButton>
 
@@ -120,13 +120,12 @@
 
 
                     </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Image Source="{StaticResource Logo}" Height="50" Margin="10,0"/>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="GUANDA" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" FontWeight="UltraBold" FontFamily="{StaticResource MaterialDesignFont}"  FontSize="20" Margin="0,0,0,-5"/>
-                            <TextBlock Text="Machinery" Foreground="{DynamicResource SecondaryAccentBrush}"  FontFamily="{StaticResource MaterialDesignFont}"  FontWeight="Bold" FontSize="18"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <GD_UserControls:ImageBrightDarkCustomControl  Width="200"
+                            DarkImageSource="{StaticResource stmDarkDrawingImage}"
+                            BrightImageSource="{StaticResource stmBrightDrawingImage}"/>
+
                     </StackPanel>
-                </StackPanel>
 
 
 
@@ -143,7 +142,7 @@
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=MachineWarningDraggablePopup}"       
                                 BorderThickness="0" 
-                                  Margin="2,0" Padding="0" Width="30" Height="30" 
+                                  Margin="4,0" Padding="0" Width="30" Height="30" 
                                 Style="{StaticResource SiegCustomButton_Transparent}">
                                     <Image Width="30" Height="30" Source="{StaticResource WarningDrawingImage}"/>
                                     <Button.Triggers>
@@ -198,7 +197,7 @@
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"       
                                 MinWidth="10"  BorderThickness="0"
-                            Margin="2,0" Padding="0" Width="30" Height="30">
+                            Margin="4,0" Padding="0" Width="30" Height="30">
                             <Image Height="30" Width="30">
                                 <Image.Style>
                                     <Style TargetType="Image">
@@ -297,7 +296,7 @@
 
 
 
-                        <Image Margin="2,0"
+                        <Image Margin="4,0"
                             Width="30" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" >
                             <Image.Style>
                                 <Style TargetType="Image">
@@ -352,7 +351,7 @@
 
 
 
-                        <Border Margin="2,0"
+                        <Border Margin="4,0"
                             Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self},Path=Width}"
                                CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Mode=Self},Path=Width/2}">
                             <Border.Style>
@@ -412,7 +411,7 @@
                                 </Border.Style>
                         </Border>
 
-                                <ToggleButton  Margin="2,0" 
+                                <ToggleButton  Margin="4,0" 
                             Command="{Binding JumpToEngineeringModeCommand}" ToolTip="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=ClientState}"
                             MinWidth="0" MinHeight="0" Width="30" Height="30" Style="{StaticResource SiegCustomButton_Transparent}" Padding="0" BorderThickness="0" >
                             
@@ -519,9 +518,12 @@
                             </TabControl.Resources>
                                 <TabItem IsSelected="{Binding ElementName=TBtn_MachineInfo, Path=IsChecked}"  DataContext="{Binding MachanicalSpecificationVM}">
                                     <ScrollViewer VerticalScrollBarVisibility="auto">
-                                        <Border Background="#989797" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="200,15,0,0">
-                                            <StackPanel Margin="10" Width="450">
-                                                <TextBlock Text="{DynamicResource btnDescription_MachineInfo}" HorizontalAlignment="Left" Margin="5,0,0,20" Foreground="#d8d8d8"/>
+                 
+                                        <Border Background="#909090" BorderBrush="#cccccc" BorderThickness="2" CornerRadius="20" VerticalAlignment="Top"
+                                                Margin="200,15,200,0"  HorizontalAlignment="Stretch">
+                                            <StackPanel Margin="10">
+                                                <TextBlock Text="{DynamicResource btnDescription_MachineInfo}"  FontSize="24" FontWeight="Bold"
+                                                           HorizontalAlignment="Left" Margin="5,0,0,5" Foreground="White"/>
                                                 <Border Background="White" Margin="5">
                                                     <Grid Margin="1">
                                                         <Grid.Resources>
@@ -546,8 +548,8 @@
                                                             </Style>
                                                         </Grid.Resources>
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition/>
-                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="2*"/>
                                                         </Grid.ColumnDefinitions>
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition/>
@@ -719,6 +721,7 @@
                                                 </Border>
                                             </StackPanel>
                                         </Border>
+                       
                                     </ScrollViewer>
                                 </TabItem>
                                 <TabItem IsSelected="{Binding ElementName=TBtn_PunchedFontSetting, Path=IsChecked}">

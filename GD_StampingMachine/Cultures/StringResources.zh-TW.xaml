@@ -93,7 +93,7 @@
     <!--#region參數設定 -->
 
     <sys:String x:Key="btnNumberSetting">號碼設定</sys:String>
-    <sys:String x:Key="btnQRSetting">QR碼設定</sys:String>
+    <sys:String x:Key="btnQRSetting">DataMatrix設定</sys:String>
     <sys:String x:Key="btnAxisSetting">軸向設定</sys:String>
     <sys:String x:Key="btnTimimgSetting">計時設定</sys:String>
     <sys:String x:Key="btnSeparateSetting">分料設定</sys:String>
@@ -402,6 +402,9 @@
     <sys:String x:Key="Text_Loading">讀取中...</sys:String>
 
     <sys:String x:Key="Text_ClearBoxConfirm">確定清空「盒子{0}」？</sys:String>
+
+    <sys:String x:Key="Text_UnselectAnyPlateConfirm">沒有選擇可加工的鐵片</sys:String>
+    <sys:String x:Key="Text_MachiningProcessIsOccupyConfirm">排定加工已滿，需等待加工完成並移除盒子</sys:String>
 
 
     <sys:String x:Key="Text_JsonError">Json檔案讀取錯誤</sys:String>

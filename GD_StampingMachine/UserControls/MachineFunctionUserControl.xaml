@@ -41,10 +41,11 @@
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="5,5,20,5">
-                                <local:FunctionToggleUserControl IsChecked="{Binding Feeding_Component_Button_IsChecked}" 
+                                <local:FunctionToggleUserControl  ContentPadding="5"
+                                    IsChecked="{Binding Feeding_Component_Button_IsChecked}" 
                                                                              ControlTitleText="{DynamicResource Text_Feeding_Component}" >
                                     <local:FunctionToggleUserControl.Style>
-                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}" >
+                                        <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
                                             <Setter Property="ImageSource" Value="{StaticResource Feeding_Component_BlackDrawingImage}" />
                                             <Style.Triggers>
                                                 <Trigger Property="IsChecked" Value="True">
@@ -56,6 +57,7 @@
                                                         <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self} ,Path=IsChecked}" Value="False" />
                                                     </MultiDataTrigger.Conditions>
                                                     <Setter Property="ImageSource" Value="{StaticResource Feeding_Component_WhiteDrawingImage}"/>
+
                                                 </MultiDataTrigger>
 
                                             </Style.Triggers>
@@ -63,7 +65,10 @@
                                     </local:FunctionToggleUserControl.Style>
                                 </local:FunctionToggleUserControl>
 
-                                <local:FunctionToggleUserControl IsChecked="{Binding QRCode_Component_Button_IsChecked}"
+
+
+                                <local:FunctionToggleUserControl ContentPadding="5"
+                                    IsChecked="{Binding QRCode_Component_Button_IsChecked}"
                                    
                                 ControlTitleText="{DynamicResource Text_QRCode_Component}" >
                                     <local:FunctionToggleUserControl.Style>
@@ -85,8 +90,8 @@
                                         </Style>
                                     </local:FunctionToggleUserControl.Style>
                                 </local:FunctionToggleUserControl>
-                            
-                                <local:FunctionToggleUserControl IsChecked="{Binding Stamping_Component_Button_IsChecked}"
+
+                                <local:FunctionToggleUserControl ContentPadding="5" IsChecked="{Binding Stamping_Component_Button_IsChecked}"
                                 ControlTitleText="{DynamicResource Text_Stamping_Component}" >
                                     <local:FunctionToggleUserControl.Style>
                                         <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
@@ -107,8 +112,9 @@
                                         </Style>
                                     </local:FunctionToggleUserControl.Style>
                                 </local:FunctionToggleUserControl>
-                            
-                                <local:FunctionToggleUserControl IsChecked="{Binding ShearCut_Component_Button_IsChecked}"
+
+                                <local:FunctionToggleUserControl ContentPadding="5"
+                                    IsChecked="{Binding ShearCut_Component_Button_IsChecked}"
 
                                 ControlTitleText="{DynamicResource Text_ShearCut_Component_Hydraulic}" >
                                     <local:FunctionToggleUserControl.Style>
@@ -130,8 +136,9 @@
                                         </Style>
                                     </local:FunctionToggleUserControl.Style>
                                 </local:FunctionToggleUserControl>
-                            
-                                <local:FunctionToggleUserControl IsChecked="{Binding Separator_Component_Button_IsChecked}"
+
+                                <local:FunctionToggleUserControl ContentPadding="5"
+                                    IsChecked="{Binding Separator_Component_Button_IsChecked}"
 
                                 ControlTitleText="{DynamicResource Text_Separator_Component}" >
                                     <local:FunctionToggleUserControl.Style>
@@ -154,7 +161,8 @@
                                     </local:FunctionToggleUserControl.Style>
                                 </local:FunctionToggleUserControl>
 
-                                <local:FunctionToggleUserControl x:Name="Custom_Component_TButton"
+                                <local:FunctionToggleUserControl ContentPadding="5"
+                                    x:Name="Custom_Component_TButton"
                                 ControlTitleText="{DynamicResource Text_Custom_Component}" >
                                     <local:FunctionToggleUserControl.Style>
                                         <Style TargetType="local:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}" >
@@ -597,7 +605,8 @@
                 </ScrollViewer>
             </materialDesign:Card>
                 <!-- IsEnabled="{Binding StampMachineData.IsConnected}"-->
-                <WrapPanel Orientation="Horizontal" IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}">
+                <WrapPanel Margin="25,0"
+                    Orientation="Horizontal" IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}">
                     <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -612,7 +621,7 @@
                     <StackPanel>
                     <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
                       
-                                <Button Width="40" Height="40" Margin="5"
+                                <Button Width="40" Height="40" Margin="5,5,5,10"
                                     Command="{Binding StampMachineData.ActiveHydraulicPumpMotor}">
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -631,8 +640,8 @@
                     </GroupBox>
 
                         <GroupBox  Header="{DynamicResource btnDescription_ReturningToOriginPoint}">
-                          
-                                <Button  Width="40" Height="40" Margin="5"
+
+                            <Button  Width="40" Height="40" Margin="5,5,5,10"
                                     Command="{Binding StampMachineData.ReturnToOriginCommand}">
                                     <Image>
                                         <Image.Style>
@@ -651,8 +660,8 @@
 
                         </GroupBox>
                         <GroupBox  Header="{DynamicResource Reset}">
-                       
-                                <Button  Width="40" Height="40" Margin="5"
+
+                            <Button  Width="40" Height="40" Margin="5,5,5,10"
                                     Command="{Binding StampMachineData.ResetCommand}">
                                     <Image>
                                         <Image.Style>
@@ -672,8 +681,8 @@
                         </GroupBox>
 
                         <GroupBox  Header="{DynamicResource btn_CycleStart}">
-                       
-                                <Button Width="40" Height="40" Margin="5"
+
+                            <Button Width="40" Height="40" Margin="5,5,5,10"
                                     Command="{Binding StampMachineData.CycleStartCommand}">
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -711,7 +720,7 @@
                     <GroupBox Header="{DynamicResource textCurrentMode}">
                         <StackPanel VerticalAlignment="Center">
                             <Button Width="40" Height="40"
-                                Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
+                                Margin="10" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.Setup}"
                               >
                           <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -744,7 +753,7 @@
                                 </Image>
                             </Button>
                             <Button Width="40" Height="40"
-                                Margin="5" 
+                                Margin="10" 
                                     Command="{Binding StampMachineData.SetOperationModeCommand}" 
                                     CommandParameter="{x:Static GD_Enum:OperationModeEnum.Manual}"
                          >
@@ -778,7 +787,7 @@
                                 </Image>
                             </Button>
                             <Button Width="40" Height="40"
-                                Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
+                                Margin="10" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"
                            >
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -810,7 +819,7 @@
                                 </Image>
                             </Button>
                             <Button Width="40" Height="40"
-                                Margin="5" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
+                                Margin="10" Command="{Binding StampMachineData.SetOperationModeCommand}" CommandParameter="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"
                          >
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
@@ -918,12 +927,8 @@
                                  UpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"           
                                  UpPreviewMouseLeftButtonUpCommandParameter="{StaticResource  FalseValue}"                         
                                                                                   
-                                CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsUp}" 
-                            
-                                                        
+                                CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_GuideRod_Move_IsUp}"
                                CylinderMiddleIsActived="False"
-                                
-                                
                              DownPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.GuideRod_Move_Down_Command}"           
                                  DownPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.GuideRod_Move_Down_Command}"                        
                                  DownPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"           
@@ -1120,7 +1125,7 @@
 
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" HorizontalAlignment="Left"
                                 />
-                                        <TextBlock Text="{Binding StampMachineData.EngravingZAxisPosition}" VerticalAlignment="Center" Margin="5,0"/>
+                                       <!-- <TextBlock Text="{Binding StampMachineData.EngravingZAxisPosition}" VerticalAlignment="Center" Margin="5,0"/>-->
                                     </StackPanel>
                             </GroupBox>
 
@@ -1158,7 +1163,7 @@
                             </StackPanel>
 
                             <GroupBox Grid.Row="2" Header="{DynamicResource Text_Stamping_Rotate_Component}">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button Width="40" Height="40" Margin="5,0"
                                    >
                                         <i:Interaction.Triggers>
@@ -1200,7 +1205,7 @@
                                         BrightImageSource="{StaticResource turnLeft_BlackDrawingImage}"/>
                                         </Button>
 
-                                        <TextBlock Text="{Binding StampMachineData.EngravingRotateStation}"  VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding StampMachineData.EngravingRotateStation}"  VerticalAlignment="Center" Visibility="Collapsed"/>
 
                                     </StackPanel>
                             

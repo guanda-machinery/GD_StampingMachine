@@ -6,14 +6,10 @@
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             mc:Ignorable="d"  Height="24">
-    <UserControl.Foreground>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="White" Offset="0" />
-            <GradientStop Color="#E82127" Offset="1" />
-        </LinearGradientBrush>
-    </UserControl.Foreground>
 
+             mc:Ignorable="d"  Height="24">
+
+    
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TriggerSliderUserControl}}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -31,14 +27,20 @@
         <Slider Grid.Column="1"  VerticalAlignment="Center" x:Name="MainSlider" MinWidth="50"  Height="auto" FontSize="12"  
                 Margin="5,0" Style="{StaticResource CustomSlider}"   
                 Value="{Binding MainSilderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                           Foreground="{Binding Foreground}" 
                 Background="{DynamicResource PrimaryHueMidForegroundBrush}"
-                            Minimum="{Binding Minimum}"
-                            Maximum="{Binding Maximum}"
-                            TickFrequency="{Binding TickFrequency}" 
+                Minimum="{Binding Minimum}"
+                Maximum="{Binding Maximum}"
+                TickFrequency="{Binding TickFrequency}" 
                 IsMoveToPointEnabled="True"   LargeChange="5" SmallChange="1"
                 >
-            
+            <Slider.Foreground>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="White" Offset="0" />
+                    <GradientStop Color="#0081cc" Offset="1" />
+                </LinearGradientBrush>
+            </Slider.Foreground>
+
+
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <i:InvokeCommandAction Command="{Binding MainSilderValueChanged}"  PassEventArgsToCommand="True"/>

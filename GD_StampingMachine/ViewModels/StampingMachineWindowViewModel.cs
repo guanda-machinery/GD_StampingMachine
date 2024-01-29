@@ -60,7 +60,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _closedCommand ??= new RelayCommand<EventArgs>(e =>
             {
-
+                Application.Current.Shutdown();
             });
         }
 

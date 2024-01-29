@@ -517,12 +517,23 @@
                                                 </Button>
 
                                                 <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
-                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}" Content="{materialDesign:PackIcon Kind=ArrowUpBold}">
-                                                    
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}">
+                                                    <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
+                                                        Height="15"
+                                                        DarkImageSource="{StaticResource Arrow_Up_WhiteDrawingImage}"
+                                                        BrightImageSource="{StaticResource Arrow_Up_BlackDrawingImage}"
+                                                        />
                                                 </Button>
                                                 <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
-                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" Content="{materialDesign:PackIcon Kind=TransferUp}">
-                                                    
+                                            CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
+                                                        Height="15"
+                                                        DarkImageSource="{StaticResource Arrow_Up_WhiteDrawingImage}"
+                                                        BrightImageSource="{StaticResource Arrow_Up_BlackDrawingImage}"
+                                                        />
+                                                        <TextBlock Text="ALL" Padding="5,2,0,0" />
+                                                    </StackPanel>
                                                 </Button>
 
                                             </StackPanel>
@@ -817,7 +828,7 @@
                                   />
 
                     </StackPanel>
-                    <Viewbox            Grid.RowSpan="2"  Grid.Row="4"   Grid.ColumnSpan="4"  MaxHeight="250">
+                    <Viewbox Grid.RowSpan="2"  Grid.Row="4"   Grid.ColumnSpan="4"  MaxHeight="200">
                         <Grid
          Margin="10,5">
                         <Grid.ColumnDefinitions>

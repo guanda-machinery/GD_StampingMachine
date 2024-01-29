@@ -13,5 +13,10 @@
 
         public const double FontWidth = 7.5;
         public const float FontHorizonInterval = 7.5F;
+
+        /// <summary>
+        /// 鋼印數量
+        /// </summary>
+        public const int PlateCount = 24;
     }
 }

@@ -67,7 +67,7 @@
                                                     Height="{Binding ImageHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"/>
                                                     <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                                     <!--自定義方塊-->
-                                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="48" Height="48">
+                                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
 
                                                         <materialDesign:PackIcon Kind="{Binding PackIconKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
                                                                              Width="{Binding ImageWidth , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"  
@@ -77,7 +77,7 @@
                                                     </Grid>
                                                 </Grid>
                                             </Border>
-                                            <ProgressBar Width="40" Height="40"
+                                            <ProgressBar 
                                             Opacity="0.95" Minimum="0" Maximum="100" 
                                                              Style="{StaticResource MaterialDesignCircularProgressBar}"
                                                              Visibility="{Binding ProgressVisibility}" Value="{Binding Progress}"
@@ -100,7 +100,7 @@
                                             </ProgressBar>
                                         </Grid>
                                         <Grid Grid.Row="1" >
-                                            <TextBlock   MaxWidth="80"  Padding="0,2,0,0" d:Text="Test" d:Foreground="White"
+                                            <TextBlock   MaxWidth="80"  Padding="0" d:Text="Test" d:Foreground="White"
                                                          Margin="{Binding TextMargin , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontFamily="{Binding FontFamily , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontSize="{Binding FontSize , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"

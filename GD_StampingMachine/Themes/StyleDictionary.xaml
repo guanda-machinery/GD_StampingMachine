@@ -73,7 +73,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="15" />
+                            <ColumnDefinition Width="30" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
@@ -1230,8 +1230,16 @@
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="ImageWidth" Value="40"/>
         <Setter Property="ImageHeight" Value="40"/>
-        <Setter Property="IsCheckedBackground" Value="Gray"/>
+        <Setter Property="IsCheckedBackground" Value="#4b4b4b"/>
+        <Setter Property="MouseIsOverBackground" Value="Gray"/>
         <Setter Property="IsCheckedBorderThickness" Value="0"/>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="#FF40C4FF"/>
+                <Setter Property="ImageSource" Value="{StaticResource Feeding_Component_BlueDrawingImage}"/>
+            </Trigger>
+        </Style.Triggers>
+
     </Style>
     
     <Style x:Key="FunctionToggleUserControl_Bottom"
@@ -1243,11 +1251,11 @@
         <Setter Property="IsCheckedBorderThickness" Value="2.0"/>
     </Style>
 
-
-
     <Style x:Key="FunctionToggleUserControl_LeftDrawer"
            TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
-        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Margin" Value="10,5"/>
+
+        <Setter Property="ContentPadding" Value="5"/>
         <Setter Property="Padding" Value="0,0"/>
         <Setter Property="TextMargin" Value="5,0,10,0"/>
         <Setter Property="Orientation" Value="Horizontal"/>
@@ -1258,7 +1266,6 @@
 
         <Style.Triggers>
             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="False">
-
                 <Setter Property="MouseIsOverBackground" Value="#125386"/>
             </DataTrigger>
         </Style.Triggers>
@@ -1268,7 +1275,8 @@
 
         <Setter Property="MouseIsOverBackground" Value="#99cff9"/>
         <Setter Property="IsCheckedBackground" Value="Transparent"/>
-        <Setter Property="Margin" Value="4,0"/>
+        <Setter Property="ContentPadding" Value="4"/>
+        <Setter Property="Margin" Value="4,2"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="False">
                 <Setter Property="MouseIsOverBackground" Value="#125386"/>
@@ -1286,6 +1294,7 @@
         <Setter Property="PopupAnimation"  Value="Fade"/>
     </Style>
     <Style TargetType="GD_UserControls:TriggerSliderUserControl">
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryAccentBrush}"/>
         <Setter Property="RepeatButtonForeground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
     </Style>
 

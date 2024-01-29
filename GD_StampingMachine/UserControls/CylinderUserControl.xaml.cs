@@ -34,14 +34,8 @@ namespace GD_StampingMachine.UserControls
             DependencyProperty.Register(nameof(CylinderMiddleIsActived), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty CylinderDownIsActivedProperty =
             DependencyProperty.Register(nameof(CylinderDownIsActived), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        /*
-        public static readonly DependencyProperty CylinderUp_IsCheckedProperty =
-    DependencyProperty.Register(nameof(CylinderUp_IsChecked), typeof(bool?), typeof(CylinderUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public static readonly DependencyProperty CylinderMiddle_IsCheckedProperty =
-            DependencyProperty.Register(nameof(CylinderMiddle_IsChecked), typeof(bool?), typeof(CylinderUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public static readonly DependencyProperty CylinderDown_IsCheckedProperty =
-            DependencyProperty.Register(nameof(CylinderDown_IsChecked), typeof(bool?), typeof(CylinderUserControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        */
+
+
         public static readonly DependencyProperty CylinderUp_IsEnabledProperty =
 DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty CylinderMiddle_IsEnabledProperty =

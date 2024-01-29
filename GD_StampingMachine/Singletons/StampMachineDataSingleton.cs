@@ -804,7 +804,7 @@ namespace GD_StampingMachine.Singletons
 
                         };
 
-                    for (int i = 4; i < 25; i++)
+                    for (int i = 4; i < 24; i++)
                     {
                         MachineSettingBaseCollection.Add(new PlateMonitorViewModel()
                         {
@@ -971,6 +971,7 @@ namespace GD_StampingMachine.Singletons
             get => _sleepRangeList ??= new List<(DateTime, DateTime)>();
             set=> _sleepRangeList = value;
         }
+
 
 
         private Task RunScanTaskAsync(CancellationToken cancelToken)
@@ -1462,7 +1463,7 @@ namespace GD_StampingMachine.Singletons
                                                 {
                                                     List<IronPlateDataModel> plateDataCollection = ironPlateCollection;
 
-                                                    var plateMonitorVMCollection = new AsyncObservableCollection<PlateMonitorViewModel>();
+                                                    var plateMonitorVMCollection = new List<PlateMonitorViewModel>();
                                                     //產出圖形
                                                     foreach (var plateData in plateDataCollection)
                                                     {
@@ -1554,17 +1555,15 @@ namespace GD_StampingMachine.Singletons
                                                             EngravingIsFinish = plateData.bEngravingFinish,
                                                         };
                                                         plateMonitorVMCollection.Add(PlateMonitorVM);
-
-
-
-
                                                     }
 
-                                                    if (MachineSettingBaseCollection.Count != plateMonitorVMCollection.Count)
+                                                    plateMonitorVMCollection = plateMonitorVMCollection?.Take(MachineConst.PlateCount).ToList();
+
+                                                    if (MachineSettingBaseCollection?.Count != plateMonitorVMCollection.Count)
                                                     {
-                                                        Application.Current.Dispatcher.Invoke(() =>
+                                                        await Application.Current.Dispatcher.InvokeAsync(() =>
                                                         {
-                                                            MachineSettingBaseCollection = plateMonitorVMCollection;
+                                                            MachineSettingBaseCollection = new AsyncObservableCollection<PlateMonitorViewModel>(plateMonitorVMCollection);
                                                         });
                                                     }
                                                     else
@@ -1735,9 +1734,9 @@ namespace GD_StampingMachine.Singletons
                                                 if ((await engravingYposition).Item1)
                                                     EngravingYAxisPosition = (await engravingYposition).Item2;
 
-                                                var engravingZposition = GetEngravingZAxisPositionAsync();
+                                          /*      var engravingZposition = GetEngravingZAxisPositionAsync();
                                                 if ((await engravingZposition).Item1)
-                                                    EngravingZAxisPosition = (await engravingZposition).Item2;
+                                                    EngravingZAxisPosition = (await engravingZposition).Item2;*/
 
                                                 var engravingAStation = GetEngravingRotateStationAsync();
                                                 if ((await engravingAStation).Item1)
@@ -3752,10 +3751,10 @@ namespace GD_StampingMachine.Singletons
         {
             get => _engravingYAxisPosition; set { _engravingYAxisPosition = value; OnPropertyChanged(); }
         }
-        public float EngravingZAxisPosition
+        /*public float EngravingZAxisPosition
         {
             get => _engravingZAxisPosition; set { _engravingZAxisPosition = value; OnPropertyChanged(); }
-        }
+        }*/
 
         /// <summary>
         /// 鋼印轉輪目前旋轉位置
@@ -5391,11 +5390,14 @@ Y軸馬達位置移動命令
                         bool NodeValue = await GD_OpcUaClient.WriteNodeAsync(NodeTreeString, WriteValue);
                         return NodeValue;
                     }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 catch (Exception ex)
                 {
                     await LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, ex.Message);
-                    //Disconnect();
                 }
             }
 

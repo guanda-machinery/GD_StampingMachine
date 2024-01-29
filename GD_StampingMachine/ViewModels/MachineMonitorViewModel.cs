@@ -1162,7 +1162,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _arrangeWorkCommand ??= new AsyncRelayCommand<object>(async e =>
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     var partsParameterVMCollection = new List<PartsParameterViewModel>();
 
@@ -1183,52 +1183,69 @@ namespace GD_StampingMachine.ViewModels
 
                     if (partsParameterVMCollection != null)
                     {
-                        var workableData = partsParameterVMCollection.FindAll(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
-
-                        int count = 0;
-                        List<(int, int)> WorkIndexList = new();
-                        var groupCollection = workableData.GroupBy(x => x.BoxIndex);
-
-                        foreach (var group in groupCollection)
+                        if (partsParameterVMCollection.Count > 0)
                         {
-                            foreach (var sbox in SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection)
+                            var workableData = new List<PartsParameterViewModel>();
+
+                            var BoxCapacityDict = SelectedProjectDistributeVM.StampingBoxPartsVM
+                            .SeparateBoxVMObservableCollection
+                            .Where(box => box.BoxIsEnabled)
+                            .ToDictionary(box => box.BoxIndex, box => box.BoxSliderValue - box.UnTransportedBoxPieceValue);
+
+                            var wData = partsParameterVMCollection.FindAll(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
+                            foreach (var partsParameter in wData)
                             {
-                                if (!sbox.BoxIsFull && sbox.BoxIsEnabled && sbox.BoxIndex == group.Key)
+                                var unTransportedCount = BoxPartsParameterVMObservableCollection
+                                    .Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsTransported);
+                                if (partsParameter.BoxIndex is int boxIndex)
                                 {
-                                    var remainingSpace = (int)(sbox.BoxSliderValue- sbox.UnTransportedBoxPieceValue);
-                                    var gcount = group.Count();
-                                    if (remainingSpace ==0)
+                                    if (BoxCapacityDict.TryGetValue(boxIndex, out var Bvalue))
                                     {
-
+                                        if (Bvalue > 0)
+                                        {
+                                            workableData.Add(partsParameter);
+                                            BoxCapacityDict[boxIndex]--;
+                                        }
                                     }
-                                    else if (remainingSpace > gcount)
-                                    {
-                                        count += gcount;
-                                    }
-                                    else
-                                    {
-                                        count += remainingSpace;
-                                    }
-
-                                    break;
                                 }
                             }
-                        }
 
-                        if (count > 0)
-                        {
-                            foreach (var partsParameter in workableData)
+
+
+                            var group = workableData.GroupBy(x => x.BoxIndex);
+
+                            if (workableData.Count > 0)
                             {
-                                SetPartsParameterWork(partsParameter);
+                                foreach (var partsParameter in workableData)
+                                {
+                                    var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
+                                    partsParameter.IsFinish = false;
+                                    partsParameter.IsTransported = false;
+                                    partsParameter.WorkIndex = indexMax < 0 ? 0 : indexMax + 1;
+                                }
+
+
                                 OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
                                 OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+                            }
+                            else
+                            {
+                                //沒有可加工的東西
+                                //沒有空位
+                                //Debugger.Break();
+
+                                await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe);
                             }
                         }
                         else
                         {
-                            Debugger.Break();
+                            await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_UnselectAnyPlateConfirm"), GD_MessageBoxNotifyResult.NotifyBl);
+                            //Debugger.Break();
                         }
                     }
+                    
+
+
                 });
 
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
@@ -1237,34 +1254,6 @@ namespace GD_StampingMachine.ViewModels
             }, e=> !ArrangeWorkCommand.IsRunning);
         }
 
-        private bool SetPartsParameterWork(PartsParameterViewModel partsParameter)
-        {
-            //找清單中最大的index
-            partsParameter.IsFinish = false;
-            partsParameter.IsTransported = false;
-
-            var box = SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.First(x => 
-            x.BoxIndex == partsParameter.BoxIndex);
-
-            var unTransportedCount = BoxPartsParameterVMObservableCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0  && !x.IsTransported);
-            if (unTransportedCount < box.BoxSliderValue && box.BoxIsEnabled)
-            {
-                var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
-                if (indexMax < 0)
-                {
-                    partsParameter.WorkIndex = 0;
-                }
-                else
-                {
-                    partsParameter.WorkIndex = indexMax + 1;
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
 
 
@@ -1387,7 +1376,8 @@ namespace GD_StampingMachine.ViewModels
                     }
                     RefreshBoxPartsParameterVMRowFilter();
                 }
-
+                OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+                OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));
 
             });
         }

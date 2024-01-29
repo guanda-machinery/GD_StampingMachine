@@ -42,6 +42,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
+
+
        private double _boxPieceValue;
         /// <summary>
         /// 箱子內分配到加工的值

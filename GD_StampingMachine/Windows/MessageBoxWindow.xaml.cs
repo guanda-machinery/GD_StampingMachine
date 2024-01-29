@@ -24,25 +24,31 @@ namespace GD_StampingMachine.Windows
 
             if (lockWindow && owner != null)
             {
-                var ownerOriginTopmost = owner.Topmost;
-                owner.Topmost = true;
-                
-                overlay = new Window
+                if (owner.Visibility is Visibility.Hidden || owner.Visibility is Visibility.Collapsed || owner.Opacity < 0.3)
                 {
-                    Width = owner.ActualWidth,
-                    Height = owner.ActualHeight,
-                    Background = Brushes.Gray,
-                    WindowState = owner.WindowState,
-                    Left = owner.Left,
-                    Top = owner.Top,
-                    WindowStyle = WindowStyle.None,
-                    AllowsTransparency = true,
-                    Opacity = 0.5,
-                    Owner = owner,
-                    ShowInTaskbar = false
-                };
-                overlay?.Show();
-                owner.Topmost = ownerOriginTopmost;
+
+                }
+                else
+                {
+                    var ownerOriginTopmost = owner.Topmost;
+                    owner.Topmost = true;
+                    /*overlay = new Window
+                    {
+                        Width = owner.ActualWidth,
+                        Height = owner.ActualHeight,
+                        Background = Brushes.Gray,
+                        WindowState = owner.WindowState,
+                        Left = owner.Left,
+                        Top = owner.Top,
+                        WindowStyle = WindowStyle.None,
+                        AllowsTransparency = true,
+                        Opacity = 0.5,
+                        Owner = owner,
+                        ShowInTaskbar = false
+                    };*/
+                    //overlay?.Show();
+                    owner.Topmost = ownerOriginTopmost;
+                }
             }
             Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
             Notify_Rd_Image.Visibility = Visibility.Collapsed; ;
@@ -75,7 +81,7 @@ namespace GD_StampingMachine.Windows
             YesNoButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
             YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
 
-            this.Owner = overlay ?? new Window();
+                this.Owner = overlay?.IsActive == true? overlay :null;
             this.Title = MessageTitle ?? string.Empty;
             this.ContentTextBlock.Text = MessageString ?? string.Empty;
         }
