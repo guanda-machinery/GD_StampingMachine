@@ -36,11 +36,7 @@ namespace GD_StampingMachine.GD_Model
     {
         public TimingControlModel()
         {
-            DayOfWeekWorkCollection = new List<DayOfWeekWorkModel>();
-            for (int i = 0; i < 7; i++)
-            {
-                DayOfWeekWorkCollection.Add(new DayOfWeekWorkModel((DayOfWeek)i, false));
-            }
+
         }
 
 

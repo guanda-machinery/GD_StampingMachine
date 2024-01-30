@@ -1,7 +1,11 @@
-﻿using GD_StampingMachine.GD_Enum;
+﻿using DevExpress.Xpf.Core;
+using GD_StampingMachine.GD_Enum;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static DevExpress.XtraEditors.Mask.Design.MaskSettingsForm.DesignInfo.MaskManagerInfo;
 
 namespace GD_StampingMachine.Windows
 {
@@ -30,9 +34,9 @@ namespace GD_StampingMachine.Windows
                 }
                 else
                 {
-                    var ownerOriginTopmost = owner.Topmost;
-                    owner.Topmost = true;
-                    /*overlay = new Window
+                 //   var ownerOriginTopmost = owner.Topmost;
+                    //owner.Topmost = true;
+                    overlay = new Window
                     {
                         Width = owner.ActualWidth,
                         Height = owner.ActualHeight,
@@ -45,9 +49,9 @@ namespace GD_StampingMachine.Windows
                         Opacity = 0.5,
                         Owner = owner,
                         ShowInTaskbar = false
-                    };*/
-                    //overlay?.Show();
-                    owner.Topmost = ownerOriginTopmost;
+                    };
+                    overlay?.Show();
+                   // owner.Topmost = ownerOriginTopmost;
                 }
             }
             Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
@@ -81,9 +85,13 @@ namespace GD_StampingMachine.Windows
             YesNoButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
             YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
 
-            this.Topmost = true;
-                this.Owner = overlay?.IsActive == true? overlay :null;
+            // var ZindexMax = Application.Current.Windows.Cast<Window>().Max(window => Panel.GetZIndex(window));
+
+         //   this.SetValue(Panel.ZIndexProperty, ZindexMax - 1);
+            //this.Topmost = true;
+            this.Owner = overlay?.IsActive == true? overlay :Application.Current.MainWindow;
             this.Title = MessageTitle ?? string.Empty;
+            this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             this.ContentTextBlock.Text = MessageString ?? string.Empty;
         }
 
@@ -117,7 +125,10 @@ namespace GD_StampingMachine.Windows
 
         public MessageBoxResult FloatShow()
         {
-            this.ShowDialog();
+            this.Dispatcher.Invoke(() =>
+            {
+                this.ShowDialog();
+            });
             this.CloseMessageBox();
             return Result;
         }

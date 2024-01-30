@@ -313,7 +313,8 @@
 
                         </Button>
 
-                        <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup"  AllowTopMost="False"  IsTopmost="False"
+                        <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup"  
+                                                  AllowTopMost="False"  IsTopmost="False"
                                               AllowsTransparency="True" Margin="16"   
                                              PlacementRectangle="0,0,0,0"
                                              Placement="MousePoint"
@@ -492,24 +493,43 @@
                                             </dxg:GridControl>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
 
-                                                
+
                                                 <Button Command="{Binding ArrangeWorkCommand}" Margin="5,0"  
                                             CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=SelectedItems}" >
-                                                    <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
-                                                        Height="15"
-                                                        DarkImageSource="{StaticResource Arrow_Down_WhiteDrawingImage}"
-                                                        BrightImageSource="{StaticResource Arrow_Down_BlackDrawingImage}"
-                                                        />
-                                                    
+                                                    <Image VerticalAlignment="Center"  Height="15">
+                                                        <Image.Style>
+                                                            <Style TargetType="Image">
+                                                                <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                                        <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                                        <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Image.Style>
+                                                    </Image>
                                                 </Button>
                                                 <Button Command="{Binding ArrangeWorkCommand}"  Margin="5,0"
                                             CommandParameter="{Binding ElementName=NotArrangeWorkGridControl, Path=ItemsSource}" >
                                                     <StackPanel Orientation="Horizontal">
-                                                    <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
-                                                        Height="15"
-                                                        DarkImageSource="{StaticResource Arrow_Down_WhiteDrawingImage}"
-                                                        BrightImageSource="{StaticResource Arrow_Down_BlackDrawingImage}"
-                                                        />
+                                                        <Image VerticalAlignment="Center"  Height="15">
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                                            <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                                            <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
                                                         <TextBlock Text="ALL" Padding="5,2,0,0" />
                                                     </StackPanel>
 
@@ -518,20 +538,40 @@
 
                                                 <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
                                             CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=SelectedItems}">
-                                                    <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
-                                                        Height="15"
-                                                        DarkImageSource="{StaticResource Arrow_Up_WhiteDrawingImage}"
-                                                        BrightImageSource="{StaticResource Arrow_Up_BlackDrawingImage}"
-                                                        />
+                                                    <Image VerticalAlignment="Center"  Height="15">
+                                                        <Image.Style>
+                                                            <Style TargetType="Image">
+                                                                <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                                        <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                                        <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Image.Style>
+                                                    </Image>
                                                 </Button>
                                                 <Button Command="{Binding CancelArrangeWorkCommand}"  Margin="5,0"
                                             CommandParameter="{Binding ElementName=ArrangeWorkGridControl, Path=ItemsSource}" >
                                                     <StackPanel Orientation="Horizontal">
-                                                        <GD_StampingMachine_UserControls:ImageBrightDarkCustomControl
-                                                        Height="15"
-                                                        DarkImageSource="{StaticResource Arrow_Up_WhiteDrawingImage}"
-                                                        BrightImageSource="{StaticResource Arrow_Up_BlackDrawingImage}"
-                                                        />
+                                                        <Image VerticalAlignment="Center"  Height="15">
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                                            <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                                            <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
                                                         <TextBlock Text="ALL" Padding="5,2,0,0" />
                                                     </StackPanel>
                                                 </Button>
@@ -815,7 +855,7 @@
                             Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
                                 Content="{DynamicResource btnMachiningDataClear}"/>
 
-
+<!--
                         <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Sended"  IsChecked="{Binding ShowIsSended}"
                                   />
                         <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Matrix"  IsChecked="{Binding ShowDataMatrixIsFinish}"
@@ -825,7 +865,7 @@
                         <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Shearing" IsChecked="{Binding ShowShearingIsFinish}"
                                       />
                         <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Finish"  IsChecked="{Binding ShowIsFinish}"
-                                  />
+                                  />-->
 
                     </StackPanel>
                     <Viewbox Grid.RowSpan="2"  Grid.Row="4"   Grid.ColumnSpan="4"  MaxHeight="200">

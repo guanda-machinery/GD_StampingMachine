@@ -602,7 +602,7 @@
                                             <ColumnDefinition Width="80"/>
                                             <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel Orientation="Horizontal" >
+                                        <StackPanel Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
@@ -708,7 +708,7 @@
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <StackPanel Orientation="Horizontal" Margin="0,5" >
+                                        <StackPanel Orientation="Horizontal" Margin="0,10" >
                                             <TextBlock Text="{DynamicResource Text_CharacterCount}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
@@ -718,7 +718,7 @@
                                         </ComboBox>
 
 
-                                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5" >
+                                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,10" >
                                             <TextBlock Text="{DynamicResource Text_CharacterForm}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>

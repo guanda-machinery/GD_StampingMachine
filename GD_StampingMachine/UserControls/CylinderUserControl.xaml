@@ -97,7 +97,13 @@
                             <i:InvokeCommandAction Command="{Binding MiddlePreviewMouseLeftButtonUpCommand}" CommandParameter="{Binding MiddlePreviewMouseLeftButtonUpCommandParameter}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </Button>
+
+
+                <local:ImageBrightDarkCustomControl Padding="2"
+                                        DarkImageSource="{StaticResource Middle_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource Middle_BlackDrawingImage}"/>
+
+            </Button>
                 <Button Name="DownRadioButton" Margin="5"
                  IsEnabled="{Binding CylinderDown_IsEnabled}"
                     Grid.Column="0" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"

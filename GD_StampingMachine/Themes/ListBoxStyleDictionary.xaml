@@ -11,6 +11,101 @@
 
 
 
+    <Style TargetType="ContentControl" x:Key="BoxBorderControl">
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Height" Value="auto"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl" >
+                    <Border Name="PART_Border"
+                        CornerRadius="7.5"     Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"  
+                        Padding="{TemplateBinding Padding}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsSelected}" Value="True">
+                                        <Setter Property="Background" Value="#2196f3"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},
+                                                            Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Background" Value="#0078d7"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
+                                        <Setter Property="BorderBrush" Value="#f3430b"/>
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition  Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},   Path=IsSelected}" Value="True"/>
+                                            <Condition Binding="{Binding BoxIsFull}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Background" Value="#FFBABA"/>
+                                    </MultiDataTrigger>
+
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition  Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                            AncestorType={x:Type ListBoxItem}},   Path=IsMouseOver}" Value="True"/>
+                                            <Condition Binding="{Binding BoxIsFull}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Background" Value="#560702"/>
+                                    </MultiDataTrigger>
+
+
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Viewbox Margin="{TemplateBinding Padding}">
+                                <Grid>
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource DosingBox_WhDrawingImage}"/>
+                                                <Setter Property="Width" Value="auto"/>
+                                                <Setter Property="Height" Value="auto"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Source" Value="{StaticResource  DosingBox_BkDrawingImage}"/>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
+                                                        <Setter Property="Source" Value="{StaticResource DosingBox_RdDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+
+                                        </Image.Style>
+                                    </Image>
+                                    <TextBlock Style="{StaticResource Body1TextBlock}" Foreground="{Binding ElementName=PART_Border, Path=Background}"
+                                    FontSize="10"  FontWeight="Bold" 
+                                           Text="{Binding BoxIndex}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                </Grid>
+                            </Viewbox>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+    
+    
+
+
+
     <Style TargetType="ListBoxItem" x:Key="SeparateBoxVMListBoxItem" >
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
         <Setter Property="IsEnabled" Value="{Binding BoxIsEnabled}"/>
@@ -18,16 +113,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                     <Grid Margin="28,0,28,16"   d:DataContext="{d:DesignInstance Type=GD_ParameterSettingViewModels:SeparateBoxViewModel}" IsEnabled="{Binding BoxIsEnabled, UpdateSourceTrigger=PropertyChanged}">
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Opacity" Value="0.4"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
                         <Grid.Resources>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -43,112 +134,8 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <!--<Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"
-                                                                                    CornerRadius="7.5" Padding="0" Margin="10,5"
-                                                                                    Width="auto"
-                                                                                    Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
-                                            <Border.Style>
-                                                <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Style.Triggers>
-                                                        <EventTrigger RoutedEvent="MouseEnter">
-                                                            <EventTrigger.Actions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.200" To="Orange" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger.Actions>
-                                                        </EventTrigger>
-                                                        <EventTrigger RoutedEvent="MouseLeave">
-                                                            <EventTrigger.Actions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.200" To="Transparent" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger.Actions>
-                                                        </EventTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                        </Border> -->
 
-                        <Border Name="BoxBorder"
-                            Width="80" Height="80"
-                                            CornerRadius="7.5"  Margin="0,5" BorderThickness="1.5"  Padding="1">
-                            <Border.Style>
-                                <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}">
-                                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                    <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsSelected}" Value="True">
-                                            <Setter Property="Background" Value="#2196f3"/>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},
-                                                            Path=IsMouseOver}" Value="True">
-                                            <Setter Property="Background" Value="#0078d7"/>
-                                        </DataTrigger>
-                                        
-                                        <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
-                                            <Setter Property="BorderBrush" Value="#f3430b"/>
-                                        </DataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},   Path=IsSelected}" Value="True"/>
-                                                <Condition Binding="{Binding BoxIsFull}" Value="True" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background" Value="#FFBABA"/>
-                                        </MultiDataTrigger>
-
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                            AncestorType={x:Type ListBoxItem}},   Path=IsMouseOver}" Value="True"/>
-                                                <Condition Binding="{Binding BoxIsFull}" Value="True" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background" Value="#560702"/>
-                                        </MultiDataTrigger>
-
-
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <Grid Margin="5">
-                                <Image>
-                                    <Image.Style>
-                                        <Style TargetType="Image">
-                                            <Setter Property="Source" Value="{StaticResource DosingBox_WhDrawingImage}"/>
-                                            <Setter Property="Width" Value="auto"/>
-                                            <Setter Property="Height" Value="auto"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                    <Setter Property="Source" Value="{StaticResource  DosingBox_BkDrawingImage}"/>
-                                                </DataTrigger>
-
-                                                <DataTrigger Binding="{Binding BoxIsFull}" Value="True">
-                                                    <Setter Property="Source" Value="{StaticResource DosingBox_RdDrawingImage}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-
-                                    </Image.Style>
-                                </Image>
-                                <TextBlock Style="{StaticResource Body1TextBlock}" Foreground="{Binding ElementName=BoxBorder,Path=Background}"
-                                    FontSize="20"  FontWeight="Bold"
-                                           Margin="0,10" 
-                                           Text="{Binding BoxIndex}"
-                                           HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-
-                            </Grid>
-                        </Border>
+                        <ContentControl Style="{StaticResource BoxBorderControl}" Width="80" Height="80" Margin="0,5"/>
                         <StackPanel Grid.Row="1"
                                                 Orientation="Horizontal" HorizontalAlignment="Center" >
                             <TextBlock Text="{Binding UnTransportedFinishedBoxPieceValue}" />

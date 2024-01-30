@@ -604,9 +604,9 @@
                         </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
-                <!-- IsEnabled="{Binding StampMachineData.IsConnected}"-->
+                <!-- IsEnabled="{{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}"}"-->
                 <WrapPanel Margin="25,0"
-                    Orientation="Horizontal" IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}">
+                    Orientation="Horizontal" IsEnabled="True">
                     <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -1065,6 +1065,15 @@
                                             </Button>
                                             <Button Width="40" Height="40" Margin="5"  Command="{Binding StampMachineData.EngravingYAxisToStandbyPosCommand}" CommandParameter="{StaticResource TrueValue}"
                                           >
+
+                                                <local:ImageBrightDarkCustomControl 
+                                        DarkImageSource="{StaticResource slashMiddle_WhiteDrawingImage}"
+                                        BrightImageSource="{StaticResource slashMiddle_BlackDrawingImage}">
+                                                    <local:ImageBrightDarkCustomControl.LayoutTransform>
+                                                        <RotateTransform Angle="90"/>
+                                                    </local:ImageBrightDarkCustomControl.LayoutTransform>
+                                                </local:ImageBrightDarkCustomControl>
+
                                             </Button>
 
                                             <Button Width="40" Height="40" Margin="5">
@@ -1270,16 +1279,37 @@
 
                 <GroupBox Header="{DynamicResource Text_Separator_Component}" Visibility="{Binding Separator_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                     <StackPanel>
-                            <Grid>
-                                
-                                
-                                
-                                
-                                <Border Background="Transparent" CornerRadius="125" Margin="5" 
-                                        BorderThickness="1"
-                                        BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                <ListBox Width="250" Height="250" Margin="10"
-                             ItemsSource="{Binding ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}">
+                            <Grid Width="270" Height="270">
+                                <Grid.Resources>
+                                    <Style TargetType="ListBox" x:Key="RotatingStampingListBox">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="ItemContainerStyle">
+                                            <Setter.Value>
+                                                <Style TargetType="ListBoxItem">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                            <ContentControl Style="{StaticResource BoxBorderControl}" BorderThickness="0" Width="50" Height="50"/>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                </Style>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="ItemsPanel">
+                                            <Setter.Value>
+                                                <ItemsPanelTemplate>
+                                                    <GD_Common:RadialPanel Margin="5"
+                                        d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
+                                        DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
+                                        RotationDirection="Clockwise"
+                                        StartAngle="90" RotateAngle="{Binding StampMachineData.SeparateBox_RotateAngle}"  RoundAngle="360"
+                                        ItemRotateAngle="-90"  />
+                                                </ItemsPanelTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <!--
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Height" Value="40"/>
@@ -1337,18 +1367,32 @@
                                         </Style.Triggers>
 
                             </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <GD_Common:RadialPanel
-                                        d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
-                                        DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
-                                        RotationDirection="Clockwise"
-                                        StartAngle="90" RotateAngle="{Binding StampMachineData.SeparateBox_RotateAngle}"  RoundAngle="360"
-                                        ItemRotateAngle="-90"  />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        </ListBox>
+                        </ListBox.ItemContainerStyle>-->
+                                    </Style>
+                                </Grid.Resources>
+                                
+                                <Border Background="Transparent" CornerRadius="125" Margin="0" 
+                                        BorderThickness="1"
+                                        BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+
+                                <ListBox Name="SelectedProjectDistributeSeparateBoxCollection"
+                                    Margin="5"                       
+                                          Visibility="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
+                                    Path=SelectedProjectDistributeVM ,Converter={GD_Common:ObjectIsNullToVisibilityConverter}}"
+                                          ItemsSource="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
+                                    Path=SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection}"
+                                          Style="{StaticResource RotatingStampingListBox}"/>
+
+                                <ListBox  Visibility="{Binding ElementName=SelectedProjectDistributeSeparateBoxCollection,Path=Visibility,
+                                    Converter={dx:VisibilityInverseConverter}}"
+                                    Margin="5" Style="{StaticResource RotatingStampingListBox}" 
+     
+                                          ItemsSource="{Binding ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}"
+                                          />
+                                
+
+
+
                             </Grid>
                             <Grid IsEnabled="{Binding IsRotating, Converter={dx:BoolInverseConverter}}">
                                 <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"

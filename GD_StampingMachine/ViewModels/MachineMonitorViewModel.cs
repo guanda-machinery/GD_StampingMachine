@@ -90,54 +90,57 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private bool _showIsSended = true;
+        /*private bool _showIsSended = true;
         private bool _showDataMatrixIsFinish = true;
         private bool _showEngravingIsFinish = true;
         private bool _showShearingIsFinish = true;
-        private bool _showIsFinish = true;
+        private bool _showIsFinish = true;*/
 
 
 
-        public bool ShowIsSended
+        /*public bool ShowIsSended
         {
             get => _showIsSended;
             set
             {
                 _showIsSended = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
             }
-        }
-        public bool ShowDataMatrixIsFinish
+        }*/
+
+
+
+        /*public bool ShowDataMatrixIsFinish
         {
             get => _showDataMatrixIsFinish;
             set
             {
                 _showDataMatrixIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
             }
-        }
-        public bool ShowEngravingIsFinish
+        }*/
+      /*  public bool ShowEngravingIsFinish
         {
             get => _showEngravingIsFinish;
             set
             {
                 _showEngravingIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
             }
-        }
-        public bool ShowShearingIsFinish
+        }*/
+        /*public bool ShowShearingIsFinish
         {
             get => _showShearingIsFinish;
             set
             {
                 _showShearingIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
             }
-        }
-        public bool ShowIsFinish
+        }*/
+        /*public bool ShowIsFinish
         {
             get => _showIsFinish;
             set
             {
                 _showIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
             }
-        }
+        }*/
 
 
 
@@ -1116,7 +1119,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         args.Visible = true;
                     }*/
-                    else if(PartsParameter.IsSended && !ShowIsSended)
+                    /*else if(PartsParameter.IsSended && !ShowIsSended)
                     {
                         args.Visible = false;
                     }
@@ -1135,7 +1138,7 @@ namespace GD_StampingMachine.ViewModels
                     else if (PartsParameter.IsFinish && !ShowIsFinish)
                     {
                         args.Visible = false;
-                    }
+                    }*/
                     else if (PartsParameter.WorkIndex >= 0)
                     {
                         args.Visible = true;
@@ -1234,12 +1237,12 @@ namespace GD_StampingMachine.ViewModels
                                 //沒有空位
                                 //Debugger.Break();
 
-                                await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe);
+                                await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe, false);
                             }
                         }
                         else
                         {
-                            await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_UnselectAnyPlateConfirm"), GD_MessageBoxNotifyResult.NotifyBl);
+                            await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_UnselectAnyPlateConfirm"), GD_MessageBoxNotifyResult.NotifyBl,false);
                             //Debugger.Break();
                         }
                     }
@@ -1250,6 +1253,7 @@ namespace GD_StampingMachine.ViewModels
 
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
                 RefreshBoxPartsParameterVMRowFilter();
+                await SelectedProjectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
 
             }, e=> !ArrangeWorkCommand.IsRunning);
         }

@@ -12,7 +12,7 @@ namespace GD_CommonLibrary.GD_Popup
     {
         public DraggablePopup()
         {
-            this.IsTopmost = false;
+
         }
 
         Point _initialMousePosition;
@@ -156,10 +156,15 @@ namespace GD_CommonLibrary.GD_Popup
         void OnParentWindowActivated(object sender, EventArgs e)
         {
             Debug.WriteLine("Parent Window Activated");
-            SetTopmostState(true);
-            if (IsTopmost == false)
+            var originTopmost = IsTopmost;
+            if(originTopmost)
             {
-                SetTopmostState(IsTopmost);
+                SetTopmostState(true);
+            }
+            else
+            {
+                SetTopmostState(true);
+                SetTopmostState(false);
             }
         }
 

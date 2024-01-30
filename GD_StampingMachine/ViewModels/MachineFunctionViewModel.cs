@@ -196,7 +196,7 @@ namespace GD_StampingMachine.ViewModels
 
                 }
 
-            }, () => !_separateBox_ClockwiseRotateCommand.IsRunning);
+            }, () => !SeparateBox_ClockwiseRotateCommand.IsRunning);
         }
 
         private AsyncRelayCommand _separateBox_CounterClockwiseRotateCommand;
@@ -230,7 +230,7 @@ namespace GD_StampingMachine.ViewModels
                 {
 
                 }
-            }, () => _separateBox_CounterClockwiseRotateCommand.IsRunning);
+            }, () => !SeparateBox_CounterClockwiseRotateCommand.IsRunning);
         }
 
 

@@ -7,7 +7,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
+        mc:Ignorable="d" 
         WindowStyle="None"
        SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"

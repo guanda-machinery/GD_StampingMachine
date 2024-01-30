@@ -6,6 +6,7 @@ using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -55,7 +56,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _saveNewTimingControlCommand ??= new RelayCommand(() =>
             {
-
                 var newTC = TimingControlVMSelectedClone.DeepCloneByJson();
                 newTC.IsEdit = EditButtonIsChecked;
                 TimingControlVMCollection.Add(newTC);
@@ -264,6 +264,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel NewTiming, true))
                 {
                     TimingSetting = NewTiming;
+                    TimingControlVMCollection = new ObservableCollection<TimingControlViewModel>(TimingSetting.TimingControlCollection?.Select(x => new TimingControlViewModel(x)));
+                    OnPropertyChanged(nameof(TimingControlVMCollection));
                 }
             });
         }
@@ -288,7 +290,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-        public override ICommand DeleteSettingCommand => throw new NotImplementedException();
+        public override ICommand DeleteSettingCommand => null;
     }
 
     public class TimingControlViewModel : GD_CommonLibrary.BaseViewModel
@@ -360,6 +362,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_dayOfWeekWorkVMObservableCollection == null)
                 {
+                    if (timingControlModel.DayOfWeekWorkCollection == null)
+                    {
+                        timingControlModel.DayOfWeekWorkCollection =new List<DayOfWeekWorkModel>(); for (int i = 0; i < 7; i++)
+                        {
+                            timingControlModel.DayOfWeekWorkCollection.Add(new DayOfWeekWorkModel((DayOfWeek)i, false));
+                        }
+                    }
+
                     _dayOfWeekWorkVMObservableCollection = timingControlModel.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
                     foreach (var obj in _dayOfWeekWorkVMObservableCollection)
                     {

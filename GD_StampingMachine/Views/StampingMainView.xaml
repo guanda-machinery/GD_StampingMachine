@@ -79,7 +79,8 @@
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
                             <Border BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
                                     BorderThickness="0,0,0,1.5">
-                                <TextBlock Text="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM.ProjectDistributeName}"
+                                <TextBlock 
+                                    Text="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM.ProjectDistributeName}"
                                            Margin="4,-1"/>
                             </Border>
                         </ToggleButton>
