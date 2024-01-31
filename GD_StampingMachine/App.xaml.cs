@@ -29,7 +29,10 @@ namespace GD_StampingMachine
             if (!ret)
             {
                 Debugger.Break();
-                MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK,  GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
+                Application.Current.Dispatcher.Invoke(async () =>
+                {
+                    await    MessageBoxResultShow.ShowAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
+                });
                 Environment.Exit(0);
             }
 

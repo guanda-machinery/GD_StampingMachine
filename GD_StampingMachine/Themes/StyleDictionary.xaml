@@ -18,6 +18,7 @@
     <FontFamily x:Key="Inter">.Fonts/#Inter</FontFamily>
     <Style x:Key="Body1TextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignButtonTextBlock}" >
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
+        <Setter Property="Padding" Value="0,2,0,0"/>
         <Setter Property="TextBlock.FontSize" Value="16"/>
         <Setter Property="TextBlock.FontWeight" Value="Regular"/>
     </Style>
@@ -224,9 +225,9 @@
         <Setter Property="Padding"
                             Value="0" />
         <Setter Property="VerticalContentAlignment"
-                            Value="Center" />
+                            Value="Stretch" />
         <Setter Property="HorizontalContentAlignment"
-                            Value="Center" />
+                            Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -275,7 +276,7 @@
         <Setter Property="BorderThickness"
                             Value="0.5" />
         <Setter Property="BorderBrush"
-                            Value="Black" />
+                            Value="{StaticResource DarkHueDarkBrush}" />
         <Setter Property="Cursor"
                             Value="Hand" />
         <Setter Property="Margin"
@@ -1224,7 +1225,8 @@
 
         <Setter Property="materialDesign:ShadowAssist.ShadowEdges" Value="None"/>
 
-        <Setter Property="Padding" Value="4,2"/>
+        <Setter Property="ContentPadding" Value="0"/>
+        <Setter Property="Padding" Value="2,2"/>
         <Setter Property="Margin" Value="2"/>
         <Setter Property="TextMargin" Value="2,0,3,2"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -1254,7 +1256,6 @@
     <Style x:Key="FunctionToggleUserControl_LeftDrawer"
            TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControlKey}">
         <Setter Property="Margin" Value="10,5"/>
-
         <Setter Property="ContentPadding" Value="5"/>
         <Setter Property="Padding" Value="0,0"/>
         <Setter Property="TextMargin" Value="5,0,10,0"/>

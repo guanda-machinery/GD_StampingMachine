@@ -55,7 +55,7 @@
                                     
                                   
                                   Style="{StaticResource SiegCustomButton_Primary}"
-                                  Padding="10,2,10,0" Width="auto" Margin="10,5" 
+                                  Padding="10,2,10,0" Width="auto" Margin="10,10" 
                             Content="{DynamicResource btnAddTypeSettingProject}"/>
                     <GD_Popup:DraggablePopup Name="AddProjectDistributeDraggablePopup"
                         AllowsTransparency="True" Margin="16"   

@@ -103,6 +103,7 @@ namespace GD_CommonLibrary.GD_Popup
         /// </summary>
         public NonTopmostPopup()
         {
+            AllowTopMost = false;
             this.AllowsTransparency = true;
             Loaded += OnPopupLoaded;
             Unloaded += OnPopupUnloaded;
@@ -252,7 +253,6 @@ namespace GD_CommonLibrary.GD_Popup
         {
             if (!executedRoutedEventArgs.Handled)
             {
-                //InternalOpen(executedRoutedEventArgs.Parameter);
                 if (executedRoutedEventArgs.Parameter is bool parameterBoolean)
                 {
                     InternalOpen(parameterBoolean);

@@ -493,11 +493,15 @@
                                                             <TextBlock Text="NO." FontSize="10"/>
                                                             <TextBlock Text="{Binding StampingTypeNumber}" FontSize="10"/>
                                                         </StackPanel>
-                                                        <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" 
+                                                        <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black"  Height="20" 
                                                             CornerRadius="3">
-                                                            <TextBlock Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
+                                                            <Viewbox>
+                                                                <TextBlock Style="{StaticResource Body1TextBlock}" 
+                                                                    Text="{Binding StampingTypeUseCount}" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center"/>
+                                                            </Viewbox>
                                                         </Border>
-                                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
+                                                        <TextBlock Grid.Row="2" Grid.Column="1" 
+                                                                   Text="{DynamicResource Text_Count}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" />
 
                                                     </Grid>
                                                 </DataTemplate>
@@ -1692,7 +1696,7 @@ RadiusX="0.5" RadiusY="0.5">
                             <ItemsControl 
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True">
-                                <GD_UserControls:FunctionToggleUserControl>
+                                <GD_UserControls:FunctionToggleUserControl >
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_UsualKey2}"      />
@@ -1705,7 +1709,7 @@ RadiusX="0.5" RadiusY="0.5">
                                         </Style>
                                     </GD_UserControls:FunctionToggleUserControl.Style>
                                 </GD_UserControls:FunctionToggleUserControl>
-                                <GD_UserControls:FunctionToggleUserControl
+                                <GD_UserControls:FunctionToggleUserControl 
                                 IsDragable="False"
                                 IsDropable ="True"
                                 >
@@ -1811,9 +1815,11 @@ RadiusX="0.5" RadiusY="0.5">
 
                                 </GD_UserControls:FunctionToggleUserControl>
 
-                                <GD_UserControls:FunctionToggleUserControl  IsChecked="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}">
+                                <GD_UserControls:FunctionToggleUserControl Foreground="White"
+                                    IsChecked="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}">
                                     <GD_UserControls:FunctionToggleUserControl.Style>
-                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
+                                        <Style TargetType="GD_UserControls:FunctionToggleUserControl"
+                                               BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ImageSource" Value="{StaticResource Dark_Mode_DrawingImage_Mono}"/>
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_DarkMode}"      />
                                             <Setter Property="IsCheckedBackground" Value="Transparent"/>

@@ -306,14 +306,16 @@
 
                         <Button  Margin="5,0" Padding="5,2,5,0"
                             Name="MachiningDataManageToggleButton"
-                            Content="{DynamicResource btnMachiningDataManage}"
+                            Content="{DynamicResource btnMachiningDataManage}"                 
                         Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}"  
+                                 CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=WorkControlDraggablePopup}"
                             >
 
                         </Button>
 
                         <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup"  
+                                                 StaysOpen="False" 
                                                   AllowTopMost="False"  IsTopmost="False"
                                               AllowsTransparency="True" Margin="16"   
                                              PlacementRectangle="0,0,0,0"
@@ -332,7 +334,7 @@
                                                Background="{DynamicResource PrimaryHueDarkBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <GroupBox Header="{DynamicResource btnMachiningDataManage}" FontSize="30"  
                                           Style="{StaticResource MaterialDesignGroupBox}" Margin="5">
-                                    
+
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -449,11 +451,11 @@
                                                                     <Grid    DataContext="{Binding Row}">
                                                                         <GD_SchematicDiagram:QRPlateRowDiagramControl  DataContext="{Binding SettingBaseVM}"   IsEnabled="False"
                                                                       RedMeasurementLineVisibility="Collapsed" >
-                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                                            <TransformGroup>
-                                                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                                                            </TransformGroup>
-                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                                                </TransformGroup>
+                                                                            </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                         </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                                     </Grid>
                                                                     <!--
@@ -705,11 +707,11 @@
                                                                         <Grid DataContext="{Binding Row}">
                                                                             <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
                                                                         DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                                            <TransformGroup>
-                                                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                                                            </TransformGroup>
-                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                                <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                                    <TransformGroup>
+                                                                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                                                    </TransformGroup>
+                                                                                </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                                         </Grid>
                                                                     </ToggleButton.Content>
@@ -855,7 +857,7 @@
                             Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
                                 Content="{DynamicResource btnMachiningDataClear}"/>
 
-<!--
+                        <!--
                         <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Sended"  IsChecked="{Binding ShowIsSended}"
                                   />
                         <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Matrix"  IsChecked="{Binding ShowDataMatrixIsFinish}"
@@ -868,41 +870,43 @@
                                   />-->
 
                     </StackPanel>
-                    <Viewbox Grid.RowSpan="2"  Grid.Row="4"   Grid.ColumnSpan="4"  MaxHeight="200">
-                        <Grid
+                    <Grid  Grid.RowSpan="2"  Grid.Row="4"   Grid.ColumnSpan="4"
          Margin="10,5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-
-                            <GD_StampingMachine_UserControls:PlateDiagramCustomControl PlateDiagramIndex="24"  Margin="5,0" 
+                            <Viewbox Grid.Column="0"  MaxHeight="150">
+                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl PlateDiagramIndex="24"  Margin="5,0"
                             Grid.Column="0" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName}" >
 
-                                <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"  
+                                    <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"  
                                 DataContext="{Binding SettingBaseVM}"/>
-                        </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
-
-                            <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="11"  Margin="5,0" 
+                                </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+                            </Viewbox>
+                        <Viewbox Grid.Column="1"   MaxHeight="150">
+                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="11"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[10]}" ProjectName="{Binding ProductProjectName}" >
-                            <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
+                                    <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
-                        </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+                                </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+                            </Viewbox>
 
-
-                            <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="1" Margin="5,0" 
+                        <Viewbox Grid.Column="2"  MaxHeight="150">
+                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="1" Margin="5,0" 
                             Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}" >
-                            <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4" Width="auto" Height="auto"
+                                    <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4" Width="auto" Height="auto"
                                 DataContext="{Binding SettingBaseVM}"/>
-                        </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+                                </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+                            </Viewbox>
 
 
                         </Grid>
-                    </Viewbox>
+
 
 
                     <dxg:GridControl HorizontalAlignment="Left"     Grid.ColumnSpan="3"  Visibility="Collapsed"

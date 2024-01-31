@@ -15,10 +15,10 @@ namespace GD_CommonLibrary.Method
     /// </summary>
     public class MessageBoxResultShow
     {
-        public MessageBoxResultShow(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image , bool lockWindow = true)
+        public MessageBoxResultShow(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
             var mainWindow = Application.Current.MainWindow ?? new Window();
-            newWindow = new MessageBoxWindow(mainWindow, MessageTitle, MessageString, MB_Button, MB_Image , lockWindow)
+            newWindow = new MessageBoxWindow(mainWindow, MessageTitle, MessageString, MB_Button, MB_Image, lockWindow)
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
             };
@@ -32,24 +32,21 @@ namespace GD_CommonLibrary.Method
         /// <param name="MB_Button"></param>
         /// <param name="MB_Image"></param>
         /// <returns></returns>
+      /*  public Task<MessageBoxResult> ShowMessageBox()
+        {
+            MessageBoxResult messageBoxReturn = MessageBoxResult.None;
+            Application.Current.Dispatcher.Invoke(new Action(async () =>
+            {
+                 messageBoxReturn = newWindow.FloatShow();
+            }));
+            return messageBoxReturn;
+        }*/
+
+
         public MessageBoxResult ShowMessageBox()
         {
             MessageBoxResult messageBoxReturn = MessageBoxResult.None;
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                messageBoxReturn = newWindow.FloatShow();
-            }));
-            return messageBoxReturn;
-        }
-
-
-        public async Task<MessageBoxResult> ShowMessageBoxAsync()
-        {
-            MessageBoxResult messageBoxReturn = MessageBoxResult.None;
-            await Task.Run(() =>
-            {
-                messageBoxReturn = ShowMessageBox();
-            });
+            messageBoxReturn = newWindow.FloatShow();
             return messageBoxReturn;
         }
 
@@ -77,40 +74,61 @@ namespace GD_CommonLibrary.Method
             {
                 newWindow?.Close();
             }));
-
-
         }
 
 
 
-        public static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
+        public static Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
-            return new MessageBoxResultShow(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow).ShowMessageBox();
-        }
-
-        public static async Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
-        {
-            MessageBoxResult MessageBoxReturn= MessageBoxResult.None;
-            await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+            TaskCompletionSource<MessageBoxResult> tcs = new();
+            MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
+           
+            _ =Task.Run(async () =>
             {
-                MessageBoxReturn = Show(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow);
-            }));
-            return MessageBoxReturn;
+                try
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        try
+                        {
+                            MessageBoxReturn = new MessageBoxResultShow(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow).ShowMessageBox();
+                            tcs.SetResult(MessageBoxReturn);
+                        }
+                        catch (Exception ex)
+                        {
+                            tcs.SetException(ex);
+                        }
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            });
+            return tcs.Task;
         }
+    
 
 
         
-        public static async Task<MessageBoxResult> ShowYesNoAsync(string MessageTitle, string MessageString, GD_MessageBoxNotifyResult boxNotify = GD_MessageBoxNotifyResult.NotifyBl , bool lockWindow = true)
+        public static Task<MessageBoxResult> ShowYesNoAsync(string MessageTitle, string MessageString, GD_MessageBoxNotifyResult boxNotify = GD_MessageBoxNotifyResult.NotifyBl , bool lockWindow = true)
         {
-            return await ShowAsync(MessageTitle, MessageString,
+            return ShowAsync(MessageTitle, MessageString,
                 MessageBoxButton.YesNo, boxNotify, lockWindow);
         }
 
-        public static async Task ShowOKAsync(string MessageTitle, string MessageString, GD_MessageBoxNotifyResult boxNotify , bool lockWindow = true)
+        public static Task<MessageBoxResult> ShowOKAsync(string MessageTitle, string MessageString, GD_MessageBoxNotifyResult boxNotify , bool lockWindow = true)
         {
-            await ShowAsync(MessageTitle, MessageString,
+           return ShowAsync(MessageTitle, MessageString,
                 MessageBoxButton.OK, boxNotify , lockWindow);
         }
+
+        public static Task<MessageBoxResult> ShowOKCancelAsync(string MessageTitle, string MessageString, GD_MessageBoxNotifyResult boxNotify, bool lockWindow = true)
+        {
+            return ShowAsync(MessageTitle, MessageString,
+                MessageBoxButton.OKCancel, boxNotify, lockWindow);
+        }
+
 
         public static async Task ShowExceptionAsync(Exception ex , bool lockWindow = true)
         {

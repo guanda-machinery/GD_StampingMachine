@@ -404,7 +404,7 @@
     <sys:String x:Key="Text_ClearBoxConfirm">確定清空「盒子{0}」？</sys:String>
 
     <sys:String x:Key="Text_UnselectAnyPlateConfirm">沒有選擇可加工的鐵片</sys:String>
-    <sys:String x:Key="Text_MachiningProcessIsOccupyConfirm">排定加工已滿，需等待加工完成並移除盒子</sys:String>
+    <sys:String x:Key="Text_MachiningProcessIsOccupyConfirm">排定加工已滿，需等待加工完成並清除已完工項目</sys:String>
 
 
     <sys:String x:Key="Text_JsonError">Json檔案讀取錯誤</sys:String>

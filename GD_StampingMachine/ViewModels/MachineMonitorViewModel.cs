@@ -1237,12 +1237,12 @@ namespace GD_StampingMachine.ViewModels
                                 //沒有空位
                                 //Debugger.Break();
 
-                                await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe, false);
+                                await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe);
                             }
                         }
                         else
                         {
-                            await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_UnselectAnyPlateConfirm"), GD_MessageBoxNotifyResult.NotifyBl,false);
+                            await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_UnselectAnyPlateConfirm"), GD_MessageBoxNotifyResult.NotifyBl);
                             //Debugger.Break();
                         }
                     }
@@ -1370,7 +1370,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                      Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
                 }
-                var result =  await  MessageBoxResultShow.ShowAsync( null , Outputstring, MessageBoxButton.OKCancel , GD_MessageBoxNotifyResult.NotifyRd);
+                var result =  await MessageBoxResultShow.ShowOKCancelAsync(null , Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
                 if (result is MessageBoxResult.OK || result is MessageBoxResult.Yes)
                 {
                     var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);

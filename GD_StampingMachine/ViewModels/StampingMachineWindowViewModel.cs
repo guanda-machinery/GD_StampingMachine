@@ -39,11 +39,12 @@ namespace GD_StampingMachine.ViewModels
         private ICommand _closingCommand;
         public ICommand ClosingCommand
         {
-            get => _closingCommand ??= new RelayCommand<System.ComponentModel.CancelEventArgs>(e =>
+            get => _closingCommand ??= new AsyncRelayCommand<System.ComponentModel.CancelEventArgs>(async e =>
             {
-                var MessageBoxReturn = MessageBoxResultShow.Show(
+                var MessageBoxReturn =await MessageBoxResultShow.ShowAsync(
                     (string)Application.Current.TryFindResource("Text_notify"),
                     (string)Application.Current.TryFindResource("Text_AskCloseProgram"), MessageBoxButton.YesNo , GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
+            
                 if (MessageBoxReturn == MessageBoxResult.Yes)
                 {
                     e.Cancel = false;

@@ -14,7 +14,8 @@
     <Grid 
         DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}">
         <ToggleButton 
-            Padding="{Binding ContentPadding}"
+            Padding="{Binding ContentPadding , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
+            
             Command="{Binding Command}"
             CommandTarget="{Binding CommandTarget}"
             CommandParameter="{Binding CommandParameter}"          
@@ -22,181 +23,181 @@
             IsThreeState="{Binding IsThreeState}" x:Name="Toggle"
             Content="{Binding ButtonContent, Mode=OneWay}"
 			Background="Transparent"
-			Foreground="{Binding Path=Foreground}"
-			FontSize="{Binding FontSize}"
-			FontWeight="{Binding FontWeight}"
+			Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
+			FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
+			FontWeight="{Binding FontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
 			FontFamily="{StaticResource Inter}"
-			FontStretch="{Binding Path=FontStretch}"
+			FontStretch="{Binding Path=FontStretch, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
 			>
-            <ToggleButton.Style>
-                <Style TargetType="ToggleButton">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ToggleButton">
-                                <Grid >
-                                    <Border Name="MainBorder">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="BorderBrush" Value="Transparent"/>
-                                                <Setter Property="Background" Value="Transparent"/>
-                                                <Setter Property="CornerRadius" Value="{Binding CornerRadius}"/>
-                                                <Setter Property="BorderThickness" Value="1.5"/>
-                                            </Style>
-                                        </Border.Style>
-                                    </Border>
-                                    <StackPanel Margin="{TemplateBinding Padding}"
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Grid >
+                                        <Border Name="MainBorder">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"/>
+                                                    <Setter Property="BorderThickness" Value="1.5"/>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <StackPanel Margin="{TemplateBinding Padding}"
                                         MinWidth="65" 
                                         Orientation="{Binding Orientation , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}">
-                                        <Grid >
-                                            <Border >
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Style.Triggers>
-                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                <Setter Property="Opacity" Value="0.3"/>
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                                <Grid Margin="5">
+                                            <Grid >
+                                                <Border >
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                    <Setter Property="Opacity" Value="0.3"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <Grid Margin="5">
 
-                                                    <Image 
+                                                        <Image 
                                                     d:Width="40" d:Height="40" 
                                                     Source="{Binding ImageSource ,FallbackValue={StaticResource Logo}}"
                                                     Width="{Binding ImageWidth , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                     Height="{Binding ImageHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"/>
-                                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                                    <!--自定義方塊-->
-                                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                                        <!--自定義方塊-->
+                                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
 
-                                                        <materialDesign:PackIcon Kind="{Binding PackIconKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
+                                                            <materialDesign:PackIcon Kind="{Binding PackIconKind}"  d:Width="40" d:Height="40" d:Visibility="Collapsed"
                                                                              Width="{Binding ImageWidth , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"  
                                                                              Height="{Binding ImageHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                                  Visibility="{Binding PackIconKind,Converter={dx:NullableToVisibilityConverter}}"/>
 
+                                                        </Grid>
                                                     </Grid>
-                                                </Grid>
-                                            </Border>
-                                            <ProgressBar 
+                                                </Border>
+                                                <ProgressBar 
                                             Opacity="0.95" Minimum="0" Maximum="100" 
                                                              Style="{StaticResource MaterialDesignCircularProgressBar}"
                                                              Visibility="{Binding ProgressVisibility}" Value="{Binding Progress}"
                                                              IsIndeterminate="{Binding IsIndeterminate}">
-                                                <i:Interaction.Behaviors>
-                                                    <GD_Common:ProgresBarAnimateBehavior />
-                                                </i:Interaction.Behaviors>
-                                                <ProgressBar.Foreground>
-                                                    <Binding Path="Value" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
-                                                        <Binding.ConverterParameter>
-                                                            <x:Array Type="SolidColorBrush">
-                                                                <SolidColorBrush Color="Red"/>
-                                                                <SolidColorBrush Color="SkyBlue"/>
-                                                                <SolidColorBrush Color="Green"/>
-                                                            </x:Array>
-                                                        </Binding.ConverterParameter>
-                                                    </Binding>
-                                                </ProgressBar.Foreground>
+                                                    <i:Interaction.Behaviors>
+                                                        <GD_Common:ProgresBarAnimateBehavior />
+                                                    </i:Interaction.Behaviors>
+                                                    <ProgressBar.Foreground>
+                                                        <Binding Path="Value" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                            <Binding.ConverterParameter>
+                                                                <x:Array Type="SolidColorBrush">
+                                                                    <SolidColorBrush Color="Red"/>
+                                                                    <SolidColorBrush Color="SkyBlue"/>
+                                                                    <SolidColorBrush Color="Green"/>
+                                                                </x:Array>
+                                                            </Binding.ConverterParameter>
+                                                        </Binding>
+                                                    </ProgressBar.Foreground>
 
-                                            </ProgressBar>
-                                        </Grid>
-                                        <Grid Grid.Row="1" >
-                                            <TextBlock   MaxWidth="80"  Padding="0" d:Text="Test" d:Foreground="White"
+                                                </ProgressBar>
+                                            </Grid>
+                                            <Grid Grid.Row="1" >
+                                                <TextBlock   MaxWidth="80"  Padding="0" d:Text="Test" d:Foreground="White"
                                                          Margin="{Binding TextMargin , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontFamily="{Binding FontFamily , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontSize="{Binding FontSize , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontWeight="{Binding FontWeight , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Text="{Binding ControlTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
-                                                <TextBlock.Visibility>
-                                                    <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                                        <MultiBinding.Bindings>
-                                                            <Binding Path="ControlTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
-                                                        </MultiBinding.Bindings>
-                                                    </MultiBinding>
-                                                </TextBlock.Visibility>
-                                            </TextBlock>
-                                        </Grid>
-                                    </StackPanel>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger  Property="IsChecked" Value="True">
-                                        <Setter TargetName="MainBorder" Property="BorderThickness" Value="{Binding Path=IsCheckedBorderThickness , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}" />
-                                        <Setter TargetName="MainBorder" Property="BorderBrush" Value="#acacac" />
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="{Binding Path=IsCheckedOpacity , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl }}"/>
-                                    </Trigger>
+                                                    <TextBlock.Visibility>
+                                                        <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                            <MultiBinding.Bindings>
+                                                                <Binding Path="ControlTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
+                                                            </MultiBinding.Bindings>
+                                                        </MultiBinding>
+                                                    </TextBlock.Visibility>
+                                                </TextBlock>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger  Property="IsChecked" Value="True">
+                                            <Setter TargetName="MainBorder" Property="BorderThickness" Value="{Binding Path=IsCheckedBorderThickness , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}" />
+                                            <Setter TargetName="MainBorder" Property="BorderBrush" Value="#acacac" />
+                                            <Setter TargetName="MainBorder" Property="Opacity" Value="{Binding Path=IsCheckedOpacity , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl }}"/>
+                                        </Trigger>
 
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsChecked" Value="True" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=IsCheckedBackground , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl }}"/>
-                                    </MultiTrigger>
-                                    
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
-                                    </Trigger>
-                                    
-                                    <Trigger  Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=MouseIsOverBackground , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"/>
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
-                                    </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsChecked" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=IsCheckedBackground , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl }}"/>
+                                        </MultiTrigger>
 
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
-                                    </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
+                                        </Trigger>
+
+                                        <Trigger  Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=MouseIsOverBackground , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"/>
+                                            <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
+                                            <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
+                                        </Trigger>
 
 
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsMouseOver" Value="True" />
-                                            <Condition Property="IsChecked" Value="True" />
-                                            <Condition Property="IsPressed" Value="False" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter TargetName="MainBorder" Property="BorderThickness" Value="0" />
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
-                                        <Setter TargetName="MainBorder" Property="Background" Value="DarkGray"/>
-                                    </MultiTrigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                                <Condition Property="IsChecked" Value="True" />
+                                                <Condition Property="IsPressed" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter TargetName="MainBorder" Property="BorderThickness" Value="0" />
+                                            <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
+                                            <Setter TargetName="MainBorder" Property="Background" Value="DarkGray"/>
+                                        </MultiTrigger>
 
-                                    <EventTrigger RoutedEvent="DragOver">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard Storyboard.TargetName="MainBorder">
-                                                    <ColorAnimation 
+                                        <EventTrigger RoutedEvent="DragOver">
+                                            <EventTrigger.Actions>
+                                                <BeginStoryboard>
+                                                    <Storyboard Storyboard.TargetName="MainBorder">
+                                                        <ColorAnimation 
                                                             Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="Gray" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="DragEnter">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard Storyboard.TargetName="MainBorder">
-                                                    <ColorAnimation 
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger.Actions>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="DragEnter">
+                                            <EventTrigger.Actions>
+                                                <BeginStoryboard>
+                                                    <Storyboard Storyboard.TargetName="MainBorder">
+                                                        <ColorAnimation 
                                                             Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="Orange" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="DragLeave">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard Storyboard.TargetName="MainBorder">
-                                                    <ColorAnimation 
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger.Actions>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="DragLeave">
+                                            <EventTrigger.Actions>
+                                                <BeginStoryboard>
+                                                    <Storyboard Storyboard.TargetName="MainBorder">
+                                                        <ColorAnimation 
                                                         Storyboard.TargetProperty="Background.Color" Duration="0:0:0.500" To="Transparent"  />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger.Actions>
+                                        </EventTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
 
-                </Style>
-            </ToggleButton.Style>
-        </ToggleButton>
-    </Grid>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+        </Grid>
 </UserControl>

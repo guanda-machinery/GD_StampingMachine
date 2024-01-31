@@ -70,7 +70,7 @@
                                                                         <Border Background="{TemplateBinding Background}"     
                                                         Width="{TemplateBinding Width}"
                                                         Height="{TemplateBinding Height}"
-                                                        CornerRadius="0.2"
+                                                        CornerRadius="0.5"
                                                         BorderThickness="{TemplateBinding BorderThickness}"
                                                         Padding="{TemplateBinding Padding}"
                                                         BorderBrush="{TemplateBinding BorderBrush}">

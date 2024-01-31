@@ -50,9 +50,7 @@ namespace GD_StampingMachine.Method
                     if (UserControlTargetData.IsDropable)
                     {
                         //將原按鈕的文字顏色保留
-                        var tempForeground = UserControlTargetData.Toggle.Foreground;
                         UserControlTargetData.Toggle.DataContext = UserControlDropData.Toggle.DataContext;
-                        UserControlTargetData.Toggle.Foreground = tempForeground;
                     }
                 }
 

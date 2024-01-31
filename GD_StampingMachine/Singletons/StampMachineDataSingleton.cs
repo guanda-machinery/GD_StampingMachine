@@ -965,12 +965,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        private List<(DateTime, DateTime)> _sleepRangeList;
-        protected List<(DateTime RestTime, DateTime OpenTime)> SleepRangeList
-        {
-            get => _sleepRangeList ??= new List<(DateTime, DateTime)>();
-            set=> _sleepRangeList = value;
-        }
+
 
 
 
@@ -994,119 +989,6 @@ namespace GD_StampingMachine.Singletons
                 DevExpress.Xpf.Core.SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
                 try
                 {
-                    _ = Task.Run(async () =>
-                    {
-                           
-                        //Debugger.Break();
-                        
-                        while (!cancelToken.IsCancellationRequested)
-                        {
-                            try
-                            {
-                                if (cancelToken.IsCancellationRequested)
-                                    cancelToken.ThrowIfCancellationRequested();
-                                //找出現在是否在自動狀態
-                                //   DateTime.Now
-
-
-
-                                    var EnableTimingControl = StampingMachineSingleton.Instance.ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable).ToList();
-                                    //若目前時間落在之間
-                                    if (cancelToken.IsCancellationRequested)
-                                        cancelToken.ThrowIfCancellationRequested();
-                                    if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))
-                                    {
-                                        var restTimeRange = EnableTimingControl.Where(x => x.DateTimeIsBetween(DateTime.Now)).ToList();
-                                    if (restTimeRange.Count != 0)
-                                    {
-                                        //找出啟動和休息的最大區間
-
-                                        List<DateTime> restList = new List<DateTime>();
-                                        List<DateTime> openList = new List<DateTime>();
-                                        foreach (var timeRange in restTimeRange)
-                                        {
-                                            DateTime rtime = timeRange.RestTime;
-                                            DateTime oTime;
-                                            if (timeRange.OpenTime >= timeRange.RestTime)
-                                            {
-                                                oTime = timeRange.OpenTime;
-                                            }
-                                            else
-                                            {
-                                                oTime = timeRange.OpenTime.AddDays(1);
-                                            }
-                                            restList.Add(rtime);
-                                            openList.Add(oTime);
-                                        }
-                                        var restMin = DateTime.Now.Date.AddTicks(restList.Min().Ticks);
-                                        var openMax = DateTime.Now.Date.AddTicks(openList.Max().Ticks);
-
-                                        //在休息時間內不會再問是否要啟動
-                                        //sleeptime
-                                        SleepRangeList.Add(new(restMin, openMax));
-
-                                        //跳出等待
-                                        var result =new MessageBoxResultShow("", "", MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
-
-
-                                        var showTask = result.ShowMessageBoxAsync();
-                                        var waitTask = Task.Delay(5000);
-                                        if (waitTask == await Task.WhenAny(waitTask , showTask))
-                                        {
-                                            await result.CloseMessageBoxAsync();
-                                        }
-
-
-
-
-                                        Debugger.Break();
-
-                                        if (OperationMode == OperationModeEnum.FullAutomatic)
-                                        {
-                                            await SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
-                                        
-                                            await Task.Delay(10000);
-                                            //等待停止
-
-                                            //關閉油壓
-
-
-
-
-                                        var openTask = Task.Run(async () =>
-                                        {
-                                            while (true)
-                                            {
-                                                if (DateTime.Now > openMax)
-                                                {
-                                                    break;
-                                                }
-                                                await Task.Delay(1000);
-                                            }
-                                        }, cancelToken);
-
-
-                                            var isNotHalfAutoTask = WaitForCondition.WaitNotAsync(() => OperationMode, OperationModeEnum.HalfAutomatic);
-                                            var isNotConnectedTask = WaitForCondition.WaitNotAsync(() => IsConnected, true);
-
-
-                                            var completedTask = await Task.WhenAny(openTask, isNotHalfAutoTask, isNotConnectedTask);
-                                            if (openTask == completedTask)
-                                            {
-                                                await SetOperationModeAsync(OperationModeEnum.FullAutomatic);
-                                            }
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-
-                            }
-                        }
-
-                    });
 
 
                     do

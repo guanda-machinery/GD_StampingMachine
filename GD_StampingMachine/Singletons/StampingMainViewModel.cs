@@ -237,16 +237,7 @@ namespace GD_StampingMachine.ViewModels
         public MachineFunctionTest2ViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTest2ViewModel(); set => _machineFunctionTestVM = value; }
 
 
-        /// <summary>
-        /// 機台警報
-        /// </summary>
-        /* public DXObservableCollection<OperatingLogViewModel> LogDataObservableCollection
-         {
-             get
-             {
-                 return Singletons.LogDataSingleton.Instance.DataObservableCollection;
-             }
-         }*/
+
 
         #endregion
 
@@ -310,6 +301,23 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
+        private bool _machiningModeIsActived;
+        /// <summary>
+        /// 加工模式
+        /// </summary>
+        public bool MachiningModeIsActived
+        {
+            get => _machiningModeIsActived; set { _machiningModeIsActived =  value; OnPropertyChanged(); }
+        }
+
+
+
+
+
+
+
 
 
 

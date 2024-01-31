@@ -26,11 +26,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_TimingSettingViewModel");
 
-
         public TimingSettingViewModel(TimingSettingModel timingSetting)
         {
             this.TimingSetting = timingSetting;
-
             TimingControlVMCollection = new ObservableCollection<TimingControlViewModel>(timingSetting.TimingControlCollection?.Select(x => new TimingControlViewModel(x)));
         }
 
@@ -38,8 +36,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         [JsonIgnore]
         public TimingSettingModel TimingSetting { get; private set; }
 
-
-
+      
         private ICommand _addNewTimingControlCommand;
         public ICommand AddNewTimingControlCommand
         {

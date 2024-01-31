@@ -87,7 +87,6 @@
                                 />
                     <Button Padding="10,3,10,0" Margin="5,0"
                         x:Name="AddProjectToggleButton"
-                            
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=AddProjectDarggablePopup}"
