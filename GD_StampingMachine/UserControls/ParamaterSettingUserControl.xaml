@@ -1818,9 +1818,10 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         <Trigger Property="IsEnabled" Value="False">
                                                                                                             <Setter Property="Opacity" Value="0.3"/>
                                                                                                         </Trigger>
+                                                                                                        <!--
                                                                                                         <Trigger Property="IsChecked" Value="False">
                                                                                                             <Setter TargetName="TickBorder" Property="Opacity" Value="0.0"/>
-                                                                                                        </Trigger>
+                                                                                                        </Trigger>-->
                                                                                                     </ControlTemplate.Triggers>
                                                                                                 </ControlTemplate>
                                                                                             </Setter.Value>
