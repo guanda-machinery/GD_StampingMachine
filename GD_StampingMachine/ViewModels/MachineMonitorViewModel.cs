@@ -1368,8 +1368,8 @@ namespace GD_StampingMachine.ViewModels
                 {
                      Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
                 }
-                var result =  await MessageBoxResultShow.ShowOKCancelAsync(null , Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
-                if (result is MessageBoxResult.OK || result is MessageBoxResult.Yes)
+                var result =  await MessageBoxResultShow.ShowYesNoAsync(null , Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
+                if (result is MessageBoxResult.Yes)
                 {
                     var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
                     foreach (var unTransPorted in unTransportedCollection)

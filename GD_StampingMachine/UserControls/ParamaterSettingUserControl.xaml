@@ -35,7 +35,7 @@
             <Style TargetType="TextBox"  BasedOn="{StaticResource GD_TextBox}" >
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Width" Value="300"/>
+                <Setter Property="Width" Value="250"/>
                 <Setter Property="Margin" Value="10,0"/>
                 <Setter Property="Padding" Value="0"/>
             </Style>
@@ -288,20 +288,12 @@
         
         
         <ScrollViewer Name="MainScrollViewer" 
-            VerticalAlignment="Stretch" Grid.Row="1"  HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
+            VerticalAlignment="Stretch" Grid.Row="1"  
+                      VerticalContentAlignment="Center"
+                      HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
             <TabControl>
                 <TabItem  IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
                     <StackPanel HorizontalAlignment="Center">
-                        <Grid  Margin="20"  Visibility="Collapsed">
-                            <!--GD_SchematicDiagram:TwoRowDiagramUserControl SequenceCount="{Binding NumberSetting.SequenceCount,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/-->
-                          <!--  <StackPanel>
-                                <StackPanel.LayoutTransform>
-                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
-                                </StackPanel.LayoutTransform>
-                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl  
-                                    DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" />
-                            </StackPanel>-->
-                        </Grid>
                         <Grid  Margin="20" Width="700">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl  
                             DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" >
@@ -309,17 +301,18 @@
                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                         </Grid>
 
-                        <Grid HorizontalAlignment="Center">
+                        <Grid HorizontalAlignment="Center" Margin="20,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <GroupBox Grid.Row="0" Header="{DynamicResource textMode}" Margin="5,0">
+
+                            <StackPanel Grid.Column="0" Margin="5,0,20,0">
+                            <GroupBox 
+                                Header="{DynamicResource textMode}" >
                                 <Grid HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80"/>
@@ -330,7 +323,7 @@
                                         <TextBlock Text="："/>
                                     </StackPanel>
 
-                                    <ComboBox  Name="NumberSettingModeComboBox"   Width="300"
+                                    <ComboBox  Name="NumberSettingModeComboBox"   Width="250"
                                         Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}"  
                                               DisplayMemberPath="NumberSettingMode"
                                               ItemsSource="{Binding NumberSettingModelCollection}" 
@@ -345,213 +338,221 @@
                                 </Grid>
 
                             </GroupBox>
-                            <GroupBox Grid.Column="1"  Grid.Row="0" Margin="5,0"
+
+                                <GroupBox   Header="{DynamicResource textIronFontMarginSetting}"
+                                      
+                                       >
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="0"/>
+                                            <RowDefinition Height="0"/>
+                                            <RowDefinition Height="0"/>
+                                            <RowDefinition Height="0"/>
+                                            <RowDefinition Height="0"/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="A"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"
+                                             Text="{Binding NumberSettingVM.IronPlateMarginVM.A_Margin, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="B"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  
+                                             Text="{Binding NumberSettingVM.IronPlateMarginVM.B_Margin, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="C"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.IronPlateMarginVM.C_Margin, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="D"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"
+                                               Text="{Binding NumberSettingVM.IronPlateMarginVM.D_Margin, UpdateSourceTrigger=PropertyChanged}"  />
+                                        <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="E"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
+                                              Text="{Binding NumberSettingVM.IronPlateMarginVM.E_Margin, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+
+
+                                        <StackPanel  Grid.Row="5" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="XAxisPos1"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="5"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
+                                            <TextBox.Text>
+                                                <Binding Path="NumberSettingVM.StampingMarginPosVM.rXAxisPos1" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <GD_ValidationRules:CheckNumberRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                        <TextBlock Text="mm" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="6" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="YAxisPos1"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="6"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
+                                            <TextBox.Text>
+                                                <Binding Path="NumberSettingVM.StampingMarginPosVM.rYAxisPos1" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <GD_ValidationRules:CheckNumberRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                        <TextBlock Text="mm" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="7" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="XAxisPos2"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="7"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
+                                            <TextBox.Text>
+                                                <Binding Path="NumberSettingVM.StampingMarginPosVM.rXAxisPos2" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <GD_ValidationRules:CheckNumberRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                        <TextBlock Text="mm" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+                                        <StackPanel  Grid.Row="8" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="YAxisPos2"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox  Grid.Row="8"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
+                                            <TextBox.Text>
+                                                <Binding Path="NumberSettingVM.StampingMarginPosVM.rYAxisPos2" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <GD_ValidationRules:CheckNumberRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                        <TextBlock Text="mm" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+
+
+
+                                    </Grid>
+                                </GroupBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1"  Margin="5,0">
+
+
+                                <GroupBox  
                                       Header="{DynamicResource textIronPlateMarginSetting}">
-                                <Grid HorizontalAlignment="Left">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                 <!--   <StackPanel Orientation="Horizontal" Margin="0,10" >
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <!--   <StackPanel Orientation="Horizontal" Margin="0,10" >
                                         <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                         <TextBlock Text="："/>
                                     </StackPanel>
                                     <TextBox  Grid.Column="1" Text="{Binding NumberSetting.NumberSettingName}">
                                     </TextBox>-->
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="{DynamicResource textCurrentMode}"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding NumberSettingVM.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
-                                    </TextBox>
-                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <ComboBox Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" 
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="{DynamicResource textCurrentMode}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding NumberSettingVM.NumberSettingMode, UpdateSourceTrigger=PropertyChanged}">
+                                        </TextBox>
+                                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="{DynamicResource textSingleRowNumber}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectCount}" 
                                               SelectedValue="{Binding NumberSettingVM.SequenceCount ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SequenceCountCollection}">
 
-                                    </ComboBox>
-                                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="{DynamicResource textSpecialSequence}"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <ComboBox  Name="SpecialSequenceComboBox" Style="{StaticResource GD_ComboBox_WithIconPack}"
+                                        </ComboBox>
+                                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="{DynamicResource textSpecialSequence}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox  Name="SpecialSequenceComboBox" Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectSequence}"  
                                                                        ItemsSource="{Binding SpecialSequenceCollection}"
                                                                        SelectedValue="{Binding NumberSettingVM.SpecialSequence, UpdateSourceTrigger=PropertyChanged}">
 
-                                    </ComboBox>
-                                    <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="{DynamicResource textHorizontalAlignment}"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <ComboBox Style="{StaticResource GD_ComboBox_WithIconPack}"
+                                        </ComboBox>
+                                        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
+                                            <TextBlock Text="{DynamicResource textHorizontalAlignment}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="4" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
                                                                        SelectedValue="{Binding NumberSettingVM.HorizontalAlign}"
                                         ItemsSource="{Binding HorizontalAlignmentCollection}">
 
-                                    </ComboBox>
-                                    <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10">
-                                        <TextBlock Text="{DynamicResource textVerticalAlignment}"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <ComboBox  Style="{StaticResource GD_ComboBox_WithIconPack}"
+                                        </ComboBox>
+                                        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10">
+                                            <TextBlock Text="{DynamicResource textVerticalAlignment}"/>
+                                            <TextBlock Text="："/>
+                                        </StackPanel>
+                                        <ComboBox  Style="{StaticResource GD_ComboBox_WithIconPack}"
                                         Grid.Row="5" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectAlignment}"  
                                         SelectedValue="{Binding NumberSettingVM.VerticalAlign}"
                                         ItemsSource="{Binding VerticalAlignmentCollection}"
                                         >
-                                        
-                                        
-                                        
-
-                                        
-                                    </ComboBox>
-
-
-
-                                </Grid>
 
 
 
 
-                            </GroupBox>
-                            <GroupBox  Grid.Row="2" Header="{DynamicResource textIronFontMarginSetting}"
-                                       Margin="5,0"
-                                       >
-                                <Grid HorizontalAlignment="Left">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="0"/>
-                                        <RowDefinition Height="0"/>
-                                        <RowDefinition Height="0"/>
-                                        <RowDefinition Height="0"/>
-                                        <RowDefinition Height="0"/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="A"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox Grid.Column="1"  materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"
-                                             Text="{Binding NumberSettingVM.IronPlateMarginVM.A_Margin, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBlock Text="mm" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
 
-                                    <StackPanel  Grid.Row="1" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="B"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox Grid.Row="1"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"  
-                                             Text="{Binding NumberSettingVM.IronPlateMarginVM.B_Margin, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBlock Text="mm" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                    <StackPanel  Grid.Row="2" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="C"/>
-                                            <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox  Grid.Row="2"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
-                                              Text="{Binding NumberSettingVM.IronPlateMarginVM.C_Margin, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBlock Text="mm" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                    <StackPanel  Grid.Row="3" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="D"/>
-                                         <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox   Grid.Row="3" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}"
-                                               Text="{Binding NumberSettingVM.IronPlateMarginVM.D_Margin, UpdateSourceTrigger=PropertyChanged}"  />
-                                    <TextBlock Text="mm" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                    <StackPanel  Grid.Row="4" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="E"/>
-                                       <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox  Grid.Row="4"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" 
-                                              Text="{Binding NumberSettingVM.IronPlateMarginVM.E_Margin, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBlock Text="mm" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-
-                                    
-                                    <StackPanel  Grid.Row="5" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="XAxisPos1"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox  Grid.Row="5"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
-                                        <TextBox.Text>
-                                            <Binding Path="NumberSettingVM.StampingMarginPosVM.rXAxisPos1" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <GD_ValidationRules:CheckNumberRule/>
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
-                                    <TextBlock Text="mm" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                    <StackPanel  Grid.Row="6" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="YAxisPos1"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox  Grid.Row="6"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
-                                        <TextBox.Text>
-                                            <Binding Path="NumberSettingVM.StampingMarginPosVM.rYAxisPos1" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <GD_ValidationRules:CheckNumberRule/>
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
-                                    <TextBlock Text="mm" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-
-                                    <StackPanel  Grid.Row="7" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="XAxisPos2"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox  Grid.Row="7"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
-                                        <TextBox.Text>
-                                            <Binding Path="NumberSettingVM.StampingMarginPosVM.rXAxisPos2" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <GD_ValidationRules:CheckNumberRule/>
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
-                                    <TextBlock Text="mm" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
-                            
-                                    <StackPanel  Grid.Row="8" Orientation="Horizontal" Margin="0,10" >
-                                        <TextBlock Text="YAxisPos2"/>
-                                        <TextBlock Text="："/>
-                                    </StackPanel>
-                                    <TextBox  Grid.Row="8"  Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textInputMargin}" >
-                                        <TextBox.Text>
-                                            <Binding Path="NumberSettingVM.StampingMarginPosVM.rYAxisPos2" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <GD_ValidationRules:CheckNumberRule/>
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
-                                    <TextBlock Text="mm" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0"/>
+                                        </ComboBox>
 
 
 
-                                </Grid>
-                            </GroupBox>
-                           
-                                <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="10" VerticalAlignment="Bottom">
+                                    </Grid>
+
+
+
+
+                                </GroupBox>
+
+
+                                <StackPanel  HorizontalAlignment="Right"
+                                    Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="50,0" VerticalAlignment="Bottom">
 
                                     <Button Visibility="Collapsed" Padding="5,3,5,5"
                                         HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
@@ -566,12 +567,12 @@
                                         IsEnabled="{Binding NumberSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                         Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
                             </StackPanel>
-
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </TabItem>
                 <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
-                    <Grid HorizontalAlignment="Center">
+                    <Grid HorizontalAlignment="Center" Margin="20,0">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
@@ -609,7 +610,7 @@
                                             <TextBlock Text="{DynamicResource textCurrentMode}"/>
                                             <TextBlock Text="："/>
                                         </StackPanel>
-                                        <ComboBox Name="QRNumberSettingModeComboBox" Width="300"
+                                        <ComboBox Name="QRNumberSettingModeComboBox" Width="250"
                                             Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource textSelectMode}" 
                                                   ItemsSource="{Binding QRSettingModelCollection}" DisplayMemberPath="NumberSettingMode"
                                                                       SelectedItem="{Binding QRSettingModelCollectionSelected, UpdateSourceTrigger=PropertyChanged}">
@@ -621,7 +622,8 @@
                                         </ComboBox>
                                     </Grid>
                                 </GroupBox>
-                                <GroupBox Header="{DynamicResource textIronPlateMarginSetting}">
+                                <GroupBox 
+Header="{DynamicResource textIronPlateMarginSetting}">
                                     <Grid HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="80"/>
@@ -705,7 +707,7 @@
                                     <Grid HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition MinWidth="80"/>
-                                            <ColumnDefinition Width="300"/>
+                                            <ColumnDefinition Width="250"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
@@ -1286,7 +1288,9 @@
                                         </Style>
                                     </StackPanel.Resources>
                                     <materialDesign:DrawerHost Name="TimingControlDrawerHost"  
-                                        IsBottomDrawerOpen="{Binding IsBottomDrawerOpen}"  BottomDrawerBackground="Transparent"
+                                        IsBottomDrawerOpen="{Binding IsBottomDrawerOpen}"  
+                                                               Background="Transparent"
+                                                               BottomDrawerBackground="Transparent"
                                         TopDrawerCloseOnClickAway="true">
                                         <materialDesign:DrawerHost.BottomDrawerContent>
                                             <Grid>
@@ -1298,7 +1302,8 @@
                                                     </i:Interaction.Triggers>
                                                     <Thumb.Template>
                                                         <ControlTemplate>
-                                                            <Border  Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Stretch" />
+                                                            <Border  
+                                                                Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="0" HorizontalAlignment="Stretch" />
                                                         </ControlTemplate>
                                                     </Thumb.Template>
                                                 </Thumb>
@@ -1369,9 +1374,11 @@
                                                                 <RowDefinition/>
                                                             </Grid.RowDefinitions>
                                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                                                                <materialDesign:PackIcon Kind="TimerStart" Foreground="Aqua" VerticalAlignment="Center"/>
+                                                                    <materialDesign:PackIcon Width="25" Height="25" Margin="5,0"
+                                                                    Kind="TimerStart" Foreground="#40c4ff" VerticalAlignment="Center"/>
                                                                 <TextBlock Padding="0,4,0,0"
-                                                                    Text="{DynamicResource Text_RestTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                                    Text="{DynamicResource Text_RestTime}" FontSize="18" 
+                                                                           VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                                             </StackPanel>
                                                             
                                                             
@@ -1395,9 +1402,11 @@
                                                                 <RowDefinition/>
                                                             </Grid.RowDefinitions>
                                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                                <materialDesign:PackIcon Kind="TimerStop" Foreground="Aqua" VerticalAlignment="Center"/>
+                                                                    
+                                                                <materialDesign:PackIcon Width="25" Height="25" Margin="5,0"
+                                                                    Kind="TimerStop" Foreground="#40c4ff" VerticalAlignment="Center"/>
                                                                 <TextBlock Padding="0,4,0,0" 
-                                                                    Text="{DynamicResource Text_OpenTime}" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                                                    Text="{DynamicResource Text_OpenTime}" FontSize="18" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                                             </StackPanel>
                                                            <!-- <TextBox Width="auto"
                                                 Grid.Row="1" HorizontalAlignment="Center" FontSize="18" 
@@ -1663,50 +1672,50 @@
                                                                                                         <ContentControl.Content>
                                                                                                             <Canvas>
                                                                                                                 <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
-                                                                                                                    <Border Background="Black" CornerRadius="15" >
-                                                                                                                        <Grid>
-                                                                                                                            <Grid.LayoutTransform>
-                                                                                                                                <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
-                                                                                                                            </Grid.LayoutTransform>
-                                                                                                                            <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                                                                        Kind="TimerStop" Width="25" Height="25" Foreground="LightGray">
-                                                                                                                            </materialDesign:PackIcon>
-                                                                                                                        </Grid>
-                                                                                                                        <Border.Triggers>
-                                                                                                                            <EventTrigger RoutedEvent="MouseDown">
-                                                                                                                                <EventTrigger.Actions>
-                                                                                                                                    <BeginStoryboard>
-                                                                                                                                        <Storyboard Duration="00:00:01">
-                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="DarkGray" />
-                                                                                                                                        </Storyboard>
-                                                                                                                                    </BeginStoryboard>
-                                                                                                                                </EventTrigger.Actions>
-                                                                                                                            </EventTrigger>
-                                                                                                                            <EventTrigger RoutedEvent="MouseUp">
-                                                                                                                                <EventTrigger.Actions>
-                                                                                                                                    <BeginStoryboard>
-                                                                                                                                        <Storyboard Duration="00:00:01">
-                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="DimGray" />
-                                                                                                                                        </Storyboard>
-                                                                                                                                    </BeginStoryboard>
-                                                                                                                                </EventTrigger.Actions>
-                                                                                                                            </EventTrigger>
-                                                                                                                            <EventTrigger RoutedEvent="MouseLeave">
-                                                                                                                                <EventTrigger.Actions>
-                                                                                                                                    <BeginStoryboard>
-                                                                                                                                        <Storyboard Duration="00:00:01">
-                                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.100" To="DimGray" />
-                                                                                                                                        </Storyboard>
-                                                                                                                                    </BeginStoryboard>
-                                                                                                                                </EventTrigger.Actions>
-                                                                                                                            </EventTrigger>
-                                                                                                                        </Border.Triggers>
-                                                                                                                    </Border>
 
-                                                                                                                </Grid>
+                                                                                                                        <Border Background="Black" CornerRadius="15" >
+                                                                                                                            <Grid>
+                                                                                                                                <Grid.LayoutTransform>
+                                                                                                                                    <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
+                                                                                                                                </Grid.LayoutTransform>
+                                                                                                                                <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                                        Kind="TimerStop" Width="25" Height="25" Foreground="LightGray">
+                                                                                                                                </materialDesign:PackIcon>
+                                                                                                                            </Grid>
+                                                                                                                            <Border.Triggers>
+                                                                                                                                <EventTrigger RoutedEvent="MouseDown">
+                                                                                                                                    <EventTrigger.Actions>
+                                                                                                                                        <BeginStoryboard>
+                                                                                                                                            <Storyboard Duration="00:00:01">
+                                                                                                                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DarkGray" />
+                                                                                                                                            </Storyboard>
+                                                                                                                                        </BeginStoryboard>
+                                                                                                                                    </EventTrigger.Actions>
+                                                                                                                                </EventTrigger>
+                                                                                                                                <EventTrigger RoutedEvent="MouseUp">
+                                                                                                                                    <EventTrigger.Actions>
+                                                                                                                                        <BeginStoryboard>
+                                                                                                                                            <Storyboard Duration="00:00:01">
+                                                                                                                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DimGray" />
+                                                                                                                                            </Storyboard>
+                                                                                                                                        </BeginStoryboard>
+                                                                                                                                    </EventTrigger.Actions>
+                                                                                                                                </EventTrigger>
+                                                                                                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                                                                                                    <EventTrigger.Actions>
+                                                                                                                                        <BeginStoryboard>
+                                                                                                                                            <Storyboard Duration="00:00:01">
+                                                                                                                                                <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:0.100" To="DimGray" />
+                                                                                                                                            </Storyboard>
+                                                                                                                                        </BeginStoryboard>
+                                                                                                                                    </EventTrigger.Actions>
+                                                                                                                                </EventTrigger>
+                                                                                                                            </Border.Triggers>
+                                                                                                                        </Border>
+                                                                                                                    </Grid>
                                                                                                             </Canvas>
                                                                                                         </ContentControl.Content>
 
@@ -1755,46 +1764,32 @@
 
                                                         </Grid>
 
-                                                        <Grid
-                                                            Grid.Row="3" Grid.ColumnSpan="2">
-                                                            <ToggleButton x:Name="DayOfWeekWorkVMObservableCollectionToggleButton" IsChecked="{Binding DayOfWeekWorkVMObservableCollectionDropDownListlsShow}"
-                                                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  Width="auto" IsThreeState="False"
-                                                              >
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition/>
-                                                                        <ColumnDefinition/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Text="{DynamicResource Text_Repeat}" Margin="10,0"></TextBlock>
-                                                                    <TextBlock  Grid.Column="1" HorizontalAlignment="Right"  Margin="10,0"
-                                                                        Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
-                                                                                               Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                                </Grid>
-                                                            </ToggleButton>
-                                                            <GD_Popup:DraggablePopup 
-                                    PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
-                                    Placement="Bottom" 
-                                                                IsOpen="{Binding DayOfWeekWorkVMObservableCollectionDropDownListlsShow}"
-                                    PlacementTarget="{Binding ElementName=DayOfWeekWorkVMObservableCollectionToggleButton}"
-                                                          HorizontalAlignment="Center" >
+
+                                                            <StackPanel       Grid.Row="3" Grid.ColumnSpan="2">
+
                                                                 <ItemsControl 
                                                              ItemsSource="{Binding DayOfWeekWorkVMObservableCollection}" >
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <ToggleButton  IsChecked="{Binding IsWork}" 
-                                                    Foreground="White" Content="{Binding DayOfWeek, Converter={GD_Common:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                            <ToggleButton  
+                                                                                IsChecked="{Binding IsWork}" 
+                                                    Foreground="White" 
+                                                    Content="{Binding DayOfWeek, Converter={GD_Common:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
                                                                                 <ToggleButton.Style>
                                                                                     <Style TargetType="ToggleButton" 
                                                                BasedOn="{StaticResource SiegCustomButton}">
                                                                                         <Setter Property="Margin" Value="0"/>
-                                                                                        <Setter Property="Padding" Value="5,0"/>
+                                                                                        <Setter Property="Width" Value="50"/>
+                                                                                        <Setter Property="Height" Value="50"/>
+                                                                                        <Setter Property="Padding" Value="0,0"/>
                                                                                         <Setter Property="Background" Value="Gray"/>
 
                                                                                         <Setter Property="Template">
                                                                                             <Setter.Value>
                                                                                                 <ControlTemplate TargetType="ToggleButton">
                                                                                                     <Grid>
-                                                                                                        <Border Background="{TemplateBinding Background}"        
+                                                                                                        <Border
+                                                                                                            Background="{TemplateBinding Background}"        
                                                                                     Margin="0" 
                                                                                     CornerRadius="5"
                                                                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -1803,18 +1798,8 @@
                                                                                                             <Grid>
                                                                                                                 <Grid.ColumnDefinitions>
                                                                                                                     <ColumnDefinition/>
-                                                                                                                    <ColumnDefinition Width="auto"/>
                                                                                                                 </Grid.ColumnDefinitions>
                                                                                                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                                                                                <Border Grid.Column="1" Margin="5" Name="TickBorder"
-                                                                                            >
-                                                                                                                    <materialDesign:PackIcon Kind="Tick"  
-                                                                                                                 Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
-                                                                                                                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
-                                                                                            Foreground="Orange">
-
-                                                                                                                    </materialDesign:PackIcon>
-                                                                                                                </Border>
                                                                                                             </Grid>
                                                                                                         </Border>
 
@@ -1841,15 +1826,107 @@
                                                                                             </Setter.Value>
                                                                                         </Setter>
                                                                                     </Style>
-
-
                                                                                 </ToggleButton.Style>
                                                                             </ToggleButton>
                                                                         </DataTemplate>
                                                                     </ItemsControl.ItemTemplate>
                                                                 </ItemsControl>
-                                                            </GD_Popup:DraggablePopup>
-                                                        </Grid>
+
+                                                                <Grid>
+                                                                    <ToggleButton x:Name="DayOfWeekWorkVMObservableCollectionToggleButton" IsChecked="{Binding DayOfWeekWorkVMObservableCollectionDropDownListlsShow}"
+                                                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  Width="auto" IsThreeState="False"
+                                                              >
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition/>
+                                                                                <ColumnDefinition/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <TextBlock Text="{DynamicResource Text_Repeat}" Margin="10,0"></TextBlock>
+                                                                            <TextBlock  Grid.Column="1" HorizontalAlignment="Right"  Margin="10,0"
+                                                                        Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
+                                                                                               Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                        </Grid>
+                                                                    </ToggleButton>
+                                                                    <GD_Popup:DraggablePopup 
+                                    PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
+                                    Placement="Bottom" 
+                                                                IsOpen="{Binding DayOfWeekWorkVMObservableCollectionDropDownListlsShow}"
+                                    PlacementTarget="{Binding ElementName=DayOfWeekWorkVMObservableCollectionToggleButton}"
+                                                          HorizontalAlignment="Center" >
+                                                                        <ItemsControl 
+                                                             ItemsSource="{Binding DayOfWeekWorkVMObservableCollection}" >
+                                                                            <ItemsControl.ItemTemplate>
+                                                                                <DataTemplate>
+                                                                                    <ToggleButton  IsChecked="{Binding IsWork}" 
+                                                    Foreground="White" Content="{Binding DayOfWeek, Converter={GD_Common:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                        <ToggleButton.Style>
+                                                                                            <Style TargetType="ToggleButton" 
+                                                               BasedOn="{StaticResource SiegCustomButton}">
+                                                                                                <Setter Property="Margin" Value="0"/>
+                                                                                                <Setter Property="Padding" Value="5,0"/>
+                                                                                                <Setter Property="Background" Value="Gray"/>
+
+                                                                                                <Setter Property="Template">
+                                                                                                    <Setter.Value>
+                                                                                                        <ControlTemplate TargetType="ToggleButton">
+                                                                                                            <Grid>
+                                                                                                                <Border Background="{TemplateBinding Background}"        
+                                                                                    Margin="0" 
+                                                                                    CornerRadius="5"
+                                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                                    Padding="{TemplateBinding Padding}"
+                                                                                    BorderBrush="{TemplateBinding BorderBrush}">
+                                                                                                                    <Grid>
+                                                                                                                        <Grid.ColumnDefinitions>
+                                                                                                                            <ColumnDefinition/>
+                                                                                                                            <ColumnDefinition Width="auto"/>
+                                                                                                                        </Grid.ColumnDefinitions>
+                                                                                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                                                                        <Border Grid.Column="1" Margin="5" Name="TickBorder"
+                                                                                            >
+                                                                                                                            <materialDesign:PackIcon Kind="Tick"  
+                                                                                                                 Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
+                                                                                                                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border} ,Path=ActualHeight}" 
+                                                                                            Foreground="Orange">
+
+                                                                                                                            </materialDesign:PackIcon>
+                                                                                                                        </Border>
+                                                                                                                    </Grid>
+                                                                                                                </Border>
+
+
+                                                                                                            </Grid>
+                                                                                                            <ControlTemplate.Triggers>
+                                                                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                                                                    <Setter Property="Background" Value="LightSkyBlue"/>
+                                                                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                                                                </Trigger>
+                                                                                                                <Trigger Property="IsPressed" Value="True">
+                                                                                                                    <Setter Property="Background" Value="Orange"/>
+                                                                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                                                                </Trigger>
+
+                                                                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                                                                    <Setter Property="Opacity" Value="0.3"/>
+                                                                                                                </Trigger>
+                                                                                                                <Trigger Property="IsChecked" Value="False">
+                                                                                                                    <Setter TargetName="TickBorder" Property="Opacity" Value="0.0"/>
+                                                                                                                </Trigger>
+                                                                                                            </ControlTemplate.Triggers>
+                                                                                                        </ControlTemplate>
+                                                                                                    </Setter.Value>
+                                                                                                </Setter>
+                                                                                            </Style>
+
+
+                                                                                        </ToggleButton.Style>
+                                                                                    </ToggleButton>
+                                                                                </DataTemplate>
+                                                                            </ItemsControl.ItemTemplate>
+                                                                        </ItemsControl>
+                                                                    </GD_Popup:DraggablePopup>
+                                                                </Grid>
+                                                            </StackPanel>
 
 
 
@@ -1866,7 +1943,8 @@
                                                 <Grid>
                                                     <Grid HorizontalAlignment="Left">
 
-                                                        <ToggleButton IsChecked="{Binding EditButtonIsChecked}" 
+                                                        <ToggleButton 
+                                                            IsChecked="{Binding EditButtonIsChecked}" 
                                                                       Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked , Converter={dx:BooleanToVisibilityConverter Invert=True}}"
                                         Command="{Binding EditTimingControlCommand}" Background="Transparent" BorderThickness="0" FontWeight="Bold"
                                             Foreground="Orange"
@@ -1883,7 +1961,7 @@
                                         Foreground="Orange" Background="Transparent" BorderThickness="0"
                                               Content="{materialDesign:PackIcon Kind=Plus}" Command="{Binding AddNewTimingControlCommand}"/>
                                                 </Grid>
-                                                <ListBox  Grid.Row="1" MaxHeight="500"
+                                                    <ListBox  Grid.Row="1" MaxHeight="500"  
                                                     Name="TimingControlVMCollectionListBox"   
                                                      ItemsSource="{Binding TimingControlVMCollectionCloned}"
                                                      SelectedItem="{Binding TimingControlVMSelected}">
@@ -1902,12 +1980,13 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                     </ListBox.ItemsPanel>
                                                     <ListBox.ItemContainerStyle>
                                                         <Style TargetType="ListBoxItem">
-                                                            <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
                                                             <Setter Property="Cursor" Value="Hand"/>
                                                             <Setter Property="Template">
                                                                 <Setter.Value>
                                                                     <ControlTemplate TargetType="ListBoxItem">
-                                                                        <Border Background="{TemplateBinding Background}">
+                                                                        <Border 
+                                                                            Background="{TemplateBinding Background}">
                                                                             <Grid  
                                                                 d:DataContext="{d:DesignInstance Type=ParameterSetting:TimingControlViewModel}">
                                                                                 <Grid.ColumnDefinitions>

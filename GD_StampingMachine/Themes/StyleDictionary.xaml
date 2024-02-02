@@ -169,8 +169,9 @@
         </Setter>
 
     </Style>
-    <Style TargetType="GroupBox" BasedOn="{StaticResource UnderLineStyleGroupBox}">
-        <Setter Property="Padding" Value="50,20"/>
+    <Style TargetType="GroupBox" 
+           BasedOn="{StaticResource UnderLineStyleGroupBox}">
+        <Setter Property="Padding" Value="25,20"/>
     </Style>
 
 
@@ -1248,6 +1249,7 @@
                                     TargetType="GD_UserControls:FunctionToggleUserControl" 
                                        BasedOn="{StaticResource FunctionToggleUserControlKey}">
 
+        <Setter Property="Margin" Value="1,2"/>
         <Setter Property="Padding" Value="2"/>
         <Setter Property="Foreground" Value="{DynamicResource DarkHueDarkForegroundBrush}"/>
         <Setter Property="IsCheckedBorderThickness" Value="2.0"/>

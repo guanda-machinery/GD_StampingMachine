@@ -894,9 +894,11 @@ Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName
                                 <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="11"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[10]}" ProjectName="{Binding ProductProjectName}" >
-                                    <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"
+
+                                <GD_SchematicDiagram:QRPlateRowDiagramControl
+                                        PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
-                                </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+                            </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
                             </Viewbox>
 
                         <Viewbox Grid.Column="2"  MaxHeight="150">
@@ -1124,7 +1126,8 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                 </ScrollViewer>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0">
                     <Button
-                Content="{DynamicResource btnClearFinishItem}" Padding="5,3,5,0" Command="{Binding ClearFinishItemCommand}" Margin="5,5,5,10"></Button>
+                Content="{DynamicResource btnClearFinishItem}" Padding="5,3,5,0" 
+                        Command="{Binding ClearFinishItemCommand}" Margin="5,5,5,10"></Button>
 
                 </StackPanel>
 
