@@ -319,7 +319,7 @@
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <GroupBox Grid.Row="0" Header="{DynamicResource textMode}">
+                            <GroupBox Grid.Row="0" Header="{DynamicResource textMode}" Margin="5,0">
                                 <Grid HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80"/>
@@ -345,7 +345,8 @@
                                 </Grid>
 
                             </GroupBox>
-                            <GroupBox Grid.Column="1"  Grid.Row="0" Header="{DynamicResource textIronPlateMarginSetting}">
+                            <GroupBox Grid.Column="1"  Grid.Row="0" Margin="5,0"
+                                      Header="{DynamicResource textIronPlateMarginSetting}">
                                 <Grid HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80"/>
@@ -424,7 +425,9 @@
 
 
                             </GroupBox>
-                            <GroupBox  Grid.Row="2" Header="{DynamicResource textIronFontMarginSetting}">
+                            <GroupBox  Grid.Row="2" Header="{DynamicResource textIronFontMarginSetting}"
+                                       Margin="5,0"
+                                       >
                                 <Grid HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80"/>
@@ -1336,7 +1339,7 @@
                                                             >
                                                                 <i:Interaction.Triggers>
                                                                     <i:EventTrigger EventName="Click">
-                                                                        <i:InvokeCommandAction Command="{Binding FinsihTimingControlChangedlCommand}"/>
+                                                                        <i:InvokeCommandAction Command="{Binding FinishTimingControlChangedCommand}"/>
                                                                         <i:InvokeCommandAction Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"  CommandParameter="{x:Static Dock.Bottom}"/>
                                                                     </i:EventTrigger>
                                                                 </i:Interaction.Triggers>
@@ -1882,11 +1885,12 @@
                                                 </Grid>
                                                 <ListBox  Grid.Row="1" MaxHeight="500"
                                                     Name="TimingControlVMCollectionListBox"   
-                                                     ItemsSource="{Binding TimingControlVMCollection}"
+                                                     ItemsSource="{Binding TimingControlVMCollectionCloned}"
                                                      SelectedItem="{Binding TimingControlVMSelected}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="SelectionChanged">
-                                                            <i:InvokeCommandAction Command="{Binding TimingControlVMCollectionListBox_SelectionChangedlCommand}" PassEventArgsToCommand="True"/>
+                                                            <i:InvokeCommandAction 
+Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" PassEventArgsToCommand="True"/>
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
 
@@ -2060,7 +2064,8 @@
 
 
                                 </Grid>
-                                <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"   Margin="10,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <StackPanel IsEnabled="{Binding IsBottomDrawerOpen ,Converter={GD_Common:InvertBooleanConverter}}"
+                                    Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"   Margin="10,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                                     <Button  Padding="5,3,5,0"
                                 Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
                                     <Button  Padding="5,3,5,0"

@@ -57,13 +57,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 _separateBoxVMObservableCollection = value;
                 SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection = new ObservableCollection<SeparateBoxModel>();
-                if (_separateBoxVMObservableCollection != null)
+
+                _separateBoxVMObservableCollection?.ForEach(obj =>
                 {
-                    _separateBoxVMObservableCollection.ForEach(obj =>
-                    {
-                        SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(obj._separateBox);
-                    });
-                }
+                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(obj._separateBox);
+                });
+
                 OnPropertyChanged();
             }
         }

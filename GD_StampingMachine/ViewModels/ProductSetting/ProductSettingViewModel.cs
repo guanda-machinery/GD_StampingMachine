@@ -123,7 +123,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public AsyncRelayCommand CreateProjectCommand
         {
-            get => new AsyncRelayCommand(async () =>
+            get => new (async () =>
             {
                 await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("btnAddProject"));
                 var ExistedIndex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == CreatedProjectVM.ProductProjectName);
@@ -276,7 +276,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public AsyncRelayCommand SaveProductSettingCommand
         {
-            get => _saveProductSettingCommand ??= new AsyncRelayCommand(async () =>
+            get => _saveProductSettingCommand ??= new (async () =>
             {
                 var saveList = ProductProjectVMObservableCollection.Select(obj => obj.SaveProductProjectAsync());
                 await Task.WhenAll(saveList);

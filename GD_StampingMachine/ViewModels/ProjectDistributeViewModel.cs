@@ -75,8 +75,7 @@ namespace GD_StampingMachine.ViewModels
 
         public ProjectDistributeViewModel(ProjectDistributeModel _projectDistribute)
         {
-            if (_projectDistribute == null)
-                _projectDistribute = new ProjectDistributeModel();
+            _projectDistribute ??= new ProjectDistributeModel();
             ProjectDistribute = _projectDistribute;
             StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
             {
@@ -572,7 +571,7 @@ namespace GD_StampingMachine.ViewModels
         [JsonIgnore]
         public AsyncRelayCommand ProjectGridControlInsertToBoxCommand
         {
-            get => _projectGridControlInsertToBoxCommand ??= new AsyncRelayCommand(async () =>
+            get => _projectGridControlInsertToBoxCommand ??= new (async () =>
             {
                await Task.Run(async () =>
                 {

@@ -91,7 +91,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private AsyncRelayCommand _opcuaFormBrowseServerOpenCommand;
         public AsyncRelayCommand OpcuaFormBrowseServerOpenCommand
         {
-            get => _opcuaFormBrowseServerOpenCommand ??= new AsyncRelayCommand(async (CancellationToken token) =>
+            get => _opcuaFormBrowseServerOpenCommand ??= new (async (CancellationToken token) =>
             {
                 try
                 {
@@ -116,7 +116,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private AsyncRelayCommand _opcuaStartScanCommand;
         public AsyncRelayCommand OpcuaStartScanCommand
         {
-            get => _opcuaStartScanCommand ??= new AsyncRelayCommand(async () =>
+            get => _opcuaStartScanCommand ??= new (async () =>
             {
                 //設定為自動開始
                 try

@@ -445,6 +445,7 @@
                                 AllowColumnMoving="True"
                                 AllowEditing="False"
                                 ShowColumnHeaders="True"
+                        
                                 HeaderHorizontalAlignment="Center"
                                 VerticalScrollbarVisibility="Auto"
                                 HorizontalScrollbarVisibility="Auto"
@@ -459,22 +460,21 @@
                     
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ConstructionSerialNumber}" FieldName="ProductProjectNumber" Width="auto"   IsSmart="True" >
                         <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
 
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto"   IsSmart="True">
                         <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
 
                     <dxg:GridColumn  Header="{DynamicResource Text_Form}"   FieldName="SheetStampingTypeForm" 
-                                     
                                              Binding="{Binding SheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
                                  Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
 
@@ -516,111 +516,10 @@
                         </dxg:GridColumn.CellTemplate>
                     </dxg:GridColumn>
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false" IsSmart="True">
-                        <dxg:GridColumn.HeaderStyle>
-                            <Style TargetType="dxg:BaseGridHeader">
-                                <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
-                                <Setter Property="BorderBrush" Value="Transparent" />
-                                <Setter Property="BorderThickness" Value="0,0,0,0" />
-                            </Style>
-                        </dxg:GridColumn.HeaderStyle>
-                        <dxg:GridColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button 
-                                    Command="{Binding Row.ProjectEditCommand}"  Padding="5,2"  Margin="5,0"
-                                        ToolTip="{DynamicResource btnEdit}"
-                                        MinWidth="50">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
-                                            <Setter Property="Content">
-                                                <Setter.Value>
-                                                    <Image Name="EditImage"
-                                                            Source="{StaticResource Edit_WhiteDrawingImage }"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                    <Setter Property="Content">
-                                                        <Setter.Value>
-                                                            <Image Source="{StaticResource Edit_BlackDrawingImage}"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter Property="Content">
-                                                        <Setter.Value>
-                                                            <Image Source="{StaticResource Edit_FocusDrawingImage}"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Setter Property="Background" Value="#f8cbff"/>
-                                                    <Setter Property="BorderBrush" Value="#d24fe8"/>
-                                                </Trigger>
-                                             
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                            </DataTemplate>
-                        </dxg:GridColumn.CellTemplate>
-                    </dxg:GridColumn>
+                    
 
-                    <!--https://www.grapecity.com/blogs/using-mvvm-to-remove-rows-from-wpf-datagrid-->
-                    <!--刪除指令-->
-                    <dxg:GridColumn Header="" FieldName="ProductProject.EditTime" Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
-                        <dxg:GridColumn.HeaderStyle>
-                            <Style TargetType="dxg:BaseGridHeader">
-                                <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
-                                <Setter Property="BorderBrush" Value="Transparent" />
-                                <Setter Property="BorderThickness" Value="0,0,0,0" />
-                            </Style>
-                        </dxg:GridColumn.HeaderStyle>
-                        <dxg:GridColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button  MinWidth="50" Padding="5,2"   Margin="5,0" ToolTip="{DynamicResource btnDelete}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
-                                            <i:InvokeCommandAction Command="{Binding ElementName=MainGrid ,Path=DataContext.SaveProductListSettingCommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
-                                            <Setter Property="Content">
-                                                <Setter.Value>
-                                                    <Image Name="EditImage"
-                                                            Source="{StaticResource Delete_WhiteDrawingImage }"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                    <Setter Property="Content">
-                                                        <Setter.Value>
-                                                            <Image Source="{StaticResource Delete_BlackDrawingImage}"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter Property="Content">
-                                                        <Setter.Value>
-                                                            <Image Source="{StaticResource Delete_FocusDrawingImage}"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Setter Property="Background" Value="#ffdcdc"/>
-                                                    <Setter Property="BorderBrush" Value="#ee2f2f"/>
-                                                </Trigger>
-
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-
-
-
-                                </Button>
-                            </DataTemplate>
-                        </dxg:GridColumn.CellTemplate>
-                    </dxg:GridColumn>
-
-                    <dxg:GridColumn Header=""  Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn Header=""   MinWidth="50" 
+                                    Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.HeaderStyle>
                             <Style TargetType="dxg:BaseGridHeader">
                                 <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
@@ -631,6 +530,80 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
+                                    <Button 
+                                    Command="{Binding Row.ProjectEditCommand}"  Padding="5,2"  Margin="5,0"
+                                        ToolTip="{DynamicResource btnEdit}"
+                                        MinWidth="50">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <Image Name="EditImage"
+                                                            Source="{StaticResource Edit_WhiteDrawingImage }"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Edit_BlackDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Edit_FocusDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Background" Value="#f8cbff"/>
+                                                        <Setter Property="BorderBrush" Value="#d24fe8"/>
+                                                    </Trigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Button  MinWidth="50" Padding="5,2"   Margin="5,0" ToolTip="{DynamicResource btnDelete}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
+                                                <i:InvokeCommandAction Command="{Binding ElementName=MainGrid ,Path=DataContext.SaveProductListSettingCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <Image Name="EditImage"
+                                                            Source="{StaticResource Delete_WhiteDrawingImage }"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Delete_BlackDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <Image Source="{StaticResource Delete_FocusDrawingImage}"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Background" Value="#ffdcdc"/>
+                                                        <Setter Property="BorderBrush" Value="#ee2f2f"/>
+                                                    </Trigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+
+
+
+                                    </Button>
                                     <Button MinWidth="50"  Padding="5,2"   Margin="5,0"
                                             ToolTip="{DynamicResource btnFinishProject}" IsEnabled="{Binding Row.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}">
                                         <i:Interaction.Triggers>
@@ -669,8 +642,7 @@
                                             </Style>
                                         </Button.Style>
                                     </Button>
-                                    <Button MinWidth="50" Margin="5,0"
-                                            Height="30" ToolTip="{DynamicResource btnCancelFinish}"
+                                    <Button MinWidth="50" Padding="5,2" Margin="5,0" ToolTip="{DynamicResource btnCancelFinish}"
                                             IsEnabled="{Binding Row.ProductProjectIsFinish}" Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={dx:BooleanToVisibilityConverter}}" >
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
@@ -714,7 +686,8 @@
                     </dxg:GridColumn>
 
 
-                    <dxg:GridColumn Header=""  Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn Header=""   MinWidth="50" 
+                                    Width="auto"  AllowResizing="false"  AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.HeaderStyle>
                             <Style TargetType="dxg:BaseGridHeader">
                                 <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
@@ -1732,7 +1705,7 @@
                     </dxg:GridColumn>
 
                     <dxg:GridColumn  
-                            HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            HorizontalHeaderContentAlignment="Left"   Width="auto" AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                         </dxg:GridColumn.EditSettings>
@@ -1808,7 +1781,7 @@
                                     </ProgressBar>
 
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
-                                        <TextBlock Foreground="Black"
+                                        <TextBlock Foreground="Black" Padding="0,2,0,0"
                                         Text="{CalcB:Binding Row.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
                                     </StackPanel>
                                 </Grid>

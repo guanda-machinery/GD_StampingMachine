@@ -1,20 +1,26 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Data.Extensions;
+using DevExpress.XtraGauges.Core.Model;
+using GD_CommonLibrary.Extensions;
+using GD_CommonLibrary.Method;
+using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Singletons;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using static GD_StampingMachine.Singletons.StampMachineDataSingleton.StampingOpcUANode;
 
 namespace GD_StampingMachine.ViewModels
 {
     public class MachineFunctionViewModel : GD_CommonLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("btnDescription_MachineFunction");
-
-
-
         public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
         public StampingFontChangedViewModel StampingFontChangedVM { get => Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM; }
 
@@ -31,14 +37,9 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-
-
-
-
-
         public MachineFunctionViewModel()
         {
-
+            SleepSettingStart();
 
         }
 
@@ -202,7 +203,7 @@ namespace GD_StampingMachine.ViewModels
         private AsyncRelayCommand _separateBox_CounterClockwiseRotateCommand;
         public AsyncRelayCommand SeparateBox_CounterClockwiseRotateCommand
         {
-            get => _separateBox_CounterClockwiseRotateCommand ??= new AsyncRelayCommand(async () =>
+            get => _separateBox_CounterClockwiseRotateCommand ??= new (async () =>
             {
                 try
                 {
@@ -281,6 +282,294 @@ namespace GD_StampingMachine.ViewModels
             }
             return IsUsingindex;
         }
+
+        private bool _sleepModeIsActivated;
+        /// <summary>
+        /// 啟用睡眠功能
+        /// </summary>
+        public bool SleepModeIsActivated
+        {
+            get => _sleepModeIsActivated; set
+            {
+                _sleepModeIsActivated = value; OnPropertyChanged();
+            }
+        }
+
+
+
+        private AsyncRelayCommand _sleepSettingStartCommand;
+        public AsyncRelayCommand SleepSettingStartCommand
+        {
+            get => _sleepSettingStartCommand ??= new AsyncRelayCommand(async () =>
+            {
+                await SleepSettingStopAsync();
+                SleepSettingStart();
+            }, () => !SleepSettingStartCommand.IsRunning);
+        }
+
+        private AsyncRelayCommand _sleepSettingStopCommand;
+        public AsyncRelayCommand SleepSettingStopCommand
+        {
+            get => _sleepSettingStopCommand ??= new AsyncRelayCommand(async () =>
+            {
+                await SleepSettingStopAsync();
+            }, () => !_sleepSettingStopCommand.IsRunning);
+        }
+
+
+
+        Task SleepSettingTask;
+        CancellationTokenSource SleepSettingCts;
+        public void SleepSettingStart()
+        {
+            if (SleepSettingTask == null)
+            {
+                SleepSettingCts = new CancellationTokenSource();
+                SleepSettingTask ??= Task.Run(async () =>
+                {
+                    TaskCompletionSource<bool> tcs = new();
+                    SleepModeIsActivated = true;
+                    try
+                    {
+                        List<(DateTime RestTime, DateTime OpenTime)> SleepRangeList = new();
+                        while (true)
+                        {
+                            if (SleepSettingCts.Token.IsCancellationRequested)
+                                SleepSettingCts.Token.ThrowIfCancellationRequested();
+                            try
+                            {
+                                //找出現在是否在自動狀態
+                                //   DateTime.Now
+                                var EnableTimingControl = ParameterSettingVM.
+                                TimingSettingVM.
+                                TimingControlVMCollection.Where(x => x.IsEnable).ToList();
+
+                                //若目前時間落在之間
+                                if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))
+                                {
+                                    var restTimeRange = EnableTimingControl.Where(x => x.DateTimeIsBetween(DateTime.Now)).ToList();
+                                    if (restTimeRange.Count != 0)
+                                    {
+                                        //找出啟動和休息的最大區間
+                                        List<DateTime> restList = new List<DateTime>();
+                                        List<DateTime> openList = new List<DateTime>();
+                                        foreach (var timeRange in restTimeRange)
+                                        {
+                                            var todayDate = DateTime.Now.Date;
+                                            DateTime rtime, oTime;
+                                            if (timeRange.OpenTime >= timeRange.RestTime)
+                                            {
+                                                rtime = todayDate.AddTicks(timeRange.RestTime.Ticks);
+                                                oTime = todayDate.AddTicks(timeRange.OpenTime.Ticks);
+                                            }
+                                            else
+                                            {
+                                                rtime = todayDate.AddTicks(timeRange.RestTime.Ticks).AddDays(-1);
+                                                oTime = todayDate.AddTicks(timeRange.OpenTime.Ticks);
+                                            }
+
+
+
+                                            restList.Add(rtime);
+                                            openList.Add(oTime);
+                                        }
+                                        DateTime restMin = restList.Min();
+                                        DateTime openMax = openList.Max();
+                                        //在休息時間內不會再問是否要啟動
+                                        //sleeptime
+                                        SleepRangeList.Add(new(restMin, openMax));
+
+                                        //跳出等待
+                                        var result = new MessageBoxResultShow("", "", MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
+
+
+                                        CancellationTokenSource cts = new CancellationTokenSource();
+                                        //彈出式視窗關閉
+                                        var showTask = Task.Run(() => result.ShowMessageBox());
+                                        //等待時間到
+                                        var waitTask = Task.Run(async () =>
+                                        {
+                                            try
+                                            {
+                                                while (true)
+                                                {
+                                                    if (SleepSettingCts.Token.IsCancellationRequested)
+                                                    {
+                                                        cts.Cancel();
+                                                    }
+
+                                                    if (cts.Token.IsCancellationRequested)
+                                                    {
+                                                        cts.Token.ThrowIfCancellationRequested();
+                                                    }
+
+                                                    if (DateTime.Now > openMax)
+                                                    {
+                                                        break;
+                                                    }
+                                                    await Task.Delay(1000);
+                                                }
+                                            }
+                                            catch
+                                            {
+
+                                            }
+                                        }, cts.Token);
+                                        //機台停止
+
+                                        var originMode = StampMachineData.OperationMode;
+                                        var machineSleepTask = Task.Run(async () =>
+                                        {
+                                            var ret = false;
+                                            try
+                                            {
+                                                if (StampMachineData.IsConnected)
+                                                {
+                                                    if ((StampMachineData.OperationMode == OperationModeEnum.FullAutomatic ||
+                                                    StampMachineData.OperationMode == OperationModeEnum.HalfAutomatic)
+                                                    && StampMachineData.DI_Start)
+                                                    {
+                                                        await StampMachineData.SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
+                                                        if (cts.Token.IsCancellationRequested)
+                                                            cts.Token.ThrowIfCancellationRequested();
+                                                        //等待機台完成工作
+                                                        await WaitForCondition.WaitAsync(() => StampMachineData.DI_Start, false, cts.Token);
+                                                        await StampMachineData.SetOperationModeAsync(OperationModeEnum.Setup);
+                                                        await Task.Delay(1000);
+                                                        await StampMachineData.SetHydraulicPumpMotorAsync(false);
+                                                        await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, false, cts.Token);
+                                                        //關閉油壓
+
+                                                        ret = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        await StampMachineData.SetHydraulicPumpMotorAsync(false);
+                                                        await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, false, cts.Token);
+                                                    }
+                                                }
+                                            }
+                                            catch (OperationCanceledException cex)
+                                            {
+                                                Debugger.Break();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                            }
+                                            return ret;
+                                        });
+
+                                        //監視機台停止後是否有其他行為
+                                        var MonitorMachineAwakeTask = Task.Run(async () =>
+                                        {
+                                            try
+                                            {
+                                                await Task.WhenAny(machineSleepTask).ConfigureAwait(false);
+                                                var isNotSetupAutoTask = WaitForCondition.WaitNotAsync(() => StampMachineData.OperationMode, StampMachineData.OperationMode, cts.Token);
+                                                var isStartTask = WaitForCondition.WaitNotAsync(() => StampMachineData.DI_Start, StampMachineData.DI_Start, cts.Token);
+                                                var isESPTask = WaitForCondition.WaitNotAsync(() => StampMachineData.DI_EmergencyStop1, StampMachineData.DI_EmergencyStop1, cts.Token);
+                                                var isAlarmTask = WaitForCondition.WaitNotAsync(() => StampMachineData.AlarmMessageCollection.Count, StampMachineData.AlarmMessageCollection.Count, cts.Token);
+                                                await Task.WhenAny(isNotSetupAutoTask, isStartTask, isESPTask, isAlarmTask);
+                                            }
+                                            catch
+                                            {
+
+                                            }
+                                        });
+
+
+                                        if (waitTask == await Task.WhenAny(waitTask, showTask, MonitorMachineAwakeTask))
+                                        {
+                                            //正常結束休眠 可被喚醒
+                                            try
+                                            {
+                                                //機台有進行休眠流程且沒有被打斷
+                                                var IsSleeped = await machineSleepTask;
+                                                if (IsSleeped)
+                                                {
+                                                    if (await StampMachineData.SetHydraulicPumpMotorAsync(true))
+                                                    {
+                                                        await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, true, cts.Token);
+                                                        if (await StampMachineData.SetOperationModeAsync(originMode))
+                                                        {
+                                                            await WaitForCondition.WaitAsync(() => StampMachineData.OperationMode, originMode, cts.Token);
+                                                            if (originMode == OperationModeEnum.FullAutomatic)
+                                                                await StampMachineData.CycleStartAsync();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            catch
+                                            {
+
+                                            }
+                                        }
+
+                                       
+                                        //機台上做出特定行為導致被中斷
+                                        //關閉視窗
+                                        await result.CloseMessageBoxAsync();
+                                        //被中斷
+                                        cts?.Cancel();
+                                    }
+                                }
+                            }
+                            catch(OperationCanceledException cex)
+                            {
+
+                            }
+                            catch(Exception ex)
+                            {
+
+                            }
+                            await Task.Delay(100);
+                        }
+                    }
+                    catch (OperationCanceledException cex)
+                    {
+                        tcs.SetResult(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        tcs.SetException(ex);
+                    }
+                    SleepModeIsActivated = false;
+
+                    return tcs.Task;
+                }, SleepSettingCts.Token);
+            }
+        }
+
+        public async Task SleepSettingStopAsync()
+        {
+            if (SleepSettingTask != null)
+            {
+                try
+                {
+                    SleepSettingCts?.Cancel();
+                    // if(SleepSettingTask.Status == TaskStatus.Running)
+                    await SleepSettingTask;
+                }
+                catch (OperationCanceledException e)
+                {
+                    Console.WriteLine($"{nameof(OperationCanceledException)} thrown with message: {e.Message}");
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    SleepSettingTask.Dispose();
+                    SleepSettingCts?.Dispose();
+                    SleepSettingTask = null;
+                    SleepSettingCts = null;
+                }
+            }
+        }
+
+
 
 
 

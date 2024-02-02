@@ -50,11 +50,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private CancellationTokenSource _cts = new();
         protected override void Dispose(bool disposing)
         {
-            _cts.Cancel();
-
+            _cts?.Cancel();
+            _cts?.Dispose();
             base.Dispose(disposing);
         }
 
@@ -201,7 +201,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         [JsonIgnore]
         public RelayCommand ProjectEditCommand
         {
-            get => new RelayCommand(() =>
+            get => new(() =>
             {
                 EditProjectDarggableIsPopup = true;
             });
@@ -605,7 +605,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public AsyncRelayCommand ImportProject_SelectPathFileCommand
         {
-            get => _importProject_SelectPathFileCommand ??= new AsyncRelayCommand(async () =>
+            get => _importProject_SelectPathFileCommand ??= new (async () =>
             {
                 await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                 {
@@ -629,7 +629,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public AsyncRelayCommand ImportProject_SelectPathFolderCommand
         {
-            get => _importProject_SelectPathFolderCommand ??= new AsyncRelayCommand(async () =>
+            get => _importProject_SelectPathFolderCommand ??= new (async () =>
             {
                 await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
                 {
@@ -666,7 +666,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public AsyncRelayCommand ImportProjectCommand
         {
-            get => _importProjectCommand ??= new AsyncRelayCommand(async () =>
+            get => _importProjectCommand ??= new (async () =>
             {
                 var ManagerVM = new DevExpress.Mvvm.DXSplashScreenViewModel
                 {
@@ -1009,7 +1009,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             if (ProductProject.ProjectPath != null)
             {
-                if (ProductProject.CreateTime == default(DateTime))
+                if (ProductProject.CreateTime == default)
                 {
                     if (ProductProject.SheetStampingTypeForm == 0)
                     {
@@ -1038,7 +1038,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             if (ProductProject.ProjectPath != null)
             {
-                if (ProductProject.CreateTime == default(DateTime))
+                if (ProductProject.CreateTime == default)
                 {
                     if (ProductProject.SheetStampingTypeForm == 0)
                     {

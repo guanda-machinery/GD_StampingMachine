@@ -467,10 +467,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                if (_plateNumberList1 == null)
-                {
-                    _plateNumberList1 = StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
-                }
+                _plateNumberList1 ??= StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
                 return _plateNumberList1;
             }
             set
@@ -486,11 +483,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                if (_plateNumberList2 == null)
-                {
-                    _plateNumberList2 = StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
-                }
-
+                _plateNumberList2 ??= StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
                 return _plateNumberList2;
             }
             set

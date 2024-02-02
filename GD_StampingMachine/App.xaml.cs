@@ -50,7 +50,7 @@ namespace GD_StampingMachine
             };
 
 
-            StampingMachineWindow MachineWindow = new StampingMachineWindow
+            StampingMachineWindow MachineWindow = new()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
             };
@@ -152,7 +152,7 @@ namespace GD_StampingMachine
 
         protected override void OnExit(ExitEventArgs e)
         {
-            SemaphoreSlim semaphore = new SemaphoreSlim(0);
+            SemaphoreSlim semaphore = new(0);
 
             StampMachineDataSingleton.Instance.Disconnect();
             var DisconnectTask = Task.Run(async () =>
@@ -169,7 +169,7 @@ namespace GD_StampingMachine
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            SemaphoreSlim semaphore = new SemaphoreSlim(0);
+            SemaphoreSlim semaphore = new(0);
             if (e.ExceptionObject is Exception exception)
             {
                 _ = Task.Run(async () =>

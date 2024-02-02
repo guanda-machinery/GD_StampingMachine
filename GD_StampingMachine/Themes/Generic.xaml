@@ -150,7 +150,7 @@
 
                             <Border Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,1,0" Background="Transparent">
                                 <Border 
-                                     Width="15"  
+                                     Width="19"  
                                     CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
                                     Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}">
                                     <Border.Style>
@@ -184,7 +184,7 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
-                                    <Grid Width="12" Height="12" >
+                                    <Grid Width="16" Height="16" >
                                         <GD_StampingMachine_UserControls:GradientEllipse>
                                             <GD_StampingMachine_UserControls:GradientEllipse.Style>
                                                 <Style TargetType="GD_StampingMachine_UserControls:GradientEllipse">

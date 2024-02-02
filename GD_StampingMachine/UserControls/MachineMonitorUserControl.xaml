@@ -243,7 +243,7 @@
                                 <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid  Margin="5,5" >
-                                        <Border VerticalAlignment="Center"
+                                        <Border VerticalAlignment="Center" FlowDirection="LeftToRight"
                                             BorderThickness="1" BorderBrush="Black" CornerRadius="2" Padding="0" 
                                             HorizontalAlignment="Center">
                                             <ToggleButton Padding="0" Margin="0" x:Name="MachiningFormTButton" Opacity="0.95" >
@@ -806,7 +806,7 @@
                                 Content="{DynamicResource btnMachiningDataTransfer}"                                materialDesign:ButtonProgressAssist.IndicatorForeground="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"
                                 materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                                materialDesign:ButtonProgressAssist.Value="{Binding SendMachininProgress}"
+                                materialDesign:ButtonProgressAssist.Value="{Binding SendMachiningProgress}"
                                 >
 
                             <Button.IsEnabled>
@@ -856,6 +856,10 @@
                             Padding="5,2,5,0"
                             Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
                                 Content="{DynamicResource btnMachiningDataClear}"/>
+
+
+
+
 
                         <!--
                         <ToggleButton Height="auto" MinHeight="0" Margin="5" Content="Sended"  IsChecked="{Binding ShowIsSended}"

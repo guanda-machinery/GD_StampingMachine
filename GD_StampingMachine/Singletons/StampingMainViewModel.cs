@@ -22,10 +22,10 @@ namespace GD_StampingMachine.ViewModels
     {
 
 
+        readonly StampingMachineJsonHelper JsonHM = new();
         /// <summary>
         /// 解構
         /// </summary>
-        StampingMachineJsonHelper JsonHM = new();
 
         ~StampingMainViewModel()
         {
@@ -152,7 +152,7 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-        private DateTime _dateTimeNow = new DateTime();
+        private DateTime _dateTimeNow;
         [JsonIgnore]
         public DateTime DateTimeNow
         {
@@ -169,26 +169,22 @@ namespace GD_StampingMachine.ViewModels
                     var fileContent = string.Empty;
                     var filePath = string.Empty;
 
-                    using (var openFileDialog = new System.Windows.Forms.OpenFileDialog())
+                    using var openFileDialog = new System.Windows.Forms.OpenFileDialog();
+                    openFileDialog.InitialDirectory = "c:\\";
+                    openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                    openFileDialog.FilterIndex = 2;
+                    openFileDialog.RestoreDirectory = true;
+
+                    if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        openFileDialog.InitialDirectory = "c:\\";
-                        openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                        openFileDialog.FilterIndex = 2;
-                        openFileDialog.RestoreDirectory = true;
+                        //Get the path of specified file
+                        filePath = openFileDialog.FileName;
 
-                        if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            //Get the path of specified file
-                            filePath = openFileDialog.FileName;
+                        //Read the contents of the file into a stream
+                        var fileStream = openFileDialog.OpenFile();
 
-                            //Read the contents of the file into a stream
-                            var fileStream = openFileDialog.OpenFile();
-
-                            using (StreamReader reader = new StreamReader(fileStream))
-                            {
-                                fileContent = reader.ReadToEnd();
-                            }
-                        }
+                        using StreamReader reader = new(fileStream);
+                        fileContent = reader.ReadToEnd();
                     }
                 });
             }
@@ -197,7 +193,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         #region VM
-        private Singletons.StampingMachineSingleton stampingMain = Singletons.StampingMachineSingleton.Instance;
+        private readonly Singletons.StampingMachineSingleton stampingMain = Singletons.StampingMachineSingleton.Instance;
         /// <summary>
         /// 關於本機
         /// </summary>
@@ -303,13 +299,13 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private bool _machiningModeIsActived;
+        private bool _machiningModeIsActivated;
         /// <summary>
         /// 加工模式
         /// </summary>
-        public bool MachiningModeIsActived
+        public bool MachiningModeIsActivated
         {
-            get => _machiningModeIsActived; set { _machiningModeIsActived =  value; OnPropertyChanged(); }
+            get => _machiningModeIsActivated; set { _machiningModeIsActivated =  value; OnPropertyChanged(); }
         }
 
 

@@ -16,7 +16,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     public class NumberSettingPageViewModel : PlateSettingPageBaseViewModel
     {
 
-        StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
+        readonly StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 
         [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelNormalViewModel");

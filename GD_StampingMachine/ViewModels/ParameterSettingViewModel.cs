@@ -40,7 +40,8 @@ namespace GD_StampingMachine.ViewModels
     public class ParameterSettingViewModel : GD_CommonLibrary.BaseViewModel
     {
 
-        StampingMachineJsonHelper JsonHM = new();
+  
+        readonly StampingMachineJsonHelper JsonHM = new();
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ParameterSettingViewModel");
 

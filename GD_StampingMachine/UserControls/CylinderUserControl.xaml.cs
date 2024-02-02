@@ -28,12 +28,12 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty CylinderIsDownSingal_IsTriggeredProperty =
             DependencyProperty.Register(nameof(CylinderIsDownSingal_IsTriggered), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public static readonly DependencyProperty CylinderUpIsActivedProperty =
-            DependencyProperty.Register(nameof(CylinderUpIsActived), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public static readonly DependencyProperty CylinderMiddleIsActivedProperty =
-            DependencyProperty.Register(nameof(CylinderMiddleIsActived), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public static readonly DependencyProperty CylinderDownIsActivedProperty =
-            DependencyProperty.Register(nameof(CylinderDownIsActived), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty CylinderUpIsActivatedProperty =
+            DependencyProperty.Register(nameof(CylinderUpIsActivated), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty CylinderMiddleIsActivatedProperty =
+            DependencyProperty.Register(nameof(CylinderMiddleIsActivated), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty CylinderDownIsActivatedProperty =
+            DependencyProperty.Register(nameof(CylinderDownIsActivated), typeof(bool), typeof(CylinderUserControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
         public static readonly DependencyProperty CylinderUp_IsEnabledProperty =
@@ -146,26 +146,26 @@ DependencyProperty.Register(nameof(CylinderUp_IsEnabled), typeof(bool), typeof(C
         /// <summary>
         /// 啟用氣壓缸
         /// </summary>
-        public bool CylinderUpIsActived
+        public bool CylinderUpIsActivated
         {
-            get { return (bool)GetValue(CylinderUpIsActivedProperty); }
-            set { SetValue(CylinderUpIsActivedProperty, value); }
+            get { return (bool)GetValue(CylinderUpIsActivatedProperty); }
+            set { SetValue(CylinderUpIsActivatedProperty, value); }
         }
         /// <summary>
         /// 啟用氣壓缸
         /// </summary>
-        public bool CylinderMiddleIsActived
+        public bool CylinderMiddleIsActivated
         {
-            get { return (bool)GetValue(CylinderMiddleIsActivedProperty); }
-            set { SetValue(CylinderMiddleIsActivedProperty, value); }
+            get { return (bool)GetValue(CylinderMiddleIsActivatedProperty); }
+            set { SetValue(CylinderMiddleIsActivatedProperty, value); }
         }
         /// <summary>
         /// 啟用氣壓缸
         /// </summary>
-        public bool CylinderDownIsActived
+        public bool CylinderDownIsActivated
         {
-            get { return (bool)GetValue(CylinderDownIsActivedProperty); }
-            set { SetValue(CylinderDownIsActivedProperty, value); }
+            get { return (bool)GetValue(CylinderDownIsActivatedProperty); }
+            set { SetValue(CylinderDownIsActivatedProperty, value); }
         }
 
         /// <summary>

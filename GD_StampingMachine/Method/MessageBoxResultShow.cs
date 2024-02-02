@@ -17,13 +17,16 @@ namespace GD_CommonLibrary.Method
     {
         public MessageBoxResultShow(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
-            var mainWindow = Application.Current.MainWindow ?? new Window();
-            newWindow = new MessageBoxWindow(mainWindow, MessageTitle, MessageString, MB_Button, MB_Image, lockWindow)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            };
+                Window mainWindow = Application.Current.MainWindow ?? new Window(); 
+                newWindow = new MessageBoxWindow(mainWindow, MessageTitle, MessageString, MB_Button, MB_Image, lockWindow)
+                 {
+                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                 };
+            });
         }
-        readonly MessageBoxWindow newWindow;
+        MessageBoxWindow newWindow;
         /// <summary>
         /// 可被外部關閉的彈出式視窗
         /// </summary>
@@ -45,8 +48,7 @@ namespace GD_CommonLibrary.Method
 
         public MessageBoxResult ShowMessageBox()
         {
-            MessageBoxResult messageBoxReturn = MessageBoxResult.None;
-            messageBoxReturn = newWindow.FloatShow();
+            MessageBoxResult messageBoxReturn = newWindow.FloatShow();
             return messageBoxReturn;
         }
 
@@ -72,7 +74,14 @@ namespace GD_CommonLibrary.Method
         {
             await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
-                newWindow?.Close();
+                try
+                {
+                    newWindow?.Close();
+                }
+                catch
+                {
+
+                }
             }));
         }
 

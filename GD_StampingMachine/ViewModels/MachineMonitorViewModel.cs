@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
+using static GD_StampingMachine.Singletons.StampMachineDataSingleton.StampingOpcUANode;
 
 namespace GD_StampingMachine.ViewModels
 {
@@ -75,13 +76,13 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private double _sendMachininProgress;
-        public double SendMachininProgress
+        private double _sendMachiningProgress;
+        public double SendMachiningProgress
         {
-            get => _sendMachininProgress;
+            get => _sendMachiningProgress;
             set
             {
-                _sendMachininProgress = value; OnPropertyChanged();
+                _sendMachiningProgress = value; OnPropertyChanged();
             }
         }
 
@@ -257,7 +258,7 @@ namespace GD_StampingMachine.ViewModels
                                      break;
                                  }
                                  var progress = ((double)sendedReadyMachiningCollection.Count * 100) / (double)workableMachiningCollection.Count;
-                                 SendMachininProgress = progress;
+                                 SendMachiningProgress = progress;
 
 
                                  if (token.IsCancellationRequested)
@@ -439,11 +440,13 @@ namespace GD_StampingMachine.ViewModels
                     //await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);
                     await Task.Delay(1000);
                     //manager?.Close();
-                    SendMachininProgress = 0;
+                    SendMachiningProgress = 0;
 
                 }
             }, () => !_sendMachiningCommand.IsRunning);
         }
+
+
 
         private void StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
         {
@@ -492,8 +495,8 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-        private double _completeMachininProgress;
-        public double CompleteMachininProgress { get => _completeMachininProgress; set { _completeMachininProgress = value; OnPropertyChanged(); } }
+        private double _completeMachiningProgress;
+        public double CompleteMachiningProgress { get => _completeMachiningProgress; set { _completeMachiningProgress = value; OnPropertyChanged(); } }
 
 
         private AsyncRelayCommand _completeMachiningDataCommand;
@@ -577,7 +580,7 @@ namespace GD_StampingMachine.ViewModels
                             else
                             {
                                 ManagerVM.Progress = ((double)(isNeedWorkListLengthInit.Value - isNeedWorkList.Count) * 100) / isNeedWorkListLengthInit.Value;
-                                CompleteMachininProgress = ManagerVM.Progress;
+                                CompleteMachiningProgress = ManagerVM.Progress;
                             }
                         }
 
@@ -670,7 +673,7 @@ namespace GD_StampingMachine.ViewModels
                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessEnd");
                     await Task.Delay(1000);
                     manager?.Close();
-                    CompleteMachininProgress = 0;
+                    CompleteMachiningProgress = 0;
                 }
             });
         }
@@ -986,17 +989,12 @@ namespace GD_StampingMachine.ViewModels
         public AsyncRelayCommand _sendMachiningCancelCommand;
         public AsyncRelayCommand SendMachiningCancelCommand
         {
-            get => _sendMachiningCancelCommand ??= new AsyncRelayCommand(async () =>
+            get => _sendMachiningCancelCommand ??= new (async () =>
             {
                 SendMachiningCommand.Cancel();
                 CompleteMachiningDataCommand.Cancel();
-
-
                 await WaitForCondition.WaitAsyncIsFalse(() => SendMachiningCommand.IsRunning);
                 await WaitForCondition.WaitAsyncIsFalse(() => CompleteMachiningDataCommand.IsRunning);
-
-
-
             }, () => !SendMachiningCancelCommand.IsRunning);
         }
 
@@ -1023,7 +1021,7 @@ namespace GD_StampingMachine.ViewModels
                         token.ThrowIfCancellationRequested();
 
                     bool isGetIronPlate;
-                    List<IronPlateDataModel> ironPlateDataCollection = new List<IronPlateDataModel>();
+                    List<IronPlateDataModel> ironPlateDataCollection = new();
                     if (StampMachineData.IsConnected)
                     {
                         do
@@ -1032,8 +1030,8 @@ namespace GD_StampingMachine.ViewModels
                                 token.ThrowIfCancellationRequested();
 
                             var getIronPlate = await StampMachineData.GetIronPlateDataCollectionAsync();
-                            isGetIronPlate = getIronPlate.Item1;
-                            ironPlateDataCollection = getIronPlate.Item2;
+                            isGetIronPlate = getIronPlate.result;
+                            ironPlateDataCollection = getIronPlate.ironPlateCollection;
                         } while (!isGetIronPlate);
 
                         var NewEmptyIronPlateDataCollection = Enumerable.Repeat(new IronPlateDataModel()

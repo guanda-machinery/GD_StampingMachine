@@ -442,7 +442,7 @@ namespace GD_StampingMachine.ViewModels
         private AsyncRelayCommand _autoWorkCommand;
         public AsyncRelayCommand AutoWorkCommand
         {
-            get => _autoWorkCommand ??= new AsyncRelayCommand(async () =>
+            get => _autoWorkCommand ??= new (async () =>
             {
                 try
                 {

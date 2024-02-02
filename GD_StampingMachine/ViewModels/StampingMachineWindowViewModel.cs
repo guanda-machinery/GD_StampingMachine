@@ -144,12 +144,7 @@ namespace GD_StampingMachine.ViewModels
             get => _closeWindowCommand ??= new RelayCommand<System.Windows.RoutedEventArgs>(e =>
             {
                 Window parentWindow = Window.GetWindow((DependencyObject)e.Source);
-                if (parentWindow != null)
-                {
-                    parentWindow.Close();
-                }
-
-
+                parentWindow?.Close();
             });
         }
 

@@ -62,6 +62,7 @@ namespace GD_StampingMachine.Windows
                         Owner = parent,
                         Opacity = 0.5,
                         //Background = Brushes.Gray,
+                        ShowInTaskbar =false,
                         Content= new Border()
                         {
                             Background = Brushes.Gray,
@@ -191,15 +192,19 @@ namespace GD_StampingMachine.Windows
 
         public MessageBoxResult FloatShow()
         {
-         //   this.Focus();
-            if (Overlay != null)
+            //   this.Focus();
+            this.Dispatcher.Invoke(new Action(() =>
             {
-                Overlay.Show();
-                this.Owner = Overlay;
-            }
-            this.ShowDialog();
-            this.CloseMessageBox();
-            return Result;
+                if (Overlay != null)
+                {
+                    Overlay.Show();
+                    this.Owner = Overlay;
+                }
+                this.ShowDialog();
+                this.CloseMessageBox();
+            }));
+
+           return Result;
         }
 
         private void CloseMessageBox()

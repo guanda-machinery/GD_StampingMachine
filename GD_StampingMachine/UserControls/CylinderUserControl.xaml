@@ -37,7 +37,7 @@
 
             <Button Name="UpRadioButton" Margin="5"
                    IsEnabled="{Binding CylinderUp_IsEnabled}"  
-                    Grid.Column="0" Grid.Row="0"  Visibility="{Binding CylinderUpIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                    Grid.Column="0" Grid.Row="0"  Visibility="{Binding CylinderUpIsActivated, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderUpCommand}" CommandParameter="{Binding CylinderUpCommandParameter}"  
                         >
                 <Button.Style>
@@ -70,7 +70,7 @@
                 <Button Name="MiddleRadioButton" Margin="5"
                      IsEnabled="{Binding CylinderMiddle_IsEnabled}"
                     Grid.Column="0" Grid.Row="1"  
-                        Visibility="{Binding CylinderMiddleIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                        Visibility="{Binding CylinderMiddleIsActivated, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderMiddleCommand}"  CommandParameter="{Binding CylinderMiddleCommandParameter}"
                               
                                          >
@@ -106,7 +106,7 @@
             </Button>
                 <Button Name="DownRadioButton" Margin="5"
                  IsEnabled="{Binding CylinderDown_IsEnabled}"
-                    Grid.Column="0" Grid.Row="2" Visibility="{Binding CylinderDownIsActived, Converter={dx:BooleanToVisibilityConverter}}"
+                    Grid.Column="0" Grid.Row="2" Visibility="{Binding CylinderDownIsActivated, Converter={dx:BooleanToVisibilityConverter}}"
                              Command="{Binding CylinderDownCommand}"  CommandParameter="{Binding CylinderDownCommandParameter}"
                                           >
 
