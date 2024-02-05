@@ -619,25 +619,28 @@
                         </Style>
                 </WrapPanel.Resources>
                     <StackPanel>
-                    <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
-                      
-                                <Button Width="40" Height="40" Margin="5,5,5,10"
+                        <GroupBox Header="{DynamicResource Text_OilPressure_Motor}">
+
+                            <Button Width="40" Height="40" Margin="5,5,5,10"
                                     Command="{Binding StampMachineData.ActiveHydraulicPumpMotorCommand}">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding StampMachineData.HydraulicPumpIsActive}" Value="true">
-                                                    <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding StampMachineData.HydraulicPumpIsActive}" Value="true">
+                                                <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
-                                    <local:ImageBrightDarkCustomControl 
+                                <local:ImageBrightDarkCustomControl 
                                         DarkImageSource="{StaticResource OilPresssure_WhiteDrawingImage}"
                                         BrightImageSource="{StaticResource OilPresssure_BlackDrawingImage}"/>
-                                </Button>
-                
-                    </GroupBox>
+                            </Button>
+
+
+
+
+                        </GroupBox>
 
                         <GroupBox  Header="{DynamicResource btnDescription_ReturningToOriginPoint}">
 

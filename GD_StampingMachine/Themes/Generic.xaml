@@ -40,14 +40,25 @@
 
 
 
-    <Style TargetType="{x:Type GD_StampingMachine_UserControls:ImageBrightDarkCustomControl}">
+    <Style TargetType="{x:Type GD_StampingMachine_UserControls:ImageBrightDarkCustomControl}" >
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="1"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate
+                <ControlTemplate 
                     TargetType="{x:Type GD_StampingMachine_UserControls:ImageBrightDarkCustomControl}">
-                    <Image Width="auto" Height="auto" Margin="{TemplateBinding Padding}"
+                    <Border Padding="{TemplateBinding Padding}" 
+                            Margin="{TemplateBinding Margin}"
+                        Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        
+                    <Image Width="auto" Height="auto"
                         Name="PART_Image" Source="{TemplateBinding BrightImageSource}"/>
+                    </Border>
+
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
                             <Setter TargetName="PART_Image" Property="Source" Value="{Binding BrightImageSource, RelativeSource={RelativeSource TemplatedParent}}"/>

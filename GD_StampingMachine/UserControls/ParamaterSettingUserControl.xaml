@@ -2414,7 +2414,7 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                         <GroupBox Grid.Row="1" Header="OPCUA test" Margin="10"  VerticalAlignment="Top" >
                             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 
-                                <GD_UserControls:FunctionToggleUserControl              
+                                <GD_UserControls:FunctionToggleUserControl     Visibility="Collapsed"         
                                    Command="{Binding OpcuaFormBrowseServerOpenCommand}"
                                     IsChecked="{Binding OpcuaFormBrowseServerOpenCommand.IsRunning, Mode=OneWay,Converter={dx:BoolInverseConverter}}"
                                     ProgressVisibility="{Binding OpcuaFormBrowseServerOpenCommand.IsRunning,Mode=OneWay, Converter={dx:BooleanToVisibilityConverter}}"

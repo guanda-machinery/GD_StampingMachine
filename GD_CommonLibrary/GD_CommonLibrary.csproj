@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <LangVersion>preview</LangVersion>
@@ -10,15 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.IO.Redist" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="System.Security.AccessControl" Version="6.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj" />
@@ -130,5 +127,8 @@
     <Compile Remove="Method\RelayCommand.cs" />
     <Compile Remove="Method\RelayParameterizedCommand.cs" />
     <Compile Remove="Method\SyncObservableCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="app.config" />
   </ItemGroup>
 </Project>
