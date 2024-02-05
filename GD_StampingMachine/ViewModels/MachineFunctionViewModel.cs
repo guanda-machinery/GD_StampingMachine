@@ -39,7 +39,8 @@ namespace GD_StampingMachine.ViewModels
 
         public MachineFunctionViewModel()
         {
-            SleepSettingStart();
+            _ = Task.Run(async () => { await Task.Delay(5000); SleepSettingStart(); });
+
 
         }
 
@@ -380,7 +381,14 @@ namespace GD_StampingMachine.ViewModels
                                         SleepRangeList.Add(new(restMin, openMax));
 
                                         //跳出等待
-                                        var result = new MessageBoxResultShow("", "", MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
+                                        string Outputstring = "";
+                                        var sleepString=  (string)System.Windows.Application.Current.TryFindResource("Text_MachiningSleeping");
+                                        if (Outputstring != null)
+                                        {
+                                            Outputstring = string.Format(sleepString, openMax.ToString("HH:mm:ss"));
+                                        }
+
+                                        var result = new MessageBoxResultShow("", Outputstring, MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
 
 
                                         CancellationTokenSource cts = new CancellationTokenSource();
