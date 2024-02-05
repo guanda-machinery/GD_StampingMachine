@@ -64,6 +64,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
+    
     <Grid Visibility="{Binding Visibility}"  >
         <Grid Margin="0" x:Name="MainGrid" >
             <Grid.RowDefinitions>

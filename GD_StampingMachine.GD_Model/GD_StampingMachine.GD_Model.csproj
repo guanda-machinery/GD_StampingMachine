@@ -1,80 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>9</LangVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{12B3B748-7A04-4621-955C-463F2ECA94B7}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GD_StampingMachine.GD_Model</RootNamespace>
-    <AssemblyName>GD_StampingMachine.GD_Model</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>GD_StampingMachine.GD_Model</AssemblyTitle>
+    <Product>GD_StampingMachine.GD_Model</Product>
+    <Copyright>Copyright ©  2023</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ERP\ERP_IronPlateModel.cs" />
-    <Compile Include="KEBA_Model\IO_InfoModel.cs" />
-    <Compile Include="KEBA_Model\IronPlateDataModel.cs" />
-    <Compile Include="MachiningProjectModel.cs" />
-    <Compile Include="MechanicalSpecificationModel.cs" />
-    <Compile Include="CommunicationSettingModel.cs" />
-    <Compile Include="OperatingLogModel.cs" />
-    <Compile Include="ParameterSetting\AxisSettingModel.cs" />
-    <Compile Include="ParameterSetting\EngineerSettingModel.cs" />
-    <Compile Include="ParameterSetting\InputOutputModel.cs" />
-    <Compile Include="ParameterSetting\NumberSetting\StampPlateSettingModel.cs" />
-    <Compile Include="ParameterSetting\SeparateBoxModel.cs" />
-    <Compile Include="ParameterSetting\SeparateSettingModel.cs" />
-    <Compile Include="ParameterSetting\TimingSettingModel.cs" />
-    <Compile Include="ProductionSetting\PartsParameterModel.cs" />
-    <Compile Include="ProductionSetting\StampingSteelBeltModel.cs" />
-    <Compile Include="ProductProjectModel.cs" />
-    <Compile Include="ProjectModel.cs" />
-    <Compile Include="SendMachineCommandModel.cs" />
-    <Compile Include="StampingTypeModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj">
-      <Project>{1b72928b-a32a-440a-854b-2ec435881875}</Project>
-      <Name>GD_StampingMachine.GD_Enum</Name>
-    </ProjectReference>
+    <Compile Remove="ParameterSetting\NumberSetting\BaseNumberSettingModel.cs" />
+    <Compile Remove="ParameterSetting\NumberSetting\NumberSettingModel.cs" />
+    <Compile Remove="ParameterSetting\StampingPlateSettingModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

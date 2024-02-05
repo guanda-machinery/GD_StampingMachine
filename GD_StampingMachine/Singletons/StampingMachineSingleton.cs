@@ -66,23 +66,18 @@ namespace GD_StampingMachine.Singletons
 
             };
 
-            StampingFontChangedVM = new StampingFontChangedViewModel();
 
-
-
+            List<StampingTypeViewModel> StampingCollection = new();
             if (JsonHM.ReadUseStampingFont(out var SReaduse))
             {
-                StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
-                    SReaduse.Select(use => new StampingTypeViewModel(use)));
+                StampingCollection =SReaduse.Select(use => new StampingTypeViewModel(use)).ToList();
             }
             else
             {
-                StampingFontChangedVM.StampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>();
-
                 for (int i = 1; i <= 40; i++)
                 {
                     // char
-                    StampingFontChangedVM.StampingTypeVMObservableCollection.Add(
+                    StampingCollection.Add(
                         new StampingTypeViewModel(
                             new StampingTypeModel()
                             {
@@ -94,6 +89,7 @@ namespace GD_StampingMachine.Singletons
                 }
             }
 
+            StampingFontChangedVM = new StampingFontChangedViewModel(StampingCollection);
 
             if (JsonHM.ReadUnUseStampingFont(out List<StampingTypeModel> SReadunuse))
             {

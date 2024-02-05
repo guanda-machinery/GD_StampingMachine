@@ -28,6 +28,25 @@ namespace GD_StampingMachine.ViewModels
         public StampMachineDataSingleton StampMachineData { get; } = StampMachineDataSingleton.Instance;
 
 
+        public StampingFontChangedViewModel() 
+        {
+
+        }
+
+        public StampingFontChangedViewModel(ICollection<StampingTypeViewModel> stampingCollection)
+        {
+            StampingTypeVMObservableCollection = stampingCollection.ToObservableCollection();
+            if (StampingTypeVMObservableCollection.Count != 0)
+            {
+                StampingTypeModel_ReadyStamping = StampingTypeVMObservableCollection.FirstOrDefault();
+            }
+        }
+
+
+
+
+
+
         public async Task SaveStampingTypeVMObservableCollectionAsync()
         {
             List<StampingTypeModel> StampingTypeList = StampingTypeVMObservableCollection
@@ -234,25 +253,15 @@ namespace GD_StampingMachine.ViewModels
         CancellationTokenSource cancellationToken = new CancellationTokenSource();
         Task RotatingTask;
 
-        private StampingTypeViewModel _stampingTypeModel_readyStamping;
+        private StampingTypeViewModel _stampingTypeModel_ReadyStamping;
         [JsonIgnore]
         public StampingTypeViewModel StampingTypeModel_ReadyStamping
         {
-            get
-            {
-                if (_stampingTypeModel_readyStamping == null)
-                {
-                    if (_stampingTypeVMObservableCollection.Count != 0)
-                    {
-                        _stampingTypeModel_readyStamping = _stampingTypeVMObservableCollection.FirstOrDefault();
-                    }
-                }
-                return _stampingTypeModel_readyStamping;
-            }
+            get=> _stampingTypeModel_ReadyStamping;
             set
             {
                 //如果沒動則不須刷新
-                _stampingTypeModel_readyStamping = value;
+                _stampingTypeModel_ReadyStamping = value;
                 OnPropertyChanged();
                 _ = Task.Run(async () =>
                 {
@@ -260,10 +269,9 @@ namespace GD_StampingMachine.ViewModels
                         await RotatingTask.ConfigureAwait(false);
                     cancellationToken.Cancel();
                     cancellationToken = new CancellationTokenSource();
-                    //CancellationToken token = cancellationToken.Token;
                     RotatingTask = await Task.Run(async () =>
                     {
-                        var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_readyStamping));
+                        var FIndex = StampingTypeVMObservableCollection.ToList().FindIndex(x => x.Equals(_stampingTypeModel_ReadyStamping));
                         if (FIndex != -1)
                         {
                             StampingTypeModelMartix = new();
@@ -365,6 +373,13 @@ namespace GD_StampingMachine.ViewModels
                 });
             }
         }
+
+
+
+
+
+
+
 
 
         private AsyncRelayCommand<SelectionChangedEventArgs> _stamping_SelectionChangedCommand;

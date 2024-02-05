@@ -1,286 +1,134 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0911BDE5-D35B-409B-8C14-8D93F4A52CAC}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GD_CommonLibrary</RootNamespace>
-    <AssemblyName>GD_CommonLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommunityToolkit.Mvvm, Version=8.2.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommunityToolkit.Mvvm.8.2.1\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
-    </Reference>
-    <Reference Include="CsvHelper, Version=30.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsvHelper.30.0.1\lib\net47\CsvHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="GongSolutions.WPF.DragDrop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
-      <HintPath>..\packages\gong-wpf-dragdrop.3.2.1\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
-    </Reference>
-    <Reference Include="MaterialDesignColors, Version=2.1.4.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.2.1.4\lib\net462\MaterialDesignColors.dll</HintPath>
-    </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=4.9.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.4.9.0\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="MessagePack, Version=2.5.0.0, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessagePack.2.5.108\lib\netstandard2.0\MessagePack.dll</HintPath>
-    </Reference>
-    <Reference Include="MessagePack.Annotations, Version=2.5.0.0, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessagePack.Annotations.2.5.108\lib\netstandard2.0\MessagePack.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Build.Framework.17.8.3\lib\net472\Microsoft.Build.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IO.Redist, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IO.Redist.6.0.0\lib\net472\Microsoft.IO.Redist.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.NET.StringTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.NET.StringTools.17.8.3\lib\net472\Microsoft.NET.StringTools.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.RemoteControl, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.RemoteControl.16.3.52\lib\net45\Microsoft.VisualStudio.RemoteControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Setup.Configuration.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Telemetry, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Telemetry.17.8.143\lib\net45\Microsoft.VisualStudio.Telemetry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Utilities.Internal, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Utilities.Internal.16.3.56\lib\net45\Microsoft.VisualStudio.Utilities.Internal.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Validation, Version=17.8.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Validation.17.8.8\lib\netstandard2.0\Microsoft.VisualStudio.Validation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
-    </Reference>
-    <Reference Include="netstandard" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.7.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Composition.AttributedModel, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.AttributedModel.7.0.0\lib\net462\System.Composition.AttributedModel.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Convention, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.Convention.7.0.0\lib\net462\System.Composition.Convention.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Hosting, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.Hosting.7.0.0\lib\net462\System.Composition.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Runtime, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.Runtime.7.0.0\lib\net462\System.Composition.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.TypedParts, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.TypedParts.7.0.0\lib\net462\System.Composition.TypedParts.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.7.0.2\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Design" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Pipelines, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Pipelines.7.0.0\lib\net462\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Management" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Metadata, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reflection.Metadata.7.0.0\lib\net462\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encoding.CodePages, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encoding.CodePages.7.0.0\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.IO.Redist" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\RadialPanel.cs" />
-    <Compile Include="CustomControl\CircularRangeSlider.cs" />
-    <Compile Include="Extensions\GuidToIntConverter.cs" />
-    <Compile Include="Extensions\IEnumerableCompare.cs" />
-    <Compile Include="Extensions\TcpPing.cs" />
-    <Compile Include="Extensions\WaitForCondition.cs" />
-    <Compile Include="Method\AsyncObservableCollection.cs" />
-    <Compile Include="Extensions\CheckedFileIsLocked.cs" />
-    <Compile Include="Extensions\CommonString.cs" />
-    <Compile Include="Extensions\DeepCloneByJson.cs" />
-    <Compile Include="Extensions\EnumHelper.cs" />
-    <Compile Include="Extensions\ExpandCharIntConverter.cs" />
-    <Compile Include="Extensions\ExpandIEnumerableToString.cs" />
-    <Compile Include="Extensions\GetEnumData.cs" />
-    <Compile Include="Extensions\PathCheckMethod.cs" />
-    <Compile Include="Extensions\ScrollViewerExtension.cs" />
-    <Compile Include="Behaviors\ProgresBarAnimateBehavior.cs" />
-    <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Method\BaseMultiValueConverter.cs" />
-    <Compile Include="Method\BaseSingleton.cs" />
-    <Compile Include="Method\BaseValueConverter.cs" />
-    <Compile Include="Method\BaseViewModel.cs" />
-    <Compile Include="CustomControl\DraggablePopup.cs" />
-    <Compile Include="Method\CsvFileManager.cs" />
-    <Compile Include="Method\DropHandler\BaseDropTarget.cs" />
-    <Compile Include="Method\JsonHelperMethod.cs" />
-    <Compile Include="Method\ValueChangedEventArgs.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidationRules\CheckIPAddressPortStringRule.cs" />
-    <Compile Include="ValidationRules\CheckNumberArrayRule.cs" />
-    <Compile Include="ValidationRules\CheckNumberRule.cs" />
-    <Compile Include="ValidationRules\CheckStringEmptyRule.cs" />
-    <Compile Include="ValidationRules\CheckStringIsPathOrFileNameRule.cs" />
-    <Compile Include="ValueConverters\BooleanToBrushesConverter.cs" />
-    <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\ContainerToIndexConverter.cs" />
-    <Compile Include="ValueConverters\DayOfWeekConverter.cs" />
-    <Compile Include="ValueConverters\EnumGetNameConverter.cs" />
-    <Compile Include="ValueConverters\HundredDoubleToSolidBrushConverter.cs" />
-    <Compile Include="ValueConverters\HourToDateTimeConverter.cs" />
-    <Compile Include="ValueConverters\InvertBooleanConverter.cs" />
-    <Compile Include="ValueConverters\ItemSourceCountIsZeroToVisibility.cs" />
-    <Compile Include="ValueConverters\ExpanderRotateAngleConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiBooleanToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\DialogHostMultiBooleanToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\FormatStringConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiBindingToArrayValueConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiBooleanArrayAndArrayParameterToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiValueHasParameterValueToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\MultiValueNotContainNullToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\ToggleButtonMultiBooleanToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\MultiValueConverters\UnionBooleanMultiValueConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsEqualToAutoOrNaNValueConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsEqualToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsEqualToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsNullToBooleanConverter.cs" />
-    <Compile Include="ValueConverters\ObjectIsNullToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\ObservableCollectionToOneObjectConverter.cs" />
-    <Compile Include="ValueConverters\ValueMoreThanPrarameterThanEqualToVisibilityConverter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj">
-      <Project>{1B72928B-A32A-440A-854B-2EC435881875}</Project>
-      <Name>GD_StampingMachine.GD_Enum</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.BannedApiAnalyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.BannedApiAnalyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
+    <PackageReference Include="DevExpress.Charts" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Charts.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.CodeParser" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Data" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Data.Desktop" Version="21.2.15" />
+    <PackageReference Include="DevExpress.DataAccess" Version="21.2.15" />
+    <PackageReference Include="DevExpress.DataVisualization.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Diagram.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Gauges.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Images" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Map.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Mvvm" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Office.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Pdf.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Pdf.Drawing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.PivotGrid.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Printing.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.RichEdit.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.RichEdit.Export" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scaffolding.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scaffolding.EFCore" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scheduler.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scheduler.CoreDesktop" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Sparkline.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.SpellChecker.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Spreadsheet.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.TreeMap.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Utils" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Dialogs.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Navigation" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Printing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Scheduler" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.SchedulerReporting" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.TreeList" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Accordion" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Carousel" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Charts" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Controls" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Core.Extensions" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Diagram" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Dialogs" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Docking" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.DocumentViewer.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.ExpressionEditor" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Gantt" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Gauges" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Grid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Grid.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Grid.Printing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Map" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.NavBar" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Office" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PivotGrid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Printing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PrismAdapters" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PropertyGrid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Reporting" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Ribbon" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.RichEdit" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Scheduling" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.SchedulingReporting" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.SpellChecker" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Spreadsheet" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Themes.Office2019Colorful" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.TreeMap" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.TypedStyles" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Xpo" Version="21.2.15" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="MessagePack" Version="2.5.108" />
+    <PackageReference Include="MessagePack.Annotations" Version="2.5.108" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="17.8.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.2" />
+    <PackageReference Include="Microsoft.NET.StringTools" Version="17.8.3" />
+    <PackageReference Include="Microsoft.VisualStudio.RemoteControl" Version="16.3.52" />
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="3.8.2112" />
+    <PackageReference Include="Microsoft.VisualStudio.Telemetry" Version="17.8.143" />
+    <PackageReference Include="Microsoft.VisualStudio.Utilities.Internal" Version="16.3.56" />
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets" Condition="Exists('..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\DevExpress.Reporting.Core.21.1.4\build\DevExpress.Reporting.Core.targets'))" />
-    <Error Condition="!Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets'))" />
-    <Error Condition="!Exists('..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets'))" />
-  </Target>
-  <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />
-  <Import Project="..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
-  <Import Project="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets" Condition="Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets')" />
-  <Import Project="..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets')" />
+  <ItemGroup>
+    <Compile Remove="Controls\CylinderControlUserControl.cs" />
+    <Compile Remove="Extensions\DeepClone.cs" />
+    <Compile Remove="Extensions\FindVisualChildHelper.cs" />
+    <Compile Remove="Extensions\ObservableExtension.cs" />
+    <Compile Remove="Method\BaseSingletonAsync.cs" />
+    <Compile Remove="Method\CloneableBase.cs" />
+    <Compile Remove="Method\DropHandler\DraggableAdorner.cs" />
+    <Compile Remove="Method\GD_CsvHelperMethod.cs" />
+    <Compile Remove="Method\RelayCommand.cs" />
+    <Compile Remove="Method\RelayParameterizedCommand.cs" />
+    <Compile Remove="Method\SyncObservableCollection.cs" />
+  </ItemGroup>
 </Project>

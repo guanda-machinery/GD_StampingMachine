@@ -1831,6 +1831,11 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                             </ToggleButton>
                                                                         </DataTemplate>
                                                                     </ItemsControl.ItemTemplate>
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <StackPanel Orientation="Horizontal"/>
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
                                                                 </ItemsControl>
 
                                                                 <Grid>

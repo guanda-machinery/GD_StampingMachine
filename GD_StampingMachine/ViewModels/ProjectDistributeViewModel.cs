@@ -704,62 +704,70 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new AsyncRelayCommand(async() =>
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    ReloadPartsParameterVMObservableCollection();
+                    await   ReloadPartsParameterVMObservableCollectionAsync();
                 });
             });
         }
 
-        public void ReloadPartsParameterVMObservableCollection()
+        public async Task ReloadPartsParameterVMObservableCollectionAsync()
         {
-            if(ReadyToTypeSettingProductProjectVMSelected ==null)
-                PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
-            else
-                PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>(ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
-
-
-            foreach (var obj in ProductProjectVMObservableCollection)
+            await Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                if (!ReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
+                try
                 {
-                    if (!NotReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
-                    {
-                        //被設為完成的不可加入
-                        if (obj.ProductProjectIsFinish)
-                        {
+                    if (ReadyToTypeSettingProductProjectVMSelected == null)
+                        PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>();
+                    else
+                        PartsParameterVMObservableCollection = new ObservableCollection<PartsParameterViewModel>(ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMObservableCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
 
-                        }
-                        else
+
+                    foreach (var obj in ProductProjectVMObservableCollection)
+                    {
+                        if (!ReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
                         {
-                            NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
+                            if (!NotReadyToTypeSettingProductProjectVMObservableCollection.Contains(obj))
+                            {
+                                //被設為完成的不可加入
+                                if (obj.ProductProjectIsFinish)
+                                {
+
+                                }
+                                else
+                                {
+                                    NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
+                                }
+                            }
                         }
                     }
+
+                    //將被刪除的專案清除
+                    var DelReadyList = ReadyToTypeSettingProductProjectVMObservableCollection.Except(ProductProjectVMObservableCollection).ToList();
+                    var DelNotReadyList = NotReadyToTypeSettingProductProjectVMObservableCollection.Except(ProductProjectVMObservableCollection).ToList();
+
+                    DelReadyList.ForEach(del =>
+                    {
+                        ReadyToTypeSettingProductProjectVMObservableCollection.Remove(del);
+                    });
+                    DelNotReadyList.ForEach(del =>
+                    {
+                        NotReadyToTypeSettingProductProjectVMObservableCollection.Remove(del);
+                    });
+
+
+
+                    int BFinishindex = 0;
+                    while ((BFinishindex = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectIsFinish)) != -1)
+                    {
+                        NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(BFinishindex);
+                    }
                 }
-            }
-
-            //將被刪除的專案清除
-            var DelReadyList = ReadyToTypeSettingProductProjectVMObservableCollection.Except(ProductProjectVMObservableCollection).ToList();
-            var DelNotReadyList = NotReadyToTypeSettingProductProjectVMObservableCollection.Except(ProductProjectVMObservableCollection).ToList();
-
-            DelReadyList.ForEach(del =>
-            {
-                ReadyToTypeSettingProductProjectVMObservableCollection.Remove(del);
+                catch(Exception ex)
+                {
+                    Debugger.Break();
+                }
             });
-            DelNotReadyList.ForEach(del =>
-            {
-                NotReadyToTypeSettingProductProjectVMObservableCollection.Remove(del);
-            });
-
-
-
-            int BFinishindex = 0;
-            while ((BFinishindex = NotReadyToTypeSettingProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectIsFinish)) != -1)
-            {
-                NotReadyToTypeSettingProductProjectVMObservableCollection.RemoveAt(BFinishindex);
-            }
-
-
         }
 
 
@@ -810,7 +818,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     foreach (var project in projectList)
                     {
-                        project?.ReloadPartsParameterVMObservableCollection();
+                      await  project?.ReloadPartsParameterVMObservableCollectionAsync();
                     }
                 }
                 //   }

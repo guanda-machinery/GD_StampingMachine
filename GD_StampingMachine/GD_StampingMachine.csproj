@@ -1,9 +1,7 @@
-﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <LangVersion>9</LangVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -19,498 +17,19 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{144670CB-6396-488C-A76D-2E03A3B69E78}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GD_StampingMachine</RootNamespace>
-    <AssemblyName>GD_StampingMachine</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CalcBinding, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CalcBinding.2.5.2\lib\net45\CalcBinding.dll</HintPath>
-    </Reference>
-    <Reference Include="CommunityToolkit.Mvvm, Version=8.2.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommunityToolkit.Mvvm.8.2.1\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
-    </Reference>
-    <Reference Include="CsvHelper, Version=30.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsvHelper.30.0.1\lib\net47\CsvHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.CodeParser.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.CodeParser.21.1.4\lib\net452\DevExpress.CodeParser.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Data.Desktop.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Data.Desktop.21.1.4\lib\net452\DevExpress.Data.Desktop.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Data.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Data.21.1.4\lib\net452\DevExpress.Data.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Diagram.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Diagram.Core.21.1.4\lib\net452\DevExpress.Diagram.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Dialogs.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Dialogs.Core.21.1.4\lib\net452\DevExpress.Dialogs.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Images.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Images.21.1.4\lib\net452\DevExpress.Images.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Mvvm.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Office.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Office.Core.21.1.4\lib\net452\DevExpress.Office.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Pdf.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Pdf.Core.21.1.4\lib\net452\DevExpress.Pdf.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Pdf.v21.1.Drawing, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Pdf.Drawing.21.1.4\lib\net452\DevExpress.Pdf.v21.1.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Printing.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Printing.Core.21.1.4\lib\net452\DevExpress.Printing.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.RichEdit.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.RichEdit.Core.21.1.4\lib\net452\DevExpress.RichEdit.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Sparkline.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Sparkline.Core.21.1.4\lib\net452\DevExpress.Sparkline.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Utils.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Utils.21.1.4\lib\net452\DevExpress.Utils.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Controls.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Controls.21.1.4\lib\net452\DevExpress.Xpf.Controls.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Core.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Diagram.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Diagram.21.1.4\lib\net452\DevExpress.Xpf.Diagram.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Docking.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Docking.21.1.4\lib\net452\DevExpress.Xpf.Docking.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.DocumentViewer.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.DocumentViewer.Core.21.1.4\lib\net452\DevExpress.Xpf.DocumentViewer.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.ExpressionEditor.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.ExpressionEditor.21.1.4\lib\net452\DevExpress.Xpf.ExpressionEditor.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Gauges.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Gauges.21.1.4\lib\net452\DevExpress.Xpf.Gauges.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Grid.Core.21.1.4\lib\net452\DevExpress.Xpf.Grid.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Grid.Core.21.1.4\lib\net452\DevExpress.Xpf.Grid.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v21.1.Extensions, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Grid.Core.21.1.4\lib\net452\DevExpress.Xpf.Grid.v21.1.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Layout.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Docking.21.1.4\lib\net452\DevExpress.Xpf.Layout.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.LayoutControl.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.LayoutControl.21.1.4\lib\net452\DevExpress.Xpf.LayoutControl.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Office.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Office.21.1.4\lib\net452\DevExpress.Xpf.Office.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Printing.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Printing.21.1.4\lib\net452\DevExpress.Xpf.Printing.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.PropertyGrid.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.PropertyGrid.21.1.4\lib\net452\DevExpress.Xpf.PropertyGrid.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Ribbon.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Ribbon.21.1.4\lib\net452\DevExpress.Xpf.Ribbon.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.RichEdit.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.RichEdit.21.1.4\lib\net452\DevExpress.Xpf.RichEdit.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Scheduling.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Scheduling.21.1.4\lib\net452\DevExpress.Xpf.Scheduling.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Themes.Office2019Colorful.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Wpf.Themes.Office2019Colorful.21.1.4\lib\net452\DevExpress.Xpf.Themes.Office2019Colorful.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpo.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Xpo.21.1.4\lib\net452\DevExpress.Xpo.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraBars.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Navigation.21.1.4\lib\net452\DevExpress.XtraBars.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraDialogs.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Dialogs.21.1.4\lib\net452\DevExpress.XtraDialogs.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraEditors.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Navigation.21.1.4\lib\net452\DevExpress.XtraEditors.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraGauges.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Gauges.Core.21.1.4\lib\net452\DevExpress.XtraGauges.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraGrid.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Grid.21.1.4\lib\net452\DevExpress.XtraGrid.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraLayout.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Navigation.21.1.4\lib\net452\DevExpress.XtraLayout.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraPrinting.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Printing.21.1.4\lib\net452\DevExpress.XtraPrinting.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraScheduler.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.Scheduler.21.1.4\lib\net452\DevExpress.XtraScheduler.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraScheduler.v21.1.Core, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Scheduler.Core.21.1.4\lib\net452\DevExpress.XtraScheduler.v21.1.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraScheduler.v21.1.Core.Desktop, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Scheduler.CoreDesktop.21.1.4\lib\net452\DevExpress.XtraScheduler.v21.1.Core.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraTreeList.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Win.TreeList.21.1.4\lib\net452\DevExpress.XtraTreeList.v21.1.dll</HintPath>
-    </Reference>
-    <Reference Include="DynamicExpresso.Core, Version=2.16.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DynamicExpresso.Core.2.16.1\lib\netstandard2.0\DynamicExpresso.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GongSolutions.WPF.DragDrop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
-      <HintPath>..\packages\gong-wpf-dragdrop.3.2.1\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.2023.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="MaterialDesignColors, Version=2.1.4.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.2.1.4\lib\net462\MaterialDesignColors.dll</HintPath>
-    </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=4.9.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.4.9.0\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="MessagePack, Version=2.5.0.0, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessagePack.2.5.108\lib\netstandard2.0\MessagePack.dll</HintPath>
-    </Reference>
-    <Reference Include="MessagePack.Annotations, Version=2.5.0.0, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessagePack.Annotations.2.5.108\lib\netstandard2.0\MessagePack.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Build.Framework.17.8.3\lib\net472\Microsoft.Build.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IO.Redist, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IO.Redist.6.0.0\lib\net472\Microsoft.IO.Redist.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.NET.StringTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.NET.StringTools.17.8.3\lib\net472\Microsoft.NET.StringTools.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ServiceHub.Framework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ServiceHub.Framework.4.4.16\lib\net472\Microsoft.ServiceHub.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Composition, Version=17.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Composition.17.7.26\lib\net472\Microsoft.VisualStudio.Composition.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.GraphModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.GraphModel.17.8.37221\lib\net472\Microsoft.VisualStudio.GraphModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.17.8.37221\lib\net472\Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Interop, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Interop.17.8.37221\lib\net472\Microsoft.VisualStudio.Interop.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.RemoteControl, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.RemoteControl.16.3.52\lib\net45\Microsoft.VisualStudio.RemoteControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.RpcContracts, Version=17.8.9.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.RpcContracts.17.8.9\lib\netstandard2.0\Microsoft.VisualStudio.RpcContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Setup.Configuration.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Telemetry, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Telemetry.17.8.143\lib\net45\Microsoft.VisualStudio.Telemetry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Threading, Version=17.8.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Threading.17.8.14\lib\net472\Microsoft.VisualStudio.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Utilities, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Utilities.17.8.37221\lib\net472\Microsoft.VisualStudio.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Utilities.Internal, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Utilities.Internal.16.3.56\lib\net45\Microsoft.VisualStudio.Utilities.Internal.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Validation, Version=17.8.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Validation.17.8.8\lib\netstandard2.0\Microsoft.VisualStudio.Validation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
-    </Reference>
-    <Reference Include="Nerdbank.Streams, Version=2.10.0.0, Culture=neutral, PublicKeyToken=cac503e1823ce71c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nerdbank.Streams.2.10.69\lib\netstandard2.0\Nerdbank.Streams.dll</HintPath>
-    </Reference>
-    <Reference Include="netstandard" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="StreamJsonRpc, Version=2.17.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\StreamJsonRpc.2.17.8\lib\netstandard2.0\StreamJsonRpc.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.7.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Composition.AttributedModel, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.AttributedModel.7.0.0\lib\net462\System.Composition.AttributedModel.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Convention, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.Convention.7.0.0\lib\net462\System.Composition.Convention.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Hosting, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.Hosting.7.0.0\lib\net462\System.Composition.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Runtime, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.Runtime.7.0.0\lib\net462\System.Composition.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.TypedParts, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Composition.TypedParts.7.0.0\lib\net462\System.Composition.TypedParts.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.7.0.2\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Pipelines, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Pipelines.7.0.0\lib\net462\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Management" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Metadata, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reflection.Metadata.7.0.0\lib\net462\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.AccessControl, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.AccessControl.7.0.0\lib\net462\System.Threading.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Dataflow, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Dataflow.7.0.0\lib\net462\System.Threading.Tasks.Dataflow.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Const\MachineConst.cs" />
-    <Compile Include="Cultures\CulturesHelper.cs" />
-    <Compile Include="Commands\BoxDrapDragRecordCommand.cs" />
-    <Compile Include="Method\MessageBoxResultShow.cs" />
-    <Compile Include="Method\StampingMachineJsonHelper.cs" />
-    <Compile Include="Singletons\ColorSettingSingleton.cs" />
-    <Compile Include="Singletons\LogDataSingleton.cs" />
-    <Compile Include="Singletons\StampingMachineSingleton.cs" />
-    <Compile Include="Singletons\StampMachineDataSingleton.cs" />
-    <Compile Include="SplashScreenWindows\ProcessingScreenWindow.xaml.cs">
-      <DependentUpon>ProcessingScreenWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SplashScreenWindows\StartSplashScreen.xaml.cs">
-      <DependentUpon>StartSplashScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StampingMachineWindow.xaml.cs">
-      <DependentUpon>StampingMachineWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomControls\FunctionToggleUserControl.xaml.cs">
-      <DependentUpon>FunctionToggleUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CustomControls\GradientEllipse.cs" />
-    <Compile Include="UserControls\CustomControls\ImageBrightDarkCustomControl.cs" />
-    <Compile Include="UserControls\CustomControls\PlateDiagramCustomControl.cs" />
-    <Compile Include="UserControls\MachineFunctionTestUserControl.xaml.cs">
-      <DependentUpon>MachineFunctionTestUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NumberSettingSchematicDiagram\QRPlateRowDiagramControl.xaml.cs">
-      <DependentUpon>QRPlateRowDiagramControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Simple\RotateCircularKnob.xaml.cs">
-      <DependentUpon>RotateCircularKnob.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Simple\SimpleCircularProgressBar.xaml.cs">
-      <DependentUpon>SimpleCircularProgressBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ValueConverters\DayOfWeekWorkVMObservableCollectionConverter.cs" />
-    <Compile Include="ViewModels\MachineFunctionTest2ViewModel.cs" />
-    <Compile Include="ViewModels\MachineMonitor\IO_InfoViewModel.cs" />
-    <Compile Include="ViewModels\MachineMonitor\PlateMonitorViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\PlateFontViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingBaseViewModel.cs" />
-    <Compile Include="Method\DropHandler\FunctionToggleButtonControlBaseDropTarget.cs" />
-    <Compile Include="Method\DropHandler\StampingFileDropTarget.cs" />
-    <Compile Include="Method\MethodWinUIMessageBox.cs" />
-    <Compile Include="Method\DropHandler\StampingTypeDropTarget.cs" />
-    <Compile Include="Interfaces\ISettingCommandInterface.cs" />
-    <Compile Include="UserControls\CylinderUserControl.xaml.cs">
-      <DependentUpon>CylinderUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MachineFunctionUserControl.xaml.cs">
-      <DependentUpon>MachineFunctionUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MachineMonitorUserControl.xaml.cs">
-      <DependentUpon>MachineMonitorUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\ParamaterSettingUserControl.xaml.cs">
-      <DependentUpon>ParamaterSettingUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\ProductSettingUserControl.xaml.cs">
-      <DependentUpon>ProductSettingUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\SoftwareUpdateUserControl.xaml.cs">
-      <DependentUpon>SoftwareUpdateUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\StampingFontChangedUserControl.xaml.cs">
-      <DependentUpon>StampingFontChangedUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\StampingMachineFontMonitorUserControl.xaml.cs">
-      <DependentUpon>StampingMachineFontMonitorUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\TriggerSliderUserControl.xaml.cs">
-      <DependentUpon>TriggerSliderUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\TypeSettingSettingUserControl.xaml.cs">
-      <DependentUpon>TypeSettingSettingUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ValueConverters\EnumToBrushesConverter.cs" />
-    <Compile Include="ValueConverters\EnumToPackIconKindConverter.cs" />
-    <Compile Include="Singletons\CultureViewModel.cs" />
-    <Compile Include="ViewModels\MachineFunctionViewModel.cs" />
-    <Compile Include="ViewModels\MachiningProjectViewModel.cs" />
-    <Compile Include="ViewModels\MachineMonitorViewModel.cs" />
-    <Compile Include="ViewModels\MechanicalSpecificationViewModel.cs" />
-    <Compile Include="ViewModels\OperatingLogViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\AxisSettingViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\InputOutputViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\EngineerSettingViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingPage\NumberSettingPageViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingPage\ParameterSettingBaseViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\NumberSettingViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingPage\PlateSettingPageBaseViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\SettingPage\QRSettingPageViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\PlateSetting\QRSettingViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\SeparateBoxViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\SeparateSettingViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSetting\TimingSettingViewModel.cs" />
-    <Compile Include="ViewModels\ParameterSettingViewModel.cs" />
-    <Compile Include="ViewModels\ProductSetting\PartsParameterViewModel.cs" />
-    <Compile Include="ViewModels\ProductSetting\ProductSettingViewModel.cs" />
-    <Compile Include="ViewModels\ProductSetting\ProductProjectViewModel.cs" />
-    <Compile Include="ViewModels\ProductSetting\StampingSteelBeltViewModel.cs" />
-    <Compile Include="ViewModels\StampingBoxPartsViewModel.cs" />
-    <Compile Include="ViewModels\StampingFontChangedViewModel.cs" />
-    <Compile Include="Singletons\StampingMainViewModel.cs" />
-    <Compile Include="ViewModels\StampingMachineWindowViewModel.cs" />
-    <Compile Include="ViewModels\StampingTypeViewModel.cs" />
-    <Compile Include="ViewModels\ProjectDistributeViewModel.cs" />
-    <Compile Include="ViewModels\TypeSettingSettingViewModel.cs" />
-    <Compile Include="Views\StampingMainView.xaml.cs">
-      <DependentUpon>StampingMainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MessageBoxWindow.xaml.cs">
-      <DependentUpon>MessageBoxWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\CustomControls\FunctionToggleUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="Windows\MessageBoxWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Resource Include="Image\SNP-0001.bmp" />
     <Resource Include="Image\刻印組.bmp" />
     <Resource Include="Resources\Logo.ico" />
@@ -520,163 +39,11 @@
     <Resource Include="Image\擷取3.PNG" />
     <Resource Include="Image\擷取1.PNG" />
     <Resource Include="Image\擷取2.PNG" />
-    <Content Include="Cultures\StringResources.en-US.xaml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Page Include="Dictionary\DrawingDictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dictionary\IconDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SplashScreenWindows\ProcessingScreenWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SplashScreenWindows\StartSplashScreen.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="StampingMachineWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\ComboBoxStyleDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\DragDropStyleDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\GridControlStyleDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\ListBoxStyleDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\ScrollViews.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dictionary\SolidColorBrushDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\StyleDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Content Include="Cultures\StringResources.zh-TW.xaml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="UserControls\CylinderUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MachineFunctionTestUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MachineFunctionUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MachineMonitorUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\NumberSettingSchematicDiagram\QRPlateRowDiagramControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\ParamaterSettingUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\ProductSettingUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\Simple\RotateCircularKnob.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\Simple\SimpleCircularProgressBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SoftwareUpdateUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\StampingFontChangedUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\StampingMachineFontMonitorUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\TriggerSliderUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\TypeSettingSettingUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\StampingMainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <EmbeddedResource Include="Properties\licenses.licx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <None Include="App.config" />
     <Resource Include="Fonts\Inter.ttf" />
     <None Include="Image\鋼印機外型資料%281%29.pdf" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -710,52 +77,158 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Arrowheads\Arrowheads.csproj">
-      <Project>{3c73ab7a-0f68-4790-af89-c107c411bb55}</Project>
-      <Name>Arrowheads</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj">
-      <Project>{0911bde5-d35b-409b-8c14-8d93f4a52cac}</Project>
-      <Name>GD_CommonLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GD_MachineConnect\GD_MachineConnect.csproj">
-      <Project>{EF757B42-C01A-4E35-BD2A-B9F497861843}</Project>
-      <Name>GD_MachineConnect</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj">
-      <Project>{1b72928b-a32a-440a-854b-2ec435881875}</Project>
-      <Name>GD_StampingMachine.GD_Enum</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj">
-      <Project>{12b3b748-7a04-4621-955c-463f2eca94b7}</Project>
-      <Name>GD_StampingMachine.GD_Model</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Arrowheads\Arrowheads.csproj" />
+    <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj" />
+    <ProjectReference Include="..\GD_MachineConnect\GD_MachineConnect.csproj" />
+    <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj" />
+    <ProjectReference Include="..\GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets'))" />
-    <Error Condition="!Exists('..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.8.14\build\Microsoft.VisualStudio.Threading.Analyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.8.14\build\Microsoft.VisualStudio.Threading.Analyzers.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.SDK.Analyzers.16.10.10\build\Microsoft.VisualStudio.SDK.Analyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.SDK.Analyzers.16.10.10\build\Microsoft.VisualStudio.SDK.Analyzers.targets'))" />
-  </Target>
-  <Import Project="..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
-  <Import Project="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.8.14\build\Microsoft.VisualStudio.Threading.Analyzers.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.8.14\build\Microsoft.VisualStudio.Threading.Analyzers.targets')" />
-  <Import Project="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets" Condition="Exists('..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\build\Microsoft.CodeAnalysis.BannedApiAnalyzers.targets')" />
-  <Import Project="..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.3.8.2112\build\Microsoft.VisualStudio.Setup.Configuration.Interop.targets')" />
-  <Import Project="..\packages\Microsoft.VisualStudio.SDK.Analyzers.16.10.10\build\Microsoft.VisualStudio.SDK.Analyzers.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.SDK.Analyzers.16.10.10\build\Microsoft.VisualStudio.SDK.Analyzers.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CalcBinding" Version="2.5.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
+	  <PackageReference Include="DevExpress.Charts" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Charts.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Data" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Data.Desktop" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.DataAccess" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.DataVisualization.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Diagram.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Gauges.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Images" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Map.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Mvvm" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Office.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Pdf.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Pdf.Drawing" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.PivotGrid.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Printing.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Reporting.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.RichEdit.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.RichEdit.Export" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Scaffolding.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Scaffolding.EFCore" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Scheduler.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Scheduler.CoreDesktop" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Sparkline.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.SpellChecker.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Spreadsheet.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.TreeMap.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Utils" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Win.Dialogs.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Win.Grid" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Win.Navigation" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Win.Printing" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Win.Scheduler" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Win.SchedulerReporting" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Win.TreeList" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Accordion" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Carousel" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Charts" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Controls" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Core.Extensions" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Diagram" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Dialogs" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Docking" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.DocumentViewer.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.ExpressionEditor" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Gantt" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Gauges" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Grid" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Grid.Core" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Grid.Printing" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Map" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.NavBar" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Office" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.PivotGrid" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Printing" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.PrismAdapters" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.PropertyGrid" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Reporting" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Ribbon" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.RichEdit" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Scheduling" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.SchedulingReporting" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.SpellChecker" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Spreadsheet" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.Themes.Office2019Colorful" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.TreeMap" Version="21.2.15" />
+	  <PackageReference Include="DevExpress.Wpf.TypedStyles" Version="21.2.15" />
+    <PackageReference Include="DynamicExpresso.Core" Version="2.16.1" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
+    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="MessagePack" Version="2.5.108" />
+    <PackageReference Include="MessagePack.Annotations" Version="2.5.108" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="17.8.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.2" />
+    <PackageReference Include="Microsoft.NET.StringTools" Version="17.8.3" />
+    <PackageReference Include="Microsoft.ServiceHub.Analyzers" Version="4.4.16" />
+    <PackageReference Include="Microsoft.ServiceHub.Framework" Version="4.4.16" />
+    <PackageReference Include="Microsoft.ServiceHub.Resources" Version="4.4.2142" />
+    <PackageReference Include="Microsoft.VisualStudio.Composition" Version="17.7.26" />
+    <PackageReference Include="Microsoft.VisualStudio.Composition.Analyzers" Version="17.7.26" />
+    <PackageReference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime" Version="17.8.37221" />
+    <PackageReference Include="Microsoft.VisualStudio.Interop" Version="17.8.37221" />
+    <PackageReference Include="Microsoft.VisualStudio.RemoteControl" Version="16.3.52" />
+    <PackageReference Include="Microsoft.VisualStudio.RpcContracts" Version="17.8.9" />
+    <PackageReference Include="Microsoft.VisualStudio.SDK.Analyzers" Version="16.10.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="3.8.2112" />
+    <PackageReference Include="Microsoft.VisualStudio.Telemetry" Version="17.8.143" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.8.14" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.8.14" />
+    <PackageReference Include="Microsoft.VisualStudio.Utilities" Version="17.8.37221" />
+    <PackageReference Include="Microsoft.VisualStudio.Utilities.Internal" Version="16.3.56" />
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Nerdbank.Streams" Version="2.10.69" />
+    <PackageReference Include="StreamJsonRpc" Version="2.17.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Cultures\EnumResources.Designer.cs" />
+    <Compile Remove="UserControls\CustomControls\FunctionToggleControl.cs" />
+    <Compile Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
+    <Compile Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramViewUserControl.xaml.cs" />
+    <Compile Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRViewUserControl.xaml.cs" />
+    <Compile Remove="UserControls\SettingButtonUserControl.xaml.cs" />
+    <Compile Remove="UserControls\StampingBoxPartsUserControl.xaml.cs" />
+    <Compile Remove="UserControls\StampingTypeUserControl.xaml.cs" />
+    <Compile Remove="ViewModels\BaseViewModelWithLog.cs" />
+    <Compile Remove="ViewModels\MachineFunctionTestViewModel.cs" />
+    <Compile Remove="ViewModels\ParameterSetting\PlateSetting\NumberSettingSchematicDiagramViewModel.cs" />
+    <Compile Remove="ViewModels\ProductSetting\PartsParameterMachiningViewModel.cs" />
+    <Compile Remove="ViewModels\SendMachineCommandViewModel.cs" />
+    <Compile Remove="ViewModels\SettingViewModelBase.cs" />
+    <EmbeddedResource Remove="Cultures\EnumResources.resx" />
+    <EmbeddedResource Remove="Cultures\EnumResources.zh-TW.resx" />
+    <Page Remove="Cultures\StringResources.en-US.xaml" />
+    <Page Remove="Cultures\StringResources.zh-TW.xaml" />
+    <Page Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramViewUserControl.xaml" />
+    <Page Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramWithQRViewUserControl.xaml" />
+    <Page Remove="UserControls\SettingButtonUserControl.xaml" />
+    <Page Remove="UserControls\StampingBoxPartsUserControl.xaml" />
+    <Page Remove="UserControls\StampingTypeUserControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Cultures\StringResources.en-US.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cultures\StringResources.zh-TW.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

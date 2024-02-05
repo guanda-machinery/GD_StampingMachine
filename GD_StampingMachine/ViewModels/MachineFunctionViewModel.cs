@@ -39,7 +39,7 @@ namespace GD_StampingMachine.ViewModels
 
         public MachineFunctionViewModel()
         {
-            _ = Task.Run(async () => { await Task.Delay(5000); SleepSettingStart(); });
+            _ = Task.Run(async () => { await Task.Delay(10000); SleepSettingStart(); });
 
 
         }

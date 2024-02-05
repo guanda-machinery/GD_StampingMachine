@@ -200,6 +200,10 @@ namespace GD_StampingMachine.Windows
                     Overlay.Show();
                     this.Owner = Overlay;
                 }
+                else
+                {
+                    this.Topmost = true;
+                }
                 this.ShowDialog();
                 this.CloseMessageBox();
             }));

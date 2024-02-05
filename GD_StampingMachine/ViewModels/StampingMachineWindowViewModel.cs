@@ -11,27 +11,6 @@ namespace GD_StampingMachine.ViewModels
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMachineWindowViewModel");
 
 
-        public StampingMachineWindowViewModel()
-        {
-
-
-            try
-            {
-                if (Properties.Settings.Default.WindowState != WindowState.Minimized)
-                {
-                    this.WindowState = Properties.Settings.Default.WindowState;
-                }
-
-
-            }
-            catch
-            {
-
-            }
-        }
-
-
-
 
 
 

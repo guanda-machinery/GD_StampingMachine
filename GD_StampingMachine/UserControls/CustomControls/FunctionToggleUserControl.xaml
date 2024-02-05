@@ -65,8 +65,7 @@
 
                                                     <Image 
                                                     d:Width="40" d:Height="40" 
-                                                        d:Source="{StaticResource Logo}"
-                                                    Source="{Binding ImageSource}"
+                                                    Source="{Binding ImageSource,FallbackValue={StaticResource Logo}}"
                                                     Width="{Binding ImageWidth , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                     Height="{Binding ImageHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"/>
                                                     <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -104,7 +103,7 @@
                                             </ProgressBar>
                                         </Grid>
                                         <Grid Grid.Row="1" >
-                                            <TextBlock   MaxWidth="80"  Padding="0" d:Text="Test" d:Foreground="White"
+                                            <TextBlock   MaxWidth="80"  Padding="0" d:Foreground="White"
                                                          Margin="{Binding TextMargin , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontFamily="{Binding FontFamily , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontSize="{Binding FontSize , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"

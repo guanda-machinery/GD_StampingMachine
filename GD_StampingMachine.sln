@@ -1,20 +1,20 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_StampingMachine", "GD_StampingMachine\GD_StampingMachine.csproj", "{144670CB-6396-488C-A76D-2E03A3B69E78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GD_StampingMachine", "GD_StampingMachine\GD_StampingMachine.csproj", "{144670CB-6396-488C-A76D-2E03A3B69E78}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0911BDE5-D35B-409B-8C14-8D93F4A52CAC} = {0911BDE5-D35B-409B-8C14-8D93F4A52CAC}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_CommonLibrary", "GD_CommonLibrary\GD_CommonLibrary.csproj", "{0911BDE5-D35B-409B-8C14-8D93F4A52CAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GD_CommonLibrary", "GD_CommonLibrary\GD_CommonLibrary.csproj", "{0911BDE5-D35B-409B-8C14-8D93F4A52CAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_MachineConnectTest", "GD_MachineConnectTest\GD_MachineConnectTest.csproj", "{0F457838-6516-4171-84AA-4A0A31C3809A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_StampingMachine.GD_Enum", "GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj", "{1B72928B-A32A-440A-854B-2EC435881875}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GD_StampingMachine.GD_Enum", "GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj", "{1B72928B-A32A-440A-854B-2EC435881875}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GD_StampingMachine.GD_Model", "GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj", "{12B3B748-7A04-4621-955C-463F2ECA94B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GD_StampingMachine.GD_Model", "GD_StampingMachine.GD_Model\GD_StampingMachine.GD_Model.csproj", "{12B3B748-7A04-4621-955C-463F2ECA94B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arrowheads", "Arrowheads\Arrowheads.csproj", "{3C73AB7A-0F68-4790-AF89-C107C411BB55}"
 EndProject

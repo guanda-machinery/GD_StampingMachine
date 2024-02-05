@@ -1249,8 +1249,8 @@
                                     TargetType="GD_UserControls:FunctionToggleUserControl" 
                                        BasedOn="{StaticResource FunctionToggleUserControlKey}">
 
-        <Setter Property="Margin" Value="1,2"/>
-        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Margin" Value="2,2"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Foreground" Value="{DynamicResource DarkHueDarkForegroundBrush}"/>
         <Setter Property="IsCheckedBorderThickness" Value="2.0"/>
     </Style>
