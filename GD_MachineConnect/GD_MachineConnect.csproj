@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GD_CommonControlLibrary\GD_CommonControlLibrary.csproj" />
+    <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj" />
   </ItemGroup>
 
 </Project>
