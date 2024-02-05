@@ -14,17 +14,17 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"                       
              xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"          
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
              xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_stampingmachine="clr-namespace:GD_StampingMachine"
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_Extensions="clr-namespace:GD_CommonLibrary.Extensions;assembly=GD_CommonLibrary" 
+             xmlns:GD_Extensions="clr-namespace:GD_CommonControlLibrary.Extensions;assembly=GD_CommonControlLibrary" 
              xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
-    xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
+    xmlns:GD_ValidRule="clr-namespace:GD_CommonControlLibrary.ValidationRules;assembly=GD_CommonControlLibrary" 
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
     xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads"
     xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -33,7 +33,7 @@
 
     <materialDesign:DialogHost CloseOnClickAway="True"  >
         <materialDesign:DialogHost.IsOpen>
-            <MultiBinding Converter="{GD_Common:DialogHostMultiBooleanToBooleanConverter}" >
+            <MultiBinding Converter="{GD_CommonControl:DialogHostMultiBooleanToBooleanConverter}" >
                 <MultiBinding.Bindings>
                     <Binding Path="ProductSettingVM.AddProjectDarggableIsPopup"/>
                     <Binding Path="ProductSettingVM.SelectProductProjectVM.EditProjectDarggableIsPopup"/>
@@ -139,7 +139,7 @@
                         
                         <Button Name="AlarmButton"  
                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
-                            Path=AlarmMessageCollection.Count,Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True} }"
+                            Path=AlarmMessageCollection.Count,Converter={GD_CommonControl:ItemSourceCountIsZeroToVisibility Invert=True} }"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=MachineWarningDraggablePopup}"       
                                 BorderThickness="0" 
@@ -275,7 +275,7 @@
                                                 <GroupBox  
                                             Grid.Column="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
                                             <ListBox Visibility="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection.Count,
-                                                Converter={GD_Common:ItemSourceCountIsZeroToVisibility Invert=True}}"
+                                                Converter={GD_CommonControl:ItemSourceCountIsZeroToVisibility Invert=True}}"
                                                 Margin="10,0"  
                          ItemsSource="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection}"          
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
@@ -452,7 +452,7 @@
                         <Grid>
                         <ScrollViewer  Background="White"
                            VerticalScrollBarVisibility="Auto"
-                        Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_Common:ObjectIsEqualToVisibilityConverter}}">
+                        Visibility="{Binding ElementName=MainTabControl,Path=SelectedIndex ,ConverterParameter={StaticResource MinusOne} ,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter}}">
                             <StackPanel >
                                 <Grid  Width="600"  >
                                     <materialDesign:Card   materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp6" >
@@ -821,7 +821,7 @@ RadiusX="0.5" RadiusY="0.5">
                                         <TextBlock Text="各種功能測試區 - test"/>
                                         <GD_UserControls:SimpleCircularProgressBar Value="50"/>
 
-                                        <GD_Common:CircularRangeSlider Name="CRangeSlider" Width="200" Height="200"
+                                        <GD_CommonControl:CircularRangeSlider Name="CRangeSlider" Width="200" Height="200"
                                                                        Minimum="0"
                                                                        Maximum="24"
                                                                        Radius="130"
@@ -829,13 +829,13 @@ RadiusX="0.5" RadiusY="0.5">
                                                                        LargeCalibration="24"
                                                                        SmallCalibration="96"
                                             >
-                                            <GD_Common:CircularRangeSlider.Style>
-                                                <Style TargetType="{x:Type GD_Common:CircularRangeSlider}" >
+                                            <GD_CommonControl:CircularRangeSlider.Style>
+                                                <Style TargetType="{x:Type GD_CommonControl:CircularRangeSlider}" >
                                                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                                                 <Setter Property="Background" Value="Transparent"/>
                                                 <Setter Property="Template" >
                                                     <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type GD_Common:CircularRangeSlider}">
+                                                        <ControlTemplate TargetType="{x:Type GD_CommonControl:CircularRangeSlider}">
                                                             <Border BorderBrush="{TemplateBinding BorderBrush}"
                                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                                     Background="{TemplateBinding Background}" 
@@ -851,7 +851,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                     </Border>
 
                                                                                     <ListBox Margin="-12"
-                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=LargeCalibration, Converter={GD_Common:IntToCollectionConverter}}">
+                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=LargeCalibration, Converter={GD_CommonControl:IntToCollectionConverter}}">
                                                                                         <ListBox.ItemContainerStyle>
                                                                                             <Style TargetType="ListBoxItem">
                                                                                                 <Setter Property="Height" Value="12"/>
@@ -875,7 +875,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                         </ListBox.ItemContainerStyle>
                                                                                         <ListBox.ItemsPanel>
                                                                                             <ItemsPanelTemplate>
-                                                                                                <GD_Common:RadialPanel
+                                                                                                <GD_CommonControl:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                         StartAngle="0"  RoundAngle="360"
                                         ItemRotateAngle="90"  />
@@ -884,7 +884,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                     </ListBox>
 
                                                                                     <ListBox Margin="-16"
-                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=SmallCalibration, Converter={GD_Common:IntToCollectionConverter}}">
+                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=SmallCalibration, Converter={GD_CommonControl:IntToCollectionConverter}}">
                                                                                         <ListBox.ItemContainerStyle>
                                                                                             <Style TargetType="ListBoxItem">
                                                                                                 <Setter Property="Height" Value="6"/>
@@ -908,7 +908,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                         </ListBox.ItemContainerStyle>
                                                                                         <ListBox.ItemsPanel>
                                                                                             <ItemsPanelTemplate>
-                                                                                                <GD_Common:RadialPanel
+                                                                                                <GD_CommonControl:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                         StartAngle="0"  RoundAngle="360"
                                         ItemRotateAngle="90"  />
@@ -956,7 +956,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                         </ListBox.ItemContainerStyle>
                                                                                         <ListBox.ItemsPanel>
                                                                                             <ItemsPanelTemplate>
-                                                                                                <GD_Common:RadialPanel
+                                                                                                <GD_CommonControl:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                                                                                     StartAngle="-90"  RoundAngle="360"
                                         ItemRotateAngle="0"  />
@@ -1051,7 +1051,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                 <ContentControl.RenderTransform>
                                                                                     <RotateTransform CenterX="0" CenterY="150" >
                                                                                         <RotateTransform.Angle>
-                                                                                            <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                            <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
                                                                                                 <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
                                                                                                 <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
                                                                                                 <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
@@ -1115,7 +1115,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                 <ContentControl.RenderTransform>
                                                                                     <RotateTransform CenterX="0" CenterY="150" >
                                                                                         <RotateTransform.Angle>
-                                                                                            <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                            <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
                                                                                                 <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
                                                                                                 <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
                                                                                                 <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
@@ -1141,8 +1141,8 @@ RadiusX="0.5" RadiusY="0.5">
                                                     </Setter.Value>
                                                 </Setter>
                                                 </Style>
-                                            </GD_Common:CircularRangeSlider.Style>
-                                        </GD_Common:CircularRangeSlider>
+                                            </GD_CommonControl:CircularRangeSlider.Style>
+                                        </GD_CommonControl:CircularRangeSlider>
 
                                     
                                         <TextBox Text="{Binding ElementName=CRangeSlider, Path=Start}"/>
@@ -1389,7 +1389,7 @@ RadiusX="0.5" RadiusY="0.5">
                                     <GD_UserControls:FunctionToggleUserControl 
                                         x:Name="TBtn_ParameterSetting" >
                                             <GD_UserControls:FunctionToggleUserControl.IsChecked>
-                                                <MultiBinding Converter="{GD_Common:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                <MultiBinding Converter="{GD_CommonControl:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                     <MultiBinding.Bindings>
                                                         <Binding Path="ParameterSettingVM.TbtnNumberSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                                         <Binding Path="ParameterSettingVM.TbtnQRSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
@@ -1623,7 +1623,7 @@ RadiusX="0.5" RadiusY="0.5">
                                     IsEnabled="{Binding  
                                     Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, 
                                     Path=SelectedProjectDistributeVM,            
-                                    Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                    Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
                                 x:Name="TBtn_MachineMonitor" >
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                     <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
@@ -1757,7 +1757,7 @@ RadiusX="0.5" RadiusY="0.5">
                                             <!--
                                         <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding}" Width="300" Margin="10"
                                                                                   Foreground="{Binding Path=MainSilderValue, RelativeSource={RelativeSource Self},  
-                                            Converter={GD_Common:HundredDoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}}"/>-->
+                                            Converter={GD_CommonControl:HundredDoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}}"/>-->
 
                                             <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
                                                                                       DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
@@ -1766,7 +1766,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                                                       MainSilderValueChanged="{Binding GlobalSpeedChangedCommand}"
                                                                                       >
                                                 <GD_UserControls:TriggerSliderUserControl.Foreground>
-                                                    <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                    <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_CommonControl:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
                                                         <Binding.ConverterParameter>
                                                             <x:Array Type="SolidColorBrush">
                                                                 <SolidColorBrush Color="Red"/>

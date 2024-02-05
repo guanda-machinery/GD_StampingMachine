@@ -23,11 +23,11 @@
              
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineMonitorViewModel}"
              
               xmlns:sys="clr-namespace:System;assembly=mscorlib" 
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
              xmlns:MachineMonitorViewModel="clr-namespace:GD_StampingMachine.ViewModels.MachineMonitor"
              Name="MachineMonitorUC"
              >
@@ -191,8 +191,6 @@
 
                 <Border Grid.Row="1" Margin="10" Background="{DynamicResource PrimaryHueLightForegroundBrush}"/>
 
-
-
                     <Border Grid.Row="2" Background="White" Margin="0,0,0,0" />
                     <Viewbox Grid.ColumnSpan="3"    Grid.Row="2" MaxHeight="120">
                     <Grid >
@@ -236,7 +234,8 @@
 
                                 </Border>
                             </Grid>
-                            <ItemsControl  HorizontalAlignment="Right" Margin="5,0"   FlowDirection="RightToLeft"
+                            <ItemsControl  
+                                HorizontalAlignment="Right" Margin="5,0"   FlowDirection="RightToLeft"
                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
@@ -466,11 +465,11 @@
                                                                         
                                                                         <GD_SchematicDiagram:PlateRowDiagramViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                           Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                                         <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                                     </Grid>-->
                                                                 </ToggleButton>
@@ -810,7 +809,7 @@
                                 >
 
                             <Button.IsEnabled>
-                                <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter Invert=True}" ConverterParameter="{StaticResource TrueValue}">
+                                <MultiBinding Converter="{GD_CommonControl:MultiValueHasParameterValueToBooleanConverter Invert=True}" ConverterParameter="{StaticResource TrueValue}">
                                     <MultiBinding.Bindings>
                                         <Binding Path="SendMachiningCommand.IsRunning" />
                                         <Binding Path="CompleteMachiningDataCommand.IsRunning" />
@@ -825,7 +824,7 @@
                             Command="{Binding CompleteMachiningDataCommand}"   
                                 Content="{DynamicResource btnCompleteMachining}">
                             <Button.IsEnabled>
-                                <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter Invert=True}" ConverterParameter="{StaticResource TrueValue}">
+                                <MultiBinding Converter="{GD_CommonControl:MultiValueHasParameterValueToBooleanConverter Invert=True}" ConverterParameter="{StaticResource TrueValue}">
                                     <MultiBinding.Bindings>
                                         <Binding Path="SendMachiningCommand.IsRunning" />
                                         <Binding Path="CompleteMachiningDataCommand.IsRunning" />
@@ -840,7 +839,7 @@
                             Command="{Binding SendMachiningCancelCommand}" 
                                 Content="{DynamicResource btnMachiningDataTransferDisrupt}">
                             <Button.IsEnabled>
-                                <MultiBinding Converter="{GD_Common:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource TrueValue}">
+                                <MultiBinding Converter="{GD_CommonControl:MultiValueHasParameterValueToBooleanConverter}" ConverterParameter="{StaticResource TrueValue}">
                                     <MultiBinding.Bindings>
                                         <Binding Path="SendMachiningCommand.IsRunning" />
                                         <Binding Path="CompleteMachiningDataCommand.IsRunning" />
@@ -854,7 +853,7 @@
 
                         <Button  Margin="5"
                             Padding="5,2,5,0"
-                            Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}" 
+                            Command="{Binding ClearMachiningDataCommand}"  IsEnabled="{Binding SendMachiningCommand.IsRunning, Converter={GD_CommonControl:InvertBooleanConverter}}" 
                                 Content="{DynamicResource btnMachiningDataClear}"/>
 
 
@@ -1033,11 +1032,11 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                     </Grid.LayoutTransform>
                                     <GD_SchematicDiagram:PlateRowDiagramViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                           Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                     <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                 </Grid>-->
                                         </ToggleButton>
@@ -1133,7 +1132,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
 
                 <dxg:GridControl Grid.Row="1" 
             Grid.Column="1"
-            IsEnabled="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+            IsEnabled="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
                        
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
@@ -1293,7 +1292,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                         <ProgressBar.Foreground>
-                                            <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                            <Binding Path="Row.FinishProgress" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                         </ProgressBar.Foreground>
                                     </ProgressBar>
 

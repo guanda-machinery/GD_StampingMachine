@@ -38,7 +38,6 @@ namespace GD_StampingMachine
                 Environment.Exit(0);
             }
 
-
             //啟用掃描
             var ManagerVM = new DXSplashScreenViewModel
             {
@@ -75,18 +74,15 @@ namespace GD_StampingMachine
             {
                 try
                 {
-                    await Task.Delay(5000);
-
+                    stampingMachineWindowVM.Opacity = 0.01;
                     ManagerVM.IsIndeterminate = true;
                     var monitorTask = Task.Run(async () =>
                     {
-
                         stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = true;
-                        await Task.Delay(5000);
+                        await Task.Delay(1000);
                         stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = false;
-
-                    }); 
-                    await monitorTask;
+                    });
+                    await Task.Delay(2000);
 
                     ManagerVM.IsIndeterminate = false;
 
@@ -94,6 +90,12 @@ namespace GD_StampingMachine
                     {
                         ManagerVM.Progress = i / 1.0;
                         stampingMachineWindowVM.Opacity = i / 100.0;
+
+                        if(i>20)
+                        {
+                            await monitorTask; ;
+                        }
+
                         await Task.Delay(1);
                     }
                     await Task.Delay(1000);

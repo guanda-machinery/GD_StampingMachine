@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
-    public class SeparateBoxViewModel : GD_CommonLibrary.BaseViewModel
+    public class SeparateBoxViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateBoxViewModel");
 

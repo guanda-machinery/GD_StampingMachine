@@ -5,7 +5,7 @@
                     xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
-                    xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
+                    xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
                     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
                     xmlns:dd="urn:gong-wpf-dragdrop" 
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
@@ -1317,7 +1317,7 @@
     </Style>
 
     <Style TargetType="ItemsControl" BasedOn="{StaticResource DragableItemsControl}" x:Key="StampingToolbarItemsControl">
-        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
+        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlDropTarget}"/>
         <Setter Property="dd:DragDrop.DragAdornerTemplate" >
             <Setter.Value>
                 <DataTemplate>
@@ -1341,7 +1341,7 @@
     </Style>
 
     <Style TargetType="ItemsControl" BasedOn="{StaticResource DragableItemsControl}" x:Key="StampingToolbarItemsControl_Dark">
-        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlBaseDropTarget}"/>
+        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlDropTarget}"/>
         <Setter Property="dd:DragDrop.DragAdornerTemplate" >
             <Setter.Value>
                 <DataTemplate>

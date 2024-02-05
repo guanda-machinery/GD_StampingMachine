@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GD_StampingMachine.Method
 {
-    public class StampingMachineJsonHelper : GD_CommonLibrary.Method.JsonHelperMethod
+    public class StampingMachineJsonHelper : GD_CommonControlLibrary.Method.JsonHelperMethodDialog
     {
 
         public enum ParameterSettingNameEnum

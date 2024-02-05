@@ -31,7 +31,7 @@ namespace GD_StampingMachine.ViewModels
     }
 
 
-    public class StampingBoxPartsViewModel : GD_CommonLibrary.BaseViewModel
+    public class StampingBoxPartsViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingBoxPartsViewModel");
 

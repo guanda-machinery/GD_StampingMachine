@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Native;
-using GD_CommonLibrary;
+using GD_CommonControlLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
@@ -303,7 +303,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override ICommand DeleteSettingCommand => null;
     }
 
-    public class TimingControlViewModel : GD_CommonLibrary.BaseViewModel
+    public class TimingControlViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => "TimingControlViewModel";
         public TimingControlViewModel()

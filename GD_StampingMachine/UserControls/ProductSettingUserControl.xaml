@@ -9,12 +9,12 @@
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
 
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary"
               xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary"
+             xmlns:GD_ValidRule="clr-namespace:GD_CommonControlLibrary.ValidationRules;assembly=GD_CommonControlLibrary"
              xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
             xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
@@ -24,7 +24,7 @@
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
               xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary" 
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary" 
              xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -218,7 +218,7 @@
 
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={GD_Common:EnumGetNameConverter}}"></TextBlock>
+                                        <TextBlock Text="{Binding Converter={GD_CommonControl:EnumGetNameConverter}}"></TextBlock>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
@@ -230,7 +230,7 @@
                                 <Button Padding="10,2,10,0"   Margin="5,0"
                                          Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
                                     <Button.IsEnabled>
-                                        <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
+                                        <MultiBinding Converter="{GD_CommonControl:MultiValueNotContainNullToBooleanConverter}">
                                             <Binding Path="CreatedProjectVM.ProductProjectPath"/>
                                             <Binding Path="CreatedProjectVM.ProductProjectName"/>
                                             <Binding Path="CreatedProjectVM.ProductProjectNumber"/>
@@ -380,7 +380,7 @@
 
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={ GD_Common:EnumGetNameConverter}}"></TextBlock>
+                                        <TextBlock Text="{Binding Converter={ GD_CommonControl:EnumGetNameConverter}}"></TextBlock>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
@@ -394,7 +394,7 @@
                                 <Button Visibility="Collapsed"
                                     Style="{StaticResource SiegCustomButton}" Content="{DynamicResource btnEdit}" Command="{Binding}">
                                     <Button.IsEnabled>
-                                        <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
+                                        <MultiBinding Converter="{GD_CommonControl:MultiValueNotContainNullToBooleanConverter}">
                                             <Binding Path="SelectProductProjectVM.ProductProjectPath"/>
                                             <Binding Path="SelectProductProjectVM.ProductProjectName"/>
                                             <Binding Path="SelectProductProjectVM.ProductProjectNumber"/>
@@ -471,7 +471,7 @@
                     </dxg:GridColumn>
 
                     <dxg:GridColumn  Header="{DynamicResource Text_Form}"   FieldName="SheetStampingTypeForm" 
-                                             Binding="{Binding SheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
+                                             Binding="{Binding SheetStampingTypeForm, Converter={GD_CommonControl:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
                                  Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
@@ -503,7 +503,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                         <ProgressBar.Foreground>
-                                            <Binding Path="Row.ProductProjectFinishProcessing" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                            <Binding Path="Row.ProductProjectFinishProcessing" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                         </ProgressBar.Foreground>
                                     </ProgressBar>
 
@@ -738,7 +738,7 @@
                     Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                     <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="{Binding ProductProjectNumber}" HorizontalAlignment="Center" FontSize="20"/>
                     <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="{Binding ProductProjectName}" HorizontalAlignment="Center" FontSize="20" Margin="15,0"/>
-                    <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="{Binding SheetStampingTypeForm, Converter={GD_Common:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
+                    <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="{Binding SheetStampingTypeForm, Converter={GD_CommonControl:EnumGetNameConverter}}" HorizontalAlignment="Center" FontSize="20"/>
 
                     <StackPanel Orientation="Horizontal" Margin="15,0"  Visibility="{Binding ProductProjectIsFinish, Converter={dx:BooleanToVisibilityConverter}}">
                         <TextBlock Text="[" HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" />
@@ -805,7 +805,7 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Button>
-                            <Button  IsEnabled="{Binding ImportProjectCommand.IsRunning ,Converter={GD_Common:InvertBooleanConverter}}"
+                            <Button  IsEnabled="{Binding ImportProjectCommand.IsRunning ,Converter={GD_CommonControl:InvertBooleanConverter}}"
                                 Name="ImportParameterToggleButton"
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
@@ -862,16 +862,16 @@
                                     <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_EditPart}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
 
                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"     Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="6" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
                                     <TextBlock Grid.Column="0" Grid.Row="7" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
 
 
                                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_IronPlateString}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_QrCodeContent}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_QrCodeContent}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"    Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
 
 
                                     <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_Parameter_A}"/>
@@ -879,8 +879,8 @@
                                     <TextBlock Grid.Column="1" Grid.Row="7" Text="{DynamicResource Text_MachiningForm}" VerticalAlignment="Center"/>
 
                                     <TextBlock Grid.Column="2" Grid.Row="1" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
-                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："     Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="6" Text="："/>
                                     <TextBlock Grid.Column="2" Grid.Row="7" Text="：" VerticalAlignment="Center"/>
@@ -896,7 +896,7 @@
                                     </TextBox>
 
                                     <TextBox Grid.Column="3" Grid.Row="2"  Width="200" Margin="0"  
-                                              Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
+                                              Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding EditPartsParameterVM_Cloned.ParameterC, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -906,7 +906,7 @@
                                     </TextBox>
 
                                     <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
-                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
+                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding EditPartsParameterVM_Cloned.QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -972,10 +972,10 @@
                                                                             <StackPanel>
                                                                                 
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
-                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                 Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                                                                 RedMeasurementLineVisibility="Collapsed" />
                                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
-                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                          Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                                                                                                                                       RedMeasurementLineVisibility="Collapsed" />
 
                                                                             </StackPanel>
@@ -1062,13 +1062,13 @@
                                     <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_CreatePart}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>                                
                                 
                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
 
                                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_Parameter_A}" Margin="0,2"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_Parameter_C}" Margin="0,2"  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"  Margin="0,2"  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_Parameter_C}" Margin="0,2"  Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_QR_Special_IronPlateString}"  Margin="0,2"  Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
 
 
                                     <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_MachiningForm}" Margin="0,2" VerticalAlignment="Center"/>
@@ -1083,8 +1083,8 @@
 
 
                                     <TextBlock Grid.Column="2" Grid.Row="1" Text="：" />
-                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="：" Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
-                                     <TextBlock Grid.Column="2" Grid.Row="3" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="：" Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
+                                     <TextBlock Grid.Column="2" Grid.Row="3" Text="："  Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"/>
 
                                     <TextBlock Grid.Column="2" Grid.Row="4" Text="：" VerticalAlignment="Center"/>
                                     <TextBlock Grid.Column="2" Grid.Row="5" Text="：" VerticalAlignment="Center"/>
@@ -1101,12 +1101,12 @@
 
                                     </TextBox>
 
-                                    <TextBox Grid.Column="3" Grid.Row="2"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
+                                    <TextBox Grid.Column="3" Grid.Row="2"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding  AddNewPartsParameterVM_ParameterC,UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
 
                                     <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
-                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
+                                       Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding AddNewPartsParameterVM_QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
                                     
@@ -1146,10 +1146,10 @@
                                                                             </Grid.LayoutTransform>
                                                                             <StackPanel IsEnabled="False">
                                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
-                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                 Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                                                                 RedMeasurementLineVisibility="Collapsed" />
                                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
-                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                          Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                                                                                                                                       RedMeasurementLineVisibility="Collapsed" />
 
                                                                             </StackPanel>
@@ -1184,7 +1184,7 @@
                                         <Button Padding="10,2,10,0"   Margin="5,0"
                                             Content="{DynamicResource btnCreate}" Command="{Binding CreatePartCommand}">
                                             <Button.IsEnabled>
-                                                <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
+                                                <MultiBinding Converter="{GD_CommonControl:MultiValueNotContainNullToBooleanConverter}">
                                                     <Binding Path="AddNewPartsParameterVM.ParameterA"/>
                                                     <Binding ElementName="AddNewPartsSettingBaseVMComboBox" Path="SelectedItem" UpdateSourceTrigger="PropertyChanged"/>
                                                 </MultiBinding>
@@ -1446,7 +1446,7 @@
                                         <Button Padding="10,2,10,0"   Margin="5,0"
                                             Content="{DynamicResource btnImport}">
                                             <Button.IsEnabled>
-                                                <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
+                                                <MultiBinding Converter="{GD_CommonControl:MultiValueNotContainNullToBooleanConverter}">
                                                     <Binding Path="ImportFilePath"/>
                                                 </MultiBinding>
                                             </Button.IsEnabled>
@@ -1554,7 +1554,7 @@
 
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Converter={ GD_Common:EnumGetNameConverter}}"></TextBlock>
+                                                <TextBlock Text="{Binding Converter={ GD_CommonControl:EnumGetNameConverter}}"></TextBlock>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
@@ -1570,7 +1570,7 @@
                                         </Button>
                                         <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
                                             <Button.IsEnabled>
-                                                <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
+                                                <MultiBinding Converter="{GD_CommonControl:MultiValueNotContainNullToBooleanConverter}">
                                                     <Binding Path="ProjectPathText"/>
                                                     <Binding Path="CreatedProjectModel.Name"/>
                                                     <Binding Path="CreatedProjectModel.Number"/>
@@ -1661,7 +1661,7 @@
                         </dxg:GridColumn.EditSettings>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid HorizontalAlignment="Center" Visibility="{Binding Row.DistributeName , Converter={GD_Common:ObjectIsNullToVisibilityConverter}}">
+                                <Grid HorizontalAlignment="Center" Visibility="{Binding Row.DistributeName , Converter={GD_CommonControl:ObjectIsNullToVisibilityConverter}}">
                                     <Image Source="{StaticResource GreenChecked_DrawingImage}"/>
                                 </Grid>
                             </DataTemplate>
@@ -1776,7 +1776,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                         <ProgressBar.Foreground>
-                                            <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                            <Binding Path="Row.FinishProgress" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                         </ProgressBar.Foreground>
                                     </ProgressBar>
 
@@ -1805,7 +1805,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Button ToolTip="{DynamicResource btnEdit}"     Margin="5,0"
-                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_Common:InvertBooleanConverter}}"
+                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_CommonControl:InvertBooleanConverter}}"
                                         Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50">
 
                                     <Button.Style>
@@ -1856,7 +1856,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Height="30" MinWidth="50" Margin="5,0"
-                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_Common:InvertBooleanConverter}}"
+                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_CommonControl:InvertBooleanConverter}}"
                                         ToolTip="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" >
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">

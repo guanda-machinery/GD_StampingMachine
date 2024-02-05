@@ -8,13 +8,14 @@
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"         
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary"
            
              
              xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
@@ -122,7 +123,7 @@
                                     <Button  Padding="10,3,10,0"
                                         Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectDistributeCommand}">
                                         <Button.IsEnabled>
-                                            <MultiBinding Converter="{GD_Common:MultiValueNotContainNullToBooleanConverter}">
+                                            <MultiBinding Converter="{GD_CommonControl:MultiValueNotContainNullToBooleanConverter}">
                                                 <Binding Path="NewProjectDistribute.ProjectDistributeName"/>
                                             </MultiBinding>
                                         </Button.IsEnabled>
@@ -391,7 +392,7 @@
                                                             <Button Height="30" Width="auto" Padding="10,0" 
                                                                         Content="{StaticResource btnAdd}" Command="{Binding Row.AddTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}" >
                                                                 <!--   <Button.CommandParameter>
-                                                                    <MultiBinding Converter="{GD_Common:MultiBindingToArrayValueConverter}">
+                                                                    <MultiBinding Converter="{GD_CommonControl:MultiBindingToArrayValueConverter}">
                                                                         <MultiBinding.Bindings>
                                                                             <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
                                                                             <Binding ElementName="ReadyToTypeSettingProductProjectGridControl"/>
@@ -545,7 +546,7 @@
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding Row.CloseTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}">
                                                             <!--  <i:InvokeCommandAction.CommandParameter>
-                                                                <MultiBinding Converter="{GD_Common:MultiBindingToArrayValueConverter}">
+                                                                <MultiBinding Converter="{GD_CommonControl:MultiBindingToArrayValueConverter}">
                                                                     <MultiBinding.Bindings>
                                                                         <Binding RelativeSource="{RelativeSource AncestorType={x:Type dxg:GridControl}}"/>
                                                                         <Binding ElementName="NotReadyToTypeSettingProductProjectGridControl"/>
@@ -698,11 +699,11 @@
                                                     </Grid.LayoutTransform>
                                                     <GD_SchematicDiagram:PlateRowDiagramViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                           Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                     <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                                 </Grid>-->
                                             </ToggleButton>
@@ -722,7 +723,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                                 <ProgressBar.Foreground>
-                                                    <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                    <Binding Path="Row.FinishProgress" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                                 </ProgressBar.Foreground>
                                             </ProgressBar>
 
@@ -786,7 +787,7 @@
 
                             <dxg:GridControl Grid.Row="1" 
             Grid.Column="1"
-            IsEnabled="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+            IsEnabled="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
                        
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
@@ -913,11 +914,11 @@
                                     </Grid.LayoutTransform>
                                     <GD_SchematicDiagram:PlateRowDiagramViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                           Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                     <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
                             DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                             RedMeasurementLineVisibility="Collapsed"/>
                                 </Grid>-->
                                                 </ToggleButton>
@@ -937,7 +938,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                                     <ProgressBar.Foreground>
-                                                        <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                        <Binding Path="Row.FinishProgress" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                                     </ProgressBar.Foreground>
                                                 </ProgressBar>
 

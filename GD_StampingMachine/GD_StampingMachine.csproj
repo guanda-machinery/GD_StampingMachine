@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <Resource Include="Resources\svg\NewLogo_1-2.svg" />
+    <Resource Include="Resources\svg\stmDark.svg" />
+    <Resource Include="Resources\svg\stmLight.svg" />
     <Resource Include="Fonts\Inter.ttf" />
     <None Include="Image\鋼印機外型資料%281%29.pdf" />
     <AppDesigner Include="Properties\" />
@@ -78,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Arrowheads\Arrowheads.csproj" />
+    <ProjectReference Include="..\GD_CommonControlLibrary\GD_CommonControlLibrary.csproj" />
     <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj" />
     <ProjectReference Include="..\GD_MachineConnect\GD_MachineConnect.csproj" />
     <ProjectReference Include="..\GD_StampingMachine.GD_Enum\GD_StampingMachine.GD_Enum.csproj" />
@@ -96,7 +100,6 @@
   <ItemGroup>
     <PackageReference Include="CalcBinding" Version="2.5.2" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-    <PackageReference Include="CsvHelper" Version="30.0.1" />
 	  <PackageReference Include="DevExpress.Charts" Version="21.2.15" />
 	  <PackageReference Include="DevExpress.Charts.Core" Version="21.2.15" />
 	  <PackageReference Include="DevExpress.Data" Version="21.2.15" />
@@ -201,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Cultures\EnumResources.Designer.cs" />
+    <Compile Remove="Method\GD_CsvHelperMethod.cs" />
     <Compile Remove="UserControls\CustomControls\FunctionToggleControl.cs" />
     <Compile Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramBaseUserControl.cs" />
     <Compile Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramViewUserControl.xaml.cs" />
@@ -216,6 +220,9 @@
     <Compile Remove="ViewModels\SettingViewModelBase.cs" />
     <EmbeddedResource Remove="Cultures\EnumResources.resx" />
     <EmbeddedResource Remove="Cultures\EnumResources.zh-TW.resx" />
+    <None Remove="Resources\svg\NewLogo_1-2.svg" />
+    <None Remove="Resources\svg\stmDark.svg" />
+    <None Remove="Resources\svg\stmLight.svg" />
     <Page Remove="Cultures\StringResources.en-US.xaml" />
     <Page Remove="Cultures\StringResources.zh-TW.xaml" />
     <Page Remove="UserControls\NumberSettingSchematicDiagram\PlateRowDiagramViewUserControl.xaml" />

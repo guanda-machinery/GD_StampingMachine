@@ -1,4 +1,4 @@
-﻿using GD_CommonLibrary;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GD_StampingMachine
 {
-    public class DayOfWeekWorkVMObservableCollectionConverter : BaseValueConverter
+    public class DayOfWeekWorkVMObservableCollectionConverter : GD_CommonControlLibrary.BaseValueConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

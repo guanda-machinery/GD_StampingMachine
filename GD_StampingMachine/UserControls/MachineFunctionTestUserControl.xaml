@@ -16,7 +16,7 @@
                         
              
              
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
              xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
 
@@ -27,11 +27,11 @@
             xmlns:GD_UserControls="clr-namespace:GD_StampingMachine.UserControls"
              xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" 
-             xmlns:GD_Extensions="clr-namespace:GD_CommonLibrary.Extensions;assembly=GD_CommonLibrary" 
+             xmlns:GD_Extensions="clr-namespace:GD_CommonControlLibrary.Extensions;assembly=GD_CommonControlLibrary" 
              xmlns:dd="urn:gong-wpf-dragdrop" 
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
     xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" 
-    xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
+    xmlns:GD_ValidRule="clr-namespace:GD_CommonControlLibrary.ValidationRules;assembly=GD_CommonControlLibrary" 
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
     xmlns:p="clr-namespace:Petzold.Media2D;assembly=Arrowheads"
     xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" 
@@ -161,11 +161,11 @@
                                                                 <!--
                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl
                                                                     DataContext="{Binding Row.SettingBaseVM}" 
-                                                                    Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                    Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                     RedMeasurementLineVisibility="Collapsed"/>
                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
                                                                     DataContext="{Binding Row.SettingBaseVM}" 
-                                                                    Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                    Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                                                                     RedMeasurementLineVisibility="Collapsed"/>-->
                                                             </Grid>
                                                         </ToggleButton>
@@ -337,10 +337,10 @@
 
                     <Button  Command="{Binding SendMachineCommand}"   Content="新建空鐵片"/>
 
-                    <Button IsEnabled="{Binding ElementName=NumberSettingComboBox , Path=SelectedValue, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                    <Button IsEnabled="{Binding ElementName=NumberSettingComboBox , Path=SelectedValue, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
                                             Command="{Binding SendMachineCommand}"
                                             CommandParameter="{Binding ElementName=NumberSettingComboBox , Path=SelectedValue}" Content="新建一般加工"></Button>
-                    <Button   IsEnabled="{Binding ElementName=QRSettingComboBox , Path=SelectedValue, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                    <Button   IsEnabled="{Binding ElementName=QRSettingComboBox , Path=SelectedValue, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
                                             Command="{Binding SendMachineCommand}" 
                                             CommandParameter="{Binding ElementName=QRSettingComboBox , Path=SelectedValue}" Content="新建QR加工"/>
 
@@ -384,10 +384,10 @@
                                                             </Grid.LayoutTransform>
                                                             <StackPanel>
                                                                 <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
-                                                                                                                                 Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
+                                                                                                                                 Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
                                                                                                                                 RedMeasurementLineVisibility="Collapsed" />
                                                                 <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
-                                                                                                                                          Visibility="{Binding Converter={GD_Common:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
+                                                                                                                                          Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
                                                                                                                                       RedMeasurementLineVisibility="Collapsed" />
 
                                                             </StackPanel>
@@ -512,7 +512,7 @@
                                                                                         >
                                                                         <Grid Opacity="1"  
                                                                                      d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
-                                                                                      Visibility="{Binding AbsoluteMoveDistance, Converter={GD_Common:ObjectIsEqualToVisibilityConverter Invert=True},
+                                                                                      Visibility="{Binding AbsoluteMoveDistance, Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
                                                                             <Grid.LayoutTransform>
                                                                                 <ScaleTransform ScaleX="{c:Binding StampWidth/350}"
@@ -541,7 +541,7 @@
                                                                                 <RotateTransform Angle="270"/>
                                                                             </ProgressBar.LayoutTransform>
                                                                             <i:Interaction.Behaviors>
-                                                                                <GD_Common:ProgresBarAnimateBehavior />
+                                                                                <GD_CommonControl:ProgresBarAnimateBehavior />
                                                                             </i:Interaction.Behaviors>
 
                                                                         </ProgressBar>

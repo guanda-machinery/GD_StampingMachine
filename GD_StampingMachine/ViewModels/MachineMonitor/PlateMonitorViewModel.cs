@@ -1,4 +1,4 @@
-﻿using GD_CommonLibrary;
+﻿using GD_CommonControlLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 

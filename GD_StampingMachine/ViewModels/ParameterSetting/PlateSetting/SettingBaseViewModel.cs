@@ -1,7 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Native;
-using GD_CommonLibrary;
+using GD_CommonControlLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
 using Newtonsoft.Json;

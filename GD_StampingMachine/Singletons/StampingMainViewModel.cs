@@ -18,10 +18,8 @@ using System.Windows;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public partial class StampingMainViewModel : GD_CommonLibrary.BaseViewModel
+    public partial class StampingMainViewModel : GD_CommonControlLibrary.BaseViewModel
     {
-
-
         readonly StampingMachineJsonHelper JsonHM = new();
         /// <summary>
         /// 解構

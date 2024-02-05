@@ -21,7 +21,7 @@ using System.Windows.Input;
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
 
-    public class ProductSettingViewModel : GD_CommonLibrary.BaseViewModel
+    public class ProductSettingViewModel : GD_CommonControlLibrary.BaseViewModel
     {
 
         StampingMachineJsonHelper JsonHM = new();

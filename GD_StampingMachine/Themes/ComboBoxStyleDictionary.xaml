@@ -4,7 +4,7 @@
                     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:local="clr-namespace:GD_StampingMachine"
-                    xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary">
+                    xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary">
 
     <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}" x:Key="GD_ComboBox">
 
@@ -75,7 +75,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <materialDesign:PackIcon Kind="{Binding Converter={local:EnumToPackIconKindConverter}}" Width="20" Height="20" Margin="0,0,5,0" />
-                        <TextBlock Grid.Column="1" Text="{Binding Converter={GD_Common:EnumGetNameConverter}}"></TextBlock>
+                        <TextBlock Grid.Column="1" Text="{Binding Converter={GD_CommonControl:EnumGetNameConverter}}"></TextBlock>
                     </Grid>
                 </DataTemplate>
             </Setter.Value>

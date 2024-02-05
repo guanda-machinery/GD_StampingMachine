@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace GD_StampingMachine
 {
-    public class EnumToPackIconKindConverter : BaseValueConverter
+    public class EnumToPackIconKindConverter : GD_CommonControlLibrary.BaseValueConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -1,0 +1,109 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:CustomSlider="clr-namespace:GD_CommonControlLibrary">
+    <Style TargetType="{x:Type CustomSlider:CircularRangeSlider}" >
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CustomSlider:CircularRangeSlider}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Background="{TemplateBinding Background}" 
+                Width="{TemplateBinding Width}"
+                Height="{TemplateBinding Height}"
+                Padding="{TemplateBinding Padding}"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Grid>
+                            <Viewbox>
+                                <Canvas Width="300" Height="300" Margin="5" Name="PART_SliderContainer">
+                                    <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="0.3"
+                Stroke="Black" StrokeThickness="10"/>
+                                    <Ellipse Fill="Black" Width="20" Height="20" Canvas.Left="140" Canvas.Top="140" />
+
+                                    <Canvas Name="PART_Arc"  Canvas.Top="150" Canvas.Left="150">
+                                        <Path Stroke="Red" StrokeThickness="20" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                            <Path.Data>
+                                                <PathGeometry>
+                                                    <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                        <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                    Size="150,150" 
+                                                                    RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
+                                                    </PathFigure>
+                                                </PathGeometry>
+                                            </Path.Data>
+                                        </Path>
+                                        <Path Stroke="Green" StrokeThickness="0,10" Margin="0" StrokeDashArray="0.3" >
+                                            <Path.Data>
+                                                <PathGeometry>
+                                                    <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                        <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                    Size="150,150" 
+                                                                    RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
+                                                    </PathFigure>
+                                                </PathGeometry>
+                                            </Path.Data>
+                                        </Path>
+
+                                    </Canvas>
+
+                                    <ContentControl Width="150" Height="150"
+                                        Name="PART_StartCanvas" Canvas.Left="150"  >
+                                        <ContentControl.Content>
+                                            <Canvas>
+                                                <Line 
+                                                    Stroke="Red" StrokeThickness="5" X1="0" Y1="150" X2="0" Y2="10"/>
+                                                <Ellipse  
+                                                    Fill="Red" Width="20" Height="40" Canvas.Left="-10" Canvas.Top="-20">
+                                                </Ellipse>
+                                            </Canvas>
+                                        </ContentControl.Content>
+                                        <ContentControl.RenderTransform>
+                                            <RotateTransform CenterX="0" CenterY="150" >
+                                                <RotateTransform.Angle>
+                                                    <MultiBinding Converter="{CustomSlider:ValueAngleConverter}">
+                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
+                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                    </MultiBinding>
+                                                </RotateTransform.Angle>
+                                            </RotateTransform>
+                                        </ContentControl.RenderTransform>
+
+                                    </ContentControl>
+                                    <ContentControl Width="150" Height="150"
+                                        Name="PART_EndCanvas" Canvas.Left="150"  >
+                                        <ContentControl.Content>
+                                            <Canvas>
+                                                <Line 
+                                                    Stroke="Blue" StrokeThickness="5" X1="0" Y1="150" X2="0" Y2="0"/>
+                                                <Ellipse  
+                                                    Fill="Blue" Width="20" Height="40" Canvas.Left="-10" Canvas.Top="-20">
+                                                </Ellipse>
+                                            </Canvas>
+                                        </ContentControl.Content>
+
+                                        <ContentControl.RenderTransform>
+                                            <RotateTransform CenterX="0" CenterY="150" >
+                                                <RotateTransform.Angle>
+                                                    <MultiBinding Converter="{CustomSlider:ValueAngleConverter}">
+                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
+                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                    </MultiBinding>
+                                                </RotateTransform.Angle>
+                                            </RotateTransform>
+                                        </ContentControl.RenderTransform>
+
+                                    </ContentControl>
+                                </Canvas>
+                            </Viewbox>
+                        </Grid>
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

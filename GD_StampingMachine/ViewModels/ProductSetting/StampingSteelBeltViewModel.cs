@@ -3,7 +3,7 @@ using GD_StampingMachine.GD_Model.ProductionSetting;
 
 namespace GD_StampingMachine.ViewModels.ProductSetting
 {
-    public class StampingSteelBeltViewModel : GD_CommonLibrary.BaseViewModel
+    public class StampingSteelBeltViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingSteelBeltViewModel");
         public StampingSteelBeltViewModel(StampingSteelBeltModel _StampingSteelBelt)

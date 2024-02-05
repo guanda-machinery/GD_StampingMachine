@@ -9,7 +9,7 @@
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"
             xmlns:ParameterSetting="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting"
              
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:ParameterSettingViewModel}"
 
@@ -21,7 +21,10 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              
              xmlns:GD_Method="clr-namespace:GD_StampingMachine.Method" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
-             xmlns:GD_ValidationRules="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine" xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary"
+             xmlns:GD_ValidationRules="clr-namespace:GD_CommonControlLibrary.ValidationRules;assembly=GD_CommonControlLibrary" 
+             xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:gd_stampingmachine="clr-namespace:GD_StampingMachine"
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary"
              mc:Ignorable="d" >
     <Grid  >
         <Grid.Resources>
@@ -555,16 +558,16 @@
                                     Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="50,0" VerticalAlignment="Bottom">
 
                                     <Button Visibility="Collapsed" Padding="5,3,5,5"
-                                        HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                        HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                     Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
 
                                 <Button Padding="5,3,5,0"
-                                        HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                        HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
 
                                 <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
                                 <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  
-                                        IsEnabled="{Binding NumberSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                        IsEnabled="{Binding NumberSettingVM.NumberSettingMode, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                         Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
                             </StackPanel>
                             </StackPanel>
@@ -732,7 +735,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                       SelectedValue="{Binding QRSettingVM.CharactersForm, UpdateSourceTrigger=PropertyChanged}">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={ GD_Common:EnumGetNameConverter}}"></TextBlock>
+                                                    <TextBlock Text="{Binding Converter={ GD_CommonControl:EnumGetNameConverter}}"></TextBlock>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
@@ -913,13 +916,13 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
                                         <StackPanel Grid.Row="5" Grid.RowSpan="5"  Grid.Column="5"  Margin="10,0" VerticalAlignment="Bottom">
                                             <Button Visibility="Collapsed"
-                                                 IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                                 IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                                 Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
                                             <Button HorizontalAlignment="Left"   Padding="5,3,5,0"
-                                                    IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
+                                                    IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                          Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
                                             <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding QRSettingVM.NumberSettingMode, Converter={GD_Common:ObjectIsNullToBooleanConverter Invert=True}}"
+                                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding QRSettingVM.NumberSettingMode, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
                                                     Margin="10" Command="{Binding SaveSettingCommand}"/>
                                         </StackPanel>
                                     </Grid>
@@ -1242,7 +1245,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                     <Border.LayoutTransform>
                                                                         <TransformGroup>
                                                                             <ScaleTransform x:Name="ContentSiteScaleTransform" />
-                                                                            <RotateTransform Angle="{Binding Path=ExpandDirection, RelativeSource={RelativeSource AncestorType=Expander}, Converter={GD_Common:ExpanderRotateAngleConverter}}" />
+                                                                            <RotateTransform Angle="{Binding Path=ExpandDirection, RelativeSource={RelativeSource AncestorType=Expander}, Converter={GD_CommonControl:ExpanderRotateAngleConverter}}" />
                                                                         </TransformGroup>
                                                                     </Border.LayoutTransform>
 
@@ -1251,7 +1254,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                                                         <Grid.LayoutTransform>
-                                                                            <RotateTransform Angle="{Binding Path=ExpandDirection, RelativeSource={RelativeSource AncestorType=Expander}, Converter={GD_Common:ExpanderRotateAngleConverter}, ConverterParameter=-1}" />
+                                                                            <RotateTransform Angle="{Binding Path=ExpandDirection, RelativeSource={RelativeSource AncestorType=Expander}, Converter={GD_CommonControl:ExpanderRotateAngleConverter}, ConverterParameter=-1}" />
                                                                         </Grid.LayoutTransform>
 
                                                                         <ContentPresenter Name="PART_Content"
@@ -1422,7 +1425,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
 
                                                         </Grid>
-                                                        <GD_Common:CircularRangeSlider 
+                                                        <GD_CommonControl:CircularRangeSlider 
                                             Grid.ColumnSpan="2"
                                             Grid.Row="1"
                                             Name="CRangeSlider" Width="300" Height="300"
@@ -1431,17 +1434,17 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                        Radius="130"
                                                                        LargeCalibration="24"
                                                                        SmallCalibration="96"
-                                                Start="{Binding RestTime , Converter={GD_Common:DateTimeToHourConverter}}"
-                                                End="{Binding OpenTime, Converter={GD_Common:DateTimeToHourConverter}}"
+                                                Start="{Binding RestTime , Converter={GD_CommonControl:DateTimeToHourConverter}}"
+                                                End="{Binding OpenTime, Converter={GD_CommonControl:DateTimeToHourConverter}}"
                                                 
                                             >
-                                                            <GD_Common:CircularRangeSlider.Style>
-                                                                <Style TargetType="{x:Type GD_Common:CircularRangeSlider}" >
+                                                            <GD_CommonControl:CircularRangeSlider.Style>
+                                                                <Style TargetType="{x:Type GD_CommonControl:CircularRangeSlider}" >
                                                                     <Setter Property="SnapsToDevicePixels" Value="True"/>
                                                                     <Setter Property="Background" Value="Transparent"/>
                                                                     <Setter Property="Template" >
                                                                         <Setter.Value>
-                                                                            <ControlTemplate TargetType="{x:Type GD_Common:CircularRangeSlider}">
+                                                                            <ControlTemplate TargetType="{x:Type GD_CommonControl:CircularRangeSlider}">
                                                                                 <Border BorderBrush="{TemplateBinding BorderBrush}"
                                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                                     Background="{TemplateBinding Background}" 
@@ -1457,7 +1460,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                     </Border>
 
                                                                                                     <ListBox Margin="-12"
-                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=LargeCalibration, Converter={GD_Common:IntToCollectionConverter}}">
+                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=LargeCalibration, Converter={GD_CommonControl:IntToCollectionConverter}}">
                                                                                                         <ListBox.ItemContainerStyle>
                                                                                                             <Style TargetType="ListBoxItem">
                                                                                                                 <Setter Property="Height" Value="12"/>
@@ -1481,7 +1484,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         </ListBox.ItemContainerStyle>
                                                                                                         <ListBox.ItemsPanel>
                                                                                                             <ItemsPanelTemplate>
-                                                                                                                <GD_Common:RadialPanel
+                                                                                                                <GD_CommonControl:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                         StartAngle="0"  RoundAngle="360"
                                         ItemRotateAngle="90"  />
@@ -1490,7 +1493,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                     </ListBox>
 
                                                                                                     <ListBox Margin="-16"
-                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=SmallCalibration, Converter={GD_Common:IntToCollectionConverter}}">
+                                                                                        ItemsSource="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=SmallCalibration, Converter={GD_CommonControl:IntToCollectionConverter}}">
                                                                                                         <ListBox.ItemContainerStyle>
                                                                                                             <Style TargetType="ListBoxItem">
                                                                                                                 <Setter Property="Height" Value="6"/>
@@ -1514,7 +1517,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         </ListBox.ItemContainerStyle>
                                                                                                         <ListBox.ItemsPanel>
                                                                                                             <ItemsPanelTemplate>
-                                                                                                                <GD_Common:RadialPanel
+                                                                                                                <GD_CommonControl:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                         StartAngle="0"  RoundAngle="360"
                                         ItemRotateAngle="90"  />
@@ -1562,7 +1565,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         </ListBox.ItemContainerStyle>
                                                                                                         <ListBox.ItemsPanel>
                                                                                                             <ItemsPanelTemplate>
-                                                                                                                <GD_Common:RadialPanel
+                                                                                                                <GD_CommonControl:RadialPanel
                                                                                                     RotationDirection="Clockwise"
                                                                                                     StartAngle="-90"  RoundAngle="360"
                                         ItemRotateAngle="0"  />
@@ -1657,7 +1660,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         <ContentControl.RenderTransform>
                                                                                                             <RotateTransform CenterX="0" CenterY="150" >
                                                                                                                 <RotateTransform.Angle>
-                                                                                                                    <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                                                    <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
                                                                                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
                                                                                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
                                                                                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
@@ -1722,7 +1725,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         <ContentControl.RenderTransform>
                                                                                                             <RotateTransform CenterX="0" CenterY="150" >
                                                                                                                 <RotateTransform.Angle>
-                                                                                                                    <MultiBinding Converter="{GD_Common:ValueAngleConverter}">
+                                                                                                                    <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
                                                                                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
                                                                                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
                                                                                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
@@ -1748,13 +1751,13 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                         </Setter.Value>
                                                                     </Setter>
                                                                 </Style>
-                                                            </GD_Common:CircularRangeSlider.Style>
-                                                        </GD_Common:CircularRangeSlider>
+                                                            </GD_CommonControl:CircularRangeSlider.Style>
+                                                        </GD_CommonControl:CircularRangeSlider>
                                                         <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10">
                                                             <TextBlock 
                                                 HorizontalAlignment="Center">
                                                                 <TextBlock.Text>
-                                                                    <MultiBinding Converter="{GD_Common:DateTimeDiffToDateTimeMultiConverter}" >
+                                                                    <MultiBinding Converter="{GD_CommonControl:DateTimeDiffToDateTimeMultiConverter}" >
                                                                         <Binding Path="RestTime"/>
                                                                         <Binding Path="OpenTime"/>
                                                                     </MultiBinding>
@@ -1774,7 +1777,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                             <ToggleButton  
                                                                                 IsChecked="{Binding IsWork}" 
                                                     Foreground="White" 
-                                                    Content="{Binding DayOfWeek, Converter={GD_Common:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    Content="{Binding DayOfWeek, Converter={GD_CommonControl:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
                                                                                 <ToggleButton.Style>
                                                                                     <Style TargetType="ToggleButton" 
                                                                BasedOn="{StaticResource SiegCustomButton}">
@@ -1864,7 +1867,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                             <ItemsControl.ItemTemplate>
                                                                                 <DataTemplate>
                                                                                     <ToggleButton  IsChecked="{Binding IsWork}" 
-                                                    Foreground="White" Content="{Binding DayOfWeek, Converter={GD_Common:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    Foreground="White" Content="{Binding DayOfWeek, Converter={GD_CommonControl:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
                                                                                         <ToggleButton.Style>
                                                                                             <Style TargetType="ToggleButton" 
                                                                BasedOn="{StaticResource SiegCustomButton}">
@@ -1956,7 +1959,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                             Foreground="Orange"
                                               Content="{DynamicResource btnEdit}"/>
 
-                                                        <ToggleButton IsChecked="{Binding EditButtonIsChecked, Converter={GD_Common:InvertBooleanConverter}}" 
+                                                        <ToggleButton IsChecked="{Binding EditButtonIsChecked, Converter={GD_CommonControl:InvertBooleanConverter}}" 
                                                                       Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked , Converter={dx:BooleanToVisibilityConverter  Invert=True}}"
                                             Command="{Binding FinishEditTimingControlCommand}" Background="Transparent"  BorderThickness="0" Foreground="Orange"  FontWeight="Bold"
                                               Content="{DynamicResource btnFinish}" />
@@ -2006,7 +2009,7 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                         Background="Transparent" ExpandDirection="Right" >
 
                                                                                     <Expander 
-                                                                                    IsExpanded="{Binding IsDeleteButtonTrigger, Converter={GD_Common:InvertBooleanConverter}}"
+                                                                                    IsExpanded="{Binding IsDeleteButtonTrigger, Converter={GD_CommonControl:InvertBooleanConverter}}"
                                         Background="Transparent" ExpandDirection="Right" >
                                                                                         <ToggleButton IsChecked="{Binding IsDeleteButtonTrigger}"
                                                                                 x:Name="PrepareDeleteButton" Background="Transparent">
@@ -2075,7 +2078,7 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                                     </Grid>
                                                                                                     <TextBlock  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                                                                                         <TextBlock.Text>
-                                                                                                            <MultiBinding Converter="{GD_Common:DateTimeDiffToDateTimeMultiConverter}" >
+                                                                                                            <MultiBinding Converter="{GD_CommonControl:DateTimeDiffToDateTimeMultiConverter}" >
                                                                                                                 <Binding Path="RestTime"/>
                                                                                                                 <Binding Path="OpenTime"/>
                                                                                                             </MultiBinding>
@@ -2095,7 +2098,7 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                 <Expander Grid.Column="2" 
                                         Background="Transparent" ExpandDirection="Right" >
                                                                                     <Expander.IsExpanded>
-                                                                                        <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                                                        <MultiBinding Converter="{GD_CommonControl:MultiBooleanArrayAndParameterArrayToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                                                             <MultiBinding.Bindings>
                                                                                                 <Binding Path="IsDeleteButtonTrigger" ConverterParameter=""/>
                                                                                                 <Binding Path="IsEdit"/>
@@ -2149,7 +2152,7 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
 
 
                                 </Grid>
-                                <StackPanel IsEnabled="{Binding IsBottomDrawerOpen ,Converter={GD_Common:InvertBooleanConverter}}"
+                                <StackPanel IsEnabled="{Binding IsBottomDrawerOpen ,Converter={GD_CommonControl:InvertBooleanConverter}}"
                                     Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"   Margin="10,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                                     <Button  Padding="5,3,5,0"
                                 Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
@@ -2187,17 +2190,17 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                         <ToggleButton  Grid.Column="0" HorizontalAlignment="Stretch" Width="auto"
                                             Name="IsSingleSettingToggleButton" Style="{StaticResource GD_ToggleButton_Gray}" Margin="0,0,2,0"
                                             Content="{DynamicResource Text_SingleSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
-                                                     IsChecked="{Binding SettingType , Converter={GD_Common:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.SingleSetting}}"
+                                                     IsChecked="{Binding SettingType , Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.SingleSetting}}"
                                                       />
                                         <ToggleButton Grid.Column="1" HorizontalAlignment="Stretch" Width="auto"
                                             Name="IsUnifiedSettingToggleButton" Style="{StaticResource GD_ToggleButton_Gray}" Margin="2,0,0,0"
                                             Content="{DynamicResource Text_UnifiedSetting}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
-                                                     IsChecked="{Binding SettingType , Converter={GD_Common:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}}"
+                                                     IsChecked="{Binding SettingType , Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter},ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}}"
                                                      />
                                     </Grid>
 
                                     <Grid Grid.Row="1"  Margin="0,8,0,0" 
-                                      Visibility="{Binding SettingType, Converter={GD_Common:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}}">
+                                      Visibility="{Binding SettingType, Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SettingTypeEnum.UnifiedSetting}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="150"/>
                                         <ColumnDefinition Width="*"/>

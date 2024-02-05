@@ -3,7 +3,7 @@ using System;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class OperatingLogViewModel : GD_CommonLibrary.BaseViewModel
+    public class OperatingLogViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public OperatingLogViewModel(OperatingLogModel OperatingLog)
         {

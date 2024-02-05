@@ -5,7 +5,7 @@
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
                     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"     
                     xmlns:dxdst="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
-                    xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary">
+                    xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary">
 
         <Style  x:Key="ProjectGridControlCellStyle" TargetType="dxg:LightweightCellEditor" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
         <Setter Property="TextBlock.FontSize" Value="16"/>
@@ -335,7 +335,7 @@
                             <Style.Triggers>
                                     <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True" >
                                         <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_Common:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}"/>
+                                    <Setter Property="Foreground" Value="{Binding Row.IsAlert , Converter={GD_CommonControl:BooleanToBrushesConverter} ,ConverterParameter={StaticResource solidclr_Red}}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>

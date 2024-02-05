@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram"
              mc:Ignorable="d" 
              xmlns:calc="clr-namespace:CalcBinding;assembly=CalcBinding"
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 
@@ -103,7 +103,7 @@
                                                         </Style>
                                                     </ToggleButton.Style>
 
-                                                    <TextBlock  Foreground="White" HorizontalAlignment="Center" Visibility="{Binding IsUsed ,Converter={GD_Common:BooleanToVisibilityConverter}}"
+                                                    <TextBlock  Foreground="White" HorizontalAlignment="Center" Visibility="{Binding IsUsed ,Converter={GD_CommonControl:BooleanToVisibilityConverter}}"
                                 Text="{Binding FontString}"   Margin="0" Padding="0"   FontWeight="DemiBold"  
                                                VerticalAlignment="Center"
                                                FontSize="6"/>
@@ -129,12 +129,12 @@
                             <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos1}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos1}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
             ItemsSource="{Binding PlateNumberList1, UpdateSourceTrigger=PropertyChanged}" 
-                               IsEnabled="{Binding PlateNumber, Converter={GD_Common:ObjectIsNullToBooleanConverter} }" >
+                               IsEnabled="{Binding PlateNumber, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter} }" >
                             </ItemsControl>
                             <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos2}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos2}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
             ItemsSource="{Binding PlateNumberList2, UpdateSourceTrigger=PropertyChanged}" 
-                               IsEnabled="{Binding PlateNumber, Converter={GD_Common:ObjectIsNullToBooleanConverter} }" >
+                               IsEnabled="{Binding PlateNumber, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter} }" >
                             </ItemsControl>
                         </Canvas>
                     </Grid>

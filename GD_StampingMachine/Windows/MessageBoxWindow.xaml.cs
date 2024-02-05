@@ -1,16 +1,10 @@
 ﻿using DevExpress.Xpf.Core;
-using GD_CommonLibrary.Extensions;
-using GD_CommonLibrary.GD_Popup;
 using GD_StampingMachine.GD_Enum;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using static DevExpress.XtraEditors.Mask.Design.MaskSettingsForm.DesignInfo.MaskManagerInfo;
 
 namespace GD_StampingMachine.Windows
 {

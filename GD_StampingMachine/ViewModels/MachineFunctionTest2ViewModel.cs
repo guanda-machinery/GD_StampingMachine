@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class MachineFunctionTest2ViewModel : GD_CommonLibrary.BaseViewModel
+    public class MachineFunctionTest2ViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => nameof(MachineFunctionTest2ViewModel);
 

@@ -15,7 +15,7 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              
              xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels"                
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              
@@ -26,7 +26,7 @@
              xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
              
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
              xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_SchematicDiagram="clr-namespace:GD_StampingMachine.UserControls.NumberSettingSchematicDiagram" xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding" xmlns:GD_StampingMachine="clr-namespace:GD_StampingMachine"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
              xmlns:GD_ProductSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ProductSetting"             
@@ -200,7 +200,7 @@
                                                                              PackIconKind="BoxCutter"
                                                                              ControlTitleText="{DynamicResource btnDescription_ManualCutting}" >
                                                     <local:FunctionToggleUserControl.IsChecked>
-                                                        <MultiBinding Converter="{GD_Common:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
+                                                        <MultiBinding Converter="{GD_CommonControl:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
                                                             <MultiBinding.ConverterParameter>
                                                                 <x:Array Type="{x:Type sys:Boolean}">
                                                                     <sys:Boolean>true</sys:Boolean>
@@ -572,7 +572,7 @@
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                                     <ProgressBar.Foreground>
-                                                        <Binding Path="Row.FinishProgress" Converter="{GD_Common:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                                        <Binding Path="Row.FinishProgress" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
                                                     </ProgressBar.Foreground>
                                                 </ProgressBar>
 
@@ -1306,7 +1306,7 @@
                                         <Setter Property="ItemsPanel">
                                             <Setter.Value>
                                                 <ItemsPanelTemplate>
-                                                    <GD_Common:RadialPanel Margin="5"
+                                                    <GD_CommonControl:RadialPanel Margin="5"
                                         d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionViewModel}"
                                         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
                                         RotationDirection="Clockwise"
@@ -1384,7 +1384,7 @@
                                 <ListBox Name="SelectedProjectDistributeSeparateBoxCollection"
                                     Margin="5"                       
                                           Visibility="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                                    Path=SelectedProjectDistributeVM ,Converter={GD_Common:ObjectIsNullToVisibilityConverter}}"
+                                    Path=SelectedProjectDistributeVM ,Converter={GD_CommonControl:ObjectIsNullToVisibilityConverter}}"
                                           ItemsSource="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                                     Path=SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection}"
                                           Style="{StaticResource RotatingStampingListBox}"/>

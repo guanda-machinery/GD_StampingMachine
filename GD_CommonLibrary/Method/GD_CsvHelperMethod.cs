@@ -1,6 +1,4 @@
-﻿using DevExpress.Mvvm.Native;
-using DevExpress.XtraDataLayout;
-using GD_StampingMachine.Model;
+﻿using GD_StampingMachine.Model;
 using GD_StampingMachine.Model.ProductionSetting;
 using System;
 using System.Collections.Generic;

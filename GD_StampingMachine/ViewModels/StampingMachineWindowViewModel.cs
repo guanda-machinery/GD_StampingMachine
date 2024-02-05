@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class StampingMachineWindowViewModel : GD_CommonLibrary.BaseViewModel
+    public class StampingMachineWindowViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingMachineWindowViewModel");
 

@@ -2,7 +2,7 @@
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class StampingTypeViewModel : GD_CommonLibrary.BaseViewModel
+    public class StampingTypeViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override bool Equals(object obj)
         {

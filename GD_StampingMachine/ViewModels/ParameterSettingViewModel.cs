@@ -37,7 +37,7 @@ namespace GD_StampingMachine.ViewModels
         public GD_Model.EngineerSettingModel EngineerSetting { get; set; } = new();
     }
 
-    public class ParameterSettingViewModel : GD_CommonLibrary.BaseViewModel
+    public class ParameterSettingViewModel : GD_CommonControlLibrary.BaseViewModel
     {
 
   

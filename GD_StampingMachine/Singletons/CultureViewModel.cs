@@ -11,7 +11,7 @@ using System.Windows.Input;
 namespace GD_StampingMachine.Singletons
 {
 
-    // public class CultureViewModel : GD_CommonLibrary.BaseViewModel
+    // public class CultureViewModel : GD_CommonControlLibrary.BaseViewModel
     public class CultureViewModel : GD_CommonLibrary.BaseSingleton<CultureViewModel>
     {
         private CultureViewModel()

@@ -29,7 +29,7 @@ namespace GD_StampingMachine.ViewModels
     /// <summary>
     /// 排版設定
     /// </summary>
-    public class TypeSettingSettingViewModel : GD_CommonLibrary.BaseViewModel
+    public class TypeSettingSettingViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         StampingMachineJsonHelper JsonHM = new StampingMachineJsonHelper();
 

@@ -7,7 +7,7 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              mc:Ignorable="d" 
              FontSize="14" 
            d:Background="Black" Cursor="Hand">
@@ -86,10 +86,10 @@
                                                              Visibility="{Binding ProgressVisibility}" Value="{Binding Progress}"
                                                              IsIndeterminate="{Binding IsIndeterminate}">
                                                 <i:Interaction.Behaviors>
-                                                    <GD_Common:ProgresBarAnimateBehavior />
+                                                    <GD_CommonControl:ProgresBarAnimateBehavior />
                                                 </i:Interaction.Behaviors>
                                                 <ProgressBar.Foreground>
-                                                    <Binding Path="Value" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_Common:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
+                                                    <Binding Path="Value" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_CommonControl:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
                                                         <Binding.ConverterParameter>
                                                             <x:Array Type="SolidColorBrush">
                                                                 <SolidColorBrush Color="Red"/>
@@ -111,9 +111,9 @@
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Text="{Binding ControlTitleText,FallbackValue=Text}"  TextWrapping="Wrap" >
                                                 <TextBlock.Visibility>
-                                                    <MultiBinding Converter="{GD_Common:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                                    <MultiBinding Converter="{GD_CommonControl:MultiBooleanToVisibilityConverter SetOperation=Intersection}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                         <MultiBinding.Bindings>
-                                                            <Binding Path="ControlTitleText" Converter="{GD_Common:ObjectIsNullToBooleanConverter Invert=True}"/>
+                                                            <Binding Path="ControlTitleText" Converter="{GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}"/>
                                                         </MultiBinding.Bindings>
                                                     </MultiBinding>
                                                 </TextBlock.Visibility>

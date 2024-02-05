@@ -1,0 +1,129 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Controls\CylinderControlUserControl.cs" />
+    <Compile Remove="Method\DropHandler\DraggableAdorner.cs" />
+    <Compile Remove="Method\DropHandler\StampingFileDropTarget.cs" />
+    <Compile Remove="Method\RelayCommand.cs" />
+    <Compile Remove="Method\RelayParameterizedCommand.cs" />
+    <Compile Remove="Method\SyncObservableCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.BannedApiAnalyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.BannedApiAnalyzers.3.3.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.BannedApiAnalyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="CsvHelper" Version="30.1.0" />
+    <PackageReference Include="DevExpress.Charts" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Charts.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.CodeParser" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Data" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Data.Desktop" Version="21.2.15" />
+    <PackageReference Include="DevExpress.DataAccess" Version="21.2.15" />
+    <PackageReference Include="DevExpress.DataVisualization.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Diagram.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Gauges.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Images" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Map.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Mvvm" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Office.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Pdf.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Pdf.Drawing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.PivotGrid.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Printing.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.RichEdit.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.RichEdit.Export" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scaffolding.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scaffolding.EFCore" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scheduler.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Scheduler.CoreDesktop" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Sparkline.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.SpellChecker.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Spreadsheet.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.TreeMap.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Utils" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Dialogs.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Navigation" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Printing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.Scheduler" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.SchedulerReporting" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Win.TreeList" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Accordion" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Carousel" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Charts" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Controls" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Core.Extensions" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Diagram" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Dialogs" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Docking" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.DocumentViewer.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.ExpressionEditor" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Gantt" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Gauges" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Grid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Grid.Core" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Grid.Printing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Map" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.NavBar" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Office" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PivotGrid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Printing" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PrismAdapters" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.PropertyGrid" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Reporting" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Ribbon" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.RichEdit" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Scheduling" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.SchedulingReporting" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.SpellChecker" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Spreadsheet" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.Themes.Office2019Colorful" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.TreeMap" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Wpf.TypedStyles" Version="21.2.15" />
+    <PackageReference Include="DevExpress.Xpo" Version="21.2.15" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="MessagePack" Version="2.5.108" />
+    <PackageReference Include="MessagePack.Annotations" Version="2.5.108" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="17.8.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.2" />
+    <PackageReference Include="Microsoft.NET.StringTools" Version="17.8.3" />
+    <PackageReference Include="Microsoft.VisualStudio.RemoteControl" Version="16.3.52" />
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="3.8.2112" />
+    <PackageReference Include="Microsoft.VisualStudio.Telemetry" Version="17.8.143" />
+    <PackageReference Include="Microsoft.VisualStudio.Utilities.Internal" Version="16.3.56" />
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj" />
+  </ItemGroup>
+</Project>

@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace GD_StampingMachine
 {
-    public class EnumToBrushesConverter : BaseValueConverter
+    public class EnumToBrushesConverter : GD_CommonControlLibrary.BaseValueConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

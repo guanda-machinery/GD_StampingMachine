@@ -1,4 +1,4 @@
-﻿using GD_CommonLibrary;
+﻿using GD_CommonControlLibrary;
 using GD_StampingMachine.Model;
 using System.Text.Json.Serialization;
 

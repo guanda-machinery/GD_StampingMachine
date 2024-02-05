@@ -16,9 +16,9 @@
              xmlns:CalcB="clr-namespace:CalcBinding;assembly=CalcBinding" 
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-             xmlns:GD_ValidRule="clr-namespace:GD_CommonLibrary.ValidationRules;assembly=GD_CommonLibrary" 
-             xmlns:GD_Popup="clr-namespace:GD_CommonLibrary.GD_Popup;assembly=GD_CommonLibrary" 
-             xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_ValidRule="clr-namespace:GD_CommonControlLibrary.ValidationRules;assembly=GD_CommonControlLibrary" 
+             xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              Name="MainGridControl"
              >
 
@@ -31,7 +31,7 @@
             <GroupBox Header="轉盤測試" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Visibility="{Binding IsDebuggerAttached , Converter={dxmvvm:BooleanToVisibilityConverter}}">
                 <StackPanel >
                     <ComboBox  DisplayMemberPath="StampingTypeString"  Width="150" 
-                               IsEnabled="{Binding Stamping_SelectionChangedCommand.IsRunning, Converter={GD_Common:InvertBooleanConverter}}"
+                               IsEnabled="{Binding Stamping_SelectionChangedCommand.IsRunning, Converter={GD_CommonControl:InvertBooleanConverter}}"
                 Style="{StaticResource GD_WhiteComboBox}" Background="White"  SelectedValue="{Binding StampingTypeModel_ReadyStamping}"
                 ItemsSource="{Binding StampingTypeVMObservableCollection}" >
                         
@@ -422,7 +422,7 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <GD_Common:RadialPanel
+                                <GD_CommonControl:RadialPanel
                                         d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
                                         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" 
                                         RotationDirection="Clockwise"
@@ -502,9 +502,9 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <StackPanel IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}">
+                <StackPanel IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}}">
                         <Button Padding="10,0"
-                        IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}"
+                        IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}}"
                     Grid.Row="0" Command="{Binding StampingFontReplaceCommand}" Margin="5,10">
 
                         <Button.Style>
@@ -530,7 +530,7 @@
                 </StackPanel>
 
                     <Button  Grid.Row="1" Margin="5,10"  Padding="10,0"
-                    IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_Common:ObjectIsEqualToBooleanConverter Invert=True}}"
+                    IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}}"
                     Command="{Binding UnusedStampingFontDelCommand}"
                          dd:DragDrop.DropTargetAdornerBrush="Red"
                          dd:DragDrop.IsDragSource="False"

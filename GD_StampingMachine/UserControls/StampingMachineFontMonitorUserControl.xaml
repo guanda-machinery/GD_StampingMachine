@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
              mc:Ignorable="d" 
-             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" xmlns:GD_Common="clr-namespace:GD_CommonLibrary;assembly=GD_CommonLibrary"
+             xmlns:GD_ViewModels="clr-namespace:GD_StampingMachine.ViewModels" 
+             xmlns:GD_Views="clr-namespace:GD_StampingMachine.Views" 
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:StampingFontChangedViewModel}"
              >
     <Grid>
@@ -36,7 +38,7 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                            <GD_Common:RadialPanel StartAngle="0" RoundAngle="360" ItemRotateAngle="90" />
+                            <GD_CommonControl:RadialPanel StartAngle="0" RoundAngle="360" ItemRotateAngle="90" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
