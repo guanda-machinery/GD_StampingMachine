@@ -4,7 +4,6 @@ using GD_CommonLibrary.Method;
 using GD_StampingMachine.Properties;
 using GD_StampingMachine.Singletons;
 using GD_StampingMachine.ViewModels;
-using Microsoft.VisualStudio.Threading;
 using System;
 using System.Diagnostics;
 using System.Threading;

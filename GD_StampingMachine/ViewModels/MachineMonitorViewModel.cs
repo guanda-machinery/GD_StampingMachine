@@ -1343,14 +1343,21 @@ namespace GD_StampingMachine.ViewModels
             {
                 if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel PParameter)
                 {
-                    if (SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM != null)
+                    try
                     {
-                        if (PParameter.DistributeName == SelectedProjectDistributeVM.ProjectDistributeName && 
-                        PParameter.BoxIndex == SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex &&
-                        PParameter.WorkIndex>=0&& !PParameter.IsTransported)
-                            args.Visible = true;
-                        else
-                            args.Visible = false;
+                        if (SelectedProjectDistributeVM?.StampingBoxPartsVM?.SelectedSeparateBoxVM != null)
+                        {
+                            if (PParameter.DistributeName == SelectedProjectDistributeVM.ProjectDistributeName &&
+                            PParameter.BoxIndex == SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex &&
+                            PParameter.WorkIndex >= 0 && !PParameter.IsTransported)
+                                args.Visible = true;
+                            else
+                                args.Visible = false;
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
                     }
                 }
             });

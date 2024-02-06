@@ -52,8 +52,17 @@ namespace GD_CommonLibrary.Extensions
             await WaitAsync(conditionFunc, false, cts.Token, token);
         }
 
-
-
+        /// <summary>
+        /// 等待當值被變更(訂閱功能)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="conditionFunc"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static async Task WaitChangeAsync<T>(Func<T> conditionFunc, params CancellationToken[] tokens)
+        {
+            await WaitAsync(conditionFunc, conditionFunc(), false, tokens);
+        }
 
         /// <summary>
         /// 等待

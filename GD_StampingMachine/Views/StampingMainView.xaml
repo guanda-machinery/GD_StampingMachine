@@ -139,7 +139,7 @@
                         
                         <Button Name="AlarmButton"  
                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
-                            Path=AlarmMessageCollection.Count,Converter={GD_CommonControl:ItemSourceCountIsZeroToVisibility Invert=True} }"
+                            Path=AlarmLamp , Converter={dx:BooleanToVisibilityConverter}}"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=MachineWarningDraggablePopup}"       
                                 BorderThickness="0" 
@@ -163,9 +163,9 @@
 
                         <GD_Popup:DraggablePopup  
                             Name="MachineWarningDraggablePopup"
-                                    PopupAnimation="Fade"   StaysOpen="False"
-                                    Placement="Bottom"  
-                                    PlacementTarget="{Binding ElementName=AlarmButton}"
+                                    PopupAnimation="Fade"   StaysOpen="True"
+                                    Placement="Relative"   PlacementRectangle="-20,40,0,0"
+                                    PlacementTarget="{Binding ElementName=AlarmButton}" 
                             HorizontalAlignment="Center"
                             DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                             >
@@ -197,6 +197,7 @@
                         <Button Name="StampingWarningButton"    Style="{StaticResource SiegCustomButton_Transparent}"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"       
+                      
                                 MinWidth="10"  BorderThickness="0"
                             Margin="4,0" Padding="0" Width="30" Height="30">
                             <Image Height="30" Width="30">
@@ -216,11 +217,13 @@
                             </Image>
 
 
-
                         </Button>
-                        <GD_Popup:DraggablePopup  Name="StampingWarningDraggablePopup"
-                                    PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
-                                    Placement="Bottom"  
+                        <GD_Popup:DraggablePopup  
+                            AllowTopMost="False"
+                            Name="StampingWarningDraggablePopup"
+                                    PopupAnimation="Fade"   
+                                                  FlowDirection="LeftToRight" StaysOpen="True"
+                                    Placement="Relative"   PlacementRectangle="-60,40,0,0"
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
                             <Grid>
@@ -352,65 +355,53 @@
 
 
 
-                        <Border Margin="4,0"
-                            Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self},Path=Width}"
-                               CornerRadius="{CalcB:Binding RelativeSource={RelativeSource Mode=Self},Path=Width/2}">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Background" Value="Black"/>
-                                    <Style.Triggers>
-
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                            
+                            
+                            
+                                <GD_UserControls:GradientEllipse Margin="4,0"
+                                          Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self},Path=Width}">
+                                    <GD_UserControls:GradientEllipse.Style>
+                                        <Style TargetType="GD_UserControls:GradientEllipse">
+                                            <Setter Property="Fill" Value="Gray"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background"  Value="Orange"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
-                                                     Value="true" />
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=DI_PowerON}" 
-                                                     Value="{x:Static GD_Enum:OperationModeEnum.Setup}" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background"  Value="LightGray"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
-                                                     Value="true" />
-                                                <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=DI_Start}" 
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=RunningLamp}" 
                                                      Value="true"/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background"  Value="Green"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Fill"  Value="Green"/>
+                                                </MultiDataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
-                                                <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=DI_Pause}" 
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=StoppedLamp}" 
                                                      Value="true"/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background"  Value="Orange"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Fill"  Value="Orange"/>
+                                                </MultiDataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
-                                                <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=DI_EmergencyStop1}" 
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=AlarmLamp}" 
                                                      Value="false"/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background"  Value="Red"/>
-                                        </MultiDataTrigger>
-                                        <DataTrigger  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Fill"  Value="Red"/>
+                                                </MultiDataTrigger>
+                                                <DataTrigger  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="false" >
-                                            <Setter Property="Background"  Value="Gray"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                                </Border.Style>
-                        </Border>
+                                                    <Setter Property="Fill"  Value="Gray"/>
+                                                </DataTrigger>
+
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </GD_UserControls:GradientEllipse.Style>
+                                </GD_UserControls:GradientEllipse>
+
 
                                 <ToggleButton  Margin="4,0" 
                             Command="{Binding JumpToEngineeringModeCommand}" ToolTip="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=ClientState}"
@@ -1566,9 +1557,10 @@ RadiusX="0.5" RadiusY="0.5">
 
 
 
-                            <ItemsControl dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
+                            <ItemsControl 
+dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
 
-                                <GD_UserControls:FunctionToggleUserControl 
+                                <GD_UserControls:FunctionToggleUserControl
                                 x:Name="TBtn_MainSysyem"
                                 >
                                     <GD_UserControls:FunctionToggleUserControl.Style>
@@ -1579,9 +1571,9 @@ RadiusX="0.5" RadiusY="0.5">
                                                 <Trigger Property="IsChecked" Value="True">
                                                     <Setter Property="ImageSource" Value="{StaticResource MainIcon_01_MainSystem_DrawingImage_Blue}"/>
                                                 </Trigger>
-                                            </Style.Triggers>                                   
+                                            </Style.Triggers>
                                         </Style>
-                                   
+
                                     </GD_UserControls:FunctionToggleUserControl.Style>
 
                                 </GD_UserControls:FunctionToggleUserControl>
@@ -1618,8 +1610,10 @@ RadiusX="0.5" RadiusY="0.5">
                                     </GD_UserControls:FunctionToggleUserControl.Style>
                                 </GD_UserControls:FunctionToggleUserControl>
 
+                            <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                                <GD_UserControls:FunctionToggleUserControl IsChecked="{Binding TBtn_MachineMonitorIsChecked}"
+                                    <GD_UserControls:FunctionToggleUserControl
+                                        IsChecked="{Binding TBtn_MachineMonitorIsChecked}"
                                     IsEnabled="{Binding  
                                     Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, 
                                     Path=SelectedProjectDistributeVM,            
@@ -1638,9 +1632,9 @@ RadiusX="0.5" RadiusY="0.5">
                                     </GD_UserControls:FunctionToggleUserControl.Style>
                                 </GD_UserControls:FunctionToggleUserControl>
 
-                                <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_MachineFunction" IsChecked="{Binding TBtn_MachineFunctionIsChecked}">
+                                <GD_UserControls:FunctionToggleUserControl
+                                    x:Name="TBtn_MachineFunction" IsChecked="{Binding TBtn_MachineFunctionIsChecked}">
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_MachineFunction}"      />
@@ -1653,6 +1647,7 @@ RadiusX="0.5" RadiusY="0.5">
                                         </Style>
                                     </GD_UserControls:FunctionToggleUserControl.Style>
                                 </GD_UserControls:FunctionToggleUserControl>
+                                
                                 
                                 <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint"
                                                                              IsThreeState="False"

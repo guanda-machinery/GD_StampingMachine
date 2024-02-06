@@ -17,7 +17,7 @@
             Width="{Binding Width , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
             Height="{Binding Height , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
             Padding="{Binding ContentPadding , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
-            
+            IsEnabled="{Binding IsEnabled}"
             Command="{Binding Command}"
             CommandTarget="{Binding CommandTarget}"
             CommandParameter="{Binding CommandParameter}"          

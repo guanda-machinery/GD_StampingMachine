@@ -604,9 +604,11 @@
                         </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
-                <!-- IsEnabled="{{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}"}"-->
+                <!---->
                 <WrapPanel Margin="25,5"
-                    Orientation="Horizontal" IsEnabled="True">
+                    Orientation="Horizontal"
+                            IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}"
+                           >
                     <WrapPanel.Resources>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource ParameterBaseStyleGroupBox}">
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
@@ -693,7 +695,7 @@
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
                                                         <Condition Binding="{Binding StampMachineData.IsConnected}" Value="True" />
-                                                        <Condition Binding="{Binding StampMachineData.DI_Start}" Value="True" />
+                                                    <Condition Binding="{Binding StampMachineData.RunningLamp}" Value="True" />
                                                     </MultiDataTrigger.Conditions>
                                                     <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundSkyBlueBrush}"/>
                                                 </MultiDataTrigger>
@@ -973,15 +975,13 @@
                                CylinderUpCommand="{Binding StampMachineData.BlockingCylinder_Up_Command}"   
                                     
                                CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylinder_IsUp}"
-                               CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
-                                
+                              
                                     CylinderMiddleIsActivated="False"
                                     
                                CylinderDownCommand="{Binding StampMachineData.BlockingCylinder_Down_Command}"   
                                     
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_BlockingCylindere_IsDown}"
-                               CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
-
+                           
                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
                                 />
                             </GroupBox>
@@ -1000,14 +1000,12 @@
                                 CylinderUpCommand="{Binding StampMachineData.QRStamping_Up_Command}"   
                                
                                CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsUp}"
-                             CylinderUp_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsMiddleSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
-                                
+                              
                                          CylinderMiddleIsActivated="False"
                                     
                                  CylinderDownCommand="{Binding StampMachineData.QRStamping_Down_Command}"   
                                   
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_QRStamping_IsDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
 
                                 
                                 CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
@@ -1154,15 +1152,15 @@
                                         
                                         
                                CylinderIsUpSingal_IsTriggered ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp}"
-                             CylinderUp_IsEnabled ="{Binding StampMachineData.Cylinder_StampingSeat_IsUp, Converter={dx:BoolInverseConverter}}"
-                                                               
+                            
+                                                                   
                                         CylinderMiddleIsActivated="False"
                                         
                                         
                                         
                                CylinderIsDownSingal_IsTriggered="{Binding StampMachineData.Cylinder_StampingSeat_IsDown}"
-                             CylinderDown_IsEnabled ="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CylinderIsDownSingal_IsTriggered, Converter={dx:BoolInverseConverter}}"
-                                
+                          
+                                                                   
                                         
                                         DownPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.StampingSeat_Down_Command}"
                                           DownPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"

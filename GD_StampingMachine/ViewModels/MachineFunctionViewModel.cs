@@ -319,6 +319,10 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+
+
+
+        List<(DateTime RestTime, DateTime OpenTime)> SleepRangeList = new();
         Task SleepSettingTask;
         CancellationTokenSource SleepSettingCts;
         public void SleepSettingStart()
@@ -332,7 +336,6 @@ namespace GD_StampingMachine.ViewModels
                     SleepModeIsActivated = true;
                     try
                     {
-                        List<(DateTime RestTime, DateTime OpenTime)> SleepRangeList = new();
                         while (true)
                         {
                             if (SleepSettingCts.Token.IsCancellationRequested)
@@ -369,8 +372,6 @@ namespace GD_StampingMachine.ViewModels
                                                 oTime = todayDate.AddTicks(timeRange.OpenTime.Ticks);
                                             }
 
-
-
                                             restList.Add(rtime);
                                             openList.Add(oTime);
                                         }
@@ -381,14 +382,14 @@ namespace GD_StampingMachine.ViewModels
                                         SleepRangeList.Add(new(restMin, openMax));
 
                                         //跳出等待
-                                        string Outputstring = "";
+                                        string Outputting = "";
                                         var sleepString=  (string)System.Windows.Application.Current.TryFindResource("Text_MachiningSleeping");
-                                        if (Outputstring != null)
+                                        if (Outputting != null)
                                         {
-                                            Outputstring = string.Format(sleepString, openMax.ToString("HH:mm:ss"));
+                                            Outputting = string.Format(sleepString, openMax.ToString("HH:mm:ss"));
                                         }
 
-                                        var result = new MessageBoxResultShow("", Outputstring, MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
+                                        var result = new MessageBoxResultShow("", Outputting, MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
 
 
                                         CancellationTokenSource cts = new CancellationTokenSource();
@@ -434,28 +435,33 @@ namespace GD_StampingMachine.ViewModels
                                                 if (StampMachineData.IsConnected)
                                                 {
                                                     if ((StampMachineData.OperationMode == OperationModeEnum.FullAutomatic ||
-                                                    StampMachineData.OperationMode == OperationModeEnum.HalfAutomatic)
-                                                    && StampMachineData.DI_Start)
+                                                    StampMachineData.OperationMode == OperationModeEnum.HalfAutomatic))
                                                     {
                                                         await StampMachineData.SetOperationModeAsync(OperationModeEnum.HalfAutomatic);
-                                                        if (cts.Token.IsCancellationRequested)
-                                                            cts.Token.ThrowIfCancellationRequested();
                                                         //等待機台完成工作
-                                                        await WaitForCondition.WaitAsync(() => StampMachineData.DI_Start, false, cts.Token);
+                                                        await Task.Delay(500);
+                                                        await WaitForCondition.WaitAsync(() => StampMachineData.StoppedLamp, true, cts.Token);
+                                                        await Task.Delay(100);
                                                         await StampMachineData.SetOperationModeAsync(OperationModeEnum.Setup);
-                                                        await Task.Delay(1000);
+                                                        await Task.Delay(500);
                                                         await StampMachineData.SetHydraulicPumpMotorAsync(false);
                                                         await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, false, cts.Token);
                                                         //關閉油壓
 
                                                         ret = true;
                                                     }
-                                                    else
+                                                }
+                                                else
+                                                {
+                                                    var (result, value) = await StampMachineData.GetHydraulicPumpMotorAsync();
+                                                    if(result && value)
                                                     {
+                                                        await StampMachineData.SetOperationModeAsync(OperationModeEnum.Setup);
+                                                        await Task.Delay(100);
                                                         await StampMachineData.SetHydraulicPumpMotorAsync(false);
-                                                        await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, false, cts.Token);
                                                     }
                                                 }
+
                                             }
                                             catch (OperationCanceledException cex)
                                             {
@@ -474,11 +480,12 @@ namespace GD_StampingMachine.ViewModels
                                             try
                                             {
                                                 await Task.WhenAny(machineSleepTask).ConfigureAwait(false);
-                                                var isNotSetupAutoTask = WaitForCondition.WaitNotAsync(() => StampMachineData.OperationMode, StampMachineData.OperationMode, cts.Token);
-                                                var isStartTask = WaitForCondition.WaitNotAsync(() => StampMachineData.DI_Start, StampMachineData.DI_Start, cts.Token);
-                                                var isESPTask = WaitForCondition.WaitNotAsync(() => StampMachineData.DI_EmergencyStop1, StampMachineData.DI_EmergencyStop1, cts.Token);
-                                                var isAlarmTask = WaitForCondition.WaitNotAsync(() => StampMachineData.AlarmMessageCollection.Count, StampMachineData.AlarmMessageCollection.Count, cts.Token);
-                                                await Task.WhenAny(isNotSetupAutoTask, isStartTask, isESPTask, isAlarmTask);
+                                                var isNotSetupAutoTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.OperationMode, cts.Token);
+                                                var isStartTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.RunningLamp, cts.Token);
+                                                var isStopTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.StoppedLamp, cts.Token);
+                                                var isAlarmTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.AlarmLamp, cts.Token);
+                                                var isESPTask = WaitForCondition.WaitChangeAsync(() => StampMachineData.DI_EmergencyStop1, cts.Token);
+                                                await Task.WhenAny(isNotSetupAutoTask, isStartTask, isStopTask, isAlarmTask, isESPTask);
                                             }
                                             catch
                                             {
@@ -498,13 +505,34 @@ namespace GD_StampingMachine.ViewModels
                                                 {
                                                     if (await StampMachineData.SetHydraulicPumpMotorAsync(true))
                                                     {
-                                                        await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, true, cts.Token);
-                                                        if (await StampMachineData.SetOperationModeAsync(originMode))
+                                                        //馬達啟動超時
+                                                        var MotorOutTimeCts = new CancellationTokenSource(15000);
+                                                        try
                                                         {
-                                                            await WaitForCondition.WaitAsync(() => StampMachineData.OperationMode, originMode, cts.Token);
-                                                            if (originMode == OperationModeEnum.FullAutomatic)
-                                                                await StampMachineData.CycleStartAsync();
+                                                            await WaitForCondition.WaitAsync(() => StampMachineData.HydraulicPumpIsActive, true, cts.Token, MotorOutTimeCts.Token);
+                                                            if (await StampMachineData.SetOperationModeAsync(originMode))
+                                                            {
+                                                                await WaitForCondition.WaitAsync(() => StampMachineData.OperationMode, originMode, cts.Token);
+                                                                if (originMode == OperationModeEnum.FullAutomatic)
+                                                                    await StampMachineData.CycleStartAsync();
+                                                            }
                                                         }
+                                                        catch (OperationCanceledException cex)
+                                                        {
+                                                            if(cex.CancellationToken == MotorOutTimeCts.Token)
+                                                            {
+                                                                //馬達啟動超時
+                                                               _ =  MessageBoxResultShow.ShowOKAsync("", (string)System.Windows.Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure") , GD_MessageBoxNotifyResult.NotifyRd , false);
+                                                            }
+
+
+
+                                                        }
+                                                        catch(Exception ex)
+                                                        {
+                                                        
+                                                        }
+
                                                     }
                                                 }
                                             }

@@ -12,22 +12,28 @@ namespace GD_CommonControlLibrary
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            Visibility visibility = Visibility.Collapsed;
+            if (parameter is Visibility paraVisibility)
+                if (paraVisibility != Visibility.Visible)
+                    visibility = paraVisibility;
+
+
             if (value != null)
             {
                 if (value is IEnumerable<object> ValueArray)
                 {
                     if (!Invert)
-                        return ValueArray.Count() == 0 ? Visibility.Visible : Visibility.Collapsed;
+                        return ValueArray.Count() == 0 ? Visibility.Visible : visibility;
                     else
-                        return ValueArray.Count() == 0 ? Visibility.Collapsed : Visibility.Visible;
+                        return ValueArray.Count() == 0 ? visibility : Visibility.Visible;
                 }
 
                 if(value is int IntValue)
                 {
                     if (!Invert)
-                        return IntValue == 0 ? Visibility.Visible : Visibility.Collapsed;
+                        return IntValue == 0 ? Visibility.Visible : visibility;
                     else
-                        return IntValue == 0 ? Visibility.Collapsed : Visibility.Visible;
+                        return IntValue == 0 ? visibility : Visibility.Visible;
                 }
 
 

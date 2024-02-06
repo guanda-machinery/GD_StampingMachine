@@ -751,6 +751,7 @@ namespace GD_StampingMachine.Singletons
             //一啟動就建立一個alarm
             //HasAlarm = true;
             AlarmMessageCollection.Add("PLC Is Not Connected");
+            AlarmLamp = true;
             _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, "PLC Is Not Connected", true);
 
             if (Debugger.IsAttached)
@@ -1212,6 +1213,20 @@ namespace GD_StampingMachine.Singletons
                                         await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.di_EmergencyStop1,
                                             (sender, e) => this.DI_EmergencyStop1 = e.NewValue);
 
+                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_RunningLamp,
+    (sender, e) => this.RunningLamp = e.NewValue);
+                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_StoppedLamp,
+    (sender, e) => this.StoppedLamp = e.NewValue);
+                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_AlarmLamp,
+    (sender, e) => this.AlarmLamp = e.NewValue);
+
+
+
+                                        
+                                        
+                                        
+
+
 
                                         //切割位置
                                         await SubscribeHydraulicCutting_Position_CutPointAsync(value =>
@@ -1240,9 +1255,12 @@ namespace GD_StampingMachine.Singletons
                                                 if (!string.IsNullOrWhiteSpace(e.NewValue))
                                                     if (!AlarmMessageCollection.Contains(e.NewValue))
                                                     {
-                                                        AlarmMessageCollection.Add(e.NewValue);
-                                                        _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
-                                                        OnPropertyChanged(nameof(AlarmMessageCollection));
+                                                        Application.Current.Dispatcher.BeginInvoke(() =>
+                                                        {
+                                                            AlarmMessageCollection.Add(e.NewValue);
+                                                            _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
+                                                            OnPropertyChanged(nameof(AlarmMessageCollection));
+                                                        });
                                                     }
                                             });
 
@@ -1252,9 +1270,12 @@ namespace GD_StampingMachine.Singletons
                                             var message = alarmTask.Item2;
                                             if (!AlarmMessageCollection.Contains(message))
                                             {
-                                                AlarmMessageCollection.Add(message);
-                                               _ =  LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
-                                                OnPropertyChanged(nameof(AlarmMessageCollection));
+                                                Application.Current.Dispatcher.BeginInvoke(() =>
+                                                {
+                                                    AlarmMessageCollection.Add(message);
+                                                    _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
+                                                    OnPropertyChanged(nameof(AlarmMessageCollection));
+                                                });
                                             }
                                         }
 
@@ -1278,7 +1299,9 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 if (e.NewValue)
                                                 {
-                                                    AlarmMessageCollection = new AsyncObservableCollection<string>();
+                                                    //AlarmMessageCollection = new AsyncObservableCollection<string>();
+                                                    AlarmMessageCollection.Clear();
+                                                    OnPropertyChanged(nameof(AlarmMessageCollection));
                                                 }
                                             });
 
@@ -2966,6 +2989,31 @@ namespace GD_StampingMachine.Singletons
 
 
 
+        private bool _runningLamp, _stoppedLamp, _alarmLamp;
+        public bool RunningLamp
+        {
+            get => _runningLamp;
+            set
+            {
+                _runningLamp = value;OnPropertyChanged();
+            }
+        }
+        public bool StoppedLamp
+        {
+            get => _stoppedLamp;
+            set
+            {
+                _stoppedLamp = value; OnPropertyChanged();
+            }
+        }
+        public bool AlarmLamp
+        {
+            get => _alarmLamp;
+            set
+            {
+                _alarmLamp = value; OnPropertyChanged();
+            }
+        }
 
 
 
@@ -3135,6 +3183,7 @@ namespace GD_StampingMachine.Singletons
             {
                 if (GD_OpcUaClient?.IsConnected == true)
                 {
+                    AlarmLamp = false;
                     var ret = await ResetAsync();
                 }
             }, () => !_resetCommand.IsRunning);
@@ -4856,10 +4905,13 @@ Y軸馬達位置移動命令
 
 
 
+
         public async Task<bool> SetFeedingVelocityAsync(float percent)
         {
             return await this.WriteNodeAsync($"{StampingOpcUANode.Feeding1.sv_rFeedVelocity}", percent);
         }
+
+
 
 
 
@@ -5118,6 +5170,61 @@ Y軸馬達位置移動命令
         {
             return await this.ReadNodeAsync<string>($"{StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText}");
         }
+
+
+        /// <summary>
+        /// 關閉蜂鳴器
+        /// </summary>
+        /// <param name="percent"></param>
+        /// <returns></returns>
+        public async Task<bool> SetBZPassAsync()
+        {
+            await this.WriteNodeAsync($"{StampingOpcUANode.OperationMode1.sv_bBZPass}", true);
+            await Task.Delay(1000);
+            return await this.WriteNodeAsync($"{StampingOpcUANode.OperationMode1.sv_bBZPass}", false);
+        }
+
+
+
+        /// <summary>
+        ///  取得蜂鳴器時間
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(bool,float)> GetBuzzerTimeAsync()
+        {
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.OperationMode1.sv_dBuzzerTime}");
+        }
+
+        /// <summary>
+        /// 設定蜂鳴器時間
+        /// </summary>
+        /// <param name="percent"></param>
+        /// <returns></returns>
+        public async Task<bool> SetBuzzerTimeAsync(float buzzTime)
+        {
+            return await this.WriteNodeAsync($"{StampingOpcUANode.OperationMode1.sv_dBuzzerTime}", buzzTime);
+        }
+
+        /// <summary>
+        /// 取得蜂鳴器on/off時間
+        /// </summary>
+        /// <param name="percent"></param>
+        /// <returns></returns>
+        public async Task<(bool, float)> GetBuzzerPluseTimeAsync()
+        {
+            return await this.ReadNodeAsync<float>($"{StampingOpcUANode.OperationMode1.sv_dBuzzerPluseTime}");
+        }
+        /// <summary>
+        /// 設定蜂鳴器on/off時間
+        /// </summary>
+        /// <param name="percent"></param>
+        /// <returns></returns>
+        public async Task<bool> SetBuzzerPluseTimeAsync(float buzzTime)
+        {
+            return await this.WriteNodeAsync($"{StampingOpcUANode.OperationMode1.sv_dBuzzerPluseTime}", buzzTime);
+        }
+
+
 
 
 
@@ -5734,6 +5841,36 @@ Y軸馬達位置移動命令
                 public static string di_ButtonAlarmConfirm => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonAlarmConfirm";
                 public static string di_ButtonCycleStart => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_ButtonCycleStart";
                 public static string di_EmergencyStop1 => $"{NodeHeader}.{NodeVariable.OperationMode1}.di_EmergencyStop1";
+
+                /// <summary>
+                /// 運轉燈號
+                /// </summary>
+                public static string do_RunningLamp => $"{NodeHeader}.{NodeVariable.OperationMode1}.do_RunningLamp";
+                /// <summary>
+                /// 停止燈號
+                /// </summary>
+                public static string do_StoppedLamp => $"{NodeHeader}.{NodeVariable.OperationMode1}.do_StoppedLamp";
+                /// <summary>
+                /// 警告燈號
+                /// </summary>
+                public static string do_AlarmLamp => $"{NodeHeader}.{NodeVariable.OperationMode1}.do_AlarmLamp";
+
+                /// <summary>
+                /// 關閉蜂鳴器
+                /// </summary>
+                public static string sv_bBZPass => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_bBZPass";
+                /// <summary>
+                /// 警報時間
+                /// </summary>
+                public static string sv_dBuzzerTime => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_dBuzzerTime";
+                /// <summary>
+                ///警報on/off時間
+                /// </summary>
+                public static string sv_dBuzzerPluseTime => $"{NodeHeader}.{NodeVariable.OperationMode1}.sv_dBuzzerPluseTime";
+
+
+
+
             }
 
             public class Pump1

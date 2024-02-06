@@ -506,12 +506,12 @@ namespace GD_StampingMachine.ViewModels
                                 {
                                     PartsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;// ProjectDistribute.ProjectDistributeName;
                                     PartsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                                    e.Effects = System.Windows.DragDropEffects.Move;
 
-                                    await SaveProductProjectVMObservableCollectionAsync();
                                 }
                             }
                         }
+                        e.Effects = System.Windows.DragDropEffects.Move;
+                        await SaveProductProjectVMObservableCollectionAsync();
                         RefreshBoxPartsParameterVMRowFilter();
                     }
                    
