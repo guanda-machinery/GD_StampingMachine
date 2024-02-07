@@ -1,6 +1,7 @@
 ﻿using DevExpress.Xpf.Core;
 using GD_StampingMachine.GD_Enum;
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,7 +26,8 @@ namespace GD_StampingMachine.Windows
         public MessageBoxWindow(Window parent, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
         {
             InitializeComponent();
-            BoxButton= MB_Button;
+
+            BoxButton = MB_Button;
             // Parent = parent;
 
             parent ??= Application.Current.MainWindow ?? new Window();
@@ -77,9 +79,6 @@ namespace GD_StampingMachine.Windows
 
 
             }
-
-
-
 
             Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
             Notify_Rd_Image.Visibility = Visibility.Collapsed; ;
