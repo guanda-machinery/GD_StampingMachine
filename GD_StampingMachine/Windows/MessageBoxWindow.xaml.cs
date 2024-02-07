@@ -25,7 +25,8 @@ namespace GD_StampingMachine.Windows
         {
             InitializeComponent();
             BoxButton= MB_Button;
-           // Parent = parent;
+            // Parent = parent;
+            parent ??= Application.Current.MainWindow ?? new Window();
 
            if (lockWindow)
             {

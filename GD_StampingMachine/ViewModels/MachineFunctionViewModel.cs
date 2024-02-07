@@ -522,7 +522,7 @@ namespace GD_StampingMachine.ViewModels
                                                             if(cex.CancellationToken == MotorOutTimeCts.Token)
                                                             {
                                                                 //馬達啟動超時
-                                                               _ =  MessageBoxResultShow.ShowOKAsync("", (string)System.Windows.Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure") , GD_MessageBoxNotifyResult.NotifyRd , false);
+                                                               _ =  MessageBoxResultShow.ShowOKAsync("", (string)System.Windows.Application.Current.TryFindResource("Text_HydraulicPumpMotorActivatedFailure") , GD_MessageBoxNotifyResult.NotifyRd , false);
                                                             }
 
 

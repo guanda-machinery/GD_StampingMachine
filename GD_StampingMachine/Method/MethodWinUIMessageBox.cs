@@ -8,7 +8,7 @@ namespace GD_StampingMachine.Method
 {
     public class MethodWinUIMessageBox : MessageBoxResultShow
     {
-        public MethodWinUIMessageBox(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image) : base(MessageTitle, MessageString, MB_Button, MB_Image)
+        protected MethodWinUIMessageBox(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true) : base(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow)
         {
 
         }

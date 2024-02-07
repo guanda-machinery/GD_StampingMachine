@@ -1255,7 +1255,7 @@ namespace GD_StampingMachine.Singletons
                                                 if (!string.IsNullOrWhiteSpace(e.NewValue))
                                                     if (!AlarmMessageCollection.Contains(e.NewValue))
                                                     {
-                                                        Application.Current.Dispatcher.BeginInvoke(() =>
+                                                        _ = Application.Current.Dispatcher.BeginInvoke(() =>
                                                         {
                                                             AlarmMessageCollection.Add(e.NewValue);
                                                             _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
@@ -1270,7 +1270,7 @@ namespace GD_StampingMachine.Singletons
                                             var message = alarmTask.Item2;
                                             if (!AlarmMessageCollection.Contains(message))
                                             {
-                                                Application.Current.Dispatcher.BeginInvoke(() =>
+                                                await Application.Current.Dispatcher.BeginInvoke(() =>
                                                 {
                                                     AlarmMessageCollection.Add(message);
                                                     _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
@@ -2798,7 +2798,7 @@ namespace GD_StampingMachine.Singletons
                         else
                         {
                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                   (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorAcitvedFailure") , GD_MessageBoxNotifyResult.NotifyRd);
+                                   (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorActivatedFailure") , GD_MessageBoxNotifyResult.NotifyRd);
                         }
                     }
 

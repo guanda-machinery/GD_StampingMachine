@@ -1,12 +1,15 @@
-﻿using DevExpress.CodeParser;
+﻿
 using GD_StampingMachine;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Windows;
+using Microsoft.VisualStudio.Threading;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
+using Microsoft.VisualStudio.Shell;
 
 namespace GD_CommonLibrary.Method
 {
@@ -15,18 +18,21 @@ namespace GD_CommonLibrary.Method
     /// </summary>
     public class MessageBoxResultShow
     {
-        public MessageBoxResultShow(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
+
+        public MessageBoxResultShow(string messageTitle, string messageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                Window mainWindow = Application.Current.MainWindow ?? new Window(); 
-                newWindow = new MessageBoxWindow(mainWindow, MessageTitle, MessageString, MB_Button, MB_Image, lockWindow)
-                 {
-                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                 };
+                newWindow = new MessageBoxWindow(null, 
+                    messageTitle, messageString, MB_Button, MB_Image, lockWindow)
+                {
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                };
             });
         }
+
         MessageBoxWindow newWindow;
+
         /// <summary>
         /// 可被外部關閉的彈出式視窗
         /// </summary>
@@ -72,7 +78,7 @@ namespace GD_CommonLibrary.Method
         }
         public async Task CloseMessageBoxAsync()
         {
-            await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 try
                 {
@@ -96,7 +102,7 @@ namespace GD_CommonLibrary.Method
             {
                 try
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    _ =  Application.Current.Dispatcher.InvokeAsync(new Action( () =>
                     {
                         try
                         {
