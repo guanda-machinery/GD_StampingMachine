@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace GD_StampingMachine.Windows
 {
@@ -26,6 +27,7 @@ namespace GD_StampingMachine.Windows
             InitializeComponent();
             BoxButton= MB_Button;
             // Parent = parent;
+
             parent ??= Application.Current.MainWindow ?? new Window();
 
            if (lockWindow)
@@ -106,6 +108,7 @@ namespace GD_StampingMachine.Windows
             }
 
             OkButtonGrid.Visibility = MB_Button is MessageBoxButton.OK ? Visibility.Visible : Visibility.Collapsed;
+            OkButtonGrid.Focus();
             OkCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.OKCancel ? Visibility.Visible : Visibility.Collapsed;
             YesNoButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
             YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
