@@ -21,13 +21,18 @@ namespace GD_StampingMachine.Windows
         static MessageBoxWindow ()
         {
             BoxButtonProperty = DependencyProperty.Register(nameof(BoxButton), typeof(MessageBoxButton), typeof(MessageBoxWindow), new FrameworkPropertyMetadata(MessageBoxButton.OK, OnBoxButtonChanged));
+            MessageBoxNotifyResultProperty = DependencyProperty.Register(nameof(MessageBoxNotifyResult), typeof(GD_MessageBoxNotifyResult), typeof(MessageBoxWindow), new FrameworkPropertyMetadata(GD_MessageBoxNotifyResult.NotifyBl, OnMessageBoxNotifyResultChanged));
         }
+
+    
+
 
         public MessageBoxWindow(Window parent, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
         {
             InitializeComponent();
 
             BoxButton = MB_Button;
+            MessageBoxNotifyResult = MB_Icon;
             // Parent = parent;
 
             parent ??= Application.Current.MainWindow ?? new Window();
@@ -80,40 +85,12 @@ namespace GD_StampingMachine.Windows
 
             }
 
-            Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
-            Notify_Rd_Image.Visibility = Visibility.Collapsed; ;
-            Notify_Gr_Image.Visibility = Visibility.Collapsed; ;
-            Notify_Ye_Image.Visibility = Visibility.Collapsed; ;
-            switch (MB_Icon)
-            {
-                case GD_MessageBoxNotifyResult.NotifyBl:
-                    Notify_Bl_Image.Visibility = Visibility.Visible;
-                    break;
-                case GD_MessageBoxNotifyResult.NotifyGr:
-                    Notify_Gr_Image.Visibility = Visibility.Visible;
-                    break;
-                case GD_MessageBoxNotifyResult.NotifyRd:
-
-                    Notify_Rd_Image.Visibility = Visibility.Visible;
-                    break;
-                case GD_MessageBoxNotifyResult.NotifyYe:
-
-                    Notify_Ye_Image.Visibility = Visibility.Visible;
-                    break;
-
-
-                default:
-                    break;
-            }
-
-            OkButtonGrid.Visibility = MB_Button is MessageBoxButton.OK ? Visibility.Visible : Visibility.Collapsed;
-            OkButtonGrid.Focus();
+            /*OkButtonGrid.Visibility = MB_Button is MessageBoxButton.OK ? Visibility.Visible : Visibility.Collapsed;
             OkCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.OKCancel ? Visibility.Visible : Visibility.Collapsed;
             YesNoButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
-            YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
+            YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;*/
 
             // var ZindexMax = Application.Current.Windows.Cast<Window>().Max(window => Panel.GetZIndex(window));
-
             //   this.SetValue(Panel.ZIndexProperty, ZindexMax - 1);
             //this.Topmost = true;
            // this.Owner = owner;
@@ -131,7 +108,7 @@ namespace GD_StampingMachine.Windows
         }
 
         static readonly DependencyProperty BoxButtonProperty;
-        
+        static readonly DependencyProperty MessageBoxNotifyResultProperty; 
         
 
 
@@ -140,6 +117,13 @@ namespace GD_StampingMachine.Windows
             get => (MessageBoxButton)GetValue(BoxButtonProperty);
             set => SetValue(BoxButtonProperty, value);
         }
+
+        public GD_MessageBoxNotifyResult MessageBoxNotifyResult
+        {
+            get => (GD_MessageBoxNotifyResult)GetValue(MessageBoxNotifyResultProperty);
+            set => SetValue(MessageBoxNotifyResultProperty, value);
+        }
+
 
         private static void OnBoxButtonChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
@@ -152,6 +136,38 @@ namespace GD_StampingMachine.Windows
                 thisobj.YesNoCancelButtonGrid.Visibility = boxButton is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
             }
         }
+
+        private static void OnMessageBoxNotifyResultChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var thisobj = (MessageBoxWindow)obj;
+            thisobj.Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
+            thisobj.Notify_Rd_Image.Visibility = Visibility.Collapsed; ;
+            thisobj.Notify_Gr_Image.Visibility = Visibility.Collapsed; ;
+            thisobj.Notify_Ye_Image.Visibility = Visibility.Collapsed; ;
+            if (e.NewValue is GD_MessageBoxNotifyResult Notify)
+            {
+                switch (Notify)
+                {
+                    case GD_MessageBoxNotifyResult.NotifyBl:
+                        thisobj.Notify_Bl_Image.Visibility = Visibility.Visible;
+                        break;
+                    case GD_MessageBoxNotifyResult.NotifyGr:
+                        thisobj.Notify_Gr_Image.Visibility = Visibility.Visible;
+                        break;
+                    case GD_MessageBoxNotifyResult.NotifyRd:
+                        thisobj.Notify_Rd_Image.Visibility = Visibility.Visible;
+                        break;
+                    case GD_MessageBoxNotifyResult.NotifyYe:
+                        thisobj.Notify_Ye_Image.Visibility = Visibility.Visible;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        
+
+
 
         private Window CalcOwner()
         {
