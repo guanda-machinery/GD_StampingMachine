@@ -475,7 +475,7 @@
 
             <GroupBox 
                    Name="StampingFontGroupBox"  
-                    Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                    Grid.Row="0" Header="{DynamicResource Text_SteelPunchedFontSetting}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="10,0" >
                     <ListBox  Grid.Row="1"  
                          SelectedItem="{Binding StampingFontSelected}"  Margin="10,0"  Name="StampingFontListBox" 
                          ItemsSource="{Binding StampingTypeVMObservableCollection}"      

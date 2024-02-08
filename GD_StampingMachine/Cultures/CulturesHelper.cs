@@ -28,11 +28,14 @@ namespace GD_StampingMachine
             CultureInfo cultureInfo = new CultureInfo("");
             List<string> files = Directory.GetFiles(string.Format("{0}\\{1}", System.Windows.Forms.Application.StartupPath, _culturesFolder))
                 .Where(s => s.Contains(_resourcePrefix) && Path.GetExtension(s).Equals(".xaml", StringComparison.OrdinalIgnoreCase)).ToList();
-            foreach (string file in files)
+            foreach (string filePath in files)
             {
                 try
                 {
-                    string cultureName = file.Substring(file.IndexOf(".") + 1).Replace(".xaml", "");
+                    // string cultureName = file.Substring(file.IndexOf(".") + 1).Replace(".xaml", "");
+
+                    string path = Path.GetFileNameWithoutExtension(filePath);
+                    string cultureName = Path.GetExtension(path).Trim('.');
                     cultureInfo = CultureInfo.GetCultureInfo(cultureName);
                     if (cultureInfo != null)
                     {

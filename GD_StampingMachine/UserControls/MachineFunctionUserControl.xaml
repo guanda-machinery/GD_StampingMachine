@@ -1389,8 +1389,7 @@
 
                                 <ListBox  Visibility="{Binding ElementName=SelectedProjectDistributeSeparateBoxCollection,Path=Visibility,
                                     Converter={dx:VisibilityInverseConverter}}"
-                                    Margin="5" Style="{StaticResource RotatingStampingListBox}" 
-     
+                                          Margin="5" Style="{StaticResource RotatingStampingListBox}"     
                                           ItemsSource="{Binding ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}"
                                           />
                                 
