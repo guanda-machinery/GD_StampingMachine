@@ -45,7 +45,10 @@ namespace GD_StampingMachine
                 catch (ArgumentException)
                 {
                 }
+                catch (Exception)
+                {
 
+                }
             }
             return CultList ?? new List<CultureInfo>();
         }
