@@ -24,7 +24,7 @@
         
         Topmost="{Binding Topmost}" 
         Visibility="{Binding Visibility}"  
-        StateChanged="Window_StateChanged"  
+        StateChanged="Window_StateChanged" Cursor="Arrow"  
         >
     <Window.Style>
         <Style TargetType="Window">

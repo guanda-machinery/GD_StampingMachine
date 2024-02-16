@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace GD_StampingMachine.Windows
 {
@@ -22,6 +23,9 @@ namespace GD_StampingMachine.Windows
         {
             BoxButtonProperty = DependencyProperty.Register(nameof(BoxButton), typeof(MessageBoxButton), typeof(MessageBoxWindow), new FrameworkPropertyMetadata(MessageBoxButton.OK, OnBoxButtonChanged));
             MessageBoxNotifyResultProperty = DependencyProperty.Register(nameof(MessageBoxNotifyResult), typeof(GD_MessageBoxNotifyResult), typeof(MessageBoxWindow), new FrameworkPropertyMetadata(GD_MessageBoxNotifyResult.NotifyBl, OnMessageBoxNotifyResultChanged));
+
+
+
         }
 
     
@@ -32,10 +36,23 @@ namespace GD_StampingMachine.Windows
             InitializeComponent();
 
             BoxButton = MB_Button;
+            OkButtonGrid.Visibility = BoxButton is MessageBoxButton.OK ? Visibility.Visible : Visibility.Collapsed;
+            OkCancelButtonGrid.Visibility = BoxButton is MessageBoxButton.OKCancel ? Visibility.Visible : Visibility.Collapsed;
+            YesNoButtonGrid.Visibility = BoxButton is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
+            YesNoCancelButtonGrid.Visibility = BoxButton is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;
+
             MessageBoxNotifyResult = MB_Icon;
+            Notify_Bl_Image.Visibility = MessageBoxNotifyResult is GD_MessageBoxNotifyResult.NotifyBl ? Visibility.Visible : Visibility.Collapsed;
+            Notify_Gr_Image.Visibility = MessageBoxNotifyResult is GD_MessageBoxNotifyResult.NotifyGr ? Visibility.Visible : Visibility.Collapsed;
+            Notify_Rd_Image.Visibility = MessageBoxNotifyResult is GD_MessageBoxNotifyResult.NotifyRd ? Visibility.Visible : Visibility.Collapsed;
+            Notify_Ye_Image.Visibility = MessageBoxNotifyResult is GD_MessageBoxNotifyResult.NotifyYe ? Visibility.Visible : Visibility.Collapsed;
+
             // Parent = parent;
 
             parent ??= Application.Current.MainWindow ?? new Window();
+
+
+
 
            if (lockWindow)
             {
@@ -45,6 +62,8 @@ namespace GD_StampingMachine.Windows
                 }
                 else
                 {
+
+
                     Overlay = new Window
                     {
                        // Placement= PlacementMode.Relative,
@@ -57,8 +76,8 @@ namespace GD_StampingMachine.Windows
                         //StaysOpen = true,
                         //IsOpen = true,
                         AllowsTransparency = parent.AllowsTransparency,
-                        Top = parent.GetTop(),
-                        Left = parent.GetLeft(),
+                        Top = parent.Top,
+                        Left = parent.Left,
                         //PlacementRectangle = new Rect(owner.Left, owner.Top, owner.ActualWidth, owner.ActualHeight),
                          Width = parent.ActualWidth,
                         Height = parent.ActualHeight,
@@ -140,29 +159,13 @@ namespace GD_StampingMachine.Windows
         private static void OnMessageBoxNotifyResultChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var thisobj = (MessageBoxWindow)obj;
-            thisobj.Notify_Bl_Image.Visibility = Visibility.Collapsed; ;
-            thisobj.Notify_Rd_Image.Visibility = Visibility.Collapsed; ;
-            thisobj.Notify_Gr_Image.Visibility = Visibility.Collapsed; ;
-            thisobj.Notify_Ye_Image.Visibility = Visibility.Collapsed; ;
             if (e.NewValue is GD_MessageBoxNotifyResult Notify)
             {
-                switch (Notify)
-                {
-                    case GD_MessageBoxNotifyResult.NotifyBl:
-                        thisobj.Notify_Bl_Image.Visibility = Visibility.Visible;
-                        break;
-                    case GD_MessageBoxNotifyResult.NotifyGr:
-                        thisobj.Notify_Gr_Image.Visibility = Visibility.Visible;
-                        break;
-                    case GD_MessageBoxNotifyResult.NotifyRd:
-                        thisobj.Notify_Rd_Image.Visibility = Visibility.Visible;
-                        break;
-                    case GD_MessageBoxNotifyResult.NotifyYe:
-                        thisobj.Notify_Ye_Image.Visibility = Visibility.Visible;
-                        break;
-                    default:
-                        break;
-                }
+
+                thisobj.Notify_Bl_Image.Visibility = Notify is GD_MessageBoxNotifyResult.NotifyBl ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.Notify_Gr_Image.Visibility = Notify is GD_MessageBoxNotifyResult.NotifyGr ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.Notify_Rd_Image.Visibility = Notify is GD_MessageBoxNotifyResult.NotifyRd ? Visibility.Visible : Visibility.Collapsed;
+                thisobj.Notify_Ye_Image.Visibility = Notify is GD_MessageBoxNotifyResult.NotifyYe ? Visibility.Visible : Visibility.Collapsed;
             }
         }
         
