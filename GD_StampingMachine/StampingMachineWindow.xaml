@@ -38,8 +38,8 @@
     </Window.Style>
 
     <WindowChrome.WindowChrome>
-        <WindowChrome 
-            CaptionHeight="0" ResizeBorderThickness="10"/>
+        <WindowChrome  GlassFrameThickness="-1" 
+                       CaptionHeight="0" ResizeBorderThickness="10"/>
     </WindowChrome.WindowChrome>
 
     <i:Interaction.Triggers>
