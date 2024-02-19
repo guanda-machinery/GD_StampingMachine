@@ -175,7 +175,7 @@
                     <Grid Name="QrCodeContentGrid" 
                 Canvas.Left="65" Canvas.Bottom="3" Opacity="0.0">
                         <TextBlock  HorizontalAlignment="Left"
-                    Text="{Binding QrCodeContent, TargetNullValue=00000000}" FontSize="4" />
+                    Text="{Binding QrCodeContent}" FontSize="4" />
                     </Grid>
                 </Canvas>
         </Grid>

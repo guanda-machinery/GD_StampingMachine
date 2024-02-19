@@ -8,11 +8,10 @@ namespace GD_StampingMachine.GD_Model.ProductionSetting
         {
             StampingPlate = new()
             {
-                QrCodeContent = QrCodeContent,
-                PlateNumber = IronPlateString,
-                QR_Special_Text = QR_Special_Text,
+                QrCodeContent = this.QrCodeContent,
+                PlateNumber = this.IronPlateString,
+                QR_Special_Text = this.QR_Special_Text,
             };
-
         }
 
         /// <summary>

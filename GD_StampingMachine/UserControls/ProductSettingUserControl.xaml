@@ -1239,7 +1239,7 @@
                                     <TextBlock Grid.Column="1" Grid.Row="3"  VerticalAlignment="Center" Margin="0,2"
                                                    Text="{DynamicResource textDashAutoWrapping}"/>
 
-                                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource btnQRSetting}" Margin="0,2"
+                                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource btnDataMatrixSetting}" Margin="0,2"
                                                VerticalAlignment="Center"/>
 
                                     <TextBlock Grid.Column="1" Grid.Row="5"  VerticalAlignment="Center" Margin="0,2"

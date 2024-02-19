@@ -54,9 +54,11 @@
         <Border    HorizontalAlignment="Center" Padding="0,0,0,8"
             BorderThickness="0,0,0,1" BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}">
             <ItemsControl 
-                Style="{StaticResource StampingToolbarItemsControl}"
                 dd:DragDrop.IsDragSource ="True"
                 dd:DragDrop.IsDropTarget ="False"
+                dd:DragDrop.DropHandler="{GD_Method:FunctionToggleButtonControlDropTarget}"
+                dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdornerTemplateBright}"
+                
                 Margin="30,10,30,0">
 
                 <ItemsControl.ItemsPanel>
@@ -97,11 +99,11 @@
                 </GD_UserControls:FunctionToggleUserControl>
 
                 <GD_UserControls:FunctionToggleUserControl 
-                                        x:Name="TbtnQRSetting" 
-                                        IsChecked="{Binding TbtnQRSettingIsChecked, Mode=TwoWay}">
+                                        x:Name="TbtnDataMatrixSetting" 
+                                        IsChecked="{Binding TbtnDataMatrixSettingIsChecked, Mode=TwoWay}">
                     <GD_UserControls:FunctionToggleUserControl.Style>
                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_ParameterSetting}">
-                            <Setter Property="ControlTitleText" Value="{DynamicResource btnQRSetting}"      />
+                            <Setter Property="ControlTitleText" Value="{DynamicResource btnDataMatrixSetting}"      />
                             <Setter Property="ImageSource" Value="{StaticResource MainIcon_17_QRIcon_DrawingImage_Mono}"      />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
@@ -574,7 +576,7 @@
                         </Grid>
                     </StackPanel>
                 </TabItem>
-                <TabItem  IsSelected="{Binding ElementName=TbtnQRSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
+                <TabItem  IsSelected="{Binding ElementName=TbtnDataMatrixSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
                     <Grid HorizontalAlignment="Center" Margin="20,0">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -1809,6 +1811,11 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
                                                                                                     </Grid>
                                                                                                     <ControlTemplate.Triggers>
+
+                                                                                                        <Trigger Property="IsChecked" Value="True">
+                                                                                                            <Setter Property="Background" Value="DarkBlue"/>
+                                                                                                        </Trigger>
+                                                                                                        
                                                                                                         <Trigger Property="IsMouseOver" Value="True">
                                                                                                             <Setter Property="Background" Value="LightSkyBlue"/>
                                                                                                             <Setter Property="Foreground" Value="Black"/>
@@ -1821,6 +1828,8 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         <Trigger Property="IsEnabled" Value="False">
                                                                                                             <Setter Property="Opacity" Value="0.3"/>
                                                                                                         </Trigger>
+
+
                                                                                                         <!--
                                                                                                         <Trigger Property="IsChecked" Value="False">
                                                                                                             <Setter TargetName="TickBorder" Property="Opacity" Value="0.0"/>
@@ -1988,13 +1997,19 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                         </ItemsPanelTemplate>
                                                     </ListBox.ItemsPanel>
                                                     <ListBox.ItemContainerStyle>
-                                                        <Style TargetType="ListBoxItem">
-                                                            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
-                                                            <Setter Property="Cursor" Value="Hand"/>
-                                                            <Setter Property="Template">
+                                                            <Style TargetType="ListBoxItem">
+                                                                <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                <Setter Property="BorderThickness" Value="2"/>
+                                                                <Setter Property="Border.CornerRadius" Value="10"/>
+                                                                <Setter Property="Margin" Value="0,1"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                                <Setter Property="Template">
                                                                 <Setter.Value>
                                                                     <ControlTemplate TargetType="ListBoxItem">
-                                                                        <Border 
+                                                                            <Border CornerRadius="{TemplateBinding Border.CornerRadius}"
+                                                                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                                                                BorderBrush="{TemplateBinding BorderBrush}"
                                                                             Background="{TemplateBinding Background}">
                                                                             <Grid  
                                                                 d:DataContext="{d:DesignInstance Type=ParameterSetting:TimingControlViewModel}">
@@ -2021,7 +2036,7 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                 </Expander>
 
                                                                                 <Grid Grid.Column="1" Grid.ColumnSpan="2">
-                                                                                    <Thumb  Background="Transparent" Opacity="0.5" >
+                                                                                    <Thumb  Background="Transparent" Opacity="1" >
                                                                                         <i:Interaction.Triggers>
                                                                                             <i:EventTrigger EventName="DragDelta">
                                                                                                 <i:InvokeCommandAction Command="{Binding OnThumbDragDeltaCommand}" PassEventArgsToCommand="True"/>
@@ -2084,8 +2099,42 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                                             </MultiBinding>
                                                                                                         </TextBlock.Text>
                                                                                                     </TextBlock>
+                                                                                                    
                                                                                                     <TextBlock Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
                                                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+
+                                                                                                                <Grid>
+                                                                                                                    <ItemsControl ItemsSource="{Binding DayOfWeekWorkVMObservableCollection}">
+                                                                                                                        <ItemsControl.ItemTemplate>
+                                                                                                                            <DataTemplate >
+                                                                                                                                <Grid Margin="2,0"
+                                                                                                                                    d:DataContext="{d:DesignInstance Type=ParameterSetting:DayOfWeekWorkViewModel}">
+                                                                                                                                    <Grid.RowDefinitions>
+                                                                                                                                        <RowDefinition/>
+                                                                                                                                        <RowDefinition/>
+                                                                                                                                    </Grid.RowDefinitions>
+                                                                                                                                    <TextBlock 
+                                                                                                                                        Text="{Binding IsWork}" Grid.Row="0"   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                                                                    <!--IsWork-->
+                                                                                                                                    
+                                                                                                                                    
+                                                                                                                                    <TextBlock 
+                                                                                                                                        Text="{Binding DayOfWeek}" Grid.Row="1"   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                                                                </Grid>
+                                                                                                                                
+                                                                                                                            </DataTemplate>
+                                                                                                                        </ItemsControl.ItemTemplate>
+                                                                                                                        <ItemsControl.ItemsPanel>
+                                                                                                                            <ItemsPanelTemplate>
+                                                                                                                                <StackPanel Orientation="Horizontal"/>
+                                                                                                                            </ItemsPanelTemplate>
+                                                                                                                        </ItemsControl.ItemsPanel>
+                                                                                                                    </ItemsControl>
+                                                                                                                    
+                                                                                                                    
+                                                                                                                </Grid>
+                                                                                                    
+                                                                                                    
                                                                                                 </StackPanel>
                                                                                                     </Grid>
                                                                                                     

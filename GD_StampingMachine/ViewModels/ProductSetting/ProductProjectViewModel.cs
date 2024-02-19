@@ -697,9 +697,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             //取得路徑下所有檔案
                             string[] files = Directory.GetFiles(ImportFilePath);
-                            var availableFiles = files.Where(xfileName =>
-                            Path.GetExtension(xfileName).Equals(".csv", StringComparison.OrdinalIgnoreCase) ||
-                            Path.GetExtension(xfileName).Equals(".json", StringComparison.OrdinalIgnoreCase));
+                            var availableFiles = files.Where(fileName =>
+                            Path.GetExtension(fileName).Equals(".csv", StringComparison.OrdinalIgnoreCase) ||
+                            Path.GetExtension(fileName).Equals(".json", StringComparison.OrdinalIgnoreCase));
 
                             //如果沒有檔案->跳出提示
                             if (availableFiles.Count() == 0)

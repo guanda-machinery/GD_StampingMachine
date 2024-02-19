@@ -46,7 +46,7 @@ namespace GD_StampingMachine.ViewModels
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ParameterSettingViewModel");
 
         private bool _tbtnNumberSettingIsChecked;
-        private bool _tbtnQRSettingIsChecked;
+        private bool _tbtnDataMatrixSettingIsChecked;
         private bool _tbtnAxisSettingSettingIsChecked;
         private bool _tbtnTimimgSettingIsChecked;
         private bool _tbtnSegregationSettingIsChecked;
@@ -55,7 +55,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         public bool TbtnNumberSettingIsChecked { get => _tbtnNumberSettingIsChecked; set { _tbtnNumberSettingIsChecked = value; OnPropertyChanged(); } }
-        public bool TbtnQRSettingIsChecked { get => _tbtnQRSettingIsChecked; set { _tbtnQRSettingIsChecked = value; OnPropertyChanged(); } }
+        public bool TbtnDataMatrixSettingIsChecked { get => _tbtnDataMatrixSettingIsChecked; set { _tbtnDataMatrixSettingIsChecked = value; OnPropertyChanged(); } }
         public bool TbtnAxisSettingSettingIsChecked { get => _tbtnAxisSettingSettingIsChecked; set { _tbtnAxisSettingSettingIsChecked = value; OnPropertyChanged(); } }
         public bool TbtnTimimgSettingIsChecked { get => _tbtnTimimgSettingIsChecked; set { _tbtnTimimgSettingIsChecked = value; OnPropertyChanged(); } }
         public bool TbtnSegregationSettingIsChecked { get => _tbtnSegregationSettingIsChecked; set { _tbtnSegregationSettingIsChecked = value; OnPropertyChanged(); } }

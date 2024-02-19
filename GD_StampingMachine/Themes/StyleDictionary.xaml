@@ -1316,16 +1316,12 @@
         <Setter Property="dd:DragDrop.IsDropTarget" Value="True"/>
     </Style>
 
-    <Style TargetType="ItemsControl" BasedOn="{StaticResource DragableItemsControl}" x:Key="StampingToolbarItemsControl">
-        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlDropTarget}"/>
-        <Setter Property="dd:DragDrop.DragAdornerTemplate" >
-            <Setter.Value>
-                <DataTemplate>
-                    <Border DataContext="{Binding}" 
+    <DataTemplate x:Key="DragAdornerTemplateBright">
+        <Border DataContext="{Binding}" 
                                 BorderThickness="1.5"
                                 BorderBrush="{DynamicResource PrimaryHueMidBrush}" 
                                 Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5">
-                        <GD_UserControls:FunctionToggleUserControl
+            <GD_UserControls:FunctionToggleUserControl
                                 ControlTitleText ="{Binding ControlTitleText}"      
                                 ImageSource ="{Binding ImageSource}"   
                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
@@ -1333,23 +1329,15 @@
                                 PackIconKind="{Binding PackIconKind}"
                                 ImageWidth="{Binding ImageWidth}"
                                 ImageHeight="{Binding ImageHeight}"/>
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        
-    </Style>
+        </Border>
+    </DataTemplate>
 
-    <Style TargetType="ItemsControl" BasedOn="{StaticResource DragableItemsControl}" x:Key="StampingToolbarItemsControl_Dark">
-        <Setter Property="dd:DragDrop.DropHandler" Value="{GD_Method:FunctionToggleButtonControlDropTarget}"/>
-        <Setter Property="dd:DragDrop.DragAdornerTemplate" >
-            <Setter.Value>
-                <DataTemplate>
-                    <Border DataContext="{Binding}" 
+    <DataTemplate x:Key="DragAdornerTemplateDark">
+        <Border DataContext="{Binding}" 
                                 BorderThickness="1.5"
                                 BorderBrush="{DynamicResource DarkHueMidBrush}" 
                                 Background="{DynamicResource DarkHueDarkBrush}" CornerRadius="5">
-                        <GD_UserControls:FunctionToggleUserControl
+            <GD_UserControls:FunctionToggleUserControl
                                 ControlTitleText ="{Binding ControlTitleText}"      
                                 ImageSource ="{Binding ImageSource}"   
                                 Foreground="{DynamicResource DarkHueDarkForegroundBrush}"
@@ -1357,12 +1345,10 @@
                                 PackIconKind="{Binding PackIconKind}"
                                 ImageWidth="{Binding ImageWidth}"
                                 ImageHeight="{Binding ImageHeight}"/>
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        </Border>
+    </DataTemplate>
 
-    </Style>
+
 
     <Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignLinearProgressBar}" x:Key="GD_ProgressBar">
         
@@ -1480,8 +1466,8 @@
                             </Trigger.EnterActions>
                             <Setter TargetName="Off" Property="Stroke" Value="White" />
                             <!--  Change Orange or Blue color here  -->
-                            <Setter TargetName="BackgroundBorder" Property="Background" Value="Lime" />
-                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="Lime" />
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="#90dd12" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="#90dd12" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <!--  ToDo: Add Style for Isenabled == False  -->

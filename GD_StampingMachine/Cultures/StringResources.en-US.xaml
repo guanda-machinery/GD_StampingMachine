@@ -77,7 +77,7 @@
     <!--#region參數設定 -->
 
     <sys:String x:Key="btnNumberSetting">號碼設定</sys:String>
-    <sys:String x:Key="btnQRSetting">QR碼設定</sys:String>
+    <sys:String x:Key="btnDataMatrixSetting">QR碼設定</sys:String>
     <sys:String x:Key="btnAxisSetting">軸向設定</sys:String>
     <sys:String x:Key="btnTimimgSetting">計時設定</sys:String>
     <sys:String x:Key="btnSeparateSetting">分料設定</sys:String>

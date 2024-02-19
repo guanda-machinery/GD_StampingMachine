@@ -811,7 +811,8 @@ namespace GD_StampingMachine.Singletons
                         {
                             SettingBaseVM = new QRSettingViewModel()
                             {
-                                PlateNumber = "Test" + i
+                                PlateNumber = "Test" + i,
+                                QrCodeContent = "QRTest" + i,
                             }
                         });
                     }

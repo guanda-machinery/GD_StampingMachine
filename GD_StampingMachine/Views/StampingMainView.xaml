@@ -1310,9 +1310,12 @@ RadiusX="0.5" RadiusY="0.5">
                                                         BlurRadius="10"/>
                                     </materialDesign:ColorZone.Effect>
 
-                                <ItemsControl Style="{StaticResource StampingToolbarItemsControl}"
+                                <ItemsControl 
                                         dd:DragDrop.IsDragSource ="True"
                                         dd:DragDrop.IsDropTarget ="True"
+                                        dd:DragDrop.DropHandler="{GD_Method:FunctionToggleButtonControlDropTarget}"              
+                                        dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdornerTemplateBright}"
+                                              
                                         VerticalAlignment="Top"  HorizontalAlignment="Left" >
 
                                     <GD_UserControls:FunctionToggleUserControl 
@@ -1383,7 +1386,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                 <MultiBinding Converter="{GD_CommonControl:ToggleButtonMultiBooleanToBooleanConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
                                                     <MultiBinding.Bindings>
                                                         <Binding Path="ParameterSettingVM.TbtnNumberSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
-                                                        <Binding Path="ParameterSettingVM.TbtnQRSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                                        <Binding Path="ParameterSettingVM.TbtnDataMatrixSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                                         <Binding Path="ParameterSettingVM.TbtnAxisSettingSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                                         <Binding Path="ParameterSettingVM.TbtnTimimgSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                                         <Binding Path="ParameterSettingVM.TbtnSegregationSettingIsChecked" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
@@ -1538,9 +1541,11 @@ RadiusX="0.5" RadiusY="0.5">
                         <StackPanel Margin="0,5,0,2"
                             Orientation="Horizontal">
                             <StackPanel.Resources>
-                                <Style TargetType="ItemsControl" BasedOn="{StaticResource StampingToolbarItemsControl_Dark}">
+                                <Style TargetType="ItemsControl">
                                     <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
-                                    <Setter Property="dd:DragDrop.IsDropTarget" Value ="False"/> 
+                                    <Setter Property="dd:DragDrop.IsDropTarget" Value ="False"/>
+                                    <Setter Property="dd:DragDrop.DropHandler" Value ="{GD_Method:FunctionToggleButtonControlDropTarget}"/>
+                                    <Setter Property="dd:DragDrop.DragAdornerTemplate" Value ="{StaticResource DragAdornerTemplateDark}"/>
                                     <Setter Property="ItemsPanel">
                                         <Setter.Value>
                                             <ItemsPanelTemplate>
