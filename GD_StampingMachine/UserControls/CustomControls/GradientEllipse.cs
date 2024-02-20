@@ -25,7 +25,6 @@ namespace GD_StampingMachine.UserControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GradientEllipse), new FrameworkPropertyMetadata(typeof(GradientEllipse)));
 
-           // BrightImageSourceProperty = DependencyProperty.Register(nameof(BrightImageSource), typeof(ImageSource), typeof(GradientEllipse), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, null), null);
             FillProperty = DependencyProperty.Register(nameof(Fill), typeof(Brush), typeof(GradientEllipse), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender));
 
         }
@@ -38,12 +37,6 @@ namespace GD_StampingMachine.UserControls
             get => (Brush)GetValue(FillProperty);
             set => SetValue(FillProperty, value);
         }
-
-      /*  public ImageSource BrightImageSource
-        {
-            get => (ImageSource)GetValue(BrightImageSourceProperty);
-            set => SetValue(BrightImageSourceProperty, value);
-        }*/
 
 
 

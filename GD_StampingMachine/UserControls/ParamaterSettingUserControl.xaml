@@ -1295,6 +1295,8 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     <materialDesign:DrawerHost Name="TimingControlDrawerHost"  
                                         IsBottomDrawerOpen="{Binding IsBottomDrawerOpen}"  
                                                                Background="Transparent"
+                                                               BorderThickness="1"
+                                                             
                                                                BottomDrawerBackground="Transparent"
                                         TopDrawerCloseOnClickAway="true">
                                         <materialDesign:DrawerHost.BottomDrawerContent>
@@ -1380,7 +1382,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                             </Grid.RowDefinitions>
                                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                                                                     <materialDesign:PackIcon Width="25" Height="25" Margin="5,0"
-                                                                    Kind="TimerStart" Foreground="#40c4ff" VerticalAlignment="Center"/>
+                                                                    Kind="TimerStart" Foreground="{StaticResource SummerSkyBlue}" VerticalAlignment="Center"/>
                                                                 <TextBlock Padding="0,4,0,0"
                                                                     Text="{DynamicResource Text_RestTime}" FontSize="18" 
                                                                            VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
@@ -1394,7 +1396,9 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                             <materialDesign:TimePicker
                                                                 Grid.Row="1"   MinWidth="120"  Style="{StaticResource MaterialDesignTimePicker}" Padding="0,3,0,0"
                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
-                                                           WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"
+                                                           WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"                                                                
+                                                                                       BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                                        materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                            SelectedTime="{Binding RestTime}">
                                                             </materialDesign:TimePicker>
 
@@ -1409,7 +1413,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                                     
                                                                 <materialDesign:PackIcon Width="25" Height="25" Margin="5,0"
-                                                                    Kind="TimerStop" Foreground="#40c4ff" VerticalAlignment="Center"/>
+                                                                    Kind="TimerStop" Foreground="{StaticResource SummerSkyBlue}" VerticalAlignment="Center"/>
                                                                 <TextBlock Padding="0,4,0,0" 
                                                                     Text="{DynamicResource Text_OpenTime}" FontSize="18" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                                             </StackPanel>
@@ -1419,7 +1423,9 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
                                                             <materialDesign:TimePicker Grid.Row="1"   MinWidth="120" Style="{StaticResource MaterialDesignTimePicker}"  Padding="0,3,0,0"
                                                            materialDesign:HintAssist.Hint="{DynamicResource Text_PSelectTime}" 
-                                                           WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"
+                                                           WithSeconds="False"  SelectedTimeFormat="Long" Is24Hours="True"        
+                                                                                       BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                                        materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                            SelectedTime="{Binding OpenTime}">
                                                             </materialDesign:TimePicker>
 
@@ -1756,8 +1762,13 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                             </GD_CommonControl:CircularRangeSlider.Style>
                                                         </GD_CommonControl:CircularRangeSlider>
                                                         <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10">
-                                                            <TextBlock 
+
+                                                                <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Center">
+                                                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="0,0,0,0"
+                                                                                                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                                                                                        Kind="ClockOutline" Width="18" Height="18"/>
+                                                                <TextBlock Padding="0,2,0,0">
                                                                 <TextBlock.Text>
                                                                     <MultiBinding Converter="{GD_CommonControl:DateTimeDiffToDateTimeMultiConverter}" >
                                                                         <Binding Path="RestTime"/>
@@ -1765,38 +1776,52 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                     </MultiBinding>
                                                                 </TextBlock.Text>
                                                             </TextBlock>
+                                                                </StackPanel>
 
-
-                                                        </Grid>
+                                                            </Grid>
 
 
                                                             <StackPanel       Grid.Row="3" Grid.ColumnSpan="2">
 
-                                                                <ItemsControl 
+                                                                <ItemsControl  Margin="0,0,0,10"
+                                                                    HorizontalAlignment="Center"
                                                              ItemsSource="{Binding DayOfWeekWorkVMObservableCollection}" >
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <ToggleButton  
-                                                                                IsChecked="{Binding IsWork}" 
-                                                    Foreground="White" 
-                                                    Content="{Binding DayOfWeek, Converter={GD_CommonControl:DayOfWeekConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                IsChecked="{Binding IsWork}">
+                                                                                <ToggleButton.Content>
+                                                                                    <MultiBinding Converter="{GD_CommonControl:DayOfWeekMultiValueConverter}" 
+                        Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
+                                                                                        <MultiBinding.Bindings>
+                                                                                            <Binding Path="DayOfWeek" />
+                                                                                            <Binding Path="SelectedCulture" Source="{x:Static GD_Singletons:CultureViewModel.Instance}"/>
+                                                                                        </MultiBinding.Bindings>
+                                                                                    </MultiBinding>
+                                                                                </ToggleButton.Content>
                                                                                 <ToggleButton.Style>
                                                                                     <Style TargetType="ToggleButton" 
                                                                BasedOn="{StaticResource SiegCustomButton}">
                                                                                         <Setter Property="Margin" Value="0"/>
-                                                                                        <Setter Property="Width" Value="50"/>
-                                                                                        <Setter Property="Height" Value="50"/>
-                                                                                        <Setter Property="Padding" Value="0,0"/>
-                                                                                        <Setter Property="Background" Value="Gray"/>
-
+                                                                                        <Setter Property="Width" Value="40"/>
+                                                                                        <Setter Property="Height" Value="40"/>
+                                                                                        <Setter Property="Padding" Value="0,2,0,0"/>
+                                                                                        <Setter Property="Margin" Value="3,0"/>
+                                                                                        <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                                                                        <Setter Property="BorderThickness" Value="2"/>
+                                                                                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                  
+                                                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                        <Setter Property="FontSize" Value="20"/>
                                                                                         <Setter Property="Template">
                                                                                             <Setter.Value>
                                                                                                 <ControlTemplate TargetType="ToggleButton">
                                                                                                     <Grid>
-                                                                                                        <Border
+                                                                                                        <Border 
+                                                                                                            
                                                                                                             Background="{TemplateBinding Background}"        
                                                                                     Margin="0" 
-                                                                                    CornerRadius="5"
+                                                                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
                                                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                                                     Padding="{TemplateBinding Padding}"
                                                                                     BorderBrush="{TemplateBinding BorderBrush}">
@@ -1804,26 +1829,45 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                                 <Grid.ColumnDefinitions>
                                                                                                                     <ColumnDefinition/>
                                                                                                                 </Grid.ColumnDefinitions>
-                                                                                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                                                                <ContentPresenter 
+                                                                                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                                                                                             </Grid>
                                                                                                         </Border>
 
 
                                                                                                     </Grid>
                                                                                                     <ControlTemplate.Triggers>
-
                                                                                                         <Trigger Property="IsChecked" Value="True">
-                                                                                                            <Setter Property="Background" Value="DarkBlue"/>
+                                                                                                            <Setter Property="Background" Value="{StaticResource SummerSkyBlue}"/>
                                                                                                         </Trigger>
                                                                                                         
                                                                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                                                                            <Setter Property="Background" Value="LightSkyBlue"/>
-                                                                                                            <Setter Property="Foreground" Value="Black"/>
+                                                                                                            <Setter Property="Background" Value="Orange"/>
+                                                                                                            <Setter Property="Foreground" Value="White"/>
                                                                                                         </Trigger>
                                                                                                         <Trigger Property="IsPressed" Value="True">
-                                                                                                            <Setter Property="Background" Value="Orange"/>
-                                                                                                            <Setter Property="Foreground" Value="Black"/>
+                                                                                                            <Setter Property="Background" Value="OrangeRed"/>
+                                                                                                            <Setter Property="Foreground" Value="White"/>
                                                                                                         </Trigger>
+                                                                                                        <!--
+                                                                                                        <MultiTrigger>
+                                                                                                            <MultiTrigger.Conditions>
+                                                                                                            <Condition Property="IsChecked" Value="True" />
+                                                                                                                <Condition Property="IsMouseOver" Value="True" />
+                                                                                                            </MultiTrigger.Conditions>
+                                                                                                            <Setter Property="Background" Value="DarkOrange"/>
+                                                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                                                        </MultiTrigger>
+                                                                                                        <MultiTrigger>
+                                                                                                            <MultiTrigger.Conditions>
+                                                                                                                <Condition Property="IsChecked" Value="True" />
+                                                                                                                <Condition Property="IsPressed" Value="True" />
+                                                                                                            </MultiTrigger.Conditions>
+                                                                                                            <Setter Property="Background" Value="Orange"/>
+                                                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                                                        </MultiTrigger>
+                                                                                                        -->
+
 
                                                                                                         <Trigger Property="IsEnabled" Value="False">
                                                                                                             <Setter Property="Opacity" Value="0.3"/>
@@ -1850,6 +1894,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                     </ItemsControl.ItemsPanel>
                                                                 </ItemsControl>
 
+                                                                <!--
                                                                 <Grid>
                                                                     <ToggleButton x:Name="DayOfWeekWorkVMObservableCollectionToggleButton" IsChecked="{Binding DayOfWeekWorkVMObservableCollectionDropDownListlsShow}"
                                                                 HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  Width="auto" IsThreeState="False"
@@ -1943,7 +1988,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                             </ItemsControl.ItemTemplate>
                                                                         </ItemsControl>
                                                                     </GD_Popup:DraggablePopup>
-                                                                </Grid>
+                                                                </Grid>-->
                                                             </StackPanel>
 
 
@@ -2035,7 +2080,7 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
 
                                                                                 </Expander>
 
-                                                                                <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                                                                <Grid Grid.Column="1" Grid.ColumnSpan="1">
                                                                                     <Thumb  Background="Transparent" Opacity="1" >
                                                                                         <i:Interaction.Triggers>
                                                                                             <i:EventTrigger EventName="DragDelta">
@@ -2067,7 +2112,8 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                                         </Style.Triggers>
                                                                                                     </Style>
                                                                                                 </Grid.Style>
-                                                                                                <StackPanel 
+                                                                                                            <StackPanel Orientation="Horizontal">
+                                                                                                                <StackPanel 
                                                                             Margin="10,5">
                                                                                                     <Grid>
                                                                                                         <Grid.ColumnDefinitions>
@@ -2076,22 +2122,27 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                                             <ColumnDefinition  Width="auto"/>
                                                                                                         </Grid.ColumnDefinitions>
 
-                                                                                                        <TextBlock 
+                                                                                                                    <TextBlock FontWeight="Normal"
                                                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                  Text="{Binding RestTime, StringFormat='HH:mm'}"
                                                 FontSize="50"/>
-                                                                                                        <TextBlock  Grid.Column="1"
+                                                                                                                    <TextBlock  Grid.Column="1"  FontWeight="Normal" 
                                                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                  Text="-"
                                                 FontSize="50"/>
 
 
-                                                                                                        <TextBlock  Grid.Column="2"
+                                                                                                                    <TextBlock  Grid.Column="2"  FontWeight="Normal"
                                                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                                  Text="{Binding OpenTime, StringFormat='HH:mm'}"
                                                 FontSize="50"/>
                                                                                                     </Grid>
-                                                                                                    <TextBlock  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                                                                                    <StackPanel Orientation="Horizontal">
+                                                                                                                    <materialDesign:PackIcon VerticalAlignment="Center" Margin="0,0,0,0"
+                                                                                                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                                                                                        Kind="ClockOutline" Width="16" Height="16"/>
+                                                                                                                    <TextBlock Margin="5,0" 
+                                                                                                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                                                                                         <TextBlock.Text>
                                                                                                             <MultiBinding Converter="{GD_CommonControl:DateTimeDiffToDateTimeMultiConverter}" >
                                                                                                                 <Binding Path="RestTime"/>
@@ -2099,11 +2150,13 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                                             </MultiBinding>
                                                                                                         </TextBlock.Text>
                                                                                                     </TextBlock>
-                                                                                                    
-                                                                                                    <TextBlock Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
+                                                                                                                </StackPanel>
+                                                                                                                <TextBlock Visibility="Collapsed"
+                                                                                                        Text="{Binding DayOfWeekWorkVMObservableCollection, Converter={gd_stampingmachine:DayOfWeekWorkVMObservableCollectionConverter}}"  
                                                                                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                                                                                            </StackPanel>
 
-                                                                                                                <Grid>
+                                                                                                                <Grid VerticalAlignment="Center">
                                                                                                                     <ItemsControl ItemsSource="{Binding DayOfWeekWorkVMObservableCollection}">
                                                                                                                         <ItemsControl.ItemTemplate>
                                                                                                                             <DataTemplate >
@@ -2113,15 +2166,37 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                                                                         <RowDefinition/>
                                                                                                                                         <RowDefinition/>
                                                                                                                                     </Grid.RowDefinitions>
-                                                                                                                                    <TextBlock 
-                                                                                                                                        Text="{Binding IsWork}" Grid.Row="0"   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                                                                                                                                    <!--IsWork-->
-                                                                                                                                    
-                                                                                                                                    
-                                                                                                                                    <TextBlock 
-                                                                                                                                        Text="{Binding DayOfWeek}" Grid.Row="1"   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+
+                                                                                                                                    <Ellipse Margin="2"
+                                                                                                                                        Visibility="{Binding IsWork, 
+                                                                                                                                        Converter={GD_CommonControl:BooleanToVisibilityConverter},
+                                                                                                                                        ConverterParameter={x:Static Visibility.Hidden}
+                                                                                                                                        }"
+                                                                                                                                        Grid.Row="0" 
+                                                                                                                                        Fill="{StaticResource SummerSkyBlue}" 
+                                                                                                                                            Width="8" 
+                                                                                                                                             Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"/>
+
+
+                                                                                                                                    <!--
+                                                                                                                                        ConverterCulture={Binding Source=GD_Singletons:CultureViewModel.Instance,Path=SelectedCulture-->
+                                                                                                                                    <Grid Grid.Row="1" Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}">
+                                                                                                                                        <TextBlock  HorizontalAlignment="Center"
+                                                                                                                                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                                                                                                                            <TextBlock.Text>
+                                                                                                                                                <MultiBinding Converter="{GD_CommonControl:DayOfWeekMultiValueConverter}" 
+                                                                                                                                                          Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
+                                                                                                                                                    <MultiBinding.Bindings>
+                                                                                                                                                        <Binding Path="DayOfWeek" />
+                                                                                                                                                        <Binding Path="SelectedCulture" Source="{x:Static GD_Singletons:CultureViewModel.Instance}"/>
+                                                                                                                                                    </MultiBinding.Bindings>
+                                                                                                                                                </MultiBinding>
+                                                                                                                                            </TextBlock.Text>
+
+                                                                                                                                        </TextBlock>
+                                                                                                                                    </Grid>
                                                                                                                                 </Grid>
-                                                                                                                                
+
                                                                                                                             </DataTemplate>
                                                                                                                         </ItemsControl.ItemTemplate>
                                                                                                                         <ItemsControl.ItemsPanel>
@@ -2130,12 +2205,9 @@ Command="{Binding TimingControlVMCollectionListBox_SelectionChangedCommand}" Pas
                                                                                                                             </ItemsPanelTemplate>
                                                                                                                         </ItemsControl.ItemsPanel>
                                                                                                                     </ItemsControl>
-                                                                                                                    
-                                                                                                                    
                                                                                                                 </Grid>
-                                                                                                    
-                                                                                                    
-                                                                                                </StackPanel>
+
+                                                                                                            </StackPanel>
                                                                                                     </Grid>
                                                                                                     
                                                                                                 </Grid>

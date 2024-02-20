@@ -1238,7 +1238,7 @@
         <Setter Property="IsCheckedBorderThickness" Value="0"/>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Foreground" Value="#FF40C4FF"/>
+                <Setter Property="Foreground" Value="{StaticResource SummerSkyBlue}"/>
                 <Setter Property="ImageSource" Value="{StaticResource Feeding_Component_BlueDrawingImage}"/>
             </Trigger>
         </Style.Triggers>
@@ -1371,7 +1371,7 @@
                                 BeginTime="00:00:00"
                                 Storyboard.TargetName="slider"
                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="29" />
+                                <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="45" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                         <Storyboard x:Key="OnUnchecking">
@@ -1387,7 +1387,7 @@
                         <Grid>
                             <Border
                                 x:Name="BackgroundBorder"
-                                Width="65"
+                                Width="80"
                                 Height="34"
                                 BorderBrush="#FF939393"
                                 BorderThickness="1"
@@ -1400,13 +1400,15 @@
                                         <GradientStop Offset="1" Color="#FFECECEC" />
                                     </LinearGradientBrush>
                                 </Border.Background>
+
+
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*" />
                                         <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="2*" />
                                     </Grid.ColumnDefinitions>
-                                    <Line
+                                    <Line Visibility="Collapsed"
                                         x:Name="On"
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
@@ -1417,7 +1419,7 @@
                                         X2="0"
                                         Y1="0"
                                         Y2="16" />
-                                    <Ellipse
+                                    <Ellipse Visibility="Collapsed"
                                         x:Name="Off"
                                         Grid.Column="2"
                                         Width="16"
@@ -1428,11 +1430,12 @@
                                         StrokeThickness="1.5" />
                                 </Grid>
                             </Border>
+
                             <Border
                                 x:Name="slider"
-                                Width="30"
-                                Height="30"
-                                Margin="3,0,0,0"
+                                Width="24"
+                                Height="24"
+                                Margin="6,0,0,0"
                                 HorizontalAlignment="Left"
                                 BorderBrush="#FF939393"
                                 BorderThickness="1"
@@ -1453,6 +1456,15 @@
                                         <GradientStop Offset="1" Color="#FFFFFFFF" />
                                     </LinearGradientBrush>
                                 </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect  ShadowDepth="2"
+                                                       Direction="270"
+                                                       Color="Black"
+                                                       Opacity="0.5"
+                                                       BlurRadius="6"/>
+                                </Border.Effect>
+                                
+                                
                             </Border>
                         </Grid>
                     </Viewbox>

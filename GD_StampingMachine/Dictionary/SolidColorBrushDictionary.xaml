@@ -24,10 +24,6 @@
     <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#f0f0f0"/>
 
-
-
-
-
     <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#1565c0"/>
     <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#5e92f3"/>
@@ -45,12 +41,14 @@
     <Color x:Key="cToggleButtonBackgroundSkyBlueBrush">#007be4</Color>
     <SolidColorBrush x:Key="ToggleButtonBackgroundSkyBlueBrush" Color="{StaticResource cToggleButtonBackgroundSkyBlueBrush}"/>
 
+    
 
     <SolidColorBrush x:Key="NoneIsFinishSolidColorBrush" Color="LightGray"/>
     <SolidColorBrush x:Key="DataMatrixIsReadySolidColorBrush" Color="SkyBlue"/>
     <SolidColorBrush x:Key="DataMatrixIsSendedSolidColorBrush" Color="Gray"/>
+
     
-    
+
     <SolidColorBrush x:Key="DataMatrixIsFinishSolidColorBrush" Color="#e82127"/>
     <SolidColorBrush x:Key="ShearingIsFinishSolidColorBrush" Color="#ff9900"/>
     <SolidColorBrush x:Key="EngravingIsFinishSolidColorBrush" Color="#25cb55"/>
@@ -77,12 +75,14 @@
     <SolidColorBrush x:Key="EngravingIsFinish_Background_Dark_SolidColorBrush" Color="#0BA908"/>
     <SolidColorBrush x:Key="EngravingIsFinish_BorderBrush_Bright_SolidColorBrush" Color="#00FF38"/>
     <SolidColorBrush x:Key="EngravingIsFinish_Background_Bright_SolidColorBrush" Color="#DDFFDC"/>
+
+    <SolidColorBrush x:Key="SummerSkyBlue" Color="#40C4FF"/>
+    
     
 
-    
-    
-    
-    
+
+
+
 
 
     <Color x:Key="clr_CreamyWhite">#FFF3F3F3</Color>

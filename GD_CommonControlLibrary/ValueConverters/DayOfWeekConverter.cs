@@ -11,7 +11,8 @@ namespace GD_CommonControlLibrary
             {
                 var ci = CultureInfo.CurrentCulture;
                 //CultureInfo ci = new CultureInfo("zh-tw");
-                return ci.DateTimeFormat.GetDayName(dayOfWeek);
+                return ci.DateTimeFormat.GetShortestDayName(dayOfWeek);
+               // return ci.DateTimeFormat.GetDayName(dayOfWeek);
             }
             return value;
         }
