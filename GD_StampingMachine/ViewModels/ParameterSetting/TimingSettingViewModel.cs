@@ -4,6 +4,7 @@ using GD_CommonControlLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
+using GD_StampingMachine.ViewModels.ParameterSetting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -44,7 +46,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _addNewTimingControlCommand ??= new RelayCommand(() =>
             {
                 TimingControlVMSelectedClone = new TimingControlViewModel();
-                IsBottomDrawerOpen = true;
+                TimeSettingPopupIsOpen = true;
                 IsNewTimingControl = true;
             });
         }
@@ -59,7 +61,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 OnPropertyChanged(nameof(TimingControlVMCollectionCloned));
                 TimingControlVMSelectedClone = new TimingControlViewModel();
-                IsBottomDrawerOpen = false;
+                TimeSettingPopupIsOpen = false;
             });
         }
 
@@ -132,28 +134,44 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 _timingControlVMSelectedClone = value; OnPropertyChanged();
             }
         }
-
-        private ICommand _timingControlVMCollectionListBox_SelectionChangedCommand;
-        public ICommand TimingControlVMCollectionListBox_SelectionChangedCommand
+      
+        
+        private ICommand _timingControlVMCollectionListBox_MouseUpCommand;
+        public ICommand TimingControlVMCollectionListBox_MouseUpCommand
         {
-            get => _timingControlVMCollectionListBox_SelectionChangedCommand ??= new RelayCommand<object>(obj =>
+            get => _timingControlVMCollectionListBox_MouseUpCommand ??= new RelayCommand<object>(obj =>
             {
-                if (obj is SelectionChangedEventArgs e)
+                if (obj is System.Windows.Input.MouseButtonEventArgs e)
                 {
-                    IsNewTimingControl = false;
-                    if (e.AddedItems.Count > 0)
-                    {
-                        IsBottomDrawerOpen = true;
-                    }
-                    else
-                    {
-                        IsBottomDrawerOpen = false;
-                    }
-
+                    TimeSettingPopupIsOpen = true;
 
                 }
+
             });
         }
+
+
+          private ICommand _timingControlVMCollectionListBox_SelectionChangedCommand;
+           public ICommand TimingControlVMCollectionListBox_SelectionChangedCommand
+           {
+               get => _timingControlVMCollectionListBox_SelectionChangedCommand ??= new RelayCommand<object>(obj =>
+               {
+                   if (obj is SelectionChangedEventArgs e)
+                   {
+                       IsNewTimingControl = false;
+                       if (e.AddedItems.Count > 0)
+                       {
+                           TimeSettingPopupIsOpen = true;
+                       }
+                       else
+                       {
+                           TimeSettingPopupIsOpen = false;
+                       }
+
+
+                   }
+               });
+           }
 
         private ICommand _finishTimingControlChangedCommand;
         public ICommand FinishTimingControlChangedCommand
@@ -230,12 +248,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private bool _isBottomDrawerOpen;
-        public bool IsBottomDrawerOpen
+        private bool _timeSettingPopupIsOpen;
+        public bool TimeSettingPopupIsOpen
         {
-            get => _isBottomDrawerOpen; set
+            get => _timeSettingPopupIsOpen; set
             {
-                _isBottomDrawerOpen = value;
+                _timeSettingPopupIsOpen = value;
                 OnPropertyChanged();
             }
         }
@@ -250,12 +268,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _onThumbMouseUpCommand ??= new RelayCommand<object>(obj =>
             {/*
                 if (IsThumbDragDeltaDown)
-                        IsBottomDrawerOpen = false;*/
+                        TimeSettingPopupIsOpen = false;*/
                 if (obj is System.Windows.Controls.Primitives.DragCompletedEventArgs e)
                 {
                     if (e.VerticalChange > 10)
                     {
-                        IsBottomDrawerOpen = false;
+                        TimeSettingPopupIsOpen = false;
                     }
                 }
             });

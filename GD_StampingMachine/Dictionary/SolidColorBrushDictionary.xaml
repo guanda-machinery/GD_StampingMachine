@@ -80,11 +80,6 @@
     
     
 
-
-
-
-
-
     <Color x:Key="clr_CreamyWhite">#FFF3F3F3</Color>
     <Color x:Key="clr_CreamyGray">#FFEEEEEE</Color>
     <!--

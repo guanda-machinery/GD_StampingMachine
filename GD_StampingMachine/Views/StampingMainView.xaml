@@ -42,6 +42,7 @@
                     <Binding Path="TypeSettingSettingVM.AddProjectDistributeDarggableIsPopup"/>
                     <Binding Path="TypeSettingSettingVM.ProjectDistributeVM.AddTypeSettingProjectDarggableIsPopUp"/>
                     <Binding Path="ProductSettingVM.OpenProjectFileDarggableIsPopup"/>
+                    <Binding Path="ParameterSettingVM.TimingSettingVM.TimeSettingPopupIsOpen"/>
                     
                     <!-- <Binding ElementName="TBtn_Speed" Path="IsChecked"/>-->
                     <!--<Binding Path="rbtn_DrillingFace_Tube" ConverterParameter="{x:Static GD_STD_Enum:TubeFace.TOP}"  Converter="{STD105:ObjectEqualToBooleanConverter}"/>-->
@@ -1762,9 +1763,12 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
                                             <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
                                                                                       DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
                                                                                   RepeatButtonForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                                                                  MainSilderValue="{Binding Path=FeedingVelocity}" Width="300" Margin="10"
+                                                                                Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                                                                      FontWeight="Bold"         
+                                                                                      MainSilderValue="{Binding Path=FeedingVelocity}" Width="300" Margin="10"
                                                                                       MainSilderValueChanged="{Binding GlobalSpeedChangedCommand}"
                                                                                       >
+                                                <!--
                                                 <GD_UserControls:TriggerSliderUserControl.Foreground>
                                                     <Binding Path="MainSilderValue" RelativeSource="{RelativeSource Mode=Self}" Converter="{GD_CommonControl:MultiBrushes_DoubleToSolidBrushConverter SliderMin=0 ,SliderMax=100}">
                                                         <Binding.ConverterParameter>
@@ -1777,7 +1781,7 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
                                                             </x:Array>
                                                         </Binding.ConverterParameter>
                                                     </Binding>
-                                                </GD_UserControls:TriggerSliderUserControl.Foreground>
+                                                </GD_UserControls:TriggerSliderUserControl.Foreground>-->
                                             </GD_UserControls:TriggerSliderUserControl>
 
                                         </StackPanel>

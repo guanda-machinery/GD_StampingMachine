@@ -901,7 +901,8 @@
                         
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource SliderButtonStyle}" Background="Transparent"
+                        <RepeatButton Style="{StaticResource SliderButtonStyle}" 
+                                      Background="Transparent"
                       Command="Slider.IncreaseLarge" />
                     </Track.IncreaseRepeatButton>
                     <Track.Thumb>
@@ -1371,7 +1372,7 @@
                                 BeginTime="00:00:00"
                                 Storyboard.TargetName="slider"
                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="45" />
+                                <SplineDoubleKeyFrame KeyTime="00:00:0.15" Value="35" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                         <Storyboard x:Key="OnUnchecking">
@@ -1387,7 +1388,7 @@
                         <Grid>
                             <Border
                                 x:Name="BackgroundBorder"
-                                Width="80"
+                                Width="70"
                                 Height="34"
                                 BorderBrush="#FF939393"
                                 BorderThickness="1"
