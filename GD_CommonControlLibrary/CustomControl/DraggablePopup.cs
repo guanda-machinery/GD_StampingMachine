@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace GD_CommonControlLibrary.GD_Popup
 {
@@ -14,6 +16,8 @@ namespace GD_CommonControlLibrary.GD_Popup
         {
 
         }
+
+
 
         Point _initialMousePosition;
         bool _isDragging;

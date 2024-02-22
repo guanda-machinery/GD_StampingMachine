@@ -123,4 +123,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GD_CommonLibrary\GD_CommonLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Propertys\" />
+  </ItemGroup>
 </Project>

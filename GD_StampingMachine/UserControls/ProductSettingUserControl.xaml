@@ -403,13 +403,6 @@
                                 </Button>
                             </StackPanel>
 
-                            <GroupBox  Grid.Row="6" Header="test" Grid.ColumnSpan="4" Margin="0,5" Visibility="Collapsed" >
-                                <StackPanel >
-                                    <TextBlock Text="完成進度(測試用)"/>
-                                    <Slider Value="{Binding CreatedProjectModel.FinishProgress}" Foreground="Black" Maximum="100" Interval="1" />
-                                    <TextBlock Text="{Binding CreatedProjectModel.FinishProgress}"/>
-                                </StackPanel>
-                            </GroupBox>
 
                         </Grid>
                     </Border>
@@ -1579,13 +1572,7 @@
                                         </Button>
                                     </StackPanel>
 
-                                    <GroupBox  Grid.Row="6" Header="test" Grid.ColumnSpan="4" Margin="0,5" Visibility="Collapsed" >
-                                        <StackPanel >
-                                            <TextBlock Text="完成進度(測試用)"/>
-                                            <Slider Value="{Binding CreatedProjectModel.FinishProgress}" Foreground="Black" Maximum="100" Interval="1" />
-                                            <TextBlock Text="{Binding CreatedProjectModel.FinishProgress}"/>
-                                        </StackPanel>
-                                    </GroupBox>
+
 
                                 </Grid>
                             </Border>

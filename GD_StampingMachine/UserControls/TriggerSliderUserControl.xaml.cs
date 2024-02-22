@@ -24,10 +24,10 @@ namespace GD_StampingMachine.UserControls
             MainSlider.Value += TickFrequency;
         }
 
-        public double MainSilderValue
+        public double MainSliderValue
         {
-            get => (double)GetValue(MainSilderValueProperty);
-            set => SetValue(MainSilderValueProperty, value);
+            get => (double)GetValue(MainSliderValueProperty);
+            set => SetValue(MainSliderValueProperty, value);
         }
         public double Minimum
         {
@@ -52,17 +52,17 @@ namespace GD_StampingMachine.UserControls
             set => SetValue(RepeatButtonForegroundProperty, value);
         }
 
-        public ICommand MainSilderValueChanged
+        public ICommand MainSliderValueChanged
         {
-            get => (ICommand)GetValue(MainSilderValueChangedProperty);
-            set => SetValue(MainSilderValueChangedProperty, value);
+            get => (ICommand)GetValue(MainSliderValueChangedProperty);
+            set => SetValue(MainSliderValueChangedProperty, value);
         }
 
 
 
 
-        public static readonly DependencyProperty MainSilderValueProperty = DependencyProperty.Register(
-         nameof(MainSilderValue),
+        public static readonly DependencyProperty MainSliderValueProperty = DependencyProperty.Register(
+         nameof(MainSliderValue),
          typeof(double),
          typeof(TriggerSliderUserControl),
          new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -92,8 +92,8 @@ namespace GD_StampingMachine.UserControls
  new PropertyMetadata(Brushes.White));
 
 
-        public static readonly DependencyProperty MainSilderValueChangedProperty = DependencyProperty.Register(
- nameof(MainSilderValueChanged),
+        public static readonly DependencyProperty MainSliderValueChangedProperty = DependencyProperty.Register(
+ nameof(MainSliderValueChanged),
  typeof(ICommand),
  typeof(TriggerSliderUserControl),
  new PropertyMetadata());

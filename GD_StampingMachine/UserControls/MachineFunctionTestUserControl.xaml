@@ -475,7 +475,7 @@
                     <TextBox Text="{Binding QR_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="QR距離" />
                     <TextBox  Text="{Binding Fonts_Stamping_Distance, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="鋼印距離" />
                     <TextBox  Text="{Binding MagnificationRatio, UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="倍率" />
-                    <local:TriggerSliderUserControl MainSilderValue="{Binding MagnificationRatio, Mode=TwoWay}"
+                    <local:TriggerSliderUserControl MainSliderValue="{Binding MagnificationRatio, Mode=TwoWay}"
                                        Minimum="0.01" Maximum="2" TickFrequency="0.01" />
                     <CheckBox Name="StampingRangeIsVisible" IsChecked="True" Content="顯示標線" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                 </WrapPanel>

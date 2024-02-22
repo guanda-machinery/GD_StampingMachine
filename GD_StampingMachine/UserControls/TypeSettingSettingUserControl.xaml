@@ -61,9 +61,10 @@
                     <GD_Popup:DraggablePopup Name="AddProjectDistributeDraggablePopup"
                         AllowsTransparency="True" Margin="16"   
                                              PlacementRectangle="0,40,0,0"
-                                             Placement="RelativePoint"
+                                             Placement="RelativePoint"  
                                              PlacementTarget="{Binding ElementName=AddProjectDistributeToggleButton}"
-                                             IsOpen="{Binding AddProjectDistributeDarggableIsPopup}">
+                                             IsOpen="{Binding AddProjectDistributeDarggableIsPopup}"
+                                             >
                         <Border
                                                 CornerRadius="10"
                                                Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

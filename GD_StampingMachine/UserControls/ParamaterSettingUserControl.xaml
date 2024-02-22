@@ -972,9 +972,11 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     <TextBlock Text="："/>
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
+                                                                          
+                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
                                                                           DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
-                                                                          MainSilderValue="{Binding FeedingVelocity , Mode=TwoWay}" 
-                                                                          MainSilderValueChanged="{Binding FeedingVelocityChangedCommand}"/>
+                                                                          MainSliderValue="{Binding FeedingVelocity , Mode=TwoWay}" 
+                                                                          MainSliderValueChanged="{Binding FeedingVelocityChangedCommand}"/>
                             </Grid>
                         </GroupBox>
                         <GroupBox Grid.Column="0" Grid.Row="1" Header="{DynamicResource Text_RouletteAxisSetting}" Margin="10"  HorizontalContentAlignment="Stretch">
@@ -993,25 +995,29 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     <TextBlock Text="："/>
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl Grid.Column="1"         
+                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
                                                                           DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
-                                                                          MainSilderValue="{Binding EngravingFeeding , Mode=TwoWay}" 
-                                                                          MainSilderValueChanged="{Binding EngravingFeedingVelocityChangedCommand}" Margin="0,0,0,10" />
+                                                                          MainSliderValue="{Binding EngravingFeeding , Mode=TwoWay}" 
+                                                                          MainSliderValueChanged="{Binding EngravingFeedingVelocityChangedCommand}" Margin="0,0,0,10" />
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Margin="0,10">
                                     <TextBlock Text="{DynamicResource Text_FontDepth}" />
                                     <TextBlock Text="："/>
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl IsEnabled="False" 
-                                    Grid.Column="1" MainSilderValue="{Binding FontDepth , Mode=TwoWay}" Grid.Row="1" Margin="0,10"/>
+                                                                          
+                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                    Grid.Column="1" MainSliderValue="{Binding FontDepth , Mode=TwoWay}" Grid.Row="1" Margin="0,10"/>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Margin="0,10">
                                     <TextBlock Text="{DynamicResource Text_RouletteSpeed}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
                                 <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
+                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
                                                                           DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}}"
-                                                                          MainSilderValue="{Binding RotateVelocity , Mode=TwoWay}" 
-                                                                          MainSilderValueChanged="{Binding RotateVelocityChangedCommand}"
+                                                                          MainSliderValue="{Binding RotateVelocity , Mode=TwoWay}" 
+                                                                          MainSliderValueChanged="{Binding RotateVelocityChangedCommand}"
                                                                           Grid.Row="2" Margin="0,10"/>
 
                             </Grid>
@@ -1032,7 +1038,10 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     <TextBlock Text="{DynamicResource Text_ZAxisPressure}"/>
                                     <TextBlock Text="："/>
                                 </StackPanel>
-                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" MainSilderValue="{Binding ZAxisPressure, Mode=TwoWay}" Margin="0,0,0,10" />
+                                <GD_UserControls:TriggerSliderUserControl Grid.Column="1" 
+                                                                 
+                                      Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                                                          MainSliderValue="{Binding ZAxisPressure, Mode=TwoWay}" Margin="0,0,0,10" />
 
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1" Margin="0,10" >
@@ -1589,14 +1598,16 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                         
                                     </StackPanel>
 
-                                    <GD_Popup:NonTopmostPopup AllowsTransparency="True" Margin="16"  StaysOpen="True"
+                                <GD_Popup:NonTopmostPopup      
+                                    PopupAnimation="Fade"
+                                        AllowsTransparency="True" Margin="16"  StaysOpen="True"
                                          Placement="Relative"  
                                          PlacementTarget="{Binding ElementName=TimingControlVMCollectionListBox}" IsOpen="{Binding TimeSettingPopupIsOpen}">
 
                                         <Grid >
                                             <Border   
                                         BorderThickness="0"
-                                        Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="20" HorizontalAlignment="Stretch" />
+                                        Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10" HorizontalAlignment="Stretch" />
                                             <StackPanel Orientation="Vertical">
                                                 <Grid Margin="10,5" >
                                                     <Button Style="{StaticResource SiegCustomButton_Primary}"
@@ -1723,8 +1734,9 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                Radius="130"
                                                LargeCalibration="24"
                                                SmallCalibration="96"
-                        Start="{Binding RestTime , Converter={GD_CommonControl:DateTimeToHourConverter}}"
-                        End="{Binding OpenTime, Converter={GD_CommonControl:DateTimeToHourConverter}}"
+
+                        Start="{Binding RestTime ,UpdateSourceTrigger=PropertyChanged, Converter={GD_CommonControl:DateTimeToHourConverter}}"
+                        End="{Binding OpenTime, UpdateSourceTrigger=PropertyChanged, Converter={GD_CommonControl:DateTimeToHourConverter}}"
                         
                     >
                                                         <GD_CommonControl:CircularRangeSlider.Style>
@@ -2340,8 +2352,8 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                     Grid.Row="0" Grid.Column="1"  
                                         FontWeight="Bold"
                                       Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                        MainSilderValueChanged="{Binding SingleSetting_SeparateBoxValueChanged}"
-                                    MainSilderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
+                                        MainSliderValueChanged="{Binding SingleSetting_SeparateBoxValueChanged}"
+                                    MainSliderValue="{Binding SingleSetting_SeparateBoxValue, Mode=TwoWay}"/>
                                 </Grid>
                             
                                 <CheckBox Margin="0.5,10" VerticalAlignment="Center"
@@ -2380,7 +2392,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                         FontWeight="Bold"                                        
                                       Foreground="{DynamicResource PrimaryHueLightBrush}"
                                                                 IsEnabled="{Binding ElementName=IsSingleSettingToggleButton, Path=IsChecked}"
-                                                             MainSilderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
+                                                             MainSliderValue="{Binding BoxSliderValue , Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}" Width="250" />
                                                             </Grid>
                                                         </Grid>
                                                     </ControlTemplate>

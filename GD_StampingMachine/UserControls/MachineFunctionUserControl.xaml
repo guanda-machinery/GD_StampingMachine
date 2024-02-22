@@ -194,11 +194,14 @@
                                     IsOpen="{Binding ElementName=Custom_Component_TButton, Path=IsChecked, Mode=TwoWay}">
 
                                     <Grid>
-                                        <Border  Background="{DynamicResource PrimaryHueMidBrush}" Padding="5,0" CornerRadius="10">
+                                        <Border  Background="{DynamicResource PrimaryHueMidBrush}"  CornerRadius="10">
                                             <StackPanel>
-                                                <local:FunctionToggleUserControl 
+                                                <local:FunctionToggleUserControl Margin="0"
+                                                     ContentPadding="5"
                                                                              PackIconKind="BoxCutter"
-                                                                             ControlTitleText="{DynamicResource btnDescription_ManualCutting}" >
+                                                   ImageSource="{x:Null}"
+                                                                             ControlTitleText="{DynamicResource btnDescription_ManualCutting}" 
+                                                    >
                                                     <local:FunctionToggleUserControl.IsChecked>
                                                         <MultiBinding Converter="{GD_CommonControl:MultiBooleanArrayAndParameterArrayToBooleanConverter ConvertBackForceToFalse=True}">
                                                             <MultiBinding.ConverterParameter>
@@ -584,7 +587,8 @@
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
                                 </dxg:GridColumn>
-                                <dxg:GridColumn Visible="{Binding MachiningStatusIsVisible}"
+                                
+                                <dxg:GridColumn 
                 HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
@@ -1397,7 +1401,7 @@
 
 
                             </Grid>
-                            <Grid IsEnabled="{Binding IsRotating, Converter={dx:BoolInverseConverter}}">
+                            <Grid >
                                 <Button Margin="5,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                         Command="{Binding SeparateBox_CounterClockwiseRotateCommand}" 
                                         Grid.Column="0" Grid.Row="1"  Width="40" Height="40" >

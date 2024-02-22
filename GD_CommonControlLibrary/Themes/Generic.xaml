@@ -62,7 +62,8 @@
                                         <ContentControl.RenderTransform>
                                             <RotateTransform CenterX="0" CenterY="150" >
                                                 <RotateTransform.Angle>
-                                                    <MultiBinding Converter="{CustomSlider:ValueAngleConverter}">
+                                                    <MultiBinding Converter="{CustomSlider:ValueAngleConverter}"
+                                                                  UpdateSourceTrigger="PropertyChanged">
                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
@@ -87,7 +88,8 @@
                                         <ContentControl.RenderTransform>
                                             <RotateTransform CenterX="0" CenterY="150" >
                                                 <RotateTransform.Angle>
-                                                    <MultiBinding Converter="{CustomSlider:ValueAngleConverter}">
+                                                    <MultiBinding Converter="{CustomSlider:ValueAngleConverter}" 
+                                                                  UpdateSourceTrigger="PropertyChanged">
                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
                                                         <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>

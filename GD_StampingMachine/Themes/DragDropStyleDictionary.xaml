@@ -109,7 +109,6 @@
                                                             Path=IsSelected}" Value="True">
                 <Setter Property="Background" Value="Gray"/>
             </DataTrigger>
-            
             <EventTrigger RoutedEvent="DragEnter">
             <EventTrigger.Actions>
                 <BeginStoryboard>
