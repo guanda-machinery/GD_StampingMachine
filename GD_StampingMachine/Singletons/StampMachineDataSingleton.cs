@@ -3132,7 +3132,7 @@ namespace GD_StampingMachine.Singletons
             });
         }
 
-        public ICommand _engravingFeedingVelocityChangedCommand;
+        private ICommand _engravingFeedingVelocityChangedCommand;
         public ICommand EngravingFeedingVelocityChangedCommand
         {
             get => _engravingFeedingVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
@@ -3153,7 +3153,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        public ICommand _rotateVelocityChangedCommand;
+        private ICommand _rotateVelocityChangedCommand;
         public ICommand RotateVelocityChangedCommand
         {
             get => _rotateVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
@@ -3693,6 +3693,37 @@ namespace GD_StampingMachine.Singletons
         {
             get => _engravingRotateStation; set { _engravingRotateStation = value; OnPropertyChanged(); }
         }
+
+
+
+
+
+        private bool  _key_EditMode = true ,_key_MachiningMode = true , _lightOn_EditMode = false;
+        /// <summary>
+        /// 照明開關
+        /// </summary>
+        public bool LightOn_EditMode
+        {
+            get => _lightOn_EditMode;
+            set { _lightOn_EditMode = value; OnPropertyChanged(); }
+        }
+        /// <summary>
+        /// 鑰匙-編輯模式
+        /// </summary>
+        public bool Key_EditMode
+        {
+            get => _key_EditMode; 
+            set { _key_EditMode = value; OnPropertyChanged(); }
+        }    
+        /// <summary>
+       /// 鑰匙-加工模式
+        /// </summary>
+        public bool Key_MachiningMode
+        {
+            get => _key_MachiningMode;
+            set { _key_MachiningMode = value; OnPropertyChanged(); }
+        }
+
 
 
 

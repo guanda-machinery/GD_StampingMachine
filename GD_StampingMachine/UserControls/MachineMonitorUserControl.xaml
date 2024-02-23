@@ -1103,7 +1103,8 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
             </materialDesign:ColorZone>
         </ScrollViewer>
         <Grid Grid.Row="1" Margin="0,20,0,0"    >
-            <Grid >
+            <Grid   
+                >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition />
@@ -1115,15 +1116,26 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                 <ScrollViewer Grid.RowSpan="2">
                     <ListBox
                         Style="{StaticResource SeparateBoxVMListBox}"
-                                         ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection}"  
                                          SelectedItem="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM}">
+                        <ListBox.ItemsSource>
+                            <MultiBinding Converter="{GD_CommonControl:MultiCollectionSelectorConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection"/>
+                                    <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                            
+                        </ListBox.ItemsSource>
+                        
+                        
                         <dxmvvm:Interaction.Behaviors>
                             <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
                         </dxmvvm:Interaction.Behaviors>
 
                     </ListBox>
                 </ScrollViewer>
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0">
+                <StackPanel       IsEnabled="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
+                    Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0">
                     <Button
                 Content="{DynamicResource btnClearFinishItem}" Padding="5,3,5,0" 
                         Command="{Binding ClearFinishItemCommand}" Margin="5,5,5,10"></Button>
@@ -1138,7 +1150,8 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
             Background="Transparent"  MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection, 
+                    IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SizeChanged">

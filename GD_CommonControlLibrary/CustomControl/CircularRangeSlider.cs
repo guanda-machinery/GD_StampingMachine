@@ -68,26 +68,34 @@ namespace GD_CommonControlLibrary
             CircularRangeSlider RangeSlider = (CircularRangeSlider)d;
             //    (UIElementAutomationPeer.FromElement(RangeSlider) as RangeBaseAutomationPeer)?.RaiseValuePropertyChangedEvent((double)e.OldValue, (double)e.NewValue);
             RangeSlider.OnStartChanged((double)e.OldValue, (double)e.NewValue);
+            RangeSlider.calcArc();          
         }
 
         protected virtual void OnStartChanged(double oldValue, double newValue)
         {
-            RoutedPropertyChangedEventArgs<double> routedPropertyChangedEventArgs = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue);
-            routedPropertyChangedEventArgs.RoutedEvent = StartChangedEvent;
+            RoutedPropertyChangedEventArgs<double> routedPropertyChangedEventArgs = new(oldValue, newValue)
+            {
+                RoutedEvent = StartChangedEvent
+            };
             RaiseEvent(routedPropertyChangedEventArgs);
+
+
         }
 
         private static void OnEndChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             CircularRangeSlider RangeSlider = (CircularRangeSlider)d;
             //    (UIElementAutomationPeer.FromElement(RangeSlider) as RangeBaseAutomationPeer)?.RaiseValuePropertyChangedEvent((double)e.OldValue, (double)e.NewValue);
-            RangeSlider.OnEndChanged((double)e.OldValue, (double)e.NewValue);
+            RangeSlider.OnEndChanged((double)e.OldValue, (double)e.NewValue); 
+            RangeSlider.calcArc();
         }
 
         protected virtual void OnEndChanged(double oldValue, double newValue)
         {
-            RoutedPropertyChangedEventArgs<double> routedPropertyChangedEventArgs = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue);
-            routedPropertyChangedEventArgs.RoutedEvent = EndChangedEvent;
+            RoutedPropertyChangedEventArgs<double> routedPropertyChangedEventArgs = new(oldValue, newValue)
+            {
+                RoutedEvent = EndChangedEvent
+            };
             RaiseEvent(routedPropertyChangedEventArgs);
         }
 
@@ -311,6 +319,11 @@ namespace GD_CommonControlLibrary
 
         private void CircularRangeSlider_RangeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            calcArc();
+        }
+
+        private void calcArc() 
+        { 
             double range = Maximum - Minimum;
 
             var startArc = (2 * Math.PI * Start / range) - Math.PI / 2;
@@ -336,6 +349,11 @@ namespace GD_CommonControlLibrary
             }
 
         }
+
+
+
+
+
 
         private void EndCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {

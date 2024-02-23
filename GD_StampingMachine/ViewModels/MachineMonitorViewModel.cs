@@ -69,10 +69,7 @@ namespace GD_StampingMachine.ViewModels
         public ProjectDistributeViewModel SelectedProjectDistributeVM 
         {
             get => _selectedProjectDistributeVM; set { _selectedProjectDistributeVM = value;OnPropertyChanged(); }
-        } 
-
-
-
+        }
 
 
 
@@ -986,7 +983,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        public AsyncRelayCommand _sendMachiningCancelCommand;
+        private AsyncRelayCommand _sendMachiningCancelCommand;
         public AsyncRelayCommand SendMachiningCancelCommand
         {
             get => _sendMachiningCancelCommand ??= new (async () =>

@@ -1736,8 +1736,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                SmallCalibration="96"
 
                         Start="{Binding RestTime ,UpdateSourceTrigger=PropertyChanged, Converter={GD_CommonControl:DateTimeToHourConverter}}"
-                        End="{Binding OpenTime, UpdateSourceTrigger=PropertyChanged, Converter={GD_CommonControl:DateTimeToHourConverter}}"
-                        
+                        End="{Binding OpenTime, UpdateSourceTrigger=PropertyChanged, Converter={GD_CommonControl:DateTimeToHourConverter}}"     
                     >
                                                         <GD_CommonControl:CircularRangeSlider.Style>
                                                             <Style TargetType="{x:Type GD_CommonControl:CircularRangeSlider}" >
@@ -1786,9 +1785,9 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                     <ListBox.ItemsPanel>
                                                                                                         <ItemsPanelTemplate>
                                                                                                             <GD_CommonControl:RadialPanel
-                                                                            RotationDirection="Clockwise"
-                StartAngle="0"  RoundAngle="360"
-                ItemRotateAngle="90"  />
+                                                                                                                RotationDirection="Clockwise"
+                                                                                                                StartAngle="0"  RoundAngle="360"
+                                                                                                                ItemRotateAngle="90"  />
                                                                                                         </ItemsPanelTemplate>
                                                                                                     </ListBox.ItemsPanel>
                                                                                                 </ListBox>
@@ -1820,8 +1819,8 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         <ItemsPanelTemplate>
                                                                                                             <GD_CommonControl:RadialPanel
                                                                             RotationDirection="Clockwise"
-                StartAngle="0"  RoundAngle="360"
-                ItemRotateAngle="90"  />
+                                                                                                                StartAngle="0"  RoundAngle="360"
+                                                                                                                ItemRotateAngle="90"  />
                                                                                                         </ItemsPanelTemplate>
                                                                                                     </ListBox.ItemsPanel>
                                                                                                 </ListBox>
@@ -1977,7 +1976,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                                                                         <Canvas>
                                                                                                             <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
 
-                                                                                                                <Border Background="Black" CornerRadius="15" >
+                                                                                                            <Border Background="DimGray" CornerRadius="15" >
                                                                                                                     <Grid>
                                                                                                                         <Grid.LayoutTransform>
                                                                                                                             <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
