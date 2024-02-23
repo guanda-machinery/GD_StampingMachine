@@ -11,7 +11,7 @@ namespace GD_CommonControlLibrary
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.First(x => x is DayOfWeek) is DayOfWeek dayOfWeek)
+            if (values.FirstOrDefault(x => x is DayOfWeek) is DayOfWeek dayOfWeek)
             {
                 CultureInfo ci;
                 if (values.First(x => x is CultureInfo) is CultureInfo cultureInfo)
