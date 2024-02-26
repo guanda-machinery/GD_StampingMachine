@@ -1593,7 +1593,8 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
 
                                 <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
 
-                                <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_ProductSettings"
+                                <GD_UserControls:FunctionToggleUserControl IsEnabledChanged="FunctionToggleUserControl_IsEnabledChanged"
+                                    x:Name="TBtn_ProductSettings"
                                                       IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Key_EditMode}"                     
                                                                            >
                                     <GD_UserControls:FunctionToggleUserControl.Style>

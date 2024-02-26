@@ -35,5 +35,10 @@ namespace GD_StampingMachine.Views
 
         }
 
+        private void FunctionToggleUserControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+
+        }
     }
 }

@@ -1878,7 +1878,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
                                                                                             <Canvas   Name="PART_SliderContainer">
                                                                                                 <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="1"
-                                                                 Stroke="Black" StrokeThickness="40"/>
+                                                                 Stroke="{DynamicResource PrimaryHueMidBrush}" StrokeThickness="40"/>
                                                                                                 <Canvas Name="PART_Arc"  Cursor="Hand"
                                                                 Canvas.Top="150" Canvas.Left="150">
                                                                                                     <Path Stroke="DimGray" StrokeThickness="30" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">

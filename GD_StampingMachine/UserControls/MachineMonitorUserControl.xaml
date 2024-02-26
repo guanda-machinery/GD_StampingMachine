@@ -350,7 +350,7 @@
                                                 Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, IsAsync=True,
-                                        Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                                Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView   
