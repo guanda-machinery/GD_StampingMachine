@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DevExpress.Charts.Native;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -37,8 +38,13 @@ namespace GD_StampingMachine.Views
 
         private void FunctionToggleUserControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-
-
+            if (e.NewValue is bool value && !value)
+            {
+                if (sender is GD_StampingMachine.UserControls.FunctionToggleUserControl FToggle && FToggle.IsChecked is true)
+                {
+                    FToggle.IsChecked = false;
+                }
+            }
         }
     }
 }
