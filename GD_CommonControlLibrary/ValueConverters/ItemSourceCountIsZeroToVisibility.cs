@@ -18,26 +18,24 @@ namespace GD_CommonControlLibrary
                     visibility = paraVisibility;
 
 
-            if (value != null)
+            if (value is IEnumerable<object> ValueArray)
             {
-                if (value is IEnumerable<object> ValueArray)
-                {
-                    if (!Invert)
-                        return ValueArray.Count() == 0 ? Visibility.Visible : visibility;
-                    else
-                        return ValueArray.Count() == 0 ? visibility : Visibility.Visible;
-                }
-
-                if(value is int IntValue)
-                {
-                    if (!Invert)
-                        return IntValue == 0 ? Visibility.Visible : visibility;
-                    else
-                        return IntValue == 0 ? visibility : Visibility.Visible;
-                }
-
-
+                if (!Invert)
+                    return ValueArray.Count() == 0 ? Visibility.Visible : visibility;
+                else
+                    return ValueArray.Count() == 0 ? visibility : Visibility.Visible;
             }
+
+            else if (value is int IntValue)
+            {
+                if (!Invert)
+                    return IntValue == 0 ? Visibility.Visible : visibility;
+                else
+                    return IntValue == 0 ? visibility : Visibility.Visible;
+            }
+
+
+
 
 
             return Visibility.Visible;

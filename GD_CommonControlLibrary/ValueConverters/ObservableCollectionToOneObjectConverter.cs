@@ -13,18 +13,15 @@ namespace GD_CommonControlLibrary
             {
                 var ObservableCollectionValue = (value as IEnumerable<object>).ToList();
 
-                int CollectionCount = 0;
-                if (parameter is int)
+                int CollectionCount;
+                if (parameter is int para)
+                    CollectionCount = para;
+                else if (parameter is string paras && int.TryParse(paras, out CollectionCount))
                 {
-                    CollectionCount = (int)parameter;
+
                 }
-
-                if (parameter is string)
-                {
-                    int.TryParse((string)parameter, out CollectionCount);
-                }
-
-
+                else
+                    CollectionCount = 0;
 
 
 

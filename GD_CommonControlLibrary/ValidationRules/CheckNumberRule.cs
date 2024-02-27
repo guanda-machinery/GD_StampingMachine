@@ -41,9 +41,9 @@ namespace GD_CommonControlLibrary.ValidationRules
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             //先檢查參數
-            if (NumberMax is double && NumberMin is double)
+            if (NumberMax is double numberMax && NumberMin is double numberMin)
             {
-                if (NumberMax < NumberMin)
+                if (numberMax < numberMin)
                     throw new Exception("驗證值設定錯誤，最大值不可小於最小值");
             }
 

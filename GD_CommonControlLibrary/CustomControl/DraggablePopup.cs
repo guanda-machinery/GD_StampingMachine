@@ -107,14 +107,13 @@ namespace GD_CommonControlLibrary.GD_Popup
         /// </summary>
         public NonTopmostPopup()
         {
-            AllowTopMost = false;
+            this.AllowTopMost = false;
             this.AllowsTransparency = true;
             Loaded += OnPopupLoaded;
             Unloaded += OnPopupUnloaded;
 
             base.CommandBindings.Add(new CommandBinding(ClosePopupCommand, ClosePopupHandler, ClosePopupCanExecute));
             base.CommandBindings.Add(new CommandBinding(OpenPopupCommand, OpenPopupHandler, OpenPopupCanExecute));
-            //這邊寫一個綁定isopen的function->也就是關閉時為打開 打開時為關閉
             base.CommandBindings.Add(new CommandBinding(PopupCommand, PopupHandler, PopupCanExecute));
         }
 
@@ -262,8 +261,9 @@ namespace GD_CommonControlLibrary.GD_Popup
                     InternalOpen(parameterBoolean);
                 }
                 else
+                {
                     InternalOpen(true);
-
+                }
                 executedRoutedEventArgs.Handled = true;
             }
         }

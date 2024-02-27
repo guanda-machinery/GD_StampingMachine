@@ -12,12 +12,9 @@ namespace GD_CommonControlLibrary
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool BooleanValue)
+            if (value is bool BooleanValue && BooleanValue)
             {
-                if (BooleanValue)
-                {
-                    return System.Windows.Media.Brushes.Red;
-                }
+                return System.Windows.Media.Brushes.Red;
             }
 
             var Brush = Application.Current.TryFindResource("PrimaryHueDarkForegroundBrush");

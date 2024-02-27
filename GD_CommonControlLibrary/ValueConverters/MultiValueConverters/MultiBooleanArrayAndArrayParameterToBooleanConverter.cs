@@ -74,7 +74,7 @@ namespace GD_CommonControlLibrary
             }
 
             List<object> result = new List<object>();
-            if (value is bool boolvalue)
+            if (value is bool boolValue)
             {
                 for (int i = 0; i < targetTypes.Length; i++)
                 {
@@ -91,7 +91,7 @@ namespace GD_CommonControlLibrary
                         }
                     }
 
-                    if (boolvalue)
+                    if (boolValue)
                     {
                         result.Add(parameterObject);
                     }

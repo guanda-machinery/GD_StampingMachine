@@ -19,32 +19,17 @@ namespace GD_CommonControlLibrary
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var timeString = value.ToString();
-
-            DateTime result = default(DateTime);
-            if (DateTime.TryParseExact(timeString, "HH:mm:ss", null, DateTimeStyles.None, out result))
+            if (DateTime.TryParseExact(timeString, "HH:mm:ss", null, DateTimeStyles.None, out DateTime result) ||
+                 DateTime.TryParseExact(timeString, "HH:mm", null, DateTimeStyles.None, out result) ||
+                 DateTime.TryParseExact(timeString, "H:mm", null, DateTimeStyles.None, out result) ||
+                 DateTime.TryParseExact(timeString, "HH", null, DateTimeStyles.None, out result) ||
+                 DateTime.TryParseExact(timeString, "H", null, DateTimeStyles.None, out result))
             {
-
+                var timeDifference = result - result.Date;
+                return timeDifference.TotalHours.ToString();
             }
-            else if (DateTime.TryParseExact(timeString, "HH:mm", null, DateTimeStyles.None, out result))
-            {
-
-            }
-            else if (DateTime.TryParseExact(timeString, "H:mm", null, DateTimeStyles.None, out result))
-            {
-
-            }
-            else if (DateTime.TryParseExact(timeString, "HH", null, DateTimeStyles.None, out result))
-            {
-
-            }
-            else if (DateTime.TryParseExact(timeString, "H", null, DateTimeStyles.None, out result))
-            {
-
-            }
-
-            var timeDifference = result - result.Date;
-
-            return timeDifference.TotalHours.ToString();
+            // 解析失敗
+            return null;
         }
     }
 
@@ -65,12 +50,9 @@ namespace GD_CommonControlLibrary
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double dValue)
-            {
                 return new DateTime().AddHours(dValue);
-            }
-
-            return new DateTime();
-
+            else
+                return new DateTime();
         }
     }
 

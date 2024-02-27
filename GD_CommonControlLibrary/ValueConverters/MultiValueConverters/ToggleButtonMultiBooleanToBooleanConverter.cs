@@ -27,11 +27,11 @@ namespace GD_CommonControlLibrary
                     FalseList.Add(false);
                 }
 
-                if (ConvertBoolean)
+                if (ConvertBoolean && FalseList.Count>0)
                 {
                     FalseList[0] = true;
                 }
-                return FalseList.ToArray();
+                return [.. FalseList];
             }
 
             throw new NotImplementedException();
