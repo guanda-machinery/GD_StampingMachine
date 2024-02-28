@@ -1668,7 +1668,7 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
                                 <GD_UserControls:FunctionToggleUserControl x:Name="TBtn_ReturningToOriginPoint"
                                                                              IsThreeState="False"
                                                                              IsEnabled="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsConnected}" 
-                                                                             IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=IsReturningToOrigin}"     
+                                                                             IsChecked="{StaticResource FalseValue}"     
                                                                              Command="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance} ,Path=ReturnToOriginCommand}" Cursor="Hand"                        
                                                                              >
                                     <GD_UserControls:FunctionToggleUserControl.Style>
@@ -1705,9 +1705,10 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
                             </ItemsControl>
                             <Border BorderThickness="1" Margin="5,10" BorderBrush="{StaticResource ToggleButtonBackgroundLightGrayBrush}"/>
                             <ItemsControl 
+                                dd:DragDrop.DropTargetAdornerBrush="DeepSkyBlue"
                                 dd:DragDrop.IsDragSource="False"
                                 dd:DragDrop.IsDropTarget="True">
-                                <GD_UserControls:FunctionToggleUserControl >
+                                <GD_UserControls:FunctionToggleUserControl>
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">
                                             <Setter Property="ControlTitleText" Value="{DynamicResource btnDescription_UsualKey2}"      />

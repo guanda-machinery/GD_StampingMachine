@@ -25,6 +25,10 @@
         Topmost="{Binding Topmost}" 
         Visibility="{Binding Visibility}"  
         StateChanged="Window_StateChanged" Cursor="Arrow"  
+        Closed="Window_Closed"
+        Closing="Window_Closing"
+        
+        
         >
     <Window.Style>
         <Style TargetType="Window">
@@ -41,15 +45,6 @@
         <WindowChrome  GlassFrameThickness="-1" 
                        CaptionHeight="0" ResizeBorderThickness="10"/>
     </WindowChrome.WindowChrome>
-
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding ClosedCommand}"  PassEventArgsToCommand="True"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -110,7 +105,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}"  >
+                    <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}" Cursor=""  >
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">

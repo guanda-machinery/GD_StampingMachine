@@ -18,7 +18,9 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:GD_ValidRule="clr-namespace:GD_CommonControlLibrary.ValidationRules;assembly=GD_CommonControlLibrary" 
              xmlns:GD_Popup="clr-namespace:GD_CommonControlLibrary.GD_Popup;assembly=GD_CommonControlLibrary" 
-             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"
+             xmlns:GD_CommonControl="clr-namespace:GD_CommonControlLibrary;assembly=GD_CommonControlLibrary"            
+             
+             xmlns:GD_Singletons="clr-namespace:GD_StampingMachine.Singletons" 
              Name="MainGridControl"
              >
 
@@ -496,40 +498,158 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
             </GroupBox>
-            <Grid  VerticalAlignment="Top" Margin="10,50,10,0" Grid.Column="1" MinHeight="150">
+            <Grid   Margin="10,50,10,0" Grid.Column="1" MinHeight="150">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <StackPanel IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}}">
+                    <RowDefinition Height="auto" />
+                        <RowDefinition  Height="auto" />
+                        <RowDefinition  Height="auto" />
+                        <RowDefinition  Height="auto" />
+                    </Grid.RowDefinitions>
+                <StackPanel Margin="0,5"
+                    IsEnabled="{Binding ElementName=StampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}}">
                         <Button Padding="10,0"
                         IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}}"
-                    Grid.Row="0" Command="{Binding StampingFontReplaceCommand}" Margin="5,10">
-
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnReplace}" Foreground="Black"/>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-                                                <materialDesign:PackIcon Kind="SwapHorizontal" Width="20" Height="20"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-
-                    </Button>
+                    Grid.Row="0" Command="{Binding StampingFontReplaceCommand}"
+                                >
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon 
+                                                    Kind="SwapHorizontal" Width="20" Height="20" Margin="0,0,5,0"/>
+                                <TextBlock x:Name="btn_TB_Delete_textblock" 
+                                                           Text="{DynamicResource btnReplace}" />
+                            </StackPanel>
+                        </Button>
                 </StackPanel>
 
-                    <Button  Grid.Row="1" Margin="5,10"  Padding="10,0"
+                    <Border Grid.Row="1" Margin="0,5" Height="32" >
+                        <Rectangle Width="auto" Height="2" Fill="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                    </Border>
+                    <ToggleButton Margin="0,5"
+                        Name="AddFontToggleButton" Grid.Row="2"
+                    Style="{StaticResource GD_ToggleButton_Gray}"
+                IsChecked="{Binding ElementName=AddFontDraggablePopup, Path=IsOpen}"
+               Grid.Column="2"  >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon 
+                                                    Kind="Plus" Width="20" Height="20" Margin="0,0,5,0"/>
+                            <TextBlock
+                                                           Text="{DynamicResource btnAdd}" />
+                        </StackPanel>
+
+                    </ToggleButton>
+                    <GD_Popup:DraggablePopup  Name="AddFontDraggablePopup" AllowsTransparency="True" 
+                                        Placement="Relative" PlacementRectangle="-100,-180,0,0" PlacementTarget="{Binding ElementName=AddFontToggleButton}"  >
+                        <materialDesign:ColorZone  CornerRadius="10" 
+                                              materialDesign:ShadowAssist.Darken="True" 
+                                              materialDesign:ShadowAssist.ShadowEdges="All">
+                            <materialDesign:ColorZone.Style>
+                                <Style TargetType="materialDesign:ColorZone">
+                                    <Setter Property="Background" Value="#424242"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" >
+                                            <Setter Property="Background" Value="#F5F6F7"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+
+                                </Style>
+                            </materialDesign:ColorZone.Style>
+
+
+                            <StackPanel Margin="8">
+                                <StackPanel  HorizontalAlignment="Center">
+                                    <ListBox ItemsSource="{Binding NewUnusedStampingFont}"  Margin="5"
+                                         dd:DragDrop.CanDragWithMouseRightButton="True"
+                                         dd:DragDrop.DropTargetAdornerBrush="Transparent"
+                                         dd:DragDrop.IsDragSource="True"
+                                         dd:DragDrop.IsDropTarget="False"        
+                                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
+                                         dd:DragDrop.UseDefaultDragAdorner ="True" 
+                                         dd:DragDrop.DefaultDragAdornerOpacity="1"
+                                         dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                            <Border CornerRadius="5">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border" >
+                                                                        <Setter Property="BorderThickness" Value="2"/>
+                                                                        <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                                                                        <Setter Property="Background" Value="#2d2d2d"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" >
+                                                                                <Setter Property="Background" Value="#4b4b4b"/>
+                                                                                <Setter Property="BorderBrush" Value="#909090"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <StackPanel Margin="5">
+                                                                    <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
+
+                                                                    <Border  Background="#6F6F6F"  Margin="10">
+                                                                        <Border  Name="MainBorder" Width="50" Height="50">
+                                                                            <Border.Style>
+                                                                                <Style TargetType="Border" BasedOn="{StaticResource DragDropBorderStyle}" >
+                                                                                    <Setter Property="BorderThickness" Value="2"/>
+                                                                                    <Setter Property="BorderBrush" Value="White"/>
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true" >
+
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Border.Style>
+
+                                                                            <TextBox  Text="{Binding StampingTypeString}" 
+                                                                                  materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                                                                  BorderThickness="0"  
+                                                                            HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                                                                                  TextAlignment="Center"  FontSize="30"  Foreground="White">
+                                                                                <!--  <TextBox.Text>
+                                                                               <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
+                                                                                    <Binding.ValidationRules>
+                                                                                        <GD_ValidRule:CheckStringEmptyRule StringLengthMax="1"/>
+                                                                                    </Binding.ValidationRules>
+                                                                                </Binding>
+                                                                            </TextBox.Text>-->
+                                                                            </TextBox>
+                                                                        </Border>
+                                                                    </Border>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </StackPanel>
+                                <StackPanel
+                                Orientation="Horizontal"
+                                                                HorizontalAlignment="Right">
+                                    <Button  Margin="8" Padding="10,3,10,0"
+                                                                    IsDefault="True"
+                                                                    Content="{DynamicResource btnAdd}" 
+                                                                    >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding UnusedStampingFontAddCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button   
+                                    Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"
+                                    Margin="8"  Padding="10,3,10,0"
+                                        Content="{DynamicResource btnClose}">
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:ColorZone>
+                    </GD_Popup:DraggablePopup>
+
+                    <Button  Grid.Row="3" 
+                             Margin="0,5" Padding="10,0"
                     IsEnabled="{Binding ElementName=UnusedStampingFontListBox, Path=SelectedItem, ConverterParameter={x:Null}, Converter={GD_CommonControl:ObjectIsEqualToBooleanConverter Invert=True}}"
                     Command="{Binding UnusedStampingFontDelCommand}"
                          dd:DragDrop.DropTargetAdornerBrush="Red"
@@ -540,25 +660,11 @@
                          dd:DragDrop.DefaultDragAdornerOpacity="1"
                          dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}" 
                         >
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <TextBlock x:Name="btn_TB_Delete_textblock" Text="{DynamicResource btnDelete}" Foreground="Black"/>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Content">
-                                        <Setter.Value>
-                                            <materialDesign:PackIcon Kind="Delete" Width="20" Height="20"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Delete" Width="20" Height="20" Margin="0,0,5,0"/>
+                            <TextBlock Text="{DynamicResource btnDelete}" />
+                        </StackPanel>
+                    </Button>
 
 
 
@@ -597,81 +703,6 @@
                 </ListBox>
             </GroupBox>
 
-                <GD_Popup:DraggablePopup  Name="AddFontDraggablePopup" AllowsTransparency="True" 
-                                        Placement="Relative" PlacementRectangle="-100,-180,0,0" PlacementTarget="{Binding ElementName=AddFontToggleButton}"  >
-                    <materialDesign:ColorZone Background="#303030" CornerRadius="10" 
-                                              materialDesign:ShadowAssist.Darken="True" 
-                                              materialDesign:ShadowAssist.ShadowEdges="All">
-                        <StackPanel Margin="8">
-                            <StackPanel  HorizontalAlignment="Center">
-                                <ListBox ItemsSource="{Binding NewUnusedStampingFont}"  Margin="5"
-                                         dd:DragDrop.CanDragWithMouseRightButton="True"
-                                         dd:DragDrop.DropTargetAdornerBrush="Transparent"
-                                         dd:DragDrop.IsDragSource="True"
-                                         dd:DragDrop.IsDropTarget="False"        
-                                         dd:DragDrop.UseDefaultEffectDataTemplate="False"
-                                         dd:DragDrop.UseDefaultDragAdorner ="True" 
-                                         dd:DragDrop.DefaultDragAdornerOpacity="1"
-                                         dd:DragDrop.DropHandler="{Binding DragStampingTypeDropTarget}">
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="ListBoxItem">
-                                                        <Border Background="Black" CornerRadius="5">
-                                                            <StackPanel Margin="5">
-                                                                <TextBlock Text="{DynamicResource Text_AddSteelPunchedFont}" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
-
-                                                                <Border  Background="Gray"  Margin="10">
-                                                                    <Border Style="{StaticResource DragDropBorderStyle}"  Name="MainBorder" Width="50" Height="50">
-                                                                        <TextBox  Text="{Binding StampingTypeString}" BorderThickness="0"
-                                                                            HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"  FontSize="30"  Foreground="White">
-                                                                            <!--  <TextBox.Text>
-                                                                               <Binding Path="StampingTypeString" UpdateSourceTrigger="PropertyChanged" >
-                                                                                    <Binding.ValidationRules>
-                                                                                        <GD_ValidRule:CheckStringEmptyRule StringLengthMax="1"/>
-                                                                                    </Binding.ValidationRules>
-                                                                                </Binding>
-                                                                            </TextBox.Text>-->
-                                                                        </TextBox>
-                                                                    </Border>
-                                                                </Border>
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ListBox.ItemContainerStyle>
-                                </ListBox>
-                            </StackPanel>
-                            <StackPanel
-                                Orientation="Horizontal"
-                                                                HorizontalAlignment="Right">
-                                <Button  Margin="8" 
-                                                                    IsDefault="True"
-                                                                    Content="{DynamicResource btnAdd}" 
-                                                                    >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding UnusedStampingFontAddCommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <ToggleButton      Style="{StaticResource SiegCustomButton}"
-                                    Margin="8"  IsChecked="{Binding ElementName=AddFontDraggablePopup, Path=IsOpen}"
-                                        Content="{DynamicResource btnClose}">
-                                </ToggleButton>
-                            </StackPanel>
-                        </StackPanel>
-                            </materialDesign:ColorZone>
-                </GD_Popup:DraggablePopup>
-
-                <ToggleButton  Name="AddFontToggleButton"
-                    Style="{StaticResource SiegCustomButton}"
-                IsChecked="{Binding ElementName=AddFontDraggablePopup, Path=IsOpen}"
-                Height="24" Width="auto" Padding="10,0" Margin="10,0" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                             Content="{DynamicResource btnAdd}"/>
 
 
         </Grid>

@@ -75,7 +75,13 @@
         <Setter Property="Width" Value="40"/>
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"/>
 
+
+
+
     </Style>
+    
+    
+    
     <Style TargetType="Border" x:Key="SelectedBorder">
         <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>

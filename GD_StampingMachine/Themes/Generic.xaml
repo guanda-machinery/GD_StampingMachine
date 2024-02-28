@@ -76,19 +76,20 @@
 
 
     <Style TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
+        <Setter Property="OutLineBackground" Value="LightGray"/>
+        <Setter Property="OutLineBorderBrush" Value="Gray"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
                     <ControlTemplate.Resources>
                         <Style TargetType="Border" x:Key="ContentBorder">
-                            <Setter Property="Background" Value="LightGray"/>
-                            <Setter Property="BorderBrush" Value="Gray"/>
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_StampingMachine_UserControls:PlateDiagramCustomControl}, Path=OutLineBackground}"/>
+                            <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GD_StampingMachine_UserControls:PlateDiagramCustomControl}, Path=OutLineBorderBrush}"/>
                             <Setter Property="Visibility" Value="Visible"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=DataContext , RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Hidden"/>
                                 </DataTrigger>
-
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
@@ -143,11 +144,11 @@
                             </Style.Triggers>
                         </Style>
                     </ControlTemplate.Resources>
+                    
                     <Border Style="{StaticResource ContentBorder}"  
                                                     CornerRadius="5"
                                                     BorderThickness="2" 
                                                     Margin="0">
-
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
@@ -188,7 +189,7 @@
                                                     <MultiDataTrigger.Conditions>
                                                         <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
                                                     </MultiDataTrigger.Conditions>
-                                            
+
                                                     <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_RoundBottomGround_SolidColorBrush}"/>
                                                 </MultiDataTrigger>
 
@@ -248,7 +249,6 @@
 
                         </Grid>
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

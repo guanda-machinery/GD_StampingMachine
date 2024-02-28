@@ -297,32 +297,29 @@
             VerticalAlignment="Stretch" Grid.Row="1"  
                       VerticalContentAlignment="Center"
                       HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
-            <TabControl>
+            <TabControl Padding="5,16">
                 <TabItem  IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
                     <StackPanel HorizontalAlignment="Center">
-                        <Grid  Margin="20" Width="700">
+                        <Grid  Margin="0,0,0,0" Width="700">
                             <GD_SchematicDiagram:QRPlateRowDiagramControl  
                             DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" >
 
                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                         </Grid>
-
-
                         <StackPanel  HorizontalAlignment="Left" Orientation="Horizontal"
-                                    Grid.Row="0"  Margin="15,0,0,5" VerticalAlignment="Bottom">
-
+                                    Grid.Row="0"  Margin="15,32,0,32" VerticalAlignment="Bottom">
                             <Button Visibility="Collapsed" Padding="5,3,5,5"
                                         HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
-                                    Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
+                                    Content="{DynamicResource btnLoadSetting}" Margin="0,0,10,0" Command="{Binding LoadSettingCommand}"/>
 
                             <Button Padding="5,3,5,0"
                                         HorizontalAlignment="Left" IsEnabled="{Binding ElementName=NumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
-                                         Content="{DynamicResource btnDeleteSetting}"  Margin="10" Command="{Binding DeleteSettingCommand}"/>
+                                         Content="{DynamicResource btnDeleteSetting}"  Margin="10,0" Command="{Binding DeleteSettingCommand}"/>
 
-                            <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
-                            <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"  
+                            <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnRecoverSetting}"  Margin="10,0" Command="{Binding RecoverSettingCommand}"/>
+                            <Button Padding="5,3,5,0" HorizontalAlignment="Left" Content="{DynamicResource btnSaveSetting}"   
                                         IsEnabled="{Binding NumberSettingVM.NumberSettingMode, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
-                                        Margin="10" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
+                                        Margin="10,0" Command="{Binding SaveSettingCommand}" Cursor="Hand"/>
                         </StackPanel>
 
                         <Grid HorizontalAlignment="Center" Margin="20,0">
@@ -584,12 +581,12 @@
                 <TabItem  IsSelected="{Binding ElementName=TbtnDataMatrixSetting, Path=IsChecked}" DataContext="{Binding QRSettingPageVM}" Cursor="Hand">
                     <Grid HorizontalAlignment="Center" Margin="20,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition  Height="auto"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel >
-                            <Grid  Margin="20">
+                            <Grid>
 
                                 <GD_SchematicDiagram:QRPlateRowDiagramControl  Width="700"
                             DataContext="{Binding QRSettingVM}" RedMeasurementLineVisibility="Visible" >
@@ -598,18 +595,18 @@
                                 </GD_SchematicDiagram:QRPlateRowDiagramControl>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Grid.Row="1"
-                            Margin="0,0" Orientation="Horizontal"
+                        <StackPanel Grid.Row="1" 
+                            Margin="0,32" Orientation="Horizontal"
                                                       VerticalAlignment="Bottom">
                             <Button Visibility="Collapsed"
                                                  IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
                                                 Content="{DynamicResource btnLoadSetting}" Margin="0" Command="{Binding LoadSettingCommand}"/>
                             <Button HorizontalAlignment="Left"   Padding="5,3,5,0"
                                                     IsEnabled="{Binding ElementName=QRNumberSettingModeComboBox, Path=SelectedItem, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}, UpdateSourceTrigger=PropertyChanged}"
-                                         Content="{DynamicResource btnDeleteSetting}"  Margin="0,10,10,10" Command="{Binding DeleteSettingCommand}"/>
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                         Content="{DynamicResource btnDeleteSetting}"  Margin="0,0,10,0" Command="{Binding DeleteSettingCommand}"/>
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10,0" Command="{Binding RecoverSettingCommand}"/>
                             <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  IsEnabled="{Binding QRSettingVM.NumberSettingMode, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
-                                                    Margin="10" Command="{Binding SaveSettingCommand}"/>
+                                                    Margin="10,0" Command="{Binding SaveSettingCommand}"/>
                         </StackPanel>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
@@ -960,8 +957,9 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <GroupBox Grid.Column="0" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10"  HorizontalContentAlignment="Stretch">
+                        <GroupBox Grid.Column="0" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10,0"  HorizontalContentAlignment="Stretch">
                             <Grid VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -1063,7 +1061,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                         </GroupBox>
 
 
-                        <GroupBox Grid.Column="1" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10" >
+                        <GroupBox Grid.Column="0" Grid.Row="3" Header="{DynamicResource Text_FeedAxisDirectionSetting}" Margin="10" >
                             <Grid VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -1151,15 +1149,15 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                     IsEnabled="{Binding TimeSettingPopupIsOpen ,Converter={GD_CommonControl:InvertBooleanConverter}}"
                                     Grid.Row="0"  Margin="10,0" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                             <Button  Padding="5,3,5,0"
-                                Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}"/>
+                                Content="{DynamicResource btnLoadSetting}" Margin="10,0" Command="{Binding LoadSettingCommand}"/>
                             <Button  Padding="5,3,5,0"
-                                Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}"/>
+                                Content="{DynamicResource btnRecoverSetting}"  Margin="10,0" Command="{Binding RecoverSettingCommand}"/>
                             <Button  Padding="5,3,5,0"
-                                Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                                Content="{DynamicResource btnSaveSetting}"  Margin="10,0" Command="{Binding SaveSettingCommand}"/>
                         </StackPanel>
 
                         <GroupBox  VerticalContentAlignment="Stretch"
-                            Grid.Row="1" Header="{DynamicResource Text_TimingSetting}" Margin="10" Padding="5">
+                            Grid.Row="1" Header="{DynamicResource Text_TimingSetting}" Margin="10,32" Padding="5">
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -1343,7 +1341,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
 
                                                 <Button HorizontalAlignment="Right"
                                         Foreground="Orange" Background="Transparent" BorderThickness="0"
-                                              Content="{materialDesign:PackIcon Kind=Plus}" Command="{Binding AddNewTimingControlCommand}"/>
+                                              Content="{materialDesign:PackIcon Kind=Plus, Size=30}" Command="{Binding AddNewTimingControlCommand}"/>
                                             </Grid>
                                             <ListBox  Grid.Row="1" MaxHeight="500"   MinWidth="300"
                                                     Name="TimingControlVMCollectionListBox"  
@@ -1376,7 +1374,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                                                         <Setter Property="BorderThickness" Value="2"/>
                                                         <Setter Property="Border.CornerRadius" Value="10"/>
-                                                        <Setter Property="Margin" Value="0,1"/>
+                                                        <Setter Property="Margin" Value="0,4"/>
                                                         <Setter Property="Cursor" Value="Hand"/>
                                                         <Setter Property="Template">
                                                             <Setter.Value>
@@ -2306,15 +2304,15 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                     </Grid>
                 </TabItem>
                 <TabItem Header="123"   IsSelected="{Binding ElementName=TbtnSegregationSetting, Path=IsChecked}" DataContext="{Binding SeparateSettingVM}">
-                    <StackPanel Orientation="Vertical"  HorizontalAlignment="Center"
+                    <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" 
                                 VerticalAlignment="Top">
-                        <StackPanel  Margin="10,0"  Orientation="Horizontal">
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnLoadSetting}" Margin="10" Command="{Binding LoadSettingCommand}" />
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10" Command="{Binding RecoverSettingCommand}" Visibility="Collapsed"/>
-                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  Margin="10" Command="{Binding SaveSettingCommand}"/>
+                        <StackPanel  Margin="10,0"  Orientation="Horizontal" >
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnLoadSetting}" Margin="10,0" Command="{Binding LoadSettingCommand}" />
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnRecoverSetting}"  Margin="10,0" Command="{Binding RecoverSettingCommand}" Visibility="Collapsed"/>
+                            <Button  Padding="5,3,5,0" Content="{DynamicResource btnSaveSetting}"  Margin="10,0" Command="{Binding SaveSettingCommand}"/>
                         </StackPanel>
 
-                        <GroupBox Header="{DynamicResource Text_Separate}" Margin="10"  Padding="20">
+                        <GroupBox Header="{DynamicResource Text_Separate}" Margin="10,32"  Padding="20">
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel>
                                     <Grid Margin="0,0,0,16">

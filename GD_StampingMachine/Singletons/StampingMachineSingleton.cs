@@ -281,6 +281,7 @@ namespace GD_StampingMachine.Singletons
                     Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("BrightHueMidForegroundBrush");
                     Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("BrightHueDarkBrush");
                     Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("BrightHueDarkForegroundBrush");
+                    Application.Current.Resources["PrimaryButtonBrush"] = Application.Current.TryFindResource("BrightPrimaryButtonBrush");
                 }
                 else
                 {
@@ -290,6 +291,7 @@ namespace GD_StampingMachine.Singletons
                     Application.Current.Resources["PrimaryHueMidForegroundBrush"] = Application.Current.TryFindResource("DarkHueMidForegroundBrush");
                     Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
                     Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
+                    Application.Current.Resources["PrimaryButtonBrush"] = Application.Current.TryFindResource("DarkPrimaryButtonBrush");
                 }
 
                 try

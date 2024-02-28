@@ -1,4 +1,6 @@
-﻿using GD_StampingMachine.ViewModels;
+﻿using CommunityToolkit.Mvvm.Input;
+using GD_CommonLibrary.Method;
+using GD_StampingMachine.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -89,108 +91,148 @@ namespace GD_StampingMachine
             }
 
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var MessageBoxReturn = MessageBoxResultShow.Show(
+                    (string)Application.Current.TryFindResource("Text_notify"),
+                    (string)Application.Current.TryFindResource("Text_AskCloseProgram"), MessageBoxButton.YesNo, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
+
+            if (MessageBoxReturn == MessageBoxResult.Yes)
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+        }
+
+
+
+
+
+        private ICommand _closingCommand;
+        public ICommand ClosingCommand
+        {
+            get => _closingCommand ??= new AsyncRelayCommand<System.ComponentModel.CancelEventArgs>(async e =>
+            {
+
+            });
+        }
+
+
+
+
+
         /*
-        private bool isResizing = false;
-        private Point resizeStartPoint;
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if(e.LeftButton == MouseButtonState.Pressed)
-            {
-                isResizing = true;
-                resizeStartPoint = e.GetPosition(this);
+private bool isResizing = false;
+private Point resizeStartPoint;
+private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+{
+if(e.LeftButton == MouseButtonState.Pressed)
+{
+isResizing = true;
+resizeStartPoint = e.GetPosition(this);
 
-            }
+}
 
-        }
-        private void Border_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Released)
-            {
-                isResizing = false;
-            }
-        }
-        private void Border_MouseMove(object sender, MouseEventArgs e)
-        {
-            var mousePos = e.GetPosition(this);
-            if(sender is  FrameworkElement element)
-            {
-                const double range = 20;
-                var width = element.ActualWidth;
-                var height = element.ActualHeight;
+}
+private void Border_MouseUp(object sender, MouseButtonEventArgs e)
+{
+if (e.LeftButton == MouseButtonState.Released)
+{
+isResizing = false;
+}
+}
+private void Border_MouseMove(object sender, MouseEventArgs e)
+{
+var mousePos = e.GetPosition(this);
+if(sender is  FrameworkElement element)
+{
+const double range = 20;
+var width = element.ActualWidth;
+var height = element.ActualHeight;
 
-                if (mousePos.X < range && mousePos.Y < range)
-                {
-                    element.Cursor = Cursors.SizeNWSE;
-                    //在左上方
-                }
-                else if (mousePos.X > width - range && mousePos.Y < range)
-                {
-                    element.Cursor = Cursors.SizeNESW;
-                    //在右上方
-                }
-                else if (mousePos.X < range && mousePos.Y > height - range)
-                {
-                    element.Cursor = Cursors.SizeNESW;
-                    //在左下方
-                }
-                else if (mousePos.X > width - range && mousePos.Y > height - range) 
-                {
-                    element.Cursor = Cursors.SizeNWSE;
-                    //在右下方
-                }
-                else if (mousePos.X < range)
-                {
+if (mousePos.X < range && mousePos.Y < range)
+{
+  element.Cursor = Cursors.SizeNWSE;
+  //在左上方
+}
+else if (mousePos.X > width - range && mousePos.Y < range)
+{
+  element.Cursor = Cursors.SizeNESW;
+  //在右上方
+}
+else if (mousePos.X < range && mousePos.Y > height - range)
+{
+  element.Cursor = Cursors.SizeNESW;
+  //在左下方
+}
+else if (mousePos.X > width - range && mousePos.Y > height - range) 
+{
+  element.Cursor = Cursors.SizeNWSE;
+  //在右下方
+}
+else if (mousePos.X < range)
+{
 
-                    if (isResizing)
-                    {
-                        this.Width += mousePos.X - resizeStartPoint.X;
-                        this.Left -= mousePos.X - resizeStartPoint.X;
-                    }
-                    // element.Width = mousePos.Y - resizeStartPoint.Y;
+  if (isResizing)
+  {
+      this.Width += mousePos.X - resizeStartPoint.X;
+      this.Left -= mousePos.X - resizeStartPoint.X;
+  }
+  // element.Width = mousePos.Y - resizeStartPoint.Y;
 
-                    // 滑鼠在畫面的左方
-                    element.Cursor = Cursors.SizeWE;
-                }
-                else if (mousePos.X > width - range)
-                {
-                    element.Cursor = Cursors.SizeWE;
-                    // 滑鼠在畫面的右方
-                }
-                else if (mousePos.Y < range)
-                {
-                    element.Cursor = Cursors.SizeNS;
-                    // 滑鼠在畫面的上方
-                }
-                else if (mousePos.Y > height - range)
-                {
-                    element.Cursor = Cursors.SizeNS;
-                    // 滑鼠在畫面的下方
-                }
-
-
-
-                //上方
-                //下方
-                //SizeNS
-
-                //左方
-                //右方
-                //SizeWE
+  // 滑鼠在畫面的左方
+  element.Cursor = Cursors.SizeWE;
+}
+else if (mousePos.X > width - range)
+{
+  element.Cursor = Cursors.SizeWE;
+  // 滑鼠在畫面的右方
+}
+else if (mousePos.Y < range)
+{
+  element.Cursor = Cursors.SizeNS;
+  // 滑鼠在畫面的上方
+}
+else if (mousePos.Y > height - range)
+{
+  element.Cursor = Cursors.SizeNS;
+  // 滑鼠在畫面的下方
+}
 
 
-                //左上
-                //右下
-                //SizeNWSE
 
-                //右上
-                //左下
-                //SizeNESW
+//上方
+//下方
+//SizeNS
+
+//左方
+//右方
+//SizeWE
 
 
-                //element.Cursor = Cursors.Hand;
+//左上
+//右下
+//SizeNWSE
 
-            }
-        }*/
+//右上
+//左下
+//SizeNESW
+
+
+//element.Cursor = Cursors.Hand;
+
+}
+}*/
 
 
         // private DateTime lastMouseMoveTime = DateTime.MinValue;

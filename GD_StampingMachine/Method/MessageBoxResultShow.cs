@@ -92,7 +92,10 @@ namespace GD_CommonLibrary.Method
         }
 
 
-
+        public static MessageBoxResult Show(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
+        {
+            return new MessageBoxResultShow(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow).ShowMessageBox();
+        }
         public static Task<MessageBoxResult> ShowAsync(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
             TaskCompletionSource<MessageBoxResult> tcs = new();
@@ -106,7 +109,7 @@ namespace GD_CommonLibrary.Method
                     {
                         try
                         {
-                            MessageBoxReturn = new MessageBoxResultShow(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow).ShowMessageBox();
+                            Show(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow);
                             tcs.SetResult(MessageBoxReturn);
                         }
                         catch (Exception ex)

@@ -3,27 +3,34 @@
     <!--PRIMARY-->
 
     
-    <SolidColorBrush x:Key="DarkHueLightBrush" Color="#383838"/>
+    <SolidColorBrush x:Key="DarkHueLightBrush" Color="#282828"/>
     <SolidColorBrush x:Key="DarkHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="DarkHueMidBrush" Color="#4b4b4b"/>
     <SolidColorBrush x:Key="DarkHueMidForegroundBrush" Color="#FAFAFA"/>
     <SolidColorBrush x:Key="DarkHueDarkBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="DarkHueDarkForegroundBrush" Color="#f0f0f0"/>
+    <SolidColorBrush x:Key="DarkPrimaryButtonBrush" Color="#6f6f6f"/>
 
     <SolidColorBrush x:Key="BrightHueLightBrush" Color="White"/>
-    <SolidColorBrush x:Key="BrightHueLightForegroundBrush" Color="#383838"/>
+    <SolidColorBrush x:Key="BrightHueLightForegroundBrush" Color="#282828"/>
     <SolidColorBrush x:Key="BrightHueMidBrush" Color="#e8e8e8"/>
     <SolidColorBrush x:Key="BrightHueMidForegroundBrush" Color="#4b4b4b"/>
     <SolidColorBrush x:Key="BrightHueDarkBrush" Color="#f7f7f7"/>
     <SolidColorBrush x:Key="BrightHueDarkForegroundBrush" Color="#2c2c2c"/>
-
-    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#383838"/>
+    <SolidColorBrush x:Key="BrightPrimaryButtonBrush" Color="#f5f6f7"/>
+    
+    
+    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#282828"/>
     <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#4b4b4b"/>
     <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FAFAFA"/>
     <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#f0f0f0"/>
 
+    <SolidColorBrush x:Key="PrimaryButtonBrush" Color="#6f6f6f"/>
+
+    
+    
     <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#1565c0"/>
     <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#5e92f3"/>

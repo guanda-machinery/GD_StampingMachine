@@ -196,24 +196,36 @@
                     <Grid >
                             <Border Background="White" Margin="0,0,5,0" />
                             <Grid HorizontalAlignment="Right">
-                                <Border Width="47.5" HorizontalAlignment="Right" Margin="0,0,475,0" >
-                                    <Border.Style>
-                                        <Style TargetType="Border" >
-                                            <Setter Property="Background" Value="LightGray"/>
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
-                                                     Value="true" />
-                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Cylinder_HydraulicEngraving_IsStopDown}" 
-                                                     Value="true" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Background"  Value="Green"/>
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                </Border>
+                                <Grid.Resources>
+                                    <Style TargetType="Border" x:Key="MachineSettingBorder">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                      Value="true" />
+                                                            <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Cylinder_HydraulicEngraving_IsStopDown}" 
+                      Value="true" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Background"  Value="Green"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                </Grid.Resources>
+
+                                <Border Style="{StaticResource MachineSettingBorder}"
+                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                                    Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                    Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=False} , ConverterParameter={x:Static Visibility.Hidden}}"
+                                    Width="47.5" HorizontalAlignment="Right" Margin="0,0,475,0" />
+
+                                <Border  Style="{StaticResource MachineSettingBorder}"
+                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                                    Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                    Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=True} , ConverterParameter={x:Static Visibility.Hidden}}"
+                                    Width="47.5" HorizontalAlignment="Right" Margin="0,0,428,0" />
+
+
                                 <Border  Margin="0,0,5,0" Width="48"  HorizontalAlignment="Right" >
                                     <Border.Style>
                                         <Style TargetType="Border" >
@@ -789,8 +801,8 @@
                                         </StackPanel>
 
                                         <Button Grid.Row="1"  HorizontalAlignment="Right" Margin="10,5" Padding="5,3,5,0"
-                                    Content="{DynamicResource btnExit}"
-                        Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  />
+                                                Content="{DynamicResource btnExit}"
+                                                Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  />
                                     </Grid>
 
 
@@ -890,15 +902,44 @@ Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
                             </Viewbox>
                         <Viewbox Grid.Column="1"   MaxHeight="150">
-                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="11"  Margin="5,0" 
+                            <Grid>
+                                
+                                
+                                
+                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl             
+                                    OutLineBorderBrush="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"
+                                    OutLineBackground="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"
+                                    PlateDiagramIndex="11"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-Path=MachineSettingBaseCollection[10]}" ProjectName="{Binding ProductProjectName}" >
-
-                                <GD_SchematicDiagram:QRPlateRowDiagramControl
+                                Path=MachineSettingBaseCollection[10]}" ProjectName="{Binding ProductProjectName}"  
+                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                                Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=False} , ConverterParameter={x:Static Visibility.Hidden}}"
+                                >
+                                    <GD_SchematicDiagram:QRPlateRowDiagramControl
                                         PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
-                            </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
-                            </Viewbox>
+                                </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+                                
+                                
+                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl     
+                                    OutLineBorderBrush="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"
+                                    OutLineBackground="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"
+                                PlateDiagramIndex="10"  Margin="5,0" 
+                            Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                                Path=MachineSettingBaseCollection[9]}" ProjectName="{Binding ProductProjectName}" 
+                                Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                                Path=MachineSettingBaseCollection[9].EngravingIsFinish,
+                                Converter={GD_CommonControl:BooleanToVisibilityConverter Invert=True} , ConverterParameter={x:Static Visibility.Hidden}}"
+                                >
+                                    <GD_SchematicDiagram:QRPlateRowDiagramControl
+                                        PlateRowBackground="#b4b4b4"
+                                DataContext="{Binding SettingBaseVM}"/>
+                                </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
+
+
+                            </Grid>
+                        </Viewbox>
 
                         <Viewbox Grid.Column="2"  MaxHeight="150">
                                 <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="1" Margin="5,0" 

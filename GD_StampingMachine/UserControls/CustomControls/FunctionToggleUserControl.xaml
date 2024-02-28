@@ -50,18 +50,7 @@
                                     <StackPanel Margin="{TemplateBinding Padding}"
                                         MinWidth="65" 
                                         Orientation="{Binding Orientation , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}">
-                                        <Grid >
-                                            <Border >
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Style.Triggers>
-                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                <Setter Property="Opacity" Value="0.3"/>
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                                <Grid Margin="5">
+                                        <Grid Margin="5">
 
                                                     <Image 
                                                     d:Width="40" d:Height="40" 
@@ -79,7 +68,6 @@
 
                                                     </Grid>
                                                 </Grid>
-                                            </Border>
                                             <ProgressBar 
                                             Opacity="0.95" Minimum="0" Maximum="100" 
                                                              Style="{StaticResource MaterialDesignCircularProgressBar}"
@@ -101,8 +89,7 @@
                                                 </ProgressBar.Foreground>
 
                                             </ProgressBar>
-                                        </Grid>
-                                        <Grid Grid.Row="1" >
+                                            <Grid Grid.Row="1" >
                                             <TextBlock   MaxWidth="80"  Padding="0" d:Foreground="White"
                                                          Margin="{Binding TextMargin , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
                                                          FontFamily="{Binding FontFamily , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"
@@ -136,17 +123,17 @@
                                     </MultiTrigger>
 
                                     <Trigger Property="IsEnabled" Value="False">
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="0.3"/>
+                                        <Setter Property="Opacity" Value="0.3"/>
                                     </Trigger>
 
                                     <Trigger  Property="IsMouseOver" Value="True">
                                         <Setter TargetName="MainBorder" Property="Background" Value="{Binding Path=MouseIsOverBackground , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FunctionToggleUserControl}}"/>
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
+                                        <Setter Property="Opacity" Value="1"/>
                                     </Trigger>
 
                                     <Trigger Property="IsPressed" Value="True">
                                         <Setter TargetName="MainBorder" Property="Background" Value="OrangeRed"/>
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
+                                        <Setter Property="Opacity" Value="1"/>
                                     </Trigger>
 
 
@@ -157,8 +144,8 @@
                                             <Condition Property="IsPressed" Value="False" />
                                         </MultiTrigger.Conditions>
                                         <Setter TargetName="MainBorder" Property="BorderThickness" Value="0" />
-                                        <Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
                                         <Setter TargetName="MainBorder" Property="Background" Value="DarkGray"/>
+                                        <Setter Property="Opacity" Value="1"/>
                                     </MultiTrigger>
 
                                     <EventTrigger RoutedEvent="DragOver">

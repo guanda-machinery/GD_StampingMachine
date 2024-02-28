@@ -112,7 +112,7 @@
                                     <Setter Property="Background" Value="DodgerBlue"/>
                                 </Trigger>
                                 <DataTrigger Binding="{Binding Row.ProductProjectIsFinish}" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
                                 </DataTrigger>
                                 
                                 <MultiDataTrigger>

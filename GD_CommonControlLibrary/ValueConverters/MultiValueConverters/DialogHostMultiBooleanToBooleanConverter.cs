@@ -24,11 +24,11 @@ namespace GD_CommonControlLibrary
             if (value is bool ConvertBoolean)
             {
                 var FalseList = new List<object>();
-                for (int i = 0; i < targetTypes.Count(); i++)
+                for (int i = 0; i < targetTypes.Length; i++)
                 {
                     FalseList.Add(ConvertBoolean);
                 }
-                return FalseList.ToArray();
+                return [.. FalseList];
             }
 
             throw new NotImplementedException();
