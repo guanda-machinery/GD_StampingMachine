@@ -463,11 +463,11 @@ namespace GD_StampingMachine.ViewModels
                                                 }
 
                                             }
-                                            catch (OperationCanceledException cex)
+                                            catch (OperationCanceledException)
                                             {
                                                 Debugger.Break();
                                             }
-                                            catch (Exception ex)
+                                            catch (Exception)
                                             {
 
                                             }
@@ -530,7 +530,7 @@ namespace GD_StampingMachine.ViewModels
                                                         }
                                                         catch(Exception ex)
                                                         {
-                                                        
+                                                        Console.WriteLine(ex.ToString());
                                                         }
 
                                                     }
@@ -551,18 +551,19 @@ namespace GD_StampingMachine.ViewModels
                                     }
                                 }
                             }
-                            catch(OperationCanceledException cex)
+                            catch(OperationCanceledException)
                             {
 
                             }
                             catch(Exception ex)
                             {
+                                Console.WriteLine(ex.ToString());
 
                             }
                             await Task.Delay(100);
                         }
                     }
-                    catch (OperationCanceledException cex)
+                    catch (OperationCanceledException)
                     {
                         tcs.SetResult(false);
                     }

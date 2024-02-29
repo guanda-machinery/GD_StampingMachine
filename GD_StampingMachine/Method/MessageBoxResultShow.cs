@@ -78,7 +78,7 @@ namespace GD_CommonLibrary.Method
         }
         public async Task CloseMessageBoxAsync()
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
             {
                 try
                 {

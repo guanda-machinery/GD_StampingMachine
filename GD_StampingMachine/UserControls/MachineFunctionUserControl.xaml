@@ -450,7 +450,7 @@
 
                                 <dxg:GridControl.View >
                                     <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      
                                                         IsColumnMenuEnabled ="False"
                                                                     
                                         PageSize="{c:Binding  Path=ActualHeight/40 ,ElementName=WorkGridControl}"
@@ -1030,9 +1030,8 @@
                         
                     <ComboBox  Grid.Row="0" DisplayMemberPath="StampingTypeString"  Width="150" Margin="0,5" 
                 Style="{StaticResource GD_ComboBox}" 
-                               SelectedValue="{Binding Path=StampingFontChangedVM.StampingTypeModel_ReadyStamping}"
+                               SelectedValue="{Binding Path=StampingFontChangedVM.StampingTypeModel_ReadyStamping}" 
                                ItemsSource="{Binding Path=StampingFontChangedVM.StampingTypeVMObservableCollection}"    
- 
                                />
                      
                         <StackPanel Grid.Row="1" Orientation="Horizontal" >

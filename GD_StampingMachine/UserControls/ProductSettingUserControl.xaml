@@ -807,14 +807,7 @@
                                                       Height="auto" Padding="20,2,20,0"  Margin="10,0"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                                       Content="{DynamicResource btnImport}" />
-                            <Button  Name="ExportParameterToggleButton" Visibility="Collapsed"
-                                          Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
-                                          CommandParameter="{StaticResource TrueValue}"
-                                           CommandTarget="{Binding ElementName=ExportParameterDarggablePopup}"
-                                                  Width="auto"
-                                                      Height="auto"  Padding="20,5" Margin="10,0"
-                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                      Content="{DynamicResource btnExport}" />
+                            
                         </StackPanel>
 
 
@@ -1458,125 +1451,7 @@
                             </Border>
                         </GD_Popup:DraggablePopup>
 
-                        <GD_Popup:DraggablePopup
-                                   PlacementRectangle="-265,50,0,0"
-                                  PlacementTarget="{Binding ElementName=ExportParameterToggleButton}" Placement="Relative"
-                                AllowsTransparency="True" Margin="16" x:Name="ExportParameterDarggablePopup" IsOpen="{Binding ExportParameterDarggableIsPopup}">
-                            <Border
-                                                CornerRadius="10"
-                                               Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-
-
-                                <Grid MinWidth="100" MinHeight="100" Margin="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{DynamicResource Text_CreateOrEditProject}" Grid.ColumnSpan="3" Margin="0,5" FontWeight="Bold"/>
-
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="※" Margin="2,0" VerticalAlignment="Center" Foreground="Red"/>
-
-                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{DynamicResource Text_SavePath}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{DynamicResource Text_ProjectName}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{DynamicResource Text_ConstructionNumber}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{DynamicResource Text_MachiningForm}"/>
-
-                                    <TextBlock Grid.Column="2" Grid.Row="1" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="2" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="3" Text="："/>
-                                    <TextBlock Grid.Column="2" Grid.Row="4" Text="："/>
-
-                                    <Grid Grid.Column="3" Grid.Row="1"  Width="200" >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Margin="0" Text="{Binding ProjectPathText, UpdateSourceTrigger=PropertyChanged}">
-                                        </TextBox>
-                                        <Button Grid.Column="1" Command="{Binding SetProjectFolder}" Margin="0" Width="30" Height="25" MinWidth="0" Padding="0">
-                                            <Button.Style>
-                                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SiegCustomButton}" >
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Content">
-                                                        <Setter.Value>
-                                                            <materialDesign:PackIcon Kind="Folder" Width="20" Height="20"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Content">
-                                                                <Setter.Value>
-                                                                    <materialDesign:PackIcon Kind="FolderOpen" Width="20" Height="20"/>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="Content">
-                                                                <Setter.Value>
-                                                                    <materialDesign:PackIcon Kind="FolderArrowUp"  Width="20" Height="20"/>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </Grid>
-                                    <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding CreatedProjectModel.Name,UpdateSourceTrigger=PropertyChanged}">
-
-                                    </TextBox>
-                                    <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding CreatedProjectModel.Number,UpdateSourceTrigger=PropertyChanged}">
-
-                                    </TextBox>
-                                    <ComboBox Grid.Column="3" Grid.Row="4" Width="auto"  Style="{StaticResource GD_WhiteComboBox}" Margin="0"
-                                              ItemsSource="{Binding SheetStampingTypeEnumCollection}"
-                                              SelectedValue="{Binding CreatedProjectModel.SheetStampingTypeForm}">
-
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Converter={ GD_CommonControl:EnumGetNameConverter}}"></TextBlock>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                    <StackPanel  Grid.Row="5" Orientation="Horizontal" Grid.ColumnSpan="4" HorizontalAlignment="Right" Margin="0,5">
-                                        <Button   
-                                                                    Content="{DynamicResource btnCancel}"
-                                                
-                                          Command="{x:Static GD_Popup:DraggablePopup.ClosePopupCommand}"  
-                                          CommandParameter="{StaticResource FalseValue}"
-                                                
-                                                
-                                                >
-                                        </Button>
-                                        <Button Content="{DynamicResource btnCreate}" Command="{Binding CreateProjectCommand}">
-                                            <Button.IsEnabled>
-                                                <MultiBinding Converter="{GD_CommonControl:MultiValueNotContainNullToBooleanConverter}">
-                                                    <Binding Path="ProjectPathText"/>
-                                                    <Binding Path="CreatedProjectModel.Name"/>
-                                                    <Binding Path="CreatedProjectModel.Number"/>
-                                                </MultiBinding>
-                                            </Button.IsEnabled>
-                                        </Button>
-                                    </StackPanel>
-
-
-
-                                </Grid>
-                            </Border>
-                        </GD_Popup:DraggablePopup>
+                        
                     </StackPanel>
                 </Grid>
             </Grid>

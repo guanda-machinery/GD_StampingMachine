@@ -762,6 +762,7 @@ namespace GD_StampingMachine.ViewModels
                 }
                 catch(Exception ex)
                 {
+                    Console.WriteLine(ex.ToString());
                     Debugger.Break();
                 }
             });

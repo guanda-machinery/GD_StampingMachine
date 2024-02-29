@@ -17,6 +17,11 @@ namespace GD_StampingMachine.ViewModels
                 return false;
         }
 
+        public override int GetHashCode()
+        {
+           return base.GetHashCode();
+        }
+
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingTypeViewModel");
 
 
@@ -92,10 +97,6 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
-
-
-
-
 
 
     }

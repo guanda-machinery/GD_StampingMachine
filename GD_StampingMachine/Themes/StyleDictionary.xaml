@@ -296,7 +296,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
                     <Grid>
-                        <Border 
+                        <Border Name="PART_Border"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             Background="{TemplateBinding Background}"        
                             CornerRadius="5"
@@ -325,10 +325,10 @@
                             Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ButtonProgressAssist.Value)}">
                             <ProgressBar.Clip>
                                 <MultiBinding Converter="{StaticResource BorderClipConverter}">
-                                    <Binding ElementName="border" Path="ActualWidth" />
-                                    <Binding ElementName="border" Path="ActualHeight" />
-                                    <Binding ElementName="border" Path="CornerRadius" />
-                                    <Binding ElementName="border" Path="BorderThickness" />
+                                    <Binding ElementName="PART_Border" Path="ActualWidth" />
+                                    <Binding ElementName="PART_Border" Path="ActualHeight" />
+                                    <Binding ElementName="PART_Border" Path="CornerRadius" />
+                                    <Binding ElementName="PART_Border" Path="BorderThickness" />
                                 </MultiBinding>
                             </ProgressBar.Clip>
                         </ProgressBar>

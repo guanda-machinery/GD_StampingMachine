@@ -160,8 +160,7 @@
                     <dxg:GridControl.View >
                         <dxg:TableView     
                                 RowDoubleClickCommand="{Binding RowDoubleClickCommand}"          
-                                                            SearchString="{Binding ElementName=SearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                            IsColumnMenuEnabled ="False"
+                                                             IsColumnMenuEnabled ="False"
                                                             AllowMergedGrouping="True"
                                                             AllowMoveColumnToDropArea="False"
                                                             AllowColumnFiltering="False"
@@ -329,7 +328,6 @@
                                                 MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView 
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         RowDoubleClickCommand="{Binding NotReadyRowDoubleClickCommand}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
@@ -472,7 +470,6 @@
 
                                 <dxg:GridControl.View >
                                     <dxg:TableView  
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"
@@ -577,8 +574,7 @@
                             <dxg:GridControl.View >
                                 <!--RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"-->
                                 <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                        IsColumnMenuEnabled ="False"
+                                                       IsColumnMenuEnabled ="False"
                                                         AllowSorting="True"
                                                         AllowMoveColumnToDropArea="False"
                                                         AllowColumnFiltering="False"
@@ -805,7 +801,6 @@
 
                                 <dxg:GridControl.View >
                                     <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                 AllowPaging="True"
                                                         AllowSorting="false"

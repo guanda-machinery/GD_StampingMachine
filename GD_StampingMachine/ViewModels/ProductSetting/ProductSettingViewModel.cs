@@ -174,10 +174,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+
+        
+        private DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs> _rowDoubleClickCommand;
         [JsonIgnore]
         public ICommand RowDoubleClickCommand
         {
-            get => new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
+            get => _rowDoubleClickCommand ??= new DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>((DevExpress.Mvvm.Xpf.RowClickArgs args) =>
             {
                 _ = Task.Run(() =>
                 {
@@ -188,6 +191,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         SelectProductProjectVM.IsInParameterPage = true;
                     }
                 });
+            },args =>
+            {
+                if (args.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel ProjectItem)
+                {
+                    return !ProjectItem.FileIsNotExisted;
+                }
+                return false;
             });
         }
 

@@ -11,7 +11,7 @@
              xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 
              d:DataContext="{d:DesignInstance Type= GD_ParameterSettingViewModels:SettingBaseViewModel}"                  
-             x:Name="MainDiagramBaseUserControl"  Cursor="Arrow"  >
+             Cursor="Arrow"  >
     <Viewbox >
         <Grid Width="90" Height="35">
                 <Grid.Resources>
@@ -28,7 +28,7 @@
 
                 </Grid.Resources>
                 <Border 
-            Background="{Binding ElementName=MainDiagramBaseUserControl ,Path=PlateRowBackground}" CornerRadius="2" 
+            Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QRPlateRowDiagramControl},Path=PlateRowBackground}" CornerRadius="2" 
                                                          HorizontalAlignment="Stretch" />
                 <Canvas  >
                     <Border Canvas.Top="8" Canvas.Left="3"
@@ -80,7 +80,7 @@
                                                                         </Border>
                                                                         <ControlTemplate.Triggers>
                                                                             <Trigger Property="IsChecked" Value="True">
-                                                                                <Setter Property="Background" Value="{Binding ElementName=MainDiagramBaseUserControl ,Path=FontStampBackground}"/>
+                                                                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QRPlateRowDiagramControl},Path=FontStampBackground}"/>
                                                                             </Trigger>
                                                                             <Trigger Property="IsMouseOver" Value="True">
                                                                                 <Setter Property="Background" Value="Orange"/>

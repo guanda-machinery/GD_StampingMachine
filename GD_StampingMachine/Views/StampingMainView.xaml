@@ -235,23 +235,22 @@
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition Width="300"/>
                                         </Grid.ColumnDefinitions>
-                                        <GroupBox Grid.Column="0" Header="{DynamicResource Text_SteelPunchedFont}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                                            <ListBox Margin="5,0" 
+                                                <GroupBox Grid.Column="0"
+                                                          Header="{DynamicResource Text_SteelPunchedFont}" 
+                                                          Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                                                    <ListBox Margin="5,0" 
                          ItemsSource="{Binding StampingFontChangedVM.StampingTypeVMObservableCollection}"      
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel Margin="0,0"/>
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                            </ListBox>
-                                        </GroupBox>
-
-
-
+                                                        <ListBox.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <WrapPanel Margin="0,0"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ListBox.ItemsPanel>
+                                                    </ListBox>
+                                                </GroupBox>
                                                 <Grid  Grid.Column="1">
-                                                <StackPanel 
+                                                    <StackPanel 
                                       HorizontalAlignment="Center" VerticalAlignment="Center" >
                                                         <Button Margin="0,10"  Width="45" Height="45"
                                                     Command="{Binding StampingFontChangedVM.StampingFontCollectionData_MachineToSoftware_Command}">
@@ -275,12 +274,11 @@
                                                         </Button>
                                                     </StackPanel>
                                                 </Grid>
-
-                                                <GroupBox  
-                                            Grid.Column="2" Header="{DynamicResource Text_SteelPunchedFont_Machine}" Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                                            <ListBox Visibility="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection.Count,
+                                                <GroupBox Grid.Column="2" 
+                                                          Header="{DynamicResource Text_SteelPunchedFont_Machine}" 
+                                                    Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
+                                            <ListBox Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Items.Count,
                                                 Converter={GD_CommonControl:ItemSourceCountIsZeroToVisibility Invert=True}}"
-                                                Margin="10,0"  
                          ItemsSource="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection}"          
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
@@ -405,7 +403,7 @@
 
 
                                 <ToggleButton  Margin="4,0" 
-                            Command="{Binding JumpToEngineeringModeCommand}" ToolTip="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=ClientState}"
+                            Command="{Binding JumpToEngineeringModeCommand}" 
                             MinWidth="0" MinHeight="0" Width="30" Height="30" Style="{StaticResource SiegCustomButton_Transparent}" Padding="0" BorderThickness="0" >
                             
                         <Image Width="26" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" >
@@ -773,8 +771,8 @@
 
                                         <ToggleButton IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Key_EditMode}" Content="Edit"/>
                                         <ToggleButton IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Key_MachiningMode}"  Content="Machining"/>
-                                        
-                                    <ToggleButton IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=Light}"  Content="Machining"/>
+
+                                        <ToggleButton IsChecked="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=LightOn}"  Content="Machining"/>
 
 
 
@@ -1158,9 +1156,7 @@ RadiusX="0.5" RadiusY="0.5">
 
 
                                         <materialDesign:PopupBox  Padding="50"
-                                                                  
                                                 Style="{StaticResource GD_PopUpBox}"
-                                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                                                               PopupMode="Click"
                                                               StaysOpen ="True"  MinHeight="1"
                                                                   ToggleContent="45678912312312" Foreground="Red"
@@ -1284,14 +1280,14 @@ RadiusX="0.5" RadiusY="0.5">
                          Header="{DynamicResource TabItem_MachiningStatus}" >
                                         </TabItem>
                                     </TabControl>
-                                        <materialDesign:ColorPicker Color="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=NoneIsFinishSolidColor}">
+                                        <materialDesign:ColorPicker >
                                             
                                         </materialDesign:ColorPicker>
                                     
                                     
                                     
                                 </StackPanel>
-                                    <GD_UserControls:MachineFunctionTestUserControl Grid.Column="1" DataContext="{Binding MachineFunctionTestVM}"/>
+                                    <GD_UserControls:MachineFunctionTestUserControl Grid.Column="1" />
 
                                 </Grid>
                                 </TabItem>
@@ -1814,7 +1810,7 @@ dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="False">
                                     </GD_UserControls:FunctionToggleUserControl.Style>
 
                                 </GD_UserControls:FunctionToggleUserControl>
-                                <GD_UserControls:FunctionToggleUserControl IsChecked="{Binding ParameterSettingVM}"
+                                <GD_UserControls:FunctionToggleUserControl 
                                      x:Name="TBtn_Alarm">
                                     <GD_UserControls:FunctionToggleUserControl.Style>
                                         <Style TargetType="GD_UserControls:FunctionToggleUserControl" BasedOn="{StaticResource FunctionToggleUserControl_Bottom}">

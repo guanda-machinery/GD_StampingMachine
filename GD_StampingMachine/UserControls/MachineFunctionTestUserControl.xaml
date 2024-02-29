@@ -39,7 +39,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              
-             d:DataContext="{d:DesignInstance Type=GD_ViewModels:MachineFunctionTestViewModel}"
              
              
              >
@@ -335,14 +334,7 @@
                     </StackPanel.Resources>
 
 
-                    <Button  Command="{Binding SendMachineCommand}"   Content="新建空鐵片"/>
 
-                    <Button IsEnabled="{Binding ElementName=NumberSettingComboBox , Path=SelectedValue, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
-                                            Command="{Binding SendMachineCommand}"
-                                            CommandParameter="{Binding ElementName=NumberSettingComboBox , Path=SelectedValue}" Content="新建一般加工"></Button>
-                    <Button   IsEnabled="{Binding ElementName=QRSettingComboBox , Path=SelectedValue, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
-                                            Command="{Binding SendMachineCommand}" 
-                                            CommandParameter="{Binding ElementName=QRSettingComboBox , Path=SelectedValue}" Content="新建QR加工"/>
 
                     <TextBox 
                                         Text="{Binding StampingProductMargin, UpdateSourceTrigger=PropertyChanged}"
@@ -433,15 +425,7 @@
                     </ComboBox>
 
                 </StackPanel>
-                <StackPanel Grid.Column="2"  HorizontalAlignment="Center">
-                    <Button Content="重新排序" Command="{Binding SoftSendMachineCommand}"/>
-                    <Button Content="產生加工序列" Command="{Binding GenerateProcessingSequenceCommand}"/>
-                    <Button Content="自動加工" Command="{Binding AutoWorkCommand}"
-                                                IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
-                    <Button Content="復原" Command="{Binding Recover}"
-                                                 IsEnabled="{Binding IsWorking , Converter={dx:BoolInverseConverter}}"/>
 
-                </StackPanel>
 
 
 
@@ -511,7 +495,6 @@
                                                                                         HorizontalAlignment="Center" Background="{Binding SteelBeltStampingStatus, Converter={GD_StampingMachine:EnumToBrushesConverter}}"
                                                                                         >
                                                                         <Grid Opacity="1"  
-                                                                                     d:DataContext="{d:DesignInstance Type=GD_ViewModels:SendMachineCommandViewModel}"
                                                                                       Visibility="{Binding AbsoluteMoveDistance, Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter Invert=True},
                                                                                     ConverterParameter={x:Static sys:Double.PositiveInfinity}}">
                                                                             <Grid.LayoutTransform>

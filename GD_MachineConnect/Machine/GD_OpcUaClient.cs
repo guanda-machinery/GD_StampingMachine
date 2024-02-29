@@ -171,12 +171,12 @@ namespace GD_MachineConnect.Machine
 
         private bool disposedValue;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        public override async Task<bool> ConnectAsync(string hostPath, string user = null, string password = null)
+        public override async Task<bool> ConnectAsync(string hostPath, string user = "", string password = "")
         {
             IUserIdentity userIdentity = null;
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
                 userIdentity = new Opc.Ua.UserIdentity(user, password);
-
+        
             if (IsConnected)
                 await DisconnectAsync();
 
@@ -240,7 +240,7 @@ namespace GD_MachineConnect.Machine
             {
                 m_session.OperationTimeout = 1000;
                 m_session.Close(10000);
-                m_session = null;
+                m_session =null;
             }
             IsConnected = false;
         }
@@ -378,7 +378,7 @@ namespace GD_MachineConnect.Machine
             }
 
             TaskCompletionSource<IEnumerable<object>> taskCompletionSource = new TaskCompletionSource<IEnumerable<object>>();
-            m_session.BeginRead(null, 0.0, TimestampsToReturn.Neither, readValueIdCollection, delegate (IAsyncResult ar)
+            m_session?.BeginRead(null, 0.0, TimestampsToReturn.Neither, readValueIdCollection, delegate (IAsyncResult ar)
             {
                 DataValueCollection results;
                 DiagnosticInfoCollection diagnosticInfos;

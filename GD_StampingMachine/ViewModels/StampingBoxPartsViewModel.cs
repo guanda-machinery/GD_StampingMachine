@@ -67,7 +67,8 @@ namespace GD_StampingMachine.ViewModels
                     }
                     catch(Exception ex)
                     {
-                     //   Debugger.Break();
+                        Console.WriteLine(ex.ToString());
+                        //   Debugger.Break();
                     }
                     await Task.Delay(100);
                 }

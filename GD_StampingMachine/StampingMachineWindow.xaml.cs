@@ -2,6 +2,7 @@
 using GD_CommonLibrary.Method;
 using GD_StampingMachine.ViewModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -123,6 +124,7 @@ namespace GD_StampingMachine
         {
             get => _closingCommand ??= new AsyncRelayCommand<System.ComponentModel.CancelEventArgs>(async e =>
             {
+                await Task.CompletedTask;
 
             });
         }

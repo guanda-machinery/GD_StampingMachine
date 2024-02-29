@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 
 namespace GD_StampingMachine.Singletons
@@ -1305,6 +1306,21 @@ namespace GD_StampingMachine.Singletons
                                                     OnPropertyChanged(nameof(AlarmMessageCollection));
                                                 }
                                             });
+
+                                     /*   await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm,
+(sender, e) =>
+{
+if (Key_EditMode = e.NewValue)
+{
+OnPropertyChanged(nameof(AlarmMessageCollection));
+}
+});
+
+                                        Key_MachiningMode
+        LightOn*/
+
+
+
 
 
                                         break;
@@ -3697,15 +3713,18 @@ namespace GD_StampingMachine.Singletons
 
 
 
-
-        private bool  _key_EditMode = true ,_key_MachiningMode = true , _lightOn_EditMode = false;
+        private bool  _key_EditMode = true ,_key_MachiningMode = true , _lightOn = false;
         /// <summary>
         /// 照明開關
         /// </summary>
-        public bool LightOn_EditMode
+        public bool LightOn
         {
-            get => _lightOn_EditMode;
-            set { _lightOn_EditMode = value; OnPropertyChanged(); }
+            get => _lightOn;
+            set
+            {
+                _lightOn = value;
+                OnPropertyChanged();
+            }
         }
         /// <summary>
         /// 鑰匙-編輯模式
@@ -3723,9 +3742,6 @@ namespace GD_StampingMachine.Singletons
             get => _key_MachiningMode;
             set { _key_MachiningMode = value; OnPropertyChanged(); }
         }
-
-
-
 
 
 

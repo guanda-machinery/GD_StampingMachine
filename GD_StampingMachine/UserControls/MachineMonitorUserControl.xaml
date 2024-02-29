@@ -31,56 +31,9 @@
              xmlns:MachineMonitorViewModel="clr-namespace:GD_StampingMachine.ViewModels.MachineMonitor"
              Name="MachineMonitorUC"
              >
-    
-
-        <Grid>
-        <Grid.Resources>
-            <Style TargetType= "{x:Type GD_SchematicDiagram:QRPlateRowDiagramControl}" >
-                <Setter Property="PlateRowBackground" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
-                <Setter Property="IsEnabled" Value="False"/>
-                <Setter Property="Visibility" Value="Visible"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding DataContext.DataMatrixIsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding DataContext.DataMatrixIsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
 
 
-                    <DataTrigger Binding="{Binding DataContext.EngravingIsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding DataContext.EngravingIsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
-
-
-
-                    <DataTrigger Binding="{Binding DataContext.ShearingIsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding DataContext.ShearingIsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
-
-                    <DataTrigger Binding="{Binding DataContext.IsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding DataContext.IsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
-                        <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
-                    </DataTrigger>
-
-
-
-                </Style.Triggers>
-            </Style>
-
-
-
-
-
-        </Grid.Resources>
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" MinHeight="50" MaxHeight="{Binding ElementName=PrimaryColorZone, Path=ActualHeight}"/>
             <RowDefinition Height="*"/>
@@ -254,6 +207,24 @@
                                 <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid  Margin="5,5" >
+                                            <Grid.Resources>
+                                                <Style TargetType= "{x:Type GD_SchematicDiagram:QRPlateRowDiagramControl}" >
+                                                    <Setter Property="PlateRowBackground" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DataContext.DataMatrixIsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
+                                                            <Setter Property="PlateRowBackground" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding DataContext.EngravingIsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
+                                                            <Setter Property="PlateRowBackground" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding DataContext.ShearingIsFinish, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="true">
+                                                            <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Resources>                                      
                                         <Border VerticalAlignment="Center" FlowDirection="LeftToRight"
                                             BorderThickness="1" BorderBrush="Black" CornerRadius="2" Padding="0" 
                                             HorizontalAlignment="Center">
@@ -366,7 +337,6 @@
                                >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"
@@ -603,8 +573,7 @@
                                      >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView  
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                        IsColumnMenuEnabled ="False"
+                                                            IsColumnMenuEnabled ="False"
                                                         AllowSorting="False"
                                                         AllowColumnFiltering="False"
                                                         AllowColumnMoving="False"
@@ -894,8 +863,11 @@
                         </Grid.ColumnDefinitions>
                             <Viewbox Grid.Column="0"  MaxHeight="150">
                                 <GD_StampingMachine_UserControls:PlateDiagramCustomControl PlateDiagramIndex="24"  Margin="5,0"
-                            Grid.Column="0" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
-Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName}" >
+                            Grid.Column="0" 
+                                                   StampingProcess="DataMatrix"                                        
+                                    IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"                                       
+                                    DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
+                                    Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName}" >
 
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"  
                                 DataContext="{Binding SettingBaseVM}"/>
@@ -903,12 +875,9 @@ Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName
                             </Viewbox>
                         <Viewbox Grid.Column="1"   MaxHeight="150">
                             <Grid>
-                                
-                                
-                                
                                 <GD_StampingMachine_UserControls:PlateDiagramCustomControl             
-                                    OutLineBorderBrush="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"
-                                    OutLineBackground="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"
+                                    StampingProcess="Engraving"
+                                    IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"       
                                     PlateDiagramIndex="11"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
                                 Path=MachineSettingBaseCollection[10]}" ProjectName="{Binding ProductProjectName}"  
@@ -920,11 +889,9 @@ Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName
                                         PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
-                                
-                                
                                 <GD_StampingMachine_UserControls:PlateDiagramCustomControl     
-                                    OutLineBorderBrush="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"
-                                    OutLineBackground="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"
+                                   StampingProcess="Engraving"
+                                    IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"       
                                 PlateDiagramIndex="10"  Margin="5,0" 
                             Grid.Column="1" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
                                 Path=MachineSettingBaseCollection[9]}" ProjectName="{Binding ProductProjectName}" 
@@ -936,13 +903,14 @@ Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName
                                         PlateRowBackground="#b4b4b4"
                                 DataContext="{Binding SettingBaseVM}"/>
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
-
-
                             </Grid>
                         </Viewbox>
 
                         <Viewbox Grid.Column="2"  MaxHeight="150">
-                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl  PlateDiagramIndex="1" Margin="5,0" 
+                                <GD_StampingMachine_UserControls:PlateDiagramCustomControl 
+                                    StampingProcess="Shearing"
+                                    IsBrightMode="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}"       
+                                    PlateDiagramIndex="1" Margin="5,0" 
                             Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}" >
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4" Width="auto" Height="auto"
@@ -968,9 +936,8 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                     
                     
                     <dxg:GridControl.View >
-                        <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                        IsColumnMenuEnabled ="False"
+                        <dxg:TableView 
+                            IsColumnMenuEnabled ="False"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"
                                                         AllowColumnMoving="False"
@@ -1066,20 +1033,6 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                                     </TransformGroup>
                                                 </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                            <!--
-                                <Grid  RenderTransformOrigin="0.5,0.5">
-                                    <Grid.LayoutTransform>
-                                        <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
-                                    </Grid.LayoutTransform>
-                                    <GD_SchematicDiagram:PlateRowDiagramViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                           Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>
-                                    <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl
-                            DataContext="{Binding Row.SettingBaseVM}" 
-                                Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                            RedMeasurementLineVisibility="Collapsed"/>
-                                </Grid>-->
                                         </ToggleButton>
 
                                     </Grid>
@@ -1122,13 +1075,9 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                                     <DataTrigger Binding="{Binding Row.IsFinish}" Value="true">
                                                         <Setter Property="Background" Value="ForestGreen"/>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Row.is}" Value="true">
-                                                        <Setter Property="Background" Value="ForestGreen"/>
-                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-
                                     </Border>
                                 </DataTemplate>
                             </dxg:GridColumn.CellTemplate>
@@ -1207,7 +1156,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
 
                     <dxg:GridControl.View >
                         <dxg:TableView   
-                                                        SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      
                                                         IsColumnMenuEnabled ="False"
                                 AllowPaging="True"
                                                         AllowSorting="false"
@@ -1278,7 +1227,28 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                         </dxg:GridColumn.EditSettings>
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid DataContext="{Binding Row}">
+                                    <Grid.Resources>
+                                        <Style TargetType= "{x:Type GD_SchematicDiagram:QRPlateRowDiagramControl}" >
+                                            <Setter Property="PlateRowBackground" Value="{DynamicResource NoneIsFinishSolidColorBrush}"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.DataMatrixIsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
+                                                    <Setter Property="PlateRowBackground" Value="{DynamicResource DataMatrixIsFinishSolidColorBrush}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding DataContext.EngravingIsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
+                                                    <Setter Property="PlateRowBackground" Value="{DynamicResource ShearingIsFinishSolidColorBrush}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding DataContext.ShearingIsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
+                                                    <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding DataContext.IsFinish, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" Value="true">
+                                                    <Setter Property="PlateRowBackground" Value="{DynamicResource EngravingIsFinishSolidColorBrush}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Resources>
                                     <ToggleButton Padding="0" Margin="1" x:Name="MachiningFormTButton">
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton" BasedOn="{StaticResource GD_MainToggleButton}">
@@ -1305,16 +1275,10 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                                 </Style.Triggers>
                                             </Style>
                                         </ToggleButton.Style>
-                                        <Grid DataContext="{Binding Row}">
+                                        <Grid>
                                             <GD_SchematicDiagram:QRPlateRowDiagramControl    
                                                 IsEnabled="False"   DataContext="{Binding SettingBaseVM}"
                                                                      RedMeasurementLineVisibility="Collapsed" >
-
-                                                <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                                    </TransformGroup>
-                                                </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                         </Grid>
                                     </ToggleButton>
@@ -1326,10 +1290,9 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                                                         PlacementTarget="{Binding ElementName=MachiningFormTButton}"
                                                                         HorizontalAlignment="Center" 
                                                                         IsOpen="{Binding ElementName=MachiningFormTButton, Path=IsChecked, Mode=TwoWay}">
-
                                         <Grid>
                                             <GD_SchematicDiagram:QRPlateRowDiagramControl     
-                            DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
+                            DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                         </Grid>
                                     </GD_Popup:NonTopmostPopup>
