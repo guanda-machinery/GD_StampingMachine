@@ -29,11 +29,7 @@ namespace GD_StampingMachine
             var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName, out bool ret);
             if (!ret)
             {
-                Debugger.Break();
-                Application.Current.Dispatcher.Invoke(async () =>
-                {
-                    await    MessageBoxResultShow.ShowAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
-                });
+                MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
                 Environment.Exit(0);
             }
 
@@ -196,9 +192,10 @@ namespace GD_StampingMachine
                     }
 
                 });
+                semaphore.Wait();
                 //顯示彈窗
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message} , Source:{exception.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                semaphore.Wait();
+
             }
         }
 

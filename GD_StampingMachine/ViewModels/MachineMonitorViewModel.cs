@@ -94,7 +94,17 @@ namespace GD_StampingMachine.ViewModels
         private bool _showShearingIsFinish = true;
         private bool _showIsFinish = true;*/
 
-
+        bool _showIsTransported = false;
+        public bool ShowIsTransported
+        {
+            get => _showIsTransported;
+            set
+            {
+                _showIsTransported = value; 
+                OnPropertyChanged(); 
+                OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+            }
+        }
 
         /*public bool ShowIsSended
         {
@@ -115,14 +125,14 @@ namespace GD_StampingMachine.ViewModels
                 _showDataMatrixIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
             }
         }*/
-      /*  public bool ShowEngravingIsFinish
-        {
-            get => _showEngravingIsFinish;
-            set
-            {
-                _showEngravingIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
-            }
-        }*/
+        /*  public bool ShowEngravingIsFinish
+          {
+              get => _showEngravingIsFinish;
+              set
+              {
+                  _showEngravingIsFinish = value; OnPropertyChanged(); OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
+              }
+          }*/
         /*public bool ShowShearingIsFinish
         {
             get => _showShearingIsFinish;
@@ -1346,10 +1356,14 @@ namespace GD_StampingMachine.ViewModels
                         {
                             if (PParameter.DistributeName == SelectedProjectDistributeVM.ProjectDistributeName &&
                             PParameter.BoxIndex == SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex &&
-                            PParameter.WorkIndex >= 0 && !PParameter.IsTransported)
-                                args.Visible = true;
+                            PParameter.WorkIndex >= 0 &&(!PParameter.IsTransported || ShowIsTransported))
+                            {
+                                    args.Visible = true  ;
+                            }
                             else
+                            {
                                 args.Visible = false;
+                            }
                         }
                     }
                     catch(Exception ex)
@@ -1365,6 +1379,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _clearFinishItemCommand ??= new AsyncRelayCommand(async () =>
             {
+
                 var selectedBoxIndex = SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
                 string Outputstring = "";
                 var clearBoxConfirmNotify = (string)Application.Current.TryFindResource("Text_ClearBoxConfirm");
@@ -1375,12 +1390,15 @@ namespace GD_StampingMachine.ViewModels
                 var result =  await MessageBoxResultShow.ShowYesNoAsync(null , Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
                 if (result is MessageBoxResult.Yes)
                 {
+                    ShowIsTransported = false;
+
                     var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
                     foreach (var unTransPorted in unTransportedCollection)
                     {
                         unTransPorted.IsTransported = true;
                     }
                     RefreshBoxPartsParameterVMRowFilter();
+                    _ = SelectedProjectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
                 }
                 OnPropertyChanged(nameof(ArrangeWorkRowFilterCommand));
                 OnPropertyChanged(nameof(NotArrangeWorkRowFilterCommand));

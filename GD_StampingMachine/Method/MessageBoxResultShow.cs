@@ -109,7 +109,7 @@ namespace GD_CommonLibrary.Method
                     {
                         try
                         {
-                            Show(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow);
+                            MessageBoxReturn = Show(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow);
                             tcs.SetResult(MessageBoxReturn);
                         }
                         catch (Exception ex)

@@ -35,9 +35,9 @@
 
     <sys:String x:Key="btnProjectToBox">平均分配至盒子</sys:String>
     <sys:String x:Key="btnBoxToProject">全選項目到專案</sys:String>
-    
-    <sys:String x:Key="btnClearFinishItem">清除已完工項目</sys:String>
 
+    <sys:String x:Key="btnClearFinishItem">清除已完工項目</sys:String>
+    <sys:String x:Key="btnShowFinishItem">顯示已完工項目</sys:String>
 
 
 

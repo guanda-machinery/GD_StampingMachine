@@ -758,7 +758,7 @@ namespace GD_StampingMachine.Singletons
             {
                 try
                 {
-                    MachineSettingBaseCollection = new AsyncObservableCollection<PlateMonitorViewModel>()
+                    MachineSettingBaseCollection = new ObservableCollection<PlateMonitorViewModel>()
                         {
                             new PlateMonitorViewModel()
                             {
@@ -1458,7 +1458,7 @@ namespace GD_StampingMachine.Singletons
                                                     {
                                                         await Application.Current.Dispatcher.InvokeAsync(() =>
                                                         {
-                                                            MachineSettingBaseCollection = new AsyncObservableCollection<PlateMonitorViewModel>(plateMonitorVMCollection);
+                                                            MachineSettingBaseCollection = new ObservableCollection<PlateMonitorViewModel>(plateMonitorVMCollection);
                                                         });
                                                     }
                                                     else
@@ -2642,10 +2642,10 @@ namespace GD_StampingMachine.Singletons
 
 
         //private List<string> _alarmMessageList = new List<string>();
-        private AsyncObservableCollection<string> _alarmMessageCollection;
-        public AsyncObservableCollection<string> AlarmMessageCollection
+        private ObservableCollection<string> _alarmMessageCollection;
+        public ObservableCollection<string> AlarmMessageCollection
         {
-            get=>_alarmMessageCollection??= new AsyncObservableCollection<string>();
+            get=>_alarmMessageCollection??= new ObservableCollection<string>();
             set
             {
                 _alarmMessageCollection = value;
@@ -3213,13 +3213,13 @@ namespace GD_StampingMachine.Singletons
             get => _rotatingTurntableInfo ??= new ObservableCollection<StampingTypeViewModel>(); set { _rotatingTurntableInfo = value; OnPropertyChanged(); }
         }
 
-        private AsyncObservableCollection<PlateMonitorViewModel> _machineSettingBaseCollection;
+        private ObservableCollection<PlateMonitorViewModel> _machineSettingBaseCollection;
         /// <summary>
         /// 實際加工狀態[25]
         /// </summary>
-        public AsyncObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
+        public ObservableCollection<PlateMonitorViewModel> MachineSettingBaseCollection
         {
-            get=>  _machineSettingBaseCollection ??= new AsyncObservableCollection<PlateMonitorViewModel>(); 
+            get=>  _machineSettingBaseCollection ??= new ObservableCollection<PlateMonitorViewModel>(); 
             set
             {
                 _machineSettingBaseCollection = value;

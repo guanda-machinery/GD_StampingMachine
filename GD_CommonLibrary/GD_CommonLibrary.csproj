@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="Extensions\ObservableExtension.cs" />
+    <Compile Remove="Method\AsyncObservableCollection.cs" />
     <Compile Remove="Method\BaseSingletonAsync.cs" />
     <Compile Remove="Method\GD_CsvHelperMethod.cs" />
     <Compile Remove="Method\RelayCommand.cs" />

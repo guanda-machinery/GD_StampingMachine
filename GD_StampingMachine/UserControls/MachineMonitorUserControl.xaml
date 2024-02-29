@@ -1181,6 +1181,10 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                 Content="{DynamicResource btnClearFinishItem}" Padding="5,3,5,0" 
                         Command="{Binding ClearFinishItemCommand}" Margin="5,5,5,10"></Button>
 
+                    <ToggleButton Style="{StaticResource GD_ToggleButton_Gray}"
+                        IsChecked="{Binding ShowIsTransported}"
+                                     Content="{DynamicResource btnShowFinishItem}"
+                                  Padding="5,3,5,0" Margin="5,5,5,10"/>
                 </StackPanel>
 
                 <dxg:GridControl Grid.Row="1" 
