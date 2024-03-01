@@ -104,8 +104,6 @@ namespace GD_StampingMachine.UserControls
         public static readonly DependencyProperty ContentPaddingProperty;
 
 
-
-        internal static readonly DependencyPropertyKey IsPressedPropertyKey;
         public static readonly DependencyProperty IsPressedProperty;
 
 

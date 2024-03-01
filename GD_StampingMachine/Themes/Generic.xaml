@@ -80,6 +80,9 @@
         <Setter Property="IsBrightMode" Value="False"/>
         <Setter Property="OutLineBorderBrush" Value="LightGray"/>
         <Setter Property="OutLineBackground" Value="Gray"/>
+        <Setter Property="LightBrush" Value="Gray"/>
+        <Setter Property="LightBackground" Value="LightSlateGray"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GD_StampingMachine_UserControls:PlateDiagramCustomControl}">
@@ -112,78 +115,13 @@
 
                             <Border Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,1,0" Background="Transparent">
 
-                                <Border 
-                                     Width="19"  
-                                    CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
-                                    Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Background" Value="Gray"/>
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Background" Value="{DynamicResource DataMatrixIsFinish_RoundBottomGround_SolidColorBrush}"/>
-                                                </MultiDataTrigger>
+                                <Grid>
+                                    <Ellipse 
+                                     Width="19" Fill="{TemplateBinding LightBackground}"
+                                    Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}"/>
+                                    <GD_StampingMachine_UserControls:GradientEllipse Width="16" Height="16" Fill="{TemplateBinding LightBrush}"/>
 
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-
-                                                        <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
-                                                    </MultiDataTrigger.Conditions>
-
-                                                    <Setter Property="Background" Value="{DynamicResource ShearingIsFinish_RoundBottomGround_SolidColorBrush}"/>
-                                                </MultiDataTrigger>
-
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
-                                                    </MultiDataTrigger.Conditions>
-
-                                                    <Setter Property="Background" Value="{DynamicResource EngravingIsFinish_RoundBottomGround_SolidColorBrush}"/>
-                                                </MultiDataTrigger>
-
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    
-                                    <Grid>
-                                        
-                                        
-                                        <GD_StampingMachine_UserControls:GradientEllipse Width="16" Height="16">
-                                            <GD_StampingMachine_UserControls:GradientEllipse.Style>
-                                                <Style TargetType="GD_StampingMachine_UserControls:GradientEllipse">
-                                                    <Setter Property="Fill" Value="Gray"/>
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding DataMatrixIsFinish}" Value="true" />
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Fill" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                        </MultiDataTrigger>
-
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-
-                                                                <Condition Binding="{Binding EngravingIsFinish}" Value="true" />
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Fill" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                        </MultiDataTrigger>
-
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding ShearingIsFinish}" Value="true" />
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Fill" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
-                                                        </MultiDataTrigger>
-
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </GD_StampingMachine_UserControls:GradientEllipse.Style>
-                                        </GD_StampingMachine_UserControls:GradientEllipse>
-                                    </Grid>
-                                </Border>
+                                </Grid>
                             </Border>
 
                             <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource ContentBorder}" BorderThickness="0,0,0,1"  Background="Transparent">
@@ -214,6 +152,8 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="OutLineBorderBrush" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
                 <Setter Property="OutLineBackground" Value="{DynamicResource DataMatrixIsFinish_Background_Dark_SolidColorBrush}"/>
+                <Setter Property="LightBrush" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                <Setter Property="LightBackground" Value="{DynamicResource DataMatrixIsFinish_RoundBottomGround_SolidColorBrush}"/>
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -222,6 +162,8 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="OutLineBorderBrush" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
                 <Setter Property="OutLineBackground" Value="{DynamicResource DataMatrixIsFinish_Background_Bright_SolidColorBrush}"/>
+                <Setter Property="LightBrush" Value="{DynamicResource DataMatrixIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                <Setter Property="LightBackground" Value="{DynamicResource DataMatrixIsFinish_RoundBottomGround_SolidColorBrush}"/>
             </MultiTrigger>
 
             <MultiTrigger>
@@ -231,6 +173,8 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="OutLineBorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
                 <Setter Property="OutLineBackground" Value="{DynamicResource ShearingIsFinish_Background_Dark_SolidColorBrush}"/>
+                <Setter Property="LightBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                <Setter Property="LightBackground" Value="{DynamicResource ShearingIsFinish_RoundBottomGround_SolidColorBrush}"/>
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -239,6 +183,8 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="OutLineBorderBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
                 <Setter Property="OutLineBackground" Value="{DynamicResource ShearingIsFinish_Background_Bright_SolidColorBrush}"/>
+                <Setter Property="LightBrush" Value="{DynamicResource ShearingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
+                <Setter Property="LightBackground" Value="{DynamicResource ShearingIsFinish_RoundBottomGround_SolidColorBrush}"/>
             </MultiTrigger>
 
             <MultiTrigger>
@@ -248,6 +194,8 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="OutLineBorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
                 <Setter Property="OutLineBackground" Value="{DynamicResource EngravingIsFinish_Background_Dark_SolidColorBrush}"/>
+                <Setter Property="LightBackground" Value="{DynamicResource EngravingIsFinish_RoundBottomGround_SolidColorBrush}"/>
+                <Setter Property="LightBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -256,6 +204,8 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="OutLineBorderBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Bright_SolidColorBrush}"/>
                 <Setter Property="OutLineBackground" Value="{DynamicResource EngravingIsFinish_Background_Bright_SolidColorBrush}"/>
+                <Setter Property="LightBackground" Value="{DynamicResource EngravingIsFinish_RoundBottomGround_SolidColorBrush}"/>
+                <Setter Property="LightBrush" Value="{DynamicResource EngravingIsFinish_BorderBrush_Dark_SolidColorBrush}"/>
             </MultiTrigger>
 
         </Style.Triggers>

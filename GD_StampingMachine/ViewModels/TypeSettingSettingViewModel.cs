@@ -111,7 +111,7 @@ namespace GD_StampingMachine.ViewModels
                 if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {
                     var DelProjectsString = projectDistributeGridControlSelectedItems.ToList().Select(x => x.ProjectDistributeName).ExpandToString();
-                    if (await MethodWinUIMessageBox.AskDelProjectAsync(DelProjectsString) is MessageBoxResult.Yes)
+                    if (await MethodWinUIMessageBox.AskDelProjectAsync(DelProjectsString))
                     {
                         var Removed_List = new List<int>();
                         foreach (var _selectItem in projectDistributeGridControlSelectedItems)

@@ -38,7 +38,7 @@ namespace GD_StampingMachine.ViewModels
         public DateTime? EditDate { get; set; }
 
 
-        public ObservableCollection<string> ProductProjectNameList { get; set; } = new ObservableCollection<string>();
+        public List<string> ProductProjectNameList { get; set; } 
 
         /// <summary>
         /// 製品清單

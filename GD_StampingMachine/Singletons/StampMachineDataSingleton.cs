@@ -72,7 +72,7 @@ namespace GD_StampingMachine.Singletons
                 //讀取失敗->建立新的io表
                 var io_info_Table = new List<IO_InfoModel>
                 {
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "氣壓總壓檢知(7kg/cm3 up)",
                         BondingCableTerminal = "I00",
@@ -81,7 +81,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_AirPressNotEnough",
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "預留",
                         BondingCableTerminal = "I01",
@@ -89,7 +89,7 @@ namespace GD_StampingMachine.Singletons
                         SensorType = ioSensorType.DI,
                         ValueType = typeof(bool),
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "油壓單元液位檢知(低液位)",
                         BondingCableTerminal = "I02",
@@ -98,7 +98,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OilMaintenance1.di_OilLevelOk"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "潤滑壓力檢知",
                         BondingCableTerminal = "I03",
@@ -107,7 +107,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubPressureAchieved"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "潤滑液位檢知(低液位)",
                         BondingCableTerminal = "I04",
@@ -116,7 +116,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Lubrication1.di_LubLimitAchieved"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "放料卷異常",
                         BondingCableTerminal = "I05",
@@ -125,7 +125,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsAbnormal"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="進料有無料件確認檢知" ,
                         BondingCableTerminal = "I06",
@@ -134,7 +134,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_FeedMaterialConfirm"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "QRcode壓座組1_氣壓缸上限檢知",
                         BondingCableTerminal = "I07",
@@ -143,7 +143,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "QRcode壓座組1_氣壓缸下限檢知",
                         BondingCableTerminal = "I08",
@@ -152,7 +152,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="阻擋缸_氣壓缸上限檢知" ,
                         BondingCableTerminal = "I09",
@@ -161,7 +161,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="阻擋缸_氣壓缸下限檢知" ,
                         BondingCableTerminal = "I10",
@@ -170,7 +170,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.di_StopDown"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "料品到QR code 位置檢知",
                         BondingCableTerminal = "I11",
@@ -179,7 +179,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.QRCode1.di_QRCodeMaterialConfirm"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "打字輪_Y軸行程 + 極限檢知 0 位置",
                         BondingCableTerminal = "I12",
@@ -188,7 +188,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoHome"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "打字輪_Y軸行程 - 極限檢知 260 位置",
                         BondingCableTerminal = "I13",
@@ -197,7 +197,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoPOT"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "預留",
                         BondingCableTerminal = "I14",
@@ -206,7 +206,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="預留" ,
                         BondingCableTerminal = "I15",
@@ -215,7 +215,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "料品到字碼刻印位置檢知",
                         BondingCableTerminal = "I16",
@@ -225,7 +225,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_EngravingMaterialConfirm"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "進料X軸_原點",
                         BondingCableTerminal = "I17",
@@ -234,7 +234,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoHome"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="進料X軸_負極限" ,
                         BondingCableTerminal = "I18",
@@ -244,7 +244,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoNOT"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "刻印壓座組2_氣壓缸上限檢知",
                         BondingCableTerminal = "I00",
@@ -253,7 +253,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "刻印壓座組2_氣壓缸下限檢知",
                         BondingCableTerminal = "I01",
@@ -262,7 +262,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.di_StopDown"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="字碼刻印組_Z軸油壓缸刻印位置" ,
                         BondingCableTerminal = "I02",
@@ -271,7 +271,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopDown"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "字碼刻印組_Z軸油壓缸原點位置",
                         BondingCableTerminal = "I03",
@@ -280,7 +280,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StopUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="字碼刻印組_刻印轉輪原點位置" ,
                         BondingCableTerminal = "I04",
@@ -289,7 +289,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingRotate1.di_ServoHome"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "進料導桿缸1_氣壓缸上限檢知",
                         BondingCableTerminal = "I05",
@@ -298,7 +298,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "進料導桿缸1_氣壓缸下限檢知",
                         BondingCableTerminal = "I06",
@@ -307,7 +307,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.di_StopDown"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="料品到裁切位置檢知" ,
                         BondingCableTerminal = "I07",
@@ -316,7 +316,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingMaterialConfirm"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "裁切模組_位置檢知_上",
                         BondingCableTerminal = "I08",
@@ -325,7 +325,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingOrigin"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "裁切模組_位置檢知_中",
                         BondingCableTerminal = "I09",
@@ -334,7 +334,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingStandbyPoint"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "裁切模組_位置檢知_下",
                         BondingCableTerminal = "I10",
@@ -343,7 +343,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.di_CuttingCutPoint"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "阻擋缸_進退動作-SW",
                         BondingCableTerminal = "I11",
@@ -352,7 +352,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "緊急停止-SW",
                         BondingCableTerminal = "I12",
@@ -361,7 +361,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_EmergencyStop1"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="開機(power on)-SW" ,
                         BondingCableTerminal = "I13",
@@ -370,7 +370,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_PowerON"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="暫停(pause)-SW" ,
                         BondingCableTerminal = "I14",
@@ -380,7 +380,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.system.di_Pause"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "開始加工(start)-SW",
                         BondingCableTerminal = "I15",
@@ -390,7 +390,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.system.di_Start"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="放料卷方向" ,
                         BondingCableTerminal = "I16",
@@ -399,7 +399,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_FeedRollsDirection"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "原點復歸-SW",
                         BondingCableTerminal = "I17",
@@ -408,7 +408,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.system.di_Home"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info ="半自動-SW" ,
                         BondingCableTerminal = "I18",
@@ -418,7 +418,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonHalfAuto"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "全自動",
                         BondingCableTerminal = "I00",
@@ -427,7 +427,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.OperationMode1.di_ButtonFullAuto"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "預留",
                         BondingCableTerminal = "I01",
@@ -436,7 +436,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "進料導桿缸2_氣壓缸上限檢知",
                         BondingCableTerminal = "I02",
@@ -445,7 +445,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.di_StopUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "進料導桿缸2_氣壓缸下限檢知",
                         BondingCableTerminal = "I03",
@@ -455,7 +455,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.di_StopDown"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "鑰匙開關_自動",
                         BondingCableTerminal = "I04",
@@ -464,7 +464,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "鑰匙開關_鎖固",
                         BondingCableTerminal = "I05",
@@ -473,7 +473,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "鑰匙開關_手動以上兩個訊號沒on為手動",
                         BondingCableTerminal = "I06",
@@ -482,7 +482,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "X+搖桿",
                         BondingCableTerminal = "I07",
@@ -491,7 +491,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "X-搖桿",
                         BondingCableTerminal = "I08",
@@ -500,7 +500,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "Y+搖桿",
                         BondingCableTerminal = "I09",
@@ -509,7 +509,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "Y-搖桿",
                         BondingCableTerminal = "I10",
@@ -518,7 +518,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "油壓過載",
                         BondingCableTerminal = "I11",
@@ -527,7 +527,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Motor1.di_Overload"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "刻印Y軸_負極限",
                         BondingCableTerminal = "I12",
@@ -536,7 +536,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingFeeding1.di_ServoNOT"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "進料X軸_正極限",
                         BondingCableTerminal = "I13",
@@ -546,7 +546,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.Feeding1.di_ServoPOT"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "字碼刻印組_Z軸油壓缸待命位置",
                         BondingCableTerminal = "I14",
@@ -555,7 +555,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.di_StandbyPoint"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "搖桿",
                         BondingCableTerminal = "I15",
@@ -564,7 +564,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "搖桿",
                         BondingCableTerminal = "I16",
@@ -573,7 +573,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "搖桿",
                         BondingCableTerminal = "I17",
@@ -582,7 +582,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "搖桿",
                         BondingCableTerminal = "I18",
@@ -595,7 +595,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "油壓單元啟動",
                         BondingCableTerminal = "O00",
@@ -604,7 +604,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Motor1.do_MotorOnMain"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "潤滑系統ON/OFF",
                         BondingCableTerminal = "O01",
@@ -613,7 +613,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Lubrication1.do_Lubrication"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "壓座組1_氣壓缸動作",
                         BondingCableTerminal = "O02",
@@ -622,7 +622,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture1.do_FixtureUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "預留",
                         BondingCableTerminal = "O03",
@@ -631,7 +631,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $""
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "阻擋缸_氣壓缸推出",
                         BondingCableTerminal = "O04",
@@ -640,7 +640,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.BlockingClips1.do_BlockingClipsUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "刻印壓座組2_氣壓缸動作",
                         BondingCableTerminal = "O05",
@@ -649,7 +649,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Fixture2.do_FixtureUp"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "字碼刻印組_油壓缸上升",
                         BondingCableTerminal = "O06",
@@ -658,7 +658,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.do_Open"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "字碼刻印組_油壓缸下降",
                         BondingCableTerminal = "O07",
@@ -667,7 +667,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Engraving1.do_Close"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "字碼刻印組_制動煞車",
                         BondingCableTerminal = "O08",
@@ -676,7 +676,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.EngravingRotate1.do_brake"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "裁切模組_上升",
                         BondingCableTerminal = "O09",
@@ -685,7 +685,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.do_Open"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "裁切模組_下降",
                         BondingCableTerminal = "O10",
@@ -694,7 +694,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.Cutting1.do_Close"
                     },
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "進料導桿缸1-氣壓缸動作",
                         BondingCableTerminal = "O11",
@@ -703,7 +703,7 @@ namespace GD_StampingMachine.Singletons
                         ValueType = typeof(bool),
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture1.do_GuideRodsFixtureUp"
                     },
-  new IO_InfoModel()
+  new()
                     {
                         Info = "進料導桿缸2-氣壓缸動作",
                         BondingCableTerminal = "O12",
@@ -713,7 +713,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $"{opcuaNodeHeader}.GuideRodsFixture2.do_GuideRodsFixtureUp"
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "",
                         BondingCableTerminal = "O13",
@@ -723,7 +723,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $""
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "",
                         BondingCableTerminal = "O14",
@@ -733,7 +733,7 @@ namespace GD_StampingMachine.Singletons
                         NodeID = $""
                     },
 
-                    new IO_InfoModel()
+                    new()
                     {
                         Info = "",
                         BondingCableTerminal = "O15",
@@ -751,7 +751,11 @@ namespace GD_StampingMachine.Singletons
 
             //一啟動就建立一個alarm
             //HasAlarm = true;
-            AlarmMessageCollection.Add("PLC Is Not Connected");
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                AlarmMessageCollection.Add("PLC Is Not Connected");
+            });
+
             AlarmLamp = true;
             _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, "PLC Is Not Connected", true);
 
@@ -1042,7 +1046,10 @@ namespace GD_StampingMachine.Singletons
                                     firstConnected = await GD_OpcUaClient.ConnectAsync(baseUrl.ToString(), CommunicationSetting.UserName, CommunicationSetting.Password);
                                     if (firstConnected)
                                     {
-                                        AlarmMessageCollection = new();
+                                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                                        {
+                                            AlarmMessageCollection.Clear();
+                                        });
 
                                         await this.WriteNodeAsync<bool>($"{StampingOpcUANode.system.sv_bComputerBootUpComplete}", true);
                                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_IsSucessful");
@@ -1261,7 +1268,6 @@ namespace GD_StampingMachine.Singletons
                                                         {
                                                             AlarmMessageCollection.Add(e.NewValue);
                                                             _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
-                                                            OnPropertyChanged(nameof(AlarmMessageCollection));
                                                         });
                                                     }
                                             });
@@ -1276,7 +1282,6 @@ namespace GD_StampingMachine.Singletons
                                                 {
                                                     AlarmMessageCollection.Add(message);
                                                     _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
-                                                    OnPropertyChanged(nameof(AlarmMessageCollection));
                                                 });
                                             }
                                         }
@@ -1301,9 +1306,10 @@ namespace GD_StampingMachine.Singletons
                                             {
                                                 if (e.NewValue)
                                                 {
-                                                    //AlarmMessageCollection = new AsyncObservableCollection<string>();
-                                                    AlarmMessageCollection.Clear();
-                                                    OnPropertyChanged(nameof(AlarmMessageCollection));
+                                                    Application.Current.Dispatcher.Invoke(() =>
+                                                    {
+                                                        AlarmMessageCollection.Clear();
+                                                    });
                                                 }
                                             });
 
@@ -1312,7 +1318,7 @@ namespace GD_StampingMachine.Singletons
 {
 if (Key_EditMode = e.NewValue)
 {
-OnPropertyChanged(nameof(AlarmMessageCollection));
+
 }
 });
 
@@ -1408,7 +1414,8 @@ OnPropertyChanged(nameof(AlarmMessageCollection));
                                                         }
                                                         settingBaseVM.SpecialSequence = specialSequence;
                                                         settingBaseVM.SequenceCount = rowLength;
-                                                        settingBaseVM.PlateNumber = plateData.sIronPlateName1.PadRight(rowLength).Substring(0, rowLength) + plateData.sIronPlateName2;
+                                                        //settingBaseVM.PlateNumber = plateData.sIronPlateName1.PadRight(rowLength).Substring(0, rowLength) + plateData.sIronPlateName2;
+                                                        settingBaseVM.PlateNumber = string.Concat(plateData.sIronPlateName1.PadRight(rowLength).AsSpan(0, rowLength), plateData.sIronPlateName2);
                                                         settingBaseVM.QrCodeContent = plateData.sDataMatrixName1;
                                                         settingBaseVM.QR_Special_Text = plateData.sDataMatrixName2;
                                                         settingBaseVM.StampingMarginPosVM = new StampingMarginPosViewModel()
@@ -2075,7 +2082,7 @@ OnPropertyChanged(nameof(AlarmMessageCollection));
                 if (GD_OpcUaClient?.IsConnected == true)
                 {
                     await Set_IO_CylinderControlAsync(StampingCylinderType.QRStamping, DirectionsEnum.Up, true);
-                    await Task.Delay(500);
+                    await Task.Delay(500, CancellationToken.None);
                     await Set_IO_CylinderControlAsync(StampingCylinderType.QRStamping, DirectionsEnum.Up, false);
                 }
             }, () => !QRStamping_Up_Command.IsRunning);
@@ -2095,9 +2102,16 @@ OnPropertyChanged(nameof(AlarmMessageCollection));
             {
                 if (GD_OpcUaClient?.IsConnected == true)
                 {
-                    await Set_IO_CylinderControlAsync(StampingCylinderType.QRStamping, DirectionsEnum.Down, true);
-                    await Task.Delay(500);
-                    await Set_IO_CylinderControlAsync(StampingCylinderType.QRStamping, DirectionsEnum.Down, false);
+                    try
+                    {
+                        await Set_IO_CylinderControlAsync(StampingCylinderType.QRStamping, DirectionsEnum.Down, true);
+                        await Task.Delay(500, token);
+                        await Set_IO_CylinderControlAsync(StampingCylinderType.QRStamping, DirectionsEnum.Down, false);
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }, () => !QRStamping_Down_Command.IsRunning);
         }
@@ -2181,9 +2195,16 @@ OnPropertyChanged(nameof(AlarmMessageCollection));
             {
                 if (GD_OpcUaClient?.IsConnected == true)
                 {
-                    await Set_IO_CylinderControlAsync(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, true);
-                    await Task.Delay(500);
-                    await Set_IO_CylinderControlAsync(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, false);
+                    try
+                    {
+                        await Set_IO_CylinderControlAsync(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, true);
+                        await Task.Delay(500, token);
+                        await Set_IO_CylinderControlAsync(StampingCylinderType.BlockingCylinder, DirectionsEnum.Down, false);
+                    }
+                    catch 
+                    {
+
+                    }
                 }
             });
         }

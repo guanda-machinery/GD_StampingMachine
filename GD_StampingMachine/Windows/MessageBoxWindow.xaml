@@ -12,7 +12,7 @@
        SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        MinWidth="10"
+        MinWidth="10" 
        MinHeight="100" PreviewKeyDown="Grid_KeyDown"
         Title="MessageBoxWindow">
     <Grid MouseDown="Grid_MouseLeftButtonDown">

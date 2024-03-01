@@ -33,6 +33,9 @@ namespace GD_StampingMachine.UserControls
             //OutLineBorderThicknessProperty = DependencyProperty.Register(nameof(OutLineBorderThickness), typeof(Thickness), typeof(PlateDiagramCustomControl), new FrameworkPropertyMetadata(new Thickness(0), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));      
             OutLineBackgroundProperty = DependencyProperty.Register(nameof(OutLineBackground), typeof(Brush), typeof(PlateDiagramCustomControl), new PropertyMetadata(Brushes.Transparent));
             OutLineBorderBrushProperty = DependencyProperty.Register(nameof(OutLineBorderBrush), typeof(Brush), typeof(PlateDiagramCustomControl), new PropertyMetadata(Brushes.Transparent));
+
+            LightBackgroundProperty = DependencyProperty.Register(nameof(LightBackground), typeof(Brush), typeof(PlateDiagramCustomControl), new PropertyMetadata(Brushes.Transparent));
+            LightBrushProperty = DependencyProperty.Register(nameof(LightBrush), typeof(Brush), typeof(PlateDiagramCustomControl), new PropertyMetadata(Brushes.Transparent));
         }
 
         public static readonly DependencyProperty PlateDiagramIndexProperty;
@@ -43,10 +46,8 @@ namespace GD_StampingMachine.UserControls
         //public static readonly DependencyProperty OutLineBorderThicknessProperty;
         public static readonly DependencyProperty OutLineBackgroundProperty;
         public static readonly DependencyProperty OutLineBorderBrushProperty;
-
-
-
-
+        public static readonly DependencyProperty LightBackgroundProperty;
+        public static readonly DependencyProperty LightBrushProperty;
 
         /* public Thickness OutLineBorderThickness
          {
@@ -54,16 +55,6 @@ namespace GD_StampingMachine.UserControls
              set => SetValue(OutLineBorderThicknessProperty, value);
          }
         */
-         public Brush OutLineBackground
-         {
-             get => (Brush)GetValue(OutLineBackgroundProperty);
-             set => SetValue(OutLineBackgroundProperty, value);
-         }
-         public Brush OutLineBorderBrush
-         {
-             get => (Brush)GetValue(OutLineBorderBrushProperty);
-             set => SetValue(OutLineBorderBrushProperty, value);
-         }
 
         public string PlateDiagramIndex
         {
@@ -87,6 +78,30 @@ namespace GD_StampingMachine.UserControls
             get => (bool)GetValue(IsBrightModeProperty);
             set => SetValue(IsBrightModeProperty, value);
         }
+
+        public Brush OutLineBackground
+        {
+            get => (Brush)GetValue(OutLineBackgroundProperty);
+            set => SetValue(OutLineBackgroundProperty, value);
+        }
+        public Brush OutLineBorderBrush
+        {
+            get => (Brush)GetValue(OutLineBorderBrushProperty);
+            set => SetValue(OutLineBorderBrushProperty, value);
+        }
+
+        public Brush LightBackground
+        {
+            get => (Brush)GetValue(LightBackgroundProperty);
+            set => SetValue(LightBackgroundProperty, value);
+        }
+        public Brush LightBrush
+        {
+            get => (Brush)GetValue(LightBrushProperty);
+            set => SetValue(LightBrushProperty, value);
+        }
+
+
 
 
         /* public string Content

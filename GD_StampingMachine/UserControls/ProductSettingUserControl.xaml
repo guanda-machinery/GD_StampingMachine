@@ -1187,7 +1187,7 @@
                                                         PlacementTarget="{Binding ElementName=AddParameterToggleButton}" Placement="Relative"
                       
                                PlacementRectangle="-175,50,0,0"
-                            AllowsTransparency="True" Margin="16"  IsTopmost="False"
+                            AllowsTransparency="True" Margin="16"  
                             AllowTopMost="False" x:Name="ImportParameterDarggablePopup" IsOpen="{Binding ImportParameterDarggableIsPopup}">
                             <Border
                                                 CornerRadius="10"

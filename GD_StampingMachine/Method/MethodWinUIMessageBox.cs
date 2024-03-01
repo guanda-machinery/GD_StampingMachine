@@ -13,15 +13,24 @@ namespace GD_StampingMachine.Method
 
         }
 
-        public static async Task<MessageBoxResult> AskOverwriteOrNotAsync()
+        public static async Task<bool> AskOverwriteOrNotAsync()
         {
             var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"));
-            return await MessageBoxReturn;
+            return await MessageBoxReturn == MessageBoxResult.Yes;
         }
 
-        public static async Task<MessageBoxResult> AskDelProjectAsync(string NumberSetting)
+        public static async Task<bool> AskSaveChangeOrNotAsync()
+        {
+            var MessageBoxReturn = ShowYesNoAsync(
+                (string)Application.Current.TryFindResource("Text_notify"),
+                (string)Application.Current.TryFindResource("Text_SettingAskSaveChange"));
+            return await MessageBoxReturn == MessageBoxResult.Yes;
+        }
+
+
+        public static async Task<bool> AskDelProjectAsync(string NumberSetting)
         {
             var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -29,14 +38,14 @@ namespace GD_StampingMachine.Method
                 "\r\n" +
                 $"{NumberSetting}" +
                 "?", GD_MessageBoxNotifyResult.NotifyBl);
-            return await MessageBoxReturn;
+            return await MessageBoxReturn == MessageBoxResult.Yes;
         }
         /// <summary>
         /// 詢問關閉專案
         /// </summary>
         /// <param name="NumberSetting"></param>
         /// <returns></returns>
-        public static async Task<MessageBoxResult> AskCloseProjectAsync(string ProjectName)
+        public static async Task<bool> AskCloseProjectAsync(string ProjectName)
         {
             var MessageBoxReturn = ShowYesNoAsync(
                 (string)Application.Current.TryFindResource("Text_notify"),
@@ -47,7 +56,7 @@ namespace GD_StampingMachine.Method
                 $"{ProjectName}" +
                 "?", GD_MessageBoxNotifyResult.NotifyBl);
 
-            return await MessageBoxReturn;
+            return await MessageBoxReturn == MessageBoxResult.Yes;
         }
 
         /// <summary>

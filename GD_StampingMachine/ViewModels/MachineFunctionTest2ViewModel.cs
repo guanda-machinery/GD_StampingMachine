@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
@@ -17,14 +18,20 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                StampMachineDataSingleton.Instance.AlarmMessageCollection.Clear();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    StampMachineDataSingleton.Instance.AlarmMessageCollection.Clear();
+                });
             });
         }
         public ICommand AddAlarmCommand
         {
             get => new RelayCommand(() =>
             {
-                StampMachineDataSingleton.Instance.AlarmMessageCollection.Add("NewAlarm");
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    StampMachineDataSingleton.Instance.AlarmMessageCollection.Add("NewAlarm");
+                });
             });
         }
 

@@ -228,7 +228,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             }
                             else
                             {
-                                if (await MethodWinUIMessageBox.AskDelProjectAsync($"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}") == MessageBoxResult.Yes)
+                                if (await MethodWinUIMessageBox.AskDelProjectAsync($"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}"))
                                     GridItemSource.Remove(CurrentItem);
                             }
 
@@ -1213,7 +1213,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             }
 
                             //詢問是否要關閉
-                            if ((await MethodWinUIMessageBox.AskCloseProjectAsync(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName)) != MessageBoxResult.Yes)
+                            if (!await MethodWinUIMessageBox.AskCloseProjectAsync(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))
                                 return;
 
                             //將資料清除

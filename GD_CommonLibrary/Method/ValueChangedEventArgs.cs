@@ -4,10 +4,10 @@ namespace GD_CommonLibrary
 {
     public class ValueChangedEventArgs<T> : EventArgs
     {
-        public T OldValue { get; }
-        public T NewValue { get; }
+        public readonly T? OldValue;
+        public readonly T? NewValue;
 
-        public ValueChangedEventArgs(T oldValue, T newValue)
+        public ValueChangedEventArgs(T? oldValue, T? newValue)
         {
             OldValue = oldValue;
             NewValue = newValue;

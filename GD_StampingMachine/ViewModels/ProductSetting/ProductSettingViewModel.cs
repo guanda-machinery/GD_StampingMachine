@@ -130,7 +130,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 //檔案已存在 詢問是否要覆蓋
                 if (ExistedIndex != -1)
                 {
-                    if (await MethodWinUIMessageBox.AskOverwriteOrNotAsync() is not MessageBoxResult.Yes)
+                    if (!await MethodWinUIMessageBox.AskOverwriteOrNotAsync())
                         return;
                 }
 

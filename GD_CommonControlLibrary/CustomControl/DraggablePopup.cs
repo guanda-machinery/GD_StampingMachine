@@ -87,20 +87,20 @@ namespace GD_CommonControlLibrary.GD_Popup
         /// <summary>
         /// Is Topmost dependency property
         /// </summary>
-        public static readonly DependencyProperty IsTopmostProperty = DependencyProperty.Register(nameof(IsTopmost), typeof(bool), typeof(NonTopmostPopup), new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
+       // public static readonly DependencyProperty IsTopmostProperty = DependencyProperty.Register(nameof(IsTopmost), typeof(bool), typeof(NonTopmostPopup), new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
 
-        private bool? _appliedTopMost;
+       // private bool? _appliedTopMost;
         private bool _alreadyLoaded;
         private Window _parentWindow;
 
         /// <summary>
         /// Get/Set IsTopmost
         /// </summary>
-        public bool IsTopmost
+        /*public bool IsTopmost
         {
             get { return (bool)GetValue(IsTopmostProperty); }
             set { SetValue(IsTopmostProperty, value); }
-        }
+        }*/
 
         /// <summary>
         /// ctor
@@ -160,59 +160,47 @@ namespace GD_CommonControlLibrary.GD_Popup
         void OnParentWindowActivated(object sender, EventArgs e)
         {
             Debug.WriteLine("Parent Window Activated");
-            var originTopmost = IsTopmost;
-            if(originTopmost)
-            {
-                SetTopmostState(true);
-            }
-            else
-            {
-                SetTopmostState(true);
-                SetTopmostState(false);
-            }
+ 
+
+            //SetTopmostState(true);
+            //SetTopmostState(IsTopmost);
         }
 
         void OnParentWindowDeactivated(object sender, EventArgs e)
         {
             Debug.WriteLine("Parent Window Deactivated");
 
-            //if (IsTopmost == false)
-          //  {
-               // SetTopmostState(IsTopmost);
-           // }
         }
         void OnChildPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Debug.WriteLine("Child Mouse Left Button Down");
-
-            SetTopmostState(true);
-
-            if (!_parentWindow.IsActive && IsTopmost == false)
+            if (!_parentWindow.IsActive)
             {
                 _parentWindow.Activate();
                 Debug.WriteLine("Activating Parent from child Left Button Down");
             }
+            SetTopmostState(true);
+            SetTopmostState(false);
         }
 
-        private static void OnIsTopmostChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+      /*  private static void OnIsTopmostChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var thisobj = (NonTopmostPopup)obj;
-            thisobj.SetTopmostState(thisobj.IsTopmost);
-        }
+            if(obj is NonTopmostPopup thisObj && e.NewValue is bool topmost)
+                thisObj.SetTopmostState(topmost);
+        }*/
 
         protected override void OnOpened(EventArgs e)
         {
-            SetTopmostState(IsTopmost);
+            //SetTopmostState(IsTopmost);
             base.OnOpened(e);
         }
 
         private void SetTopmostState(bool isTop)
         {
-            // Don’t apply state if it’s the same as incoming state
-            if (_appliedTopMost.HasValue && _appliedTopMost == isTop)
+           /* if (_appliedTopMost.HasValue && _appliedTopMost == isTop)
             {
                 return;
-            }
+            }*/
 
             if (Child == null)
                 return;
@@ -244,10 +232,10 @@ namespace GD_CommonControlLibrary.GD_Popup
                 SetWindowPos(hwnd, HWND_NOTOPMOST, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
             }
 
-            _appliedTopMost = isTop;
+          //  _appliedTopMost = isTop;
         }
 
-
+        
 
         public static readonly RoutedCommand OpenPopupCommand;
         public static readonly RoutedCommand ClosePopupCommand;
@@ -355,14 +343,14 @@ namespace GD_CommonControlLibrary.GD_Popup
 
         private const UInt32 SWP_NOSIZE = 0x0001;
         const UInt32 SWP_NOMOVE = 0x0002;
-        const UInt32 SWP_NOZORDER = 0x0004;
+        //const UInt32 SWP_NOZORDER = 0x0004;
         const UInt32 SWP_NOREDRAW = 0x0008;
         const UInt32 SWP_NOACTIVATE = 0x0010;
 
-        const UInt32 SWP_FRAMECHANGED = 0x0020; /* The frame changed: send WM_NCCALCSIZE */
-        const UInt32 SWP_SHOWWINDOW = 0x0040;
-        const UInt32 SWP_HIDEWINDOW = 0x0080;
-        const UInt32 SWP_NOCOPYBITS = 0x0100;
+        //const UInt32 SWP_FRAMECHANGED = 0x0020; /* The frame changed: send WM_NCCALCSIZE */
+        //const UInt32 SWP_SHOWWINDOW = 0x0040;
+        //const UInt32 SWP_HIDEWINDOW = 0x0080;
+        //const UInt32 SWP_NOCOPYBITS = 0x0100;
         const UInt32 SWP_NOOWNERZORDER = 0x0200; /* Don’t do owner Z ordering */
         const UInt32 SWP_NOSENDCHANGING = 0x0400; /* Don’t send WM_WINDOWPOSCHANGING */
 

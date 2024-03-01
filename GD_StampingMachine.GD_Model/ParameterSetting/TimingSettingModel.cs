@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GD_StampingMachine.GD_Model
 {
@@ -38,6 +39,18 @@ namespace GD_StampingMachine.GD_Model
         {
 
         }
+        public bool IsEquals(TimingControlModel obj)
+        {
+            return 
+                this.RestTime == obj.RestTime &&
+                this.OpenTime == obj.OpenTime &&
+                this.IsEnable == obj.IsEnable &&
+                DayOfWeekWorkCollection.Count == obj.DayOfWeekWorkCollection.Count &&
+                DayOfWeekWorkCollection.Zip(obj.DayOfWeekWorkCollection, (a, b) =>
+                a.DayOfWeek == b.DayOfWeek && a.IsWork == b.IsWork).All(x => x);
+        }
+
+
 
 
         /// <summary>
@@ -69,9 +82,6 @@ namespace GD_StampingMachine.GD_Model
             DayOfWeek = dayOfWeek;
             IsWork = isWork;
         }
-
-
-
 
         public DayOfWeek DayOfWeek { get; set; }
         public bool IsWork { get; set; }

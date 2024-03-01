@@ -7,6 +7,7 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 
@@ -35,7 +36,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-
+        [JsonIgnore]
         public SeparateSettingModel SeparateSetting;
 
         private ObservableCollection<SeparateBoxViewModel> _separateBoxVMObservableCollection;
@@ -60,7 +61,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 _separateBoxVMObservableCollection?.ForEach(obj =>
                 {
-                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(obj._separateBox);
+                    SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Add(obj.SeparateBox);
                 });
 
                 OnPropertyChanged();
@@ -88,7 +89,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 SeparateSetting.SingleSetting_SeparateBox = null;
                 if (_singleSetting_SeparateBoxModel != null)
                 {
-                    SeparateSetting.SingleSetting_SeparateBox = _singleSetting_SeparateBoxModel._separateBox;
+                    SeparateSetting.SingleSetting_SeparateBox = _singleSetting_SeparateBoxModel.SeparateBox;
                 }
                 OnPropertyChanged();
             }

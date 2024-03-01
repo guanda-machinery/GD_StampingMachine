@@ -162,9 +162,11 @@
                             </Button.Triggers>
                         </Button>
 
-                        <GD_Popup:DraggablePopup  
+                        <GD_Popup:DraggablePopup   
+                            Visibility="{Binding ElementName=AlarmButton,Path=Visibility}"
+                            AllowTopMost="false" 
                             Name="MachineWarningDraggablePopup"
-                                    PopupAnimation="Fade"   StaysOpen="True"
+                                    PopupAnimation="Slide"   StaysOpen="True"
                                     Placement="Relative"   PlacementRectangle="-20,40,0,0"
                                     PlacementTarget="{Binding ElementName=AlarmButton}" 
                             HorizontalAlignment="Center"
@@ -175,7 +177,7 @@
                                              Padding="10,10">
                                         <GroupBox Header="{DynamicResource Text_MachineAlarm}" Padding="5">
                                             <Grid>
-                                                <ItemsControl Name="AlarmMessageItemsControl"
+                                                <ItemsControl Name="AlarmMessageItemsControl" 
                                             ItemsSource="{Binding Path=AlarmMessageCollection}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
@@ -184,7 +186,6 @@
                                                             </Grid>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
-
                                                 </ItemsControl>
                                             </Grid>
 

@@ -7,24 +7,24 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateBoxViewModel");
 
-        public SeparateBoxViewModel(SeparateBoxModel SeparateBox)
+        public SeparateBoxViewModel(SeparateBoxModel separateBox)
         {
-            _separateBox = SeparateBox;
+            SeparateBox = SeparateBox;
         }
 
         [JsonIgnore]
-        public readonly SeparateBoxModel _separateBox;
+        public readonly SeparateBoxModel SeparateBox;
 
         public SeparateBoxViewModel()
         {
-            _separateBox = new SeparateBoxModel();
+            SeparateBox = new SeparateBoxModel();
         }
         public int BoxIndex
         {
-            get => _separateBox.BoxIndex;
+            get => SeparateBox.BoxIndex;
             set
             {
-                _separateBox.BoxIndex = value;
+                SeparateBox.BoxIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -133,10 +133,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// </summary>
         public double BoxSliderValue
         {
-            get => _separateBox.BoxSliderValue;
+            get => SeparateBox.BoxSliderValue;
             set
             {
-                _separateBox.BoxSliderValue = value;
+                SeparateBox.BoxSliderValue = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(BoxIsFull));
             }
@@ -147,10 +147,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// </summary>
         public bool BoxIsEnabled
         {
-            get => _separateBox.BoxIsEnabled;
+            get => SeparateBox.BoxIsEnabled;
             set
             {
-                _separateBox.BoxIsEnabled = value;
+                SeparateBox.BoxIsEnabled = value;
                 OnPropertyChanged();
             }
         }
@@ -158,10 +158,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public bool IsUsing
         {
-            get => _separateBox.BoxIsUsing;
+            get => SeparateBox.BoxIsUsing;
             set
             {
-                _separateBox.BoxIsUsing = value;
+                SeparateBox.BoxIsUsing = value;
                 OnPropertyChanged();
             }
         }

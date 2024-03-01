@@ -298,7 +298,7 @@
 
                         <GD_Popup:DraggablePopup  Name="WorkControlDraggablePopup"  
                                                  StaysOpen="False" 
-                                                  AllowTopMost="False"  IsTopmost="False"
+                                                  AllowTopMost="False"
                                               AllowsTransparency="True" Margin="16"   
                                              PlacementRectangle="0,0,0,0"
                                              Placement="MousePoint"

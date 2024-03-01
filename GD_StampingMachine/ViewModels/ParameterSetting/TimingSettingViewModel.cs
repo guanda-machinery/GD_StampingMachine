@@ -39,7 +39,34 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         [JsonIgnore]
         public TimingSettingModel TimingSetting { get; private set; }
 
-      
+
+        private ICommand _pageUnloadedCommand;
+        public ICommand PageUnloadedCommand
+        {
+            get => _pageUnloadedCommand ??= new AsyncRelayCommand<object>(async obj =>
+            {
+                //詢問是否要儲存
+                //比較兩者
+                bool isSame = TimingControlVMCollection.Count == TimingControlVMCollectionCloned.Count &&
+                               TimingControlVMCollection
+                                   .Zip(TimingControlVMCollectionCloned, (a, b) => a.TimingControl.IsEquals(b.TimingControl))
+                                   .All(x => x);
+
+                if (!isSame)
+                {
+                    if (await MethodWinUIMessageBox.AskSaveChangeOrNotAsync())
+                    {
+                        await SaveSettingAsync(false);
+                    }
+                    else
+                    {
+                        TimingControlVMCollectionCloned = TimingControlVMCollection.DeepCloneByJson();
+                    }
+                }
+            });
+        }
+
+
         private ICommand _addNewTimingControlCommand;
         public ICommand AddNewTimingControlCommand
         {
@@ -82,14 +109,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-                    TimingSetting.TimingControlCollection = _timingControlVMCollection.Select(x => x.timingControlModel).ToList();
+                    TimingSetting.TimingControlCollection = _timingControlVMCollection.Select(x => x.TimingControl).ToList();
                 }
                 return _timingControlVMCollection;
             }
             set
             {
                 _timingControlVMCollection = value;
-                TimingSetting.TimingControlCollection = value.Select(x => x.timingControlModel).ToList();
+                TimingSetting.TimingControlCollection = value.Select(x => x.TimingControl).ToList();
                 OnPropertyChanged();
             }
         }
@@ -98,7 +125,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ObservableCollection<TimingControlViewModel> _timingControlVMCollectionCloned;
         public ObservableCollection<TimingControlViewModel> TimingControlVMCollectionCloned
         {
-            get => _timingControlVMCollectionCloned;
+            get => _timingControlVMCollectionCloned??= new();
             set
             {
                 _timingControlVMCollectionCloned = value; 
@@ -119,8 +146,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             set
             {
                 _timingControlVMSelected = value;
-                if (value != null)
-                    TimingControlVMSelectedClone = value.DeepCloneByJson();
                 OnPropertyChanged();
             }
         }
@@ -134,23 +159,43 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 _timingControlVMSelectedClone = value; OnPropertyChanged();
             }
         }
-      
-        
+
+        private bool IsMouseInListBox;
+
+        private ICommand _timingControlVMCollectionListBox_MouseEnterCommand;
+        public ICommand TimingControlVMCollectionListBox_MouseEnterCommand
+        {
+            get => _timingControlVMCollectionListBox_MouseEnterCommand ??= new RelayCommand<object>(obj =>
+            {
+                IsMouseInListBox = true;
+            });
+        }
+        private ICommand _timingControlVMCollectionListBox_MouseLeaveCommand;
+        public ICommand TimingControlVMCollectionListBox_MouseLeaveCommand
+        {
+            get => _timingControlVMCollectionListBox_MouseLeaveCommand ??= new RelayCommand<object>(obj =>
+            {
+                IsMouseInListBox = false;
+            });
+        }
+
+
+
         private ICommand _timingControlVMCollectionListBox_MouseUpCommand;
         public ICommand TimingControlVMCollectionListBox_MouseUpCommand
         {
             get => _timingControlVMCollectionListBox_MouseUpCommand ??= new RelayCommand<object>(obj =>
             {
+               TimingControlVMSelectedClone = TimingControlVMSelected?.DeepCloneByJson();
                 if (obj is System.Windows.Input.MouseButtonEventArgs e)
                 {
+                    IsNewTimingControl = false;
                     TimeSettingPopupIsOpen = true;
-
                 }
-
-            });
+            }, obj=>IsMouseInListBox);
         }
 
-
+        /*
           private ICommand _timingControlVMCollectionListBox_SelectionChangedCommand;
            public ICommand TimingControlVMCollectionListBox_SelectionChangedCommand
            {
@@ -161,17 +206,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                        IsNewTimingControl = false;
                        if (e.AddedItems.Count > 0)
                        {
-                           TimeSettingPopupIsOpen = true;
+                           //TimeSettingPopupIsOpen = true;
                        }
                        else
                        {
                            TimeSettingPopupIsOpen = false;
                        }
-
-
                    }
                });
-           }
+           }*/
 
         private ICommand _finishTimingControlChangedCommand;
         public ICommand FinishTimingControlChangedCommand
@@ -183,6 +226,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     TimingControlVMCollectionCloned[index] = TimingControlVMSelectedClone;
             });
         }
+
 
 
         private bool _editButtonIsChecked;
@@ -233,14 +277,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                var EnumList = new ObservableCollection<int>();
-                EnumList.Add(1);
-                EnumList.Add(2);
-                EnumList.Add(3);
-                EnumList.Add(4);
-                EnumList.Add(5);
-                EnumList.Add(6);
-                EnumList.Add(7);
+                var EnumList = new ObservableCollection<int>
+                {
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                };
 
 
                 return EnumList;
@@ -309,14 +355,21 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                TimingControlVMCollection = TimingControlVMCollectionCloned.DeepCloneByJson();
-                TimingSetting.TimingControlCollection = TimingControlVMCollectionCloned.Select(x => x.timingControlModel).ToList();
-                if (await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, TimingSetting, true))
-                {
-
-                }
+               await SaveSettingAsync(true);
             });
         }
+        private async Task SaveSettingAsync(bool showMessageBox)
+        {
+            TimingControlVMCollection = TimingControlVMCollectionCloned.DeepCloneByJson();
+            TimingSetting.TimingControlCollection = TimingControlVMCollectionCloned.Select(x => x.TimingControl).ToList();
+            if (await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, TimingSetting, showMessageBox))
+            {
+
+            }
+        }
+
+
+
 
         public override ICommand DeleteSettingCommand => null;
     }
@@ -326,15 +379,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override string ViewModelName => "TimingControlViewModel";
         public TimingControlViewModel()
         {
-            timingControlModel = new();
+            TimingControl = new();
         }
         public TimingControlViewModel(TimingControlModel timingControl)
         {
-            timingControlModel = timingControl;
+            TimingControl = timingControl;
         }
 
         [JsonIgnore]
-        public readonly TimingControlModel timingControlModel;
+        public readonly TimingControlModel TimingControl;
         /// <summary>
         /// 休息時間
         /// </summary>
@@ -342,11 +395,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                return new DateTime(timingControlModel.RestTime.TimeOfDay.Ticks);
+                return new DateTime(TimingControl.RestTime.TimeOfDay.Ticks);
             }
             set 
             {
-                timingControlModel.RestTime =value; 
+                TimingControl.RestTime =value; 
                 OnPropertyChanged(); 
             }
         }
@@ -357,17 +410,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get
             {
-                return new DateTime(timingControlModel.OpenTime.TimeOfDay.Ticks);
+                return new DateTime(TimingControl.OpenTime.TimeOfDay.Ticks);
             }
             set 
             { 
-                timingControlModel.OpenTime = value; OnPropertyChanged();
+                TimingControl.OpenTime = value; OnPropertyChanged();
             } 
         }
         /// <summary>
         /// 已啟用
         /// </summary>
-        public bool IsEnable { get => timingControlModel.IsEnable; set { timingControlModel.IsEnable = value; OnPropertyChanged(); } }
+        public bool IsEnable { get => TimingControl.IsEnable; set { TimingControl.IsEnable = value; OnPropertyChanged(); } }
 
 
 
@@ -388,15 +441,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 if (_dayOfWeekWorkVMObservableCollection == null)
                 {
-                    if (timingControlModel.DayOfWeekWorkCollection == null)
+                    if (TimingControl.DayOfWeekWorkCollection == null)
                     {
-                        timingControlModel.DayOfWeekWorkCollection =new List<DayOfWeekWorkModel>(); for (int i = 0; i < 7; i++)
+                        TimingControl.DayOfWeekWorkCollection =new List<DayOfWeekWorkModel>(); for (int i = 0; i < 7; i++)
                         {
-                            timingControlModel.DayOfWeekWorkCollection.Add(new DayOfWeekWorkModel((DayOfWeek)i, false));
+                            TimingControl.DayOfWeekWorkCollection.Add(new DayOfWeekWorkModel((DayOfWeek)i, false));
                         }
                     }
 
-                    _dayOfWeekWorkVMObservableCollection = timingControlModel.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
+                    _dayOfWeekWorkVMObservableCollection = TimingControl.DayOfWeekWorkCollection.Select(x => new DayOfWeekWorkViewModel(x)).ToObservableCollection();
                     foreach (var obj in _dayOfWeekWorkVMObservableCollection)
                     {
                         obj.IsWorkChanged += (sender, e) =>
@@ -414,7 +467,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 _dayOfWeekWorkVMObservableCollection = value;
                 if (value != null)
                 {
-                    timingControlModel.DayOfWeekWorkCollection = value.Select(x => x.DayOfWeekWork).ToList();
+                    TimingControl.DayOfWeekWorkCollection = value.Select(x => x.DayOfWeekWork).ToList();
 
                     foreach (var obj in value)
                     {

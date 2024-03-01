@@ -338,15 +338,19 @@ namespace GD_StampingMachine.ViewModels
                     {
                         while (true)
                         {
+                            //若停留在計時頁面
+                            if (ParameterSettingVM.TbtnTimimgSettingIsChecked)
+                                continue;
+
+
                             if (SleepSettingCts.Token.IsCancellationRequested)
                                 SleepSettingCts.Token.ThrowIfCancellationRequested();
                             try
                             {
+                                //休眠
                                 //找出現在是否在自動狀態
                                 //   DateTime.Now
-                                var EnableTimingControl = ParameterSettingVM.
-                                TimingSettingVM.
-                                TimingControlVMCollection.Where(x => x.IsEnable).ToList();
+                                var EnableTimingControl = ParameterSettingVM.TimingSettingVM.TimingControlVMCollection.Where(x => x.IsEnable).ToList();
 
                                 //若目前時間落在之間
                                 if (!SleepRangeList.Exists(x => x.RestTime < DateTime.Now && DateTime.Now < x.OpenTime))

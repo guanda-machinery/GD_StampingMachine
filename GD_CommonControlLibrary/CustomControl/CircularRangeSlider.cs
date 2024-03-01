@@ -68,7 +68,7 @@ namespace GD_CommonControlLibrary
             CircularRangeSlider RangeSlider = (CircularRangeSlider)d;
             //    (UIElementAutomationPeer.FromElement(RangeSlider) as RangeBaseAutomationPeer)?.RaiseValuePropertyChangedEvent((double)e.OldValue, (double)e.NewValue);
             RangeSlider.OnStartChanged((double)e.OldValue, (double)e.NewValue);
-            RangeSlider.calcArc();          
+            RangeSlider.CalcArc();          
         }
 
         protected virtual void OnStartChanged(double oldValue, double newValue)
@@ -87,7 +87,7 @@ namespace GD_CommonControlLibrary
             CircularRangeSlider RangeSlider = (CircularRangeSlider)d;
             //    (UIElementAutomationPeer.FromElement(RangeSlider) as RangeBaseAutomationPeer)?.RaiseValuePropertyChangedEvent((double)e.OldValue, (double)e.NewValue);
             RangeSlider.OnEndChanged((double)e.OldValue, (double)e.NewValue); 
-            RangeSlider.calcArc();
+            RangeSlider.CalcArc();
         }
 
         protected virtual void OnEndChanged(double oldValue, double newValue)
@@ -131,7 +131,7 @@ namespace GD_CommonControlLibrary
             if (value != null)
             {
                 double num = (double)value;
-                if (num != double.NaN)
+                if (!double.IsNaN(num))
                 {
                     return !double.IsInfinity(num);
                 }
@@ -319,10 +319,10 @@ namespace GD_CommonControlLibrary
 
         private void CircularRangeSlider_RangeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            calcArc();
+            CalcArc();
         }
 
-        private void calcArc() 
+        private void CalcArc() 
         { 
             double range = Maximum - Minimum;
 
@@ -549,10 +549,10 @@ namespace GD_CommonControlLibrary
 
 
 
-        private double GetAngleR(Point pos, double Radius)
+        private static double GetAngleR(Point pos, double Radius)
         {
             //Calculate out the distance(r) between the center and the position
-            Point center = new Point(Radius, Radius);
+            Point center = new(Radius, Radius);
             double xDiff = center.X - pos.X;
             double yDiff = center.Y - pos.Y;
             double r = Math.Sqrt(xDiff * xDiff + yDiff * yDiff);

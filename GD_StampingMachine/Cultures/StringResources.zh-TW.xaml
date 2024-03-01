@@ -250,6 +250,7 @@
     <sys:String x:Key="btnLoadSetting">載入設定</sys:String>
     <sys:String x:Key="btnRecoverSetting">還原設定</sys:String>
     <sys:String x:Key="btnSaveSetting">儲存設定</sys:String>
+    <sys:String x:Key="btnApplySetting">套用設定</sys:String>
     <sys:String x:Key="btnDeleteSetting">刪除設定</sys:String>
     <sys:String x:Key="btnSave">儲存</sys:String>
     <sys:String x:Key="btnReLoad">重新載入</sys:String>
@@ -384,7 +385,9 @@
 
     <sys:String x:Key="Text_ImportFail">匯入失敗</sys:String>
     <sys:String x:Key="Text_ImportableFileNotExisted">找不到可匯入的檔案</sys:String>
-
+    <sys:String x:Key="Text_FileNotExisted">找不到檔案</sys:String>
+    
+    
     <sys:String x:Key="Text_CheckFile">正在檢查檔案</sys:String>
     <sys:String x:Key="Text_Importing">正在匯入</sys:String>
     <sys:String x:Key="Text_ImportFinishing">正在完成匯入</sys:String>
@@ -397,6 +400,7 @@
     <sys:String x:Key="Text_ImportNotifySuceesful">成功匯入「{0}」筆資料！</sys:String>
 
     <sys:String x:Key="Text_SettingAskOverwrite">設定已存在，是否要覆蓋</sys:String>
+    <sys:String x:Key="Text_SettingAskSaveChange">是否要儲存設定</sys:String>
 
     <sys:String x:Key="Text_Starting">正在啟動...</sys:String>
     <sys:String x:Key="Text_Loading">讀取中...</sys:String>

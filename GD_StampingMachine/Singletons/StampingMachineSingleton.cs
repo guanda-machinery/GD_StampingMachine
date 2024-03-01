@@ -8,6 +8,7 @@ using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Microsoft.VisualStudio.OLE.Interop;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -144,6 +145,7 @@ namespace GD_StampingMachine.Singletons
 
             if (JsonHM.ReadProjectSettingJson(out List<ProjectModel> PathList))
             {
+                List<string> FileNotExistedList = new List<string>();
                 PathList.ForEach(EPath =>
                 {
                     string fileName = null;
@@ -161,7 +163,7 @@ namespace GD_StampingMachine.Singletons
                     else
                     {
                         //需註解找不到檔案!
-                        _ = MessageBoxResultShow.ShowOKAsync("", $"Can't find file {fileName}" , GD_MessageBoxNotifyResult.NotifyRd);
+                        FileNotExistedList.Add(fileName);
                         ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,
@@ -172,6 +174,10 @@ namespace GD_StampingMachine.Singletons
                         });
                     }
                 });
+
+                //這邊開始顯示
+                if(FileNotExistedList.FirstOrDefault(x=> !string.IsNullOrWhiteSpace(x)) !=null )
+                    _ = MessageBoxResultShow.ShowOKAsync("", $"{(string)Application.Current.TryFindResource("Text_FileNotExisted")} {FileNotExistedList.FirstOrDefault(x=> !string.IsNullOrWhiteSpace(x))}", GD_MessageBoxNotifyResult.NotifyRd);
             }
 
             TypeSettingSettingVM = new();

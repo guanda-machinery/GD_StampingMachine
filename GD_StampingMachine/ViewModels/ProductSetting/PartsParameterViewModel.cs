@@ -323,7 +323,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         if (SettingBaseVM != null)
                         {
-                            if (await MethodWinUIMessageBox.AskDelProjectAsync(this.SettingBaseVM.PlateNumber) == MessageBoxResult.Yes)
+                            if (await MethodWinUIMessageBox.AskDelProjectAsync(this.SettingBaseVM.PlateNumber))
                             {
                                 GridItemSource.Remove(this);
                             }
