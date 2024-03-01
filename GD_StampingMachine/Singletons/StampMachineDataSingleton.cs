@@ -1037,7 +1037,7 @@ namespace GD_StampingMachine.Singletons
 
                                     if (TcpPing.RetrieveIpAddress(hostPath, out var _ip))
                                     {
-                                        if (!await TcpPing.IsPingableAsync(_ip))
+                                        if (!await TcpPing.IsPingableAsync(_ip) && !Debugger.IsAttached)
                                         {
                                             throw new PingException($"Ping Host: {_ip} is Failed");
                                         }

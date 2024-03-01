@@ -20,7 +20,7 @@ namespace GD_MachineConnect.Machine.Interfaces
         public event EventHandler<ValueChangedEventArgs<bool>> IsConnectedChanged;
 
 
-        public abstract Task<bool> ConnectAsync(string hostPath, string user = null, string password = null);
+        public abstract Task<bool> ConnectAsync(string hostPath, string? user = null, string? password = null);
         public abstract void Disconnect();
 
         public abstract Task DisconnectAsync();
