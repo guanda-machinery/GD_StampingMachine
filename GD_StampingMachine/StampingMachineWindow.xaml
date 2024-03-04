@@ -28,7 +28,6 @@
         Closed="Window_Closed"
         Closing="Window_Closing"
         
-        
         >
     <Window.Style>
         <Style TargetType="Window">
@@ -105,8 +104,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}" Cursor=""  >
-
+                    <Button Content="{materialDesign:PackIcon Kind=Close, Size=18}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding CloseWindowCommand}"  PassEventArgsToCommand="True"/>

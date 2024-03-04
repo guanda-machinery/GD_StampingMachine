@@ -199,6 +199,39 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
+        
+        private ICommand _addTypeSettingProjectDarggableOpenedCommand;
+        public ICommand AddTypeSettingProjectDarggableOpenedCommand
+        {
+            get => _addTypeSettingProjectDarggableOpenedCommand ??= new RelayCommand(() =>
+            {
+                OnPropertyChanged(nameof(NotReadyToTypeSettingProductProjectRowFilterCommand));
+            });       
+        }
+
+
+
+
+
+        private DevExpress.Mvvm.ICommand<RowFilterArgs> _notReadyToTypeSettingProductProjectRowFilterCommand;
+        public DevExpress.Mvvm.ICommand<RowFilterArgs> NotReadyToTypeSettingProductProjectRowFilterCommand
+        {
+            get => _notReadyToTypeSettingProductProjectRowFilterCommand ??= new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
+            {
+                if (args.Item is ProductProjectViewModel ProductProject)
+                {
+                    if(ProductProject.ProductProjectIsFinish)
+                        args.Visible = false;
+                    else
+                        args.Visible = true;
+                }
+                else
+                {
+                    args.Visible = true;
+                }
+            });
+        }
+            
 
 
         private ProductProjectViewModel _notReadyToTypeSettingProductProjectVMCurrentItem;
@@ -303,6 +336,8 @@ namespace GD_StampingMachine.ViewModels
                 {
                     ProjectItem.IsMarked = !ProjectItem.IsMarked;
                 }
+
+
             });
         }
 

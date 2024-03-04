@@ -9,7 +9,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         public SeparateBoxViewModel(SeparateBoxModel separateBox)
         {
-            SeparateBox = SeparateBox;
+            SeparateBox = separateBox;
         }
 
         [JsonIgnore]

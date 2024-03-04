@@ -115,15 +115,20 @@ namespace GD_CommonControlLibrary.GD_Popup
             base.CommandBindings.Add(new CommandBinding(ClosePopupCommand, ClosePopupHandler, ClosePopupCanExecute));
             base.CommandBindings.Add(new CommandBinding(OpenPopupCommand, OpenPopupHandler, OpenPopupCanExecute));
             base.CommandBindings.Add(new CommandBinding(PopupCommand, PopupHandler, PopupCanExecute));
+            this.Opened += NonTopmostPopup_Opened;
         }
 
-
+        private void NonTopmostPopup_Opened(object sender, EventArgs e)
+        {
+            OpenedCommand?.Execute(e);
+        }
 
         static NonTopmostPopup()
         {
             ClosePopupCommand = new RoutedCommand();
             OpenPopupCommand = new RoutedCommand();
             PopupCommand = new RoutedCommand();
+            OpenedCommandProperty = DependencyProperty.Register(nameof(OpenedCommand), typeof(ICommand), typeof(NonTopmostPopup), new FrameworkPropertyMetadata(null));
         }
 
 
@@ -235,11 +240,18 @@ namespace GD_CommonControlLibrary.GD_Popup
           //  _appliedTopMost = isTop;
         }
 
-        
+        public ICommand OpenedCommand
+        {
+            get=> (ICommand)GetValue(OpenedCommandProperty);            
+            set=> SetValue(OpenedCommandProperty, value);
+        }
+
 
         public static readonly RoutedCommand OpenPopupCommand;
         public static readonly RoutedCommand ClosePopupCommand;
         public static readonly RoutedCommand PopupCommand;
+        public static readonly DependencyProperty OpenedCommandProperty;
+
         private void OpenPopupHandler(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
         {
             if (!executedRoutedEventArgs.Handled)

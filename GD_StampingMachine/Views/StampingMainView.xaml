@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<UserControl 
     x:Name="StampingMainViewUserControl"
     x:Class="GD_StampingMachine.Views.StampingMainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

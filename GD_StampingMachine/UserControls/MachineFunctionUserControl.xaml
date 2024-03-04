@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:GD_StampingMachine.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             
+            
             xmlns:GD_ParameterSettingViewModels="clr-namespace:GD_StampingMachine.ViewModels.ParameterSetting" 
              xmlns:GD_Enum="clr-namespace:GD_StampingMachine.GD_Enum;assembly=GD_StampingMachine.GD_Enum"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
@@ -993,7 +993,8 @@
 
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="{DynamicResource Text_QRCode_Component}" Visibility="{Binding QRCode_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
+                    <GroupBox 
+                        Header="{DynamicResource Text_QRCode_Component}" Visibility="{Binding QRCode_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
                         <Grid Margin="0,0">
                             <GroupBox 
                                 Header="{DynamicResource Text_DownCylinder_Component}" HeaderStringFormat="{}{0}-2">

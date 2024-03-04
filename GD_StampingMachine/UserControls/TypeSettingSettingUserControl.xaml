@@ -279,12 +279,16 @@
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
                                           CommandParameter="{StaticResource TrueValue}"
                                            CommandTarget="{Binding ElementName=AddTypeSettingProjectDraggablePopup}"
-                                    
-                                    
                                     />
-                            <GD_Popup:DraggablePopup Name="AddTypeSettingProjectDraggablePopup"
-                                Placement="Relative" PlacementTarget="{Binding ElementName=btnAddProjectToggleButton}" PopupAnimation="Fade"
-                                AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddTypeSettingProjectDarggableIsPopUp}">
+
+
+                            <GD_Popup:DraggablePopup 
+                                Name="AddTypeSettingProjectDraggablePopup"
+                                Placement="Relative" PlacementTarget="{Binding ElementName=btnAddProjectToggleButton}" PopupAnimation="Fade" 
+                                AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddTypeSettingProjectDarggableIsPopUp}"
+                                OpenedCommand="{Binding AddTypeSettingProjectDarggableOpenedCommand}"
+                                >
+
                                 <Border   Background="White" CornerRadius="10" >
                                     <Grid MinWidth="100" MinHeight="100" Margin="0,0">
                                         <Grid.Resources >
@@ -318,6 +322,7 @@
                                         <ScrollViewer Grid.Row="1" MaxHeight="500" MinHeight="200" MinWidth="300" VerticalScrollBarVisibility="Visible"  >
                                             <dxg:GridControl 
                                                 Name="NotReadyToTypeSettingProductProjectGridControl"
+                                                CustomRowFilterCommand="{Binding NotReadyToTypeSettingProductProjectRowFilterCommand}"        
                                                 CurrentItem="{Binding NotReadyToTypeSettingProductProjectVMCurrentItem}"
                                                 SelectedItem="{Binding NotReadyToTypeSettingProductProjectVMSelected, Mode=TwoWay}"
                                                 SelectionMode="Row"

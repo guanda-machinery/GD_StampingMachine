@@ -1158,7 +1158,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                         <dxg:TableView   
                                                       
                                                         IsColumnMenuEnabled ="False"
-                                AllowPaging="True"
+                            AllowPaging="True"
                                                         AllowSorting="false"
                                                         AllowColumnFiltering="False"
                                                         AllowColumnMoving="False"
