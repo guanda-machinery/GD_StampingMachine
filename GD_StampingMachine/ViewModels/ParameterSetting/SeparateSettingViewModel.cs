@@ -226,8 +226,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             {
                 obj.StampingBoxPartsVM.SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollection.DeepCloneByJson();
             }
-
-
         }
 
 

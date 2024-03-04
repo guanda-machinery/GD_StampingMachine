@@ -63,7 +63,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand _maximizeWindowCommand;
+        private ICommand?_maximizeWindowCommand;
         public ICommand MaximizeWindowCommand
         {
             get => _maximizeWindowCommand ??= new RelayCommand(() =>
@@ -75,7 +75,7 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private ICommand _minimizeWindowCommand;
+        private ICommand?_minimizeWindowCommand;
         public ICommand MinimizeWindowCommand
         {
             get => _minimizeWindowCommand ??= new RelayCommand(() =>
@@ -84,7 +84,7 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private ICommand _closeWindowCommand;
+        private ICommand?_closeWindowCommand;
         public ICommand CloseWindowCommand
         {
             get => _closeWindowCommand ??= new RelayCommand<System.Windows.RoutedEventArgs>(e =>

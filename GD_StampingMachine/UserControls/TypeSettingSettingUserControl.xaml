@@ -181,7 +181,7 @@
                     </dxg:GridControl.View>
 
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_TypeSettingProjectName}" FieldName="ProjectDistribute.ProjectDistributeName" Width="auto"   IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_TypeSettingProjectName}" FieldName="ProjectDistributeName" Width="auto"   IsSmart="True">
                     <dxg:GridColumn.EditSettings>
                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                     </dxg:GridColumn.EditSettings>
@@ -190,12 +190,12 @@
 
 
 
-                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProjectDistribute.CreatedDate" Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="CreatedDate" Width="auto" AllowMoving="false"  IsSmart="True">
                     <dxg:GridColumn.EditSettings>
                         <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
-                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="ProjectDistribute.EditDate" Width="auto" AllowMoving="false"  IsSmart="True">
+                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="EditDate" Width="auto" AllowMoving="false"  IsSmart="True">
                     <dxg:GridColumn.EditSettings>
                         <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
                     </dxg:GridColumn.EditSettings>

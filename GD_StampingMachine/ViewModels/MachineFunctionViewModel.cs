@@ -54,7 +54,7 @@ namespace GD_StampingMachine.ViewModels
         public StampMachineDataSingleton StampMachineData { get; set; } = Singletons.StampMachineDataSingleton.Instance;
 
 
-        private ICommand _gridControlSizeChangedCommand;
+        private ICommand?_gridControlSizeChangedCommand;
         public ICommand GridControlSizeChangedCommand
         {
             get => _gridControlSizeChangedCommand ??= new RelayCommand<object>(obj =>
@@ -75,7 +75,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand _gridControlLoadedCommand;
+        private ICommand?_gridControlLoadedCommand;
         public ICommand GridControlLoadedCommand
         {
             get => _gridControlLoadedCommand ??= new AsyncRelayCommand<object>(async obj =>

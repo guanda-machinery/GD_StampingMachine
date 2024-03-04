@@ -176,7 +176,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
         
-        private DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs> _rowDoubleClickCommand;
+        private DevExpress.Mvvm.DelegateCommand<DevExpress.Mvvm.Xpf.RowClickArgs>? _rowDoubleClickCommand;
         [JsonIgnore]
         public ICommand RowDoubleClickCommand
         {
@@ -201,7 +201,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        private ICommand _loadProductSettingCommand;
+        private ICommand? _loadProductSettingCommand;
         [JsonIgnore]
         public ICommand LoadProductSettingCommand
         {
@@ -221,12 +221,28 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             return;
                         }
 
-                        if (ReadProductProject.CreateTime != default)
+                       // if (ReadProductProject.CreateTime != default)
                         {
+                            //已完成的專案
+
+                            if (!IsShowAllProject)
+                            {
+                                if (ReadProductProject.ProductProjectIsFinish)
+                                    IsShowHiddenProject = true;
+                                else
+                                    IsShowHiddenProject = false;
+
+                                //OnPropertyChanged(nameof(ProductProjectRowFilterCommand));
+                            }
+
                             ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(ReadProductProject));
                             await SaveProductListSettingAsync();
-
                         }
+
+
+
+
+
                     }
                 }
                 catch (Exception ex)
@@ -239,7 +255,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ICommand _reLoadProductSettingCommand;
+        private ICommand? _reLoadProductSettingCommand;
         public ICommand ReLoadProductSettingCommand
         {
             get => _reLoadProductSettingCommand ??= new AsyncRelayCommand<object>(async (obj) =>
@@ -250,15 +266,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (JsonHM.ManualReadProductProject(productProjectVM.ProductProjectName,out ProductProjectModel ReadProductProject))
                     {
                         //如果檔案已存在 跳過
-                        var Findex = ProductProjectVMObservableCollection.FindIndex(x => x.ProductProjectName == ReadProductProject.Name);
-                        if (Findex != -1)
+                        var existedProject = ProductProjectVMObservableCollection.FirstOrDefault(x => x.ProductProjectName == ReadProductProject.Name);
+                        if (existedProject != null)
                         {
-                            if(ProductProjectVMObservableCollection[Findex] != productProjectVM)
-                            {
-                                await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
-                                          (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject"), GD_MessageBoxNotifyResult.NotifyRd);
-                                return;
-                            }
+                            //+ existedProject.ProductProjectName
+                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                      (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject"), GD_MessageBoxNotifyResult.NotifyRd);
+                            return;
                         }
 
 
@@ -298,7 +312,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ICommand _saveProductListSettingCommand;
+        private ICommand?_saveProductListSettingCommand;
         [JsonIgnore]
         public ICommand SaveProductListSettingCommand
         {
@@ -348,11 +362,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private bool _showHiddenProject;
-        private bool _showAllProject;
+        private bool _isShowHiddenProject;
+        private bool _isShowAllProject;
 
-        public bool ShowHiddenProject { get => _showHiddenProject; set { _showHiddenProject = value; OnPropertyChanged(); } }
-        public bool ShowAllProject { get => _showAllProject; set { _showAllProject = value; OnPropertyChanged(); } }
+        public bool IsShowHiddenProject { get => _isShowHiddenProject; set { _isShowHiddenProject = value; OnPropertyChanged(); } }
+        public bool IsShowAllProject { get => _isShowAllProject; set { _isShowAllProject = value; OnPropertyChanged(); } }
 
 
         public ICommand _updateFiltrationLogicCommand;
@@ -380,13 +394,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 if (args?.Item is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel PProject)
                 {
-                    if (ShowAllProject)
+                    if (IsShowAllProject)
                     {
                         args.Visible = true;
                     }
                     else
                     {
-                        if (ShowHiddenProject)
+                        if (IsShowHiddenProject)
                             args.Visible = PProject.ProductProjectIsFinish;
                         else
                             args.Visible = !PProject.ProductProjectIsFinish;

@@ -52,7 +52,7 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        private ICommand _changeToNextCultureCommand;
+        private ICommand?_changeToNextCultureCommand;
         public  ICommand ChangeToNextCultureCommand
         {
             get => _changeToNextCultureCommand??= new RelayCommand(()=>

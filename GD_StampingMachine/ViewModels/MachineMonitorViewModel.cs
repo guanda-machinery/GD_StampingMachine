@@ -1327,7 +1327,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand _separateBoxVMObservableCollectionelectionChangedCommand;
+        private ICommand?_separateBoxVMObservableCollectionelectionChangedCommand;
         [JsonIgnore]
         public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
@@ -1374,7 +1374,7 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private ICommand _clearFinishItemCommand;
+        private ICommand?_clearFinishItemCommand;
         public ICommand ClearFinishItemCommand
         {
             get => _clearFinishItemCommand ??= new AsyncRelayCommand(async () =>

@@ -119,7 +119,7 @@ namespace GD_StampingMachine
 
 
 
-        private ICommand _closingCommand;
+        private ICommand?_closingCommand;
         public ICommand ClosingCommand
         {
             get => _closingCommand ??= new AsyncRelayCommand<System.ComponentModel.CancelEventArgs>(async e =>

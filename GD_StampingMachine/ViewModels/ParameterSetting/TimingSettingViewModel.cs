@@ -40,7 +40,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public TimingSettingModel TimingSetting { get; private set; }
 
 
-        private ICommand _pageUnloadedCommand;
+        private ICommand?_pageUnloadedCommand;
         public ICommand PageUnloadedCommand
         {
             get => _pageUnloadedCommand ??= new AsyncRelayCommand<object>(async obj =>
@@ -67,7 +67,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private ICommand _addNewTimingControlCommand;
+        private ICommand?_addNewTimingControlCommand;
         public ICommand AddNewTimingControlCommand
         {
             get => _addNewTimingControlCommand ??= new RelayCommand(() =>
@@ -77,7 +77,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 IsNewTimingControl = true;
             });
         }
-        private ICommand _saveNewTimingControlCommand;
+        private ICommand?_saveNewTimingControlCommand;
         public ICommand SaveNewTimingControlCommand
         {
             get => _saveNewTimingControlCommand ??= new RelayCommand(() =>
@@ -162,7 +162,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         private bool IsMouseInListBox;
 
-        private ICommand _timingControlVMCollectionListBox_MouseEnterCommand;
+        private ICommand?_timingControlVMCollectionListBox_MouseEnterCommand;
         public ICommand TimingControlVMCollectionListBox_MouseEnterCommand
         {
             get => _timingControlVMCollectionListBox_MouseEnterCommand ??= new RelayCommand<object>(obj =>
@@ -170,7 +170,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 IsMouseInListBox = true;
             });
         }
-        private ICommand _timingControlVMCollectionListBox_MouseLeaveCommand;
+        private ICommand?_timingControlVMCollectionListBox_MouseLeaveCommand;
         public ICommand TimingControlVMCollectionListBox_MouseLeaveCommand
         {
             get => _timingControlVMCollectionListBox_MouseLeaveCommand ??= new RelayCommand<object>(obj =>
@@ -181,7 +181,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private ICommand _timingControlVMCollectionListBox_MouseUpCommand;
+        private ICommand?_timingControlVMCollectionListBox_MouseUpCommand;
         public ICommand TimingControlVMCollectionListBox_MouseUpCommand
         {
             get => _timingControlVMCollectionListBox_MouseUpCommand ??= new RelayCommand<object>(obj =>
@@ -196,7 +196,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         /*
-          private ICommand _timingControlVMCollectionListBox_SelectionChangedCommand;
+          private ICommand?_timingControlVMCollectionListBox_SelectionChangedCommand;
            public ICommand TimingControlVMCollectionListBox_SelectionChangedCommand
            {
                get => _timingControlVMCollectionListBox_SelectionChangedCommand ??= new RelayCommand<object>(obj =>
@@ -216,7 +216,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                });
            }*/
 
-        private ICommand _finishTimingControlChangedCommand;
+        private ICommand?_finishTimingControlChangedCommand;
         public ICommand FinishTimingControlChangedCommand
         {
             get => _finishTimingControlChangedCommand ??= new RelayCommand<object>(obj =>
@@ -240,7 +240,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private ICommand _editTimingControlCommand;
+        private ICommand?_editTimingControlCommand;
         public ICommand EditTimingControlCommand
         {
             get => _editTimingControlCommand ??= new RelayCommand(() =>
@@ -252,7 +252,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private ICommand _finishEditTimingControlCommand;
+        private ICommand?_finishEditTimingControlCommand;
         public ICommand FinishEditTimingControlCommand
         {
             get => _finishEditTimingControlCommand ??= new RelayCommand(() =>
@@ -308,7 +308,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 往下拉
         /// </summary>
-        private ICommand _onThumbMouseUpCommand;
+        private ICommand?_onThumbMouseUpCommand;
         public ICommand OnThumb_DragCompletedCommand
         {
             get => _onThumbMouseUpCommand ??= new RelayCommand<object>(obj =>
@@ -496,7 +496,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private bool _isDeleteButtonTrigger;
         public bool IsDeleteButtonTrigger { get => _isDeleteButtonTrigger; set { _isDeleteButtonTrigger = value; OnPropertyChanged(); } }
 
-        private ICommand _deleteCommand;
+        private ICommand?_deleteCommand;
         public ICommand DeleteCommand
         {
             get => _deleteCommand ??= new AsyncRelayCommand<object>(async obj =>
@@ -516,7 +516,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private ICommand _onThumbDragDeltaCommand;
+        private ICommand?_onThumbDragDeltaCommand;
         public ICommand OnThumbDragDeltaCommand
         {
             get => _onThumbDragDeltaCommand ??= new RelayCommand<object>(obj =>
@@ -544,7 +544,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
         private bool mouseIsDown = false;
 
-        private ICommand _onThumbMouseDownCommand;
+        private ICommand?_onThumbMouseDownCommand;
         public ICommand OnThumbMouseDownCommand
         {
             get => _onThumbMouseDownCommand ??= new RelayCommand<object>(obj =>
@@ -561,7 +561,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 Canvas.SetTop(thumb, newY);*/
             });
         }
-        private ICommand _onThumbMouseUpCommand;
+        private ICommand?_onThumbMouseUpCommand;
         public ICommand OnThumbMouseUpCommand
         {
             get => _onThumbMouseUpCommand ??= new RelayCommand<object>(obj =>

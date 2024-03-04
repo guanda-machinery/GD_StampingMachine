@@ -71,7 +71,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ICommand _loadSettingCommand;
+        private ICommand?_loadSettingCommand;
         public override ICommand LoadSettingCommand
         {
             get => _loadSettingCommand ??= new RelayCommand(() =>
@@ -81,7 +81,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-        private ICommand _recoverSettingCommand;
+        private ICommand?_recoverSettingCommand;
         public override ICommand RecoverSettingCommand
         {
             get => _recoverSettingCommand ??= new RelayCommand(() =>
@@ -124,7 +124,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-        private ICommand _deleteSettingCommand;
+        private ICommand?_deleteSettingCommand;
         public override ICommand DeleteSettingCommand
         {
             get => _deleteSettingCommand ??= new AsyncRelayCommand(async () =>

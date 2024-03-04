@@ -74,11 +74,11 @@
 
                         <TextBlock Text="{DynamicResource Text_TypeSettingProject}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                         <TextBlock Text="：" VerticalAlignment="Center" Margin="0,0"/>
-                        <ToggleButton Name="OpenProjectFileToggleButton"  Width="250"  Background="Transparent" BorderThickness="0"
+                        <ToggleButton Name="OpenProjectFileToggleButton" Background="Transparent" BorderThickness="0" Padding="0" Margin="5,0"
                                       IsChecked="{Binding ProductSettingVM.OpenProjectFileDarggableIsPopup}"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}" VerticalAlignment="Center" Height="auto">
                             <!--                            Command="{Binding OpenProjectFileCommand}"-->
-                            <Border BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"  Width="{Binding ElementName=OpenProjectFileToggleButton, Path=ActualWidth}"
+                            <Border BorderBrush="{DynamicResource PrimaryHueLightForegroundBrush}"   HorizontalAlignment="Stretch"   Width="280"  MaxWidth="280" 
                                     BorderThickness="0,0,0,1.5">
                                 <TextBlock 
                                     Text="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, Path=SelectedProjectDistributeVM.ProjectDistributeName}"
@@ -122,23 +122,18 @@
 
 
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <GD_UserControls:ImageBrightDarkCustomControl  Width="200"
-                            DarkImageSource="{StaticResource stmDarkDrawingImage}"
+
+                    <GD_UserControls:ImageBrightDarkCustomControl Width="200" Grid.Column="1"
+                            DarkImageSource="{StaticResource stmDarkDrawingImage}" 
                             BrightImageSource="{StaticResource stmBrightDrawingImage}"/>
-
-                    </StackPanel>
-
-
-
-
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0,0,0">
+           
+                    <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0,0,0">
                         <Border Padding="15,5" CornerRadius="20"
                             Background="{DynamicResource PrimaryHueMidBrush}" BorderBrush="{DynamicResource PrimaryHueMidForegroundBrush}" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal">
-                            
-                        
-                        <Button Name="AlarmButton"  
+                            <StackPanel Orientation="Horizontal">
+
+
+                                <Button Name="AlarmButton"  
                                    Visibility="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, 
                             Path=AlarmLamp , Converter={dx:BooleanToVisibilityConverter}}"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
@@ -148,21 +143,21 @@
                                 Style="{StaticResource SiegCustomButton_Transparent}">
                                     <Image Width="30" Height="30" Source="{StaticResource WarningDrawingImage}"/>
                                     <Button.Triggers>
-                                <EventTrigger RoutedEvent="Loaded">
-                                    <BeginStoryboard >
-                                        <Storyboard  RepeatBehavior="Forever">
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-                                                <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="0.0"/>
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Button.Triggers>
-                        </Button>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard >
+                                                <Storyboard  RepeatBehavior="Forever">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
+                                                        <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                                                        <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="0.0"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
 
-                        <GD_Popup:DraggablePopup   
+                                <GD_Popup:DraggablePopup   
                             Visibility="{Binding ElementName=AlarmButton,Path=Visibility}"
                             AllowTopMost="false" 
                             Name="MachineWarningDraggablePopup"
@@ -196,31 +191,31 @@
 
 
 
-                        <Button Name="StampingWarningButton"    Style="{StaticResource SiegCustomButton_Transparent}"
+                                <Button Name="StampingWarningButton"    Style="{StaticResource SiegCustomButton_Transparent}"
                                 Command="{x:Static GD_Popup:DraggablePopup.PopupCommand}" 
                                 CommandTarget="{Binding ElementName=StampingWarningDraggablePopup}"       
                       
                                 MinWidth="10"  BorderThickness="0"
                             Margin="4,0" Padding="0" Width="30" Height="30">
-                            <Image Height="30" Width="30">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Source" Value="{StaticResource Character_BlackDrawingImage }"/>
-                                        <Style.Triggers>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="Source" Value="{StaticResource Character_WhiteDrawingImage}"/>
-                                            </MultiDataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
+                                    <Image Height="30" Width="30">
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource Character_BlackDrawingImage }"/>
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="false" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Source" Value="{StaticResource Character_WhiteDrawingImage}"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
 
 
-                        </Button>
-                        <GD_Popup:DraggablePopup  
+                                </Button>
+                                <GD_Popup:DraggablePopup  
                             AllowTopMost="False"
                             Name="StampingWarningDraggablePopup"
                                     PopupAnimation="Fade"   
@@ -228,14 +223,14 @@
                                     Placement="Relative"   PlacementRectangle="-60,40,0,0"
                                     PlacementTarget="{Binding ElementName=StampingWarningButton}"
                                                           HorizontalAlignment="Center" >
-                            <Grid>
-                                <Border  MaxHeight="500"  Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="300"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="300"/>
-                                        </Grid.ColumnDefinitions>
+                                        <Border  MaxHeight="500"  Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="5" Padding="5,10">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="300"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="300"/>
+                                                </Grid.ColumnDefinitions>
                                                 <GroupBox Grid.Column="0"
                                                           Header="{DynamicResource Text_SteelPunchedFont}" 
                                                           Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
@@ -278,86 +273,86 @@
                                                 <GroupBox Grid.Column="2" 
                                                           Header="{DynamicResource Text_SteelPunchedFont_Machine}" 
                                                     Style="{StaticResource UnderLineStyleGroupBox}" Margin="5,0" >
-                                            <ListBox Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Items.Count,
+                                                    <ListBox Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Items.Count,
                                                 Converter={GD_CommonControl:ItemSourceCountIsZeroToVisibility Invert=True}}"
                          ItemsSource="{Binding StampingFontChangedVM.StampMachineData.RotatingTurntableInfoCollection}"          
                          ItemContainerStyle="{StaticResource StampingTypeDataStyle}"
                           >
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel Margin="5,0"/>
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                            </ListBox>
-                                        </GroupBox>
+                                                        <ListBox.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <WrapPanel Margin="5,0"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ListBox.ItemsPanel>
+                                                    </ListBox>
+                                                </GroupBox>
+                                            </Grid>
+                                        </Border>
+
                                     </Grid>
-                                </Border>
-
-                            </Grid>
-                        </GD_Popup:DraggablePopup>
+                                </GD_Popup:DraggablePopup>
 
 
 
 
 
-                        <Image Margin="4,0"
+                                <Image Margin="4,0"
                             Width="30" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" >
-                            <Image.Style>
-                                <Style TargetType="Image">
-                                    <Setter Property="Source" Value="{StaticResource MachineStatus_Unknown_DrawingImage}"/>
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{StaticResource MachineStatus_Unknown_DrawingImage}"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.Setup}" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_Setup_DrawingImage}"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Source"  Value="{StaticResource MachineStatus_Setup_DrawingImage}"/>
+                                                </MultiDataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
-                                                <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.Manual}"/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_Manual_DrawingImage}"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Source"  Value="{StaticResource MachineStatus_Manual_DrawingImage}"/>
+                                                </MultiDataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
-                                                <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.HalfAutomatic}"/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_HalfAutomatic_DrawingImage}"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Source"  Value="{StaticResource MachineStatus_HalfAutomatic_DrawingImage}"/>
+                                                </MultiDataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
-                                                <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
+                                                        <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=OperationMode}" 
                                                      Value="{x:Static GD_Enum:OperationModeEnum.FullAutomatic}"/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_FullAutomatic_DrawingImage}"/>
-                                        </MultiDataTrigger>
-                                        <DataTrigger  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Source"  Value="{StaticResource MachineStatus_FullAutomatic_DrawingImage}"/>
+                                                </MultiDataTrigger>
+                                                <DataTrigger  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="false" >
-                                            <Setter Property="Source"  Value="{StaticResource MachineStatus_Unknown_DrawingImage}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Image.Style>
-                        </Image>
+                                                    <Setter Property="Source"  Value="{StaticResource MachineStatus_Unknown_DrawingImage}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
 
 
 
 
 
-                            
-                            
-                            
+
+
+
                                 <GD_UserControls:GradientEllipse Margin="4,0"
                                           Width="24" Height="{Binding RelativeSource={RelativeSource Mode=Self},Path=Width}">
                                     <GD_UserControls:GradientEllipse.Style>
@@ -406,33 +401,32 @@
                                 <ToggleButton  Margin="4,0" 
                             Command="{Binding JumpToEngineeringModeCommand}" 
                             MinWidth="0" MinHeight="0" Width="30" Height="30" Style="{StaticResource SiegCustomButton_Transparent}" Padding="0" BorderThickness="0" >
-                            
-                        <Image Width="26" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" >
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Source" Value="{StaticResource DisconnectDrawingImage}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
-                                                <Setter Property="Source"  Value="{StaticResource ConnectDrawingImage}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                            
-                            
-                            
-                </ToggleButton>
+
+                                    <Image Width="26" Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width}" >
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="{StaticResource DisconnectDrawingImage}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" Value="true">
+                                                        <Setter Property="Source"  Value="{StaticResource ConnectDrawingImage}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
 
 
-                        </StackPanel>
+
+                                </ToggleButton>
+
+
+                            </StackPanel>
                         </Border>
                         <TextBlock 
                             Style="{StaticResource Body1TextBlockBold}" FontSize="25" VerticalAlignment="Center"
                             Text="{Binding DateTimeNow,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:hh:mm tt}' }" Margin="15,0" />
                     </StackPanel>
-
-            </Grid>
+                </Grid>
 
         </materialDesign:ColorZone>
        <!-- <Grid  Grid.Row="1"  Background="{StaticResource solidclr_CreamyWhite}">-->

@@ -124,7 +124,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-        private ICommand _saveSettingCommand;
+        private ICommand?_saveSettingCommand;
         public override ICommand SaveSettingCommand
         {
             get => _saveSettingCommand ??= new AsyncRelayCommand(async () =>

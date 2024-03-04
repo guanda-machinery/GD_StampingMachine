@@ -192,7 +192,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ICommand _gridControlSizeChangedCommand;
+        private ICommand?_gridControlSizeChangedCommand;
         [JsonIgnore]
         public ICommand GridControlSizeChangedCommand
         {

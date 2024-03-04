@@ -28,6 +28,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="Image\SNP-0001.bmp" />

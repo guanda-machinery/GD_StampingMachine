@@ -24,6 +24,13 @@ namespace GD_StampingMachine.ViewModels
 
     public class ProjectDistributeModel
     {
+        public ProjectDistributeModel()
+        {
+            ProductProjectVMObservableCollection = new();
+            SeparateBoxVMObservableCollection = new();
+        }
+
+
         /// <summary>
         /// 製品專案名稱
         /// </summary>
@@ -50,9 +57,6 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         [JsonIgnore]
         public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
-
-
-
 
         /// <summary>
         /// 鋼捲位置
@@ -112,19 +116,15 @@ namespace GD_StampingMachine.ViewModels
                         NotReadyToTypeSettingProductProjectVMObservableCollection.Add(obj);
             }
 
-
             ReadyToTypeSettingProductProjectVMCurrentItem = ReadyToTypeSettingProductProjectVMObservableCollection.FirstOrDefault();
-
-
         }
-
 
 
 
         /// <summary>
         /// 資料結構
         /// </summary>
-        public ProjectDistributeModel ProjectDistribute { get; private set; } = new ProjectDistributeModel();
+        public readonly ProjectDistributeModel ProjectDistribute;
 
 
         internal async Task SaveProductProjectVMObservableCollectionAsync()
@@ -139,7 +139,7 @@ namespace GD_StampingMachine.ViewModels
         public string ProjectDistributeName { get => ProjectDistribute.ProjectDistributeName; set { ProjectDistribute.ProjectDistributeName = value; OnPropertyChanged(); } }
         public DateTime CreatedDate { get => ProjectDistribute.CreatedDate; set { ProjectDistribute.CreatedDate = value; OnPropertyChanged(); } }
         public DateTime? EditDate { get => ProjectDistribute.EditDate; set { ProjectDistribute.EditDate = value; OnPropertyChanged(); } }
-
+        public List<string> ProductProjectNameList { get => ProjectDistribute.ProductProjectNameList ??= new List<string>(); set { ProjectDistribute.ProductProjectNameList = value; OnPropertyChanged(); } }
 
 
         private StampingBoxPartsViewModel _stampingBoxPartsVM;
@@ -200,7 +200,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
         
-        private ICommand _addTypeSettingProjectDarggableOpenedCommand;
+        private ICommand?_addTypeSettingProjectDarggableOpenedCommand;
         public ICommand AddTypeSettingProjectDarggableOpenedCommand
         {
             get => _addTypeSettingProjectDarggableOpenedCommand ??= new RelayCommand(() =>
@@ -315,7 +315,19 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-
+        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
+        {
+            get
+            {
+                return ProjectDistribute.SeparateBoxVMObservableCollection ??= new ObservableCollection<ParameterSetting.SeparateBoxViewModel>();
+            }
+            set
+            {
+                ProjectDistribute.SeparateBoxVMObservableCollection = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private ProductProjectViewModel _notReadyToTypeSettingProductProjectVMSelected;
         public ProductProjectViewModel NotReadyToTypeSettingProductProjectVMSelected
         {
@@ -471,7 +483,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand _noneBox_OnDragRecordOverCommand;
+        private ICommand?_noneBox_OnDragRecordOverCommand;
         /// <summary>
         /// 檢驗 不可把不同名稱的專案丟回去
         /// </summary>
@@ -516,7 +528,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ICommand _box_OnDropRecordCommand;
+        private ICommand?_box_OnDropRecordCommand;
         /// <summary>
         /// 丟入盒子內
         /// </summary> 
@@ -551,7 +563,7 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private ICommand _box_OnDragRecordOverCommand;
+        private ICommand?_box_OnDragRecordOverCommand;
         [JsonIgnore]
         public ICommand Box_OnDragRecordOverCommand
         {
@@ -565,7 +577,7 @@ namespace GD_StampingMachine.ViewModels
 
 
         /*
-        private ICommand _projectGridControlRowDoubleClickCommand;
+        private ICommand?_projectGridControlRowDoubleClickCommand;
            
          [JsonIgnore]
         public ICommand ProjectGridControlRowDoubleClickCommand
@@ -804,7 +816,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand _separateBoxVMObservableCollectionelectionChangedCommand;
+        private ICommand?_separateBoxVMObservableCollectionelectionChangedCommand;
         [JsonIgnore]
         public ICommand SeparateBoxVMObservableCollectionelectionChangedCommand
         {
@@ -824,7 +836,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ICommand _allBoxItemReturnToProjectCommand;
+        private ICommand?_allBoxItemReturnToProjectCommand;
         public ICommand AllBoxItemReturnToProjectCommand
         {
             get => _allBoxItemReturnToProjectCommand ??= new AsyncRelayCommand(async () =>

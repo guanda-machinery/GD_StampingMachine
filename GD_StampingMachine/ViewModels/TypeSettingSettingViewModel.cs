@@ -80,7 +80,6 @@ namespace GD_StampingMachine.ViewModels
                     ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                     //存檔
-
                     await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
 
                 }, () => !CreateProjectDistributeCommand.IsRunning);

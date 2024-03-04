@@ -3118,7 +3118,7 @@ if (Key_EditMode = e.NewValue)
         }*/
 
 
-        private ICommand _globalSpeedChangedCommand;
+        private ICommand?_globalSpeedChangedCommand;
         /// <summary>
         /// 全域速度設定
         /// </summary>
@@ -3151,7 +3151,7 @@ if (Key_EditMode = e.NewValue)
         }
 
 
-        private ICommand _feedingVelocityChangedCommand;
+        private ICommand?_feedingVelocityChangedCommand;
         public ICommand FeedingVelocityChangedCommand
         {
             get => _feedingVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
@@ -3169,7 +3169,7 @@ if (Key_EditMode = e.NewValue)
             });
         }
 
-        private ICommand _engravingFeedingVelocityChangedCommand;
+        private ICommand?_engravingFeedingVelocityChangedCommand;
         public ICommand EngravingFeedingVelocityChangedCommand
         {
             get => _engravingFeedingVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
@@ -3190,7 +3190,7 @@ if (Key_EditMode = e.NewValue)
 
 
 
-        private ICommand _rotateVelocityChangedCommand;
+        private ICommand?_rotateVelocityChangedCommand;
         public ICommand RotateVelocityChangedCommand
         {
             get => _rotateVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>

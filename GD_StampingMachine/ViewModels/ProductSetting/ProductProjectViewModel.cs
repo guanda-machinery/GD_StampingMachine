@@ -436,7 +436,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ICommand _refreshSavedCollectionCommand;
+        private ICommand?_refreshSavedCollectionCommand;
         [JsonIgnore]
         public ICommand RefreshSavedCollectionCommand
         {
@@ -502,7 +502,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ICommand _gridControlSizeChangedCommand;
+        private ICommand?_gridControlSizeChangedCommand;
         public ICommand GridControlSizeChangedCommand
         {
             get => _gridControlSizeChangedCommand ??= new RelayCommand<object>(obj =>
@@ -959,7 +959,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ICommand _createPartCommand;
+        private ICommand?_createPartCommand;
         /// <summary>
         /// 建立零件
         /// </summary>
@@ -983,7 +983,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }*/
         }
 
-        private ICommand _saveProductProjectCommand;
+        private ICommand?_saveProductProjectCommand;
         [JsonIgnore]
         public ICommand SaveProductProjectCommand
         {
@@ -1128,7 +1128,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        // private ICommand _addTypeSettingCommand;
+        // private ICommand?_addTypeSettingCommand;
         /// <summary>
         /// 新增排版專案
         /// </summary>
@@ -1148,7 +1148,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     if (ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem != null)
                     {
                         ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem.IsMarked = true;
-                        ProjectDistributeVM.ProjectDistribute.ProductProjectNameList.Add(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
+                        ProjectDistributeVM.ProductProjectNameList.Add(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
                         ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Add(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem);
                         ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem);
                     }
@@ -1226,7 +1226,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             //  ProjectDistributeVM.StampingBoxPartsVM.ProductProjectVMObservableCollection
                         }
 
-                        ProjectDistributeVM.ProjectDistribute.ProductProjectNameList.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
+                        ProjectDistributeVM.ProductProjectNameList.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
                         ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMObservableCollection.Add(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
                         ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem);
                     }

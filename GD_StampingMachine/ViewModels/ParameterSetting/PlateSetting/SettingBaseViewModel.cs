@@ -267,7 +267,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private ICommand _changePlateNumberListCommand;
+        private ICommand?_changePlateNumberListCommand;
         public ICommand ChangePlateNumberListCommand
         {
             get => _changePlateNumberListCommand ??= new AsyncRelayCommand(async () =>

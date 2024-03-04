@@ -1351,6 +1351,7 @@ Header="{DynamicResource textIronPlateMarginSetting}">
                                                     Name="TimingControlVMCollectionListBox"  
                                                      ItemsSource="{Binding TimingControlVMCollectionCloned}"
                                                      SelectedItem="{Binding TimingControlVMSelected}"  
+                                                  IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HasItems}"
                                                       >
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseEnter">

@@ -72,11 +72,11 @@
 
                     <ToggleButton Padding="10,3,10,0"  
                         Name="btnShowAll" Margin="5,0"
-                                  Style="{StaticResource GD_ToggleButton_Gray}" Content="{DynamicResource btnShowAll}" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowAllProject}"/>
+                                  Style="{StaticResource GD_ToggleButton_Gray}" Content="{DynamicResource btnShowAll}" Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding IsShowAllProject}"/>
 
                     <ToggleButton Padding="10,3,10,0"  Margin="5,0"
                         Style="{StaticResource GD_ToggleButton_Gray}" Content="{DynamicResource btnShowHistory}" IsEnabled="{Binding ElementName=btnShowAll, Path=IsChecked,UpdateSourceTrigger=PropertyChanged, Converter={dx:BoolInverseConverter}}" 
-                     Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding ShowHiddenProject}"/>
+                     Command="{Binding UpdateFiltrationLogicCommand}" IsChecked="{Binding IsShowHiddenProject}"/>
 
 
                     <Button  Padding="10,3,10,0"  Margin="5,0"
