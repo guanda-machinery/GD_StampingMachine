@@ -40,29 +40,28 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-
+        //private ProjectDistributeViewModel _newProjectDistributeVM;
         /// <summary>
-        /// 建立用的model
+        /// 建立用的viewmodel
         /// </summary>
-        public ProjectDistributeModel NewProjectDistribute
-        {
-            get; set;
-        } = new();
+        public ProjectDistributeModel NewProjectDistribute { get; set; } = new();
 
 
         public ProductSettingViewModel ProductSettingVM { get => Singletons.StampingMachineSingleton.Instance.ProductSettingVM; }
         public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
 
 
+
+        private AsyncRelayCommand _createProjectDistributeCommand;
         [JsonIgnore]
         public AsyncRelayCommand CreateProjectDistributeCommand
         {
             get
             {
-                return new (async (CancellationToken token) =>
+                return _createProjectDistributeCommand??=new(async (CancellationToken token) =>
                 {
                     _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, "btnAddProject");
-                    if (NewProjectDistribute.ProjectDistributeName == null)
+                    if (string.IsNullOrEmpty(NewProjectDistribute.ProjectDistributeName))
                     {
                         await MethodWinUIMessageBox.CanNotCreateProjectFileNameIsEmptyAsync();
                         return;
@@ -75,9 +74,11 @@ namespace GD_StampingMachine.ViewModels
 
                     NewProjectDistribute.CreatedDate = DateTime.Now;
                     var Clone = NewProjectDistribute.DeepCloneByJson();
-                    Clone.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
-                    Clone.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
-                    ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(Clone));
+                    ProjectDistributeViewModel NewProjectDistributeVM = new(NewProjectDistribute,
+                        ProductSettingVM.ProductProjectVMObservableCollection,
+                        ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection);
+
+                    ProjectDistributeVMObservableCollection.Add(NewProjectDistributeVM);
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
                     //存檔
                     await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);

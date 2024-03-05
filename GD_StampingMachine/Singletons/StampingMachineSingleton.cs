@@ -187,11 +187,8 @@ namespace GD_StampingMachine.Singletons
             {
                 RPDList.ForEach(PDistribute =>
                 {
-                    //PDistribute.ProductProjectNameList
-                    PDistribute.ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection;
-                    PDistribute.SeparateBoxVMObservableCollection = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection;
                     //將製品清單拆分成兩份
-                    TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute)
+                    TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute , ProductSettingVM.ProductProjectVMObservableCollection , ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
                     {
                         IsInDistributePage = false
                         //重新繫結

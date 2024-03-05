@@ -1310,7 +1310,7 @@
                                     </Grid>
 
                                     <ComboBox HorizontalAlignment="Left" 
-                                        Margin="10,0" Padding="0" Width="310" Text="123" 
+                                        Margin="10,0" Padding="0" Width="310"  Text="123" 
                                             Grid.Column="3" Grid.Row="2"   MaxDropDownHeight="275" Grid.ColumnSpan="2"
                                               ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                                         Path=ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
@@ -1328,25 +1328,11 @@
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
                                                                     <StackPanel Grid.Row="1" Orientation="Vertical" >
-                                                                        <!--
-                                                                        <Grid 
-                                                            RenderTransformOrigin="0.0,0.0" >
-                                                                            <Grid.LayoutTransform>
-                                                                                <ScaleTransform ScaleX="0.19" ScaleY="0.19" />
-                                                                            </Grid.LayoutTransform>
-                                                                            <StackPanel>
-                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }" IsEnabled="False"
-                                                                                                                                    RedMeasurementLineVisibility="Collapsed" />
-                                                                                
-
-                                                                            </StackPanel>
-
-                                                                        </Grid>-->
-                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"  Width="250"  HorizontalAlignment="Left"
                                                                         DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
                                                                             <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                                 <TransformGroup>
-                                                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
                                                                                 </TransformGroup>
                                                                             </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                         </GD_SchematicDiagram:QRPlateRowDiagramControl>
@@ -1384,24 +1370,11 @@
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
                                                                     <StackPanel Grid.Row="1" Orientation="Horizontal" >
-                                                                        <!--
-                                                                        <Grid 
-                                                            RenderTransformOrigin="0.0,0.0" >
-                                                                            <Grid.LayoutTransform>
-                                                                                <ScaleTransform ScaleX="0.19" ScaleY="0.19" />
-                                                                            </Grid.LayoutTransform>
-                                                                            <StackPanel>
-                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }"  IsEnabled="False"
-                                                                                                                                             RedMeasurementLineVisibility="Collapsed" />
-
-                                                                            </StackPanel>
-
-                                                                        </Grid>-->
-                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
+                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"  Width="250" 
                                                                         DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
                                                                             <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                                 <TransformGroup>
-                                                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
                                                                                 </TransformGroup>
                                                                             </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                         </GD_SchematicDiagram:QRPlateRowDiagramControl>

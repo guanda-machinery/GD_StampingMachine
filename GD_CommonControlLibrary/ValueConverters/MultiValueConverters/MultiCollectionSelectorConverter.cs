@@ -12,7 +12,7 @@ namespace GD_CommonControlLibrary
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.FirstOrDefault(x=>x is System.Collections.IEnumerable) is System.Collections.IEnumerable enumerable)
+            if (values.FirstOrDefault(x=>x is System.Collections.IList enumX && enumX.Count>0) is System.Collections.IEnumerable enumerable)
             {
                 return enumerable;
             }
