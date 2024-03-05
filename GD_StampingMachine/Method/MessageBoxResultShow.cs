@@ -101,11 +101,11 @@ namespace GD_CommonLibrary.Method
             TaskCompletionSource<MessageBoxResult> tcs = new();
             MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
            
-            _ =Task.Run(async () =>
+            _ =Task.Run(() =>
             {
                 try
                 {
-                    _ =  Application.Current.Dispatcher.InvokeAsync(new Action( () =>
+                     Application.Current.Dispatcher.Invoke(new Action( () =>
                     {
                         try
                         {
