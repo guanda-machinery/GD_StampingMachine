@@ -296,7 +296,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private AsyncRelayCommand _saveProductSettingCommand;
+        private AsyncRelayCommand? _saveProductSettingCommand;
         [JsonIgnore]
         public AsyncRelayCommand SaveProductSettingCommand
         {
@@ -344,7 +344,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ProductProjectViewModel _selectProductProjectVM;
+        private ProductProjectViewModel? _selectProductProjectVM;
         /// <summary>
         /// 新增零件的vm
         /// </summary>

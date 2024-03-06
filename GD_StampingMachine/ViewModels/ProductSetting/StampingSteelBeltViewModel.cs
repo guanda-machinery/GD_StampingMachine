@@ -6,12 +6,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     public class StampingSteelBeltViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingSteelBeltViewModel");
-        public StampingSteelBeltViewModel(StampingSteelBeltModel _StampingSteelBelt)
+        public StampingSteelBeltViewModel(StampingSteelBeltModel? _StampingSteelBelt)
         {
             StampingSteelBelt = _StampingSteelBelt;
         }
 
-        private StampingSteelBeltModel _stampingSteelBelt;
+        private StampingSteelBeltModel? _stampingSteelBelt;
         public StampingSteelBeltModel StampingSteelBelt { get => _stampingSteelBelt ??= new StampingSteelBeltModel(); set => _stampingSteelBelt = value; }
 
         public string BeltString

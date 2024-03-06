@@ -165,7 +165,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private AsyncRelayCommand _separateBox_ClockwiseRotateCommand;
+        private AsyncRelayCommand? _separateBox_ClockwiseRotateCommand;
         public AsyncRelayCommand SeparateBox_ClockwiseRotateCommand
         {
             get => _separateBox_ClockwiseRotateCommand ??= new(async () =>
@@ -201,7 +201,7 @@ namespace GD_StampingMachine.ViewModels
             }, () => !SeparateBox_ClockwiseRotateCommand.IsRunning);
         }
 
-        private AsyncRelayCommand _separateBox_CounterClockwiseRotateCommand;
+        private AsyncRelayCommand? _separateBox_CounterClockwiseRotateCommand;
         public AsyncRelayCommand SeparateBox_CounterClockwiseRotateCommand
         {
             get => _separateBox_CounterClockwiseRotateCommand ??= new (async () =>
@@ -298,7 +298,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private AsyncRelayCommand _sleepSettingStartCommand;
+        private AsyncRelayCommand? _sleepSettingStartCommand;
         public AsyncRelayCommand SleepSettingStartCommand
         {
             get => _sleepSettingStartCommand ??= new AsyncRelayCommand(async () =>
@@ -308,7 +308,7 @@ namespace GD_StampingMachine.ViewModels
             }, () => !SleepSettingStartCommand.IsRunning);
         }
 
-        private AsyncRelayCommand _sleepSettingStopCommand;
+        private AsyncRelayCommand? _sleepSettingStopCommand;
         public AsyncRelayCommand SleepSettingStopCommand
         {
             get => _sleepSettingStopCommand ??= new AsyncRelayCommand(async () =>
@@ -323,14 +323,14 @@ namespace GD_StampingMachine.ViewModels
 
 
         List<(DateTime RestTime, DateTime OpenTime)> SleepRangeList = new();
-        Task SleepSettingTask;
-        CancellationTokenSource SleepSettingCts;
+        Task? SleepSettingTask;
+        CancellationTokenSource? SleepSettingCts;
         public void SleepSettingStart()
         {
             if (SleepSettingTask == null)
             {
                 SleepSettingCts = new CancellationTokenSource();
-                SleepSettingTask ??= Task.Run(async () =>
+                SleepSettingTask = Task.Run(async () =>
                 {
                     TaskCompletionSource<bool> tcs = new();
                     SleepModeIsActivated = true;
@@ -534,7 +534,7 @@ namespace GD_StampingMachine.ViewModels
                                                         }
                                                         catch(Exception ex)
                                                         {
-                                                        Console.WriteLine(ex.ToString());
+                                                        Debug.WriteLine(ex.ToString());
                                                         }
 
                                                     }
@@ -561,7 +561,7 @@ namespace GD_StampingMachine.ViewModels
                             }
                             catch(Exception ex)
                             {
-                                Console.WriteLine(ex.ToString());
+                                Debug.WriteLine(ex.ToString());
 
                             }
                             await Task.Delay(100);
@@ -594,7 +594,7 @@ namespace GD_StampingMachine.ViewModels
                 }
                 catch (OperationCanceledException e)
                 {
-                    Console.WriteLine($"{nameof(OperationCanceledException)} thrown with message: {e.Message}");
+                    Debug.WriteLine($"{nameof(OperationCanceledException)} thrown with message: {e.Message}");
                 }
                 catch
                 {

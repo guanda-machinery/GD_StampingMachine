@@ -40,7 +40,7 @@ namespace GD_StampingMachine.ViewModels
 
         }
 
-        //private ProjectDistributeViewModel _newProjectDistributeVM;
+        //private ProjectDistributeViewModel? _newProjectDistributeVM;
         /// <summary>
         /// 建立用的viewmodel
         /// </summary>
@@ -52,7 +52,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private AsyncRelayCommand _createProjectDistributeCommand;
+        private AsyncRelayCommand? _createProjectDistributeCommand;
         [JsonIgnore]
         public AsyncRelayCommand CreateProjectDistributeCommand
         {
@@ -99,7 +99,7 @@ namespace GD_StampingMachine.ViewModels
         //public ICommand ChangeProjectDistributeCommand{get => Singletons.StampingMachineSingleton.Instance.MachineMonitorVM.ProjectDistributeVMChangeCommand; }
 
 
-        private AsyncRelayCommand<object> _deleteProjectDistributeCommand;
+        private AsyncRelayCommand<object>? _deleteProjectDistributeCommand;
         /// <summary>
         /// 刪除排版專案 並將盒子內的所有東西釋放回專案
         /// </summary>
@@ -170,7 +170,7 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private ProjectDistributeViewModel _projectDistributeVM;
+        private ProjectDistributeViewModel? _projectDistributeVM;
         /// <summary>
         /// 準備加工的排版專案
         /// </summary>

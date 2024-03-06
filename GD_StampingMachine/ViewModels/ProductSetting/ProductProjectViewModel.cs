@@ -100,7 +100,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private ProductProjectModel _productProject;
+        private ProductProjectModel? _productProject;
         [JsonIgnore]
         public ProductProjectModel ProductProject => _productProject ??= new();
 
@@ -206,10 +206,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 EditProjectDarggableIsPopup = true;
             });
         }
-        // private RelayCommand<object> _projectDeleteCommand;
+
+        private AsyncRelayCommand<GridControl>? _projectDeleteCommand;
         public AsyncRelayCommand<GridControl> ProjectDeleteCommand
         {
-            get => new(async ObjGridControl =>
+            get => _projectDeleteCommand??= new (async ObjGridControl =>
             {
                 if (ObjGridControl is not null)
                 {
@@ -237,12 +238,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
             });
         }
+
+
+        private ICommand? _projectFinishCommand;
         /// <summary>
         /// 專案完成
         /// </summary>
         public ICommand ProjectFinishCommand
         {
-            get => new RelayCommand(() =>
+            get => _projectFinishCommand??=new RelayCommand(() =>
             {
                 ProductProjectIsFinish = true;
             });
@@ -264,7 +268,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         private bool _isInParameterPage;
         public bool IsInParameterPage { get => _isInParameterPage; set { _isInParameterPage = value; OnPropertyChanged(); } }
 
-        private PartsParameterViewModel _addNewPartsParameterVM;
+        private PartsParameterViewModel? _addNewPartsParameterVM;
         public PartsParameterViewModel AddNewPartsParameterVM
         {
             get
@@ -273,7 +277,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
 
                 });
-                //_addNewPartsParameterVM.SettingBaseVM.SheetStampingTypeForm = this.SheetStampingTypeForm;
                 return _addNewPartsParameterVM;
             }
             set
@@ -354,17 +357,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ObservableCollection<SettingBaseViewModel> _numberSettingSavedCollection;
+        private ObservableCollection<SettingBaseViewModel>? _numberSettingSavedCollection;
         /// <summary>
         /// 建立零件POPUP-加工型態combobox
         /// </summary>
         public ObservableCollection<SettingBaseViewModel> NumberSettingSavedCollection
         {
-            get
-            {
-                _numberSettingSavedCollection ??= new ObservableCollection<SettingBaseViewModel>();
-                return _numberSettingSavedCollection;
-            }
+            get=>_numberSettingSavedCollection ??= new ObservableCollection<SettingBaseViewModel>();
             set
             {
                 _numberSettingSavedCollection = value;
@@ -399,7 +398,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         */
 
 
-        private ObservableCollection<SettingBaseViewModel> _addNumberSettingSavedCollection;
+        private ObservableCollection<SettingBaseViewModel>? _addNumberSettingSavedCollection;
         [JsonIgnore]
         public ObservableCollection<SettingBaseViewModel> AddNumberSettingSavedCollection
         {
@@ -416,7 +415,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ObservableCollection<SettingBaseViewModel> _editNumberSettingSavedCollection;
+        private ObservableCollection<SettingBaseViewModel>? _editNumberSettingSavedCollection;
         [JsonIgnore]
         public ObservableCollection<SettingBaseViewModel> EditNumberSettingSavedCollection
         {
@@ -475,12 +474,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private PartsParameterViewModel _partsParameterViewModelSelectItem;
+        private PartsParameterViewModel? _partsParameterViewModelSelectItem;
         /// <summary>
         /// 參數gridcontrol選擇
         /// </summary>
 
-        public PartsParameterViewModel PartsParameterViewModelSelectItem
+        public PartsParameterViewModel? PartsParameterViewModelSelectItem
         {
             get => _partsParameterViewModelSelectItem;
             set
@@ -529,7 +528,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private PartsParameterViewModel _editPartsParameterVM_Cloned;
+        private PartsParameterViewModel? _editPartsParameterVM_Cloned;
         public PartsParameterViewModel EditPartsParameterVM_Cloned
         {
             get => _editPartsParameterVM_Cloned ??= new PartsParameterViewModel();
@@ -599,7 +598,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        private AsyncRelayCommand _importProject_SelectPathFileCommand;
+        private AsyncRelayCommand? _importProject_SelectPathFileCommand;
         /// <summary>
         /// 匯入 選擇檔案路徑
         /// </summary>
@@ -623,7 +622,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private AsyncRelayCommand _importProject_SelectPathFolderCommand;
+        private AsyncRelayCommand? _importProject_SelectPathFolderCommand;
         /// <summary>
         /// 匯入 選擇資料夾路徑
         /// </summary>
@@ -644,11 +643,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private string importFilePath;
+        private string? _importFilePath;
         /// <summary>
         /// 匯入專案路徑
         /// </summary>
-        public string ImportFilePath { get => importFilePath; set { importFilePath = value; OnPropertyChanged(); } }
+        public string ImportFilePath 
+        { 
+            get => _importFilePath??= string.Empty; 
+            set 
+            { 
+                _importFilePath = value; 
+                OnPropertyChanged(); 
+            }
+        }
 
 
         public class SimpleErpClass
@@ -660,7 +667,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private AsyncRelayCommand _importProjectCommand;
+        private AsyncRelayCommand? _importProjectCommand;
         /// <summary>
         /// 匯入
         /// </summary>
@@ -911,11 +918,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 匯入專案-加工型態 一般鐵牌
         /// </summary>
-        public NumberSettingViewModel ImportProjectNumberSettingBaseVM { get; set; }
+        public NumberSettingViewModel? ImportProjectNumberSettingBaseVM { get; set; }
         /// <summary>
         /// 匯入專案-加工型態 QR鐵牌
         /// </summary>
-        public QRSettingViewModel ImportProjectQRSettingBaseVM { get; set; }
+        public QRSettingViewModel? ImportProjectQRSettingBaseVM { get; set; }
 
 
 
@@ -923,7 +930,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private DXObservableCollection<PartsParameterViewModel> _partsParameterVMObservableCollection;
+        private DXObservableCollection<PartsParameterViewModel>? _partsParameterVMObservableCollection;
         /// <summary>
         /// GridControl ABC參數
         /// </summary>

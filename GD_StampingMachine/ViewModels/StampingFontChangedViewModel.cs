@@ -89,7 +89,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private StampingTypeViewModel _stampingFontSelected;
+        private StampingTypeViewModel? _stampingFontSelected;
         /// <summary>
         /// 鋼印機上的字模
         /// </summary>
@@ -221,7 +221,7 @@ namespace GD_StampingMachine.ViewModels
             }
         }
 
-        private StampingTypeModelMartixViewModel _stampingTypeModelMartix = new();
+        private StampingTypeModelMartixViewModel? _stampingTypeModelMartix = new();
 
         public StampingTypeModelMartixViewModel StampingTypeModelMartix
         {
@@ -253,7 +253,7 @@ namespace GD_StampingMachine.ViewModels
         CancellationTokenSource cancellationToken = new CancellationTokenSource();
         Task RotatingTask;
 
-        private StampingTypeViewModel _stampingTypeModel_ReadyStamping;
+        private StampingTypeViewModel? _stampingTypeModel_ReadyStamping;
         [JsonIgnore]
         public StampingTypeViewModel StampingTypeModel_ReadyStamping
         {
@@ -504,7 +504,7 @@ namespace GD_StampingMachine.ViewModels
         string SteelPunchedFontSettingTitle => (string)Application.Current.TryFindResource("Text_SteelPunchedFontSetting");
 
 
-        private AsyncRelayCommand _stampingFontCollectionData_MachineToSoftware_Command;
+        private AsyncRelayCommand? _stampingFontCollectionData_MachineToSoftware_Command;
         /// <summary>
         /// 將機台的資訊轉移到
         /// </summary>
@@ -589,7 +589,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private AsyncRelayCommand _compareFontsSettingBetweenMachineAndSoftwareCommand;
+        private AsyncRelayCommand? _compareFontsSettingBetweenMachineAndSoftwareCommand;
         /// <summary>
         /// 比較鋼印與機台字模的差別
         /// </summary>
@@ -608,7 +608,7 @@ namespace GD_StampingMachine.ViewModels
 
         /*動起來很好看 所以保留在這裡*/
         /*private bool StampingTypeModel_ReadyStamping_IsRotating = false;
-        private StampingTypeModel _stampingTypeModel_readyStamping;
+        private StampingTypeModel? _stampingTypeModel_readyStamping;
         public StampingTypeModel StampingTypeModel_ReadyStamping
         {
             get => _stampingTypeModel_readyStamping;
@@ -692,10 +692,10 @@ namespace GD_StampingMachine.ViewModels
     {
         [JsonIgnore]
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingFontChangedViewModel");
-        private StampingTypeViewModel _bottomStampingTypeModel;
-        private StampingTypeViewModel _rightStampingTypeModel;
-        private StampingTypeViewModel _topStampingTypeModel;
-        private StampingTypeViewModel _leftStampingTypeModel;
+        private StampingTypeViewModel? _bottomStampingTypeModel;
+        private StampingTypeViewModel? _rightStampingTypeModel;
+        private StampingTypeViewModel? _topStampingTypeModel;
+        private StampingTypeViewModel? _leftStampingTypeModel;
 
         [JsonIgnore]
         public StampingTypeViewModel BottomStampingTypeModel

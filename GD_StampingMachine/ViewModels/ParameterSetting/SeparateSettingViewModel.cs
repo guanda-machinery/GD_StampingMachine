@@ -7,6 +7,7 @@ using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -22,15 +23,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("NameSeparateSettingViewModel");
-        public SeparateSettingViewModel(SeparateSettingModel _SeparateSetting)
+        public SeparateSettingViewModel(SeparateSettingModel? _SeparateSetting)
         {
             SeparateSetting = _SeparateSetting;
-            initSeparateSetting();
         }
         public SeparateSettingViewModel()
         {
             SeparateSetting = new();
-            initSeparateSetting();
         }
 
 
@@ -79,7 +78,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private SeparateBoxViewModel _singleSetting_SeparateBoxModel;
+        private SeparateBoxViewModel? _singleSetting_SeparateBoxModel;
         public SeparateBoxViewModel SingleSetting_SeparateBoxModel
         {
             get => _singleSetting_SeparateBoxModel ??= new SeparateBoxViewModel(SeparateSetting.SingleSetting_SeparateBox);
@@ -183,9 +182,15 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new RelayCommand(() =>
             {
-                SeparateBoxVMObservableCollectionClone = SeparateBoxVMObservableCollection.DeepCloneByJson();
-                SeparateSetting = new SeparateSettingModel();
-                initSeparateSetting();
+                SingleSetting_SeparateBoxValue = 200;
+                 
+                foreach(var separateBox in SeparateBoxVMObservableCollectionClone)
+                {
+                    separateBox.BoxIsEnabled = true;
+                    separateBox.BoxSliderValue = 200;
+                }
+
+                SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
                 UpdateProjectDistributeSeparateBox();
             });
         }
@@ -249,22 +254,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private void initSeparateSetting()
-        {
-            SingleSetting_SeparateBoxValue = 0;
-            if (SeparateSetting.UnifiedSetting_SeparateBoxObservableCollection.Count == 0)
-            {
-                for (int i = 1; i <= 10; i++)
-                {
-                    SeparateBoxVMObservableCollection.Add(new SeparateBoxViewModel()
-                    {
-                        BoxIndex = i,
-                        BoxSliderValue = 0,
-                        BoxIsEnabled = true,
-                    });
-                }
-            }
-        }
 
 
 

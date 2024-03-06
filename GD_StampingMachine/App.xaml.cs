@@ -71,13 +71,13 @@ namespace GD_StampingMachine
                 {
                     stampingMachineWindowVM.Opacity = 0.01;
                     ManagerVM.IsIndeterminate = true;
-                    var monitorTask = Task.Run(async () =>
+                   /* var monitorTask = Task.Run(async () =>
                     {
                         stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = true;
                         await Task.Delay(1000);
                         stampingMachineWindowVM.StampingMainVM.TBtn_MachineMonitorIsChecked = false;
                     });
-                    await Task.Delay(2000);
+                    await Task.Delay(2000);*/
 
                     ManagerVM.IsIndeterminate = false;
 
@@ -88,7 +88,7 @@ namespace GD_StampingMachine
 
                         if(i>20)
                         {
-                            await monitorTask; ;
+                            //await monitorTask; ;
                         }
 
                         await Task.Delay(1);

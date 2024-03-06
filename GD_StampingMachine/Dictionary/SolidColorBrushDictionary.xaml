@@ -10,6 +10,8 @@
     <SolidColorBrush x:Key="DarkHueDarkBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="DarkHueDarkForegroundBrush" Color="#f0f0f0"/>
     <SolidColorBrush x:Key="DarkPrimaryButtonBrush" Color="#6f6f6f"/>
+    <SolidColorBrush x:Key="DarkPrimaryGridControlBackground" Color="#383838"/>
+    <SolidColorBrush x:Key="DarkSecondGridControlBackground" Color="#5d5d5d"/>
 
     <SolidColorBrush x:Key="BrightHueLightBrush" Color="White"/>
     <SolidColorBrush x:Key="BrightHueLightForegroundBrush" Color="#282828"/>
@@ -18,8 +20,10 @@
     <SolidColorBrush x:Key="BrightHueDarkBrush" Color="#f7f7f7"/>
     <SolidColorBrush x:Key="BrightHueDarkForegroundBrush" Color="#2c2c2c"/>
     <SolidColorBrush x:Key="BrightPrimaryButtonBrush" Color="#f5f6f7"/>
+    <SolidColorBrush x:Key="BrightPrimaryGridControlBackground" Color="#FAFAFA"/>
+    <SolidColorBrush x:Key="BrightSecondGridControlBackground" Color="#e8e8e8"/>
     
-    
+
     <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#282828"/>
     <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#4b4b4b"/>
@@ -28,9 +32,11 @@
     <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#f0f0f0"/>
 
     <SolidColorBrush x:Key="PrimaryButtonBrush" Color="#6f6f6f"/>
+    <SolidColorBrush x:Key="PrimaryGridControlBackground" Color="#383838"/>
+    <SolidColorBrush x:Key="SecondGridControlBackground" Color="#5d5d5d"/>
 
-    
-    
+
+
     <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#1565c0"/>
     <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#5e92f3"/>
@@ -40,11 +46,12 @@
     <!--ACCENT--> 
     <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#0081cc"/>
     <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Black"/>
-    
+
     <SolidColorBrush x:Key="BackgroundColorBrush" Color="#FAFCFB"/>
     <SolidColorBrush x:Key="ToggleButtonBackgroundLightGrayBrush" Color="#a2a2a2"/>
-    
-    
+    <SolidColorBrush x:Key="GridSplitterBrush" Color="#cccccc"/>
+
+
     <Color x:Key="cToggleButtonBackgroundSkyBlueBrush">#007be4</Color>
     <SolidColorBrush x:Key="ToggleButtonBackgroundSkyBlueBrush" Color="{StaticResource cToggleButtonBackgroundSkyBlueBrush}"/>
 

@@ -8,7 +8,7 @@ namespace GD_StampingMachine.ViewModels.MachineMonitor
     {
         public override string ViewModelName => nameof(PlateMonitorViewModel);
 
-        private SettingBaseViewModel _settingBaseVM;
+        private SettingBaseViewModel? _settingBaseVM;
         public SettingBaseViewModel SettingBaseVM
         {
             get => _settingBaseVM;

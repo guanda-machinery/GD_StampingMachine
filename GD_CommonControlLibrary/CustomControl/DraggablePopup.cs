@@ -87,9 +87,9 @@ namespace GD_CommonControlLibrary.GD_Popup
         /// <summary>
         /// Is Topmost dependency property
         /// </summary>
-       // public static readonly DependencyProperty IsTopmostProperty = DependencyProperty.Register(nameof(IsTopmost), typeof(bool), typeof(NonTopmostPopup), new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
+        // public static readonly DependencyProperty IsTopmostProperty = DependencyProperty.Register(nameof(IsTopmost), typeof(bool), typeof(NonTopmostPopup), new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
 
-       // private bool? _appliedTopMost;
+        // private bool? _appliedTopMost;
         private bool _alreadyLoaded;
         private Window _parentWindow;
 
@@ -165,7 +165,7 @@ namespace GD_CommonControlLibrary.GD_Popup
         void OnParentWindowActivated(object sender, EventArgs e)
         {
             Debug.WriteLine("Parent Window Activated");
- 
+
 
             //SetTopmostState(true);
             //SetTopmostState(IsTopmost);
@@ -173,26 +173,26 @@ namespace GD_CommonControlLibrary.GD_Popup
 
         void OnParentWindowDeactivated(object sender, EventArgs e)
         {
-            Debug.WriteLine("Parent Window Deactivated");
+            //Debug.WriteLine("Parent Window Deactivated");
 
         }
         void OnChildPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Debug.WriteLine("Child Mouse Left Button Down");
+            //Debug.WriteLine("Child Mouse Left Button Down");
             if (!_parentWindow.IsActive)
             {
                 _parentWindow.Activate();
-                Debug.WriteLine("Activating Parent from child Left Button Down");
+                //Debug.WriteLine("Activating Parent from child Left Button Down");
             }
             SetTopmostState(true);
             SetTopmostState(false);
         }
 
-      /*  private static void OnIsTopmostChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if(obj is NonTopmostPopup thisObj && e.NewValue is bool topmost)
-                thisObj.SetTopmostState(topmost);
-        }*/
+        /*  private static void OnIsTopmostChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+          {
+              if(obj is NonTopmostPopup thisObj && e.NewValue is bool topmost)
+                  thisObj.SetTopmostState(topmost);
+          }*/
 
         protected override void OnOpened(EventArgs e)
         {
@@ -202,11 +202,6 @@ namespace GD_CommonControlLibrary.GD_Popup
 
         private void SetTopmostState(bool isTop)
         {
-           /* if (_appliedTopMost.HasValue && _appliedTopMost == isTop)
-            {
-                return;
-            }*/
-
             if (Child == null)
                 return;
 
@@ -237,13 +232,13 @@ namespace GD_CommonControlLibrary.GD_Popup
                 SetWindowPos(hwnd, HWND_NOTOPMOST, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
             }
 
-          //  _appliedTopMost = isTop;
+            //  _appliedTopMost = isTop;
         }
 
         public ICommand OpenedCommand
         {
-            get=> (ICommand)GetValue(OpenedCommandProperty);            
-            set=> SetValue(OpenedCommandProperty, value);
+            get => (ICommand)GetValue(OpenedCommandProperty);
+            set => SetValue(OpenedCommandProperty, value);
         }
 
 

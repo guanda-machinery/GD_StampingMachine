@@ -129,6 +129,28 @@ namespace GD_StampingMachine.Singletons
             {
                 SeparateSetting = JsonSeparateSetting;
             }
+            else
+            {
+                Collection<SeparateBoxModel> boxCollection = new();
+                for(int i=0;i<10;i++)
+                {
+                    boxCollection.Add(new SeparateBoxModel()
+                    {
+                        BoxIndex = i + 1,
+                        BoxIsEnabled = true,
+                        BoxIsUsing = false,
+                        BoxSliderValue = 0
+                    });
+                }
+
+                SeparateSetting = new()
+                {
+                    UnifiedSetting_SeparateBoxObservableCollection = boxCollection
+                };
+            }
+
+
+
 
             ParameterSettingModel ParameterSetting = new()
             {
@@ -285,6 +307,10 @@ namespace GD_StampingMachine.Singletons
                     Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("BrightHueDarkBrush");
                     Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("BrightHueDarkForegroundBrush");
                     Application.Current.Resources["PrimaryButtonBrush"] = Application.Current.TryFindResource("BrightPrimaryButtonBrush");
+              
+                    Application.Current.Resources["PrimaryGridControlBackground"] = Application.Current.TryFindResource("BrightPrimaryGridControlBackground");
+                    Application.Current.Resources["SecondGridControlBackground"] = Application.Current.TryFindResource("BrightSecondGridControlBackground");
+
                 }
                 else
                 {
@@ -295,6 +321,10 @@ namespace GD_StampingMachine.Singletons
                     Application.Current.Resources["PrimaryHueDarkBrush"] = Application.Current.TryFindResource("DarkHueDarkBrush");
                     Application.Current.Resources["PrimaryHueDarkForegroundBrush"] = Application.Current.TryFindResource("DarkHueDarkForegroundBrush");
                     Application.Current.Resources["PrimaryButtonBrush"] = Application.Current.TryFindResource("DarkPrimaryButtonBrush");
+              
+                    Application.Current.Resources["PrimaryGridControlBackground"] = Application.Current.TryFindResource("DarkPrimaryGridControlBackground");
+                    Application.Current.Resources["SecondGridControlBackground"] = Application.Current.TryFindResource("DarkSecondGridControlBackground");
+
                 }
 
                 try
@@ -325,11 +355,11 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        private ProjectDistributeViewModel _selectedProjectDistributeVM;
+        private ProjectDistributeViewModel? _selectedProjectDistributeVM;
         /// <summary>
         /// 目前選定的加工專案
         /// </summary>
-        public ProjectDistributeViewModel SelectedProjectDistributeVM
+        public ProjectDistributeViewModel? SelectedProjectDistributeVM
         {
             get => _selectedProjectDistributeVM;
             set
@@ -367,9 +397,9 @@ namespace GD_StampingMachine.Singletons
         {
             get => new RelayCommand<object>(obj =>
             {
-                if (obj is ObservableCollection<ProjectDistributeViewModel> NewProjectDistributeVMObser)
+                if (obj is ObservableCollection<ProjectDistributeViewModel> newProjectDistributeVMCollection)
                 {
-                    SelectedProjectDistributeVM = NewProjectDistributeVMObser.FirstOrDefault(); ;
+                    SelectedProjectDistributeVM = newProjectDistributeVMCollection.FirstOrDefault(); ;
                 }
                 if (obj is ProjectDistributeViewModel NewProjectDistributeVM)
                 {

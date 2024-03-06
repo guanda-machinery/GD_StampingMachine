@@ -13,7 +13,7 @@ namespace GD_StampingMachine.GD_Model
         /// 單一/統一設定
         /// </summary>
         public SettingTypeEnum SettingType { get; set; }
-        public ObservableCollection<SeparateBoxModel> UnifiedSetting_SeparateBoxObservableCollection { get; set; } = new ObservableCollection<SeparateBoxModel>();
+        public Collection<SeparateBoxModel> UnifiedSetting_SeparateBoxObservableCollection { get; set; } = new Collection<SeparateBoxModel>();
         public SeparateBoxModel SingleSetting_SeparateBox { get; set; } = new SeparateBoxModel();
     }
 }

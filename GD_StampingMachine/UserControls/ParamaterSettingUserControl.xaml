@@ -301,10 +301,12 @@
                 <TabItem  IsSelected="{Binding ElementName=TbtnNumberSetting, Path=IsChecked}"  DataContext="{Binding NumberSettingPageVM}">
                     <StackPanel HorizontalAlignment="Center">
                         <Grid  Margin="0,0,0,0" Width="700">
+                            <Viewbox>
                             <GD_SchematicDiagram:QRPlateRowDiagramControl  
                             DataContext="{Binding NumberSettingVM}" RedMeasurementLineVisibility="Visible" >
 
-                            </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                            </Viewbox>
                         </Grid>
                         <StackPanel  HorizontalAlignment="Left" Orientation="Horizontal"
                                     Grid.Row="0"  Margin="15,32,0,32" VerticalAlignment="Bottom">
@@ -587,12 +589,13 @@
                         </Grid.RowDefinitions>
                         <StackPanel >
                             <Grid>
-
-                                <GD_SchematicDiagram:QRPlateRowDiagramControl  Width="700"
+                                <Viewbox   Width="700">
+                                <GD_SchematicDiagram:QRPlateRowDiagramControl
                             DataContext="{Binding QRSettingVM}" RedMeasurementLineVisibility="Visible" >
 
 
-                                </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                </Viewbox>
                             </Grid>
                         </StackPanel>
                         <StackPanel Grid.Row="1" 
@@ -2186,7 +2189,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
 
                                                     <!--
                                         <Grid>
-                                            <ToggleButton x:Name="DayOfWeekWorkVMObservableCollectionToggleButton" IsChecked="{Binding DayOfWeekWorkVMObservableCollectionDropDownListlsShow}"
+                                            <ToggleButton x:Name="DayOfWeekWorkVMObservableCollectionToggleButton" IsChecked="{Binding IsDayOfWeekWorkVMObservableCollectionDropDownListShow}"
                                         HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  Width="auto" IsThreeState="False"
                                       >
                                                 <Grid>
@@ -2203,7 +2206,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                                             <GD_Popup:DraggablePopup 
             PopupAnimation="Fade"   FlowDirection="LeftToRight" StaysOpen="False"
             Placement="Bottom" 
-                                        IsOpen="{Binding DayOfWeekWorkVMObservableCollectionDropDownListlsShow}"
+                                        IsOpen="{Binding IsDayOfWeekWorkVMObservableCollectionDropDownListShow}"
             PlacementTarget="{Binding ElementName=DayOfWeekWorkVMObservableCollectionToggleButton}"
                                   HorizontalAlignment="Center" >
                                                 <ItemsControl 
@@ -2413,7 +2416,7 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
                     <Grid Name="IO_MainGrid" HorizontalAlignment="Center">
                         <dxg:GridControl 
                                 Style="{StaticResource ProjectGridControl}"  
-                                    Background="Transparent"
+                                         Background="{DynamicResource SecondGridControlBackground}"
                                                   AutoGenerateColumns="None"
                                                   SelectionMode="Row"
                                                   ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IO_TableObservableCollection}"
@@ -2564,10 +2567,10 @@ Mode="OneWay" UpdateSourceTrigger="PropertyChanged" >
 
 
                                 <Button  Content="Opcua StartScan" Margin="5" Padding="5,3,5,0"
-                                    IsEnabled="{Binding StampMachineData.IsScaning, Converter={dx:BoolInverseConverter}}"
+                                    IsEnabled="{Binding StampMachineData.IsScanning, Converter={dx:BoolInverseConverter}}"
                                     Command="{Binding OpcuaStartScanCommand}"/>
                                 <Button Content="Opcua StopScan"  Margin="5" Padding="5,3,5,0"
-                                    IsEnabled="{Binding StampMachineData.IsScaning}"
+                                    IsEnabled="{Binding StampMachineData.IsScanning}"
                                     Command="{Binding OpcuaStopScanCommand}"/>
 
                             </StackPanel>

@@ -35,7 +35,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             TimingControlVMCollectionCloned = TimingControlVMCollection.DeepCloneByJson();
         }
 
-        //private TimingSettingModel _timingSetting;
+        //private TimingSettingModel? _timingSetting;
         [JsonIgnore]
         public TimingSettingModel TimingSetting { get; private set; }
 
@@ -98,7 +98,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private ObservableCollection<TimingControlViewModel> _timingControlVMCollection;
+        private ObservableCollection<TimingControlViewModel>? _timingControlVMCollection;
         public ObservableCollection<TimingControlViewModel> TimingControlVMCollection
         {
             get
@@ -122,7 +122,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private ObservableCollection<TimingControlViewModel> _timingControlVMCollectionCloned;
+        private ObservableCollection<TimingControlViewModel>? _timingControlVMCollectionCloned;
         public ObservableCollection<TimingControlViewModel> TimingControlVMCollectionCloned
         {
             get => _timingControlVMCollectionCloned??= new();
@@ -139,7 +139,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private TimingControlViewModel _timingControlVMSelected;
+        private TimingControlViewModel? _timingControlVMSelected;
         public TimingControlViewModel TimingControlVMSelected
         {
             get => _timingControlVMSelected ??= new();
@@ -150,8 +150,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private TimingControlViewModel _timingControlVMSelectedClone;
-        public TimingControlViewModel TimingControlVMSelectedClone
+        private TimingControlViewModel? _timingControlVMSelectedClone;
+        public TimingControlViewModel? TimingControlVMSelectedClone
         {
             get => _timingControlVMSelectedClone;
             set
@@ -186,7 +186,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => _timingControlVMCollectionListBox_MouseUpCommand ??= new RelayCommand<object>(obj =>
             {
-               TimingControlVMSelectedClone = TimingControlVMSelected?.DeepCloneByJson();
+               TimingControlVMSelectedClone = TimingControlVMSelected.DeepCloneByJson();
                 if (obj is System.Windows.Input.MouseButtonEventArgs e)
                 {
                     IsNewTimingControl = false;
@@ -368,10 +368,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
-
-
-        public override ICommand DeleteSettingCommand => null;
+        public override ICommand DeleteSettingCommand => throw new NotImplementedException();
     }
 
     public class TimingControlViewModel : GD_CommonControlLibrary.BaseViewModel
@@ -424,17 +421,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private bool _dayOfWeekWorkVMObservableCollectionDropDownListlsShow;
+        private bool _isDayOfWeekWorkVMObservableCollectionDropDownListShow;
         /// <summary>
         /// 顯示選單
         /// </summary>
-        public bool DayOfWeekWorkVMObservableCollectionDropDownListlsShow
+        public bool IsDayOfWeekWorkVMObservableCollectionDropDownListShow
         {
-            get => _dayOfWeekWorkVMObservableCollectionDropDownListlsShow; set { _dayOfWeekWorkVMObservableCollectionDropDownListlsShow = value; OnPropertyChanged(); }
+            get => _isDayOfWeekWorkVMObservableCollectionDropDownListShow; set { _isDayOfWeekWorkVMObservableCollectionDropDownListShow = value; OnPropertyChanged(); }
         }
 
 
-        private ObservableCollection<DayOfWeekWorkViewModel> _dayOfWeekWorkVMObservableCollection;
+        private ObservableCollection<DayOfWeekWorkViewModel>? _dayOfWeekWorkVMObservableCollection;
         public ObservableCollection<DayOfWeekWorkViewModel> DayOfWeekWorkVMObservableCollection
         {
             get

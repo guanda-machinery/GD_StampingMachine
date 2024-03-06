@@ -97,7 +97,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ParameterSettingModel _parameterSetting = new();
+        private ParameterSettingModel? _parameterSetting = new();
 
         /// <summary>
         /// 號碼設定

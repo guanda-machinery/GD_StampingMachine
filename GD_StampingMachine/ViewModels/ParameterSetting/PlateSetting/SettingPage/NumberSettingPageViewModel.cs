@@ -28,7 +28,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override int PlateNumberListMax => 8;
 
 
-        private NumberSettingViewModel _numberSettingVM;
+        private NumberSettingViewModel? _numberSettingVM;
         public NumberSettingViewModel NumberSettingVM
         {
             get => _numberSettingVM ??= new NumberSettingViewModel()
@@ -43,9 +43,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private NumberSettingViewModel _numberSettingVMModelCollectionSelected;
+        private NumberSettingViewModel? _numberSettingVMModelCollectionSelected;
         [JsonIgnore]
-        public NumberSettingViewModel NumberSettingModelCollectionSelected
+        public NumberSettingViewModel? NumberSettingModelCollectionSelected
         {
             get => _numberSettingVMModelCollectionSelected;
             set
@@ -60,7 +60,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<NumberSettingViewModel> _numberSettingModelCollection;
+        private ObservableCollection<NumberSettingViewModel>? _numberSettingModelCollection;
         public ObservableCollection<NumberSettingViewModel> NumberSettingModelCollection
         {
             get => _numberSettingModelCollection ??= new();
@@ -90,7 +90,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             });
         }
 
-        public ICommand _saveSettingCommand;
+        public ICommand? _saveSettingCommand;
         public override ICommand SaveSettingCommand
         {
             get => _saveSettingCommand ??= new AsyncRelayCommand(async () =>

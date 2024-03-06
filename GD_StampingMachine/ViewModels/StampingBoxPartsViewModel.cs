@@ -17,14 +17,14 @@ namespace GD_StampingMachine.ViewModels
 {
     public class StampingBoxPartModel
     {
-        public string ProjectDistributeName { get; set; }
+        public string? ProjectDistributeName { get; set; }
         /// <summary>
         /// 盒子列表
         /// </summary>
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
+        public ObservableCollection<ParameterSetting.SeparateBoxViewModel>? SeparateBoxVMObservableCollection { get; set; }
 
         [JsonIgnore]
-        public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; }
+        public ObservableCollection<ProductProjectViewModel>? ProductProjectVMObservableCollection { get; set; }
 
        // [JsonIgnore]
         //public bool GridControl_MachiningStatusColumnVisible { get; set; } = false;
@@ -67,10 +67,10 @@ namespace GD_StampingMachine.ViewModels
                     }
                     catch(Exception ex)
                     {
-                        Console.WriteLine(ex.ToString());
+                        Debug.WriteLine(ex.ToString());
                         //   Debugger.Break();
                     }
-                    await Task.Delay(100);
+                    await Task.Delay(1000);
                 }
             });
 
@@ -108,21 +108,16 @@ namespace GD_StampingMachine.ViewModels
 
         public string ProjectDistributeName { get => StampingBoxPart.ProjectDistributeName; set => StampingBoxPart.ProjectDistributeName = value; }
 
-        /*public bool MachiningStatusIsVisible
-        {
-            get => StampingBoxPart.GridControl_MachiningStatusColumnVisible;
-            set { StampingBoxPart.GridControl_MachiningStatusColumnVisible = value; OnPropertyChanged(); }
-        }*/
 
         public StampingBoxPartModel StampingBoxPart = new();
 
 
 
-        private ParameterSetting.SeparateBoxViewModel _selectedSeparateBoxVM;
+        private ParameterSetting.SeparateBoxViewModel? _selectedSeparateBoxVM;
         /// <summary>
         /// 選擇的盒子
         /// </summary>
-        public ParameterSetting.SeparateBoxViewModel SelectedSeparateBoxVM
+        public ParameterSetting.SeparateBoxViewModel? SelectedSeparateBoxVM
         {
             get
             {
@@ -137,10 +132,6 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
-
-
-
-
 
 
 
@@ -177,7 +168,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 盒子內的專案
         /// </summary>
-        private ObservableCollection<PartsParameterViewModel> _boxPartsParameterVMObservableCollection;
+        private ObservableCollection<PartsParameterViewModel>? _boxPartsParameterVMObservableCollection;
 
         public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection
         {

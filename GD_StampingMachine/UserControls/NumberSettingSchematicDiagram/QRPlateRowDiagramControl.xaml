@@ -12,172 +12,172 @@
 
              d:DataContext="{d:DesignInstance Type= GD_ParameterSettingViewModels:SettingBaseViewModel}"                  
              Cursor="Arrow"  >
-    <Viewbox >
+    <Viewbox>
         <Grid Width="90" Height="35">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="FontSize" Value="24"/>
-                    </Style>
-                    <Style TargetType="Border" x:Key="TransparentBorder">
-                        <Setter Property="Width" Value="30"/>
-                        <Setter Property="Height" Value="30"/>
-                    </Style>
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="24"/>
+            </Style>
+            <Style TargetType="Border" x:Key="TransparentBorder">
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="30"/>
+            </Style>
 
-                </Grid.Resources>
-                <Border 
+        </Grid.Resources>
+        <Border 
             Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QRPlateRowDiagramControl},Path=PlateRowBackground}" CornerRadius="2" 
                                                          HorizontalAlignment="Stretch" />
-                <Canvas  >
-                    <Border Canvas.Top="8" Canvas.Left="3"
+        <Canvas  >
+            <Border Canvas.Top="8" Canvas.Left="3"
                 Background="White"  Width="5" HorizontalAlignment="Left" Height="5" CornerRadius="2.5"/>
-                    <Grid  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Canvas.Left="3.5" Canvas.Bottom="4">
-                        <Grid.LayoutTransform>
-                            <RotateTransform Angle="90"/>
-                        </Grid.LayoutTransform>
-                        <Border 
+            <Grid  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Canvas.Left="3.5" Canvas.Bottom="4">
+                <Grid.LayoutTransform>
+                    <RotateTransform Angle="90"/>
+                </Grid.LayoutTransform>
+                <Border 
             Background="#55534d" Height="4" Width="16" Visibility="{Binding QRCodeVisibility}">
 
-                            <TextBlock Style="{StaticResource Body1TextBlockBold}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Style="{StaticResource Body1TextBlockBold}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
                     Text="{Binding QR_Special_Text, TargetNullValue='特'}" FontSize="3.5" Margin="0,0,0,-0.5" Padding="0"/>
-                        </Border>
-                    </Grid>
-                    <Grid   >
-                        <Grid.Resources>
-                            <Style TargetType="ItemsControl">
-                                <Setter Property="ItemTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate>
-                                            <Canvas>
-                                                <ToggleButton
+                </Border>
+            </Grid>
+            <Grid   >
+                <Grid.Resources>
+                    <Style TargetType="ItemsControl">
+                        <Setter Property="ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas>
+                                        <ToggleButton
                                     IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsUsedEditedable}" >
-                                                    <ToggleButton.Style>
-                                                        <Style TargetType="ToggleButton">
-                                                            <Setter Property="Width" Value="{Binding MachineConstFontWidth}"/>
-                                                            <Setter Property="Height" Value="{Binding MachineConstFontHeight}"/>
-                                                            <Setter Property="Canvas.Left" Value="{calc:Binding FontIndex*MachineConstFontHorizonInterval}"/>
-                                                            <Setter Property="Canvas.Top" Value="{calc:Binding (-MachineConstFontVerticalInterval/2)}"/>
-                                                            <Setter Property="Padding" Value="0"/>
-                                                            <Setter Property="BorderThickness" Value="0.1"/>
-                                                            <Setter Property="BorderBrush" Value="Black"/>
-                                                            <Setter Property="Background" Value="Transparent"/>
-                                                            <Setter Property="Margin" Value="0"/>
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate  TargetType="ToggleButton">
-                                                                        <Border Background="{TemplateBinding Background}"     
+                                            <ToggleButton.Style>
+                                                <Style TargetType="ToggleButton">
+                                                    <Setter Property="Width" Value="{Binding MachineConstFontWidth}"/>
+                                                    <Setter Property="Height" Value="{Binding MachineConstFontHeight}"/>
+                                                    <Setter Property="Canvas.Left" Value="{calc:Binding FontIndex*MachineConstFontHorizonInterval}"/>
+                                                    <Setter Property="Canvas.Top" Value="{calc:Binding (-MachineConstFontVerticalInterval/2)}"/>
+                                                    <Setter Property="Padding" Value="0"/>
+                                                    <Setter Property="BorderThickness" Value="0.1"/>
+                                                    <Setter Property="BorderBrush" Value="Black"/>
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Margin" Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate  TargetType="ToggleButton">
+                                                                <Border Background="{TemplateBinding Background}"     
                                                         Width="{TemplateBinding Width}"
                                                         Height="{TemplateBinding Height}"
                                                         CornerRadius="0.5"
                                                         BorderThickness="{TemplateBinding BorderThickness}"
                                                         Padding="{TemplateBinding Padding}"
                                                         BorderBrush="{TemplateBinding BorderBrush}">
-                                                                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                    <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                                                                            </ContentPresenter>
-                                                                        </Border>
-                                                                        <ControlTemplate.Triggers>
-                                                                            <Trigger Property="IsChecked" Value="True">
-                                                                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QRPlateRowDiagramControl},Path=FontStampBackground}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter Property="Background" Value="Orange"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsPressed" Value="True">
-                                                                                <Setter Property="Background" Value="OrangeRed"/>
-                                                                            </Trigger>
+                                                                    </ContentPresenter>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsChecked" Value="True">
+                                                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QRPlateRowDiagramControl},Path=FontStampBackground}"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="Orange"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                        <Setter Property="Background" Value="OrangeRed"/>
+                                                                    </Trigger>
 
-                                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                                <Setter Property="Opacity" Value="1.0"/>
-                                                                            </Trigger>
-
-
+                                                                    <Trigger Property="IsEnabled" Value="False">
+                                                                        <Setter Property="Opacity" Value="1.0"/>
+                                                                    </Trigger>
 
 
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-                                                    </ToggleButton.Style>
 
-                                                    <TextBlock  Foreground="White" HorizontalAlignment="Center" Visibility="{Binding IsUsed ,Converter={GD_CommonControl:BooleanToVisibilityConverter}}"
+
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ToggleButton.Style>
+
+                                            <TextBlock  Foreground="White" HorizontalAlignment="Center" Visibility="{Binding IsUsed ,Converter={GD_CommonControl:BooleanToVisibilityConverter}}"
                                 Text="{Binding FontString}"   Margin="0" Padding="0"   FontWeight="DemiBold"  
                                                VerticalAlignment="Center"
                                                FontSize="6"/>
-                                                </ToggleButton>
-                                            </Canvas>
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="ItemsPanel">
-                                    <Setter.Value>
-                                        <ItemsPanelTemplate>
-                                            <Canvas>
+                                        </ToggleButton>
+                                    </Canvas>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <Canvas>
 
-                                            </Canvas>
-                                            <!--  <WrapPanel Orientation="Horizontal" Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />-->
-                                        </ItemsPanelTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Grid.Resources>
+                                    </Canvas>
+                                    <!--  <WrapPanel Orientation="Horizontal" Width="{calc:Binding (70*SequenceCount+25*(SequenceCount))}" />-->
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Resources>
 
-                        <Canvas Margin="0" >
-                            <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos1}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos1}"
+                <Canvas Margin="0" >
+                    <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos1}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos1}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
             ItemsSource="{Binding PlateNumberList1, UpdateSourceTrigger=PropertyChanged}" 
                                IsEnabled="{Binding PlateNumber, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter} }" >
-                            </ItemsControl>
-                            <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos2}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos2}"
+                    </ItemsControl>
+                    <ItemsControl  Canvas.Top="{Binding StampingMarginPosVM.rXAxisPos2}" Canvas.Left="{Binding StampingMarginPosVM.rYAxisPos2}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"  ScrollViewer.VerticalScrollBarVisibility="Hidden"
             ItemsSource="{Binding PlateNumberList2, UpdateSourceTrigger=PropertyChanged}" 
                                IsEnabled="{Binding PlateNumber, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter} }" >
-                            </ItemsControl>
-                        </Canvas>
-                    </Grid>
-                    <Grid  ToolTip="{Binding QrCodeContent}" Visibility="{Binding QRCodeVisibility, Mode=OneWay}" Canvas.Right="5" Canvas.Top="6.5"
-             HorizontalAlignment="Right">
-                    <Border Background="Transparent"  
-                          Margin="0" Padding="0">
-                        <Grid>
-                            <Image Source="{StaticResource QRCode_Component_BlackDrawingImage}" Width="22" Height="22"/>
-                        </Grid>
-                        </Border>
-                        <Grid.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard >
-                                        <Storyboard >
-                                            <!--離開-->
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="QrCodeContentGrid"
-                                                        Duration="0:0:0.500" To="1.0" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <!--離開-->
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="QrCodeContentGrid"
-                                                        Duration="0:0:0.500" To="0.0" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </Grid.Triggers>
-
-                    </Grid>
-                    <Grid Name="QrCodeContentGrid" 
-                Canvas.Left="65" Canvas.Bottom="3" Opacity="0.0">
-                        <TextBlock  HorizontalAlignment="Left"
-                    Text="{Binding QrCodeContent}" FontSize="4" />
-                    </Grid>
+                    </ItemsControl>
                 </Canvas>
-        </Grid>
+            </Grid>
+            <Grid  ToolTip="{Binding QrCodeContent}" Visibility="{Binding QRCodeVisibility, Mode=OneWay}" Canvas.Right="5" Canvas.Top="6.5"
+             HorizontalAlignment="Right">
+                <Border Background="Transparent"  
+                          Margin="0" Padding="0">
+                    <Grid>
+                        <Image Source="{StaticResource QRCode_Component_BlackDrawingImage}" Width="22" Height="22"/>
+                    </Grid>
+                </Border>
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard >
+                                <Storyboard >
+                                    <!--離開-->
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="QrCodeContentGrid"
+                                                        Duration="0:0:0.500" To="1.0" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <!--離開-->
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="QrCodeContentGrid"
+                                                        Duration="0:0:0.500" To="0.0" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Grid.Triggers>
+
+            </Grid>
+            <Grid Name="QrCodeContentGrid" 
+                Canvas.Left="65" Canvas.Bottom="3" Opacity="0.0">
+                <TextBlock  HorizontalAlignment="Left"
+                    Text="{Binding QrCodeContent}" FontSize="4" />
+            </Grid>
+        </Canvas>
+    </Grid>
     </Viewbox>
 </UserControl>

@@ -94,7 +94,7 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
-        private StampingMainViewModel _stampingMainVM;
+        private StampingMainViewModel? _stampingMainVM;
        public StampingMainViewModel StampingMainVM
         {
             get => _stampingMainVM ??= new StampingMainViewModel();

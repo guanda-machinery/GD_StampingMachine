@@ -501,7 +501,7 @@
                                                                                 <ScaleTransform ScaleX="{c:Binding StampWidth/350}"
                                                                                                         ScaleY="{c:Binding StampWidth/350}" />
                                                                             </Grid.LayoutTransform>
-                                                                            <Grid DataContext="{Binding SettingBaseVM}">
+                                                                            <Grid DataContext="{Binding SettingBaseVM , IsAsync=True}">
                                                                                 <GD_SchematicDiagram:QRPlateRowDiagramControl 
                                                                                              PlateRowBackground="Transparent"       
                                                                                                     RedMeasurementLineVisibility="Collapsed" />

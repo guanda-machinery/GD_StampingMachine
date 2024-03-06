@@ -193,7 +193,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private IronPlateMarginViewModel _ironPlateMarginVM;
+        private IronPlateMarginViewModel? _ironPlateMarginVM;
         public IronPlateMarginViewModel IronPlateMarginVM
         {
             get => _ironPlateMarginVM ??= new(StampPlateSetting.IronPlateMargin);
@@ -206,7 +206,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
 
-        private StampingMarginPosViewModel _stampingMarginPosVM;
+        private StampingMarginPosViewModel? _stampingMarginPosVM;
         public StampingMarginPosViewModel StampingMarginPosVM
         {
             get => _stampingMarginPosVM ??= new(StampPlateSetting.StampingMarginPos);
@@ -459,8 +459,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             PlateNumberList2 = pNumberList2.Select(p => new PlateFontViewModel(p)).ToObservableCollection();
         }
 
-        private ObservableCollection<PlateFontViewModel> _plateNumberList1;
-        private ObservableCollection<PlateFontViewModel> _plateNumberList2;
+        private ObservableCollection<PlateFontViewModel>? _plateNumberList1;
+        private ObservableCollection<PlateFontViewModel>? _plateNumberList2;
 
 
         public ObservableCollection<PlateFontViewModel> PlateNumberList1
@@ -470,7 +470,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 _plateNumberList1 ??= StampPlateSetting.StampableList1.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
                 return _plateNumberList1;
             }
-            set
+            internal set
             {
                 _plateNumberList1 = value;
                 StampPlateSetting.StampableList1 = value.Select(p => p.PlateFont).ToList();
@@ -486,7 +486,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 _plateNumberList2 ??= StampPlateSetting.StampableList2.Select(x => new PlateFontViewModel(x)).ToObservableCollection();
                 return _plateNumberList2;
             }
-            set
+            internal set
             {
                 _plateNumberList2 = value;
                 StampPlateSetting.StampableList2 = value.Select(p => p.PlateFont).ToList();
@@ -614,7 +614,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             _stampingMarginPos = stampingMarginPos;
         }
 
-        internal readonly StampingMarginPosModel _stampingMarginPos;
+        internal readonly StampingMarginPosModel? _stampingMarginPos;
         public float rXAxisPos1 { get => _stampingMarginPos.rXAxisPos1; set { _stampingMarginPos.rXAxisPos1 = value; OnPropertyChanged(); } }
         public float rYAxisPos1 { get => _stampingMarginPos.rYAxisPos1; set { _stampingMarginPos.rYAxisPos1 = value; OnPropertyChanged(); } }
         public float rXAxisPos2 { get => _stampingMarginPos.rXAxisPos2; set { _stampingMarginPos.rXAxisPos2 = value; OnPropertyChanged(); } }

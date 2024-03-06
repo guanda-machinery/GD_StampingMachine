@@ -411,18 +411,17 @@
             </Grid>
             <Border  Grid.Column="1" Grid.Row="1" Margin="0,10"
                  Background="Transparent" 
-                 BorderThickness="0" 
-                 BorderBrush="#595E60" >
-                <dxg:GridControl  Background="Transparent"  VerticalAlignment="Top"
+                 BorderThickness="1" 
+                 BorderBrush="{DynamicResource PrimaryHueDarkForegroundBrush}" >
+                <dxg:GridControl  VerticalAlignment="Top"
+                                  Background="{DynamicResource SecondGridControlBackground}"
                     CustomRowFilterCommand="{Binding ProductProjectRowFilterCommand }"
                     Style="{StaticResource ProjectGridControl}" 
-
                     AutoGenerateColumns="None"
                     SelectionMode="Row"
                     ItemsSource="{Binding ProductProjectVMObservableCollection}"
                     SelectedItem="{Binding SelectProductProjectVM}"
                     MinHeight="100"
-                                      
                                       >
                     <dxg:GridControl.View >
                         <dxg:TableView   
@@ -431,9 +430,7 @@
                                 RowDoubleClickCommand="{Binding RowDoubleClickCommand}"                  
                                 AllowMergedGrouping="True"
                                 AllowMoveColumnToDropArea="False"
-                            
-                                            AllowColumnFiltering="False"
-                            
+                            AllowColumnFiltering="False"                            
                                 AllowSorting="True"
                                 AllowColumnMoving="True"
                                 AllowEditing="False"
@@ -474,7 +471,7 @@
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_SavePath}"
                                              FieldName="ProductProjectPath" Width="*"   IsSmart="True">
                         <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="ProductProjectCreateTime" Width="auto" AllowMoving="false"  IsSmart="True">
@@ -1116,32 +1113,15 @@
                                                                         <RowDefinition/>
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
-                                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
-                                                                        DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
+                                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl     Grid.Row="1"
+                                                                        IsEnabled="False"
+                                                                        DataContext="{Binding IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
                                                                         <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                             <TransformGroup>
                                                                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                                                                             </TransformGroup>
                                                                         </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                     </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                                                    <!--<StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="Collapsed">
-                                                                        <Grid 
-                                                            RenderTransformOrigin="0.0,0.0" >
-                                                                            <Grid.LayoutTransform>
-                                                                                <ScaleTransform ScaleX="0.19" ScaleY="0.19" />
-                                                                            </Grid.LayoutTransform>
-                                                                            <StackPanel IsEnabled="False">
-                                                                                <GD_SchematicDiagram:PlateRowDiagramViewUserControl DataContext="{Binding }"
-                                                                                                                                 Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:NumberSettingViewModel}}"
-                                                                                                                                RedMeasurementLineVisibility="Collapsed" />
-                                                                                <GD_SchematicDiagram:PlateRowDiagramWithQRViewUserControl DataContext="{Binding }" 
-                                                                                                                                          Visibility="{Binding Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter IsTypeJudge=True} , ConverterParameter={x:Type GD_ParameterSettingViewModels:QRSettingViewModel}}"
-                                                                                                                                      RedMeasurementLineVisibility="Collapsed" />
-
-                                                                            </StackPanel>
-
-                                                                        </Grid>
-                                                                    </StackPanel>-->
                                                                 </Grid>
                                                             </Grid>
                                                         </DataTemplate>
@@ -1309,12 +1289,12 @@
                                         </Button>
                                     </Grid>
 
-                                    <ComboBox HorizontalAlignment="Left" 
-                                        Margin="10,0" Padding="0" Width="310"  Text="123" 
-                                            Grid.Column="3" Grid.Row="2"   MaxDropDownHeight="275" Grid.ColumnSpan="2"
-                                              ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
+                                    <ComboBox 
+                                        Margin="10,0" Padding="0" Width="200" Text="123"  HorizontalAlignment="Left"
+                                            Grid.Column="3"  Grid.Row="2"   MaxDropDownHeight="275"      
+                                        ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                                         Path=ParameterSettingVM.NumberSettingPageVM.NumberSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding ImportProjectNumberSettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
+                                        SelectedItem="{Binding ImportProjectNumberSettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
                                             <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_WhiteComboBox}">
                                                 <Setter Property="ItemTemplate">
@@ -1327,16 +1307,15 @@
                                                                         <RowDefinition/>
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
-                                                                    <StackPanel Grid.Row="1" Orientation="Vertical" >
-                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"  Width="250"  HorizontalAlignment="Left"
-                                                                        DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
-                                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                                                <TransformGroup>
-                                                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                                                                </TransformGroup>
-                                                                            </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                                                    </StackPanel>
+                                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl     Grid.Row="1"
+                                                                        IsEnabled="False"
+                                                                        DataContext="{Binding IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                            <TransformGroup>
+                                                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                                            </TransformGroup>
+                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                                 </Grid>
                                                             </Grid>
                                                         </DataTemplate>
@@ -1351,12 +1330,13 @@
                                         Grid.Row="3" Grid.Column="3" IsChecked="{Binding ImportProjectNumberSettingBaseVM.DashAutoWrapping}" IsThreeState="False"
                                               Margin="10,0"/>
 
-                                    <ComboBox HorizontalAlignment="Left"
-                                        Margin="10,0" Padding="0" Width="310" Text="123" 
+
+                                    <ComboBox 
+                                        Margin="10,0" Padding="0" Width="200" Text="123"  HorizontalAlignment="Left"
                                             Grid.Column="3" Grid.Row="4"   MaxDropDownHeight="275"  Grid.ColumnSpan="2"
-                                              ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                                        Path=ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding ImportProjectQRSettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
+                                   ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
+    Path=ParameterSettingVM.QRSettingPageVM.QRSettingModelCollection, UpdateSourceTrigger=PropertyChanged}"
+          SelectedItem="{Binding ImportProjectQRSettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
                                             <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource GD_WhiteComboBox}">
                                                 <Setter Property="ItemTemplate">
@@ -1369,16 +1349,15 @@
                                                                         <RowDefinition/>
                                                                     </Grid.RowDefinitions>
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
-                                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" >
-                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"  Width="250" 
-                                                                        DataContext="{Binding}" RedMeasurementLineVisibility="Collapsed" >
-                                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                                                <TransformGroup>
-                                                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                                                                </TransformGroup>
-                                                                            </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
-                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                                                    </StackPanel>
+                                                                    <GD_SchematicDiagram:QRPlateRowDiagramControl     Grid.Row="1"
+                                                                        IsEnabled="False"
+                                                                        DataContext="{Binding IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                                                                        <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                            <TransformGroup>
+                                                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                                            </TransformGroup>
+                                                                        </GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
+                                                                    </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                                 </Grid>
                                                             </Grid>
                                                         </DataTemplate>
@@ -1387,6 +1366,8 @@
                                             </Style>
                                         </ComboBox.Style>
                                     </ComboBox>
+
+
 
 
                                     <CheckBox  Style="{StaticResource SkyBlueSwitch }"  Height="20" 
@@ -1430,7 +1411,7 @@
             </Grid>
             <Border  Name="SelectProductProjectMainBorder"  
                     Margin="10" Grid.Row="1"  
-                 Background="Transparent" 
+                      Background="{DynamicResource SecondGridControlBackground}"
                  BorderThickness="0"  
                  BorderBrush="#595E60" >
 

@@ -21,7 +21,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             _inputOutput = InputOutput;
         }
-        private InputOutputModel _inputOutput;
+        private InputOutputModel? _inputOutput;
 
 
 

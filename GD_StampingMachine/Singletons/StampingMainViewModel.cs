@@ -83,7 +83,7 @@ namespace GD_StampingMachine.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Debug.WriteLine(ex);
                 Debugger.Break();
             }
 
@@ -227,7 +227,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public MachineFunctionViewModel MachineFunctionVM { get => stampingMain.MachineFunctionVM; set => stampingMain.MachineFunctionVM = value; }
 
-        private MachineFunctionTest2ViewModel _machineFunctionTestVM;
+        private MachineFunctionTest2ViewModel? _machineFunctionTestVM;
         public MachineFunctionTest2ViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTest2ViewModel(); set => _machineFunctionTestVM = value; }
 
 
@@ -237,7 +237,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private AsyncRelayCommand _downloadAndUpdatedCommand;
+        private AsyncRelayCommand? _downloadAndUpdatedCommand;
         [JsonIgnore]
         public AsyncRelayCommand DownloadAndUpdatedCommand
         {

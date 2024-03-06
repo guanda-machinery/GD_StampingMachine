@@ -27,9 +27,9 @@ namespace GD_StampingMachine.ViewModels
 
         public readonly StampingTypeModel StampingType;
 
-        public StampingTypeViewModel(StampingTypeModel _StampingType)
+        public StampingTypeViewModel(StampingTypeModel stampingType)
         {
-            StampingType = _StampingType;
+            StampingType = stampingType;
         }
 
         public StampingTypeViewModel()

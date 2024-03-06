@@ -20,7 +20,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SettingViewModelQRViewModel");
 
 
-        private QRSettingViewModel _qrSetting;
+        private QRSettingViewModel? _qrSetting;
         public QRSettingViewModel QRSettingVM
         {
             get => _qrSetting ??= new QRSettingViewModel() { SequenceCount = 6 };
@@ -37,8 +37,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         /// <summary>
         /// 選擇
         /// </summary>
-        private QRSettingViewModel _qrSettingModelCollectionSelected;
-        public QRSettingViewModel QRSettingModelCollectionSelected
+        private QRSettingViewModel? _qrSettingModelCollectionSelected;
+        public QRSettingViewModel? QRSettingModelCollectionSelected
         {
             get => _qrSettingModelCollectionSelected;
             set
@@ -50,7 +50,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        private ObservableCollection<QRSettingViewModel> _qrSettingModelModelCollection;
+        private ObservableCollection<QRSettingViewModel>? _qrSettingModelModelCollection;
         public ObservableCollection<QRSettingViewModel> QRSettingModelCollection
         {
             get => _qrSettingModelModelCollection ??= new();
@@ -173,7 +173,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private QRSettingViewModel _numberSettingVMModelCollectionSelected;
+        private QRSettingViewModel? _numberSettingVMModelCollectionSelected;
         [JsonIgnore]
         public QRSettingViewModel NumberSettingModelCollectionSelected
         {

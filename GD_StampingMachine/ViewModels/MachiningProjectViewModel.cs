@@ -4,7 +4,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class MachiningProjectViewModel : GD_CommonControlLibrary.BaseViewModel
     {
-        public MachiningProjectViewModel(MachiningProjectModel _machiningProject)
+        public MachiningProjectViewModel(MachiningProjectModel? _machiningProject)
         {
             MachiningProject = _machiningProject;
         }

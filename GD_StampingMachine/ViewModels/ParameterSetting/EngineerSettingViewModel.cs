@@ -21,16 +21,16 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 // 标记为已释放
                 isDisposed = true;
 
-                Console.WriteLine("Async resources disposed.");
+                Debug.WriteLine("Async resources disposed.");
             }
         }
 
 
 
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_EngineerSettingViewModel");
-        public EngineerSettingViewModel(EngineerSettingModel _EngineerSetting)
+        public EngineerSettingViewModel(EngineerSettingModel engineerSetting)
         {
-            EngineerSetting = _EngineerSetting;
+            EngineerSetting = engineerSetting;
         }
         public EngineerSettingModel EngineerSetting;
 
@@ -88,7 +88,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-        private AsyncRelayCommand _opcuaFormBrowseServerOpenCommand;
+        private AsyncRelayCommand? _opcuaFormBrowseServerOpenCommand;
         public AsyncRelayCommand OpcuaFormBrowseServerOpenCommand
         {
             get => _opcuaFormBrowseServerOpenCommand ??= new (async (CancellationToken token) =>
@@ -103,17 +103,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
 
                 }
-            }, () => !_opcuaFormBrowseServerOpenCommand.IsRunning);
+            }, () => !OpcuaFormBrowseServerOpenCommand.IsRunning);
         }
 
 
 
 
-
-
-
-
-        private AsyncRelayCommand _opcuaStartScanCommand;
+        private AsyncRelayCommand? _opcuaStartScanCommand;
         public AsyncRelayCommand OpcuaStartScanCommand
         {
             get => _opcuaStartScanCommand ??= new (async () =>
@@ -131,10 +127,10 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StartScanOpcuaAsync();
 
-            }, () => !_opcuaStartScanCommand.IsRunning);
+            }, () => !OpcuaStartScanCommand!.IsRunning);
         }
 
-        private AsyncRelayCommand _opcuaStopScanCommand;
+        private AsyncRelayCommand? _opcuaStopScanCommand;
         public AsyncRelayCommand OpcuaStopScanCommand
         {
             get => _opcuaStopScanCommand ??= new(async () =>
@@ -144,14 +140,14 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     Properties.Settings.Default.ConnectOnStartUp = false;
                     Properties.Settings.Default.Save();// = false;
-                    await Task.WhenAny(GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync(), Task.Delay(5000));
+                    await Task.WhenAny(GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.StopScanOpcuaAsync(), Task.Delay(10000));
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
                     Debugger.Break();
                 }
-            }, () => !_opcuaStopScanCommand.IsRunning);
+            }, () => !OpcuaStopScanCommand!.IsRunning);
         }
 
 

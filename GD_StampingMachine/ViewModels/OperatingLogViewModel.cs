@@ -10,7 +10,7 @@ namespace GD_StampingMachine.ViewModels
             _operatingLog = OperatingLog;
         }
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_OperatingLogViewModel");
-        private readonly OperatingLogModel _operatingLog = new();
+        private readonly OperatingLogModel? _operatingLog = new();
 
 
         public DateTime LogDatetime

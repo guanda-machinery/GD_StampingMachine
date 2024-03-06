@@ -15,7 +15,7 @@ namespace GD_StampingMachine.Singletons
 
 
         public int LogCollectionMax = 100;
-        private DXObservableCollection<OperatingLogViewModel> _dataObservableCollection;
+        private DXObservableCollection<OperatingLogViewModel>? _dataObservableCollection;
         public DXObservableCollection<OperatingLogViewModel> DataObservableCollection
         {
             get
@@ -32,7 +32,7 @@ namespace GD_StampingMachine.Singletons
 
 
 
-        private Dictionary<string, List<GD_Model.OperatingLogModel>> _tempOperatingLog;
+        private Dictionary<string, List<GD_Model.OperatingLogModel>>? _tempOperatingLog;
         /// <summary>
         /// 當檔案被鎖定時 將資料先擺在這裡
         /// </summary>

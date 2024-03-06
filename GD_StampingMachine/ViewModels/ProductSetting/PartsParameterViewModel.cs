@@ -30,7 +30,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        //private PartsParameterModel _partsParameter;
+        //private PartsParameterModel? _partsParameter;
         public readonly PartsParameterModel PartsParameter;
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        private SettingBaseViewModel _settingBaseVM;//= new NumberSettingViewModel();
+        private SettingBaseViewModel? _settingBaseVM;//= new NumberSettingViewModel();
         /// <summary>
         /// 金屬牌樣式
         /// </summary>
@@ -338,7 +338,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        // private SendMachineCommandViewModel _sendMachineCommandVM;
+        // private SendMachineCommandViewModel? _sendMachineCommandVM;
 
         //  [JsonIgnore]
         /* public SendMachineCommandViewModel SendMachineCommandVM

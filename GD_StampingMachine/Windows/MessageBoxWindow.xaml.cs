@@ -172,9 +172,9 @@ namespace GD_StampingMachine.Windows
 
 
 
-        private Window CalcOwner()
+        private Window? CalcOwner()
         {
-            Window frameworkElement = null;
+            Window? frameworkElement = null;
             if (Application.Current != null && Application.Current.Dispatcher.CheckAccess())
             {
                 foreach (Window window3 in Application.Current.Windows)

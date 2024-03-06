@@ -47,7 +47,9 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <StackPanel HorizontalAlignment="Left">
+
+                <Border Background="{DynamicResource PrimaryGridControlBackground}"/>
+                <StackPanel HorizontalAlignment="Right" Margin="0,10">
                     <Button Name="AddProjectDistributeToggleButton"
 
                                           Command="{x:Static GD_Popup:DraggablePopup.OpenPopupCommand}"  
@@ -137,8 +139,12 @@
                         </Border>
                     </GD_Popup:DraggablePopup>
                 </StackPanel>
-                <dxg:GridControl  Grid.Row="1" x:Name="ProjectDistributeGridControl" HorizontalAlignment="Stretch"
-                Background="Transparent"  Margin="0"
+                
+                <dxg:GridControl  Grid.Row="1" 
+                                  x:Name="ProjectDistributeGridControl"
+                                  VerticalAlignment="Top"
+                                  HorizontalAlignment="Stretch"
+                Background="{DynamicResource SecondGridControlBackground}"  Margin="0"
                                       Style="{StaticResource ProjectGridControl}" 
                                       AutoGenerateColumns="None"
                                       SelectionMode="Row" 
@@ -181,21 +187,21 @@
                     </dxg:GridControl.View>
 
 
-                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_TypeSettingProjectName}" FieldName="ProjectDistributeName" Width="auto"   IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_TypeSettingProjectName}"   FieldName="ProjectDistributeName" MinWidth="150"   IsSmart="True">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
 
 
 
 
-                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="CreatedDate" Width="auto" AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="CreatedDate" MinWidth="150" AllowMoving="false"  IsSmart="True">
                     <dxg:GridColumn.EditSettings>
                         <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
-                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="EditDate" Width="auto" AllowMoving="false"  IsSmart="True">
+                    <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="EditDate" MinWidth="150" AllowMoving="false"  IsSmart="True">
                     <dxg:GridColumn.EditSettings>
                         <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
                     </dxg:GridColumn.EditSettings>
@@ -219,11 +225,19 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                <Border Background="{DynamicResource PrimaryGridControlBackground}"/>
+                <Grid Margin="0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                     Text="{Binding ProjectDistributeName}" 
-                    Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Margin="10,0" FontSize="30"/>
-                <StackPanel Margin="5,0"
-                    Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Padding="0,3,0,0"
+                               Margin="10,0" FontSize="30"/>
+                <StackPanel Grid.Column="1"
+                    Margin="5,0"
+                    Orientation="Horizontal" >
                     <Button Command="{Binding ProjectGridControlInsertToBoxCommand}"
                             Padding="5" Margin="5" >
                         <StackPanel Orientation="Horizontal">
@@ -252,19 +266,21 @@
                                               IsChecked="{Binding IsInDistributePage, Converter={dx:BoolInverseConverter}}"
                                                    Padding="20,2,20,0" Margin="5"
                                               Content="{DynamicResource btnExit}" />
-                </StackPanel>
-                <Grid Grid.Row="1" Name="MainGrid">
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1" Name="MainGrid" >
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="{CalcB:Binding ElementName=MainGrid, Path=ActualHeight/2}" MinHeight="50" MaxHeight="{CalcB:Binding ElementName=MainGrid, Path=ActualHeight/1.5}"/>
+                        <RowDefinition Height="{CalcB:Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ActualHeight/2}" MinHeight="50" 
+                                       MaxHeight="{CalcB:Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ActualHeight/1.5}"/>
                         <RowDefinition Height="auto" />
                         <RowDefinition MinHeight="50" Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Name="TSGrid">
+                    <Grid Grid.Row="0" Name="TSGrid" Margin="2,5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" MinWidth="120" MaxWidth="{CalcB:Binding ElementName=TSGrid, Path=ActualWidth/2}"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition MinWidth="100"/>
-                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*" MinWidth="100"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -287,8 +303,8 @@
                                 Placement="Relative" PlacementTarget="{Binding ElementName=btnAddProjectToggleButton}" PopupAnimation="Fade" 
                                 AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddTypeSettingProjectDarggableIsPopUp}"
                                 OpenedCommand="{Binding ReloadTypeSettingSettingsCommand}"
-                                
                                 >
+
 
 
                                 <Border   Background="White" CornerRadius="10" >
@@ -570,8 +586,8 @@
 
                             </dxg:GridControl>
                         </Grid>
-                        <dxg:GridControl Background="Transparent"    Grid.Column="2"  Margin="10,0"
-                                       
+                        <dxg:GridControl Background="{DynamicResource DarkPrimaryGridControlBackground}"    
+                                         Grid.Column="2"  Margin="0,0"
                                          IsEnabled="{Binding ReadyToTypeSettingProductProjectVMSelected.ProductProjectIsFinish, Converter={dx:BoolInverseConverter}}"    
                                          Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="Row"
@@ -742,11 +758,13 @@
                             </dxg:GridControl>
 
                         <GridSplitter Style="{StaticResource MaterialDesignGridSplitter}"  Grid.Column="1" Grid.Row="0"  
-                                                                      Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="5"  />
-                        <Border Grid.Column="3" Width="5" Margin="5,5,10,5" Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" CornerRadius="2.5"/>
+                                                                      Background="{StaticResource GridSplitterBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="5"  />
+                        
                     </Grid>
 
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="2" >
+                        <Border Background="{DynamicResource DarkPrimaryGridControlBackground}"/>
+                        <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
@@ -969,15 +987,15 @@
 
 
                             </dxg:GridControl>
-
+                        </Grid>
                     </Grid>
 
 
 
                     <GridSplitter 
                                   Grid.Row="1"   
-                                  Background="{StaticResource ToggleButtonBackgroundLightGrayBrush}" 
-                                  HorizontalAlignment="Stretch" Margin="0,10" Height="10"  />
+                                  Background="{StaticResource GridSplitterBrush}" 
+                                  HorizontalAlignment="Stretch" Margin="0,0" Height="10"  />
                 </Grid>
             </Grid>
         </Border>
