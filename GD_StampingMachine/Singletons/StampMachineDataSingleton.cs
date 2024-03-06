@@ -1420,9 +1420,11 @@ if (Key_EditMode = e.NewValue)
                                                         plateMonitorVMCollection.Add(PlateMonitorVM);
                                                     }
 
-                                                    plateMonitorVMCollection = plateMonitorVMCollection?.Take(MachineConst.PlateCount).ToList();
+                                                    var collection = plateMonitorVMCollection?.Take(MachineConst.PlateCount);
+                                                    if(collection!=null)
+                                                        MachineSettingBaseCollection = new ObservableCollection<PlateMonitorViewModel>(collection);
 
-                                                    if (MachineSettingBaseCollection?.Count != plateMonitorVMCollection?.Count)
+                                                    /*if (MachineSettingBaseCollection?.Count != plateMonitorVMCollection.Count)
                                                     {
                                                         await Application.Current.Dispatcher.InvokeAsync(() =>
                                                         {
@@ -1458,11 +1460,11 @@ if (Key_EditMode = e.NewValue)
                                                         await Task.WhenAll(invokeList?.Select(op => op.Task) ?? Enumerable.Empty<Task>());
                                                         if (invokeList?.Count > 0)
                                                         {
-                                                            OnPropertyChanged(nameof(MachineSettingBaseCollection));
+                                                            //OnPropertyChanged(nameof(MachineSettingBaseCollection));
                                                         }
-                                                    }
+                                                    }*/
 
-       
+
                                                 }
 
 

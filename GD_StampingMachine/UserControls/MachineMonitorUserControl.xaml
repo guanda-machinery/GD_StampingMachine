@@ -201,7 +201,7 @@
                             </Grid>
                             <ItemsControl  
                                 HorizontalAlignment="Right" Margin="5,0"   FlowDirection="RightToLeft"
-                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=True}"
+                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=False}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
                                 <ItemsControl.ItemTemplate>
