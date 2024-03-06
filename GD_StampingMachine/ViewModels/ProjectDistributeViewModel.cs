@@ -578,7 +578,7 @@ namespace GD_StampingMachine.ViewModels
                         {
                             partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
                             partsParameterVM.BoxIndex = StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                            await Application.Current.Dispatcher.InvokeAsync(() =>
+                            await Application.Current?.Dispatcher.InvokeAsync(() =>
                             {
                                 StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
                                 this.PartsParameterVMObservableCollection.Remove(partsParameterVM);
@@ -654,7 +654,7 @@ namespace GD_StampingMachine.ViewModels
 
 
                             addPartsParameterViewModel.Add(partsParameterVM);
-                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            Application.Current?.Dispatcher.Invoke(new Action(() =>
                             {
                                 StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
                             }));
@@ -691,7 +691,7 @@ namespace GD_StampingMachine.ViewModels
 
                                     addPartsParameterViewModel.Add(partsParameterVM);
 
-                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                    Application.Current?.Dispatcher.Invoke(new Action(() =>
                                     {
                                         StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Add(partsParameterVM);
                                     }));
@@ -702,7 +702,7 @@ namespace GD_StampingMachine.ViewModels
                         }*/
                         //將多餘的部分移除
                     
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        Application.Current?.Dispatcher.Invoke(new Action(() =>
                         {
                             foreach(var part in addPartsParameterViewModel)
                             {
@@ -743,7 +743,7 @@ namespace GD_StampingMachine.ViewModels
 
         public async Task ReloadPartsParameterVMObservableCollectionAsync()
         {
-            await Application.Current.Dispatcher.InvokeAsync(() =>
+            await Application.Current?.Dispatcher.InvokeAsync(() =>
             {
                 try
                 {

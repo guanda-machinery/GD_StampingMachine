@@ -253,7 +253,7 @@ namespace GD_StampingMachine.ViewModels
                     Copyright = Properties.Settings.Default.Copyright,
                 };
                 SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                manager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 ManagerVM.IsIndeterminate = false;
                 //等待結束 
                 for (double i = 10000; i < 0; i--)

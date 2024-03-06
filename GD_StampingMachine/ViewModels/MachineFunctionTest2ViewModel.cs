@@ -18,7 +18,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
                     StampMachineDataSingleton.Instance.AlarmMessageCollection.Clear();
                 });
@@ -28,7 +28,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get => new RelayCommand(() =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
                     StampMachineDataSingleton.Instance.AlarmMessageCollection.Add("NewAlarm");
                 });

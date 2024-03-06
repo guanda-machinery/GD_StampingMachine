@@ -96,7 +96,7 @@ namespace GD_StampingMachine.ViewModels
             BoxPartsParameterVMObservableCollection = new();
             foreach (var pParameter in newCollection)
             {
-                await Application.Current.Dispatcher.InvokeAsync(() =>
+                await Application.Current?.Dispatcher.InvokeAsync(() =>
                 {
                     BoxPartsParameterVMObservableCollection.Add(pParameter);
                 });

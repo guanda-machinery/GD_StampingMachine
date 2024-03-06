@@ -169,9 +169,9 @@ namespace GD_StampingMachine.ViewModels
                 };
                 SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
 
-                await Application.Current.Dispatcher.InvokeAsync(() =>
+                await Application.Current?.Dispatcher.InvokeAsync(() =>
                 {
-                    manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                    manager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 });
                 */
                 //CancellationTokenSource cts = new();
@@ -217,9 +217,9 @@ namespace GD_StampingMachine.ViewModels
                                      try
                                      {
                                          _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("WaitConnection"));
-                                         await Application.Current.Dispatcher.InvokeAsync(() =>
+                                         await Application.Current?.Dispatcher.InvokeAsync(() =>
                                          {
-                                             ConnectManager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                                             ConnectManager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                          });
                                          //等待連線
 
@@ -520,7 +520,7 @@ namespace GD_StampingMachine.ViewModels
                 };
                 SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
 
-                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                manager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
 
                // CancellationTokenSource cts = new();
 

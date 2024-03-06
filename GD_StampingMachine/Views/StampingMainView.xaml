@@ -383,7 +383,7 @@
                                                         <Condition  Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=IsConnected}" 
                                                      Value="true" />
                                                         <Condition Binding="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance}, Path=AlarmLamp}" 
-                                                     Value="false"/>
+                                                     Value="true"/>
                                                     </MultiDataTrigger.Conditions>
                                                     <Setter Property="Fill"  Value="Red"/>
                                                 </MultiDataTrigger>

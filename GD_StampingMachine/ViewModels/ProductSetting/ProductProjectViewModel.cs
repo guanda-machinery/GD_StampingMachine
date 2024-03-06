@@ -606,7 +606,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _importProject_SelectPathFileCommand ??= new (async () =>
             {
-                await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                await Application.Current?.Dispatcher.InvokeAsync(new Action(() =>
                 {
                     System.Windows.Forms.OpenFileDialog sfd = new()
                     {
@@ -630,7 +630,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => _importProject_SelectPathFolderCommand ??= new (async () =>
             {
-                await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                await Application.Current?.Dispatcher.InvokeAsync(new Action(() =>
                 {
                     System.Windows.Forms.FolderBrowserDialog sfd = new();
                     if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -686,7 +686,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 };
 
                 var manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                manager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                 try
                 {
                     ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Text_Importing") + "...";
@@ -888,7 +888,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-                    await Application.Current.Dispatcher.InvokeAsync(async () =>
+                    await Application.Current?.Dispatcher.InvokeAsync(async () =>
                     {
                         PartsParameterVMObservableCollection.AddRange(importPartsParameterVMList);
                         await SaveProductProjectAsync();

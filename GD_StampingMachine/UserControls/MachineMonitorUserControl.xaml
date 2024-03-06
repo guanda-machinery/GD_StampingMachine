@@ -199,9 +199,14 @@
 
                                 </Border>
                             </Grid>
+                        
+                        
+                        
+                        
+                        
                             <ItemsControl  
                                 HorizontalAlignment="Right" Margin="5,0"   FlowDirection="RightToLeft"
-                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=False}"
+                                ItemsSource="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},Path=MachineSettingBaseCollection, IsAsync=True}"
                                                              ScrollViewer.VerticalScrollBarVisibility="Disabled"     
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
                                 <ItemsControl.ItemTemplate>
@@ -246,7 +251,7 @@
                                                 </ToggleButton.Style>
                                                 <GD_SchematicDiagram:QRPlateRowDiagramControl   
                                                         IsEnabled="False"    
-                                                                        DataContext="{Binding SettingBaseVM , IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                                                                        DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
                                                     <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                         <TransformGroup>
                                                             <RotateTransform Angle="90"/>
@@ -266,7 +271,7 @@
                                                     <Grid Width="400">
                                                             <Viewbox>
                                                                 <GD_SchematicDiagram:QRPlateRowDiagramControl    
-                                                                    DataContext="{Binding SettingBaseVM , IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                                                                    DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
                                                                 </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                             </Viewbox>
                                                         </Grid>
@@ -337,7 +342,7 @@
                                      CustomRowFilterCommand="{Binding NotArrangeWorkRowFilterCommand}"        
                                                 Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
-                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, IsAsync=True,
+                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                                                 Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                >
                                                 <dxg:GridControl.View >
@@ -406,7 +411,7 @@
                                                     <DataTemplate>
 
                                                         <Grid DataContext="{Binding Row}">
-                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl   DataContext="{Binding SettingBaseVM, IsAsync=True}"   IsEnabled="False"
+                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl   DataContext="{Binding SettingBaseVM}"   IsEnabled="False"
                                                                       RedMeasurementLineVisibility="Collapsed" >
                                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                         </Grid>
@@ -814,7 +819,7 @@ ConverterParameter="{StaticResource FalseValue}">
                                     Path=MachineSettingBaseCollection[23]}" ProjectName="{Binding ProductProjectName}" >
 
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4"  
-                                DataContext="{Binding SettingBaseVM , IsAsync=True}"/>
+                                DataContext="{Binding SettingBaseVM}"/>
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
                             </Viewbox>
                         <Viewbox Grid.Column="1"   MaxHeight="150">
@@ -831,7 +836,7 @@ ConverterParameter="{StaticResource FalseValue}">
                                 >
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl
                                         PlateRowBackground="#b4b4b4"
-                                DataContext="{Binding SettingBaseVM , IsAsync=True}"/>
+                                DataContext="{Binding SettingBaseVM}"/>
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
                                 <GD_StampingMachine_UserControls:PlateDiagramCustomControl     
                                    StampingProcess="Engraving"
@@ -845,7 +850,7 @@ ConverterParameter="{StaticResource FalseValue}">
                                 >
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl
                                         PlateRowBackground="#b4b4b4"
-                                DataContext="{Binding SettingBaseVM , IsAsync=True}"/>
+                                DataContext="{Binding SettingBaseVM}"/>
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
                             </Grid>
                         </Viewbox>
@@ -858,7 +863,7 @@ ConverterParameter="{StaticResource FalseValue}">
                             Grid.Column="2" DataContext="{Binding Source={x:Static GD_Singletons:StampMachineDataSingleton.Instance},
 Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}" >
                                     <GD_SchematicDiagram:QRPlateRowDiagramControl PlateRowBackground="#b4b4b4" Width="auto" Height="auto"
-                                DataContext="{Binding SettingBaseVM , IsAsync=True}"/>
+                                DataContext="{Binding SettingBaseVM}"/>
                                 </GD_StampingMachine_UserControls:PlateDiagramCustomControl>
                             </Viewbox>
 
@@ -874,7 +879,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                      CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
-                                 ItemsSource="{Binding IsAsync=True, Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
+                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                         Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
                                     MaxHeight="150"    >
                     
@@ -1094,7 +1099,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                Background="Transparent"   MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
             ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection, 
-                    IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SizeChanged">
@@ -1225,7 +1230,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                         </ToggleButton.Style>
                                         <Grid>
                                             <GD_SchematicDiagram:QRPlateRowDiagramControl    
-                                                IsEnabled="False"   DataContext="{Binding SettingBaseVM , IsAsync=True}"
+                                                IsEnabled="False"   DataContext="{Binding SettingBaseVM}"
                                                                      RedMeasurementLineVisibility="Collapsed" >
                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                         </Grid>
@@ -1240,7 +1245,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                                                         IsOpen="{Binding ElementName=MachiningFormTButton, Path=IsChecked, Mode=TwoWay}">
                                         <Grid>
                                             <GD_SchematicDiagram:QRPlateRowDiagramControl     
-                            DataContext="{Binding SettingBaseVM , IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                            DataContext="{Binding SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                         </Grid>
                                     </GD_Popup:NonTopmostPopup>

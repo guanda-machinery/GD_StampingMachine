@@ -100,7 +100,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 {
                     if (await Method.MethodWinUIMessageBox.AskOverwriteOrNotAsync())
                     {
-                        //Application.Current.Dispatcher.Invoke(() =>
+                        //Application.Current?.Dispatcher.Invoke(() =>
                         // {
                              //NumberSettingModelCollection[FIndex] = new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson());
                              NumberSettingModelCollection[FIndex] = NumberSettingVM.DeepCloneByJson();
@@ -113,7 +113,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 }
                 else
                 {
-               //  await  Application.Current.Dispatcher.InvokeAsync(async() =>
+               //  await  Application.Current?.Dispatcher.InvokeAsync(async() =>
                    // {
                         // NumberSettingModelCollection.Add(new NumberSettingViewModel(NumberSettingVM.StampPlateSetting.DeepCloneByJson()));
                         NumberSettingModelCollection.Add(NumberSettingVM.DeepCloneByJson());

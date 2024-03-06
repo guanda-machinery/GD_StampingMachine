@@ -49,7 +49,7 @@ namespace GD_StampingMachine.Windows
 
             // Parent = parent;
 
-            parent ??= Application.Current.MainWindow ?? new Window();
+            parent ??= Application.Current?.MainWindow ?? new Window();
 
 
 
@@ -109,7 +109,7 @@ namespace GD_StampingMachine.Windows
             YesNoButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNo ? Visibility.Visible : Visibility.Collapsed;
             YesNoCancelButtonGrid.Visibility = MB_Button is MessageBoxButton.YesNoCancel ? Visibility.Visible : Visibility.Collapsed;*/
 
-            // var ZindexMax = Application.Current.Windows.Cast<Window>().Max(window => Panel.GetZIndex(window));
+            // var ZindexMax = Application.Current?.Windows.Cast<Window>().Max(window => Panel.GetZIndex(window));
             //   this.SetValue(Panel.ZIndexProperty, ZindexMax - 1);
             //this.Topmost = true;
            // this.Owner = owner;
@@ -186,9 +186,9 @@ namespace GD_StampingMachine.Windows
                     }
                 }
 
-                if (frameworkElement == null && Application.Current.Windows.Count > 0)
+                if (frameworkElement == null && Application.Current?.Windows.Count > 0)
                 {
-                    Window window2 = Application.Current.Windows[0];
+                    Window window2 = Application.Current?.Windows[0];
                     if (window2.Background != Brushes.Transparent)
                     {
                         frameworkElement = window2;
@@ -229,7 +229,7 @@ namespace GD_StampingMachine.Windows
 
         private void CloseMessageBox()
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current?.Dispatcher.Invoke(new Action(() =>
             {
                 this.Close();
                 Overlay?.Close();

@@ -34,7 +34,7 @@ namespace GD_StampingMachine.Singletons
 
         //  public const string DataSingletonName = "Name_StampMachineDataSingleton";
         public string DataSingletonName => (string)Application.Current.TryFindResource("Name_StampMachineDataSingleton");
-        private AbstractOpcuaConnect GD_OpcUaClient;
+        private AbstractOpcuaConnect opcUaClient;
 
 
 
@@ -751,7 +751,7 @@ namespace GD_StampingMachine.Singletons
 
             //一啟動就建立一個alarm
             //HasAlarm = true;
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current?.Dispatcher.Invoke(() =>
             {
                 AlarmMessageCollection.Add("PLC Is Not Connected");
             });
@@ -769,12 +769,17 @@ namespace GD_StampingMachine.Singletons
                 {
                     SettingBaseVM = new QRSettingViewModel()
                     { 
-                        PlateNumber=" ",
+                        PlateNumber="Init-" +i,
                         QR_Special_Text=string.Empty,
                         QrCodeContent = i.ToString(),
                     }
                 });
             }
+
+
+
+
+
 
         }
 
@@ -787,7 +792,7 @@ namespace GD_StampingMachine.Singletons
         protected override async ValueTask DisposeAsyncCoreAsync()
         {
             await StopScanOpcuaAsync();
-            if (GD_OpcUaClient != null)
+            if (opcUaClient != null)
                 await this.DisconnectAsync();
         }
 
@@ -921,17 +926,17 @@ namespace GD_StampingMachine.Singletons
 
                         try
                         {
-                            if (GD_OpcUaClient != null)
+                            if (opcUaClient != null)
                                 await this.DisconnectAsync();
 
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Application.Current?.Dispatcher.Invoke(() =>
                             {
-                                manager?.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                                manager?.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                             });
 
                             this.IsConnected = false;
-                            GD_OpcUaClient = new GD_OpcUaClient();
-                            GD_OpcUaClient.IsConnectedChanged += (sender, e) =>
+                            opcUaClient = new GD_OpcUaClient();
+                            opcUaClient.IsConnectedChanged += (sender, e) =>
                             {
                                 this.IsConnected = e.NewValue;
                             };
@@ -967,10 +972,10 @@ namespace GD_StampingMachine.Singletons
                                         }
                                     }
 
-                                    firstConnected = await GD_OpcUaClient.ConnectAsync(baseUrl.ToString(), CommunicationSetting.UserName, CommunicationSetting.Password);
+                                    firstConnected = await opcUaClient.ConnectAsync(baseUrl.ToString(), CommunicationSetting.UserName, CommunicationSetting.Password);
                                     if (firstConnected)
                                     {
-                                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                                        await Application.Current?.Dispatcher.InvokeAsync(() =>
                                         {
                                             AlarmMessageCollection.Clear();
                                         });
@@ -1035,7 +1040,7 @@ namespace GD_StampingMachine.Singletons
                                             AlarmLamp = (await AlarmLamp_IsTrigger).lamp;
                                             if (!AlarmLamp)
                                             {
-                                                Application.Current.Dispatcher.Invoke(new Action(() =>
+                                                Application.Current?.Dispatcher.Invoke(new Action(() =>
                                                 AlarmMessageCollection.Clear()
                                                 ));
                                             }
@@ -1043,9 +1048,9 @@ namespace GD_StampingMachine.Singletons
 
                                         
 
-                                        //var ret7 = await GD_OpcUaClient.GetLubricationSettingTime();
-                                        //var ret8 = await GD_OpcUaClient.GetLubricationSettingOnTime();
-                                        //var ret9 = await GD_OpcUaClient.GetLubricationSettingOffTime();
+                                        //var ret7 = await opcUaClient.GetLubricationSettingTime();
+                                        //var ret8 = await opcUaClient.GetLubricationSettingOnTime();
+                                        //var ret9 = await opcUaClient.GetLubricationSettingOffTime();
 
 
                                         var ret10 = await GetLubricationActualTimeAsync();
@@ -1085,25 +1090,25 @@ namespace GD_StampingMachine.Singletons
                                         }
 
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.system.sv_OperationMode, (sender, e) =>
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.system.sv_OperationMode, (sender, e) =>
                                         {
                                             OperationMode = (OperationModeEnum)e.NewValue;
                                         });
 
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted, (sender, e) =>
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.Motor1.sv_bMotorStarted, (sender, e) =>
                                         {
                                             HydraulicPumpIsActive = e.NewValue;
                                         });
 
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, (sender, e) =>
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, (sender, e) =>
                                         {
                                             Rdatabit = e.NewValue;
                                         });
 
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.EngravingRotate1.sv_iThisStation, (sender, e) =>
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.EngravingRotate1.sv_iThisStation, (sender, e) =>
                                         {
                                             //value = 1~40 對應index = 0~39
                                             EngravingRotateStation = e.NewValue - 1;
@@ -1113,18 +1118,18 @@ namespace GD_StampingMachine.Singletons
                                             }
                                         });
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", (sender, e) =>
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", (sender, e) =>
                                         {
                                             FirstIronPlateID = (e.OldValue, e.NewValue);
                                         });
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID", (sender, e) =>
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID", (sender, e) =>
                                         {
                                             LastIronPlateID = (e.OldValue, e.NewValue);
                                         });
 
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedVelocity,
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedVelocity,
                                         (sender, e) =>
                                         {
                                             try
@@ -1139,37 +1144,37 @@ namespace GD_StampingMachine.Singletons
 
 
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity,
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingFeeding1.sv_rFeedVelocity,
                                                 (sender, e) => this.EngravingFeeding = e.NewValue);
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity,
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.EngravingRotate1.sv_rRotateVelocity,
                                                (sender, e) => this.RotateVelocity = e.NewValue);
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP,
                                                (sender, e) => this.DataMatrixTCPIP = e.NewValue);
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,
                                                (sender, e) => this.DataMatrixPort = e.NewValue);
 
 
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_PowerON,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_PowerON,
                                             (sender, e) => this.DI_PowerON = e.NewValue);
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_Pause,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_Pause,
                                                 (sender, e) => this.DI_Pause = e.NewValue);
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_Start,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.di_Start,
                                             (sender, e) => this.DI_Start = e.NewValue);
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.di_EmergencyStop1,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.di_EmergencyStop1,
                                             (sender, e) => this.DI_EmergencyStop1 = e.NewValue);
 
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_RunningLamp,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_RunningLamp,
     (sender, e) => this.RunningLamp = e.NewValue);
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_StoppedLamp,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_StoppedLamp,
     (sender, e) => this.StoppedLamp = e.NewValue);
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_AlarmLamp,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.do_AlarmLamp,
                                             (sender, e) =>
                                             {
                                                 this.AlarmLamp = e.NewValue;
                                                 if (!e.NewValue)
                                                 { 
-                                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                                    Application.Current?.Dispatcher.Invoke(new Action(() =>
                                                     AlarmMessageCollection.Clear()
                                                     ));
                                                 }
@@ -1194,19 +1199,19 @@ namespace GD_StampingMachine.Singletons
 
                                         //刻字下壓
 
-                                        await GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>($"{StampingOpcUANode.Engraving1.di_StopDown}", 
+                                        await opcUaClient.SubscribeNodeDataChangeAsync<bool>($"{StampingOpcUANode.Engraving1.di_StopDown}", 
                                             (sender, e) =>
                                         {
                                             Cylinder_HydraulicEngraving_IsStopDown = e.NewValue;
                                         }, 100, true);
 
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<string>(StampingOpcUANode.OpcMonitor1.sv_OpcLastAlarmText,
                                             (sender, e) =>
                                             {
                                                 if (!string.IsNullOrWhiteSpace(e.NewValue))
                                                     if (!AlarmMessageCollection.Contains(e.NewValue))
                                                     {
-                                                        _ = Application.Current.Dispatcher.BeginInvoke(() =>
+                                                        _ = Application.Current?.Dispatcher.BeginInvoke(() =>
                                                         {
                                                             AlarmMessageCollection.Add(e.NewValue);
                                                             _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, e.NewValue, true);
@@ -1220,7 +1225,7 @@ namespace GD_StampingMachine.Singletons
                                             var message = alarmTask.Item2;
                                             if (!AlarmMessageCollection.Contains(message))
                                             {
-                                                await Application.Current.Dispatcher.BeginInvoke(() =>
+                                                await Application.Current?.Dispatcher.BeginInvoke(() =>
                                                 {
                                                     AlarmMessageCollection.Add(message);
                                                     _ = LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, message, true);
@@ -1229,7 +1234,7 @@ namespace GD_StampingMachine.Singletons
                                         }
 
                            
-                                     /*   await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.OpcMonitor1.sv_OpcAlarmCount,
+                                     /*   await this.opcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.OpcMonitor1.sv_OpcAlarmCount,
                                           (sender, e) =>
                                           {
                                               if (e.NewValue > 0)
@@ -1243,40 +1248,23 @@ namespace GD_StampingMachine.Singletons
                                           });*/
 
 
-                                        await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm,
+                                        await this.opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm,
                                             (sender, e) =>
                                             {
                                                 if (e.NewValue)
                                                 {
-                                                    Application.Current.Dispatcher.Invoke(() =>
+                                                    Application.Current?.Dispatcher.Invoke(() =>
                                                     {
                                                         AlarmMessageCollection.Clear();
                                                     });
                                                 }
                                             });
-
-                                     /*   await this.GD_OpcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.OperationMode1.sv_bButtonAlarmConfirm,
-(sender, e) =>
-{
-if (Key_EditMode = e.NewValue)
-{
-
-}
-});
-
-                                        Key_MachiningMode
-        LightOn*/
-
-
-
-
-
                                         break;
                                     }
                                     else
                                     {
                                         ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect") + $" - {retryCount}";
-                                        //ManagerVM.Subtitle = GD_OpcUaClient.ConnectException?.Message;
+                                        //ManagerVM.Subtitle = opcUaClient.ConnectException?.Message;
                                     }
                                 }
                                 catch (Exception ex)
@@ -1291,182 +1279,31 @@ if (Key_EditMode = e.NewValue)
                             while (!firstConnected);
                             //while (true) ;
 
+
                             manager?.Close();
-                            //先前上一輪加工陣列的id
-                            List<int> lastIronDataIList = new();
+
                             var machineTask = Task.Run(async () =>
                             {
                                 try
                                 {
                                     do
                                     {
-                                        this.IsConnected = GD_OpcUaClient?.IsConnected == true;
+                                        if (token.IsCancellationRequested)
+                                        {
+                                            token.ThrowIfCancellationRequested();
+                                        }
+
+                                        this.IsConnected = opcUaClient?.IsConnected == true;
 
                                         if (IsConnected)
                                         {
-                                            if (token.IsCancellationRequested)
-                                            {
-                                                token.ThrowIfCancellationRequested();
-                                            }
                                             try
                                             {
-
                                                 manager?.Close();
 
                                                 var fPos = await GetFeedingPositionAsync();
                                                 if (fPos.Item1)
                                                     FeedingPosition = fPos.Item2;
-
-                                                var (result, ironPlateCollection) = await GetIronPlateDataCollectionAsync();
-                                                if (result)
-                                                {
-                                                    List<IronPlateDataModel> plateDataCollection = ironPlateCollection;
-
-                                                    var plateMonitorVMCollection = new List<PlateMonitorViewModel>();
-                                                    //產出圖形
-                                                    foreach (var plateData in plateDataCollection)
-                                                    {
-                                                        //取得字元長度
-                                                        var string1Length = plateData.sIronPlateName1.Length;
-                                                        var string2Length = plateData.sIronPlateName2.Length;
-                                                        SpecialSequenceEnum specialSequence;
-                                                        if (string2Length > 0)
-                                                            specialSequence = SpecialSequenceEnum.TwoRow;
-                                                        else
-                                                            specialSequence = SpecialSequenceEnum.OneRow;
-
-
-                                                        SteelBeltStampingStatusEnum steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
-                                                        if (plateData.bEngravingFinish)
-                                                            steelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping;
-                                                        else if (plateData.bDataMatrixFinish)
-                                                            steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
-
-                                                        //int rowLength = string1Length > string2Length ? string1Length : string2Length;
-                                                        int rowLength = Math.Max(string1Length, string2Length);
-                                                        SettingBaseViewModel settingBaseVM;
-                                                        //沒有QR加工
-                                                        if (string.IsNullOrEmpty(plateData.sDataMatrixName1) && string.IsNullOrEmpty(plateData.sDataMatrixName2))
-                                                        {
-                                                            settingBaseVM = new NumberSettingViewModel();
-                                                        }
-                                                        else
-                                                        {
-                                                            settingBaseVM = new QRSettingViewModel();
-                                                        }
-                                                        settingBaseVM.SpecialSequence = specialSequence;
-                                                        settingBaseVM.SequenceCount = rowLength;
-                                                        //settingBaseVM.PlateNumber = plateData.sIronPlateName1.PadRight(rowLength).Substring(0, rowLength) + plateData.sIronPlateName2;
-                                                        settingBaseVM.PlateNumber = string.Concat(plateData.sIronPlateName1.PadRight(rowLength).AsSpan(0, rowLength), plateData.sIronPlateName2);
-                                                        settingBaseVM.QrCodeContent = plateData.sDataMatrixName1;
-                                                        settingBaseVM.QR_Special_Text = plateData.sDataMatrixName2;
-                                                        settingBaseVM.StampingMarginPosVM = new StampingMarginPosViewModel()
-                                                        {
-                                                            rXAxisPos1 = plateData.rXAxisPos1,
-                                                            rYAxisPos1 = plateData.rYAxisPos1 - MachineConst.StampingMachineYPosition,
-                                                            rXAxisPos2 = plateData.rXAxisPos2,
-                                                            rYAxisPos2 = plateData.rYAxisPos2 - MachineConst.StampingMachineYPosition,
-                                                        };
-
-                                                        foreach (var num1 in settingBaseVM.PlateNumberList1)
-                                                        {
-                                                            if (string.IsNullOrWhiteSpace(num1.FontString))
-                                                                num1.IsUsed = false;
-                                                        }
-
-                                                        foreach (var num2 in settingBaseVM.PlateNumberList2)
-                                                        {
-                                                            if (string.IsNullOrWhiteSpace(num2.FontString))
-                                                                num2.IsUsed = false;
-                                                        }
-
-
-                                                        string productProjectName = string.Empty;
-                                                        foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
-                                                        {
-                                                            //去盒子裡面找是否有對應的鐵片
-                                                            var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
-                                                            var foundPart = boxPartsCollection.FirstOrDefault(x => x.ID == plateData.iIronPlateID && x.IsSended);
-                                                            if (foundPart !=null)
-                                                            {
-                                                                foundPart.DataMatrixIsFinish = plateData.bDataMatrixFinish;
-                                                                foundPart.EngravingIsFinish = plateData.bEngravingFinish;
-                                                                productProjectName = foundPart.ProductProjectName;
-
-                                                                try
-                                                                {
-                                                                  _= Task.Run(async () => 
-                                                                    {
-                                                                        await projectDistribute.SaveProductProjectVMObservableCollectionAsync(); 
-                                                                    });
-                                                                }
-                                                                catch
-                                                                {
-
-                                                                }
-                                                                break;
-                                                            }
-                                                        }
-
-                                                        PlateMonitorViewModel PlateMonitorVM = new()
-                                                        {
-                                                            ID = plateData.iIronPlateID,
-                                                            ProductProjectName = productProjectName,
-                                                            SettingBaseVM = settingBaseVM,
-                                                            StampingStatus = steelBeltStampingStatus,
-                                                            DataMatrixIsFinish = plateData.bDataMatrixFinish,
-                                                            EngravingIsFinish = plateData.bEngravingFinish,
-                                                        };
-                                                        plateMonitorVMCollection.Add(PlateMonitorVM);
-                                                    }
-
-                                                    var collection = plateMonitorVMCollection?.Take(MachineConst.PlateCount);
-                                                    if(collection!=null)
-                                                        MachineSettingBaseCollection = new ObservableCollection<PlateMonitorViewModel>(collection);
-
-                                                    /*if (MachineSettingBaseCollection?.Count != plateMonitorVMCollection.Count)
-                                                    {
-                                                        await Application.Current.Dispatcher.InvokeAsync(() =>
-                                                        {
-                                                            MachineSettingBaseCollection = new ObservableCollection<PlateMonitorViewModel>(plateMonitorVMCollection);
-                                                        });
-                                                    }
-                                                    else
-                                                    {
-                                                        List<DispatcherOperation> invokeList = new();
-
-                                                        for (int i = 0; i < plateMonitorVMCollection?.Count; i++)
-                                                        {
-                                                            int index = i;//防止閉包問題
-                                                            if( MachineSettingBaseCollection.TryGetValue(index,out var machineSetting)
-                                                            && plateMonitorVMCollection.TryGetValue(index , out var plateMonitorVM))
-                                                            {
-                                                                if (machineSetting.SettingBaseVM.PlateNumber != plateMonitorVM.SettingBaseVM.PlateNumber
-                                                                || machineSetting.StampingStatus != plateMonitorVM.StampingStatus
-                                                                || machineSetting.DataMatrixIsFinish != plateMonitorVM.DataMatrixIsFinish
-                                                                || machineSetting.EngravingIsFinish != plateMonitorVM.EngravingIsFinish
-                                                                || machineSetting.ShearingIsFinish != plateMonitorVM.ShearingIsFinish)
-                                                                {
-                                                                    var invoke = Application.Current?.Dispatcher.InvokeAsync(async () =>
-                                                                    {
-                                                                        await Task.CompletedTask;
-                                                                        machineSetting = plateMonitorVMCollection[index];
-                                                                    });
-                                                                    invokeList.Add(invoke);
-                                                                }
-                                                            }
-
-                                                        }
-                                                        await Task.WhenAll(invokeList?.Select(op => op.Task) ?? Enumerable.Empty<Task>());
-                                                        if (invokeList?.Count > 0)
-                                                        {
-                                                            //OnPropertyChanged(nameof(MachineSettingBaseCollection));
-                                                        }
-                                                    }*/
-
-
-                                                }
-
 
                                                 var HmiIronPlateTask = await GetHMIIronPlateAsync();
                                                 if (HmiIronPlateTask.Item1)
@@ -1547,9 +1384,9 @@ if (Key_EditMode = e.NewValue)
                                                 if ((await BlockingCylinder_IsUp).Item1)
                                                     Cylinder_BlockingCylinder_IsUp = (await BlockingCylinder_IsUp).Item2;
 
-                                                var BlockingCylindere_IsDown = GetBlockingCylinder_Position_isDownAsync();
-                                                if ((await BlockingCylindere_IsDown).Item1)
-                                                    Cylinder_BlockingCylindere_IsDown = (await BlockingCylindere_IsDown).Item2;
+                                                var BlockingCylinder_IsDown = GetBlockingCylinder_Position_isDownAsync();
+                                                if ((await BlockingCylinder_IsDown).Item1)
+                                                    Cylinder_BlockingCylindere_IsDown = (await BlockingCylinder_IsDown).Item2;
 
 
 
@@ -1599,13 +1436,13 @@ if (Key_EditMode = e.NewValue)
                                                     SeparateBoxIndex = (await boxIndex).Item2;
                                                 }
 
-                                                var engravingYposition = GetEngravingYAxisPositionAsync();
-                                                if ((await engravingYposition).Item1)
-                                                    EngravingYAxisPosition = (await engravingYposition).Item2;
+                                                var engravingYPosition = GetEngravingYAxisPositionAsync();
+                                                if ((await engravingYPosition).Item1)
+                                                    EngravingYAxisPosition = (await engravingYPosition).Item2;
 
-                                          /*      var engravingZposition = GetEngravingZAxisPositionAsync();
-                                                if ((await engravingZposition).Item1)
-                                                    EngravingZAxisPosition = (await engravingZposition).Item2;*/
+                                                /*      var engravingZposition = GetEngravingZAxisPositionAsync();
+                                                      if ((await engravingZposition).Item1)
+                                                          EngravingZAxisPosition = (await engravingZposition).Item2;*/
 
                                                 var engravingAStation = GetEngravingRotateStationAsync();
                                                 if ((await engravingAStation).Item1)
@@ -1630,13 +1467,13 @@ if (Key_EditMode = e.NewValue)
 
                                     if (!IsConnected)
                                     {
-                                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                                        await Application.Current?.Dispatcher.InvokeAsync(() =>
                                         {
                                             if (manager.State == DevExpress.Mvvm.SplashScreenState.Closed)
                                             {
                                                 manager = null;
                                                 manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-                                                manager.Show(Application.Current.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
+                                                manager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
                                             }
                                             ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_RetryConnect");
                                         });
@@ -1647,6 +1484,173 @@ if (Key_EditMode = e.NewValue)
                                     await LogDataSingleton.Instance.AddLogDataAsync(DataSingletonName, ex.Message);
                                 }
                             }, token);
+
+                            var ironPlateCollectionTask = Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    while (true)
+                                    {
+                                        if (IsConnected)
+                                        {
+                                            var (result, ironPlateCollection) = await GetIronPlateDataCollectionAsync();
+                                            if (result)
+                                            {
+                                                List<IronPlateDataModel> plateDataCollection = ironPlateCollection;
+                                                var plateMonitorVMCollection = new List<PlateMonitorViewModel>();
+                                                //產出圖形
+                                                foreach (var plateData in plateDataCollection)
+                                                {
+                                                    //取得字元長度
+                                                    var string1Length = plateData.sIronPlateName1.Length;
+                                                    var string2Length = plateData.sIronPlateName2.Length;
+                                                    SpecialSequenceEnum specialSequence;
+                                                    if (string2Length > 0)
+                                                        specialSequence = SpecialSequenceEnum.TwoRow;
+                                                    else
+                                                        specialSequence = SpecialSequenceEnum.OneRow;
+
+
+                                                    SteelBeltStampingStatusEnum steelBeltStampingStatus = SteelBeltStampingStatusEnum.None;
+                                                    if (plateData.bEngravingFinish)
+                                                        steelBeltStampingStatus = SteelBeltStampingStatusEnum.Stamping;
+                                                    else if (plateData.bDataMatrixFinish)
+                                                        steelBeltStampingStatus = SteelBeltStampingStatusEnum.QRCarving;
+
+                                                    //int rowLength = string1Length > string2Length ? string1Length : string2Length;
+                                                    int rowLength = Math.Max(string1Length, string2Length);
+                                                    SettingBaseViewModel settingBaseVM;
+                                                    //沒有QR加工
+                                                    if (string.IsNullOrEmpty(plateData.sDataMatrixName1) && string.IsNullOrEmpty(plateData.sDataMatrixName2))
+                                                    {
+                                                        settingBaseVM = new NumberSettingViewModel();
+                                                    }
+                                                    else
+                                                    {
+                                                        settingBaseVM = new QRSettingViewModel();
+                                                    }
+                                                    settingBaseVM.SpecialSequence = specialSequence;
+                                                    settingBaseVM.SequenceCount = rowLength;
+                                                    //settingBaseVM.PlateNumber = plateData.sIronPlateName1.PadRight(rowLength).Substring(0, rowLength) + plateData.sIronPlateName2;
+                                                    settingBaseVM.PlateNumber = string.Concat(plateData.sIronPlateName1.PadRight(rowLength).AsSpan(0, rowLength), plateData.sIronPlateName2);
+                                                    settingBaseVM.QrCodeContent = plateData.sDataMatrixName1;
+                                                    settingBaseVM.QR_Special_Text = plateData.sDataMatrixName2;
+                                                    settingBaseVM.StampingMarginPosVM = new StampingMarginPosViewModel()
+                                                    {
+                                                        rXAxisPos1 = plateData.rXAxisPos1,
+                                                        rYAxisPos1 = plateData.rYAxisPos1 - MachineConst.StampingMachineYPosition,
+                                                        rXAxisPos2 = plateData.rXAxisPos2,
+                                                        rYAxisPos2 = plateData.rYAxisPos2 - MachineConst.StampingMachineYPosition,
+                                                    };
+
+                                                    foreach (var num1 in settingBaseVM.PlateNumberList1)
+                                                    {
+                                                        if (string.IsNullOrWhiteSpace(num1.FontString))
+                                                            num1.IsUsed = false;
+                                                    }
+
+                                                    foreach (var num2 in settingBaseVM.PlateNumberList2)
+                                                    {
+                                                        if (string.IsNullOrWhiteSpace(num2.FontString))
+                                                            num2.IsUsed = false;
+                                                    }
+
+
+                                                    string productProjectName = string.Empty;
+                                                    foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
+                                                    {
+                                                        //去盒子裡面找是否有對應的鐵片
+                                                        var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+                                                        var foundPart = boxPartsCollection.FirstOrDefault(x => x.ID == plateData.iIronPlateID && x.IsSended);
+                                                        if (foundPart != null)
+                                                        {
+                                                            foundPart.DataMatrixIsFinish = plateData.bDataMatrixFinish;
+                                                            foundPart.EngravingIsFinish = plateData.bEngravingFinish;
+                                                            productProjectName = foundPart.ProductProjectName;
+
+                                                            try
+                                                            {
+                                                                _ = Task.Run(async () =>
+                                                                {
+                                                                    await projectDistribute.SaveProductProjectVMObservableCollectionAsync();
+                                                                });
+                                                            }
+                                                            catch
+                                                            {
+
+                                                            }
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    PlateMonitorViewModel PlateMonitorVM = new()
+                                                    {
+                                                        ID = plateData.iIronPlateID,
+                                                        ProductProjectName = productProjectName,
+                                                        SettingBaseVM = settingBaseVM,
+                                                        StampingStatus = steelBeltStampingStatus,
+                                                        DataMatrixIsFinish = plateData.bDataMatrixFinish,
+                                                        EngravingIsFinish = plateData.bEngravingFinish,
+                                                    };
+                                                    plateMonitorVMCollection.Add(PlateMonitorVM);
+                                                }
+                                                var collection = plateMonitorVMCollection?.Take(MachineConst.PlateCount)?.ToList();
+                                                if (collection != null)
+                                                {
+                                                    if (MachineSettingBaseCollection?.Count != plateMonitorVMCollection?.Count)
+                                                    {
+                                                         Application.Current?.Dispatcher.Invoke(() =>
+                                                        {
+                                                            MachineSettingBaseCollection = new ObservableCollection<PlateMonitorViewModel>(collection);
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        for (int i = 0; i < collection.Count; i++)
+                                                        {
+                                                            int index = i;//防止閉包問題
+                                                            if (MachineSettingBaseCollection.TryGetValue(index, out var machineSetting)
+                                                            && collection.TryGetValue(index, out var plateMonitorVM))
+                                                            {
+                                                                if (machineSetting.SettingBaseVM.PlateNumber != plateMonitorVM.SettingBaseVM.PlateNumber
+                                                                || machineSetting.StampingStatus != plateMonitorVM.StampingStatus
+                                                                || machineSetting.DataMatrixIsFinish != plateMonitorVM.DataMatrixIsFinish
+                                                                || machineSetting.EngravingIsFinish != plateMonitorVM.EngravingIsFinish
+                                                                || machineSetting.ShearingIsFinish != plateMonitorVM.ShearingIsFinish)
+                                                                {
+                                                                    //  var invoke =
+                                                                    Application.Current?.Dispatcher.Invoke(async () =>
+                                                                    {
+                                                                        try
+                                                                        {
+                                                                            if (MachineSettingBaseCollection != null)
+                                                                                MachineSettingBaseCollection[index] = plateMonitorVM;
+                                                                        }
+                                                                        catch
+                                                                        {
+
+                                                                        }
+                                                                    });
+                                                                    await Task.Delay(100);
+                                                                    //invokeList.Add(invoke);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                        await Task.Delay(1000, token);
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
+                            },token);
+
+
                             var ioTask = Task.Run(async () =>
                             {
                                 try
@@ -1670,7 +1674,7 @@ if (Key_EditMode = e.NewValue)
 
                                     if (token.IsCancellationRequested)
                                         token.ThrowIfCancellationRequested();
-                                    var ioList = (await GD_OpcUaClient.SubscribeNodesDataChangeAsync(ioUpdateNodes)).ToList();
+                                    var ioList = (await opcUaClient.SubscribeNodesDataChangeAsync(ioUpdateNodes)).ToList();
                                     await Task.Yield();
                                     await Task.Delay(60000);
 
@@ -1683,7 +1687,7 @@ if (Key_EditMode = e.NewValue)
 
 
 
-                            await Task.WhenAll(machineTask);
+                            await Task.WhenAll(machineTask , ironPlateCollectionTask);
                         }
                         catch (OperationCanceledException ocex)
                         {
@@ -1715,7 +1719,7 @@ if (Key_EditMode = e.NewValue)
                 finally
                 {
                     IsConnected = false;
-                    GD_OpcUaClient = null;
+                    opcUaClient = null;
                     manager?.Close();
                     manager = null;
                     cancelTokenSoruce.Dispose();
@@ -1727,7 +1731,6 @@ if (Key_EditMode = e.NewValue)
             });
             return tcs.Task;
         }
-
 
 
         public async Task<bool> CompareFontsSettingBetweenMachineAndSoftwareAsync(ObservableCollection<StampingTypeViewModel> settingCollection)
@@ -1840,10 +1843,10 @@ if (Key_EditMode = e.NewValue)
         {
             get => new(async token=>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
-                    await GD_OpcUaClient.FeedingPositionReturnToStandbyPosition();
-                    //GD_OpcUaClient.Disconnect();
+                    await opcUaClient.FeedingPositionReturnToStandbyPosition();
+                    //opcUaClient.Disconnect();
                 }
             }, ()=> !Feeding_XAxis_ReturnToStandbyPosition.IsRunning);
         }*/
@@ -1864,7 +1867,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     if (float.TryParse(Parameter.ToString(), out var ParameterValue))
                     {
-                        if (GD_OpcUaClient?.IsConnected == true)
+                        if (opcUaClient?.IsConnected == true)
                         {
                             if (ParameterValue > 0)
                             {
@@ -1882,16 +1885,16 @@ if (Key_EditMode = e.NewValue)
                             {
                                 Debugger.Break();
                             }
-                            /*if (GD_OpcUaClient.GetFeedingPosition(out var FPosition))
+                            /*if (opcUaClient.GetFeedingPosition(out var FPosition))
                             {
 
-                                GD_OpcUaClient.SetFeedingPosition(FPosition + ParameterValue);
+                                opcUaClient.SetFeedingPosition(FPosition + ParameterValue);
 
 
 
                                 await Task.Delay(2000);
 
-                                GD_OpcUaClient.GetFeedingPosition(out var FPosition2);
+                                opcUaClient.GetFeedingPosition(out var FPosition2);
                                 var value = FPosition2 - FPosition;
 
 
@@ -1911,7 +1914,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     try
                     {
-                        if (GD_OpcUaClient?.IsConnected == true)
+                        if (opcUaClient?.IsConnected == true)
                         {
                             var ret1 = await FeedingPositionFwdAsync(false);
                             var ret2 = await FeedingPositionBwdAsync(false);
@@ -1964,7 +1967,7 @@ if (Key_EditMode = e.NewValue)
             {
                 if (para is bool isTriggered)
                 {
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                         await Set_IO_CylinderControlAsync(StampingCylinderType.GuideRod_Move, DirectionsEnum.Up, isTriggered);
                 }
             });
@@ -1977,7 +1980,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => new (async para =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     await Set_IO_CylinderControlAsync(StampingCylinderType.GuideRod_Move, DirectionsEnum.Down, true);
                     await Task.Delay(500);
@@ -1994,7 +1997,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => new(async para =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     await Set_IO_CylinderControlAsync(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Up, true);
                     await Task.Delay(500);
@@ -2012,7 +2015,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => new (async para =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     await Set_IO_CylinderControlAsync(StampingCylinderType.GuideRod_Fixed, DirectionsEnum.Down, true);
                     await Task.Delay(500);
@@ -2030,7 +2033,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => new (async para =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     await Set_IO_CylinderControlAsync(StampingCylinderType.QRStamping, DirectionsEnum.Up, true);
                     await Task.Delay(500, CancellationToken.None);
@@ -2051,7 +2054,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _qRStamping_Down_Command ??= new (async token =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     try
                     {
@@ -2081,7 +2084,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     //  if (!tirggered)
                     //      await Task.Delay(200);
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
                         await Set_IO_CylinderControlAsync(StampingCylinderType.StampingSeat, DirectionsEnum.Up, tirggered);
                     }
@@ -2105,7 +2108,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     //  if (!tirggered)
                     //      await Task.Delay(200);
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
                         await Set_IO_CylinderControlAsync(StampingCylinderType.StampingSeat, DirectionsEnum.Down, tirggered);
                     }
@@ -2126,7 +2129,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _blockingCylinder_Up_Command ??= new (async token =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     await Set_IO_CylinderControlAsync(StampingCylinderType.BlockingCylinder, DirectionsEnum.Up, true);
                     await Task.Delay(500);
@@ -2144,7 +2147,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _blockingCylinder_Down_Command ??= new (async token =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     try
                     {
@@ -2173,7 +2176,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     // if (!tirggered)
                     //     await Task.Delay(200);
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
                         await Set_IO_CylinderControlAsync(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Up, tirggered);
                     }
@@ -2195,7 +2198,7 @@ if (Key_EditMode = e.NewValue)
             {
                 if (obj is bool tirggered)
                 {
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
                         await Set_IO_CylinderControlAsync(StampingCylinderType.HydraulicEngraving, DirectionsEnum.Down, tirggered);
                     }
@@ -2221,7 +2224,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     // if (!isTriggered)
                     //      await Task.Delay(200);
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                         await Set_IO_CylinderControlAsync(StampingCylinderType.HydraulicCutting, DirectionsEnum.Up, isTriggered);
                 }
             });
@@ -2240,7 +2243,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     // if (!isTriggered)
                     //     await Task.Delay(200);
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                         await Set_IO_CylinderControlAsync(StampingCylinderType.HydraulicCutting, DirectionsEnum.Down, isTriggered);
                 }
             });
@@ -2282,7 +2285,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _activeHydraulicPumpMotorCommand ??= new (async () =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     var isActivated = await GetHydraulicPumpMotorAsync();
                     if (isActivated.Item1)
@@ -2302,10 +2305,10 @@ if (Key_EditMode = e.NewValue)
 
         public async Task<bool> SetHMIIronPlateDataAsync(IronPlateDataModel ironPlateData)
         {
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 /*
-                await GD_OpcUaClient.SetDataMatrixMode(
+                await opcUaClient.SetDataMatrixMode(
                     !string.IsNullOrEmpty(ironPlateData.sDataMatrixName1) 
                     || !string.IsNullOrEmpty(ironPlateData.sDataMatrixName2));
                 */
@@ -2322,7 +2325,7 @@ if (Key_EditMode = e.NewValue)
         /// <returns></returns>
         public async Task<(bool, IronPlateDataModel)> GetHMIIronPlateDataAsync()
         {
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
                 return await GetHMIIronPlateAsync();
             else
                 return (false, new IronPlateDataModel());
@@ -2357,7 +2360,7 @@ if (Key_EditMode = e.NewValue)
                 {
                     CancellationTokenSource cts = new();
                     var token = cts.Token;
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
                         var MotorIsActivated = await GetHydraulicPumpMotorAsync();
                         if (MotorIsActivated.Item1)
@@ -2389,7 +2392,7 @@ if (Key_EditMode = e.NewValue)
                                     }
                                     else
                                     {
-                                        if (GD_OpcUaClient?.IsConnected == true)
+                                        if (opcUaClient?.IsConnected == true)
                                         {
 
                                             bool EngravingToOriginSucessful;
@@ -2660,10 +2663,10 @@ if (Key_EditMode = e.NewValue)
         public async Task<bool> SetSeparateBoxNumberAsync(int Index)
         {
             var ret = false;
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 return await this.WriteNodeAsync(StampingOpcUANode.Stacking1.sv_iThisStation, Index);
-                //GD_OpcUaClient.Disconnect();
+                //opcUaClient.Disconnect();
             }
             return ret;
         }
@@ -2671,10 +2674,10 @@ if (Key_EditMode = e.NewValue)
         public async Task<(bool, int)> GetSeparateBoxNumberAsync()
         {
             var ret = (false, -1);
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 return await this.ReadNodeAsync<int>(StampingOpcUANode.Stacking1.sv_iThisStation);
-                //GD_OpcUaClient.Disconnect();
+                //opcUaClient.Disconnect();
             }
             return ret;
         }
@@ -2814,7 +2817,7 @@ if (Key_EditMode = e.NewValue)
         private async Task<bool> SetFeedingXAxisFwdAsync(bool IsMove)
         {
             var ret = false;
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 ret = await FeedingPositionBwdAsync(false);
                 ret = await FeedingPositionFwdAsync(IsMove);
@@ -2829,7 +2832,7 @@ if (Key_EditMode = e.NewValue)
         private async Task<bool> SetFeedingXAxisBwdAsync(bool IsMove)
         {
             var ret = false;
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 ret = await FeedingPositionFwdAsync(false);
                 ret = await FeedingPositionBwdAsync(IsMove);
@@ -2852,12 +2855,12 @@ if (Key_EditMode = e.NewValue)
         private async Task<bool> SetEngravingRotateClockwiseAsync()
         {
             var ret = false;
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 ret = await SetEngravingRotateCWAsync(true);
                 await Task.Delay(500);
                 ret = await SetEngravingRotateCWAsync(false);
-                //GD_OpcUaClient.Disconnect();
+                //opcUaClient.Disconnect();
             }
             return ret;
         }
@@ -2869,7 +2872,7 @@ if (Key_EditMode = e.NewValue)
         private async Task<bool> SetEngravingRotateCounterClockwiseAsync()
         {
             var ret = false;
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 ret = await SetEngravingRotateCCWAsync(true);
                 await Task.Delay(500);
@@ -3074,9 +3077,9 @@ if (Key_EditMode = e.NewValue)
         {
             get => _globalSpeedChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
             {
-                if (GD_OpcUaClient != null)
+                if (opcUaClient != null)
                 {
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
                         bool ret = false;
                         ret = await SetFeedingSetupVelocityAsync((float)e.NewValue);
@@ -3104,7 +3107,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _feedingVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     bool ret = false;
                     ret = await SetFeedingSetupVelocityAsync((float)e.NewValue);
@@ -3122,7 +3125,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _engravingFeedingVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     bool ret = false;
                     ret = await SetEngravingFeedingSetupVelocityAsync((float)e.NewValue);
@@ -3143,7 +3146,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _rotateVelocityChangedCommand ??= new AsyncRelayCommand<RoutedPropertyChangedEventArgs<double>>(async e =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     bool ret = false;
                     ret = await SetEngravingRotateSetupVelocityAsync((float)e.NewValue);
@@ -3167,7 +3170,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _resetCommand ??= new (async () =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     var ret = await ResetAsync();
                 }
@@ -3179,7 +3182,7 @@ if (Key_EditMode = e.NewValue)
         {
             get => _cycleStartCommand ??= new (async () =>
             {
-                if (GD_OpcUaClient?.IsConnected == true)
+                if (opcUaClient?.IsConnected == true)
                 {
                     var ret = await CycleStartAsync();
                 }
@@ -3601,7 +3604,7 @@ if (Key_EditMode = e.NewValue)
         /// <returns></returns>
         public async Task<(bool, int)> GetFirstIronPlateIDAsync()
         {
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 return await this.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID");
             }
@@ -3615,7 +3618,7 @@ if (Key_EditMode = e.NewValue)
         /// <returns></returns>
         public async Task<(bool, int)> GetEngravingIronPlateIDAsync()
         {
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 return await this.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[11].iIronPlateID");
             }
@@ -3629,7 +3632,7 @@ if (Key_EditMode = e.NewValue)
         /// <returns></returns>
         public async Task<(bool, int)> GetDataMatrixIronPlateIDAsync()
         {
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 return await this.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID");
             }
@@ -3645,7 +3648,7 @@ if (Key_EditMode = e.NewValue)
         /// <returns></returns>
         public async Task<(bool, int)> GetLastIronPlateIDAsync()
         {
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 return await this.ReadNodeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID");
 
@@ -3736,7 +3739,7 @@ if (Key_EditMode = e.NewValue)
                     }
                 }
 
-                /* var oper=  await GD_OpcUaClient.GetOperationMode();
+                /* var oper=  await opcUaClient.GetOperationMode();
                  if (oper.Item1)
                      OperationMode = oper.Item2;
                  else
@@ -3761,7 +3764,7 @@ if (Key_EditMode = e.NewValue)
                 if (para is int paraInt)
                     if (paraInt >= 0)
                     {
-                        if (GD_OpcUaClient?.IsConnected == true)
+                        if (opcUaClient?.IsConnected == true)
                         {
                             var slots = (await GetEngravingTotalSlotsAsync()).Item2;
                             //先決定要順轉還是逆轉
@@ -3867,7 +3870,7 @@ Y軸馬達位置移動命令
 
 
 
-        //public Exception ConnectException { get => GD_OpcUaClient.ConnectException; }
+        //public Exception ConnectException { get => opcUaClient.ConnectException; }
 
 
 
@@ -3875,7 +3878,7 @@ Y軸馬達位置移動命令
         {
             if (this.IsConnected)
                 _ = this.WriteNodeAsync<bool>($"{StampingOpcUANode.system.sv_bComputerBootUpComplete}", false);
-            GD_OpcUaClient?.Disconnect();
+            opcUaClient?.Disconnect();
         }
 
         public async Task DisconnectAsync()
@@ -3885,8 +3888,8 @@ Y軸馬達位置移動命令
                 if (this.IsConnected)
                 {
                     await this.WriteNodeAsync<bool>($"{StampingOpcUANode.system.sv_bComputerBootUpComplete}", false);
-                    await GD_OpcUaClient?.DisconnectAsync();
-                    GD_OpcUaClient = null;
+                    await opcUaClient?.DisconnectAsync();
+                    opcUaClient = null;
                 }
             }
             catch
@@ -3940,7 +3943,7 @@ Y軸馬達位置移動命令
         public async Task<bool> SetOperationModeAsync(OperationModeEnum operationMode)
         {
             bool ret = false;
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 switch (operationMode)
                 {
@@ -4006,7 +4009,7 @@ Y軸馬達位置移動命令
         public async Task<bool> Set_IO_CylinderControlAsync(StampingCylinderType stampingCylinder, DirectionsEnum direction, bool IsTrigger)
         {
             bool ret = false;
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 for (int i = 0; i < 5 && !ret; i++)
                 {
@@ -4304,7 +4307,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<bool> SubscribeHydraulicCutting_Position_CutPointAsync(Action<bool> action)
         {
-            return await GD_OpcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Cutting1.di_CuttingCutPoint, action, 50, true);
+            return await opcUaClient.SubscribeNodeDataChangeAsync(StampingOpcUANode.Cutting1.di_CuttingCutPoint, action, 50, true);
         }
 
         public async Task<bool> SetHydraulicPumpMotorAsync(bool Active)
@@ -4356,7 +4359,7 @@ Y軸馬達位置移動命令
         /// <param name="action"></param>
       /*  public Task<bool> UnsubscribeFirstIronPlate(int samplingInterval)
         {
-            return GD_OpcUaClient.UnsubscribeNodeAsync($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", samplingInterval);
+            return opcUaClient.UnsubscribeNodeAsync($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", samplingInterval);
         }*/
 
 
@@ -4429,7 +4432,7 @@ Y軸馬達位置移動命令
                 [rootNode + "." + "sDataMatrixName2"] = ironPlateData.sDataMatrixName2
 
             };
-            var ret = await GD_OpcUaClient.WriteNodesAsync(wNodeTrees);
+            var ret = await opcUaClient.WriteNodesAsync(wNodeTrees);
             //設定完後須更新hmi
             return !ret.Contains(false);
         }
@@ -4454,7 +4457,7 @@ Y軸馬達位置移動命令
         public async Task<(bool result, List<IronPlateDataModel> ironPlateCollection)> GetIronPlateDataCollectionAsync()
         {
             List<IronPlateDataModel> ironPlateDataList = new();
-            if (GD_OpcUaClient?.IsConnected == true)
+            if (opcUaClient?.IsConnected == true)
             {
                 try
                 {
@@ -4626,7 +4629,7 @@ Y軸馬達位置移動命令
                 var WriteBoolean = false;
                 for (int j = 0; j < 5; j++)
                 {
-                    var WriteBooleanList = await GD_OpcUaClient.WriteNodesAsync(wNodeTreeNodes);
+                    var WriteBooleanList = await opcUaClient.WriteNodesAsync(wNodeTreeNodes);
                     WriteBoolean = !WriteBooleanList.Contains(false);
                     if (WriteBoolean)
                         break;
@@ -4635,7 +4638,7 @@ Y軸馬達位置移動命令
             }
             return WritedList.Exists(x => x.Item2 == true);
             // return true;
-            //  return await GD_OpcUaClient.WriteNodesAsync(wNodeTrees);
+            //  return await opcUaClient.WriteNodesAsync(wNodeTrees);
         }
 
 
@@ -5083,7 +5086,7 @@ Y軸馬達位置移動命令
         /// <returns></returns>
        /* public Task SubscribeDataMatrixTCPIP(Action<string> action)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP, action);
+            return opcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPIP, action);
         }*/
 
 
@@ -5103,7 +5106,7 @@ Y軸馬達位置移動命令
 
         /*public Task SubscribeDataMatrixPort(Action<string> action)
         {
-            return GD_OpcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,action);
+            return opcUaClient.SubscribeNodeDataChange<string>(StampingOpcUANode.DataMatrix1.sv_sContactTCPPort,action);
         }*/
 
 
@@ -5264,9 +5267,9 @@ Y軸馬達位置移動命令
         /// <returns></returns>
         public async Task<bool> SubscribeNodeDataChangeAsync<T>(string NodeID, Action<T> action, bool checkDuplicates)
         {
-            if (GD_OpcUaClient != null)
+            if (opcUaClient != null)
             {
-                return await GD_OpcUaClient.SubscribeNodeDataChangeAsync<T>(NodeID, action, 200, checkDuplicates);
+                return await opcUaClient.SubscribeNodeDataChangeAsync<T>(NodeID, action, 200, checkDuplicates);
             }
             return false;
         }
@@ -5274,9 +5277,9 @@ Y軸馬達位置移動命令
 
         public async Task<IEnumerable<bool>> SubscribeNodesDataChangeAsync<T>(IList<(string NodeID, Action<T> updateAction, int samplingInterval, bool checkDuplicates)> nodeList)
         {
-            if (GD_OpcUaClient != null)
+            if (opcUaClient != null)
             {
-                return await GD_OpcUaClient.SubscribeNodesDataChangeAsync<T>(nodeList);
+                return await opcUaClient.SubscribeNodesDataChangeAsync<T>(nodeList);
             }
             return new List<bool>();
         }
@@ -5284,7 +5287,7 @@ Y軸馬達位置移動命令
         public async Task<bool> ReadNodesAsync(IEnumerable<(Action<object>, string)> NodeTrees)
         {
 
-            if (GD_OpcUaClient != null)
+            if (opcUaClient != null)
             {
                 //T NodeValue = default(T);
                 for (int i = 0; i < 5; i++)
@@ -5293,7 +5296,7 @@ Y軸馬達位置移動命令
                     {
                         if (this.IsConnected)
                         {
-                            List<object> NodeValue = (await GD_OpcUaClient.ReadNodesAsync(NodeTrees.Select(x => x.Item2))).ToList();
+                            List<object> NodeValue = (await opcUaClient.ReadNodesAsync(NodeTrees.Select(x => x.Item2))).ToList();
                             var actionList = NodeTrees.Select(x => x.Item1).ToList();
                             for (int j = 0; j < NodeValue.Count; j++)
                             {
@@ -5316,7 +5319,7 @@ Y軸馬達位置移動命令
         public async Task<(bool, IEnumerable<object>)> ReadNodesAsync(IEnumerable<string> nodeIds)
         {
 
-            if (GD_OpcUaClient != null)
+            if (opcUaClient != null)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -5324,7 +5327,7 @@ Y軸馬達位置移動命令
                     {
                         if (this.IsConnected)
                         {
-                            IEnumerable<object> NodeValue = await GD_OpcUaClient.ReadNodesAsync(nodeIds);
+                            IEnumerable<object> NodeValue = await opcUaClient.ReadNodesAsync(nodeIds);
 
                             return (true, NodeValue);
                         }
@@ -5345,7 +5348,7 @@ Y軸馬達位置移動命令
         {
             //T NodeValue = default(T);
 
-            if (GD_OpcUaClient != null)
+            if (opcUaClient != null)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -5353,7 +5356,7 @@ Y軸馬達位置移動命令
                     {
                         if (this.IsConnected)
                         {
-                            T NodeValue = await GD_OpcUaClient.ReadNodeAsync<T>(NodeTree);
+                            T NodeValue = await opcUaClient.ReadNodeAsync<T>(NodeTree);
                             return (true, NodeValue);
                         }
                     }
@@ -5372,10 +5375,10 @@ Y軸馬達位置移動命令
             {
                 try
                 {
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
                         IEnumerable<bool> NodeValue;
-                        NodeValue = await GD_OpcUaClient.WriteNodesAsync(NodeTrees);
+                        NodeValue = await opcUaClient.WriteNodesAsync(NodeTrees);
                         return NodeValue;
                     }
                 }
@@ -5397,9 +5400,9 @@ Y軸馬達位置移動命令
             {
                 try
                 {
-                    if (GD_OpcUaClient?.IsConnected == true)
+                    if (opcUaClient?.IsConnected == true)
                     {
-                        bool NodeValue = await GD_OpcUaClient.WriteNodeAsync(NodeTreeString, WriteValue);
+                        bool NodeValue = await opcUaClient.WriteNodeAsync(NodeTreeString, WriteValue);
                         return NodeValue;
                     }
                     else
