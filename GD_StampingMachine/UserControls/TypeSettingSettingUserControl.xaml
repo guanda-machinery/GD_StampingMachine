@@ -542,9 +542,9 @@
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="" VerticalAlignment="Center"/>
                                                 <TextBlock Text="/" VerticalAlignment="Center"/>
-                                                <TextBlock Text="0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>

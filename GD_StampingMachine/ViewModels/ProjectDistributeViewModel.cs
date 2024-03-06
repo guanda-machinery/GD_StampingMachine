@@ -828,7 +828,7 @@ namespace GD_StampingMachine.ViewModels
             get => _allBoxItemReturnToProjectCommand ??= new AsyncRelayCommand(async () =>
             {
                 var selectedBoxIndex = this.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex;
-                var movableCollection = this.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x =>
+                var movableCollection = this.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Where(x =>
                 x.BoxIndex == selectedBoxIndex &&
                 (x.IsFinish || x.IsSended || !x.IsTransported));
 

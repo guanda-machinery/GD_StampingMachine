@@ -37,7 +37,7 @@ namespace GD_StampingMachine.GD_Model
         /// <summary>
         /// 完成進度
         /// </summary>
-        public double FinishProgress { get; set; }
+        //public double FinishProgress { get; set; }
 
         /// <summary>
         /// 是否為已完成專案
