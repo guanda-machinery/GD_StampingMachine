@@ -374,12 +374,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public PartsParameterViewModelObservableCollection()
         {
-            //this.CollectionChanged += PartsParameterViewModelObservableCollection_CollectionChanged; ;
+
         }
 
         public PartsParameterViewModelObservableCollection(List<PartsParameterViewModel> list) : base(list)
         {
-            //this.CollectionChanged += PartsParameterViewModelObservableCollection_CollectionChanged; ;
             foreach (var item in list)
             {
                 item.FinishProgressChanged += item_FinishProgressChanged;
@@ -389,8 +388,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
         public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection)
         {
-            //this.CollectionChanged += PartsParameterViewModelObservableCollection_CollectionChanged; ;
-
             IList<PartsParameterViewModel> items = Items;
             if (collection == null || items == null)
             {
