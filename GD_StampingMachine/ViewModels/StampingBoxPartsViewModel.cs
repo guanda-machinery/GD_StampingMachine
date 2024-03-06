@@ -62,7 +62,6 @@ namespace GD_StampingMachine.ViewModels
                             //只有已完成
                             separateBox.FinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish).Count;
                             separateBox.UnFinishedBoxPieceValue = indexCollection.FindAll(x => !x.IsFinish).Count;
-
                         }
                     }
                     catch(Exception ex)

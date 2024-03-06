@@ -103,7 +103,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                  }
              });*/
             var collection = ProductProject.PartsParameterObservableCollection.Select(x => new PartsParameterViewModel(x));
-            PartsParameterVMCollection =new PartsParameterVMObservableCollection(collection);
+            PartsParameterVMCollection =new PartsParameterViewModelObservableCollection(collection);
             RefreshNumberSettingSavedCollection();
         }
 
@@ -956,11 +956,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private PartsParameterVMObservableCollection? _partsParameterVMCollection;
+        private PartsParameterViewModelObservableCollection? _partsParameterVMCollection;
         /// <summary>
         /// GridControl ABC參數
         /// </summary>
-        public PartsParameterVMObservableCollection PartsParameterVMCollection
+        public PartsParameterViewModelObservableCollection PartsParameterVMCollection
         {
             get=>_partsParameterVMCollection ??= _partsParameterVMCollection = new();
             set
@@ -1267,178 +1267,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
     }
 
-    public class PartsParameterVMObservableCollection : ObservableCollection<PartsParameterViewModel>
-    {
-        //protected new List<PartsParameterViewModel> Items => (List<PartsParameterViewModel>)base.Items;
-
-        public PartsParameterVMObservableCollection()
-        {
-            //this.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged; ;
-        }
-
-        public PartsParameterVMObservableCollection(List<PartsParameterViewModel> list)    : base(list)
-        {
-            //this.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged; ;
-            foreach (var item in list)
-            {
-                item.FinishProgressChanged += item_FinishProgressChanged;
-                item.IsFinishChanged += item_IsFinishChanged;
-                item.DistributeNameChanged += Item_DistributeNameChanged;
-            }
-        }
-        public PartsParameterVMObservableCollection(IEnumerable<PartsParameterViewModel> collection)
-        {
-            //this.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged; ;
-
-            IList<PartsParameterViewModel> items = Items;
-            if (collection == null || items == null)
-            {
-                return;
-            }
-            foreach (var item in collection)
-            {
-                item.FinishProgressChanged += item_FinishProgressChanged;
-                item.IsFinishChanged += item_IsFinishChanged;
-                item.DistributeNameChanged += Item_DistributeNameChanged;
-                items.Add(item);
-            }
-        }
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (var newItem in e.NewItems)
-                {
-                    if (newItem is PartsParameterViewModel item)
-                    {
-                        item.FinishProgressChanged += item_FinishProgressChanged;
-                        item.IsFinishChanged += item_IsFinishChanged;
-                        item.DistributeNameChanged += Item_DistributeNameChanged;
-                    }
-                }
-            }
-            if (e.OldItems != null)
-            {
-                foreach (var oldItems in e.OldItems)
-                {
-                    if (oldItems is PartsParameterViewModel item)
-                    {
-                        item.FinishProgressChanged -= item_FinishProgressChanged;
-                        item.IsFinishChanged -= item_IsFinishChanged;
-                        item.DistributeNameChanged -= Item_DistributeNameChanged;
-                    }
-                }
-            }
-
-            CalcFinishProgress();
-            CalcUnFinishedCount();
-            CalcNotAssignedProductProjectCount();
-
-            base.OnCollectionChanged(e);
-        }
-
-        protected override void InsertItem(int index, PartsParameterViewModel item)
-        {
-            item.FinishProgressChanged += item_FinishProgressChanged;
-            item.IsFinishChanged += item_IsFinishChanged;
-            item.DistributeNameChanged += Item_DistributeNameChanged;
-            CalcFinishProgress();
-            CalcUnFinishedCount(); 
-            CalcNotAssignedProductProjectCount();
-            base.InsertItem(index, item);
-        }
-
-        private void item_FinishProgressChanged(object? sender, float e)
-        {
-            CalcFinishProgress();
-        }
-        private void item_IsFinishChanged(object? sender, bool e)
-        {
-            CalcUnFinishedCount();
-        }
-
-        private void Item_DistributeNameChanged(object? sender, string e)
-        {
-            CalcNotAssignedProductProjectCount();
-            //throw new NotImplementedException();
-        }
-
-        private void CalcFinishProgress()
-        {
-            this.FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
-        }
-        private void CalcUnFinishedCount()
-        {
-            UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
-        }
-
-        private void CalcNotAssignedProductProjectCount()
-        {
-            NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName)) : 0;
-        }
-
-
-
-
-
-        public event EventHandler<float>? FinishProgressChanged;
-        public event EventHandler<int>? UnFinishedCountChanged;
-        public event EventHandler<int>? NotAssignedProductProjectCountChanged;
-
-        private float _finishProgress;
-        /// <summary>
-        /// 進度條(平均值)
-        /// </summary>
-        public float FinishProgress 
-        { 
-            get => _finishProgress; 
-            private set
-            { 
-                _finishProgress = value; 
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(FinishProgress)));
-                FinishProgressChanged?.Invoke(this, value);
-            } 
-        }
-
-        private int _unFinishedCount;
-        /// <summary>
-        /// 未完成的總和
-        /// </summary>
-        public int UnFinishedCount
-        {
-            get => _unFinishedCount;
-            private set
-            {
-                _unFinishedCount = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnFinishedCount)));
-                UnFinishedCountChanged?.Invoke(this, value);
-            }
-        }
-
-
-        private int _notAssignedProductProjectCount;
-        /// <summary>
-        /// 未排版的資料
-        /// </summary>
-        public int NotAssignedProductProjectCount
-        {
-            get => _notAssignedProductProjectCount;
-            private set
-            {
-                _notAssignedProductProjectCount = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(NotAssignedProductProjectCount)));
-                NotAssignedProductProjectCountChanged?.Invoke(this, value);
-            }
-        }
-
-
-
-
-
-
-
-
-    }
 
 
 
