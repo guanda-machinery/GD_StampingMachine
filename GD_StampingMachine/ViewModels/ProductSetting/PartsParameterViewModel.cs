@@ -5,6 +5,7 @@ using GD_StampingMachine.GD_Model.ProductionSetting;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels.ParameterSetting;
 using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -43,8 +44,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.Processing = value;
                 OnPropertyChanged();
+                FinishProgressChanged?.Invoke(this, value);
             }
         }
+        public event EventHandler<float>? FinishProgressChanged;
 
         /// <summary>
         ///加工分配專案名
@@ -54,9 +57,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.DistributeName;
             set
             {
-                PartsParameter.DistributeName = value; OnPropertyChanged();
+                PartsParameter.DistributeName = value; 
+                OnPropertyChanged();
+                DistributeNameChanged?.Invoke(this, value);
             }
         }
+        public event EventHandler<string>? DistributeNameChanged;
+
+
         /// <summary>
         /// 製品設定專案名
         /// </summary>
@@ -65,9 +73,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.ProductProjectName;
             set
             {
-                PartsParameter.ProductProjectName = value; OnPropertyChanged();
+                PartsParameter.ProductProjectName = value; 
+                OnPropertyChanged();
+              //  ProductProjectNameChanged?.Invoke(this, value); 
             }
         }
+
+        //public event EventHandler<string>? ProductProjectNameChanged;
+
+
         /// <summary>
         /// 加工識別id
         /// </summary>
@@ -121,9 +135,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.IsFinish;
             set
             {
-                PartsParameter.IsFinish = value; OnPropertyChanged();
+                PartsParameter.IsFinish = value; 
+                OnPropertyChanged();
+                IsFinishChanged?.Invoke(this, value);
             }
         }
+        public event EventHandler<bool>? IsFinishChanged;
 
         public bool IsTransported
         {

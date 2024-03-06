@@ -64,6 +64,59 @@
     </Style>
 
 
+
+
+    <Style x:Key="ProjectRowControl" TargetType="{x:Type dxg:RowControl}">
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Background" Value="#176bad" />
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
+                </DataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#40c4ff"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding Row.ProductProjectIsFinish}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                </DataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsSelected}" Value="True" />
+                        <Condition Binding="{Binding Row.ProductProjectIsFinish}" Value="True" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="Green" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                        <Condition Binding="{Binding Row.ProductProjectIsFinish}" Value="True" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="ForestGreen" />
+                </MultiDataTrigger>
+
+
+            </Style.Triggers>
+        </Style>
+
+
+    <Style x:Key="ProjectGridColumnHeaderStyle" TargetType="{x:Type dxg:BaseGridHeader}">
+
+            <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+            <Setter Property="BorderThickness" Value="0.5,0,0.5,1" />
+
+    </Style>
+
     <Style x:Key="ProjectGridControl" TargetType="dxg:GridControl">
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="MaxHeight" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged}"/>
@@ -90,51 +143,8 @@
                 <Setter Property="ShowVerticalLines" Value="False"/>
                 <Setter Property="FadeSelectionOnLostFocus" Value="False"/>
                 <Setter Property="CellStyle" Value="{StaticResource ProjectGridControlCellStyle}"/>
-                <Setter Property="RowStyle">
-                    <Setter.Value>
-                        <Style TargetType="{x:Type dxg:RowControl}" >
-                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Setter Property="Height" Value="40"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
-                            <Setter Property="FontSize" Value="20"/>
-                            <Setter Property="FontWeight" Value="Regular"/>
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-                            <Setter Property="Background" Value="Transparent" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                    <Setter Property="Background" Value="#176bad" />
-                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
-                                </DataTrigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#40c4ff"/>
-                                </Trigger>
-                                <DataTrigger Binding="{Binding Row.ProductProjectIsFinish}" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
-                                </DataTrigger>
-                                
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding Path=IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding Row.ProductProjectIsFinish}" Value="True" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Background" Value="Green" />
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
-                                        <Condition Binding="{Binding Row.ProductProjectIsFinish}" Value="True" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Background" Value="ForestGreen" />
-                                </MultiDataTrigger>
+                <Setter Property="RowStyle" Value="{StaticResource ProjectRowControl}"/>
 
-
-                            </Style.Triggers>
-                        </Style>
-                    </Setter.Value>
-                </Setter>
                 <Setter Property="GroupRowStyle" Value="{StaticResource ProjectGridControlGroupRowControlStyle}"/>
                 <Setter Property="RuntimeLocalizationStrings">
                     <Setter.Value>
@@ -160,15 +170,7 @@
 
             </Style>
             <Style TargetType="dxg:GridColumn">
-                <Setter Property="HeaderStyle">
-                    <Setter.Value>
-                        <Style TargetType="dxg:BaseGridHeader">
-                            <Setter Property="dxg:BaseGridColumnHeader.ShowFilterButtonOnHover" Value="False" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
-                            <Setter Property="BorderThickness" Value="0.5,0,0.5,1" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="HeaderStyle" Value="{StaticResource ProjectGridColumnHeaderStyle}"/>
             </Style>
             <Style TargetType="dxg:FitColumnHeader">
                 <Setter Property="Template">

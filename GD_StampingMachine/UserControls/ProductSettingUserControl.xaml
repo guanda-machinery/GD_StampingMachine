@@ -239,14 +239,6 @@
                                 </Button>
                             </StackPanel>
 
-                            <GroupBox  Grid.Row="6" Header="test" Grid.ColumnSpan="4" Margin="0,5" Visibility="Collapsed" >
-                                <StackPanel >
-                                    <TextBlock Text="完成進度(測試用)"/>
-                                    <Slider Value="{Binding CreatedProjectVM.ProductProjectFinishProcessing}" Foreground="Black" Maximum="100" Interval="1" />
-                                    <TextBlock Text="{Binding CreatedProjectVM.ProductProjectFinishProcessing}"/>
-                                </StackPanel>
-                            </GroupBox>
-
                         </Grid>
                     </Border>
                 </GD_Popup:DraggablePopup>
@@ -1411,20 +1403,31 @@
             </Grid>
             <Border  Name="SelectProductProjectMainBorder"  
                     Margin="10" Grid.Row="1"  
-                      Background="{DynamicResource SecondGridControlBackground}"
+                  Background="Transparent"
                  BorderThickness="0"  
                  BorderBrush="#595E60" >
 
                 <dxg:GridControl x:Name="ProjectGridControl"    
                              
                                       Background="Transparent"
-                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, 
+                                      ItemsSource="{Binding PartsParameterVMCollection, Mode=TwoWay, 
                     UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                       DataAreaBackground="Transparent" 
                                       Style="{StaticResource ProjectGridControl}"
                                       AutoGenerateColumns="None"  
                                       SelectedItem="{Binding PartsParameterViewModelSelectItem}"
                                       >
+                    <dxg:GridControl.Resources>
+                        <Style TargetType="dxg:GridColumn">
+                            <Setter Property="HeaderStyle">
+                                <Setter.Value>
+                                    <Style TargetType="dxg:BaseGridHeader" BasedOn="{StaticResource ProjectGridColumnHeaderStyle}">
+                                        <Setter Property="Background" Value="{DynamicResource SecondGridControlBackground}"/>
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </dxg:GridControl.Resources>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding PartsParameterViewModelSelectedItemChangedCommand}" 
@@ -1458,6 +1461,11 @@
                                 ShowIndicator="False"
                                 SearchDelay="0" 
                         >
+                            <dxg:TableView.RowStyle>
+                                <Style TargetType="{x:Type dxg:RowControl}" BasedOn="{StaticResource ProjectRowControl}">
+                                    <Setter Property="Background" Value="{DynamicResource SecondGridControlBackground}"/>
+                                </Style>
+                            </dxg:TableView.RowStyle>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SizeChanged">
                                     <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
@@ -1470,7 +1478,7 @@
                         </dxg:TableView>
                     </dxg:GridControl.View>
 
-                    <dxg:GridColumn FixedWidth="True"   
+                    <dxg:GridColumn FixedWidth="True"  
                             HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_TypeSetting_Already}" FieldName="DistributeName" Width="auto" AllowMoving="false"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Left"/>

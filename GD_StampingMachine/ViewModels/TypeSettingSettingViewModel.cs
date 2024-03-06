@@ -116,7 +116,7 @@ namespace GD_StampingMachine.ViewModels
                         var Removed_List = new List<int>();
                         foreach (var _selectItem in projectDistributeGridControlSelectedItems)
                         {
-                            _selectItem.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ForEach(obj =>
+                            _selectItem.StampingBoxPartsVM.BoxPartsParameterVMCollection.ForEach(obj =>
                             {
                                 if (_selectItem.ProjectDistributeName == _selectItem.StampingBoxPartsVM.ProjectDistributeName)
                                 {
@@ -165,7 +165,7 @@ namespace GD_StampingMachine.ViewModels
                     if (ProjectDistributeVM != ProjectItem)
                         ProjectDistributeVM = ProjectItem;
                     ProjectDistributeVM.IsInDistributePage = true;
-                    //ProjectDistributeVM.PartsParameterVMObservableCollectionRefresh();
+                    //ProjectDistributeVM.PartsParameterVMCollectionRefresh();
                 }
             });
         }

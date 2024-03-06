@@ -63,7 +63,7 @@ namespace GD_StampingMachine.ViewModels
         public double StampWidth { get; set; } = 50;
 
 
-        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMObservableCollection => StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection;
+        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMCollection => StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection;
 
         private ProjectDistributeViewModel? _selectedProjectDistributeVM;
         public ProjectDistributeViewModel? SelectedProjectDistributeVM 
@@ -236,12 +236,12 @@ namespace GD_StampingMachine.ViewModels
                                      ConnectManager.Close();
                                  }
                                  //燈號
-                                 //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection
+                                 //StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection
                                  //取得歷史資料
                                  //var history = await StampMachineData.GetIronPlateDataCollection();
                                 
-                                 var workableMachiningCollection = SelectedProjectDistributeVM?.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Where(x => x.WorkIndex >= 0);
-                                 //var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.Where(x => x.WorkIndex >= 0);
+                                 var workableMachiningCollection = SelectedProjectDistributeVM?.StampingBoxPartsVM.BoxPartsParameterVMCollection.Where(x => x.WorkIndex >= 0);
+                                 //var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.Where(x => x.WorkIndex >= 0);
                                  //var a = workableMachiningCollection?.Count(x => x.IsFinish);
 
                                  //準備加工(未上傳)
@@ -322,10 +322,10 @@ namespace GD_StampingMachine.ViewModels
                                  //所有排版專案
                                  /*foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
                                  {
-                                     allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMObservableCollection);
+                                     allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMCollection);
                                  }*/
                                  var allBoxPartsParameterViewModel = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection
-                                 .SelectMany(productProject => productProject.PartsParameterVMObservableCollection);
+                                 .SelectMany(productProject => productProject.PartsParameterVMCollection);
 
                                  HashSet<int> existingIds = new(allBoxPartsParameterViewModel.Select(x => x.ID));
                                  int hashGuid = 0;
@@ -471,7 +471,7 @@ namespace GD_StampingMachine.ViewModels
                             foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                             {
                                 var FirstIronID = FirstIronPlateTuple.Item2;
-                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == FirstIronID);
+                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.FirstOrDefault(x => x.ID == FirstIronID);
                                 if (finishPartParameter != null)
                                 {
                                     finishPartParameter.ShearingIsFinish = true;
@@ -705,7 +705,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                         {
-                            var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == ironPlateID().oldValue);
+                            var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.FirstOrDefault(x => x.ID == ironPlateID().oldValue);
                             if (finishPartParameter != null)
                             {
                                 finishPartParameter.FinishProgress = 100;
@@ -755,7 +755,7 @@ namespace GD_StampingMachine.ViewModels
                     {
                         foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                         {
-                            var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == ironPlateID().oldValue);
+                            var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.FirstOrDefault(x => x.ID == ironPlateID().oldValue);
                             if (finishPartParameter != null)
                             {
                                 finishPartParameter.FinishProgress = 33;
@@ -809,7 +809,7 @@ namespace GD_StampingMachine.ViewModels
                             foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                             {
                                 var EngravingID = engravingTuple.Item2;
-                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == EngravingID);
+                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.FirstOrDefault(x => x.ID == EngravingID);
                                 if (finishPartParameter != null)
                                 {
                                     if (finishPartParameter.FinishProgress < 66)
@@ -876,7 +876,7 @@ namespace GD_StampingMachine.ViewModels
                             foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                             {
                                 var EngravingID = engravingTuple.Item2;
-                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == EngravingID);
+                                var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.FirstOrDefault(x => x.ID == EngravingID);
                                 if (finishPartParameter != null)
                                 {
                                     if (finishPartParameter.FinishProgress < 66)
@@ -924,7 +924,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                 {
-                    var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == e.OldValue);
+                    var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.FirstOrDefault(x => x.ID == e.OldValue);
                     if (finishPartParameter != null)
                     {
                         finishPartParameter.FinishProgress = 100;
@@ -953,7 +953,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 foreach (var projectDistributeVM in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                 {
-                    var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.FirstOrDefault(x => x.ID == e.OldValue);
+                    var finishPartParameter = projectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.FirstOrDefault(x => x.ID == e.OldValue);
                     if (finishPartParameter != null)
                     {
                         finishPartParameter.FinishProgress = 33;
@@ -1182,7 +1182,7 @@ namespace GD_StampingMachine.ViewModels
                             var wData = partsParameterVMCollection.FindAll(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
                             foreach (var partsParameter in wData)
                             {
-                                var unTransportedCount = BoxPartsParameterVMObservableCollection
+                                var unTransportedCount = BoxPartsParameterVMCollection
                                     .Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsTransported);
                                 if (partsParameter.BoxIndex is int boxIndex)
                                 {
@@ -1205,7 +1205,7 @@ namespace GD_StampingMachine.ViewModels
                             {
                                 foreach (var partsParameter in workableData)
                                 {
-                                    var indexMax = BoxPartsParameterVMObservableCollection.Max(x => x.WorkIndex);
+                                    var indexMax = BoxPartsParameterVMCollection.Max(x => x.WorkIndex);
                                     partsParameter.IsFinish = false;
                                     partsParameter.IsTransported = false;
                                     partsParameter.WorkIndex = indexMax < 0 ? 0 : indexMax + 1;
@@ -1373,7 +1373,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     ShowIsTransported = false;
 
-                    var unTransportedCollection = this.BoxPartsParameterVMObservableCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
+                    var unTransportedCollection = this.BoxPartsParameterVMCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
                     foreach (var unTransPorted in unTransportedCollection)
                     {
                         unTransPorted.IsTransported = true;

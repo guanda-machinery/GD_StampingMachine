@@ -3,6 +3,7 @@ using CsvHelper.Configuration.Attributes;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 using GD_CommonLibrary.Extensions;
@@ -17,6 +18,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -61,44 +64,48 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private void init()
         {
+            /* _ = Task.Run(async () =>
+             {
+                 try
+                 {
+                     while (true)
+                     {
+                         if (_cts.Token.IsCancellationRequested)
+                             _cts.Token.ThrowIfCancellationRequested();
 
-            foreach (var obj in ProductProject.PartsParameterObservableCollection)
-            {
-                PartsParameterVMObservableCollection.Add(new PartsParameterViewModel(obj));
-            }
+                         await Task.Delay(2000);
+                         double averageProgress = 0;
+                         double unFinishedCount = 0;
+                         if (_partsParameterVMCollection != null)
+                         {
+                             if (_partsParameterVMCollection.Any())
+                             {
+                                 averageProgress = _partsParameterVMCollection.Average(p => p.FinishProgress);
+                                 unFinishedCount = _partsParameterVMCollection.Count(p => !p.IsFinish);
+                             }
+                         }
 
+                         if (ProductProjectFinishProcessing != averageProgress)
+                             ProductProjectFinishProcessing = averageProgress;
+
+                         if (UnFinishedCount != unFinishedCount)
+                             ProductProjectFinishProcessing = unFinishedCount;
+
+                     }
+                 }
+                 catch (OperationCanceledException)
+                 {
+
+                 }
+                 catch (Exception ex)
+                 {
+                     Debug.WriteLine(ex);
+                 }
+             });*/
+            var collection = ProductProject.PartsParameterObservableCollection.Select(x => new PartsParameterViewModel(x));
+            PartsParameterVMCollection =new PartsParameterVMObservableCollection(collection);
             RefreshNumberSettingSavedCollection();
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    while (true)
-                    {
-                        if (_cts.Token.IsCancellationRequested)
-                            _cts.Token.ThrowIfCancellationRequested();
-
-                        await Task.Delay(2000);
-                        double averageProgress = 0;
-                        foreach (var p in PartsParameterVMObservableCollection)
-                        {
-                            averageProgress += p.FinishProgress / PartsParameterVMObservableCollection.Count;
-                        }
-
-                        if (ProductProjectFinishProcessing != averageProgress)
-                            ProductProjectFinishProcessing = averageProgress;
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-            });
         }
-
 
         private ProductProjectModel? _productProject;
         [JsonIgnore]
@@ -179,21 +186,39 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public bool ProductProjectIsFinish { get => ProductProject.ProductProjectIsFinish; set { ProductProject.ProductProjectIsFinish = value; OnPropertyChanged(); } }
 
 
+
+
+        /*private float _productProjectFinishProcessing;
         /// <summary>
         /// 進度條 會以專案內的資料為準
         /// </summary>
-        public double ProductProjectFinishProcessing
+        public float ProductProjectFinishProcessing
         {
             get
             {
-                return ProductProject.FinishProgress;
+                return _productProjectFinishProcessing;
             }
             set
             {
-                ProductProject.FinishProgress = value;
+                _productProjectFinishProcessing = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
+
+    
+        /*    private double _unFinishedCount;
+        public double UnFinishedCount
+        {
+            get
+            {
+                return _unFinishedCount;
+            }
+            private set
+            {
+                _unFinishedCount = value;
+                OnPropertyChanged();
+            }
+        }*/
 
 
 
@@ -220,17 +245,18 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         {
                             //該名稱要和
                             //已被排版
-                            var partsParameterIsTypeSettingedCollection = CurrentItem.PartsParameterVMObservableCollection.ToList().FindAll(x => !string.IsNullOrEmpty(x.DistributeName));
-                            //若
-                            var existedCanNotCloseList = partsParameterIsTypeSettingedCollection.FindAll(x => StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FindIndex(y => y.ProjectDistributeName == x.DistributeName) != -1);
-                            if (existedCanNotCloseList.Count != 0)
-                            {
-                                await MethodWinUIMessageBox.CanNotDeleteProjectAsync();
-                            }
-                            else
+                            var partsParameterIsTypeSettingCollection = CurrentItem.PartsParameterVMCollection.Where(x => !string.IsNullOrEmpty(x.DistributeName));
+                            var existedCanNotCloseList = partsParameterIsTypeSettingCollection.Where(x =>
+                            StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection.FirstOrDefault(y => y.ProjectDistributeName == x.DistributeName) != null);
+                         
+                            if (existedCanNotCloseList?.Count() > 0)
                             {
                                 if (await MethodWinUIMessageBox.AskDelProjectAsync($"{CurrentItem.ProductProject.Number} - {CurrentItem.ProductProject.Name}"))
                                     GridItemSource.Remove(CurrentItem);
+                            }
+                            else
+                            {
+                                await MethodWinUIMessageBox.CanNotDeleteProjectAsync();
                             }
 
                         }
@@ -576,11 +602,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => new AsyncCommand(async () =>
             {
                 await Task.Delay(50);
-                var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
+                var Findex = PartsParameterVMCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    // EditPartsParameterVM_Cloned = new PartsParameterViewModel(PartsParameterVMObservableCollection[Findex].PartsParameter.DeepCloneByJson());
-                    EditPartsParameterVM_Cloned = PartsParameterVMObservableCollection[Findex].DeepCloneByJson();
+                    // EditPartsParameterVM_Cloned = new PartsParameterViewModel(PartsParameterVMCollection[Findex].PartsParameter.DeepCloneByJson());
+                    EditPartsParameterVM_Cloned = PartsParameterVMCollection[Findex].DeepCloneByJson();
                 }
             });
         }
@@ -589,11 +615,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             get => new RelayCommand(() =>
             {
-                var Findex = PartsParameterVMObservableCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
+                var Findex = PartsParameterVMCollection.FindIndex(x => x == PartsParameterViewModelSelectItem);
                 if (Findex != -1)
                 {
-                    //PartsParameterVMObservableCollection[Findex] = new PartsParameterViewModel(EditPartsParameterVM_Cloned.PartsParameter.DeepCloneByJson());
-                    PartsParameterVMObservableCollection[Findex] = EditPartsParameterVM_Cloned.DeepCloneByJson();
+                    //PartsParameterVMCollection[Findex] = new PartsParameterViewModel(EditPartsParameterVM_Cloned.PartsParameter.DeepCloneByJson());
+                    PartsParameterVMCollection[Findex] = EditPartsParameterVM_Cloned.DeepCloneByJson();
                 }
             });
         }
@@ -890,7 +916,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
                     await Application.Current?.Dispatcher.InvokeAsync(async () =>
                     {
-                        PartsParameterVMObservableCollection.AddRange(importPartsParameterVMList);
+                        PartsParameterVMCollection.AddRange(importPartsParameterVMList);
                         await SaveProductProjectAsync();
                     });
 
@@ -930,23 +956,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private DXObservableCollection<PartsParameterViewModel>? _partsParameterVMObservableCollection;
+        private PartsParameterVMObservableCollection? _partsParameterVMCollection;
         /// <summary>
         /// GridControl ABC參數
         /// </summary>
-        public DXObservableCollection<PartsParameterViewModel> PartsParameterVMObservableCollection
+        public PartsParameterVMObservableCollection PartsParameterVMCollection
         {
-            get
-            {
-                _partsParameterVMObservableCollection ??= new();
-                ProductProject.PartsParameterObservableCollection.ForEach(x => x.ProductProjectName = this.ProductProjectName);
-                ProductProject.PartsParameterObservableCollection = _partsParameterVMObservableCollection.Select(x => x.PartsParameter).ToList();
-
-                return _partsParameterVMObservableCollection;
-            }
+            get=>_partsParameterVMCollection ??= _partsParameterVMCollection = new();
             set
             {
-                _partsParameterVMObservableCollection = value;
+                _partsParameterVMCollection = value;
                 OnPropertyChanged();
             }
         }
@@ -954,35 +973,27 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        private ICommand?_createPartCommand;
+        private AsyncRelayCommand? _createPartCommand;
         /// <summary>
         /// 建立零件
         /// </summary>
         [JsonIgnore]
-        public ICommand CreatePartCommand
+        public AsyncRelayCommand CreatePartCommand
         {
             get => _createPartCommand ??= new AsyncRelayCommand(async () =>
             {
+                List<PartsParameterViewModel> collection = new();
                 for(int i =0;i< AddNewPartsCount; i++)
                 {
-                    PartsParameterVMObservableCollection.Add(AddNewPartsParameterVM.DeepCloneByJson());
-                    //儲存 ProductProject
+                    var partClone =AddNewPartsParameterVM.DeepCloneByJson();
+                    partClone.ProductProjectName = this.ProductProjectName;
+
+                    collection.Add(partClone);
                     ProductProjectEditTime = DateTime.Now;
-                    await SaveProductProjectAsync();
                 }
-            });
+                PartsParameterVMCollection.AddRange(collection);
+                await SaveProductProjectAsync();
+            },()=> !CreatePartCommand.IsRunning);
            /* set
             {
                 _createPartCommand = value;
@@ -1204,11 +1215,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     if (ProjectDistributeVM.ReadyToTypeSettingProductProjectVMCurrentItem != null)
                     {
-                        var CollectionWithThisDistributeName = ProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                        var CollectionWithThisDistributeName = ProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
 
-                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxVMObservableCollection.ToList().FindAll(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
                         //箱子內有專案
-                        if (CollectionWithThisDistributeName.Count > 0)
+                        if (CollectionWithThisDistributeName?.Count() > 0)
                         {
                             //有已完成的 不可關閉
                             //    if (CollectionWithThisDistributeName.ToList().Exists(x => x.MachiningStatus == MachiningStatusEnum.Finish))
@@ -1229,7 +1240,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                                 Eobj.DistributeName = null;
                                 Eobj.BoxIndex = null;
                             });
-                          await   ProjectDistributeVM.StampingBoxPartsVM.ReLoadBoxPartsParameterVMObservableCollectionAsync();
+                          await   ProjectDistributeVM.StampingBoxPartsVM.ReLoadBoxPartsParameterVMCollectionAsync();
                             //  ProjectDistributeVM.StampingBoxPartsVM.ProductProjectVMObservableCollection
                         }
 
@@ -1243,7 +1254,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
         //[JsonIgnore]
-        // public ICommand BoxPartsParameterVMObservableCollectionRefreshCommand { get; set; }
+        // public ICommand BoxPartsParameterVMCollectionRefreshCommand { get; set; }
 
 
 
@@ -1255,4 +1266,181 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
     }
+
+    public class PartsParameterVMObservableCollection : ObservableCollection<PartsParameterViewModel>
+    {
+        //protected new List<PartsParameterViewModel> Items => (List<PartsParameterViewModel>)base.Items;
+
+        public PartsParameterVMObservableCollection()
+        {
+            //this.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged; ;
+        }
+
+        public PartsParameterVMObservableCollection(List<PartsParameterViewModel> list)    : base(list)
+        {
+            //this.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged; ;
+            foreach (var item in list)
+            {
+                item.FinishProgressChanged += item_FinishProgressChanged;
+                item.IsFinishChanged += item_IsFinishChanged;
+                item.DistributeNameChanged += Item_DistributeNameChanged;
+            }
+        }
+        public PartsParameterVMObservableCollection(IEnumerable<PartsParameterViewModel> collection)
+        {
+            //this.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged; ;
+
+            IList<PartsParameterViewModel> items = Items;
+            if (collection == null || items == null)
+            {
+                return;
+            }
+            foreach (var item in collection)
+            {
+                item.FinishProgressChanged += item_FinishProgressChanged;
+                item.IsFinishChanged += item_IsFinishChanged;
+                item.DistributeNameChanged += Item_DistributeNameChanged;
+                items.Add(item);
+            }
+        }
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (var newItem in e.NewItems)
+                {
+                    if (newItem is PartsParameterViewModel item)
+                    {
+                        item.FinishProgressChanged += item_FinishProgressChanged;
+                        item.IsFinishChanged += item_IsFinishChanged;
+                        item.DistributeNameChanged += Item_DistributeNameChanged;
+                    }
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (var oldItems in e.OldItems)
+                {
+                    if (oldItems is PartsParameterViewModel item)
+                    {
+                        item.FinishProgressChanged -= item_FinishProgressChanged;
+                        item.IsFinishChanged -= item_IsFinishChanged;
+                        item.DistributeNameChanged -= Item_DistributeNameChanged;
+                    }
+                }
+            }
+
+            CalcFinishProgress();
+            CalcUnFinishedCount();
+            CalcNotAssignedProductProjectCount();
+
+            base.OnCollectionChanged(e);
+        }
+
+        protected override void InsertItem(int index, PartsParameterViewModel item)
+        {
+            item.FinishProgressChanged += item_FinishProgressChanged;
+            item.IsFinishChanged += item_IsFinishChanged;
+            item.DistributeNameChanged += Item_DistributeNameChanged;
+            CalcFinishProgress();
+            CalcUnFinishedCount(); 
+            CalcNotAssignedProductProjectCount();
+            base.InsertItem(index, item);
+        }
+
+        private void item_FinishProgressChanged(object? sender, float e)
+        {
+            CalcFinishProgress();
+        }
+        private void item_IsFinishChanged(object? sender, bool e)
+        {
+            CalcUnFinishedCount();
+        }
+
+        private void Item_DistributeNameChanged(object? sender, string e)
+        {
+            CalcNotAssignedProductProjectCount();
+            //throw new NotImplementedException();
+        }
+
+        private void CalcFinishProgress()
+        {
+            this.FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
+        }
+        private void CalcUnFinishedCount()
+        {
+            UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
+        }
+
+        private void CalcNotAssignedProductProjectCount()
+        {
+            NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName)) : 0;
+        }
+
+
+
+
+
+        public event EventHandler<float>? FinishProgressChanged;
+        public event EventHandler<int>? UnFinishedCountChanged;
+        public event EventHandler<int>? NotAssignedProductProjectCountChanged;
+
+        private float _finishProgress;
+        /// <summary>
+        /// 進度條(平均值)
+        /// </summary>
+        public float FinishProgress 
+        { 
+            get => _finishProgress; 
+            private set
+            { 
+                _finishProgress = value; 
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(FinishProgress)));
+                FinishProgressChanged?.Invoke(this, value);
+            } 
+        }
+
+        private int _unFinishedCount;
+        /// <summary>
+        /// 未完成的總和
+        /// </summary>
+        public int UnFinishedCount
+        {
+            get => _unFinishedCount;
+            private set
+            {
+                _unFinishedCount = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnFinishedCount)));
+                UnFinishedCountChanged?.Invoke(this, value);
+            }
+        }
+
+
+        private int _notAssignedProductProjectCount;
+        /// <summary>
+        /// 未排版的資料
+        /// </summary>
+        public int NotAssignedProductProjectCount
+        {
+            get => _notAssignedProductProjectCount;
+            private set
+            {
+                _notAssignedProductProjectCount = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(NotAssignedProductProjectCount)));
+                NotAssignedProductProjectCountChanged?.Invoke(this, value);
+            }
+        }
+
+
+
+
+
+
+
+
+    }
+
+
+
+
 }

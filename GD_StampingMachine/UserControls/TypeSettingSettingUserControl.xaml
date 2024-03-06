@@ -394,9 +394,9 @@
                                                     <dxg:GridColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="0" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="/" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="0" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.Count}" VerticalAlignment="Center"/>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </dxg:GridColumn.CellTemplate>
@@ -542,9 +542,9 @@
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
                                                 <TextBlock Text="/" VerticalAlignment="Center"/>
-                                                <TextBlock Text="" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.Count}" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
@@ -583,7 +583,6 @@
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
                                 </dxg:GridColumn>
-
                             </dxg:GridControl>
                         </Grid>
                         <dxg:GridControl Background="{DynamicResource DarkPrimaryGridControlBackground}"    
@@ -592,7 +591,7 @@
                                          Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="Row"
                                          AutoGenerateColumns="None"
-                                         ItemsSource="{Binding PartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         ItemsSource="{Binding PartsParameterVMCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"   >
                             <dxg:GridControl.View >
                                 <!--RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"-->
@@ -815,7 +814,7 @@
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
             Background="Transparent"  MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding StampingBoxPartsVM.BoxPartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding StampingBoxPartsVM.BoxPartsParameterVMCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SizeChanged">

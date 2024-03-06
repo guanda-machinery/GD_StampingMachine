@@ -37,7 +37,7 @@ namespace GD_StampingMachine.ViewModels.MachineMonitor
             }
         }
 
-        private string _productProjectName;
+        private string? _productProjectName;
         public string ProductProjectName
         {
             get => _productProjectName;

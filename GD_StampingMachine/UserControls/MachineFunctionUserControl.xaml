@@ -432,7 +432,7 @@
                                 Style="{StaticResource ProjectGridControl}" 
                                 ItemsSource="{Binding IsAsync=True,
                                 Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}
-                                ,Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                ,Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
                                   >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">

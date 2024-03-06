@@ -343,7 +343,7 @@
                                                 Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                                                Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                                                Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
                                >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView   
@@ -525,7 +525,7 @@
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None" 
                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, IsAsync=True,
-                  Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                  Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
                                      >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView  
@@ -880,7 +880,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                        Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection}"
+                        Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
                                     MaxHeight="150"    >
                     
                     
@@ -1098,7 +1098,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
                Background="Transparent"   MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMObservableCollection, 
+            ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection, 
                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
                     <i:Interaction.Triggers>

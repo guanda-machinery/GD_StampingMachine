@@ -312,6 +312,18 @@ namespace GD_StampingMachine.Windows
                 }
             }
 
+            else if (e.Key == Key.Enter)
+            {
+                if (BoxButton is MessageBoxButton.OKCancel || BoxButton is MessageBoxButton.YesNoCancel)
+                {
+                    Result = MessageBoxResult.OK;
+                    CloseMessageBox();
+                }
+            }
+
+
+
+
 
         }
     }
