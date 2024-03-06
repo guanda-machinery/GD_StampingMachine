@@ -332,7 +332,7 @@ namespace GD_StampingMachine.ViewModels
                                  } while (existingIds.Contains(autonum));
 
 
-                                 var boxIndex = readymachining.BoxIndex != null ? readymachining.BoxIndex.Value : 0;
+                                 var boxIndex = readyMachining.BoxIndex != null ? readyMachining.BoxIndex.Value : 0;
 
                                  //readyMachining.SettingBaseVM.IronPlateMarginVM.A_Margin
                                  var _HMIIronPlateData = new IronPlateDataModel
@@ -396,7 +396,7 @@ namespace GD_StampingMachine.ViewModels
                                          /*ManagerVM.Status = (string)System.Windows.Application.Current.TryFindResource("Connection_WritingMachiningDataSucessful");
                                          Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);*/
                                          await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WritingMachiningDataSucessful"));
-                                         readymachining.ID = autonum;
+                                         readyMachining.ID = autonum;
                                      }
 
                                  }
@@ -408,7 +408,7 @@ namespace GD_StampingMachine.ViewModels
                                  // await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ManagerVM.Status);
                                  await Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_MachiningIsProcessing"));
 
-                                 readymachining.IsSended = true;
+                                 readyMachining.IsSended = true;
                                  //await Task.Yield();
                              }
                          }
@@ -444,7 +444,7 @@ namespace GD_StampingMachine.ViewModels
                     SendMachiningProgress = 0;
 
                 }
-            }, () => !_sendMachiningCommand.IsRunning);
+            }, () => !SendMachiningCommand.IsRunning);
         }
 
 
