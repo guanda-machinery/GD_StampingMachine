@@ -1175,7 +1175,7 @@ namespace GD_StampingMachine.ViewModels
                             var workableData = new List<PartsParameterViewModel>();
 
                             var BoxCapacityDict = SelectedProjectDistributeVM.StampingBoxPartsVM
-                            .SeparateBoxVMObservableCollection
+                            .SeparateBoxVMCollection
                             .Where(box => box.BoxIsEnabled)
                             .ToDictionary(box => box.BoxIndex, box => box.BoxSliderValue - box.UnTransportedBoxPieceValue);
 

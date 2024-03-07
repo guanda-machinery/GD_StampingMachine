@@ -176,10 +176,10 @@ namespace GD_StampingMachine.ViewModels
                     var Index = StampMachineData.SeparateBoxIndex;
                     // var Index = SeparateBoxIndexNow;
                     var LocationIndex = Index + 1;
-                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
+                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.Count)
                         LocationIndex = 0;
                     if (LocationIndex < 0)
-                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
+                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.Count - 1;
 
 
                     if (await StampMachineData.SetSeparateBoxNumberAsync(LocationIndex))
@@ -211,10 +211,10 @@ namespace GD_StampingMachine.ViewModels
                     var Index = StampMachineData.SeparateBoxIndex;
                     // var Index = SeparateBoxIndexNow;
                     var LocationIndex = Index - 1;
-                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count)
+                    if (LocationIndex >= ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.Count)
                         LocationIndex = 0;
                     if (LocationIndex < 0)
-                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1;
+                        LocationIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.Count - 1;
                     //SeparateBox_Rotate(LocationIndex, 1);
 
                     if (await StampMachineData.SetSeparateBoxNumberAsync(LocationIndex))
@@ -248,9 +248,9 @@ namespace GD_StampingMachine.ViewModels
 
         private int NextSeparateBox_Rotate(int step)
         {
-            var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindIndex(x => x.BoxIsEnabled);
-            var Maxindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
-            var IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.FindIndex(x => x.IsUsing);
+            var MinIndex = ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.ToList().FindIndex(x => x.BoxIsEnabled);
+            var Maxindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.ToList().FindLastIndex(x => x.BoxIsEnabled);
+            var IsUsingindex = ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.FindIndex(x => x.IsUsing);
             if (IsUsingindex == -1)
             {
                 if (step > 0)
@@ -261,11 +261,11 @@ namespace GD_StampingMachine.ViewModels
                 {
                     IsUsingindex = Maxindex;
                 }
-                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = true;
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection[IsUsingindex].IsUsing = true;
                 return IsUsingindex;
             }
             else
-                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[IsUsingindex].IsUsing = false;
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection[IsUsingindex].IsUsing = false;
 
             IsUsingindex += step;
 

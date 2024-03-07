@@ -39,7 +39,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         public SeparateSettingModel SeparateSetting;
 
         private ObservableCollection<SeparateBoxViewModel> _separateBoxVMObservableCollection;
-        public ObservableCollection<SeparateBoxViewModel> SeparateBoxVMObservableCollection
+        public ObservableCollection<SeparateBoxViewModel> SeparateBoxViewModelCollection
         {
             get
             {
@@ -71,7 +71,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         private ObservableCollection<SeparateBoxViewModel> _separateBoxVMObservableCollectionClone;
         public ObservableCollection<SeparateBoxViewModel> SeparateBoxVMObservableCollectionClone
         {
-            get => _separateBoxVMObservableCollectionClone ??= SeparateBoxVMObservableCollection.DeepCloneByJson();
+            get => _separateBoxVMObservableCollectionClone ??= SeparateBoxViewModelCollection.DeepCloneByJson();
             set { _separateBoxVMObservableCollectionClone = value; OnPropertyChanged(); }
         }
 
@@ -190,7 +190,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     separateBox.BoxSliderValue = 200;
                 }
 
-                SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
+                SeparateBoxViewModelCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
                 UpdateProjectDistributeSeparateBox();
             });
         }
@@ -199,7 +199,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             get => new AsyncRelayCommand(async () =>
             {
-                SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
+                SeparateBoxViewModelCollection = SeparateBoxVMObservableCollectionClone.DeepCloneByJson();
 
                 await JsonHM.WriteParameterSettingJsonSettingAsync(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, SeparateSetting, true);
 
@@ -218,7 +218,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     SeparateSetting = SSetting;
                     OnPropertyChanged(nameof(SettingType));
                     OnPropertyChanged(nameof(SingleSetting_SeparateBoxValue));
-                    OnPropertyChanged(nameof(SeparateBoxVMObservableCollection));
+                    OnPropertyChanged(nameof(SeparateBoxViewModelCollection));
                     OnPropertyChanged(nameof(SeparateBoxVMObservableCollectionClone));
                     UpdateProjectDistributeSeparateBox();
                 }
@@ -229,7 +229,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
             foreach (var obj in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
             {
-                obj.StampingBoxPartsVM.SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollection.DeepCloneByJson();
+                //obj.StampingBoxPartsVM.SeparateBoxVMCollection = SeparateBoxViewModelCollection.DeepCloneByJson();
             }
         }
 

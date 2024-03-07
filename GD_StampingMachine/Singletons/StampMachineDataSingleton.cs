@@ -3487,11 +3487,11 @@ namespace GD_StampingMachine.Singletons
                     if (value != -1 && value != _separateBoxIndex && ParameterSettingVM != null)
                     {
                         int step;
-                        if (value == 0 && _separateBoxIndex == ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1)
+                        if (value == 0 && _separateBoxIndex == ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.Count - 1)
                         {
                             step = 1;
                         }
-                        else if (_separateBoxIndex == 0 && value == ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count - 1)
+                        else if (_separateBoxIndex == 0 && value == ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.Count - 1)
                         {
                             step = -1;
                         }
@@ -3527,12 +3527,12 @@ namespace GD_StampingMachine.Singletons
         {
             if (isUsingIndex != -1)
             {
-                Parallel.ForEach(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection, obj =>
+                Parallel.ForEach(ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection, obj =>
                 {
                     obj.IsUsing = false;
                 });
 
-                ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection[isUsingIndex].IsUsing = true;
+                ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection[isUsingIndex].IsUsing = true;
                 //取得
 
                     cts?.Cancel();
@@ -3543,7 +3543,7 @@ namespace GD_StampingMachine.Singletons
                 RotateTask = Task.Run(async () =>
                 {
                     //角度比例
-                    var DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection.Count;
+                    var DegreeRate = 360 / ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection.Count;
                     //目標
 
                     //先取得目前的位置
@@ -3862,7 +3862,6 @@ Y軸馬達位置移動命令
                 await this.DisconnectAsync();
                 disposedValue = true;
             }
-
         }
 
 

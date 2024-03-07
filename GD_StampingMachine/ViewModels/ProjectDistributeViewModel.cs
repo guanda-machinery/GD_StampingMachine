@@ -57,7 +57,7 @@ namespace GD_StampingMachine.ViewModels
         /// 盒子
         /// </summary>
         //[JsonIgnore]
-        //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
+        //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxViewModelCollection { get; set; }
 
         /// <summary>
         /// 鋼捲位置
@@ -78,11 +78,11 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProjectDistributeViewModel");
 
-        public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute, ObservableCollection<ProductProjectViewModel> productProjectVMObservableCollection, ObservableCollection<SeparateBoxViewModel> separateBoxVMObservableCollection)
+        public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute, ObservableCollection<ProductProjectViewModel> productProjectVMObservableCollection, ObservableCollection<SeparateBoxViewModel> separateBoxViewModelCollection)
         {
             ProjectDistribute = projectDistribute;
             ProductProjectVMObservableCollection = productProjectVMObservableCollection;
-            SeparateBoxVMObservableCollection = separateBoxVMObservableCollection;
+            SeparateBoxViewModelCollection = separateBoxViewModelCollection;
         }
 
 
@@ -119,9 +119,11 @@ namespace GD_StampingMachine.ViewModels
             get => _stampingBoxPartsVM ??= new StampingBoxPartsViewModel(new StampingBoxPartModel()
             {
                 ProjectDistributeName = this.ProjectDistributeName,
+            })
+            {
                 ProductProjectVMObservableCollection = this.ProductProjectVMObservableCollection,
-                SeparateBoxVMObservableCollection = SeparateBoxVMObservableCollection.DeepCloneByJson(),
-            });
+                SeparateBoxVMCollection = new ObservableCollection<SeparateBoxExtViewModel>(SeparateBoxViewModelCollection)
+            };
             set
             {
                 _stampingBoxPartsVM = value;
@@ -249,7 +251,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if(e.NewItem is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel selectProductProject)
                     {
-                        PartsParameterVMCollection = new ObservableCollection<PartsParameterViewModel>(selectProductProject.PartsParameterVMCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
+                        PartsParameterVMCollection = new PartsParameterViewModelObservableCollection(selectProductProject.PartsParameterVMCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
                     }
                     else
                     {
@@ -304,10 +306,10 @@ namespace GD_StampingMachine.ViewModels
             ReadyToTypeSettingProductProjectVMCurrentItem = ReadyToTypeSettingProductProjectVMObservableCollection.FirstOrDefault();
         }
 
-        private ObservableCollection<ParameterSetting.SeparateBoxViewModel>? _separateBoxVMObservableCollection;
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
+        private ObservableCollection<SeparateBoxExtViewModel> _separateBoxVMObservableCollection;
+        public ObservableCollection<SeparateBoxExtViewModel> SeparateBoxViewModelCollection
         {
-            get=> _separateBoxVMObservableCollection??= new ObservableCollection<ParameterSetting.SeparateBoxViewModel>();
+            get=> _separateBoxVMObservableCollection??= new ObservableCollection<SeparateBoxExtViewModel>();
             set
             {
                 _separateBoxVMObservableCollection = value;
@@ -404,18 +406,18 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ObservableCollection<PartsParameterViewModel>? _previousPartsParameterVMCollection;
-        private ObservableCollection<PartsParameterViewModel>? _partsParameterVMCollection;
+       // private ObservableCollection<PartsParameterViewModel>? _previousPartsParameterVMCollection;
+        private PartsParameterViewModelObservableCollection? _partsParameterVMCollection;
         /// <summary>
         /// GridControl ABC參數 沒放進箱子內的
         /// </summary>
         [JsonIgnore]
-        public ObservableCollection<PartsParameterViewModel> PartsParameterVMCollection
+        public PartsParameterViewModelObservableCollection PartsParameterVMCollection
         {
             get
             {
                 if (_partsParameterVMCollection ==null)
-                    _partsParameterVMCollection = new ObservableCollection<PartsParameterViewModel>();
+                    _partsParameterVMCollection = new PartsParameterViewModelObservableCollection();
                 /*
                 _partsParameterVMCollection.CollectionChanged += _partsParameterVMCollection_CollectionChanged;
 
@@ -478,12 +480,12 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 盒子列表
         /// </summary>
-        /* public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
+        /* public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxViewModelCollection
          {
-             get => ProjectDistribute.SeparateBoxVMObservableCollection;
+             get => ProjectDistribute.SeparateBoxViewModelCollection;
              set
              {
-                 ProjectDistribute.SeparateBoxVMObservableCollection = value;
+                 ProjectDistribute.SeparateBoxViewModelCollection = value;
                  OnPropertyChanged();
              }
          }*/
@@ -619,14 +621,14 @@ namespace GD_StampingMachine.ViewModels
                     try
                     {
 
-                        int startIndex = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FindIndex(x => x == StampingBoxPartsVM.SelectedSeparateBoxVM);
+                        int startIndex = StampingBoxPartsVM.SeparateBoxVMCollection.FindIndex(x => x == StampingBoxPartsVM.SelectedSeparateBoxVM);
                         if (startIndex == -1)
                             startIndex = 0;
                         int stopIndex = startIndex - 1;
                         if(stopIndex == -1)
                         {
-                            if (StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count != 0)
-                                stopIndex = StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count - 1;
+                            if (StampingBoxPartsVM.SeparateBoxVMCollection.Count != 0)
+                                stopIndex = StampingBoxPartsVM.SeparateBoxVMCollection.Count - 1;
                             else
                                 stopIndex = 0;
                         }
@@ -639,15 +641,15 @@ namespace GD_StampingMachine.ViewModels
                         List<ParameterSetting.SeparateBoxViewModel> availableSeparateBoxCollection = new();
                         do
                         {
-                            var currentElement = StampingBoxPartsVM.SeparateBoxVMObservableCollection[currentIndex];
+                            var currentElement = StampingBoxPartsVM.SeparateBoxVMCollection[currentIndex];
                             if (currentElement.BoxIsEnabled && currentElement.BoxSliderValue >0)
                             {
                                 availableSeparateBoxCollection.Add(currentElement);
                             }
                             // Debug.WriteLine(currentElement);
-                            currentIndex = (currentIndex + 1) % StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count;
+                            currentIndex = (currentIndex + 1) % StampingBoxPartsVM.SeparateBoxVMCollection.Count;
                         }
-                        while (currentIndex != ((stopIndex + 1) % StampingBoxPartsVM.SeparateBoxVMObservableCollection.Count));
+                        while (currentIndex != ((stopIndex + 1) % StampingBoxPartsVM.SeparateBoxVMCollection.Count));
 
                         List<PartsParameterViewModel> addPartsParameterViewModel = new();
 
@@ -761,9 +763,9 @@ namespace GD_StampingMachine.ViewModels
                     try
                     {
                         if (ReadyToTypeSettingProductProjectVMSelected == null)
-                            PartsParameterVMCollection = new ObservableCollection<PartsParameterViewModel>();
+                            PartsParameterVMCollection = new PartsParameterViewModelObservableCollection();
                         else
-                            PartsParameterVMCollection = new ObservableCollection<PartsParameterViewModel>(ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
+                            PartsParameterVMCollection = new PartsParameterViewModelObservableCollection(ReadyToTypeSettingProductProjectVMSelected.PartsParameterVMCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
 
 
                         foreach (var obj in ProductProjectVMObservableCollection)

@@ -177,10 +177,9 @@ namespace GD_StampingMachine
                     try
                     {
                         //紀錄異常
-                        await LogDataSingleton.Instance.AddLogDataAsync(exception.Source, exception.Message, true);
+                        _ = LogDataSingleton.Instance.AddLogDataAsync(exception.Source, exception.Message, true);
                         //切斷機台連線
-                        await StampMachineDataSingleton.Instance.DisposeAsync();
-                        await MessageBoxResultShow.ShowOKAsync(exception.Source, exception.Message, GD_Enum.GD_MessageBoxNotifyResult.NotifyRd);
+                        await StampMachineDataSingleton.Instance.DisposeAsync(); 
                     }
                     catch
                     {
@@ -194,6 +193,7 @@ namespace GD_StampingMachine
                 });
                 semaphore.Wait();
                 //顯示彈窗
+
                 MessageBox.Show($"An unhandled exception occurred: {exception.Message} , Source:{exception.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }

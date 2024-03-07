@@ -502,7 +502,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private PartsParameterViewModel? _partsParameterViewModelSelectItem;
         /// <summary>
-        /// 參數gridcontrol選擇
+        /// 參數 gridcontrol選擇
         /// </summary>
 
         public PartsParameterViewModel? PartsParameterViewModelSelectItem
@@ -1217,7 +1217,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         var CollectionWithThisDistributeName = ProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
 
-                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxViewModelCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
                         //箱子內有專案
                         if (CollectionWithThisDistributeName?.Count() > 0)
                         {

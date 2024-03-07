@@ -779,7 +779,7 @@
                             </Grid.RowDefinitions>
                             <ScrollViewer Grid.RowSpan="2">
                                 <ListBox Style="{StaticResource SeparateBoxVMListBox}"
-                                         ItemsSource="{Binding StampingBoxPartsVM.SeparateBoxVMObservableCollection}"  
+                                         ItemsSource="{Binding StampingBoxPartsVM.SeparateBoxVMCollection}"  
                                          SelectedItem="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM}">
                                     <dxmvvm:Interaction.Behaviors>
                                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>

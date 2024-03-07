@@ -24,7 +24,7 @@ namespace GD_StampingMachine.ViewModels
     /// <summary>
     /// 盒子列表
     /// </summary>
-    //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; } 
+    //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxViewModelCollection { get; set; } 
     //}
     /// <summary>
     /// 排版設定
@@ -76,7 +76,7 @@ namespace GD_StampingMachine.ViewModels
                     var Clone = NewProjectDistribute.DeepCloneByJson();
                     ProjectDistributeViewModel NewProjectDistributeVM = new(NewProjectDistribute,
                         ProductSettingVM.ProductProjectVMObservableCollection,
-                        ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection);
+                        ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection);
 
                     ProjectDistributeVMObservableCollection.Add(NewProjectDistributeVM);
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();

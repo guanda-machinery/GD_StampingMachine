@@ -105,7 +105,7 @@ namespace GD_CommonLibrary.Method
             {
                 try
                 {
-                   await Application.Current.Dispatcher.InvokeAsync(new Action( () =>
+                   Application.Current.Dispatcher.Invoke(new Action( () =>
                     {
                         try
                         {

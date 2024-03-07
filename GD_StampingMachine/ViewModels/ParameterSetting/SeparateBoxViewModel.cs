@@ -1,10 +1,12 @@
 ﻿using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace GD_StampingMachine.ViewModels.ParameterSetting
 {
@@ -18,7 +20,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         [JsonIgnore]
-        public readonly SeparateBoxModel SeparateBox;
+        public virtual SeparateBoxModel SeparateBox { get; } =new();
 
         public SeparateBoxViewModel()
         {
@@ -34,22 +36,97 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        [JsonIgnore]
-        public bool BoxIsFull
+
+
+        /// <summary>
+        /// 箱子的容量
+        /// </summary>
+        public double BoxSliderValue
         {
-            get
+            get => SeparateBox.BoxSliderValue;
+            set
             {
-                if (UnTransportedFinishedBoxPieceValue > 0) 
-                    return UnTransportedFinishedBoxPieceValue >= BoxSliderValue;
-                else 
-                    return false;
+                SeparateBox.BoxSliderValue = value;
+                OnPropertyChanged();
+                BoxSliderValueChanged?.Invoke(this, value);
+            }
+        }
+        public static event EventHandler<double>? BoxSliderValueChanged;
+
+
+
+        /// <summary>
+        /// 盒子可用/不可用
+        /// </summary>
+        public bool BoxIsEnabled
+        {
+            get => SeparateBox.BoxIsEnabled;
+            set
+            {
+                SeparateBox.BoxIsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsUsing
+        {
+            get => SeparateBox.BoxIsUsing;
+            set
+            {
+                SeparateBox.BoxIsUsing = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public class SeparateBoxExtViewModel : SeparateBoxViewModel
+    {
+        public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateBoxViewModel");
+
+        static SeparateBoxExtViewModel()
+        {
+            BoxSliderValueChanged += SeparateBoxExtViewModel_BoxSliderValueChanged;
+
+        }
+
+        private static void SeparateBoxExtViewModel_BoxSliderValueChanged(object? sender, double e)
+        {
+            if(sender is SeparateBoxExtViewModel separateBoxExt)
+            {
+                separateBoxExt.CheckBoxIsFull();
             }
         }
 
 
 
+        public SeparateBoxExtViewModel(SeparateBoxModel separateBox) : base(separateBox)
+        {
+        }
 
-       private double _boxPieceValue;
+
+
+        public SeparateBoxExtViewModel() : base()
+        {
+
+        }
+
+        [JsonIgnore]
+        public bool BoxIsFull
+        {
+            get
+            {
+                if (UnTransportedFinishedBoxPieceValue > 0)
+                    return UnTransportedFinishedBoxPieceValue >= BoxSliderValue;
+                else
+                    return false;
+            }
+        }
+        private void CheckBoxIsFull()
+        {
+            OnPropertyChanged(nameof(BoxIsFull));
+        }
+
+
+        private double _boxPieceValue;
         /// <summary>
         /// 箱子內分配到加工的值
         /// </summary>
@@ -59,7 +136,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             get => _boxPieceValue;
             set
             {
-                _boxPieceValue = value; 
+                _boxPieceValue = value;
                 OnPropertyChanged();
             }
         }
@@ -130,213 +207,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
-
-
-
-        /// <summary>
-        /// 箱子的容量
-        /// </summary>
-        public double BoxSliderValue
-        {
-            get => SeparateBox.BoxSliderValue;
-            set
-            {
-                SeparateBox.BoxSliderValue = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(BoxIsFull));
-            }
-        }
-
-        /// <summary>
-        /// 盒子可用/不可用
-        /// </summary>
-        public bool BoxIsEnabled
-        {
-            get => SeparateBox.BoxIsEnabled;
-            set
-            {
-                SeparateBox.BoxIsEnabled = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public bool IsUsing
-        {
-            get => SeparateBox.BoxIsUsing;
-            set
-            {
-                SeparateBox.BoxIsUsing = value;
-                OnPropertyChanged();
-            }
-        }
-
-
     }
-        public class SeparateBoxViewModelObservableCollection : ObservableCollection<SeparateBoxViewModel>
-    {
-        //protected new List<PartsParameterViewModel> Items => (List<PartsParameterViewModel>)base.Items;
-
-        public SeparateBoxViewModelObservableCollection()
-        {
-            //this.CollectionChanged += PartsParameterViewModelObservableCollection_CollectionChanged; ;
-        }
-        /*
-        public SeparateBoxViewModelObservableCollection(List<SeparateBoxViewModel> list) : base(list)
-        {
-            //this.CollectionChanged += PartsParameterViewModelObservableCollection_CollectionChanged; ;
-            foreach (var item in list)
-            {
-                item.FinishProgressChanged += item_FinishProgressChanged;
-                item.IsFinishChanged += item_IsFinishChanged;
-                item.DistributeNameChanged += Item_DistributeNameChanged;
-            }
-        }
-        public SeparateBoxViewModelObservableCollection(IEnumerable<SeparateBoxViewModel> collection)
-        {
-            //this.CollectionChanged += PartsParameterViewModelObservableCollection_CollectionChanged; ;
-
-            IList<PartsParameterViewModel> items = Items;
-            if (collection == null || items == null)
-            {
-                return;
-            }
-            foreach (var item in collection)
-            {
-                item.FinishProgressChanged += item_FinishProgressChanged;
-                item.IsFinishChanged += item_IsFinishChanged;
-                item.DistributeNameChanged += Item_DistributeNameChanged;
-                items.Add(item);
-            }
-        }
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (var newItem in e.NewItems)
-                {
-                    if (newItem is PartsParameterViewModel item)
-                    {
-                        item.FinishProgressChanged += item_FinishProgressChanged;
-                        item.IsFinishChanged += item_IsFinishChanged;
-                        item.DistributeNameChanged += Item_DistributeNameChanged;
-                    }
-                }
-            }
-            if (e.OldItems != null)
-            {
-                foreach (var oldItems in e.OldItems)
-                {
-                    if (oldItems is PartsParameterViewModel item)
-                    {
-                        item.FinishProgressChanged -= item_FinishProgressChanged;
-                        item.IsFinishChanged -= item_IsFinishChanged;
-                        item.DistributeNameChanged -= Item_DistributeNameChanged;
-                    }
-                }
-            }
-
-            CalcFinishProgress();
-            CalcUnFinishedCount();
-            CalcNotAssignedProductProjectCount();
-
-            base.OnCollectionChanged(e);
-        }
-
-        protected override void InsertItem(int index, PartsParameterViewModel item)
-        {
-            item.FinishProgressChanged += item_FinishProgressChanged;
-            item.IsFinishChanged += item_IsFinishChanged;
-            item.DistributeNameChanged += Item_DistributeNameChanged;
-            CalcFinishProgress();
-            CalcUnFinishedCount();
-            CalcNotAssignedProductProjectCount();
-            base.InsertItem(index, item);
-        }
-
-        private void item_FinishProgressChanged(object? sender, float e)
-        {
-            CalcFinishProgress();
-        }
-        private void item_IsFinishChanged(object? sender, bool e)
-        {
-            CalcUnFinishedCount();
-        }
-
-        private void Item_DistributeNameChanged(object? sender, string e)
-        {
-            CalcNotAssignedProductProjectCount();
-            //throw new NotImplementedException();
-        }
-
-        private void CalcFinishProgress()
-        {
-            this.FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
-        }
-        private void CalcUnFinishedCount()
-        {
-            UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
-        }
-
-        private void CalcNotAssignedProductProjectCount()
-        {
-            NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName)) : 0;
-        }
 
 
 
 
 
-        public event EventHandler<float>? FinishProgressChanged;
-        public event EventHandler<int>? UnFinishedCountChanged;
-        public event EventHandler<int>? NotAssignedProductProjectCountChanged;
-
-        private float _finishProgress;
-        /// <summary>
-        /// 進度條(平均值)
-        /// </summary>
-        public float FinishProgress
-        {
-            get => _finishProgress;
-            private set
-            {
-                _finishProgress = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(FinishProgress)));
-                FinishProgressChanged?.Invoke(this, value);
-            }
-        }
-
-        private int _unFinishedCount;
-        /// <summary>
-        /// 未完成的總和
-        /// </summary>
-        public int UnFinishedCount
-        {
-            get => _unFinishedCount;
-            private set
-            {
-                _unFinishedCount = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnFinishedCount)));
-                UnFinishedCountChanged?.Invoke(this, value);
-            }
-        }
-
-
-        private int _notAssignedProductProjectCount;
-        /// <summary>
-        /// 未排版的資料
-        /// </summary>
-        public int NotAssignedProductProjectCount
-        {
-            get => _notAssignedProductProjectCount;
-            private set
-            {
-                _notAssignedProductProjectCount = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(NotAssignedProductProjectCount)));
-                NotAssignedProductProjectCountChanged?.Invoke(this, value);
-            }
-        }*/
-    }
 
 
 }

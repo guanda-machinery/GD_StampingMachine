@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpo.DB;
+using DevExpress.XtraRichEdit.Layout;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model.ProductionSetting;
 using GD_StampingMachine.Method;
@@ -106,7 +108,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.DataMatrixIsFinish;
             set
             {
-                PartsParameter.DataMatrixIsFinish = value; OnPropertyChanged();
+                PartsParameter.DataMatrixIsFinish = value; 
+                OnPropertyChanged();
             }
         }
         /// <summary>
@@ -117,7 +120,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.EngravingIsFinish;
             set
             {
-                PartsParameter.EngravingIsFinish = value; OnPropertyChanged();
+                PartsParameter.EngravingIsFinish = value; 
+                OnPropertyChanged();
             }
         }
         /// <summary>
@@ -128,7 +132,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.ShearingIsFinish;
             set
             {
-                PartsParameter.ShearingIsFinish = value; OnPropertyChanged();
+                PartsParameter.ShearingIsFinish = value; 
+                OnPropertyChanged();
             }
         }
         /// <summary>
@@ -151,10 +156,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.IsTransported;
             set
             {
-                PartsParameter.IsTransported = value; OnPropertyChanged();
+                PartsParameter.IsTransported = value; 
+                OnPropertyChanged();
+                IsTransportedChanged?.Invoke(this, value);
             }
         }
 
+        public event EventHandler<bool>? IsTransportedChanged;
 
 
 
@@ -183,8 +191,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             {
                 PartsParameter.SendMachineCommand.WorkIndex = value;
                 OnPropertyChanged();
+                WorkIndexChanged?.Invoke(this, value);
             }
         }
+        public event EventHandler<int>? WorkIndexChanged;
+
 
 
         public string ParameterA
@@ -372,7 +383,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     {
         //protected new List<PartsParameterViewModel> Items => (List<PartsParameterViewModel>)base.Items;
 
-        public PartsParameterViewModelObservableCollection()
+        public PartsParameterViewModelObservableCollection() : base()
         {
 
         }
@@ -384,8 +395,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 item.FinishProgressChanged += item_FinishProgressChanged;
                 item.IsFinishChanged += item_IsFinishChanged;
                 item.DistributeNameChanged += Item_DistributeNameChanged;
+                item.WorkIndexChanged += Item_WorkIndexChanged;
+                item.IsTransportedChanged += Item_IsTransportedChanged;
             }
         }
+
+
         public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection)
         {
             IList<PartsParameterViewModel> items = Items;
@@ -412,6 +427,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         item.FinishProgressChanged += item_FinishProgressChanged;
                         item.IsFinishChanged += item_IsFinishChanged;
                         item.DistributeNameChanged += Item_DistributeNameChanged;
+                        item.WorkIndexChanged += Item_WorkIndexChanged;
+                        item.IsTransportedChanged += Item_IsTransportedChanged;
                     }
                 }
             }
@@ -424,6 +441,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         item.FinishProgressChanged -= item_FinishProgressChanged;
                         item.IsFinishChanged -= item_IsFinishChanged;
                         item.DistributeNameChanged -= Item_DistributeNameChanged;
+                        item.WorkIndexChanged -= Item_WorkIndexChanged;
+                        item.IsTransportedChanged -= Item_IsTransportedChanged;
                     }
                 }
             }
@@ -431,6 +450,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             CalcFinishProgress();
             CalcUnFinishedCount();
             CalcNotAssignedProductProjectCount();
+            CalcSeparateBoxValue();
 
             base.OnCollectionChanged(e);
         }
@@ -440,9 +460,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             item.FinishProgressChanged += item_FinishProgressChanged;
             item.IsFinishChanged += item_IsFinishChanged;
             item.DistributeNameChanged += Item_DistributeNameChanged;
+            item.WorkIndexChanged += Item_WorkIndexChanged;
+            item.IsTransportedChanged += Item_IsTransportedChanged;
+
+
             CalcFinishProgress();
             CalcUnFinishedCount();
             CalcNotAssignedProductProjectCount();
+            CalcSeparateBoxValue();
             base.InsertItem(index, item);
         }
 
@@ -453,13 +478,25 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         private void item_IsFinishChanged(object? sender, bool e)
         {
             CalcUnFinishedCount();
+            CalcSeparateBoxValue();
         }
 
         private void Item_DistributeNameChanged(object? sender, string e)
         {
             CalcNotAssignedProductProjectCount();
-            //throw new NotImplementedException();
         }
+
+        private void Item_IsTransportedChanged(object? sender, bool e)
+        {
+            CalcSeparateBoxValue();
+        }
+
+        private void Item_WorkIndexChanged(object? sender, int e)
+        {
+            CalcSeparateBoxValue();
+        }
+
+
 
         private void CalcFinishProgress()
         {
@@ -477,11 +514,55 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
+        private void CalcSeparateBoxValue()
+        {
+            Dictionary<int, int> boxPieceValueDictionary = new();
+            //加工完成但尚未被移除的
+            Dictionary<int, int> unTransportedFinishedBoxPieceValueDictionary = new();
+            //已經被分配加工且尚未被移除
+            Dictionary<int, int> unTransportedBoxPieceValueDictionary = new();
+            //只有已完成
+            Dictionary<int, int> finishedBoxPieceValueDictionary = new();
+            Dictionary<int, int> unFinishedBoxPieceValueDictionary = new();
+
+            HashSet<int?> boxIndexHashSet = new();
+            for (int i = 0; i < this.Count; i++)
+            {
+                var separateBox = this[i];
+                if (separateBox.BoxIndex is int boxIndex)
+                {
+                    if (boxIndexHashSet.TryGetValue(boxIndex, out _))
+                        continue;
+                    else
+                        boxIndexHashSet.Add(boxIndex);
+
+                    var indexCollection = this.Where(x => x.BoxIndex == boxIndex).ToList();
+                    //已排定
+                    boxPieceValueDictionary.Add(boxIndex, indexCollection.Count);
+                    //加工完成但尚未被移除的
+                    unTransportedFinishedBoxPieceValueDictionary.Add(boxIndex, indexCollection.FindAll(x => x.IsFinish && !x.IsTransported).Count);
+                    //已經被分配加工且尚未被移除
+                    unTransportedBoxPieceValueDictionary.Add(boxIndex, indexCollection.FindAll(x => x.WorkIndex >= 0 && !x.IsTransported).Count);
+                    //只有已完成
+                    finishedBoxPieceValueDictionary.Add(boxIndex, indexCollection.FindAll(x => x.IsFinish).Count);
+                    unFinishedBoxPieceValueDictionary.Add(boxIndex, indexCollection.FindAll(x => !x.IsFinish).Count);
+                }
+            }
+            //已排定
+            /*this.BoxPieceValueDictionary = boxPieceValueDictionary;
+            this.UnTransportedFinishedBoxPieceValueDictionary = unTransportedFinishedBoxPieceValueDictionary;
+            this.UnTransportedBoxPieceValueDictionary = unTransportedBoxPieceValueDictionary;
+            this.FinishedBoxPieceValueDictionary = finishedBoxPieceValueDictionary;
+            this.UnFinishedBoxPieceValueDictionary = unFinishedBoxPieceValueDictionary;*/
+        }
 
 
         public event EventHandler<float>? FinishProgressChanged;
         public event EventHandler<int>? UnFinishedCountChanged;
         public event EventHandler<int>? NotAssignedProductProjectCountChanged;
+
+
+
 
         private float _finishProgress;
         /// <summary>
@@ -528,6 +609,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 NotAssignedProductProjectCountChanged?.Invoke(this, value);
             }
         }
+
+
+
+
+
+
+
+
     }
 
 

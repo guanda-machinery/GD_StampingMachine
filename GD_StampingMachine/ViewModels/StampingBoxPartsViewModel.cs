@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Utils.Extensions;
 using GD_StampingMachine.Singletons;
+using GD_StampingMachine.ViewModels.ParameterSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Newtonsoft.Json;
 using System;
@@ -21,10 +22,10 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 盒子列表
         /// </summary>
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel>? SeparateBoxVMObservableCollection { get; set; }
+        //public ObservableCollection<SeparateBoxViewModel>? SeparateBoxViewModelCollection { get; set; }
 
-        [JsonIgnore]
-        public ObservableCollection<ProductProjectViewModel>? ProductProjectVMObservableCollection { get; set; }
+       // [JsonIgnore]
+        //public ObservableCollection<ProductProjectViewModel>? ProductProjectVMObservableCollection { get; set; }
 
        // [JsonIgnore]
         //public bool GridControl_MachiningStatusColumnVisible { get; set; } = false;
@@ -39,41 +40,15 @@ namespace GD_StampingMachine.ViewModels
         {
             StampingBoxPart = stampingBoxPart;
             _ = ReLoadBoxPartsParameterVMCollectionAsync();
-            _ = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    try
-                    {
-                        for (int i = 0; i < SeparateBoxVMObservableCollection.Count; i++)
-                        {
-                            var separateBox = SeparateBoxVMObservableCollection[i];
-                            var indexCollection = BoxPartsParameterVMCollection.Where(x => x.BoxIndex == separateBox.BoxIndex).ToList();
-
-                            //已排定
-                            separateBox.BoxPieceValue = indexCollection.Count;
-
-                            //加工完成但尚未被移除的
-                            separateBox.UnTransportedFinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish && !x.IsTransported).Count;
-
-                            //已經被分配加工且尚未被移除
-                            separateBox.UnTransportedBoxPieceValue = indexCollection.FindAll(x => x.WorkIndex >=0 && !x.IsTransported).Count;
-
-                            //只有已完成
-                            separateBox.FinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish).Count;
-                            separateBox.UnFinishedBoxPieceValue = indexCollection.FindAll(x => !x.IsFinish).Count;
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        Debug.WriteLine(ex.ToString());
-                        //   Debugger.Break();
-                    }
-                    await Task.Delay(1000);
-                }
-            });
-
         }
+
+
+
+
+
+
+
+
 
 
         public async Task ReLoadBoxPartsParameterVMCollectionAsync()
@@ -112,17 +87,17 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ParameterSetting.SeparateBoxViewModel? _selectedSeparateBoxVM;
+        private SeparateBoxViewModel? _selectedSeparateBoxVM;
         /// <summary>
         /// 選擇的盒子
         /// </summary>
-        public ParameterSetting.SeparateBoxViewModel? SelectedSeparateBoxVM
+        public SeparateBoxViewModel? SelectedSeparateBoxVM
         {
             get
             {
                 if (_selectedSeparateBoxVM == null)
-                    if (SeparateBoxVMObservableCollection != null)
-                        _selectedSeparateBoxVM = SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxIsEnabled);
+                    if (SeparateBoxVMCollection != null)
+                        _selectedSeparateBoxVM = SeparateBoxVMCollection.FirstOrDefault(x => x.BoxIsEnabled);
                 return _selectedSeparateBoxVM;
             }
             set
@@ -134,50 +109,85 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+        private ObservableCollection<SeparateBoxExtViewModel> _separateBoxVMCollection;
         /// <summary>
         /// 盒子列表
         /// </summary>
-        public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
+        public ObservableCollection<SeparateBoxExtViewModel> SeparateBoxVMCollection
         {
-            get => StampingBoxPart.SeparateBoxVMObservableCollection;
-            set { StampingBoxPart.SeparateBoxVMObservableCollection = value; OnPropertyChanged(); }
+            get => _separateBoxVMCollection;
+            set { _separateBoxVMCollection = value; OnPropertyChanged(); }
         }
 
+        public ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
         /// <summary>
         /// 
         /// </summary>
         public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection
         {
-            get => StampingBoxPart.ProductProjectVMObservableCollection;
+            get => _productProjectVMObservableCollection;
+            set
+            {
+                _productProjectVMObservableCollection = value;
+                OnPropertyChanged();
+            }
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+        //private PartsParameterViewModelObservableCollection? periousBoxPartsParameterVMCollection;
         /// <summary>
         /// 盒子內的專案
         /// </summary>
-        private ObservableCollection<PartsParameterViewModel>? _boxPartsParameterVMCollection;
+        private PartsParameterViewModelObservableCollection? _boxPartsParameterVMCollection;
 
-        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMCollection
+        public PartsParameterViewModelObservableCollection BoxPartsParameterVMCollection
         {
-            get=>_boxPartsParameterVMCollection ??= new ObservableCollection<PartsParameterViewModel>();
+            get
+            {
+                if (_boxPartsParameterVMCollection==null)
+                    _boxPartsParameterVMCollection = new PartsParameterViewModelObservableCollection();
+                return _boxPartsParameterVMCollection;
+            }
             set
             {
                 _boxPartsParameterVMCollection = value;
                 OnPropertyChanged();
             }
         }
+
+        private void BoxPartsParameterVMCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            UpdateSeparateBoxValue();
+        }
+        
+        /// <summary>
+        /// 更新箱子內的數值
+        /// </summary>
+        private void UpdateSeparateBoxValue()
+        {
+            try
+            {
+                for (int i = 0; i < SeparateBoxVMCollection.Count; i++)
+                {
+                    var separateBox = SeparateBoxVMCollection[i];
+                    var indexCollection = BoxPartsParameterVMCollection.Where(x => x.BoxIndex == separateBox.BoxIndex).ToList();
+                    //已排定
+                    separateBox.BoxPieceValue = indexCollection.Count;
+                    //加工完成但尚未被移除的
+                    separateBox.UnTransportedFinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish && !x.IsTransported).Count;
+                    //已經被分配加工且尚未被移除
+                    separateBox.UnTransportedBoxPieceValue = indexCollection.FindAll(x => x.WorkIndex >= 0 && !x.IsTransported).Count;
+                    //只有已完成
+                    separateBox.FinishedBoxPieceValue = indexCollection.FindAll(x => x.IsFinish).Count;
+                    separateBox.UnFinishedBoxPieceValue = indexCollection.FindAll(x => !x.IsFinish).Count;
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
 
 
 

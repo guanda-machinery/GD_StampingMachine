@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Native;
+using DevExpress.Utils.Extensions;
 using GD_CommonLibrary;
 using GD_CommonLibrary.Extensions;
 using GD_CommonLibrary.Method;
@@ -7,11 +8,13 @@ using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.ViewModels;
+using GD_StampingMachine.ViewModels.ParameterSetting;
 using GD_StampingMachine.ViewModels.ProductSetting;
 using Microsoft.VisualStudio.OLE.Interop;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -209,13 +212,25 @@ namespace GD_StampingMachine.Singletons
             {
                 RPDList.ForEach(PDistribute =>
                 {
-                    //將製品清單拆分成兩份
-                    TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute , ProductSettingVM.ProductProjectVMObservableCollection , ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
+                    try
                     {
-                        IsInDistributePage = false
-                        //重新繫結
-                    });
+                        ObservableCollection<SeparateBoxExtViewModel> SeparateBoxCollection = new();
+                        foreach(var item in ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection)
+                        {
+                            SeparateBoxCollection.Add(new SeparateBoxExtViewModel(item.SeparateBox));
+                        }
 
+                        //將製品清單拆分成兩份
+                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, ProductSettingVM.ProductProjectVMObservableCollection, SeparateBoxCollection)
+                        {
+                            IsInDistributePage = false
+                            //重新繫結
+                        });
+                    }
+                    catch
+                    {
+                        Debugger.Break();
+                    }
                 });
             }
 

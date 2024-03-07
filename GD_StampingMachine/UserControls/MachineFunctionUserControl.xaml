@@ -1388,13 +1388,13 @@
                                           Visibility="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
                                     Path=SelectedProjectDistributeVM ,Converter={GD_CommonControl:ObjectIsNullToVisibilityConverter}}"
                                           ItemsSource="{Binding  Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                                    Path=SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection}"
+                                    Path=SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxViewModelCollection}"
                                           Style="{StaticResource RotatingStampingListBox}"/>
 
                                 <ListBox  Visibility="{Binding ElementName=SelectedProjectDistributeSeparateBoxCollection,Path=Visibility,
                                     Converter={dx:VisibilityInverseConverter}}"
                                           Margin="5" Style="{StaticResource RotatingStampingListBox}"     
-                                          ItemsSource="{Binding ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection}"
+                                          ItemsSource="{Binding ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection}"
                                           />
                                 
 
