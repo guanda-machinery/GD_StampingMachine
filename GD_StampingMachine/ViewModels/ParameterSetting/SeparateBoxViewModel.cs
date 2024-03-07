@@ -1,10 +1,13 @@
 ﻿using GD_StampingMachine.GD_Model;
 using GD_StampingMachine.ViewModels.ProductSetting;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -20,7 +23,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         }
 
         [JsonIgnore]
-        public virtual SeparateBoxModel SeparateBox { get; } =new();
+        public virtual SeparateBoxModel SeparateBox { get; protected set; } =new();
 
         public SeparateBoxViewModel()
         {
@@ -82,10 +85,11 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_SeparateBoxViewModel");
 
+
+
         static SeparateBoxExtViewModel()
         {
             BoxSliderValueChanged += SeparateBoxExtViewModel_BoxSliderValueChanged;
-
         }
 
         private static void SeparateBoxExtViewModel_BoxSliderValueChanged(object? sender, double e)
@@ -96,11 +100,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+        public SeparateBoxExtViewModel(SeparateBoxViewModel separateVM) : base(separateVM.SeparateBox)
+        {
 
+        }
 
         public SeparateBoxExtViewModel(SeparateBoxModel separateBox) : base(separateBox)
         {
+
         }
+
+
 
 
 
@@ -207,6 +217,61 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
 
 
+    }
+
+
+    public class SeparateBoxExtViewModelObservableCollection : ObservableCollection<SeparateBoxExtViewModel>
+    {
+        public SeparateBoxExtViewModelObservableCollection():base()
+        {
+
+        }
+        public SeparateBoxExtViewModelObservableCollection(IList<SeparateBoxViewModel> collection) : base()
+        {
+            IList<SeparateBoxExtViewModel> items = Items;
+            if (collection == null || items == null)
+            {
+                return;
+            }
+
+            foreach (var item in collection)
+            {
+                items.Add(new SeparateBoxExtViewModel(item));
+            }
+        }
+
+        public SeparateBoxExtViewModelObservableCollection(IEnumerable<SeparateBoxExtViewModel> collection) : base()
+        {
+            IList<SeparateBoxExtViewModel> items = Items;
+            if (collection == null || items == null)
+            {
+                return;
+            }
+
+            foreach (var item in collection)
+            {
+                items.Add(new SeparateBoxExtViewModel(item));
+            }
+        }
+
+        public static implicit operator SeparateBoxExtViewModelObservableCollection(ObservableCollection<SeparateBoxViewModel> v)
+        {
+            if (v == null)
+            {
+                return null;
+            }
+            else
+            {
+                var op  = new SeparateBoxExtViewModelObservableCollection();
+
+                foreach(var item in v)
+                {
+                    op.Add(new SeparateBoxExtViewModel(item));
+                }
+                return op;
+            }
+
+        }
     }
 
 

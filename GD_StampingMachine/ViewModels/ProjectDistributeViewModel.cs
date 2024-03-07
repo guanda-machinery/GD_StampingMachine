@@ -57,7 +57,7 @@ namespace GD_StampingMachine.ViewModels
         /// 盒子
         /// </summary>
         //[JsonIgnore]
-        //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxViewModelCollection { get; set; }
+        //public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection { get; set; }
 
         /// <summary>
         /// 鋼捲位置
@@ -78,11 +78,13 @@ namespace GD_StampingMachine.ViewModels
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_ProjectDistributeViewModel");
 
-        public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute, ObservableCollection<ProductProjectViewModel> productProjectVMObservableCollection, ObservableCollection<SeparateBoxViewModel> separateBoxViewModelCollection)
+        public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute, ObservableCollection<ProductProjectViewModel> 
+            productProjectVMObservableCollection, 
+            ObservableCollection<SeparateBoxViewModel> separateBoxViewModelCollection)
         {
             ProjectDistribute = projectDistribute;
             ProductProjectVMObservableCollection = productProjectVMObservableCollection;
-            SeparateBoxViewModelCollection = separateBoxViewModelCollection;
+            SeparateBoxVMObservableCollection =  separateBoxViewModelCollection;
         }
 
 
@@ -122,7 +124,7 @@ namespace GD_StampingMachine.ViewModels
             })
             {
                 ProductProjectVMObservableCollection = this.ProductProjectVMObservableCollection,
-                SeparateBoxVMCollection = new ObservableCollection<SeparateBoxExtViewModel>(SeparateBoxViewModelCollection)
+                SeparateBoxVMCollection = new SeparateBoxExtViewModelObservableCollection(SeparateBoxVMObservableCollection)
             };
             set
             {
@@ -306,10 +308,10 @@ namespace GD_StampingMachine.ViewModels
             ReadyToTypeSettingProductProjectVMCurrentItem = ReadyToTypeSettingProductProjectVMObservableCollection.FirstOrDefault();
         }
 
-        private ObservableCollection<SeparateBoxExtViewModel> _separateBoxVMObservableCollection;
-        public ObservableCollection<SeparateBoxExtViewModel> SeparateBoxViewModelCollection
+        private SeparateBoxExtViewModelObservableCollection _separateBoxVMObservableCollection;
+        public SeparateBoxExtViewModelObservableCollection SeparateBoxVMObservableCollection
         {
-            get=> _separateBoxVMObservableCollection??= new ObservableCollection<SeparateBoxExtViewModel>();
+            get=> _separateBoxVMObservableCollection??= new ();
             set
             {
                 _separateBoxVMObservableCollection = value;
@@ -480,12 +482,12 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 盒子列表
         /// </summary>
-        /* public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxViewModelCollection
+        /* public ObservableCollection<ParameterSetting.SeparateBoxViewModel> SeparateBoxVMObservableCollection
          {
-             get => ProjectDistribute.SeparateBoxViewModelCollection;
+             get => ProjectDistribute.SeparateBoxVMObservableCollection;
              set
              {
-                 ProjectDistribute.SeparateBoxViewModelCollection = value;
+                 ProjectDistribute.SeparateBoxVMObservableCollection = value;
                  OnPropertyChanged();
              }
          }*/

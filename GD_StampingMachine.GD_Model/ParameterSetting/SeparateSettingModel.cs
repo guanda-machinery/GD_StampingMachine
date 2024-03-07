@@ -1,4 +1,5 @@
 ﻿using GD_StampingMachine.GD_Enum;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace GD_StampingMachine.GD_Model
@@ -13,7 +14,7 @@ namespace GD_StampingMachine.GD_Model
         /// 單一/統一設定
         /// </summary>
         public SettingTypeEnum SettingType { get; set; }
-        public Collection<SeparateBoxModel> UnifiedSetting_SeparateBoxObservableCollection { get; set; } = new Collection<SeparateBoxModel>();
+        public List<SeparateBoxModel> UnifiedSetting_SeparateBoxObservableCollection { get; set; } = new List<SeparateBoxModel>();
         public SeparateBoxModel SingleSetting_SeparateBox { get; set; } = new SeparateBoxModel();
     }
 }

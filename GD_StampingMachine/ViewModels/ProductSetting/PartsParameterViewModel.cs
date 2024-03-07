@@ -571,7 +571,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public float FinishProgress
         {
             get => _finishProgress;
-            private set
+            set
             {
                 _finishProgress = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(FinishProgress)));

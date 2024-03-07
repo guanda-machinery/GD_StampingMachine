@@ -1062,13 +1062,13 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                         Style="{StaticResource SeparateBoxVMListBox}"
                                          SelectedItem="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM}">
                         <ListBox.ItemsSource>
+
                             <MultiBinding Converter="{GD_CommonControl:MultiCollectionSelectorConverter}">
                                 <MultiBinding.Bindings>
                                     <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMCollection"/>
-                                    <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection"/>
+                                    <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection"/>
                                 </MultiBinding.Bindings>
                             </MultiBinding>
-
                         </ListBox.ItemsSource>
 
 

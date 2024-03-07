@@ -22,7 +22,7 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 盒子列表
         /// </summary>
-        //public ObservableCollection<SeparateBoxViewModel>? SeparateBoxViewModelCollection { get; set; }
+        //public ObservableCollection<SeparateBoxViewModel>? SeparateBoxVMObservableCollection { get; set; }
 
        // [JsonIgnore]
         //public ObservableCollection<ProductProjectViewModel>? ProductProjectVMObservableCollection { get; set; }
@@ -109,11 +109,11 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ObservableCollection<SeparateBoxExtViewModel> _separateBoxVMCollection;
+        private SeparateBoxExtViewModelObservableCollection _separateBoxVMCollection;
         /// <summary>
         /// 盒子列表
         /// </summary>
-        public ObservableCollection<SeparateBoxExtViewModel> SeparateBoxVMCollection
+        public SeparateBoxExtViewModelObservableCollection SeparateBoxVMCollection
         {
             get => _separateBoxVMCollection;
             set { _separateBoxVMCollection = value; OnPropertyChanged(); }

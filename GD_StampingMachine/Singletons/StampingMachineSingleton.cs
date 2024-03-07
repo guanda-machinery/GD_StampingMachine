@@ -134,7 +134,7 @@ namespace GD_StampingMachine.Singletons
             }
             else
             {
-                Collection<SeparateBoxModel> boxCollection = new();
+                List<SeparateBoxModel> boxCollection = new();
                 for(int i=0;i<10;i++)
                 {
                     boxCollection.Add(new SeparateBoxModel()
@@ -214,14 +214,10 @@ namespace GD_StampingMachine.Singletons
                 {
                     try
                     {
-                        ObservableCollection<SeparateBoxExtViewModel> SeparateBoxCollection = new();
-                        foreach(var item in ParameterSettingVM.SeparateSettingVM.SeparateBoxViewModelCollection)
-                        {
-                            SeparateBoxCollection.Add(new SeparateBoxExtViewModel(item.SeparateBox));
-                        }
-
                         //將製品清單拆分成兩份
-                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, ProductSettingVM.ProductProjectVMObservableCollection, SeparateBoxCollection)
+                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, 
+                            ProductSettingVM.ProductProjectVMObservableCollection, 
+                            ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
                         {
                             IsInDistributePage = false
                             //重新繫結

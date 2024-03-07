@@ -481,7 +481,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid Height="auto" Margin="2,5">
-                                    <ProgressBar Value="{Binding Row.ProductProjectFinishProcessing,UpdateSourceTrigger=PropertyChanged}"  
+                                    <ProgressBar Value="{Binding Row.PartsParameterVMCollection.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                         <ProgressBar.Foreground>
@@ -491,7 +491,7 @@
 
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
                                         <TextBlock Foreground="Black"
-                                        Text="{CalcB:Binding Row.ProductProjectFinishProcessing/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                        Text="{CalcB:Binding Row.PartsParameterVMCollection.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

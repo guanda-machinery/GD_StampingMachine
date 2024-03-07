@@ -1217,7 +1217,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     {
                         var CollectionWithThisDistributeName = ProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
 
-                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxViewModelCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
+                        //var CollectionWithThisDistributeName = ProjectDistributeVM.SeparateBoxVMObservableCollection.Where(x => x.DistributeName == ProjectDistributeVM.ProjectDistributeName);
                         //箱子內有專案
                         if (CollectionWithThisDistributeName?.Count() > 0)
                         {
