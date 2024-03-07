@@ -245,15 +245,20 @@
                                 <Image.Style>
                                     <Style TargetType="Image">
                                         <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
-                                                <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsPressed}" Value="true">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+
+                                        </Style>
                                 </Image.Style>
                             </Image>
                             <TextBlock Text="{DynamicResource btnProjectToBox}" Padding="0,2,0,0" VerticalAlignment="Center"/>
@@ -789,18 +794,22 @@
                                         <Image.Style>
                                             <Style TargetType="Image">
                                                 <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
+                                             
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
-                                                        <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
-                                                        <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
-                                                    </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
+                                                            <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsMouseOver}" Value="true">
+                                                            <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsPressed}" Value="true">
+                                                            <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
+                                                        </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Image.Style>
                                     </Image>
-                                    <TextBlock Text="{DynamicResource btnBoxToProject}" VerticalAlignment="Center" Padding="0,2,0,0"/>
+                                    <TextBlock Text="{DynamicResource btnBoxToProject}" VerticalAlignment="Center" Padding="0,3,0,0"/>
                                 </StackPanel>
                             </Button>
                                

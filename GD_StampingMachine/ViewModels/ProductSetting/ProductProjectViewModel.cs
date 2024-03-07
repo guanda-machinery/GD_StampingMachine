@@ -43,13 +43,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public ProductProjectViewModel(ProductProjectModel productProject)
         {
             _productProject = productProject;
-            init();
+            Init();
         }
 
         public ProductProjectViewModel()
         {
             _productProject = new();
-            init();
+            Init();
         }
 
 
@@ -62,7 +62,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private void init()
+        private void Init()
         {
             /* _ = Task.Run(async () =>
              {
