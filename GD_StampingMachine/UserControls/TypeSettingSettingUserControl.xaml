@@ -483,12 +483,7 @@
                                               SelectedItem="{Binding ReadyToTypeSettingProductProjectVMSelected}"
                                               ItemsSource="{Binding ReadyToTypeSettingProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SelectedItemChanged">
-                                        <i:InvokeCommandAction Command="{Binding ReadyToTypeSettingProductProjectVMSelectedChangedCommand}" 
-                                                   PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
+
 
                                 <dxg:GridControl.View >
                                     <dxg:TableView  
@@ -855,41 +850,41 @@
                                 </dxg:GridControl.View>
 
 
-                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_ProjectName}" FieldName="ProductProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.EditSettings>
-                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                                     </dxg:GridColumn.EditSettings>
                                 </dxg:GridColumn>
 
-                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left" Visible="False" Header="{DynamicResource Text_Box}" FieldName="BoxIndex" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center" Visible="False" Header="{DynamicResource Text_Box}" FieldName="BoxIndex" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.EditSettings>
-                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                                     </dxg:GridColumn.EditSettings>
                                 </dxg:GridColumn>
 
-                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_Parameter_A}" FieldName="ParameterA" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.EditSettings>
-                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                                     </dxg:GridColumn.EditSettings>
                                 </dxg:GridColumn>
 
-                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_Parameter_C_DataMartix}" FieldName="ParameterC" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.EditSettings>
-                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                                     </dxg:GridColumn.EditSettings>
                                 </dxg:GridColumn>
 
 
-                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
+                                <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_QR_Special_IronPlateString}" FieldName="QR_Special_Text" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.EditSettings>
-                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                                     </dxg:GridColumn.EditSettings>
                                 </dxg:GridColumn>
 
                                 <dxg:GridColumn  
-                            HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
+                            HorizontalHeaderContentAlignment="Center"  Width="auto" AllowResizing="false"  AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.EditSettings>
-                                        <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                                     </dxg:GridColumn.EditSettings>
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>

@@ -447,8 +447,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         item.FinishProgressChanged += item_FinishProgressChanged;
                         item.IsFinishChanged += item_IsFinishChanged;
                         item.DistributeNameChanged += Item_DistributeNameChanged;
-                        //item.WorkIndexChanged += Item_WorkIndexChanged;
-                        //item.IsTransportedChanged += Item_IsTransportedChanged;
                     }
                 }
             }

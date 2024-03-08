@@ -5,6 +5,7 @@ using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.Xpf;
 using DevExpress.Office.Utils;
 using DevExpress.Utils.Extensions;
+using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Layout.Core;
 using DevExpress.XtraRichEdit.Model.History;
@@ -18,6 +19,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -262,9 +264,11 @@ namespace GD_StampingMachine.ViewModels
             {
                 _readyToTypeSettingProductProjectVMSelected = value;
                 OnPropertyChanged();
-
-
-                //PartsParameterVMCollectionRefresh();
+                if (value == null)
+                    PartsParameterVMObservableCollection = null;
+                else
+                    PartsParameterVMObservableCollection = new PartsParameterViewModelObservableCollection(value.PartsParameterVMObservableCollection
+                    .Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
             }
         }
 
@@ -272,62 +276,12 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private ICommand? _readyToTypeSettingProductProjectVMSelectedChangedCommand;
-        public ICommand ReadyToTypeSettingProductProjectVMSelectedChangedCommand
-        {
-            get => _readyToTypeSettingProductProjectVMSelectedChangedCommand ??= new RelayCommand<object>(obj =>
-            {
-
-                if (obj is DevExpress.Xpf.Grid.SelectedItemChangedEventArgs e)
-                {
-                    if (e.OldItem is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel perviousProductProject)
-                    {
-                        perviousProductProject.PartsParameterVMObservableCollection.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged;
-                    }
-
-                    if (e.NewItem is GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel selectProductProject)
-                    {
-                        PartsParameterVMObservableCollection = new PartsParameterViewModelObservableCollection(
-                        selectProductProject.PartsParameterVMObservableCollection.Where(x => x.BoxIndex == null && string.IsNullOrEmpty(x.DistributeName) && !x.IsFinish));
-                        PartsParameterVMObservableCollection.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged;
-                    }
-                    else
-                    {
-                        PartsParameterVMObservableCollection = null;
-                    }
-                }
-
-            });
-        }
 
 
-        private void PartsParameterVMObservableCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if(e.NewItems is ICollection newCollection)
-            {
-                foreach(var item in newCollection)
-                {
-                    if(item is PartsParameterViewModel partsParameter)
-                    {
-                        //PartsParameterVMObservableCollection.Add(partsParameter);
-                    }
-                }
-               // PartsParameterVMObservableCollection
-            }
 
-            if (e.OldItems is ICollection oldCollection)
-            {
-                foreach (var item in oldCollection)
-                {
-                    if (item is PartsParameterViewModel partsParameter)
-                    {
-                        //if (PartsParameterVMObservableCollection.Contains(partsParameter))
-                           // PartsParameterVMObservableCollection.Remove(partsParameter);
-                    }
-                }
-                //PartsParameterVMObservableCollection
-            }
-        }
+
+
+
 
 
         private ObservableCollection<ProductProjectViewModel>? _productProjectVMObservableCollection;
@@ -396,42 +350,84 @@ namespace GD_StampingMachine.ViewModels
         }
         private void selectProductProjectPartsParameterVMObservableCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.NewItems is ICollection newCollection)
+            try
             {
-                foreach (var item in newCollection)
+                switch (e.Action)
                 {
-                    if (item is PartsParameterViewModel partsParameter)
-                    {
-                        if (ReadyToTypeSettingProductProjectVMSelected?.ProductProjectName == partsParameter.ProductProjectName)
+                    case NotifyCollectionChangedAction.Add:
                         {
-                            if (string.IsNullOrEmpty(partsParameter.DistributeName) && !partsParameter.IsFinish)
+                            if (e.NewItems is ICollection newCollection)
                             {
-                                if (!PartsParameterVMObservableCollection.Contains(partsParameter))
-                                    PartsParameterVMObservableCollection.Add(partsParameter);
-                            }
-                            else
-                            {
-                                if (!StampingBoxPartsVM.BoxPartsParameterVMCollection.Contains(partsParameter))
-                                    StampingBoxPartsVM.BoxPartsParameterVMCollection.Add(partsParameter);
+                                foreach (var item in newCollection)
+                                {
+                                    if (item is PartsParameterViewModel partsParameter)
+                                    {
+                                        if (ReadyToTypeSettingProductProjectVMSelected?.ProductProjectName == partsParameter.ProductProjectName)
+                                        {
+                                            if (string.IsNullOrEmpty(partsParameter.DistributeName) && !partsParameter.IsFinish)
+                                            {
+                                                if (!PartsParameterVMObservableCollection.Contains(partsParameter))
+                                                    PartsParameterVMObservableCollection.Add(partsParameter);
+                                            }
+                                            else
+                                            {
+                                                if (!StampingBoxPartsVM.BoxPartsParameterVMCollection.Contains(partsParameter))
+                                                    StampingBoxPartsVM.BoxPartsParameterVMCollection.Add(partsParameter);
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
-                    }
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            if (e.OldItems is ICollection oldCollection)
+                            {
+                                foreach (var item in oldCollection.OfType<PartsParameterViewModel>())
+                                {
+                                    if (item is PartsParameterViewModel partsParameter)
+                                    {
+                                        if (PartsParameterVMObservableCollection.Contains(partsParameter))
+                                            PartsParameterVMObservableCollection.Remove(partsParameter);
+                                        if (StampingBoxPartsVM.BoxPartsParameterVMCollection.Contains(partsParameter))
+                                            StampingBoxPartsVM.BoxPartsParameterVMCollection.Remove(partsParameter);
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Replace:
+                        {
+                            if (e.NewItems is ICollection newCollection && e.OldItems is ICollection oldCollection)
+                            {
+                                var replacements = oldCollection.OfType<PartsParameterViewModel>()
+                                .Zip(newCollection.OfType<PartsParameterViewModel>(), (oldItem, newItem) => (oldItem, newItem));
+
+                                foreach (var (oldItem, newItem) in replacements)
+                                {
+                                    var partIndex = PartsParameterVMObservableCollection.IndexOf(oldItem);
+                                    if (partIndex != -1)
+                                        PartsParameterVMObservableCollection[partIndex] = newItem;
+
+                                    var boxPartIndex = StampingBoxPartsVM.BoxPartsParameterVMCollection.IndexOf(oldItem);
+                                    if (boxPartIndex != -1)
+                                        StampingBoxPartsVM.BoxPartsParameterVMCollection[boxPartIndex] = newItem;
+                                }
+                            }
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Move:
+                        break;
+
+                    case NotifyCollectionChangedAction.Reset:
+                    default:
+                        break;
                 }
             }
-
-            if (e.OldItems is ICollection oldCollection)
+            catch(Exception ex)
             {
-                foreach (var item in oldCollection)
-                {
-                    if (item is PartsParameterViewModel partsParameter)
-                    {
-                        if (PartsParameterVMObservableCollection.Contains(partsParameter))
-                            PartsParameterVMObservableCollection.Remove(partsParameter);
-                        if (StampingBoxPartsVM.BoxPartsParameterVMCollection.Contains(partsParameter))
-                            StampingBoxPartsVM.BoxPartsParameterVMCollection.Remove(partsParameter);
-                    }
-                }
-                //PartsParameterVMObservableCollection
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -685,46 +681,6 @@ namespace GD_StampingMachine.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        /*private void _partsParameterVMCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    if (item is PartsParameterViewModel part)
-                    {
-                        part.DistributeNameChanged += Item_DistributeNameChanged;
-                    }
-                }
-            }
-
-            if (e.OldItems != null)
-            {
-                foreach(var item in e.OldItems)
-                {
-                    if (item is PartsParameterViewModel part)
-                    {
-                        part.DistributeNameChanged -= Item_DistributeNameChanged ;
-                    }
-                }
-            }
-        }*/
-
-        /*private void Item_DistributeNameChanged(object? sender, string e)
-        {
-            if (string.IsNullOrEmpty(e))
-            {
-                if (sender is PartsParameterViewModel part && PartsParameterVMObservableCollection.Contains(part))
-                {
-                   // PartsParameterVMObservableCollection.Remove(part);
-                }
-            }
-            else
-            {
-
-            }
-        }*/
 
 
 

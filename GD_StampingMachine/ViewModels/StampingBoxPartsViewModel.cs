@@ -174,25 +174,31 @@ namespace GD_StampingMachine.ViewModels
         private void BoxPartsParameterVMCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             UpdateSeparateBoxValue();
-            if(e.NewItems is IList<PartsParameterViewModel> NParts)
+            if(e.NewItems is ICollection NParts)
             {
-                foreach (var item in NParts)
+                foreach (var part in NParts)
                 {
-                    item.StateChanged += Item_StateChanged;
-                    item.IsFinishChanged += ParameterChanged; ;
-                    item.WorkIndexChanged += ParameterChanged;
-                    item.IsTransportedChanged += ParameterChanged;
+                    if (part is PartsParameterViewModel item)
+                    {
+                        item.StateChanged += Item_StateChanged;
+                        item.IsFinishChanged += ParameterChanged; ;
+                        item.WorkIndexChanged += ParameterChanged;
+                        item.IsTransportedChanged += ParameterChanged;
+                    }
                 }
             }
 
-            if (e.OldItems is IList<PartsParameterViewModel> OParts)
+            if (e.OldItems is ICollection OParts)
             {
-                foreach (var item in OParts)
+                foreach (var part in OParts)
                 {
-                    item.StateChanged -= Item_StateChanged;
-                    item.IsFinishChanged -= ParameterChanged; ;
-                    item.WorkIndexChanged -= ParameterChanged;
-                    item.IsTransportedChanged -= ParameterChanged;
+                    if (part is PartsParameterViewModel item)
+                    {
+                        item.StateChanged -= Item_StateChanged;
+                        item.IsFinishChanged -= ParameterChanged; ;
+                        item.WorkIndexChanged -= ParameterChanged;
+                        item.IsTransportedChanged -= ParameterChanged;
+                    }
                 }
             }
 

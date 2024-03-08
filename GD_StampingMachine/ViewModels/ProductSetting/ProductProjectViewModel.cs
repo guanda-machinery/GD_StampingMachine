@@ -3,6 +3,7 @@ using CsvHelper.Configuration.Attributes;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
@@ -876,7 +877,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         private void PartsParameterVMObservableCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            if(sender is IEnumerable<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> collection)
+            
+
+            if (sender is IEnumerable<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> collection)
             {
                 ProductProject.PartsParameterObservableCollection = collection.Select(p => p.PartsParameter).ToList();
             }
