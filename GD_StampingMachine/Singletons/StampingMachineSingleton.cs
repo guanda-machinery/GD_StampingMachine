@@ -215,8 +215,10 @@ namespace GD_StampingMachine.Singletons
                     try
                     {
                         //將製品清單拆分成兩份
-                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, 
-                            ProductSettingVM.ProductProjectVMObservableCollection, 
+                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(
+                            new ProjectDistributeViewModel(
+                                PDistribute,
+                            ProductSettingVM.ProductProjectVMObservableCollection,
                             ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
                         {
                             IsInDistributePage = false
@@ -267,27 +269,27 @@ namespace GD_StampingMachine.Singletons
         /// <summary>
         /// 機台規格
         /// </summary>
-        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get; set; }
+        public MachanicalSpecificationViewModel? MachanicalSpecificationVM { get; set; }
         /// <summary>
         /// 字模
         /// </summary>
-        public StampingFontChangedViewModel StampingFontChangedVM { get; set; }
+        public StampingFontChangedViewModel? StampingFontChangedVM { get; set; }
         /// <summary>
         /// 參數設定
         /// </summary>
-        public ParameterSettingViewModel ParameterSettingVM { get; set; }
+        public ParameterSettingViewModel? ParameterSettingVM { get; set; }
         /// <summary>
         /// 製品設定
         /// </summary>
-        public ProductSettingViewModel ProductSettingVM { get; set; }
+        public ProductSettingViewModel? ProductSettingVM { get; set; }
         /// <summary>
         /// 排版設定(生產設定)
         /// </summary>
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get; set; }
+        public TypeSettingSettingViewModel? TypeSettingSettingVM { get; set; }
         /// <summary>
         /// 機台監控
         /// </summary>
-        public MachineMonitorViewModel MachineMonitorVM
+        public MachineMonitorViewModel? MachineMonitorVM
         {
             get;
             set;
@@ -295,7 +297,7 @@ namespace GD_StampingMachine.Singletons
         /// <summary>
         /// 機台功能
         /// </summary>
-        public MachineFunctionViewModel MachineFunctionVM
+        public MachineFunctionViewModel? MachineFunctionVM
         {
             get;
             set;
@@ -394,7 +396,7 @@ namespace GD_StampingMachine.Singletons
             }
         }
 
-        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel>> SelectedProjectDistributeVMChanged;
+        public event EventHandler<GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel>>? SelectedProjectDistributeVMChanged;
 
         protected virtual void OnIsWorkChanged(GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
         {

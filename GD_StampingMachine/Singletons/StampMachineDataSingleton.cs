@@ -3519,7 +3519,7 @@ namespace GD_StampingMachine.Singletons
 
 
         private CancellationTokenSource cts = new();
-        private Task RotateTask;
+        private Task? RotateTask;
 
         readonly ParameterSettingViewModel ParameterSettingVM = Singletons.StampingMachineSingleton.Instance.ParameterSettingVM;
 

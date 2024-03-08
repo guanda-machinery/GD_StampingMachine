@@ -118,7 +118,7 @@
                             <Setter Property="Opacity" Value="0.4"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
-                    <Grid Margin="28,0,28,16"   d:DataContext="{d:DesignInstance Type=GD_ParameterSettingViewModels:SeparateBoxViewModel}" IsEnabled="{Binding BoxIsEnabled, UpdateSourceTrigger=PropertyChanged}">
+                    <Grid Margin="28,0,28,16"   d:DataContext="{d:DesignInstance Type=GD_ParameterSettingViewModels:SeparateBoxExtViewModel}" IsEnabled="{Binding BoxIsEnabled, UpdateSourceTrigger=PropertyChanged}">
                         <Grid.Resources>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
                                 <Setter Property="FontWeight" Value="Bold"/>

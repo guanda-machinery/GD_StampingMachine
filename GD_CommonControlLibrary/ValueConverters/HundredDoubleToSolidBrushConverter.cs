@@ -38,12 +38,12 @@ namespace GD_CommonControlLibrary
 
                 SolidColorBrush ReturnBrush = new SolidColorBrush(Color.FromArgb(A, R, G, B));
 
-                if (result < SliderMin)
+                if (result <= SliderMin)
                 {
                     //    return (SolidColorBrush)new BrushConverter().ConvertFrom(Brushes.OrangeRed.ToString());
                     return System.Windows.Media.Brushes.Red;
                 }
-                if (result > SliderMax)
+                if (result >= SliderMax)
                 {
                     return System.Windows.Media.Brushes.Green;
                 }

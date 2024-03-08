@@ -754,13 +754,13 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel.Resources>
-                                        <x:Array Type="GD_ViewModels:StampingTypeViewModel" x:Key="NewArray">
-                                            <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="0" StampingTypeString="A"/>
-                                            <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="1" StampingTypeString="B"/>
-                                            <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="2" StampingTypeString="C"/>
-                                        </x:Array>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel.Resources>
+                                            <x:Array Type="GD_ViewModels:StampingTypeViewModel" x:Key="NewArray">
+                                                <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="0" StampingTypeString="A"/>
+                                                <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="1" StampingTypeString="B"/>
+                                                <GD_ViewModels:StampingTypeViewModel StampingTypeNumber="2" StampingTypeString="C"/>
+                                            </x:Array>
                                         </StackPanel.Resources>
                                         <Button Content="ClearAlarm" Command="{Binding ResetAlarmCommand}"/>
                                         <Button Content="AddAlarm" Command="{Binding AddAlarmCommand}"/>
@@ -775,15 +775,15 @@
                                         <Grid Width="100" Height="100" >
                                             <Ellipse  Fill="Red"/>
                                             <Ellipse Opacity="0.5">
-                                            <Ellipse.Fill>
-                                                <RadialGradientBrush 
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush 
                                                     GradientOrigin="0.75,0" Center="0.5,0.5" RadiusX="1" RadiusY="1">
                                                         <GradientStop Color="Transparent" Offset="0.0" />
                                                         <GradientStop Color="Black" Offset="0.75" />
                                                         <GradientStop Color="Black" Offset="1" />
                                                     </RadialGradientBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
                                         </Grid>
                                         <Ellipse Width="100" Height="100">
                                             <Ellipse.Fill>
@@ -797,7 +797,7 @@ RadiusX="0.5" RadiusY="0.5">
                                                 </RadialGradientBrush>
                                             </Ellipse.Fill>
                                         </Ellipse>
-                                    
+
                                         <Rectangle Width="100" Height="100">
                                             <Rectangle.Fill>
                                                 <RadialGradientBrush 
@@ -824,20 +824,20 @@ RadiusX="0.5" RadiusY="0.5">
                                             >
                                             <GD_CommonControl:CircularRangeSlider.Style>
                                                 <Style TargetType="{x:Type GD_CommonControl:CircularRangeSlider}" >
-                                                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                                <Setter Property="Background" Value="Transparent"/>
-                                                <Setter Property="Template" >
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type GD_CommonControl:CircularRangeSlider}">
-                                                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Template" >
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type GD_CommonControl:CircularRangeSlider}">
+                                                                <Border BorderBrush="{TemplateBinding BorderBrush}"
                                                                     BorderThickness="{TemplateBinding BorderThickness}"
                                                                     Background="{TemplateBinding Background}" 
                                                                     Width="{TemplateBinding Width}"
                                                                     Height="{TemplateBinding Height}"
                                                                     Padding="{TemplateBinding Padding}"
                                                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                                                                <Grid>
-                                                                    <Viewbox Margin="5">
+                                                                    <Grid>
+                                                                        <Viewbox Margin="5">
                                                                             <Grid Width="300" Height="300">
                                                                                 <Grid Width="200" Height="200">
                                                                                     <Border Background="DimGray"  CornerRadius="100">
@@ -961,187 +961,187 @@ RadiusX="0.5" RadiusY="0.5">
 
 
                                                                                 <Canvas   Name="PART_SliderContainer">
-                                                                                <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="1"
+                                                                                    <Ellipse Fill="Transparent"  Width="300" Height="300" Canvas.Left="0" Canvas.Top="0"  Opacity="1"
                                                                                          Stroke="Black" StrokeThickness="40"/>
                                                                                     <Canvas Name="PART_Arc"  Cursor="Hand"
                                                                                         Canvas.Top="150" Canvas.Left="150">
-                                                                                <Path Stroke="DimGray" StrokeThickness="30" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">
-                                                                                    <Path.Data>
-                                                                                        <PathGeometry>
-                                                                                            <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
-                                                                                                <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                                        <Path Stroke="DimGray" StrokeThickness="30" Margin="0"  StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                                                                            <Path.Data>
+                                                                                                <PathGeometry>
+                                                                                                    <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                                                                        <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
                                                                                                             Size="130,130" 
                                                                                                             RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
-                                                                                            </PathFigure>
-                                                                                        </PathGeometry>
-                                                                                    </Path.Data>
-                                                                                </Path>
+                                                                                                    </PathFigure>
+                                                                                                </PathGeometry>
+                                                                                            </Path.Data>
+                                                                                        </Path>
                                                                                         <Path Stroke="Black" StrokeThickness="0,15" Margin="0" StrokeDashArray="0.3" >
-                                                                                    <Path.Data>
-                                                                                        <PathGeometry>
-                                                                                            <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
-                                                                                                <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
+                                                                                            <Path.Data>
+                                                                                                <PathGeometry>
+                                                                                                    <PathFigure StartPoint="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcStart}">
+                                                                                                        <ArcSegment Point="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=ArcEnd}" 
                                                                     Size="130,130" 
                                                                     RotationAngle="0" IsLargeArc="{Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=IsLargeArc}" SweepDirection="Clockwise"/>
-                                                                                            </PathFigure>
-                                                                                        </PathGeometry>
-                                                                                    </Path.Data>
-                                                                                </Path>
+                                                                                                    </PathFigure>
+                                                                                                </PathGeometry>
+                                                                                            </Path.Data>
+                                                                                        </Path>
 
-                                                                            </Canvas>
-                                                                            <ContentControl Width="150" Height="150" Cursor="Hand"
+                                                                                    </Canvas>
+                                                                                    <ContentControl Width="150" Height="150" Cursor="Hand"
                                         Name="PART_StartCanvas" Canvas.Left="150"  >
-                                                                                <ContentControl.Content>
-                                                                                        <Canvas>
-                                                                                            <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
-                                                                                                <Border Background="DimGray" CornerRadius="15" >
+                                                                                        <ContentControl.Content>
+                                                                                            <Canvas>
+                                                                                                <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
+                                                                                                    <Border Background="DimGray" CornerRadius="15" >
                                                                                                         <Border.LayoutTransform>
                                                                                                             <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleStart}"/>
                                                                                                         </Border.LayoutTransform>
 
                                                                                                         <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                                                         Kind="TimerStart" Width="25" Height="25" Foreground="LightGray">
-                                                                                                        
 
-                                                                                                    </materialDesign:PackIcon>
-                                                                                                    <Border.Triggers>
-                                                                                                        <EventTrigger RoutedEvent="MouseDown">
-                                                                                                            <EventTrigger.Actions>
-                                                                                                                <BeginStoryboard>
-                                                                                                                    <Storyboard Duration="00:00:01">
-                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+
+                                                                                                        </materialDesign:PackIcon>
+                                                                                                        <Border.Triggers>
+                                                                                                            <EventTrigger RoutedEvent="MouseDown">
+                                                                                                                <EventTrigger.Actions>
+                                                                                                                    <BeginStoryboard>
+                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DarkGray" />
-                                                                                                                    </Storyboard>
-                                                                                                                </BeginStoryboard>
-                                                                                                            </EventTrigger.Actions>
-                                                                                                        </EventTrigger>
-                                                                                                        <EventTrigger RoutedEvent="MouseUp">
-                                                                                                            <EventTrigger.Actions>
-                                                                                                                <BeginStoryboard>
-                                                                                                                    <Storyboard Duration="00:00:01">
-                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                        </Storyboard>
+                                                                                                                    </BeginStoryboard>
+                                                                                                                </EventTrigger.Actions>
+                                                                                                            </EventTrigger>
+                                                                                                            <EventTrigger RoutedEvent="MouseUp">
+                                                                                                                <EventTrigger.Actions>
+                                                                                                                    <BeginStoryboard>
+                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                    </Storyboard>
-                                                                                                                </BeginStoryboard>
-                                                                                                            </EventTrigger.Actions>
-                                                                                                        </EventTrigger>
-                                                                                                        <EventTrigger RoutedEvent="MouseLeave">
-                                                                                                            <EventTrigger.Actions>
-                                                                                                                <BeginStoryboard>
-                                                                                                                    <Storyboard Duration="00:00:01">
-                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                        </Storyboard>
+                                                                                                                    </BeginStoryboard>
+                                                                                                                </EventTrigger.Actions>
+                                                                                                            </EventTrigger>
+                                                                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                                                                <EventTrigger.Actions>
+                                                                                                                    <BeginStoryboard>
+                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                    </Storyboard>
-                                                                                                                </BeginStoryboard>
-                                                                                                            </EventTrigger.Actions>
-                                                                                                        </EventTrigger>
-                                                                                                    </Border.Triggers>
-                                                                                                </Border>
-                                                                                                
-                                                                                            </Grid>
-                                                                                        </Canvas>
-                                                                                </ContentControl.Content>
-                                                                                <ContentControl.RenderTransform>
-                                                                                    <RotateTransform CenterX="0" CenterY="150" >
-                                                                                        <RotateTransform.Angle>
-                                                                                            <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
-                                                                                            </MultiBinding>
-                                                                                        </RotateTransform.Angle>
-                                                                                    </RotateTransform>
-                                                                                </ContentControl.RenderTransform>
+                                                                                                                        </Storyboard>
+                                                                                                                    </BeginStoryboard>
+                                                                                                                </EventTrigger.Actions>
+                                                                                                            </EventTrigger>
+                                                                                                        </Border.Triggers>
+                                                                                                    </Border>
 
-                                                                            </ContentControl>
+                                                                                                </Grid>
+                                                                                            </Canvas>
+                                                                                        </ContentControl.Content>
+                                                                                        <ContentControl.RenderTransform>
+                                                                                            <RotateTransform CenterX="0" CenterY="150" >
+                                                                                                <RotateTransform.Angle>
+                                                                                                    <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
+                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Start"/>
+                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                                                                    </MultiBinding>
+                                                                                                </RotateTransform.Angle>
+                                                                                            </RotateTransform>
+                                                                                        </ContentControl.RenderTransform>
+
+                                                                                    </ContentControl>
                                                                                     <ContentControl Width="150" Height="150"  Cursor="Hand"
                                         Name="PART_EndCanvas" Canvas.Left="150"  >
-                                                                                    <ContentControl.Content>
-                                                                                        <Canvas>
-                                                                                            <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
-                                                                                                <Border Background="DimGray" CornerRadius="15" >
+                                                                                        <ContentControl.Content>
+                                                                                            <Canvas>
+                                                                                                <Grid Width="30" Height="30" Canvas.Left="-15" Canvas.Top="5"   >
+                                                                                                    <Border Background="DimGray" CornerRadius="15" >
                                                                                                         <Border.LayoutTransform>
                                                                                                             <RotateTransform Angle="{CalcB:Binding RelativeSource={RelativeSource  Mode=TemplatedParent},Path=-ArcAngleEnd}"/>
                                                                                                         </Border.LayoutTransform>
                                                                                                         <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                                                         Kind="TimerStop" Width="25" Height="25" Foreground="LightGray">
 
-                                                                                                    </materialDesign:PackIcon>
-                                                                                                    <Border.Triggers>
-                                                                                                        <EventTrigger RoutedEvent="MouseDown">
-                                                                                                            <EventTrigger.Actions>
-                                                                                                                <BeginStoryboard>
-                                                                                                                    <Storyboard Duration="00:00:01">
-                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                        </materialDesign:PackIcon>
+                                                                                                        <Border.Triggers>
+                                                                                                            <EventTrigger RoutedEvent="MouseDown">
+                                                                                                                <EventTrigger.Actions>
+                                                                                                                    <BeginStoryboard>
+                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DarkGray" />
-                                                                                                                    </Storyboard>
-                                                                                                                </BeginStoryboard>
-                                                                                                            </EventTrigger.Actions>
-                                                                                                        </EventTrigger>
-                                                                                                        <EventTrigger RoutedEvent="MouseUp">
-                                                                                                            <EventTrigger.Actions>
-                                                                                                                <BeginStoryboard>
-                                                                                                                    <Storyboard Duration="00:00:01">
-                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                        </Storyboard>
+                                                                                                                    </BeginStoryboard>
+                                                                                                                </EventTrigger.Actions>
+                                                                                                            </EventTrigger>
+                                                                                                            <EventTrigger RoutedEvent="MouseUp">
+                                                                                                                <EventTrigger.Actions>
+                                                                                                                    <BeginStoryboard>
+                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                    </Storyboard>
-                                                                                                                </BeginStoryboard>
-                                                                                                            </EventTrigger.Actions>
-                                                                                                        </EventTrigger>
-                                                                                                        <EventTrigger RoutedEvent="MouseLeave">
-                                                                                                            <EventTrigger.Actions>
-                                                                                                                <BeginStoryboard>
-                                                                                                                    <Storyboard Duration="00:00:01">
-                                                                                                                        <ColorAnimation Storyboard.TargetProperty="Background.Color" 
+                                                                                                                        </Storyboard>
+                                                                                                                    </BeginStoryboard>
+                                                                                                                </EventTrigger.Actions>
+                                                                                                            </EventTrigger>
+                                                                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                                                                <EventTrigger.Actions>
+                                                                                                                    <BeginStoryboard>
+                                                                                                                        <Storyboard Duration="00:00:01">
+                                                                                                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" 
                                                         Duration="0:0:0.100" To="DimGray" />
-                                                                                                                    </Storyboard>
-                                                                                                                </BeginStoryboard>
-                                                                                                            </EventTrigger.Actions>
-                                                                                                        </EventTrigger>
-                                                                                                    </Border.Triggers>
-                                                                                                </Border>
+                                                                                                                        </Storyboard>
+                                                                                                                    </BeginStoryboard>
+                                                                                                                </EventTrigger.Actions>
+                                                                                                            </EventTrigger>
+                                                                                                        </Border.Triggers>
+                                                                                                    </Border>
 
-                                                                                            </Grid>
-                                                                                        </Canvas>
-                                                                                    </ContentControl.Content>
+                                                                                                </Grid>
+                                                                                            </Canvas>
+                                                                                        </ContentControl.Content>
 
-                                                                                <ContentControl.RenderTransform>
-                                                                                    <RotateTransform CenterX="0" CenterY="150" >
-                                                                                        <RotateTransform.Angle>
-                                                                                            <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
-                                                                                                <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
-                                                                                            </MultiBinding>
-                                                                                        </RotateTransform.Angle>
-                                                                                    </RotateTransform>
-                                                                                </ContentControl.RenderTransform>
+                                                                                        <ContentControl.RenderTransform>
+                                                                                            <RotateTransform CenterX="0" CenterY="150" >
+                                                                                                <RotateTransform.Angle>
+                                                                                                    <MultiBinding Converter="{GD_CommonControl:ValueAngleConverter}">
+                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="End"/>
+                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Minimum"/>
+                                                                                                        <Binding RelativeSource="{RelativeSource  Mode=TemplatedParent}" Path="Maximum"/>
+                                                                                                    </MultiBinding>
+                                                                                                </RotateTransform.Angle>
+                                                                                            </RotateTransform>
+                                                                                        </ContentControl.RenderTransform>
 
-                                                                            </ContentControl>     
-                                                                        </Canvas>
-                                                               
+                                                                                    </ContentControl>
+                                                                                </Canvas>
 
-                                                                                
-                                                                                
-                                                                                
-                                                                                
+
+
+
+
+
+                                                                            </Grid>
+                                                                        </Viewbox>
                                                                     </Grid>
-                                                                    </Viewbox>
-                                                                </Grid>
-                                                            </Border>
+                                                                </Border>
 
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
                                                 </Style>
                                             </GD_CommonControl:CircularRangeSlider.Style>
                                         </GD_CommonControl:CircularRangeSlider>
 
-                                    
+
                                         <TextBox Text="{Binding ElementName=CRangeSlider, Path=Start}"/>
                                         <TextBox Text="{Binding ElementName=CRangeSlider, Path=End}"/>
                                         <Grid>
-                                            
+
 
 
                                         </Grid>
@@ -1159,131 +1159,130 @@ RadiusX="0.5" RadiusY="0.5">
                                                               ToolTip="PopupBox"
                                                               ToolTipService.Placement="Right">
                                             <StackPanel>
-                                                    <Button      Content="1"      Opacity="0.5"      ToolTip="One with custom opacity" Style="{StaticResource SiegCustomButton}"/>
-                                                    <Button      Content="2"      ToolTip="Two" Style="{StaticResource SiegCustomButton_Dark}" />
-                                                    <ToggleButton      Content="3"      ToolTip="Two" Style="{StaticResource GD_MainToggleButton}" />
-                                                    <Button      Content="4"      ToolTip="Three" />
-                                                </StackPanel>
-                                            </materialDesign:PopupBox>
-                                            <Grid>
-                                                <Grid.Triggers>
-                                                    <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
-                                                        <BeginStoryboard >
-                                                            <Storyboard>
-                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                                                                    <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
-                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
-                                                                </DoubleAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
+                                                <Button      Content="1"      Opacity="0.5"      ToolTip="One with custom opacity" Style="{StaticResource SiegCustomButton}"/>
+                                                <Button      Content="2"      ToolTip="Two" Style="{StaticResource SiegCustomButton_Dark}" />
+                                                <ToggleButton      Content="3"      ToolTip="Two" Style="{StaticResource GD_MainToggleButton}" />
+                                                <Button      Content="4"      ToolTip="Three" />
+                                            </StackPanel>
+                                        </materialDesign:PopupBox>
+                                        <Grid>
+                                            <Grid.Triggers>
+                                                <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+                                                    <BeginStoryboard >
+                                                        <Storyboard>
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                                                                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                                                                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
 
-                                                </Grid.Triggers>
-                                                <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF1B3861">
-                                                    <StackPanel>
-                                                        <StackPanel Height="150" Background="White" Orientation="Horizontal">
+                                            </Grid.Triggers>
+                                            <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF1B3861">
+                                                <StackPanel>
+                                                    <StackPanel Height="150" Background="White" Orientation="Horizontal">
 
-                                                            <Button x:Name="ButtonOpenMenu" Content="彈出"
+                                                        <Button x:Name="ButtonOpenMenu" Content="彈出"
                                                                     Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right">
-                                                                <Button.Triggers>
-                                                                    <EventTrigger RoutedEvent="ButtonBase.Click" >
-                                                                        <BeginStoryboard >
-                                                                            <Storyboard>
-                                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                                                                                    <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
-                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
-                                                                                </DoubleAnimationUsingKeyFrames>
-                                                                            </Storyboard>
-                                                                        </BeginStoryboard>
-                                                                    </EventTrigger>
-                                                                </Button.Triggers>
-                                                                
-                                                            </Button>
-                                                            <Button Content="收納"
+                                                            <Button.Triggers>
+                                                                <EventTrigger RoutedEvent="ButtonBase.Click" >
+                                                                    <BeginStoryboard >
+                                                                        <Storyboard>
+                                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                                                                                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                                                                                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+                                                                            </DoubleAnimationUsingKeyFrames>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger>
+                                                            </Button.Triggers>
+
+                                                        </Button>
+                                                        <Button Content="收納"
                                                                 x:Name="ButtonCloseMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" >
-                                                                <Button.Triggers>
-                                                                    <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
-                                                                        <BeginStoryboard>
-                                                                            <Storyboard>
-                                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                                                                                    <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-                                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
-                                                                                </DoubleAnimationUsingKeyFrames>
-                                                                            </Storyboard>
-                                                                        </BeginStoryboard>
-                                                                    </EventTrigger>
-                                                                </Button.Triggers>
-                                                           
-                                                            </Button>
-                                                        </StackPanel>
-                                                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#FF1368BD">
-                                                            <ListViewItem Height="60">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
-                                                                    <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
-                                                                </StackPanel>
-                                                            </ListViewItem>
-                                                            <Border Height="2" Background="Red" Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},Path=ActualWidth}"/>
-                                                            <ListViewItem Height="60">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
-                                                                    <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
-                                                                </StackPanel>
-                                                            </ListViewItem>
-                                                        </ListView>
+                                                            <Button.Triggers>
+                                                                <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                                                                                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                                                                                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
+                                                                            </DoubleAnimationUsingKeyFrames>
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger>
+                                                            </Button.Triggers>
+
+                                                        </Button>
                                                     </StackPanel>
-                                                </Grid>
-
-
+                                                    <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#FF1368BD">
+                                                        <ListViewItem Height="60">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
+                                                            </StackPanel>
+                                                        </ListViewItem>
+                                                        <Border Height="2" Background="Red" Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},Path=ActualWidth}"/>
+                                                        <ListViewItem Height="60">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" Margin="10" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="烘培雞" VerticalAlignment="Center" Margin="20 10"/>
+                                                            </StackPanel>
+                                                        </ListViewItem>
+                                                    </ListView>
+                                                </StackPanel>
                                             </Grid>
-                                    <dxe:ComboBoxEdit  Background="Transparent"  IsPopupOpen="True"  
+
+
+                                        </Grid>
+                                        <dxe:ComboBoxEdit  Background="Transparent"  IsPopupOpen="True"  
                                         ApplyItemTemplateToSelectedItem="True"   
                                         ItemsSource="{StaticResource NewArray}" Width="500"  >
-                                        <dxe:ComboBoxEdit.Resources>
-                                            <Style TargetType="dx:DXBorder" x:Key="PART_Border">
-                                                <Setter Property="Background" Value="Red"/>
-                                            </Style>
-                                        </dxe:ComboBoxEdit.Resources>
-                                        <dxe:ComboBoxEdit.EditTemplate>
-                                            <ControlTemplate>
-                                                <StackPanel Orientation="Vertical">
-                                                    <TextBlock Foreground="White"
+                                            <dxe:ComboBoxEdit.Resources>
+                                                <Style TargetType="dx:DXBorder" x:Key="PART_Border">
+                                                    <Setter Property="Background" Value="Red"/>
+                                                </Style>
+                                            </dxe:ComboBoxEdit.Resources>
+                                            <dxe:ComboBoxEdit.EditTemplate>
+                                                <ControlTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Foreground="White"
                                                         Text="{Binding Path=(dxe:BaseEdit.OwnerEdit).EditValue.StampingTypeString, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
-                                                    <TextBlock Text=" - "  Foreground="Black"/>
-                                                    <TextBlock Foreground="Black"
+                                                        <TextBlock Text=" - "  Foreground="Black"/>
+                                                        <TextBlock Foreground="Black"
                                                         Text="{Binding Path=(dxe:BaseEdit.OwnerEdit).SelectedItem.StampingTypeNumber, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
-                                                </StackPanel>
-                                            </ControlTemplate>
-                                        </dxe:ComboBoxEdit.EditTemplate>
+                                                    </StackPanel>
+                                                </ControlTemplate>
+                                            </dxe:ComboBoxEdit.EditTemplate>
 
 
-                                        <dxe:ComboBoxEdit.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding StampingTypeString}" FontSize="18"/>
-                                                    <TextBlock Text="{Binding StampingTypeNumber}"  FontSize="12"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </dxe:ComboBoxEdit.ItemTemplate>
-                                    </dxe:ComboBoxEdit>
+                                            <dxe:ComboBoxEdit.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding StampingTypeString}" FontSize="18"/>
+                                                        <TextBlock Text="{Binding StampingTypeNumber}"  FontSize="12"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </dxe:ComboBoxEdit.ItemTemplate>
+                                        </dxe:ComboBoxEdit>
                                         <TabControl 
               materialDesign:ShadowAssist.ShadowEdges="Bottom" materialDesign:ElevationAssist.Elevation="Dp5"
                     materialDesign:ColorZoneAssist.Background="{DynamicResource PrimaryHueDarkBrush}"
                     materialDesign:ColorZoneAssist.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                     materialDesign:ColorZoneAssist.Mode="Custom" TabStripPlacement="Top" 
                     Style="{StaticResource MaterialDesignFilledTabControl}" Background="Transparent" HorizontalContentAlignment="Left">
-                                        <TabItem Style="{StaticResource MaterialDesignTabItem}" 
+                                            <TabItem Style="{StaticResource MaterialDesignTabItem}" 
                          Header="{DynamicResource TabItem_MachiningStatus}" >
-                                        </TabItem>
-                                    </TabControl>
+                                            </TabItem>
+                                        </TabControl>
                                         <materialDesign:ColorPicker >
-                                            
+
                                         </materialDesign:ColorPicker>
-                                    
-                                    
-                                    
-                                </StackPanel>
-                                    <GD_UserControls:MachineFunctionTestUserControl Grid.Column="1" />
+
+
+
+                                    </StackPanel>
 
                                 </Grid>
                                 </TabItem>

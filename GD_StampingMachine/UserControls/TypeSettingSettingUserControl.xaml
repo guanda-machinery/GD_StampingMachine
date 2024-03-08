@@ -29,11 +29,6 @@
              d:DataContext="{d:DesignInstance Type=GD_ViewModels:TypeSettingSettingViewModel}"
              Name="TypeSettingSettingUC"
              >
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction  Command="{Binding ProjectDistributeVM.ReloadTypeSettingSettingsCommand}" PassEventArgsToCommand="True" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Grid >
 
 
@@ -307,7 +302,6 @@
                                 Name="AddTypeSettingProjectDraggablePopup"
                                 Placement="Relative" PlacementTarget="{Binding ElementName=btnAddProjectToggleButton}" PopupAnimation="Fade" 
                                 AllowsTransparency="True" Margin="16"  IsOpen="{Binding AddTypeSettingProjectDarggableIsPopUp}"
-                                OpenedCommand="{Binding ReloadTypeSettingSettingsCommand}"
                                 >
 
 
@@ -399,9 +393,9 @@
                                                     <dxg:GridColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="/" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.Count}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.Count}" VerticalAlignment="Center"/>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </dxg:GridColumn.CellTemplate>
@@ -486,9 +480,9 @@
                                                                  AutoGenerateColumns="None" 
                                               Name="ReadyToTypeSettingProductProjectGridControl"
                                               CurrentItem="{Binding ReadyToTypeSettingProductProjectVMCurrentItem}"
-                                                                 SelectedItem="{Binding ReadyToTypeSettingProductProjectVMSelected}"
-                                                                 ItemsSource="{Binding ReadyToTypeSettingProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                 MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
+                                              SelectedItem="{Binding ReadyToTypeSettingProductProjectVMSelected}"
+                                              ItemsSource="{Binding ReadyToTypeSettingProductProjectVMObservableCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectedItemChanged">
                                         <i:InvokeCommandAction Command="{Binding ReadyToTypeSettingProductProjectVMSelectedChangedCommand}" 
@@ -534,7 +528,6 @@
                                         <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                                     </dxg:GridColumn.EditSettings>
                                 </dxg:GridColumn>
-
                                 <dxg:GridColumn  HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
@@ -542,14 +535,13 @@
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
                                 </dxg:GridColumn>
-
                                 <dxg:GridColumn HorizontalHeaderContentAlignment="Left"  Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.NotAssignedProductProjectCount}" VerticalAlignment="Center"/>
                                                 <TextBlock Text="/" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding Row.PartsParameterVMCollection.Count}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Row.PartsParameterVMObservableCollection.Count}" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
@@ -570,7 +562,8 @@
                                                                         Content="{DynamicResource btnClose}"  >
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Row.CloseTypeSettingCommand}" CommandParameter="{Binding ElementName=ProjectDistributeMainBorder, Path=DataContext}">
+                                                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=dxg:GridControl, Mode=FindAncestor}, 
+                                                           Path= DataContext.CloseTypeSettingCommand}" CommandParameter="{Binding Row}">
                                                             <!--  <i:InvokeCommandAction.CommandParameter>
                                                                 <MultiBinding Converter="{GD_CommonControl:MultiBindingToArrayValueConverter}">
                                                                     <MultiBinding.Bindings>
@@ -596,7 +589,7 @@
                                          Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="Row"
                                          AutoGenerateColumns="None"
-                                         ItemsSource="{Binding PartsParameterVMCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         ItemsSource="{Binding PartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"   >
                             <dxg:GridControl.View >
                                 <!--RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"-->
@@ -779,7 +772,7 @@
                             </Grid.RowDefinitions>
                             <ScrollViewer Grid.RowSpan="2">
                                 <ListBox Style="{StaticResource SeparateBoxVMListBox}"
-                                         ItemsSource="{Binding StampingBoxPartsVM.SeparateBoxVMCollection}"  
+                                         ItemsSource="{Binding StampingBoxPartsVM.SeparateBoxVMObservableCollection}"  
                                          SelectedItem="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM}">
                                     <dxmvvm:Interaction.Behaviors>
                                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>

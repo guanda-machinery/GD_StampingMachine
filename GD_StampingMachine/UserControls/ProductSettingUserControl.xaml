@@ -453,7 +453,7 @@
                     </dxg:GridColumn>
 
                     <dxg:GridColumn  Header="{DynamicResource Text_Form}"   FieldName="SheetStampingTypeForm" 
-                                             Binding="{Binding SheetStampingTypeForm, Converter={GD_CommonControl:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
+                                             Binding="{Binding Row.SheetStampingTypeForm, Converter={GD_CommonControl:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
                                  Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
@@ -481,17 +481,19 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid Height="auto" Margin="2,5">
-                                    <ProgressBar Value="{Binding Row.PartsParameterVMCollection.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
-                                             BorderThickness="0" 
-                                             Height="auto" Minimum="0" Maximum="100" Background="White" >
-                                        <ProgressBar.Foreground>
-                                            <Binding Path="Row.ProductProjectFinishProcessing" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
-                                        </ProgressBar.Foreground>
+                                    <ProgressBar 
+                                        Value="{Binding Row.PartsParameterVMObservableCollection.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
+                                             BorderThickness="0"  Foreground="DeepSkyBlue"
+                                             Height="auto" Minimum="0" Maximum="100" Background="White">
+
+                                        <!-- <ProgressBar.Foreground>
+                                        <Binding Path="Row.ProductProjectFinishProcessing" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
+                                        </ProgressBar.Foreground>-->
                                     </ProgressBar>
 
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >
                                         <TextBlock Foreground="Black"
-                                        Text="{CalcB:Binding Row.PartsParameterVMCollection.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
+                                        Text="{CalcB:Binding Row.PartsParameterVMObservableCollection.FinishProgress/100 ,UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:P1}}"  />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -549,8 +551,8 @@
                                     <Button  MinWidth="50" Padding="5,2"   Margin="5,0" ToolTip="{DynamicResource btnDelete}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" />
-                                                <i:InvokeCommandAction Command="{Binding ElementName=MainGrid ,Path=DataContext.SaveProductListSettingCommand}" />
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl},Path=DataContext.DeleteProducCommand}" CommandParameter="{Binding Row}" />
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl},Path=DataContext.SaveProductListSettingCommand}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <Button.Style>
@@ -1410,7 +1412,7 @@
                 <dxg:GridControl x:Name="ProjectGridControl"    
                              
                                       Background="Transparent"
-                                      ItemsSource="{Binding PartsParameterVMCollection, Mode=TwoWay, 
+                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, 
                     UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                       DataAreaBackground="Transparent" 
                                       Style="{StaticResource ProjectGridControl}"
@@ -1434,16 +1436,13 @@
                                                    PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="SizeChanged">
-                                <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
+                            <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
                                                    PassEventArgsToCommand="True" />
-                            </i:EventTrigger>
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    
-
                     <dxg:GridControl.View >
                         <dxg:TableView    
                                 SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}"
-
                                 AllowPaging="True"
                                 IsColumnMenuEnabled ="False"
                                 AllowSorting="false"
@@ -1563,9 +1562,12 @@
                                             </Style>
                                         </ToggleButton.Style>
                                         <Grid>
-                                            <GD_SchematicDiagram:QRPlateRowDiagramControl   
-                            DataContext="{Binding Row.SettingBaseVM}" RedMeasurementLineVisibility="Collapsed" >
-                                            </GD_SchematicDiagram:QRPlateRowDiagramControl>
+
+                                            <Viewbox>
+                                                <GD_SchematicDiagram:QRPlateRowDiagramControl   
+                            DataContext="{Binding Row.SettingBaseVM, IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                                                </GD_SchematicDiagram:QRPlateRowDiagramControl>
+                                            </Viewbox>
                                         </Grid>
                                     </ToggleButton>
 
@@ -1599,9 +1601,6 @@
                                     <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
                                              BorderThickness="0" 
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
-                                        <ProgressBar.Foreground>
-                                            <Binding Path="Row.FinishProgress" Converter="{GD_CommonControl:HundredDoubleToSolidBrushConverter}" FallbackValue="{StaticResource clr_DarkRed}"/>
-                                        </ProgressBar.Foreground>
                                     </ProgressBar>
 
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" >

@@ -75,8 +75,9 @@ namespace GD_StampingMachine.ViewModels
                     NewProjectDistribute.CreatedDate = DateTime.Now;
                     var Clone = NewProjectDistribute.DeepCloneByJson();
 
-                    ProjectDistributeViewModel NewProjectDistributeVM = new(NewProjectDistribute,
-                        ProductSettingVM.ProductProjectVMObservableCollection,
+                    ProjectDistributeViewModel NewProjectDistributeVM = new(
+                        NewProjectDistribute,
+                        ProductSettingVM.ProductProjectVMObservableCollection, 
                         ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection);
 
                     ProjectDistributeVMObservableCollection.Add(NewProjectDistributeVM);
@@ -152,6 +153,8 @@ namespace GD_StampingMachine.ViewModels
 
 
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeSelectedItems { get; set; } = new();
+       
+        
         /// <summary>
         /// 全加工專案
         /// </summary>

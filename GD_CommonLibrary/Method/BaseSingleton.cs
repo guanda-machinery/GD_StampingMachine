@@ -11,7 +11,7 @@ namespace GD_CommonLibrary
 
         private static readonly Lazy<T> Lazy = new(() => (Activator.CreateInstance(typeof(T), true) as T)!);
         private static readonly object thisLock = new();
-        private static T _instance;
+        private static T? _instance;
         private bool disposedValue;
 
         public static T Instance

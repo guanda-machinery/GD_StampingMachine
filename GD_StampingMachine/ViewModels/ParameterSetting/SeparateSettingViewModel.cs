@@ -67,7 +67,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
                 foreach (var obj in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                 {
-                    obj.StampingBoxPartsVM.SeparateBoxVMCollection = value;
+                    obj.StampingBoxPartsVM.SeparateBoxVMObservableCollection = value;
                 }
                 OnPropertyChanged();
             }

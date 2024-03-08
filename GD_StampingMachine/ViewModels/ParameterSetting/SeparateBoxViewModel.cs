@@ -263,14 +263,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             else
             {
                 var op  = new SeparateBoxExtViewModelObservableCollection();
-
                 foreach(var item in v)
                 {
                     op.Add(new SeparateBoxExtViewModel(item));
                 }
                 return op;
             }
-
         }
     }
 

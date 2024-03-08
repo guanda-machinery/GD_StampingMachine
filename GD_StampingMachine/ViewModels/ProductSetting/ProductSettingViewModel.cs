@@ -98,9 +98,33 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _productProjectVMObservableCollection = value;
-                OnPropertyChanged(nameof(ProductProjectVMObservableCollection));
+                OnPropertyChanged();
             }
         }
+
+        public ICommand _deleteProducCommand;
+        public ICommand DeleteProducCommand
+        {
+            get => _deleteProducCommand ??= new RelayCommand<object>(obj =>
+            {
+                if(obj is ProductProjectViewModel productProjectVM)
+                {
+                    if (ProductProjectVMObservableCollection.Contains(productProjectVM))
+                    {
+
+                        ProductProjectVMObservableCollection.Remove(productProjectVM);
+                    }
+                }
+
+              //  ProductProjectVMObservableCollection.Remove();
+            });
+        }
+
+
+
+
+
+
 
         [JsonIgnore]
         public ICommand SetProjectFolder

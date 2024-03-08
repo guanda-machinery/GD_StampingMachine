@@ -42,12 +42,21 @@ namespace GD_StampingMachine.ViewModels
         public MachineMonitorViewModel()
         {
             StampingMachineSingleton.Instance.SelectedProjectDistributeVMChanged += Instance_SelectedProjectDistributeVMChanged;
-
         }
 
-        private void Instance_SelectedProjectDistributeVMChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
+        private void Instance_SelectedProjectDistributeVMChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel> e)
         {
+            if (SelectedProjectDistributeVM != null)
+                SelectedProjectDistributeVM.StampingBoxPartsVM.StateChanged -= StampingBoxPartsVM_StateChanged;
+
             SelectedProjectDistributeVM = e.NewValue;
+            if(SelectedProjectDistributeVM!=null)
+                SelectedProjectDistributeVM.StampingBoxPartsVM.StateChanged += StampingBoxPartsVM_StateChanged;
+        }
+
+        private void StampingBoxPartsVM_StateChanged(object? sender, EventArgs e)
+        {
+            RefreshBoxPartsParameterVMRowFilter();
         }
 
         readonly StampMachineDataSingleton StampMachineData = GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance;
@@ -63,7 +72,8 @@ namespace GD_StampingMachine.ViewModels
         public double StampWidth { get; set; } = 50;
 
 
-        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMCollection => StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection;
+        public ObservableCollection<PartsParameterViewModel> BoxPartsParameterVMCollection
+            => StampingMachineSingleton.Instance.SelectedProjectDistributeVM?.StampingBoxPartsVM.BoxPartsParameterVMCollection;
 
         private ProjectDistributeViewModel? _selectedProjectDistributeVM;
         public ProjectDistributeViewModel? SelectedProjectDistributeVM 
@@ -178,12 +188,6 @@ namespace GD_StampingMachine.ViewModels
 
                 try
                 {
-                    //當剪切壓下時 將第一根設定為完成
-
-                    //當第一片的id變化時 將上一片設定為完成
-                    // _ = MonitorFirstIronPlateAsync(() => StampMachineData.FirstIronPlateID, cts);
-                    // _ = MonitorLastIronPlateAsync(() => StampMachineData.LastIronPlateID, cts);
-
                     StampMachineData.FirstIronPlateIDChanged += StampMachineData_FirstIronPlateIDChanged;
                     StampMachineData.LastIronPlateIDChanged += StampMachineData_LastIronPlateIDChanged;
                     StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
@@ -322,10 +326,10 @@ namespace GD_StampingMachine.ViewModels
                                  //所有排版專案
                                  /*foreach (var productProject in StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection)
                                  {
-                                     allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMCollection);
+                                     allBoxPartsParameterViewModel.AddRange(productProject.PartsParameterVMObservableCollection);
                                  }*/
                                  var allBoxPartsParameterViewModel = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMObservableCollection
-                                 .SelectMany(productProject => productProject.PartsParameterVMCollection);
+                                 .SelectMany(productProject => productProject.PartsParameterVMObservableCollection);
 
                                  HashSet<int> existingIds = new(allBoxPartsParameterViewModel.Select(x => x.ID));
                                  int hashGuid = 0;
@@ -452,7 +456,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private void StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
+        private void StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
         {
 
             try
@@ -850,7 +854,7 @@ namespace GD_StampingMachine.ViewModels
 
 
 
-        private void StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
+        private void StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<bool> e)
         {
             //等待值
             try
@@ -917,7 +921,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StampMachineData_FirstIronPlateIDChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<int> e)
+        private void StampMachineData_FirstIronPlateIDChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<int> e)
         {
 
             try
@@ -947,7 +951,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StampMachineData_LastIronPlateIDChanged(object sender, GD_CommonLibrary.ValueChangedEventArgs<int> e)
+        private void StampMachineData_LastIronPlateIDChanged(object? sender, GD_CommonLibrary.ValueChangedEventArgs<int> e)
         {
             try
             {
@@ -1175,7 +1179,7 @@ namespace GD_StampingMachine.ViewModels
                             var workableData = new List<PartsParameterViewModel>();
 
                             var BoxCapacityDict = SelectedProjectDistributeVM.StampingBoxPartsVM
-                            .SeparateBoxVMCollection
+                            .SeparateBoxVMObservableCollection
                             .Where(box => box.BoxIsEnabled)
                             .ToDictionary(box => box.BoxIndex, box => box.BoxSliderValue - box.UnTransportedBoxPieceValue);
 
@@ -1237,7 +1241,8 @@ namespace GD_StampingMachine.ViewModels
 
                 //OnPropertyChanged(nameof(CustomColumnSortByWorkIndex));
                 RefreshBoxPartsParameterVMRowFilter();
-                await SelectedProjectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
+                if(SelectedProjectDistributeVM!=null)
+                    await SelectedProjectDistributeVM.SaveProductProjectVMObservableCollectionAsync();
 
             }, e=> !ArrangeWorkCommand.IsRunning);
         }
@@ -1320,12 +1325,14 @@ namespace GD_StampingMachine.ViewModels
 
         public void RefreshBoxPartsParameterVMRowFilter()
         {
-            OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+            Application.Current.Dispatcher.Invoke(() =>
+            OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand))
+            );
         }
 
-
+        //private DevExpress.Mvvm.DelegateCommand<RowFilterArgs> _boxPartsParameterVMRowFilterCommand;
         [JsonIgnore]
-        public ICommand BoxPartsParameterVMRowFilterCommand
+        public DevExpress.Mvvm.DelegateCommand<RowFilterArgs> BoxPartsParameterVMRowFilterCommand
         {
             get => new DevExpress.Mvvm.DelegateCommand<RowFilterArgs>(args =>
             {

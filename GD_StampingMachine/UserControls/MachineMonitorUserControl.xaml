@@ -343,7 +343,7 @@
                                                 Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
                                  ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                                                Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
+                                                Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection }"
                                >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView   
@@ -411,7 +411,7 @@
                                                     <DataTemplate>
 
                                                         <Grid DataContext="{Binding Row}">
-                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl   DataContext="{Binding SettingBaseVM}"   IsEnabled="False"
+                                                            <GD_SchematicDiagram:QRPlateRowDiagramControl   DataContext="{Binding SettingBaseVM , IsAsync=True}"   IsEnabled="False"
                                                                       RedMeasurementLineVisibility="Collapsed" >
                                                             </GD_SchematicDiagram:QRPlateRowDiagramControl>
                                                         </Grid>
@@ -515,6 +515,12 @@
                                                         <TextBlock Text="ALL" Padding="5,2,0,0" />
                                                     </StackPanel>
                                                 </Button>
+
+                                            <ToggleButton Name="TestToggle"  Style="{StaticResource GD_ToggleButton_Gray}"
+                                                Content="Test" Visibility="{Binding IsDebuggerAttached , Converter={dx:BooleanToVisibilityConverter}}">
+                                                
+                                            </ToggleButton>
+                                            
 
                                             </StackPanel>
                                         <dxg:GridControl Grid.Row="2"  
@@ -689,7 +695,7 @@
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
 
-                                                <dxg:GridColumn Visible="False"
+                                            <dxg:GridColumn Visible="{Binding ElementName=TestToggle,Path=IsChecked}"
                                                     HorizontalHeaderContentAlignment="Left"  Header="IsFinish"   FieldName="IsTransported"
                                                                    AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
@@ -701,7 +707,7 @@
                                                         </DataTemplate>
                                                     </dxg:GridColumn.CellTemplate>
                                                 </dxg:GridColumn>
-                                            <dxg:GridColumn  Visible="False"
+                                            <dxg:GridColumn   Visible="{Binding ElementName=TestToggle,Path=IsChecked}"
                                                     HorizontalHeaderContentAlignment="Left"  Header="IsTransported"   FieldName="IsTransported"
                                                                    AllowEditing="true"
                                                          Width="auto" AllowMoving="false"  IsSmart="True">
@@ -1065,7 +1071,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
 
                             <MultiBinding Converter="{GD_CommonControl:MultiCollectionSelectorConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMCollection"/>
+                                    <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection"/>
                                     <Binding Source="{x:Static GD_Singletons:StampingMachineSingleton.Instance}" Path="ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection"/>
                                 </MultiBinding.Bindings>
                             </MultiBinding>
@@ -1094,7 +1100,6 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
             Grid.Column="1"
             IsEnabled="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM, Converter={GD_CommonControl:ObjectIsNullToBooleanConverter Invert=True}}"
             Margin="10,0"
-                       
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
                Background="Transparent"   MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"

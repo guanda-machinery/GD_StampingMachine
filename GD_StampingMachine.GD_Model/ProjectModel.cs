@@ -17,14 +17,5 @@
 
 
 
-        /* public static implicit operator ProjectModel(ProductProjectViewModel v)
-         {
-             return new ProjectModel
-             {
-                 Name = v.ProductProjectName,
-                 ProjectPath = v.ProductProjectPath,
-                 Number = v.ProductProjectNumber,
-             };
-         }*/
     }
 }

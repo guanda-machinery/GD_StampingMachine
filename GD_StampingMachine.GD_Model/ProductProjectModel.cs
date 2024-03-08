@@ -3,6 +3,7 @@ using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.GD_Model.ProductionSetting;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GD_StampingMachine.GD_Model
 {
