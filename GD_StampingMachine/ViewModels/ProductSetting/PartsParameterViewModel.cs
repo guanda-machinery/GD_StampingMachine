@@ -217,8 +217,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.IronPlateString = value;
                 SettingBaseVM.PlateNumber = value;
                 OnPropertyChanged();
+
+                ParameterAChanged?.Invoke(this, value);
             }
         }
+
+        public event EventHandler<string>? ParameterAChanged;
+
+
         /*public string ParameterB
         {
             get => PartsParameter.ParamB;
@@ -236,8 +242,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.QrCodeContent = value;
                 SettingBaseVM.QrCodeContent = value;
                 OnPropertyChanged(nameof(ParameterC));
+                ParameterCChanged?.Invoke(this, value);
             }
         }
+        public event EventHandler<string>? ParameterCChanged;
 
         /*public string IronPlateString
         { 
@@ -272,8 +280,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 PartsParameter.QR_Special_Text = value;
                 SettingBaseVM.QR_Special_Text = value;
                 OnPropertyChanged();
+                QR_Special_TextChanged?.Invoke(this, value);
             }
         }
+        public event EventHandler<string>? QR_Special_TextChanged;
+
+
+
 
         /*public MachiningStatusEnum MachiningStatus
         {

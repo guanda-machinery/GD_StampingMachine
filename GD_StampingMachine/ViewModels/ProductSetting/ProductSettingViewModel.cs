@@ -74,8 +74,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         value = value.Replace(@".", @".");
                     }
                 }
-
-
                 CreatedProjectVM.ProductProjectPath = value;
                 OnPropertyChanged(nameof(ProjectPathText));
             }
@@ -85,7 +83,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        private ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
+        private ObservableCollection<ProductProjectViewModel>? _productProjectVMObservableCollection;
         /// <summary>
         /// 排版專案
         /// </summary>
@@ -102,7 +100,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        public ICommand _deleteProducCommand;
+        public ICommand? _deleteProducCommand;
         public ICommand DeleteProducCommand
         {
             get => _deleteProducCommand ??= new RelayCommand<object>(obj =>

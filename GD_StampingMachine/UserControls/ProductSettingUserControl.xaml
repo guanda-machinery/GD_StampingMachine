@@ -453,7 +453,7 @@
                     </dxg:GridColumn>
 
                     <dxg:GridColumn  Header="{DynamicResource Text_Form}"   FieldName="SheetStampingTypeForm" 
-                                             Binding="{Binding Row.SheetStampingTypeForm, Converter={GD_CommonControl:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
+                                             Binding="{Binding SheetStampingTypeForm, Converter={GD_CommonControl:EnumGetNameConverter}, ConverterParameter={x:Type GD_Enum:SheetStampingTypeFormEnum}}" 
                                  Width="auto" HorizontalHeaderContentAlignment="Center"  IsSmart="True">
                         <dxg:GridColumn.EditSettings>
                             <dxe:TextEditSettings HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
@@ -863,49 +863,31 @@
                                     <TextBlock Grid.Column="2" Grid.Row="7" Text="：" VerticalAlignment="Center"/>
 
 
-                                    <TextBox Grid.Column="3" Grid.Row="1"  Width="200" Margin="0"  
+                                    <TextBox Grid.Column="3" Grid.Row="1"  Width="210" Margin="0"  
                                                  Text="{Binding EditPartsParameterVM_Cloned.ParameterA, UpdateSourceTrigger=PropertyChanged}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+
                                     </TextBox>
 
-                                    <TextBox Grid.Column="3" Grid.Row="2"  Width="200" Margin="0"  
+                                    <TextBox Grid.Column="3" Grid.Row="2"  Width="210" Margin="0"  
                                               Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding EditPartsParameterVM_Cloned.ParameterC, UpdateSourceTrigger=PropertyChanged}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+
                                     </TextBox>
 
-                                    <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
+                                    <TextBox Grid.Column="3" Grid.Row="3"  Width="210" Margin="0"  
                                        Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
                                                  Text="{Binding EditPartsParameterVM_Cloned.QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
                                     </TextBox>
 
-                                    <TextBox Grid.Column="3" Grid.Row="4"  Width="200" Margin="0"  
+                                    <TextBox Grid.Column="3" Grid.Row="4"  Width="210" Margin="0"  
                                                  Text="{Binding EditPartsParameterVM_Cloned.ParameterA, UpdateSourceTrigger=PropertyChanged}" >
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
                                         <!--<TextBox.InputBindings>
                                             <KeyBinding Command="{Binding Path=EditPartsParameterVM_ClonedParameter}" />
                                         </TextBox.InputBindings>-->
                                     </TextBox>
 
-                                    
-                                    <TextBox Grid.Column="3" Grid.Row="6" 
+
+                                    <TextBox Grid.Column="3" Grid.Row="6"  Width="210"
                                                  Text="{Binding  EditPartsParameterVM_Cloned.ParameterC,UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewKeyUp">
@@ -915,10 +897,11 @@
                                     </TextBox>
 
                                     <ComboBox MaxDropDownHeight="275"           
-                                        Margin="10,0" Padding="0" Width="200" Text="123"
+                                        Margin="10,0" Padding="0" Width="210" Text="123"
                                             Grid.Column="3" Grid.Row="7" 
-                                              ItemsSource="{Binding EditNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem ="{Binding EditPartsParameterVM_Cloned.SettingBaseVM,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                              ItemsSource="{Binding EditNumberSettingSavedCollection}"
+                                              SelectedItem ="{Binding EditPartsParameterVM_Cloned.SettingBaseVM,
+                                        Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.Style>
                                             <Style TargetType="ComboBox" BasedOn="{StaticResource GD_WhiteComboBox}">
                                                 <Setter Property="ItemTemplate">
@@ -1073,25 +1056,26 @@
 
 
 
-                                    <TextBox Grid.Column="3" Grid.Row="1"  Width="200" Margin="0"  
-                                                 Text="{Binding AddNewPartsParameterVM_ParameterA, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox Grid.Column="3" Grid.Row="1"  Width="210" Margin="0"  
+                                                 Text="{Binding AddNewPartsParameterVM.ParameterA, UpdateSourceTrigger=PropertyChanged}">
 
                                     </TextBox>
 
-                                    <TextBox Grid.Column="3" Grid.Row="2"   Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
-                                                 Text="{Binding  AddNewPartsParameterVM_ParameterC,UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox Grid.Column="3" Grid.Row="2"     Width="210"
+                                             Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
+                                                 Text="{Binding  AddNewPartsParameterVM.ParameterC,UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
 
-                                    <TextBox Grid.Column="3" Grid.Row="3"  Width="200" Margin="0"  
+                                    <TextBox Grid.Column="3" Grid.Row="3"  Width="210" Margin="0"  
                                        Visibility="{Binding SheetStampingTypeForm,Converter={GD_CommonControl:ObjectIsEqualToVisibilityConverter} , ConverterParameter={x:Static GD_Enum:SheetStampingTypeFormEnum.QRSheetStamping}}"
-                                                 Text="{Binding AddNewPartsParameterVM_QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
+                                                 Text="{Binding AddNewPartsParameterVM.QR_Special_Text, UpdateSourceTrigger=PropertyChanged}">
                                     </TextBox>
                                     
 
 
 
-                                    <ComboBox  Name="AddNewPartsSettingBaseVMComboBox"
-                                        Margin="10,0" Padding="0" Width="200" Text="123"  
+                                    <ComboBox  Name="AddNewPartsSettingBaseVMComboBox" 
+                                        Margin="10,0" Padding="0" Width="210" Text="123"  
                                             Grid.Column="3" Grid.Row="4"   MaxDropDownHeight="275" 
                                               ItemsSource="{Binding AddNumberSettingSavedCollection, UpdateSourceTrigger=PropertyChanged}" 
                                               SelectedItem="{Binding AddNewPartsParameterVM.SettingBaseVM ,UpdateSourceTrigger=PropertyChanged}">
@@ -1109,7 +1093,7 @@
                                                                     <TextBlock Text="{Binding NumberSettingMode}" Foreground="{DynamicResource DarkHueDarkBrush}"/>
                                                                     <GD_SchematicDiagram:QRPlateRowDiagramControl     Grid.Row="1"
                                                                         IsEnabled="False"
-                                                                        DataContext="{Binding IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
+                                                                        DataContext="{Binding IsAsync=True,UpdateSourceTrigger=PropertyChanged}" RedMeasurementLineVisibility="Collapsed" >
                                                                         <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
                                                                             <TransformGroup>
                                                                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -1130,7 +1114,7 @@
                                         VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Grid.Row="5" Grid.Column="3" IsChecked="{Binding AddNewPartsParameterVM.SettingBaseVM.DashAutoWrapping}" IsThreeState="False"
                                               Margin="10,0"/>
-                                    <TextBox  Text="{Binding AddNewPartsCount, UpdateSourceTrigger=PropertyChanged}"
+                                    <TextBox  Text="{Binding AddNewPartsCount, UpdateSourceTrigger=PropertyChanged}"  Width="210"
                                         VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Grid.Row="6" Grid.Column="3" 
                                               Margin="10,0"/>

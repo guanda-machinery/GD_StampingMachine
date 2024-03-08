@@ -293,7 +293,6 @@ namespace GD_StampingMachine.ViewModels
             get 
             { 
                 _productProjectVMObservableCollection ??= new ObservableCollection<ProductProjectViewModel>();
-              
                 _productProjectVMObservableCollection.CollectionChanged -= _productProjectVMObservableCollection_CollectionChanged;
                 _productProjectVMObservableCollection.CollectionChanged += _productProjectVMObservableCollection_CollectionChanged;
                 return _productProjectVMObservableCollection;
@@ -306,7 +305,6 @@ namespace GD_StampingMachine.ViewModels
                 {
                     _productProjectVMObservableCollection.CollectionChanged -= _productProjectVMObservableCollection_CollectionChanged;
                     _productProjectVMObservableCollection.CollectionChanged += _productProjectVMObservableCollection_CollectionChanged;
-
                     foreach (var item in _productProjectVMObservableCollection)
                     {
                         item.PartsParameterVMObservableCollection.CollectionChanged -= selectProductProjectPartsParameterVMObservableCollection_CollectionChanged;

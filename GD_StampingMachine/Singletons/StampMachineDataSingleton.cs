@@ -1182,8 +1182,6 @@ namespace GD_StampingMachine.Singletons
                                         
                                         
 
-
-
                                         //切割位置
                                         await SubscribeHydraulicCutting_Position_CutPointAsync(value =>
                                         {

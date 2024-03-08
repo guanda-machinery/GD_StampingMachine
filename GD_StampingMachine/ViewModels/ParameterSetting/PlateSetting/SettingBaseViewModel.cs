@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.Bars;
 using GD_CommonControlLibrary;
 using GD_StampingMachine.GD_Enum;
 using GD_StampingMachine.Model;
@@ -233,6 +234,13 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 OnPropertyChanged();
             }
         }
+        /*public void UpdatePlateNumberFunc(Func<string> parameterA)
+        {
+            PlateNumber = parameterA(); ;
+        }*/
+
+
+
 
 
         /// <summary>

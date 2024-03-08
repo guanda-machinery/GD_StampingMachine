@@ -30,13 +30,16 @@
              Name="TypeSettingSettingUC"
              >
     <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="167*"/>
+        </Grid.ColumnDefinitions>
 
 
-        <Border Name="ProjectDistributeListBorder" Visibility="{Binding ProjectDistributeVM.IsInDistributePage, Converter={dx:BooleanToVisibilityConverter Invert=True}}"
-                    Grid.Column="1" Grid.Row="1" Margin="0,10"
+        <Border Name="ProjectDistributeListBorder" Visibility="{Binding ProjectDistributeVM.IsInDistributePage, Converter={dx:BooleanToVisibilityConverter Invert=True}}" Margin="0,10,0,10"
                                                      Background="Transparent" 
                                                      BorderThickness="0" 
-                                                     BorderBrush="#595E60" >
+                                                     BorderBrush="#595E60" Grid.ColumnSpan="2" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -134,7 +137,7 @@
                         </Border>
                     </GD_Popup:DraggablePopup>
                 </StackPanel>
-                
+
                 <dxg:GridControl  Grid.Row="1" 
                                   x:Name="ProjectDistributeGridControl"
                                   VerticalAlignment="Top"
@@ -183,24 +186,24 @@
 
 
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_TypeSettingProjectName}"   FieldName="ProjectDistributeName" MinWidth="150"   IsSmart="True">
-                    <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
-                    </dxg:GridColumn.EditSettings>
-                </dxg:GridColumn>
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
 
 
 
 
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_CreateTime}" FieldName="CreatedDate" MinWidth="150" AllowMoving="false"  IsSmart="True">
-                    <dxg:GridColumn.EditSettings>
-                        <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
-                    </dxg:GridColumn.EditSettings>
-                </dxg:GridColumn>
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
                     <dxg:GridColumn  HorizontalHeaderContentAlignment="Center"  Header="{DynamicResource Text_EditTime}" FieldName="EditDate" MinWidth="150" AllowMoving="false"  IsSmart="True">
-                    <dxg:GridColumn.EditSettings>
-                        <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
-                    </dxg:GridColumn.EditSettings>
-                </dxg:GridColumn>
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:DateEditSettings Mask="yyyy/MM/dd HH:mm"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
 
 
 
@@ -209,13 +212,13 @@
         </Border>
 
         <Border Name="ProjectDistributeMainBorder" DataContext="{Binding ProjectDistributeVM}" Visibility="{Binding ElementName=ProjectDistributeListBorder,Path=Visibility, Converter={dx:VisibilityInverseConverter}}"
-                    Margin="0,10" 
+                    Margin="0,10,0,10" 
                                              Background="Transparent" 
                  BorderThickness="0" 
-                 BorderBrush="#595E60" >
+                 BorderBrush="#595E60" Grid.ColumnSpan="2" >
 
 
-                    <Grid>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*"/>
@@ -230,16 +233,16 @@
                     Text="{Binding ProjectDistributeName}" 
                     Name="ProjectDistributeNameTextBlock" HorizontalAlignment="Left" Padding="0,3,0,0"
                                Margin="10,0" FontSize="30"/>
-                <StackPanel Grid.Column="1"
+                    <StackPanel Grid.Column="1"
                     Margin="5,0"
                     Orientation="Horizontal" >
-                    <Button Command="{Binding ProjectGridControlInsertToBoxCommand}"
+                        <Button Command="{Binding ProjectGridControlInsertToBoxCommand}"
                             Padding="5" Margin="5" >
-                        <StackPanel Orientation="Horizontal">
-                            <Image VerticalAlignment="Center" Margin="2,0">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image VerticalAlignment="Center" Margin="2,0">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{StaticResource Arrow_Down_WhiteDrawingImage}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
                                                     <Setter Property="Source" Value="{StaticResource Arrow_Down_BlackDrawingImage}"/>
@@ -254,15 +257,15 @@
                                             </Style.Triggers>
 
                                         </Style>
-                                </Image.Style>
-                            </Image>
-                            <TextBlock Text="{DynamicResource btnProjectToBox}" Padding="0,2,0,0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                                    </Image.Style>
+                                </Image>
+                                <TextBlock Text="{DynamicResource btnProjectToBox}" Padding="0,2,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
 
 
 
-                    <ToggleButton IsThreeState = "False" Style="{StaticResource GD_ToggleButton_Gray}"
+                        <ToggleButton IsThreeState = "False" Style="{StaticResource GD_ToggleButton_Gray}"
                                               IsChecked="{Binding IsInDistributePage, Converter={dx:BoolInverseConverter}}"
                                                    Padding="20,2,20,0" Margin="5"
                                               Content="{DynamicResource btnExit}" />
@@ -747,17 +750,17 @@
                                     </DataTemplate>
                                 </dxg:GridColumn.CellTemplate>
                             </dxg:GridColumn>
-                            </dxg:GridControl>
+                        </dxg:GridControl>
 
                         <GridSplitter Style="{StaticResource MaterialDesignGridSplitter}"  Grid.Column="1" Grid.Row="0"  
                                                                       Background="{StaticResource GridSplitterBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="5"  />
-                        
+
                     </Grid>
 
                     <Grid Grid.Row="2" >
                         <Border Background="{DynamicResource DarkPrimaryGridControlBackground}"/>
                         <Grid Margin="0,10,0,0">
-                        <Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
@@ -770,20 +773,20 @@
                                          ItemsSource="{Binding StampingBoxPartsVM.SeparateBoxVMObservableCollection}"  
                                          SelectedItem="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM}">
                                     <dxmvvm:Interaction.Behaviors>
-                                    <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
+                                        <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
                                     </dxmvvm:Interaction.Behaviors>
 
                                 </ListBox>
                             </ScrollViewer>
                             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="5,0,5,5">
-                            <Button  Padding="5,5" Command="{Binding AllBoxItemReturnToProjectCommand}" Margin="5">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image VerticalAlignment="Center" Margin="2,0">
-                                        <Image.Style>
-                                            <Style TargetType="Image">
-                                                <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
-                                             
-                                                <Style.Triggers>
+                                <Button  Padding="5,5" Command="{Binding AllBoxItemReturnToProjectCommand}" Margin="5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image VerticalAlignment="Center" Margin="2,0">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{StaticResource Arrow_Up_WhiteDrawingImage}"/>
+
+                                                    <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},Path=IsBrightMode}" Value="true">
                                                             <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
                                                         </DataTrigger>
@@ -793,14 +796,14 @@
                                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button},Path=IsPressed}" Value="true">
                                                             <Setter Property="Source" Value="{StaticResource Arrow_Up_BlackDrawingImage}"/>
                                                         </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Image.Style>
-                                    </Image>
-                                    <TextBlock Text="{DynamicResource btnBoxToProject}" VerticalAlignment="Center" Padding="0,3,0,0"/>
-                                </StackPanel>
-                            </Button>
-                               
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock Text="{DynamicResource btnBoxToProject}" VerticalAlignment="Center" Padding="0,3,0,0"/>
+                                    </StackPanel>
+                                </Button>
+
                             </StackPanel>
 
                             <dxg:GridControl Grid.Row="1" 
@@ -815,7 +818,7 @@
           >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SizeChanged">
-                                    <i:InvokeCommandAction Command="{Binding StampingBoxPartsVM.GridControlSizeChangedCommand}" 
+                                        <i:InvokeCommandAction Command="{Binding StampingBoxPartsVM.GridControlSizeChangedCommand}" 
                                                    PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
@@ -973,8 +976,8 @@
                 HorizontalHeaderContentAlignment="Left"  Header="{DynamicResource Text_MachiningStatus}" FieldName="ProjectName" Width="auto" AllowMoving="false"  IsSmart="True">
                                     <dxg:GridColumn.CellTemplate>
                                         <DataTemplate>
-                                        <local:GradientEllipse Width="20"  Height="20"/>
-                                    </DataTemplate>
+                                            <local:GradientEllipse Width="20"  Height="20"/>
+                                        </DataTemplate>
                                     </dxg:GridColumn.CellTemplate>
                                 </dxg:GridColumn>
 
@@ -995,6 +998,6 @@
                 </Grid>
             </Grid>
         </Border>
- 
+
     </Grid>
 </UserControl>
