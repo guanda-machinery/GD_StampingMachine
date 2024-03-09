@@ -68,7 +68,7 @@ namespace GD_StampingMachine.ViewModels
                     }
                     if (ProjectDistributeVMObservableCollection.FindIndex(x => x.ProjectDistributeName == NewProjectDistribute.ProjectDistributeName) != -1)
                     {
-                        await MethodWinUIMessageBox.CanNotCreateProjectAsync(NewProjectDistribute.ProjectDistributeName);
+                        await MethodWinUIMessageBox.CanNotCreateProjectAsync(null, NewProjectDistribute.ProjectDistributeName);
                         return;
                     }
 
@@ -113,7 +113,7 @@ namespace GD_StampingMachine.ViewModels
                 if (obj is IList<ProjectDistributeViewModel> projectDistributeGridControlSelectedItems)
                 {
                     var DelProjectsString = projectDistributeGridControlSelectedItems.ToList().Select(x => x.ProjectDistributeName).ExpandToString();
-                    if (await MethodWinUIMessageBox.AskDelProjectAsync(DelProjectsString))
+                    if (await MethodWinUIMessageBox.AskDelProjectAsync(null, DelProjectsString))
                     {
                         var Removed_List = new List<int>();
                         foreach (var _selectItem in projectDistributeGridControlSelectedItems)

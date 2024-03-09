@@ -386,14 +386,11 @@ namespace GD_StampingMachine.ViewModels
                                         SleepRangeList.Add(new(restMin, openMax));
 
                                         //跳出等待
-                                        string Outputting = "";
                                         var sleepString=  (string)System.Windows.Application.Current.TryFindResource("Text_MachiningSleeping");
-                                        if (Outputting != null)
-                                        {
-                                            Outputting = string.Format(sleepString, openMax.ToString("HH:mm:ss"));
-                                        }
+                                        string Outputting = string.Format(sleepString, openMax.ToString("HH:mm:ss"));
+    
 
-                                        var result = new MessageBoxResultShow("", Outputting, MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
+                                        var result = new MessageBoxResultShow(null, "", Outputting, MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyBl);
 
 
                                         CancellationTokenSource cts = new CancellationTokenSource();
@@ -526,7 +523,7 @@ namespace GD_StampingMachine.ViewModels
                                                             if(cex.CancellationToken == MotorOutTimeCts.Token)
                                                             {
                                                                 //馬達啟動超時
-                                                               _ =  MessageBoxResultShow.ShowOKAsync("", (string)System.Windows.Application.Current.TryFindResource("Text_HydraulicPumpMotorActivatedFailure") , GD_MessageBoxNotifyResult.NotifyRd , false);
+                                                               _ =  MessageBoxResultShow.ShowOKAsync(null,"", (string)System.Windows.Application.Current.TryFindResource("Text_HydraulicPumpMotorActivatedFailure") , GD_MessageBoxNotifyResult.NotifyRd , false);
                                                             }
 
 

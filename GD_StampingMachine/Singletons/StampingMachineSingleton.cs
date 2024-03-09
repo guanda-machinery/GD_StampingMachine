@@ -202,7 +202,7 @@ namespace GD_StampingMachine.Singletons
 
                 //這邊開始顯示
                 if(FileNotExistedList.FirstOrDefault(x=> !string.IsNullOrWhiteSpace(x)) !=null )
-                    _ = MessageBoxResultShow.ShowOKAsync("", $"{(string)Application.Current.TryFindResource("Text_FileNotExisted")} {FileNotExistedList.FirstOrDefault(x=> !string.IsNullOrWhiteSpace(x))}", GD_MessageBoxNotifyResult.NotifyRd);
+                    _ = MessageBoxResultShow.ShowOKAsync(null,"", $"{(string)Application.Current.TryFindResource("Text_FileNotExisted")} {FileNotExistedList.FirstOrDefault(x=> !string.IsNullOrWhiteSpace(x))}", GD_MessageBoxNotifyResult.NotifyRd);
             }
 
             TypeSettingSettingVM = new();

@@ -269,7 +269,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 }
                 catch (Exception ex)
                 {
-                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message , GD_MessageBoxNotifyResult.NotifyRd);
+                    await MessageBoxResultShow.ShowOKAsync(null, ViewModelName, ex.Message , GD_MessageBoxNotifyResult.NotifyRd);
                     Debugger.Break();
                 }
             });
@@ -292,7 +292,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                         if (existedProject != null)
                         {
                             //+ existedProject.ProductProjectName
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                            await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                                       (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject"), GD_MessageBoxNotifyResult.NotifyRd);
                             return;
                         }
@@ -306,7 +306,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                             ProductProjectVMObservableCollection[index] = new ProductProjectViewModel(ReadProductProject);
                             await this.SaveProductListSettingAsync();
 
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                            await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                                           (string)Application.Current.TryFindResource("Text_LoadSuccessful") , GD_MessageBoxNotifyResult.NotifyGr);
                         }
                     }
@@ -328,7 +328,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 await Task.WhenAll(saveList);
 
                 var Result = await SaveProductListSettingAsync();
-                await MethodWinUIMessageBox.SaveSuccessfulAsync(null, Result);
+                await MethodWinUIMessageBox.SaveSuccessfulAsync(null, null, Result);
             });
         }
 

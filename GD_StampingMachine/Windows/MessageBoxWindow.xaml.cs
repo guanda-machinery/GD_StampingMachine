@@ -31,7 +31,7 @@ namespace GD_StampingMachine.Windows
     
 
 
-        public MessageBoxWindow(Window parent, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
+        public MessageBoxWindow(Window? parent, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Icon, bool lockWindow = true)
         {
             InitializeComponent();
 
@@ -50,8 +50,6 @@ namespace GD_StampingMachine.Windows
             // Parent = parent;
 
             parent ??= Application.Current?.MainWindow ?? new Window();
-
-
 
 
            if (lockWindow)

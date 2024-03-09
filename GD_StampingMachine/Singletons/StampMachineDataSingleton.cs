@@ -1084,7 +1084,7 @@ namespace GD_StampingMachine.Singletons
                                                 rotatingStampingTypeVMObservableCollection.Add(new StampingTypeViewModel(stamp));
                                             });
 
-                                            _ = await CompareFontsSettingBetweenMachineAndSoftwareAsync(
+                                            _ = await CompareFontsSettingBetweenMachineAndSoftwareAsync(null,
                                                  StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection, rotatingStampingTypeVMObservableCollection
                                                  );
                                         }
@@ -1731,12 +1731,14 @@ namespace GD_StampingMachine.Singletons
         }
 
 
-        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftwareAsync(ObservableCollection<StampingTypeViewModel> settingCollection)
+        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftwareAsync(Window? Parent ,
+            ObservableCollection<StampingTypeViewModel> settingCollection)
         {
-            return await CompareFontsSettingBetweenMachineAndSoftwareAsync(settingCollection, this.RotatingTurntableInfoCollection);
+            return await CompareFontsSettingBetweenMachineAndSoftwareAsync(null, settingCollection, this.RotatingTurntableInfoCollection);
         }
 
-        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftwareAsync(ObservableCollection<StampingTypeViewModel> settingCollection, ObservableCollection<StampingTypeViewModel> rotatingCollection)
+        public async Task<bool> CompareFontsSettingBetweenMachineAndSoftwareAsync(Window? Parent ,
+            ObservableCollection<StampingTypeViewModel> settingCollection, ObservableCollection<StampingTypeViewModel> rotatingCollection)
         {
             //比較鋼印字模/機台字模的字元是否相同 -> 若不同則跳出一個視窗提示               
             // var settingCollection =  StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection;  
@@ -1779,7 +1781,7 @@ namespace GD_StampingMachine.Singletons
                                 rotatingCollection.Count,
                                 settingCollection.Count);
                             //兩邊字模數量不合
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                            await MessageBoxResultShow.ShowOKAsync(Parent ,(string)Application.Current.TryFindResource("Text_notify"),
                                 Outputstring , GD_MessageBoxNotifyResult.NotifyYe);
                         }
                     }
@@ -1793,7 +1795,7 @@ namespace GD_StampingMachine.Singletons
                             var numberlist = DifferentContent_StampingTypeNumberList.ExpandToString();
                             string Outputstring = string.Format(dataIsDifferent, numberlist);
 
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                            await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                                 Outputstring , GD_MessageBoxNotifyResult.NotifyYe);
                         }
 
@@ -1806,12 +1808,12 @@ namespace GD_StampingMachine.Singletons
                 }
                 catch (Exception ex)
                 {
-                    await MessageBoxResultShow.ShowExceptionAsync(ex);
+                    await MessageBoxResultShow.ShowExceptionAsync(null, ex);
                 }
             }
             catch (Exception ex)
             {
-                await MessageBoxResultShow.ShowExceptionAsync(ex);
+                await MessageBoxResultShow.ShowExceptionAsync(null, ex);
             }
 
             return FontsIsSame;
@@ -2366,7 +2368,7 @@ namespace GD_StampingMachine.Singletons
                             if (!MotorIsActivated.Item2)
                             {
                                 //油壓馬達尚未啟動
-                                var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                var Result = MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                                     (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotActivated") , GD_MessageBoxNotifyResult.NotifyRd);
 
                                 _ = LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotActivated"));
@@ -2383,7 +2385,7 @@ namespace GD_StampingMachine.Singletons
                                     if (opMode.Item2 != OperationModeEnum.Setup)
                                     {
                                         //需在工程模式才可執行
-                                        var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                        var Result = MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                                             (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode") , GD_MessageBoxNotifyResult.NotifyYe);
 
                                         await LogDataSingleton.Instance.AddLogDataAsync(this.DataSingletonName, (string)Application.Current.TryFindResource("Text_MachineNotInSetupMode"));
@@ -2433,7 +2435,7 @@ namespace GD_StampingMachine.Singletons
 
                                             if (!EngravingToOriginSucessful)
                                             {
-                                                var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                                var Result = MessageBoxResultShow.ShowOKAsync(null , (string)Application.Current.TryFindResource("Text_notify"),
                                                     (string)Application.Current.TryFindResource("Text_EngravingToOriginTimeout") , GD_MessageBoxNotifyResult.NotifyRd);
                                                 return;
                                             }
@@ -2481,7 +2483,7 @@ namespace GD_StampingMachine.Singletons
 
                                             if (!CuttungToOriginSucessful)
                                             {
-                                                var Result = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                                var Result = MessageBoxResultShow.ShowOKAsync(null, (string)Application.Current.TryFindResource("Text_notify"),
                                                     (string)Application.Current.TryFindResource("Text_CuttingToOriginTimeout") , GD_MessageBoxNotifyResult.NotifyRd);
                                                 //超時
                                                 return;
@@ -2560,29 +2562,29 @@ namespace GD_StampingMachine.Singletons
                                                     {
                                                         if (await servoHomeTask)
                                                         {
-                                                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                                            await MessageBoxResultShow.ShowOKAsync(null, (string)Application.Current.TryFindResource("Text_notify"),
                                                                  (string)Application.Current.TryFindResource("Text_ToOriginisSuccessful") , GD_MessageBoxNotifyResult.NotifyGr);
                                                         }
                                                         else
                                                         {
-                                                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                                            await MessageBoxResultShow.ShowOKAsync(null, (string)Application.Current.TryFindResource("Text_notify"),
                                                                  (string)Application.Current.TryFindResource("Text_ToOriginisFail") , GD_MessageBoxNotifyResult.NotifyRd);
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                                        await MessageBoxResultShow.ShowOKAsync(null, (string)Application.Current.TryFindResource("Text_notify"),
                                                             (string)Application.Current.TryFindResource("Text_ToOriginisTimeout") , GD_MessageBoxNotifyResult.NotifyRd);
                                                     }
                                                 }
                                                 catch (OperationCanceledException)
                                                 {
-                                                    await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                                                    await MessageBoxResultShow.ShowOKAsync(null, (string)Application.Current.TryFindResource("Text_notify"),
                                                         (string)Application.Current.TryFindResource("Text_ToOriginisCancel") , GD_MessageBoxNotifyResult.NotifyYe);
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    await MessageBoxResultShow.ShowExceptionAsync(ex);
+                                                    await MessageBoxResultShow.ShowExceptionAsync(null,ex);
                                                 }
                                                 //超時
                                                 finally
@@ -2600,7 +2602,7 @@ namespace GD_StampingMachine.Singletons
                     }
                     else
                     {
-                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                        await MessageBoxResultShow.ShowOKAsync(null, (string)Application.Current.TryFindResource("Text_notify"),
                             (string)Application.Current.TryFindResource("Connection_Error") , GD_MessageBoxNotifyResult.NotifyRd);
                     }
                     cts.Cancel();
@@ -2770,7 +2772,7 @@ namespace GD_StampingMachine.Singletons
                 {
                     //詢問後設定
                     //油壓馬達尚未啟動，是否要啟動油壓馬達？
-                    var Result = MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"),
+                    var Result = MessageBoxResultShow.ShowYesNoAsync(null , (string)Application.Current.TryFindResource("Text_notify"),
                         (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorIsNotActivated") +
                         "\r\n" +
                         (string)Application.Current.TryFindResource("Text_AskActiveHydraulicPumpMotor") , GD_MessageBoxNotifyResult.NotifyYe);
@@ -2784,7 +2786,7 @@ namespace GD_StampingMachine.Singletons
                         }
                         else
                         {
-                            await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                            await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                                    (string)Application.Current.TryFindResource("Text_HydraulicPumpMotorActivatedFailure") , GD_MessageBoxNotifyResult.NotifyRd);
                         }
                     }
@@ -3507,7 +3509,7 @@ namespace GD_StampingMachine.Singletons
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowExceptionAsync( ex);
+                    _ = MessageBoxResultShow.ShowExceptionAsync(null, ex);
                 }
 
                 _separateBoxIndex = value;
@@ -3733,7 +3735,7 @@ namespace GD_StampingMachine.Singletons
                     }
                     catch (Exception ex)
                     {
-                        _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                        _ = MessageBoxResultShow.ShowExceptionAsync(null,ex);
                     }
                 }
 

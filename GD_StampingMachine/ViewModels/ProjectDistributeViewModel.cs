@@ -607,7 +607,7 @@ namespace GD_StampingMachine.ViewModels
                         }
 
                         //詢問是否要關閉
-                        if (!await MethodWinUIMessageBox.AskCloseProjectAsync(this.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))
+                        if (!await MethodWinUIMessageBox.AskCloseProjectAsync(null,this.ReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName))
                             return;
 
                         //將資料清除

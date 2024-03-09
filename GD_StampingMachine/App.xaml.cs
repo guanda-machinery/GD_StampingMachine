@@ -29,7 +29,7 @@ namespace GD_StampingMachine
             var mutex = new System.Threading.Mutex(true, System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName, out bool ret);
             if (!ret)
             {
-                MessageBoxResultShow.Show((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
+                MessageBoxResultShow.Show(null,(string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_ProgramisAlreadyOpen"), MessageBoxButton.OK, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
                 Environment.Exit(0);
             }
 
@@ -115,7 +115,7 @@ namespace GD_StampingMachine
                 }
                 catch (Exception ex)
                 {
-                    _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                    _ = MessageBoxResultShow.ShowExceptionAsync(null, ex);
                     System.Diagnostics.Debugger.Break();
                 }
             });

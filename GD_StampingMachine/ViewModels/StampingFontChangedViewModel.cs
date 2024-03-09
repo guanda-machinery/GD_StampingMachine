@@ -331,7 +331,7 @@ namespace GD_StampingMachine.ViewModels
                             }
                             catch (Exception ex)
                             {
-                                await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message , GD_Enum.GD_MessageBoxNotifyResult.NotifyRd);
+                                await MessageBoxResultShow.ShowOKAsync(null, ViewModelName, ex.Message , GD_Enum.GD_MessageBoxNotifyResult.NotifyRd);
                             }
                             using (CancellationTokenSource cts = new(10000))
                             {
@@ -491,7 +491,7 @@ namespace GD_StampingMachine.ViewModels
                 catch (Exception ex)
                 {
 
-                    await MessageBoxResultShow.ShowOKAsync(ViewModelName, ex.Message, GD_MessageBoxNotifyResult.NotifyRd);
+                    await MessageBoxResultShow.ShowOKAsync(null, ViewModelName, ex.Message, GD_MessageBoxNotifyResult.NotifyRd);
                 }
             }
             , e => !_stamping_SelectionChangedCommand.IsRunning);
@@ -513,7 +513,8 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _stampingFontCollectionData_MachineToSoftware_Command ??= new(async () =>
             {
-                if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
+                if (await MessageBoxResultShow.ShowYesNoAsync(null,
+                    SteelPunchedFontSettingTitle,
                 (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromMachineToSoftware"), GD_MessageBoxNotifyResult.NotifyBl) != MessageBoxResult.Yes)
                 {
                     return;
@@ -558,7 +559,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 await Task.Run(async() =>
                 {
-                    if (await MessageBoxResultShow.ShowYesNoAsync(SteelPunchedFontSettingTitle,
+                    if (await MessageBoxResultShow.ShowYesNoAsync(null,SteelPunchedFontSettingTitle,
                     (string)Application.Current.TryFindResource("Text_AskWritePunchedFontsData_FromSoftwareToMachine")) != MessageBoxResult.Yes)
                     {
                         return;
@@ -579,9 +580,9 @@ namespace GD_StampingMachine.ViewModels
                     var FontsCollection = StampingTypeVMObservableCollection.Select(x => x.StampingTypeString);
 
                     if (await StampMachineData.SetRotatingTurntableInfoAsync(FontsCollection))
-                        await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"), GD_MessageBoxNotifyResult.NotifyGr);
+                        await MessageBoxResultShow.ShowOKAsync(null,SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveSuccessful"), GD_MessageBoxNotifyResult.NotifyGr);
                     else
-                        await MessageBoxResultShow.ShowOKAsync(SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"), GD_MessageBoxNotifyResult.NotifyRd);
+                        await MessageBoxResultShow.ShowOKAsync(null, SteelPunchedFontSettingTitle, (string)Application.Current.TryFindResource("Text_SaveFail"), GD_MessageBoxNotifyResult.NotifyRd);
                 });
 
             }, () => !StampingFontCollectionData_MachineToSoftware_Command.IsRunning);
@@ -598,9 +599,10 @@ namespace GD_StampingMachine.ViewModels
             get => _compareFontsSettingBetweenMachineAndSoftwareCommand ??= new(async () =>
             {
                 if (await GD_StampingMachine.Singletons.StampMachineDataSingleton.Instance.CompareFontsSettingBetweenMachineAndSoftwareAsync(
+                    null,
                      StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeVMObservableCollection))
                 {
-                    await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                    await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                         (string)Application.Current.TryFindResource("Notify_PunchedFontsIsCompared"), GD_MessageBoxNotifyResult.NotifyGr);
                 }
             });

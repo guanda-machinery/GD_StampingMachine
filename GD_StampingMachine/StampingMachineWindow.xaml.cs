@@ -100,7 +100,7 @@ namespace GD_StampingMachine
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var MessageBoxReturn = MessageBoxResultShow.Show(
+            var MessageBoxReturn = MessageBoxResultShow.Show(null,
                     (string)Application.Current.TryFindResource("Text_notify"),
                     (string)Application.Current.TryFindResource("Text_AskCloseProgram"), MessageBoxButton.YesNo, GD_Enum.GD_MessageBoxNotifyResult.NotifyYe);
 

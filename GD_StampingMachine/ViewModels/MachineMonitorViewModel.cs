@@ -258,7 +258,7 @@ namespace GD_StampingMachine.ViewModels
                                      //manager?.Close();
                                      /*  await MessageBoxResultShow.ShowOKAsync(
                                            (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"));*/
-                                     var result = await MessageBoxResultShow.ShowAsync(string.Empty, (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
+                                     var result = await MessageBoxResultShow.ShowAsync(null, string.Empty, (string)Application.Current.TryFindResource("NoneMachiningData"), MessageBoxButton.OK, GD_MessageBoxNotifyResult.NotifyRd);
                                      _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("NoneMachiningData"));
                                      break;
                                  }
@@ -562,7 +562,7 @@ namespace GD_StampingMachine.ViewModels
                         if (!result)
                         {
                             manager?.Close();
-                            await MessageBoxResultShow.ShowOKAsync(
+                            await MessageBoxResultShow.ShowOKAsync(null,
                                 (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("MachineOffline"), GD_MessageBoxNotifyResult.NotifyBl);
                             break;
                         }
@@ -599,7 +599,7 @@ namespace GD_StampingMachine.ViewModels
                         if (isNeedWorkList.Count == 0)
                         {
                             manager?.Close();
-                            await MessageBoxResultShow.ShowOKAsync(
+                            await MessageBoxResultShow.ShowOKAsync(null,
                                 (string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("NoneMachiningData"), GD_MessageBoxNotifyResult.NotifyBl);
                             break;
                         }
@@ -998,7 +998,7 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    var result = MessageBoxResultShow.ShowYesNoAsync((string)Application.Current.TryFindResource("Text_notify"),
+                    var result = MessageBoxResultShow.ShowYesNoAsync(null, (string)Application.Current.TryFindResource("Text_notify"),
                     (string)Application.Current.TryFindResource("Text_AskClearAllMachiningData"));
                     //跳出彈窗
 
@@ -1046,7 +1046,7 @@ namespace GD_StampingMachine.ViewModels
                     }
                     else
                     {
-                        await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                        await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                             (string)Application.Current.TryFindResource("MachineOffline") , GD_MessageBoxNotifyResult.NotifyRd);
                     }
                 }
@@ -1226,12 +1226,12 @@ namespace GD_StampingMachine.ViewModels
                                 //沒有空位
                                 //Debugger.Break();
 
-                                await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe);
+                                await MessageBoxResultShow.ShowOKAsync(null, "", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe);
                             }
                         }
                         else
                         {
-                            await MessageBoxResultShow.ShowOKAsync("", (string)Application.Current.TryFindResource("Text_UnselectAnyPlateConfirm"), GD_MessageBoxNotifyResult.NotifyBl);
+                            await MessageBoxResultShow.ShowOKAsync(null, "", (string)Application.Current.TryFindResource("Text_UnselectAnyPlateConfirm"), GD_MessageBoxNotifyResult.NotifyBl);
                             //Debugger.Break();
                         }
                     }
@@ -1300,7 +1300,7 @@ namespace GD_StampingMachine.ViewModels
                          if (selectedData && !dataIsChanged)
                          {
                              //沒有資料被移動 -   資料已進入機台，不可解除
-                             await MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("MachiningDataIsAlreadySended"), 
+                             await MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("MachiningDataIsAlreadySended"), 
                                  GD_MessageBoxNotifyResult.NotifyRd);
                          }
                      }
@@ -1376,7 +1376,7 @@ namespace GD_StampingMachine.ViewModels
                 {
                      Outputstring = string.Format(clearBoxConfirmNotify, selectedBoxIndex);
                 }
-                var result =  await MessageBoxResultShow.ShowYesNoAsync(null , Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
+                var result =  await MessageBoxResultShow.ShowYesNoAsync(null,null , Outputstring, GD_MessageBoxNotifyResult.NotifyBl);
                 if (result is MessageBoxResult.Yes)
                 {
                     ShowIsTransported = false;

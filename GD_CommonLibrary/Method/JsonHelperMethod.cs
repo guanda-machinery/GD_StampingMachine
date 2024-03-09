@@ -152,7 +152,7 @@ namespace GD_CommonLibrary.Method
             {
                 Debug.WriteLine(JEX);
                 /* if(showMessageBox)
-                      _ = MessageBoxResultShow.ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+                      _ = MessageBoxResultShow.ShowOKAsync(null,(string)Application.Current.TryFindResource("Text_notify"),
                           fileName + "\r\n"+(string)Application.Current.TryFindResource("Text_JsonError"));*/
                 //Debugger.Break();
             }
@@ -160,7 +160,7 @@ namespace GD_CommonLibrary.Method
             {
                 Debug.WriteLine(ex);
                 // if (showMessageBox)
-                //    _ =   MessageBoxResultShow.ShowExceptionAsync(ex);
+                //    _ =   MessageBoxResultShow.ShowExceptionAsync(null,ex);
                 //Debugger.Break();
             }
             return false;

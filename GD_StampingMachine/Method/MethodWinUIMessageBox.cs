@@ -8,31 +8,31 @@ namespace GD_StampingMachine.Method
 {
     public class MethodWinUIMessageBox : MessageBoxResultShow
     {
-        protected MethodWinUIMessageBox(string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true) : base(MessageTitle, MessageString, MB_Button, MB_Image, lockWindow)
+        protected MethodWinUIMessageBox(Window? Parent, string MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true) : base(Parent, MessageTitle, MessageString, MB_Button, MB_Image, lockWindow)
         {
 
         }
 
-        public static async Task<bool> AskOverwriteOrNotAsync()
+        public static async Task<bool> AskOverwriteOrNotAsync(Window? Parent = null)
         {
-            var MessageBoxReturn = ShowYesNoAsync(
+            var MessageBoxReturn = ShowYesNoAsync(Parent,
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskOverwrite"));
             return await MessageBoxReturn == MessageBoxResult.Yes;
         }
 
-        public static async Task<bool> AskSaveChangeOrNotAsync()
+        public static async Task<bool> AskSaveChangeOrNotAsync(Window? Parent=null)
         {
-            var MessageBoxReturn = ShowYesNoAsync(
+            var MessageBoxReturn = ShowYesNoAsync(Parent,
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_SettingAskSaveChange"));
             return await MessageBoxReturn == MessageBoxResult.Yes;
         }
 
 
-        public static async Task<bool> AskDelProjectAsync(string NumberSetting)
+        public static async Task<bool> AskDelProjectAsync(Window? Parent,string NumberSetting)
         {
-            var MessageBoxReturn = ShowYesNoAsync(
+            var MessageBoxReturn = ShowYesNoAsync(Parent,
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_AskDelProject") +
                 "\r\n" +
@@ -45,9 +45,9 @@ namespace GD_StampingMachine.Method
         /// </summary>
         /// <param name="NumberSetting"></param>
         /// <returns></returns>
-        public static async Task<bool> AskCloseProjectAsync(string ProjectName)
+        public static async Task<bool> AskCloseProjectAsync(Window? Parent, string ProjectName)
         {
-            var MessageBoxReturn = ShowYesNoAsync(
+            var MessageBoxReturn = ShowYesNoAsync(Parent,
                 (string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_TSProjectExistedInBox") +
                 "\r\n" +
@@ -63,7 +63,7 @@ namespace GD_StampingMachine.Method
         /// 儲存成功
         /// </summary>
         /// <param name="IsSuccessful"></param>
-        public static async Task SaveSuccessfulAsync(string Path, bool IsSuccessful)
+        public static async Task SaveSuccessfulAsync(Window? Parent, string? Path, bool IsSuccessful)
         {
             string _message = string.Empty;
             if (!string.IsNullOrEmpty(Path))
@@ -74,7 +74,7 @@ namespace GD_StampingMachine.Method
             if (IsSuccessful)
             {
                 _message += (string)Application.Current.TryFindResource("Text_SaveSuccessful");
-                await ShowOKAsync(
+                await ShowOKAsync(Parent,
                            (string)Application.Current.TryFindResource("Text_notify"),
                            _message, GD_MessageBoxNotifyResult.NotifyGr);
             }
@@ -82,9 +82,9 @@ namespace GD_StampingMachine.Method
             {
                 _message += (string)Application.Current.TryFindResource("Text_SaveFail");
 
-                await ShowOKAsync(
+                await ShowOKAsync(Parent,
                            (string)Application.Current.TryFindResource("Text_notify"),
-                           _message, GD_MessageBoxNotifyResult.NotifyRd);
+                           _message, GD_MessageBoxNotifyResult.NotifyRd); ;
             }
         }
         /// <summary>
@@ -92,7 +92,7 @@ namespace GD_StampingMachine.Method
         /// </summary>
         /// <param name="Path"></param>
         /// <param name="IsSuccessful"></param>
-        public static async Task LoadSuccessfulAsync(string Path, bool IsSuccessful)
+        public static async Task LoadSuccessfulAsync(Window? Parent, string Path, bool IsSuccessful)
         {
             GD_MessageBoxNotifyResult notify;
 
@@ -108,28 +108,28 @@ namespace GD_StampingMachine.Method
                 notify = GD_MessageBoxNotifyResult.NotifyRd;
             }
 
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync(Parent,(string)Application.Current.TryFindResource("Text_notify"),
            _message, notify);
 
         }
 
 
 
-        public static async Task CanNotCloseProjectAsync()
+        public static async Task CanNotCloseProjectAsync(Window? Parent =null)
         {
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject") , GD_MessageBoxNotifyResult.NotifyYe);
+            await ShowOKAsync(Parent,(string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantCloseTSProject") , GD_MessageBoxNotifyResult.NotifyYe);
         }
 
-        public static async Task CanNotDeleteProjectAsync()
+        public static async Task CanNotDeleteProjectAsync(Window? Parent = null)
         {
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"), GD_MessageBoxNotifyResult.NotifyYe);
+            await ShowOKAsync(Parent,(string)Application.Current.TryFindResource("Text_notify"), (string)Application.Current.TryFindResource("Text_CantDelTSProject"), GD_MessageBoxNotifyResult.NotifyYe);
         }
 
 
 
-        public static async Task ProjectIsExisted_CantOpenProjectAsync()
+        public static async Task ProjectIsExisted_CantOpenProjectAsync(Window? Parent = null)
         {
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync(Parent,(string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantOpenProject")
                 , GD_MessageBoxNotifyResult.NotifyYe);
         }
@@ -138,9 +138,9 @@ namespace GD_StampingMachine.Method
         /// <summary>
         /// 無法建立專案
         /// </summary>
-        public static async Task CanNotCreateProjectFileNameIsEmptyAsync()
+        public static async Task CanNotCreateProjectFileNameIsEmptyAsync(Window? Parent = null)
         {
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync(Parent,(string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectNameCantBeEmpty")
                 , GD_MessageBoxNotifyResult.NotifyRd);
         }
@@ -148,22 +148,22 @@ namespace GD_StampingMachine.Method
         /// <summary>
         /// 無法建立專案
         /// </summary>
-        public async static Task CanNotCreateProjectAsync(string ProjectName = null)
+        public async static Task CanNotCreateProjectAsync(Window? Parent, string? ProjectName = null)
         {
             string AddMessage = "";
             if (ProjectName != null)
                 AddMessage = "\r\n" + ProjectName;
 
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync(Parent,(string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsExistedCantCreateProject") + AddMessage
                 , GD_MessageBoxNotifyResult.NotifyRd);
         }
 
 
 
-        public async static Task ProjectIsLoadedAsync()
+        public async static Task ProjectIsLoadedAsync(Window? Parent=null)
         {
-            await ShowOKAsync((string)Application.Current.TryFindResource("Text_notify"),
+            await ShowOKAsync(Parent,(string)Application.Current.TryFindResource("Text_notify"),
                 (string)Application.Current.TryFindResource("Text_ProjectIsLoaded")
                 , GD_MessageBoxNotifyResult.NotifyRd);
         }

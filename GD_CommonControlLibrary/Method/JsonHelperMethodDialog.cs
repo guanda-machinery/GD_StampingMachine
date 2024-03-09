@@ -33,7 +33,7 @@ namespace GD_CommonControlLibrary.Method
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
-                    // _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                    // _ = MessageBoxResultShow.ShowExceptionAsync(null,ex);
                 }
                 return false;
             }
@@ -56,7 +56,7 @@ namespace GD_CommonControlLibrary.Method
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
-                    //  _ = MessageBoxResultShow.ShowExceptionAsync(ex);
+                    //  _ = MessageBoxResultShow.ShowExceptionAsync(null,ex);
                 }
                 return false;
             }
