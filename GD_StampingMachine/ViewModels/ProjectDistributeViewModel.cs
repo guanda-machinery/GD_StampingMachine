@@ -90,36 +90,17 @@ namespace GD_StampingMachine.ViewModels
         /// <param name="projectDistribute">專案資料結構</param>
         /// <param name="productProjectVMObservableCollection">製品專案</param>
         /// <param name="separateBoxViewModelCollection">箱子</param>
-        public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute,
+        /*public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute,
             ObservableCollection<ProductProjectViewModel> productProjectVMObservableCollection,
-            ObservableCollection<SeparateBoxViewModel> separateBoxViewModelCollection)
+            ObservableCollection<SeparateBoxViewModel> separateBoxViewModelCollection)*/
+        public ProjectDistributeViewModel(ProjectDistributeModel projectDistribute , 
+            SeparateBoxExtViewModelObservableCollection separateBoxExtVMCollection, ObservableCollection<ProductProjectViewModel> productProjectVMCollection)
         {
             ProjectDistribute = projectDistribute;
 
-            StampingBoxPartsVM = new StampingBoxPartsViewModel(new StampingBoxPartModel()
-            {
-                ProjectDistributeName = this.ProjectDistributeName,
-            })
-            {
-                SeparateBoxVMObservableCollection = new SeparateBoxExtViewModelObservableCollection(separateBoxViewModelCollection)
-            };
-            ProductProjectVMObservableCollection = productProjectVMObservableCollection;
+            StampingBoxPartsVM = new StampingBoxPartsViewModel(this.ProjectDistributeName, separateBoxExtVMCollection);
 
-            var newCollection = new PartsParameterViewModelObservableCollection();
-            if (productProjectVMObservableCollection != null)
-            {
-                foreach (var productProject in productProjectVMObservableCollection)
-                {
-                    foreach (var productProjectPartViewModel in productProject.PartsParameterVMObservableCollection)
-                    {
-                        if (productProjectPartViewModel.BoxIndex.HasValue)
-                            if (productProjectPartViewModel.DistributeName == this.ProjectDistributeName)
-                                if (!newCollection.Contains(productProjectPartViewModel))
-                                    newCollection.Add(productProjectPartViewModel);
-                    }
-                }
-            }
-            StampingBoxPartsVM.BoxPartsParameterVMCollection = newCollection;
+            ProductProjectVMObservableCollection = productProjectVMCollection;
 
         }
 
@@ -154,7 +135,7 @@ namespace GD_StampingMachine.ViewModels
         /// </summary>
         public StampingBoxPartsViewModel StampingBoxPartsVM
         {
-            get => _stampingBoxPartsVM;
+            get => _stampingBoxPartsVM??=new();
             set
             {
                 _stampingBoxPartsVM = value;
@@ -295,11 +276,16 @@ namespace GD_StampingMachine.ViewModels
                 _productProjectVMObservableCollection ??= new ObservableCollection<ProductProjectViewModel>();
                 _productProjectVMObservableCollection.CollectionChanged -= _productProjectVMObservableCollection_CollectionChanged;
                 _productProjectVMObservableCollection.CollectionChanged += _productProjectVMObservableCollection_CollectionChanged;
+                foreach (var item in _productProjectVMObservableCollection)
+                {
+                    item.PartsParameterVMObservableCollection.CollectionChanged -= selectProductProjectPartsParameterVMObservableCollection_CollectionChanged;
+                    item.PartsParameterVMObservableCollection.CollectionChanged += selectProductProjectPartsParameterVMObservableCollection_CollectionChanged;
+                }
+
                 return _productProjectVMObservableCollection;
             }
-            set
+            private set
             {
-
                 _productProjectVMObservableCollection = value; 
                 if (_productProjectVMObservableCollection != null)
                 {
@@ -311,6 +297,25 @@ namespace GD_StampingMachine.ViewModels
                         item.PartsParameterVMObservableCollection.CollectionChanged += selectProductProjectPartsParameterVMObservableCollection_CollectionChanged;
                     }
                 }
+
+                var newCollection = new PartsParameterViewModelObservableCollection();
+                if (productProjectVMObservableCollection != null)
+                {
+                    foreach (var productProject in productProjectVMObservableCollection)
+                    {
+                        foreach (var productProjectPartViewModel in productProject.PartsParameterVMObservableCollection)
+                        {
+                            if (productProjectPartViewModel.BoxIndex.HasValue)
+                                if (productProjectPartViewModel.DistributeName == this.ProjectDistributeName)
+                                    if (!newCollection.Contains(productProjectPartViewModel))
+                                        newCollection.Add(productProjectPartViewModel);
+                        }
+                    }
+                }
+                StampingBoxPartsVM.BoxPartsParameterVMCollection = newCollection;
+
+
+
                 SyncProductProject(value);
                 OnPropertyChanged(nameof(ProductProjectVMObservableCollection));
             }

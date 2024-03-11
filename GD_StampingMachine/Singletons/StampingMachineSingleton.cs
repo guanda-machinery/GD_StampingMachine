@@ -74,7 +74,7 @@ namespace GD_StampingMachine.Singletons
             List<StampingTypeViewModel> StampingCollection = new();
             if (JsonHM.ReadUseStampingFont(out var SReaduse))
             {
-                StampingCollection =SReaduse.Select(use => new StampingTypeViewModel(use)).ToList();
+                StampingCollection = SReaduse.Select(use => new StampingTypeViewModel(use)).ToList();
             }
             else
             {
@@ -95,76 +95,75 @@ namespace GD_StampingMachine.Singletons
 
             StampingFontChangedVM = new StampingFontChangedViewModel(StampingCollection);
 
-            if (JsonHM.ReadUnUseStampingFont(out List<StampingTypeModel> SReadunuse))
             {
-                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
-                    SReadunuse.Select(unuse => new StampingTypeViewModel(unuse)));
-            }
-            else
-            {
-                StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
+
+                if (JsonHM.ReadUnUseStampingFont(out List<StampingTypeModel> SReadunuse))
+                {
+                    StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>(
+                        SReadunuse.Select(unuse => new StampingTypeViewModel(unuse)));
+                }
+                else
+                {
+                    StampingFontChangedVM.UnusedStampingTypeVMObservableCollection = new ObservableCollection<StampingTypeViewModel>()
                 {
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄅ" , StampingTypeUseCount=0}) ,
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0 , StampingTypeString = "ㄆ" , StampingTypeUseCount=0}),
                     new StampingTypeViewModel(new StampingTypeModel(){ StampingTypeNumber =0, StampingTypeString = "ㄇ" , StampingTypeUseCount=0})
                 };
-            }
-            AxisSettingModel AxisSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
-            {
-                AxisSetting = JsonAxisSetting;
-            }
-
-            TimingSettingModel TimingSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel JsonTimingSetting))
-            {
-                TimingSetting = JsonTimingSetting;
-            }
-
-            EngineerSettingModel EngineerSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, out EngineerSettingModel JsonEngineerSetting))
-            {
-                EngineerSetting = JsonEngineerSetting;
-            }
-
-            SeparateSettingModel SeparateSetting = new();
-            if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel JsonSeparateSetting))
-            {
-                SeparateSetting = JsonSeparateSetting;
-            }
-            else
-            {
-                List<SeparateBoxModel> boxCollection = new();
-                for(int i=0;i<10;i++)
+                }
+                AxisSettingModel AxisSetting = new();
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.AxisSetting, out AxisSettingModel JsonAxisSetting))
                 {
-                    boxCollection.Add(new SeparateBoxModel()
-                    {
-                        BoxIndex = i + 1,
-                        BoxIsEnabled = true,
-                        BoxIsUsing = false,
-                        BoxSliderValue = 0
-                    });
+                    AxisSetting = JsonAxisSetting;
                 }
 
-                SeparateSetting = new()
+                TimingSettingModel TimingSetting = new();
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.TimingSetting, out TimingSettingModel JsonTimingSetting))
                 {
-                    UnifiedSetting_SeparateBoxObservableCollection = boxCollection
+                    TimingSetting = JsonTimingSetting;
+                }
+
+                EngineerSettingModel EngineerSetting = new();
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.EngineerSetting, out EngineerSettingModel JsonEngineerSetting))
+                {
+                    EngineerSetting = JsonEngineerSetting;
+                }
+
+                SeparateSettingModel SeparateSetting = new();
+                if (JsonHM.ReadParameterSettingJsonSetting(StampingMachineJsonHelper.ParameterSettingNameEnum.SeparateSetting, out SeparateSettingModel JsonSeparateSetting))
+                {
+                    SeparateSetting = JsonSeparateSetting;
+                }
+                else
+                {
+                    List<SeparateBoxModel> boxCollection = new();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        boxCollection.Add(new SeparateBoxModel()
+                        {
+                            BoxIndex = i + 1,
+                            BoxIsEnabled = true,
+                            BoxIsUsing = false,
+                            BoxSliderValue = 0
+                        });
+                    }
+
+                    SeparateSetting = new()
+                    {
+                        UnifiedSetting_SeparateBoxObservableCollection = boxCollection
+                    };
+                }
+                ParameterSettingModel ParameterSetting = new()
+                {
+                    AxisSetting = AxisSetting,
+                    TimingSetting = TimingSetting,
+                    SeparateSetting = SeparateSetting,
+                    InputOutput = new(),
+                    EngineerSetting = EngineerSetting
                 };
+
+                ParameterSettingVM = new(ParameterSetting);
             }
-
-
-
-
-            ParameterSettingModel ParameterSetting = new()
-            {
-                AxisSetting = AxisSetting,
-                TimingSetting = TimingSetting,
-                SeparateSetting = SeparateSetting,
-                InputOutput = new(),
-                EngineerSetting = EngineerSetting
-            };
-
-            ParameterSettingVM = new(ParameterSetting);
 
             ProductSettingVM = new();
 
@@ -210,18 +209,18 @@ namespace GD_StampingMachine.Singletons
 
             if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
             {
+                var separateBoxExtVMCollection = new SeparateBoxExtViewModelObservableCollection(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
+
                 RPDList.ForEach(PDistribute =>
                 {
                     try
                     {
                         //將製品清單拆分成兩份
                         TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(
-                            new ProjectDistributeViewModel(
-                                PDistribute,
-                            ProductSettingVM.ProductProjectVMObservableCollection,
-                            ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
-                        {
-                            IsInDistributePage = false
+                            new ProjectDistributeViewModel(PDistribute, separateBoxExtVMCollection)
+                            {
+                                ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
+                                IsInDistributePage = false
                             //重新繫結
                         });
                     }

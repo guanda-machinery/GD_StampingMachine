@@ -195,42 +195,39 @@ namespace GD_StampingMachine.ViewModels
         /// <summary>
         /// 關於本機
         /// </summary>
-        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => stampingMain.MachanicalSpecificationVM; set => stampingMain.MachanicalSpecificationVM = value; }
+        public MachanicalSpecificationViewModel MachanicalSpecificationVM { get => stampingMain.MachanicalSpecificationVM; }
         /// <summary>
         /// 字模設定
         /// </summary>
-        public StampingFontChangedViewModel StampingFontChangedVM { get => stampingMain.StampingFontChangedVM; set => stampingMain.StampingFontChangedVM = value; }
+        public StampingFontChangedViewModel StampingFontChangedVM { get => stampingMain.StampingFontChangedVM; }
         /// <summary>
         /// 參數設定
         /// </summary>
         public ParameterSettingViewModel ParameterSettingVM
         {
             get => stampingMain.ParameterSettingVM;
-            set => stampingMain.ParameterSettingVM = value;
         }
         /// <summary>
         /// 製品設定
         /// </summary>
-        public ProductSettingViewModel ProductSettingVM { get => stampingMain.ProductSettingVM; set => stampingMain.ProductSettingVM = value; }
+        public ProductSettingViewModel ProductSettingVM { get => stampingMain.ProductSettingVM; }
         /// <summary>
         /// 排版設定
         /// </summary>
-        public TypeSettingSettingViewModel TypeSettingSettingVM { get => stampingMain.TypeSettingSettingVM; set => stampingMain.TypeSettingSettingVM = value; }
+        public TypeSettingSettingViewModel TypeSettingSettingVM { get => stampingMain.TypeSettingSettingVM; }
 
         /// <summary>
         /// 加工監控
         /// </summary>
-        public MachineMonitorViewModel MachineMonitorVM { get => stampingMain.MachineMonitorVM; set => stampingMain.MachineMonitorVM = value; }
+        public MachineMonitorViewModel MachineMonitorVM { get => stampingMain.MachineMonitorVM; }
 
         /// <summary>
         /// 機台功能
         /// </summary>
-        public MachineFunctionViewModel MachineFunctionVM { get => stampingMain.MachineFunctionVM; set => stampingMain.MachineFunctionVM = value; }
+        public MachineFunctionViewModel MachineFunctionVM { get => stampingMain.MachineFunctionVM; }
 
         private MachineFunctionTest2ViewModel? _machineFunctionTestVM;
         public MachineFunctionTest2ViewModel MachineFunctionTestVM { get => _machineFunctionTestVM ??= new MachineFunctionTest2ViewModel(); set => _machineFunctionTestVM = value; }
-
-
 
 
         #endregion

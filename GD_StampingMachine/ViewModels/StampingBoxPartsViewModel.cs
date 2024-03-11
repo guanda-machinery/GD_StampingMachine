@@ -18,30 +18,21 @@ using System.Windows.Input;
 
 namespace GD_StampingMachine.ViewModels
 {
-    public class StampingBoxPartModel
-    {
-        public string? ProjectDistributeName { get; set; }
-        /// <summary>
-        /// 盒子列表
-        /// </summary>
-        //public ObservableCollection<SeparateBoxViewModel>? SeparateBoxVMObservableCollection { get; set; }
-
-       // [JsonIgnore]
-        //public ObservableCollection<ProductProjectViewModel>? ProductProjectVMObservableCollection { get; set; }
-
-       // [JsonIgnore]
-        //public bool GridControl_MachiningStatusColumnVisible { get; set; } = false;
-    }
-
-
     public class StampingBoxPartsViewModel : GD_CommonControlLibrary.BaseViewModel
     {
         public override string ViewModelName => (string)System.Windows.Application.Current.TryFindResource("Name_StampingBoxPartsViewModel");
-
-        public StampingBoxPartsViewModel(StampingBoxPartModel stampingBoxPart)
+        public StampingBoxPartsViewModel(SeparateBoxExtViewModelObservableCollection separateBoxExtViewModelCollection)
         {
-            StampingBoxPart = stampingBoxPart;
+            ProjectDistributeName = string.Empty;
+            SeparateBoxVMObservableCollection = separateBoxExtViewModelCollection;
+            UpdateSeparateBoxValue();
+        }
+
+        public StampingBoxPartsViewModel(string projectDistributeName, SeparateBoxExtViewModelObservableCollection separateBoxExtViewModelCollection)
+        {
             //_ = ReLoadBoxPartsParameterVMCollectionAsync();
+            ProjectDistributeName = projectDistributeName;
+            SeparateBoxVMObservableCollection = separateBoxExtViewModelCollection;
             UpdateSeparateBoxValue();
         }
         /*public async Task ReLoadBoxPartsParameterVMCollectionAsync()
@@ -72,11 +63,11 @@ namespace GD_StampingMachine.ViewModels
 
 
 
+        private string? _projectDistributeName;
+        public string? ProjectDistributeName { get => _projectDistributeName; set { _projectDistributeName = value; OnPropertyChanged(); } }
 
-        public string ProjectDistributeName { get => StampingBoxPart.ProjectDistributeName; set => StampingBoxPart.ProjectDistributeName = value; }
 
-
-        public StampingBoxPartModel StampingBoxPart = new();
+        //public StampingBoxPartModel StampingBoxPart = new();
 
 
 

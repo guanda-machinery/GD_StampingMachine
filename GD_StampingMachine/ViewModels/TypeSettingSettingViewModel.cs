@@ -42,11 +42,9 @@ namespace GD_StampingMachine.ViewModels
 
         //private ProjectDistributeViewModel? _newProjectDistributeVM;
         /// <summary>
-        /// 建立用的viewmodel
+        /// 建立用的model
         /// </summary>
         public ProjectDistributeModel NewProjectDistribute { get; set; } = new();
-
-
         public ProductSettingViewModel ProductSettingVM { get => Singletons.StampingMachineSingleton.Instance.ProductSettingVM; }
         public ParameterSettingViewModel ParameterSettingVM { get => Singletons.StampingMachineSingleton.Instance.ParameterSettingVM; }
 
