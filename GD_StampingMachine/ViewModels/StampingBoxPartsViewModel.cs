@@ -28,38 +28,24 @@ namespace GD_StampingMachine.ViewModels
             UpdateSeparateBoxValue();
         }
 
-        public StampingBoxPartsViewModel(string projectDistributeName, SeparateBoxExtViewModelObservableCollection separateBoxExtViewModelCollection)
+        public StampingBoxPartsViewModel(string? projectDistributeName, SeparateBoxExtViewModelObservableCollection separateBoxExtViewModelCollection)
         {
-            //_ = ReLoadBoxPartsParameterVMCollectionAsync();
             ProjectDistributeName = projectDistributeName;
             SeparateBoxVMObservableCollection = separateBoxExtViewModelCollection;
             UpdateSeparateBoxValue();
         }
-        /*public async Task ReLoadBoxPartsParameterVMCollectionAsync()
+
+        public StampingBoxPartsViewModel(string? projectDistributeName, SeparateBoxExtViewModelObservableCollection separateBoxExtViewModelCollection , PartsParameterViewModelObservableCollection boxPartsParameterVMCollection)
         {
-            var newCollection = new ObservableCollection<PartsParameterViewModel>();
-            if (ProductProjectVMObservableCollection != null)
-            {
-                ProductProjectVMObservableCollection.ForEach(productProject =>
-                {
-                    productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
-                    {
-                        if (productProjectPartViewModel.BoxIndex.HasValue)
-                            if (productProjectPartViewModel.DistributeName == StampingBoxPart.ProjectDistributeName)
-                                if (!newCollection.Contains(productProjectPartViewModel))
-                                    newCollection.Add(productProjectPartViewModel);
-                    });
-                });
-            }
-            BoxPartsParameterVMCollection = new();
-            foreach (var pParameter in newCollection)
-            {
-                await Application.Current?.Dispatcher.InvokeAsync(() =>
-                {
-                    BoxPartsParameterVMCollection.Add(pParameter);
-                });
-            }
-        }*/
+            ProjectDistributeName = projectDistributeName;
+            SeparateBoxVMObservableCollection = separateBoxExtViewModelCollection;
+            BoxPartsParameterVMCollection = boxPartsParameterVMCollection;
+            UpdateSeparateBoxValue();
+        }
+
+
+
+
 
 
 
@@ -131,8 +117,7 @@ namespace GD_StampingMachine.ViewModels
         {
             get
             {
-                if (_boxPartsParameterVMCollection==null)
-                    _boxPartsParameterVMCollection = new PartsParameterViewModelObservableCollection();
+                _boxPartsParameterVMCollection??= new PartsParameterViewModelObservableCollection();
 
                 _boxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
                 _boxPartsParameterVMCollection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
@@ -155,6 +140,26 @@ namespace GD_StampingMachine.ViewModels
             set
             {
                 _boxPartsParameterVMCollection = value;
+
+                if (_boxPartsParameterVMCollection != null)
+                {
+                    _boxPartsParameterVMCollection.CollectionChanged -= BoxPartsParameterVMCollection_CollectionChanged;
+                    _boxPartsParameterVMCollection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
+                    foreach (var part in _boxPartsParameterVMCollection)
+                    {
+                        part.StateChanged -= Item_StateChanged;
+                        part.IsFinishChanged -= ParameterChanged; ;
+                        part.WorkIndexChanged -= ParameterChanged;
+                        part.IsTransportedChanged -= ParameterChanged;
+
+                        part.StateChanged += Item_StateChanged;
+                        part.IsFinishChanged += ParameterChanged; ;
+                        part.WorkIndexChanged += ParameterChanged;
+                        part.IsTransportedChanged += ParameterChanged;
+                    }
+                }
+
+
                 UpdateSeparateBoxValue();
                 OnPropertyChanged();
             }

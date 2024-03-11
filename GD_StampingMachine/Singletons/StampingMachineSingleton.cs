@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using DevExpress.CodeParser;
 using DevExpress.Mvvm.Native;
 using DevExpress.Utils.Extensions;
 using GD_CommonLibrary;
@@ -206,29 +207,22 @@ namespace GD_StampingMachine.Singletons
 
             TypeSettingSettingVM = new();
 
-
             if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
             {
-                var separateBoxExtVMCollection = new SeparateBoxExtViewModelObservableCollection(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
-
-                RPDList.ForEach(PDistribute =>
+                var separateBoxExtVMCollection = new SeparateBoxExtViewModelObservableCollection(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection);
+                //RPDList.ForEach(PDistribute =>
+                foreach(var PDistribute in RPDList)
                 {
                     try
                     {
                         //將製品清單拆分成兩份
-                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(
-                            new ProjectDistributeViewModel(PDistribute, separateBoxExtVMCollection)
-                            {
-                                ProductProjectVMObservableCollection = ProductSettingVM.ProductProjectVMObservableCollection,
-                                IsInDistributePage = false
-                            //重新繫結
-                        });
+                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, separateBoxExtVMCollection, ProductSettingVM.ProductProjectVMObservableCollection)); 
                     }
                     catch
                     {
                         Debugger.Break();
                     }
-                });
+                }
             }
 
 
