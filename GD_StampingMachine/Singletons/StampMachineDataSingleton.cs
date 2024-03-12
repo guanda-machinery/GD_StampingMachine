@@ -1558,7 +1558,7 @@ namespace GD_StampingMachine.Singletons
                                                     foreach (var projectDistribute in StampingMachineSingleton.Instance.TypeSettingSettingVM.ProjectDistributeVMObservableCollection)
                                                     {
                                                         //去盒子裡面找是否有對應的鐵片
-                                                        var boxPartsCollection = projectDistribute.StampingBoxPartsVM.BoxPartsParameterVMCollection;
+                                                        var boxPartsCollection = projectDistribute.StampingBoxPartsVM.SeparateBoxVMObservableCollection.SelectMany(x => x.BoxPartsParameterVMCollection);
                                                         var foundPart = boxPartsCollection.FirstOrDefault(x => x.ID == plateData.iIronPlateID && x.IsSended);
                                                         if (foundPart != null)
                                                         {

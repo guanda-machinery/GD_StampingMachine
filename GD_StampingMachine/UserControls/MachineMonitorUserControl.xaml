@@ -339,10 +339,10 @@
                                         HorizontalAlignment="Stretch"     
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="300"      
-                                     CustomRowFilterCommand="{Binding NotArrangeWorkRowFilterCommand}"        
+                                   
                                                 Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
-                                 ItemsSource="{Binding SelectedBoxPartsParameterVMCollection ,IsAsync=True}"
+                                 ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.UnscheduledPartsParameterCollection ,IsAsync=True}"
                                >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView   
@@ -526,10 +526,9 @@
                                         Name="ArrangeWorkGridControl" HorizontalAlignment="Stretch" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="300" 
-                                     CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None" 
-                                 ItemsSource="{Binding SelectedBoxPartsParameterVMCollection, IsAsync=True}"
+                                 ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection, IsAsync=True}"
                                      >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView  
@@ -1100,7 +1099,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
                Background="Transparent"   MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding SelectedBoxPartsParameterVMCollection}" 
+            ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection}" 
           >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SizeChanged">

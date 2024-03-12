@@ -60,7 +60,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         ///加工分配專案名
         /// </summary>
-        public string DistributeName
+        public string? DistributeName
         {
             get => PartsParameter.DistributeName;
             set
@@ -200,13 +200,34 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.SendMachineCommand.WorkIndex;
             set
             {
-                PartsParameter.SendMachineCommand.WorkIndex = value;
-                OnPropertyChanged();
-                WorkIndexChanged?.Invoke(this, value);
-                StateChanged?.Invoke(this, new EventArgs());
+                if (PartsParameter.SendMachineCommand.WorkIndex != value)
+                {
+                    PartsParameter.SendMachineCommand.WorkIndex = value;
+                    OnPropertyChanged();
+
+                    WorkIndexChanged?.Invoke(this, value);
+                    StateChanged?.Invoke(this, new EventArgs());
+
+                    IsScheduled = value != -1;
+                }
             }
         }
+
         public event EventHandler<int>? WorkIndexChanged;
+
+        private bool? _isScheduled;
+        public bool IsScheduled
+        {
+            get => _isScheduled ??= WorkIndex!=-1;
+            private set
+            {
+                _isScheduled = value;
+                OnPropertyChanged(nameof(IsScheduled));
+                IsScheduledChanged?.Invoke(this, value);
+            }
+        }
+
+        public event EventHandler<bool>? IsScheduledChanged;
 
 
 
@@ -313,6 +334,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
+
+
+
+
+
         private SettingBaseViewModel? _settingBaseVM;//= new NumberSettingViewModel();
         /// <summary>
         /// 金屬牌樣式
@@ -369,31 +395,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             });
         }
 
-        [JsonIgnore]
-        public AsyncRelayCommand<GridControl> ProjectDeleteCommand
-        {
-            get => new(async obj =>
-            {
-                if (obj is not null)
-                {
-                    if (obj.ItemsSource is ObservableCollection<PartsParameterViewModel> GridItemSource)
-                    {
-                        if (SettingBaseVM != null)
-                        {
-                            if (await MethodWinUIMessageBox.AskDelProjectAsync(null, this.SettingBaseVM.PlateNumber))
-                            {
-                                GridItemSource.Remove(this);
-                            }
-                        }
-                        else
-                            GridItemSource.Remove(this);
-
-                    }
-                }
-            });
-        }
-
-
 
         // private SendMachineCommandViewModel? _sendMachineCommandVM;
 
@@ -409,8 +410,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
     /// </summary>
     public class PartsParameterViewModelObservableCollection : ObservableCollection<PartsParameterViewModel>
     {
-        //protected new List<PartsParameterViewModel> Items => (List<PartsParameterViewModel>)base.Items;
-
         public PartsParameterViewModelObservableCollection() : base()
         {
 
@@ -418,7 +417,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public PartsParameterViewModelObservableCollection(List<PartsParameterViewModel> list) : base(list)
         {
-            
             foreach (var item in list)
             {
                 item.FinishProgressChanged += item_FinishProgressChanged;
@@ -432,8 +430,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection):base(collection) 
         {
-            IList<PartsParameterViewModel> items = Items;
-            if (collection == null || items == null)
+            if (collection == null)
             {
                 return;
             }
@@ -442,7 +439,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 item.FinishProgressChanged += item_FinishProgressChanged;
                 item.IsFinishChanged += item_IsFinishChanged;
                 item.DistributeNameChanged += Item_DistributeNameChanged;
-                items.Add(item);
             }
 
             CalcFinishProgress();
@@ -514,9 +510,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             CalcNotAssignedProductProjectCount();
         }
 
-
-
-
         private void CalcFinishProgress()
         {
             this.FinishProgress = this.Any() ? this.Average(p => p.FinishProgress) : 0;
@@ -551,8 +544,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 ItemFinishChanged?.Invoke(this, value);
             }
         }
-
-
 
         private float _finishProgress;
         /// <summary>
@@ -625,4 +616,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
     }
 
+
 }
+

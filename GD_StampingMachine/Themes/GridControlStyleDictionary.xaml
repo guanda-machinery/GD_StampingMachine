@@ -11,15 +11,13 @@
         <Setter Property="TextBlock.FontSize" Value="16"/>
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Opacity" Value="1"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>
             <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True" >
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                 <Setter Property="Background" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.9"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -75,11 +73,17 @@
             <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Regular"/>
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-            <Setter Property="Background" Value="Transparent" />
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <Setter Property="Background" Value="#176bad" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Opacity" Value="1" />
+        <Style.Triggers>
+
+            <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false">
+                <Setter Property="Opacity" Value="0.7" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                <Setter Property="Background" Value="#176bad" />
                     <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
                 </DataTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -89,19 +93,21 @@
                     <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
                 </DataTrigger>
 
-                <MultiDataTrigger>
+
+
+            <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=IsSelected}" Value="True" />
                         <Condition Binding="{Binding Row.ProductProjectIsFinish}" Value="True" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="Green" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="Green" />
                 </MultiDataTrigger>
                 <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
-                        <Condition Binding="{Binding Row.ProductProjectIsFinish}" Value="True" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="ForestGreen" />
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                    <Condition Binding="{Binding Row.ProductProjectIsFinish}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="ForestGreen" />
                 </MultiDataTrigger>
 
 
@@ -138,7 +144,6 @@
             <Style TargetType="dxg:TableView">
                 <Setter Property="AllowGroupSummaryCascadeUpdate" Value="True"/>
                 <Setter Property="AllowCascadeUpdate" Value="True"/>
-                <Setter Property="RowAnimationKind" Value="Opacity"/>
                 <Setter Property="ShowHorizontalLines" Value="True"/>
                 <Setter Property="ShowVerticalLines" Value="False"/>
                 <Setter Property="FadeSelectionOnLostFocus" Value="False"/>
@@ -242,9 +247,8 @@
             <Style TargetType="dxg:TableView">
                 <Setter Property="AllowGroupSummaryCascadeUpdate" Value="True"/>
                 <Setter Property="AllowCascadeUpdate" Value="True"/>
-                <Setter Property="RowAnimationKind" Value="Opacity"/>
 
-                
+
                 <Setter Property="FadeSelectionOnLostFocus" Value="False"/>
                 <Setter Property="CellStyle">
                     <Setter.Value>
@@ -268,7 +272,13 @@
                             <Setter Property="Height" Value="40"/>
                             <Setter Property="Foreground" Value="Black"/>
                             <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Opacity" Value="1" />
                             <Style.Triggers>
+                                
+                                <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false">
+                                    <Setter Property="Opacity" Value="0.7" />
+                                </DataTrigger>
+
                                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                                     <Setter Property="Background" Value="DeepSkyBlue" />
                                     <Setter Property="Foreground" Value="Black" />

@@ -211,7 +211,8 @@
             </Grid>
         </Border>
 
-        <Border Name="ProjectDistributeMainBorder" DataContext="{Binding ProjectDistributeVM}" Visibility="{Binding ElementName=ProjectDistributeListBorder,Path=Visibility, Converter={dx:VisibilityInverseConverter}}"
+        <Border Name="ProjectDistributeMainBorder" 
+                DataContext="{Binding ProjectDistributeVM}" Visibility="{Binding ElementName=ProjectDistributeListBorder,Path=Visibility, Converter={dx:VisibilityInverseConverter}}"
                     Margin="0,10,0,10" 
                                              Background="Transparent" 
                  BorderThickness="0" 
@@ -342,13 +343,11 @@
                                         <ScrollViewer Grid.Row="1" MaxHeight="500" MinHeight="200" MinWidth="300" VerticalScrollBarVisibility="Visible"  >
                                             <dxg:GridControl 
                                                 Name="NotReadyToTypeSettingProductProjectGridControl"
-                                                CustomRowFilterCommand="{Binding NotReadyToTypeSettingProductProjectRowFilterCommand}"        
-                                                SelectedItem="{Binding NotReadyToTypeSettingProductProjectVMSelected, Mode=TwoWay}"
                                                 SelectionMode="Row"
                                                 Background="Transparent" Margin="2,0" 
                                                 Style="{StaticResource ProductProjectGridControl}"
                                                 AutoGenerateColumns="None"
-                                                ItemsSource="{Binding NotReadyToTypeSettingProductProjectVMCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                ItemsSource="{Binding NotReadyToTypeSettingProductProjectVMCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                 MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView 
@@ -410,8 +409,9 @@
                                                     </dxg:GridColumn.HeaderStyle>
                                                     <dxg:GridColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <Button Height="30" Width="auto" Padding="10,0" 
-                                                                        Content="{StaticResource btnAdd}"
+                                                            <Button  
+                                                                Height="30" Width="auto" Padding="10,0" 
+                                                                        Content="{StaticResource btnAdd}" 
                                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=dxg:GridControl, Mode=FindAncestor}, 
                                                                 Path=DataContext.AddTypeSettingCommand}" 
                                                                     CommandParameter="{Binding Row}"
@@ -489,11 +489,9 @@
                                                                  Style="{StaticResource ProjectGridControl}"
                                                                  AutoGenerateColumns="None" 
                                               Name="ReadyToTypeSettingProductProjectGridControl"
-                                              CurrentItem="{Binding ReadyToTypeSettingProductProjectVMCurrentItem}"
                                               SelectedItem="{Binding ReadyToTypeSettingProductProjectVMSelected}"
-                                              ItemsSource="{Binding ReadyToTypeSettingProductProjectVMCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemsSource="{Binding ReadyToTypeSettingProductProjectVMCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"  >
-
 
                                 <dxg:GridControl.View >
                                     <dxg:TableView  
@@ -594,7 +592,8 @@
                                          Style="{StaticResource ProjectGridControl}"
                                          SelectionMode="Row"
                                          AutoGenerateColumns="None"
-                                         ItemsSource="{Binding PartsParameterVMObservableCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         ItemsSource="{Binding ReadyToTypeSettingProductProjectVMSelected.UnBoxPartsParameterVMObservableCollection,  
+                            IsAsync=True,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}"   >
                             <dxg:GridControl.View >
                                 <!--RowDoubleClickCommand="{Binding ProjectGridControlRowDoubleClickCommand}"-->
@@ -779,9 +778,6 @@
                                 <ListBox Style="{StaticResource SeparateBoxVMListBox}"
                                          ItemsSource="{Binding StampingBoxPartsVM.SeparateBoxVMObservableCollection}"  
                                          SelectedItem="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM}">
-                                    <dxmvvm:Interaction.Behaviors>
-                                        <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding SeparateBoxVMObservableCollectionelectionChangedCommand}" PassEventArgsToCommand="True"/>
-                                    </dxmvvm:Interaction.Behaviors>
 
                                 </ListBox>
                             </ScrollViewer>
@@ -822,7 +818,7 @@
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
             Background="Transparent"  MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding StampingBoxPartsVM.BoxPartsParameterVMCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding StampingBoxPartsVM.SelectedSeparateBoxVM.BoxPartsParameterVMCollection,  IsAsync=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SizeChanged">

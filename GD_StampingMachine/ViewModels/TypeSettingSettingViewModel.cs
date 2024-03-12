@@ -76,7 +76,7 @@ namespace GD_StampingMachine.ViewModels
                     ProjectDistributeViewModel NewProjectDistributeVM = new(
                         NewProjectDistribute,
                         ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection,
-                        ProductSettingVM.ProductProjectVMObservableCollection);
+                        ProductSettingVM.ProductProjectVMCollection);
 
                     ProjectDistributeVMObservableCollection.Add(NewProjectDistributeVM);
                     var Model_IEnumerable = ProjectDistributeVMObservableCollection.Select(x => x.ProjectDistribute).ToList();
@@ -116,7 +116,7 @@ namespace GD_StampingMachine.ViewModels
                         var Removed_List = new List<int>();
                         foreach (var _selectItem in projectDistributeGridControlSelectedItems)
                         {
-                            _selectItem.StampingBoxPartsVM.BoxPartsParameterVMCollection.ForEach(obj =>
+                            _selectItem.StampingBoxPartsVM.SeparateBoxVMObservableCollection.SelectMany(x=>x.BoxPartsParameterVMCollection).ForEach(obj =>
                             {
                                 if (_selectItem.ProjectDistributeName == _selectItem.StampingBoxPartsVM.ProjectDistributeName)
                                 {

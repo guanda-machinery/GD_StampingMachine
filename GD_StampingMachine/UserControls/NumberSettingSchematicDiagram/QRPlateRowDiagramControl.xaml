@@ -12,6 +12,7 @@
 
              d:DataContext="{d:DesignInstance Type= GD_ParameterSettingViewModels:SettingBaseViewModel}"                  
              Cursor="Arrow"  >
+    <Viewbox>
     <Grid Width="90" Height="35">
         <Grid.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource Body1TextBlock}">
@@ -177,5 +178,6 @@
                     Text="{Binding QrCodeContent}" FontSize="4" />
             </Grid>
         </Canvas>
-    </Grid>
+        </Grid>
+    </Viewbox>
 </UserControl>

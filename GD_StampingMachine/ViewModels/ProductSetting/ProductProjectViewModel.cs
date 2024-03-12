@@ -3,6 +3,7 @@ using CsvHelper.Configuration.Attributes;
 using DevExpress.Data.Extensions;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Utils.Extensions;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Core;
@@ -486,6 +487,27 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get=>_editNumberSettingSavedCollection;
         }
 
+
+        private AsyncRelayCommand<object> _productDeleteCommand;
+        [JsonIgnore]
+        public AsyncRelayCommand<object> ProductDeleteCommand
+        {
+            get => _productDeleteCommand??= new (async obj =>
+            {
+                if (obj is PartsParameterViewModel pParameter)
+                {
+                    if (await MethodWinUIMessageBox.AskDelProjectAsync(null, pParameter.ParameterA))
+                     {
+                         this.PartsParameterVMObservableCollection.Remove(pParameter);
+                     }
+                }
+            });
+        }
+
+
+
+
+
         /*public ICommand ChangePartsParameterVM_ClonedParameterCommand
         {
             get => new RelayCommand(() =>
@@ -865,12 +887,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// </summary>
         public QRSettingViewModel? ImportProjectQRSettingBaseVM { get; set; }
 
-
-
-
-
-
-
        
         private PartsParameterViewModelObservableCollection? _partsParameterVMObservableCollection;
         /// <summary>
@@ -883,9 +899,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 if (_partsParameterVMObservableCollection == null)
                 {
                     _partsParameterVMObservableCollection = new(ProductProject.PartsParameterObservableCollection.Select(p=>new PartsParameterViewModel(p)));
+                    _partsParameterVMObservableCollection.CollectionChanged -= PartsParameterVMObservableCollection_CollectionChanged;
+                    _partsParameterVMObservableCollection.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged;
+                    UnBoxPartsParameterVMObservableCollection = new PartsParameterViewModelObservableCollection(_partsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
                 }
-                _partsParameterVMObservableCollection.CollectionChanged -= PartsParameterVMObservableCollection_CollectionChanged;
-                _partsParameterVMObservableCollection.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged;
                 return _partsParameterVMObservableCollection;
             }
             set
@@ -895,18 +912,83 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 {
                     _partsParameterVMObservableCollection.CollectionChanged -= PartsParameterVMObservableCollection_CollectionChanged;
                     _partsParameterVMObservableCollection.CollectionChanged += PartsParameterVMObservableCollection_CollectionChanged;
+                    UnBoxPartsParameterVMObservableCollection = new PartsParameterViewModelObservableCollection(value.Where(p => p.BoxIndex == null));
                 }
                 OnPropertyChanged();
             }
         }
 
+
+        private PartsParameterViewModelObservableCollection _unBoxPartsParameterVMObservableCollection;
+        /// <summary>
+        /// 還沒放進箱子內的資料
+        /// </summary>
+        public PartsParameterViewModelObservableCollection UnBoxPartsParameterVMObservableCollection
+        {
+            get => _unBoxPartsParameterVMObservableCollection ??= new PartsParameterViewModelObservableCollection(PartsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
+            private set
+            {
+                _unBoxPartsParameterVMObservableCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         private void PartsParameterVMObservableCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            
-
             if (sender is IEnumerable<GD_StampingMachine.ViewModels.ProductSetting.PartsParameterViewModel> collection)
             {
                 ProductProject.PartsParameterObservableCollection = collection.Select(p => p.PartsParameter).ToList();
+            }
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        if (e.NewItems is ICollection newCollection)
+                        {
+                            foreach (var item in newCollection)
+                            {
+                                if (item is PartsParameterViewModel parameter)
+                                {
+                                    if (!UnBoxPartsParameterVMObservableCollection.Contains(parameter))
+                                        UnBoxPartsParameterVMObservableCollection.Add(parameter);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    {
+                        if (e.OldItems is ICollection newCollection)
+                        {
+                            foreach (var item in newCollection)
+                            {
+                                if (item is PartsParameterViewModel parameter)
+                                {
+                                    if (UnBoxPartsParameterVMObservableCollection.Contains(parameter))
+                                        UnBoxPartsParameterVMObservableCollection.Remove(parameter);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    {
+                        if (e.NewItems is ICollection newCollection && e.OldItems is ICollection oldCollection)
+                        {
+                            var replacements = oldCollection.OfType<PartsParameterViewModel>()
+                                .Zip(newCollection.OfType<PartsParameterViewModel>(), (oldItem, newItem) => (oldItem, newItem));
+
+                            foreach (var item in replacements)
+                            {
+                                UnBoxPartsParameterVMObservableCollection.AddOrReplace(x=>x == item.oldItem, item.newItem);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -1100,12 +1182,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
 
         }
-        public ProductProjectViewModelObservableCollection(List<ProductProjectViewModel> list) : base()
+        public ProductProjectViewModelObservableCollection(List<ProductProjectViewModel> list) : base(list)
         {
             foreach(var item in list)
                 item.IsMarkedChanged += Item_IsMarkedChanged;
         }
-        public ProductProjectViewModelObservableCollection(IEnumerable<ProductProjectViewModel> collection) : base()
+        public ProductProjectViewModelObservableCollection(IEnumerable<ProductProjectViewModel> collection) : base(collection)
         {
             foreach (var item in collection)
                 item.IsMarkedChanged += Item_IsMarkedChanged;
@@ -1134,6 +1216,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     }
                 }
             }
+            base.OnCollectionChanged(e);
         }
 
         private void Item_IsMarkedChanged(object? sender, bool e)

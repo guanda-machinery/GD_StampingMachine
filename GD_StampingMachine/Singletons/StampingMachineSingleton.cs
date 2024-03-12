@@ -209,14 +209,14 @@ namespace GD_StampingMachine.Singletons
 
             if (JsonHM.ReadProjectDistributeListJson(out var RPDList))
             {
-                var separateBoxExtVMCollection = new SeparateBoxExtViewModelObservableCollection(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection);
                 //RPDList.ForEach(PDistribute =>
                 foreach(var PDistribute in RPDList)
                 {
                     try
                     {
+                        var separateBoxExtVMCollection = new SeparateBoxExtViewModelObservableCollection(ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection);
                         //將製品清單拆分成兩份
-                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, separateBoxExtVMCollection, ProductSettingVM.ProductProjectVMObservableCollection)); 
+                        TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(new ProjectDistributeViewModel(PDistribute, separateBoxExtVMCollection, ProductSettingVM.ProductProjectVMCollection)); 
                     }
                     catch
                     {

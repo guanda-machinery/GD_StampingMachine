@@ -1388,8 +1388,7 @@
                 <dxg:GridControl x:Name="ProjectGridControl"    
                              
                                       Background="Transparent"
-                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay, 
-                    UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                      ItemsSource="{Binding PartsParameterVMObservableCollection, Mode=TwoWay,IsAsync=True}"
                                       DataAreaBackground="Transparent" 
                                       Style="{StaticResource ProjectGridControl}"
                                       AutoGenerateColumns="None"  
@@ -1417,7 +1416,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <dxg:GridControl.View >
-                        <dxg:TableView    
+                        <dxg:TableView 
                                 SearchString="{Binding ElementName=ParameterSearchTextBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}"
                                 AllowPaging="True"
                                 IsColumnMenuEnabled ="False"
@@ -1539,11 +1538,10 @@
                                         </ToggleButton.Style>
                                         <Grid>
 
-                                            <Viewbox>
                                                 <GD_SchematicDiagram:QRPlateRowDiagramControl   
                             DataContext="{Binding Row.SettingBaseVM, IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
                                                 </GD_SchematicDiagram:QRPlateRowDiagramControl>
-                                            </Viewbox>
+                                    
                                         </Grid>
                                     </ToggleButton>
 
@@ -1574,7 +1572,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid Height="auto" Margin="2,5">
-                                    <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
+                                    <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged, IsAsync=True}"  
                                              BorderThickness="0"  Foreground="Green"
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                     </ProgressBar>
@@ -1604,7 +1602,7 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Button ToolTip="{DynamicResource btnEdit}"     Margin="5,0"
-                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_CommonControl:InvertBooleanConverter}}"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl}, Path=DataContext.ProductProjectIsFinish, Converter={GD_CommonControl:InvertBooleanConverter}}"
                                         Command="{Binding Row.ProjectEditCommand}" Height="30" MinWidth="50">
 
                                     <Button.Style>
@@ -1655,8 +1653,11 @@
                         <dxg:GridColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Height="30" MinWidth="50" Margin="5,0"
-                                        IsEnabled="{Binding ElementName=ProjectGridControl, Path=DataContext.ProductProjectIsFinish, Converter={GD_CommonControl:InvertBooleanConverter}}"
-                                        ToolTip="{DynamicResource btnDelete}" Command="{Binding Row.ProjectDeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dxg:GridControl}}}" >
+                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl}
+                                    , Path=DataContext.ProductProjectIsFinish, Converter={GD_CommonControl:InvertBooleanConverter}}"
+                                        ToolTip="{DynamicResource btnDelete}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxg:GridControl}, 
+                                    Path=DataContext.ProductDeleteCommand}" 
+                                        CommandParameter="{Binding Row}" >
                                     <Button.Style>
                                         <Style TargetType="Button" BasedOn="{StaticResource SiegCustomButton_Primary}">
                                             <Setter Property="Content">
