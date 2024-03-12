@@ -413,10 +413,15 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         public PartsParameterViewModelObservableCollection() : base()
         {
 
+
+
         }
 
         public PartsParameterViewModelObservableCollection(List<PartsParameterViewModel> list) : base(list)
         {
+
+
+
             foreach (var item in list)
             {
                 item.FinishProgressChanged += item_FinishProgressChanged;
@@ -430,6 +435,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection):base(collection) 
         {
+
             if (collection == null)
             {
                 return;
@@ -479,15 +485,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
             base.OnCollectionChanged(e);
         }
-
         protected override void InsertItem(int index, PartsParameterViewModel item)
         {
             item.FinishProgressChanged += item_FinishProgressChanged;
             item.IsFinishChanged += item_IsFinishChanged;
             item.DistributeNameChanged += Item_DistributeNameChanged;
-           // item.WorkIndexChanged += Item_WorkIndexChanged;
-          //  item.IsTransportedChanged += Item_IsTransportedChanged;
-
 
             CalcFinishProgress();
             CalcUnFinishedCount();
@@ -504,7 +506,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             CalcUnFinishedCount(); 
             ItemFinish = this.Select(p => p.IsFinish);
         }
-
         private void Item_DistributeNameChanged(object? sender, string e)
         {
             CalcNotAssignedProductProjectCount();
@@ -519,7 +520,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
 
         }
-
         private void CalcNotAssignedProductProjectCount()
         {
             NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName) && !p.IsFinish) : 0;
@@ -591,31 +591,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             }
         }
 
-        /*public static implicit operator List<PartsParameterModel>(PartsParameterViewModelObservableCollection v)
-        {
-            return v.Select(p => p.PartsParameter).ToList();
-        }
 
-
-        public static implicit operator PartsParameterViewModelObservableCollection(List<PartsParameterModel> v)
-        {
-            if (v == null)
-            {
-                return null;
-            }
-            else
-            {
-                var op = new PartsParameterViewModelObservableCollection();
-                foreach (var item in v)
-                {
-                    op.Add(new PartsParameterViewModel(item));
-                }
-                return op;
-            }
-        }*/
 
     }
 
 
+
+
+
+
 }
+
+
 

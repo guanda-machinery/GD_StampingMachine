@@ -806,7 +806,10 @@
                                         <TextBlock Text="{DynamicResource btnBoxToProject}" VerticalAlignment="Center" Padding="0,3,0,0"/>
                                     </StackPanel>
                                 </Button>
-
+                                <ToggleButton Style="{StaticResource GD_ToggleButton_Gray}"
+                        IsChecked="{Binding ShowIsTransported}" FontWeight="Normal"
+                                     Content="{DynamicResource btnShowFinishItem}"
+                                  Padding="5,3,5,0" Margin="5,5,5,5"/>
                             </StackPanel>
 
                             

@@ -622,6 +622,7 @@ namespace GD_StampingMachine.ViewModels
         /// GridControl ABC參數 沒放進箱子內的(等待分配的)
         /// </summary>
         [JsonIgnore]
+        [Obsolete]
         public PartsParameterViewModelObservableCollection PartsParameterVMObservableCollection
         {
             get
@@ -825,48 +826,51 @@ namespace GD_StampingMachine.ViewModels
                         List<PartsParameterViewModel> addPartsParameterViewModel = new();
 
                         int boxIndex = 0;
-                        foreach (var partsParameterVM in PartsParameterVMObservableCollection)
+                        // foreach (var partsParameterVM in PartsParameterVMObservableCollection)
+                        if (ReadyToTypeSettingProductProjectVMSelected != null)
                         {
-                            var separateBox = availableSeparateBoxCollection[boxIndex];
-
-                            partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
-                            partsParameterVM.BoxIndex = separateBox.BoxIndex;
-                            partsParameterVM.WorkIndex = -1;
-                            partsParameterVM.IsSended = false;
-                            partsParameterVM.IsTransported = false;
-             
-                            addPartsParameterViewModel.Add(partsParameterVM);
-
-                            var SBox = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxIndex == separateBox.BoxIndex);
-                            if (SBox != null)
+                            UnBoxPartsParameter改寫：如果index被變更就自行移動到對應的Collection
+                            foreach (var partsParameterVM in ReadyToTypeSettingProductProjectVMSelected.UnBoxPartsParameterVMObservableCollection)
                             {
+                                var separateBox = availableSeparateBoxCollection[boxIndex];
 
-                                SBox.BoxPartsParameterVMCollection.Add(partsParameterVM);
+                                partsParameterVM.DistributeName = StampingBoxPartsVM.ProjectDistributeName;
+                                partsParameterVM.BoxIndex = separateBox.BoxIndex;
+                                partsParameterVM.WorkIndex = -1;
+                                partsParameterVM.IsSended = false;
+                                partsParameterVM.IsTransported = false;
 
+                                addPartsParameterViewModel.Add(partsParameterVM);
 
-                                var boxCount = SBox.BoxPartsParameterVMCollection.Count(x => !x.IsTransported && x.BoxIndex == separateBox.BoxIndex);
-                                //餘數
-                                var remainder = boxCount % (int)separateBox.BoxSliderValue;
-                                if (remainder == 0)
+                                var SBox = StampingBoxPartsVM.SeparateBoxVMObservableCollection.FirstOrDefault(x => x.BoxIndex == separateBox.BoxIndex);
+                                if (SBox != null)
                                 {
-                                    //箱子往後推一格
-                                    boxIndex = (boxIndex + 1) % availableSeparateBoxCollection.Count;
+
+                                    await Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+                                     {
+                                         SBox.BoxPartsParameterVMCollection.Add(partsParameterVM);
+                                     }));
+
+                                    var boxCount = SBox.BoxPartsParameterVMCollection.Count(x => !x.IsTransported && x.BoxIndex == separateBox.BoxIndex);
+                                    //餘數
+                                    var remainder = boxCount % (int)separateBox.BoxSliderValue;
+                                    if (remainder == 0)
+                                    {
+                                        //箱子往後推一格
+                                        boxIndex = (boxIndex + 1) % availableSeparateBoxCollection.Count;
+                                    }
                                 }
                             }
-                        }
-                    
-                        Application.Current?.Dispatcher.Invoke(new Action(() =>
-                        {
-                            foreach(var part in addPartsParameterViewModel)
+
+                            Application.Current?.Dispatcher.Invoke(new Action(() =>
                             {
-                               var remove = PartsParameterVMObservableCollection.Remove(part);
-                            }
-                        }));
-
-
-                        await SaveProductProjectVMCollectionAsync();
-
-                       // OnPropertyChanged(nameof(PartsParameterVMCollection_Unassigned_RowFilterCommand));
+                                foreach (var part in addPartsParameterViewModel)
+                                {
+                                    var remove = PartsParameterVMObservableCollection.Remove(part);
+                                }
+                            }));
+                            await SaveProductProjectVMCollectionAsync();
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -987,7 +991,7 @@ namespace GD_StampingMachine.ViewModels
                     try
                     {
                         var movableCollection = this.StampingBoxPartsVM.SelectedSeparateBoxVM?.BoxPartsParameterVMCollection.Where(x =>
-                        (x.IsFinish || x.IsSended || !x.IsTransported)).ToList();
+                        (!x.IsFinish && !x.IsSended && !x.IsTransported)).ToList();
 
                         //foreach (var moveableItem in movableCollection)
                         for (int i = 0; i < movableCollection.Count; i++)
@@ -1023,6 +1027,18 @@ namespace GD_StampingMachine.ViewModels
             });
         }
 
+        private bool _showIsTransported;
+        public bool ShowIsTransported
+        {
+            get => _showIsTransported; set
+            {
+                _showIsTransported = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(BoxPartsParameterVMRowFilterCommand));
+            }
+
+        }
+
 
 
 
@@ -1038,7 +1054,9 @@ namespace GD_StampingMachine.ViewModels
                 {
                     if (StampingBoxPartsVM.SelectedSeparateBoxVM != null)
                     {
-                        if (PParameter.DistributeName == this.ProjectDistributeName && PParameter.BoxIndex == StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex && !PParameter.IsTransported)
+                        if (PParameter.DistributeName == this.ProjectDistributeName && 
+                        PParameter.BoxIndex == StampingBoxPartsVM.SelectedSeparateBoxVM.BoxIndex 
+                        && (!PParameter.IsTransported || ShowIsTransported))
                             args.Visible = true;
                         else
                             args.Visible = false;

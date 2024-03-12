@@ -515,18 +515,24 @@
                                                     </StackPanel>
                                                 </Button>
 
-                                            <ToggleButton Name="TestToggle"  Style="{StaticResource GD_ToggleButton_Gray}" IsChecked="{Binding ShowIsTransported}"
+                                            <ToggleButton Name="TestToggle"  Style="{StaticResource GD_ToggleButton_Gray}" IsChecked="{Binding TestedIsChecked}"
                                                 Content="Test" Visibility="{Binding IsDebuggerAttached , Converter={dx:BooleanToVisibilityConverter}}">
                                                 
                                             </ToggleButton>
-                                            
 
-                                            </StackPanel>
+                                            <ToggleButton Style="{StaticResource GD_ToggleButton_Gray}"
+                        IsChecked="{Binding ShowIsTransported}"
+                                     Content="{DynamicResource btnShowFinishItem}"
+                                  Padding="5,3,5,0" Margin="5,5,5,5"/>
+
+
+                                        </StackPanel>
                                         <dxg:GridControl Grid.Row="2"  
                                         Name="ArrangeWorkGridControl" HorizontalAlignment="Stretch" 
                                     Grid.Column="0" Margin="10,0"
                                     Background="Transparent"  Height="300" 
                                     Style="{StaticResource ProjectGridControl}"
+                                                         CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
                                     AutoGenerateColumns="None" 
                                  ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection, IsAsync=True}"
                                      >

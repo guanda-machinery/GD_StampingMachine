@@ -1345,7 +1345,7 @@ namespace GD_StampingMachine.ViewModels
                         {
                             ShowIsTransported = false;
 
-                            var unTransportedCollection = this.SelectedProjectDistributeVM?.PartsParameterVMObservableCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
+                            var unTransportedCollection = this.SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection.Where(x => x.BoxIndex == selectedBoxIndex && x.IsFinish && !x.IsTransported);
                             if (unTransportedCollection != null)
                                 foreach (var unTransPorted in unTransportedCollection)
                                 {

@@ -919,19 +919,21 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private PartsParameterViewModelObservableCollection _unBoxPartsParameterVMObservableCollection;
+        private PartsParameterViewModelObservableCollection m_unBoxPartsParameterVMObservableCollection;
         /// <summary>
         /// 還沒放進箱子內的資料
         /// </summary>
-        public PartsParameterViewModelObservableCollection UnBoxPartsParameterVMObservableCollection
+        public ReadOnlyObservableCollection<PartsParameterViewModel>  UnBoxPartsParameterVMObservableCollection
         {
-            get => _unBoxPartsParameterVMObservableCollection ??= new PartsParameterViewModelObservableCollection(PartsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
+            get => m_unBoxPartsParameterVMObservableCollection ??= new PartsParameterViewModelObservableCollection(PartsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
             private set
             {
-                _unBoxPartsParameterVMObservableCollection = value;
+                m_unBoxPartsParameterVMObservableCollection = value;
                 OnPropertyChanged();
             }
         }
+
+
 
 
         private void PartsParameterVMObservableCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

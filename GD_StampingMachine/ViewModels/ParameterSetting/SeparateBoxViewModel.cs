@@ -138,6 +138,8 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
+
+
         private void SubscriberBoxPartsParameterChange(PartsParameterViewModelObservableCollection collection)
         {
             if (collection != null)
@@ -178,7 +180,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                                     item.IsFinishChanged += ParameterChanged; ;
                                     item.WorkIndexChanged += ParameterChanged;
                                     item.IsTransportedChanged += ParameterChanged;
-
                                 }
                             }
                         }
@@ -218,9 +219,6 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                                 newItem.IsFinishChanged += ParameterChanged; ;
                                 newItem.WorkIndexChanged += ParameterChanged;
                                 newItem.IsTransportedChanged += ParameterChanged;
-
-
-
                             }
                         }
                     }
