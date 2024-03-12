@@ -1,4 +1,5 @@
 ﻿using DevExpress.DataAccess.Json;
+using DevExpress.Mvvm.Native;
 using DevExpress.Utils.Extensions;
 using DevExpress.XtraRichEdit.Layout;
 using DevExpress.XtraTreeList.Internal;
@@ -389,10 +390,22 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
     {
         public SeparateBoxExtViewModelObservableCollection():base()
         {
-
+            m_scheduledPartsParameterCollection = new();
+            m_scheduledPartsParameterCollectionReadOnly = new ReadOnlyObservableCollection<PartsParameterViewModel>(m_scheduledPartsParameterCollection);
+            
+            m_unscheduledPartsParameterCollection = new();
+            m_unscheduledPartsParameterCollectionReadOnly = new ReadOnlyObservableCollection<PartsParameterViewModel>(m_unscheduledPartsParameterCollection);
         }
         public SeparateBoxExtViewModelObservableCollection(IEnumerable<SeparateBoxViewModel> collection) : base()
         {
+            m_scheduledPartsParameterCollection = new();
+            m_scheduledPartsParameterCollectionReadOnly = new ReadOnlyObservableCollection<PartsParameterViewModel>(m_scheduledPartsParameterCollection);
+
+            m_unscheduledPartsParameterCollection = new();
+            m_unscheduledPartsParameterCollectionReadOnly = new ReadOnlyObservableCollection<PartsParameterViewModel>(m_unscheduledPartsParameterCollection);
+
+
+
             if (collection == null)
             {
                 return;
@@ -411,10 +424,17 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-
         public SeparateBoxExtViewModelObservableCollection(IEnumerable<SeparateBoxExtViewModel> collection) : base(collection)
         {
-            foreach(var item in collection)
+            m_scheduledPartsParameterCollection = new();
+            m_scheduledPartsParameterCollectionReadOnly = new ReadOnlyObservableCollection<PartsParameterViewModel>(m_scheduledPartsParameterCollection);
+
+            m_unscheduledPartsParameterCollection = new();
+            m_unscheduledPartsParameterCollectionReadOnly = new ReadOnlyObservableCollection<PartsParameterViewModel>(m_unscheduledPartsParameterCollection);
+
+
+
+            foreach (var item in collection)
             {
                 item.BoxPartsParameterVMCollection.CollectionChanged += BoxPartsParameterVMCollection_CollectionChanged;
 
@@ -581,9 +601,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             partsParameter.IsScheduledChanged += PParameter_IsScheduledChanged;
 
             if (partsParameter.IsScheduled)
-                ScheduledPartsParameterCollection.Add(partsParameter);
+                m_scheduledPartsParameterCollection.Add(partsParameter);
             else
-                UnscheduledPartsParameterCollection.Add(partsParameter);
+                m_unscheduledPartsParameterCollection.Add(partsParameter);
 
         }
         private void RemovePartsParameter(PartsParameterViewModel partsParameter)
@@ -591,9 +611,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             partsParameter.IsScheduledChanged -= PParameter_IsScheduledChanged;
 
             if (partsParameter.IsScheduled)
-                ScheduledPartsParameterCollection.Remove(partsParameter);
+                m_scheduledPartsParameterCollection.Remove(partsParameter);
             else
-                UnscheduledPartsParameterCollection.Remove(partsParameter);
+                m_unscheduledPartsParameterCollection.Remove(partsParameter);
         }
 
 
@@ -610,12 +630,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 if (oldPartsParameter.IsScheduled)
                 {
                     if(scheduledIndex!=-1)
-                        ScheduledPartsParameterCollection[scheduledIndex] = newPartsParameter;
+                        m_scheduledPartsParameterCollection[scheduledIndex] = newPartsParameter;
                 }
                 else
                 {
                     if (unscheduledIndex != -1)
-                        UnscheduledPartsParameterCollection[unscheduledIndex] = newPartsParameter;
+                        m_unscheduledPartsParameterCollection[unscheduledIndex] = newPartsParameter;
                 }
             }
             else
@@ -636,18 +656,18 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                     if (Part.IsScheduled)
                     {
                         if (UnscheduledPartsParameterCollection.Contains(Part))
-                            UnscheduledPartsParameterCollection.Remove(Part);
+                            m_unscheduledPartsParameterCollection.Remove(Part);
 
                         if (!ScheduledPartsParameterCollection.Contains(Part))
-                            ScheduledPartsParameterCollection.Add(Part);
+                            m_scheduledPartsParameterCollection.Add(Part);
                     }
                     else
                     {
                         if (ScheduledPartsParameterCollection.Contains(Part))
-                            ScheduledPartsParameterCollection.Remove(Part);
+                            m_scheduledPartsParameterCollection.Remove(Part);
 
                         if (!UnscheduledPartsParameterCollection.Contains(Part))
-                            UnscheduledPartsParameterCollection.Add(Part);
+                            m_unscheduledPartsParameterCollection.Add(Part);
                     }
                 });
             }
@@ -655,26 +675,28 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
 
         }
 
-
-        private PartsParameterViewModelObservableCollection _unscheduledPartsParameterCollection;
         /// <summary>
         /// 未排加工的鐵牌
         /// </summary>
-        public PartsParameterViewModelObservableCollection UnscheduledPartsParameterCollection
+        public ReadOnlyObservableCollection<PartsParameterViewModel> UnscheduledPartsParameterCollection
         {
-            get => _unscheduledPartsParameterCollection ??= new();
-            private set { _unscheduledPartsParameterCollection = value; OnPropertyChanged(new PropertyChangedEventArgs(nameof(UnscheduledPartsParameterCollection))); }
+            get => m_unscheduledPartsParameterCollectionReadOnly;
         }
+        readonly PartsParameterViewModelObservableCollection m_unscheduledPartsParameterCollection;
+        readonly ReadOnlyObservableCollection<PartsParameterViewModel> m_unscheduledPartsParameterCollectionReadOnly;
 
-        private PartsParameterViewModelObservableCollection _scheduledPartsParameterCollection;
+
         /// <summary>
         /// 已排加工的鐵牌
         /// </summary>
-        public PartsParameterViewModelObservableCollection ScheduledPartsParameterCollection
+        public ReadOnlyObservableCollection<PartsParameterViewModel> ScheduledPartsParameterCollection
         {
-            get => _scheduledPartsParameterCollection ??= new();
-            private set { _scheduledPartsParameterCollection = value; OnPropertyChanged(new PropertyChangedEventArgs(nameof(ScheduledPartsParameterCollection))); }
+            get => m_scheduledPartsParameterCollectionReadOnly;
         }
+        readonly PartsParameterViewModelObservableCollection m_scheduledPartsParameterCollection;
+        readonly ReadOnlyObservableCollection<PartsParameterViewModel> m_scheduledPartsParameterCollectionReadOnly;
+
+
 
     }
 

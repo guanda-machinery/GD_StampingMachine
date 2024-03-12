@@ -1131,7 +1131,7 @@ namespace GD_StampingMachine.ViewModels
                                         .ToDictionary(box => box.BoxIndex,
                                         box => box.BoxSliderValue <= 0 ? double.MaxValue : box.BoxSliderValue - box.UnTransportedBoxPieceValue);
 
-                                        var wData = partsParameterVMCollection.FindAll(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
+                                        var wData = partsParameterVMCollection.Where(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
                                         foreach (var partsParameter in wData)
                                         {
                                             var unTransportedCount = SelectedProjectDistributeVM.PartsParameterVMObservableCollection
@@ -1150,12 +1150,8 @@ namespace GD_StampingMachine.ViewModels
                                         }
                                         var group = workableData.GroupBy(x => x.BoxIndex);
 
-
                                         if (workableData.Count > 0)
                                         {
-                                           // var indexMax = SelectedBoxPartsParameterVMCollection != null ? SelectedBoxPartsParameterVMCollection.Max(x => x.WorkIndex) + 1 : 0;
-                                          
-                                            
                                             var indexMax = SelectedProjectDistributeVM.StampingBoxPartsVM.
                                             SeparateBoxVMObservableCollection.SelectMany(x => x.BoxPartsParameterVMCollection).Count()==0
                                             ? -1 :
@@ -1173,13 +1169,20 @@ namespace GD_StampingMachine.ViewModels
                                                 partsParameter.WorkIndex = indexMax;
                                             }
                                         }
+                                        else if (partsParameterVMCollection
+                                        .Select(x => x.BoxIndex)
+                                        .Any(boxIndex => SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection
+                                        .Any(box => box.BoxIndex == boxIndex && !box.BoxIsEnabled)))
+                                        {
+                                            //目標箱子被關閉
+                                            await MessageBoxResultShow.ShowOKAsync(null, "", (string)Application.Current.TryFindResource("Text_BoxIsNotEnableFailAddToMachiningProcess"), GD_MessageBoxNotifyResult.NotifyYe , false);
+                                        }
                                         else
                                         {
                                             //沒有可加工的東西
                                             //沒有空位
-                                            //Debugger.Break();
 
-                                            await MessageBoxResultShow.ShowOKAsync(null, "", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe);
+                                            await MessageBoxResultShow.ShowOKAsync(null, "", (string)Application.Current.TryFindResource("Text_MachiningProcessIsOccupyConfirm"), GD_MessageBoxNotifyResult.NotifyYe, false);
                                         }
                                     }
                                     else

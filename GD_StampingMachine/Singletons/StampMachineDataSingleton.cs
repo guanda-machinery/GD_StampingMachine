@@ -1617,7 +1617,7 @@ namespace GD_StampingMachine.Singletons
                                                                 || machineSetting.ShearingIsFinish != plateMonitorVM.ShearingIsFinish)
                                                                 {
                                                                     //  var invoke =
-                                                                    Application.Current?.Dispatcher.Invoke(async () =>
+                                                                    Application.Current?.Dispatcher.Invoke(() =>
                                                                     {
                                                                         try
                                                                         {

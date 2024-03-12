@@ -4,7 +4,7 @@ namespace GD_StampingMachine.ViewModels
 {
     public class StampingTypeViewModel : GD_CommonControlLibrary.BaseViewModel
     {
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is StampingTypeViewModel StampObj)
             {

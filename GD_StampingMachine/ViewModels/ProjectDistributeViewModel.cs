@@ -10,6 +10,7 @@ using DevExpress.Xpf.CodeView;
 using DevExpress.Xpf.Layout.Core;
 using DevExpress.XtraRichEdit.Layout;
 using DevExpress.XtraRichEdit.Model.History;
+using EnvDTE;
 using GD_CommonLibrary.Extensions;
 using GD_StampingMachine.Method;
 using GD_StampingMachine.Singletons;
@@ -114,8 +115,9 @@ namespace GD_StampingMachine.ViewModels
 
         internal async Task SaveProductProjectVMCollectionAsync()
         {
-            var saveTask = StampingMachineSingleton.Instance.ProductSettingVM.ProductProjectVMCollection.Select(x => x.SaveProductProjectAsync());
-            await Task.WhenAll(saveTask);
+            var saveTask = StampingMachineSingleton.Instance.ProductSettingVM?.ProductProjectVMCollection.Select(x => x.SaveProductProjectAsync());
+            if(saveTask!=null)
+                await Task.WhenAll(saveTask);
         }
 
 
@@ -520,7 +522,7 @@ namespace GD_StampingMachine.ViewModels
                         this.ReadyToTypeSettingProductProjectVMCollection.Add(ProjectDistributeVM);
                         this.NotReadyToTypeSettingProductProjectVMCollection.Remove(ProjectDistributeVM);
                     }
-
+                    await Task.Yield();
                 }
                 catch (Exception)
                 {
