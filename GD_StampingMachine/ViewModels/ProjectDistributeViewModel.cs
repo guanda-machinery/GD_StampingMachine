@@ -830,7 +830,9 @@ namespace GD_StampingMachine.ViewModels
                         if (ReadyToTypeSettingProductProjectVMSelected != null)
                         {
                             UnBoxPartsParameter改寫：如果index被變更就自行移動到對應的Collection
-                            foreach (var partsParameterVM in ReadyToTypeSettingProductProjectVMSelected.UnBoxPartsParameterVMObservableCollection)
+                        
+                            var readyList=   ReadyToTypeSettingProductProjectVMSelected.UnBoxPartsParameterVMObservableCollection.ToList();
+                            foreach (var partsParameterVM in readyList)
                             {
                                 var separateBox = availableSeparateBoxCollection[boxIndex];
 
