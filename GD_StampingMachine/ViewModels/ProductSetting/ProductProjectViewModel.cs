@@ -257,7 +257,10 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 新增排版專案的打勾符號
         /// </summary>
-        public bool IsMarked { get => _isMarked; set { _isMarked = value; OnPropertyChanged(); } }
+        public bool IsMarked { get => _isMarked; set { _isMarked = value; OnPropertyChanged(); IsMarkedChanged?.Invoke(this, value); } }
+       
+        public event EventHandler<bool>? IsMarkedChanged;
+
 
 
         private bool _fileIsNotExisted = false;
@@ -267,7 +270,17 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         /// <summary>
         /// 新增排版專案的打勾符號
         /// </summary>
-        public bool ProductProjectIsFinish { get => ProductProject.ProductProjectIsFinish; set { ProductProject.ProductProjectIsFinish = value; OnPropertyChanged(); } }
+        public bool ProductProjectIsFinish 
+        { 
+            get => ProductProject.ProductProjectIsFinish; 
+            set
+            { 
+                ProductProject.ProductProjectIsFinish = value; 
+                OnPropertyChanged();
+                ProductProjectIsFinishChanged?.Invoke(this, value);
+            }
+        }
+        public event EventHandler<bool> ProductProjectIsFinishChanged;
 
 
         //private RelayCommand<object> _projectEditCommand;
@@ -1069,55 +1082,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
 
 
-        // private ICommand?_addTypeSettingCommand;
-        /// <summary>
-        /// 新增排版專案
-        /// </summary>
-        [JsonIgnore]
-        public ICommand AddTypeSettingCommand
-        {
-            get => new RelayCommand<object>(obj =>
-            {
-                if (obj == null)
-                {
-                    throw new Exception();
-                }
-
-                //新寫法
-                if (obj is GD_StampingMachine.ViewModels.ProjectDistributeViewModel ProjectDistributeVM)
-                {
-                    if (ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem != null)
-                    {
-                        ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem.IsMarked = true;
-                        ProjectDistributeVM.ProductProjectNameList.Add(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem.ProductProjectName);
-                        ProjectDistributeVM.ReadyToTypeSettingProductProjectVMObservableCollection.Add(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem);
-                        ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMObservableCollection.Remove(ProjectDistributeVM.NotReadyToTypeSettingProductProjectVMCurrentItem);
-                    }
-                }
-
-                //舊寫法
-                if (obj is object[] objectArray)
-                {
-                    if (objectArray.Count() == 2)
-                    {
-                        DevExpress.Xpf.Grid.GridControl GridControlSource = objectArray[0] as DevExpress.Xpf.Grid.GridControl;
-                        DevExpress.Xpf.Grid.GridControl GridControlTarget = objectArray[1] as DevExpress.Xpf.Grid.GridControl;
-                        if (GridControlSource != null && GridControlTarget != null)
-                        {
-                            if (GridControlSource.CurrentItem is ProductProjectViewModel _currentItem &&
-                            GridControlSource.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> SourceItemS &&
-                            GridControlTarget.ItemsSource is ObservableCollection<GD_StampingMachine.ViewModels.ProductSetting.ProductProjectViewModel> TargetItemS)
-                            {
-                                _currentItem.IsMarked = true;
-                                TargetItemS.Add(_currentItem);
-                                SourceItemS.Remove(_currentItem);
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
 
 
 
@@ -1130,7 +1094,68 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
     }
 
+    public class ProductProjectViewModelObservableCollection : ObservableCollection<ProductProjectViewModel>
+    {
+        public ProductProjectViewModelObservableCollection() : base()
+        {
 
+        }
+        public ProductProjectViewModelObservableCollection(List<ProductProjectViewModel> list) : base()
+        {
+            foreach(var item in list)
+                item.IsMarkedChanged += Item_IsMarkedChanged;
+        }
+        public ProductProjectViewModelObservableCollection(IEnumerable<ProductProjectViewModel> collection) : base()
+        {
+            foreach (var item in collection)
+                item.IsMarkedChanged += Item_IsMarkedChanged;
+        }
+
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (var newItem in e.NewItems)
+                {
+                    if (newItem is ProductProjectViewModel item)
+                    {
+                        item.IsMarkedChanged += Item_IsMarkedChanged;
+                    }
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (var oldItem in e.OldItems)
+                {
+                    if (oldItem is ProductProjectViewModel item)
+                    {
+                        item.IsMarkedChanged -= Item_IsMarkedChanged;
+                    }
+                }
+            }
+        }
+
+        private void Item_IsMarkedChanged(object? sender, bool e)
+        {
+            IsMarkedList = Items is null? null: this.Items.Select(x => x.IsMarked).ToList();
+        }
+
+        private IList<bool>? _isMarkedList;
+        public IList<bool>? IsMarkedList
+        {
+            get => _isMarkedList;
+            set
+            {
+                _isMarkedList = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsMarkedList)));
+                IsMarkedListChanged?.Invoke(this, value);
+            }
+        }
+
+
+        public event EventHandler<IList<bool>?>? IsMarkedListChanged;
+    }
 
 
 

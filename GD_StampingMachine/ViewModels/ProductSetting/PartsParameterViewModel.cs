@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DevExpress.DataAccess.Json;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.PropertyGrid.Internal;
 using DevExpress.Xpo.DB;
 using DevExpress.XtraRichEdit.Layout;
 using GD_StampingMachine.GD_Enum;
@@ -417,6 +418,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
 
         public PartsParameterViewModelObservableCollection(List<PartsParameterViewModel> list) : base(list)
         {
+            
             foreach (var item in list)
             {
                 item.FinishProgressChanged += item_FinishProgressChanged;
@@ -428,8 +430,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             CalcNotAssignedProductProjectCount();
         }
 
-
-        public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection)
+        public PartsParameterViewModelObservableCollection(IEnumerable<PartsParameterViewModel> collection):base(collection) 
         {
             IList<PartsParameterViewModel> items = Items;
             if (collection == null || items == null)
@@ -447,7 +448,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             CalcFinishProgress();
             CalcUnFinishedCount();
             CalcNotAssignedProductProjectCount();
-
         }
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
@@ -505,7 +505,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
         private void item_IsFinishChanged(object? sender, bool e)
         {
-            CalcUnFinishedCount();
+            CalcUnFinishedCount(); 
+            ItemFinish = this.Select(p => p.IsFinish);
         }
 
         private void Item_DistributeNameChanged(object? sender, string e)
@@ -523,6 +524,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         private void CalcUnFinishedCount()
         {
             UnFinishedCount = this.Any() ? this.Count(p => !p.IsFinish) : 0;
+
         }
 
         private void CalcNotAssignedProductProjectCount()
@@ -530,9 +532,27 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             NotAssignedProductProjectCount = this.Any() ? this.Count(p => string.IsNullOrEmpty(p.DistributeName) && !p.IsFinish) : 0;
         }
 
+        public event EventHandler<IEnumerable<bool>>? ItemFinishChanged;
         public event EventHandler<float>? FinishProgressChanged;
         public event EventHandler<int>? UnFinishedCountChanged;
         public event EventHandler<int>? NotAssignedProductProjectCountChanged;
+
+        private IEnumerable<bool>? _itemFinish;
+        /// <summary>
+        /// 進度條(平均值)
+        /// </summary>
+        public IEnumerable<bool> ItemFinish
+        {
+            get => _itemFinish ??= new List<bool>();
+            set
+            {
+                _itemFinish = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ItemFinish)));
+                ItemFinishChanged?.Invoke(this, value);
+            }
+        }
+
+
 
         private float _finishProgress;
         /// <summary>

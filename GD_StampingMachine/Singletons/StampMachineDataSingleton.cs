@@ -1570,7 +1570,7 @@ namespace GD_StampingMachine.Singletons
                                                             {
                                                                 _ = Task.Run(async () =>
                                                                 {
-                                                                    await projectDistribute.SaveProductProjectVMObservableCollectionAsync();
+                                                                    await projectDistribute.SaveProductProjectVMCollectionAsync();
                                                                 });
                                                             }
                                                             catch

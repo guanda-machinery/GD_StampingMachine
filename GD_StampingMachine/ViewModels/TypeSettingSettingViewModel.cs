@@ -20,7 +20,7 @@ namespace GD_StampingMachine.ViewModels
     /// <summary>
     /// 製品清單
     /// </summary>
-    //public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection { get; set; } 
+    //public ObservableCollection<ProductProjectViewModel> ProductProjectVMCollection { get; set; } 
     /// <summary>
     /// 盒子列表
     /// </summary>
@@ -77,7 +77,7 @@ namespace GD_StampingMachine.ViewModels
 
                     ProjectDistributeViewModel NewProjectDistributeVM = new(
                         NewProjectDistribute,
-                        ProductSettingVM.ProductProjectVMObservableCollection, 
+                        ProductSettingVM.ProductProjectVMCollection, 
                         ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection);
 
                     ProjectDistributeVMObservableCollection.Add(NewProjectDistributeVM);
@@ -126,7 +126,7 @@ namespace GD_StampingMachine.ViewModels
                                     obj.BoxIndex = null;
                                 }
                             });
-                            await _selectItem.SaveProductProjectVMObservableCollectionAsync();
+                            await _selectItem.SaveProductProjectVMCollectionAsync();
 
                             var F_Index = ProjectDistributeVMObservableCollection.FindIndex(x => x == _selectItem);
                             Removed_List.Add(F_Index);
@@ -159,6 +159,8 @@ namespace GD_StampingMachine.ViewModels
         /// 全加工專案
         /// </summary>
         public ObservableCollection<ProjectDistributeViewModel> ProjectDistributeVMObservableCollection { get; set; } = new();
+
+
         [JsonIgnore]
         public DevExpress.Mvvm.ICommand<DevExpress.Mvvm.Xpf.RowClickArgs> RowDoubleClickCommand
         {

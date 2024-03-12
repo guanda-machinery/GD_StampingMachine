@@ -226,7 +226,7 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
         {
 
         }
-        public SeparateBoxExtViewModelObservableCollection(IList<SeparateBoxViewModel> collection) : base()
+        public SeparateBoxExtViewModelObservableCollection(IEnumerable<SeparateBoxViewModel> collection) : base()
         {
             IList<SeparateBoxExtViewModel> items = Items;
             if (collection == null || items == null)
@@ -240,18 +240,9 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
             }
         }
 
-        public SeparateBoxExtViewModelObservableCollection(IEnumerable<SeparateBoxExtViewModel> collection) : base()
+        public SeparateBoxExtViewModelObservableCollection(IEnumerable<SeparateBoxExtViewModel> collection) : base(collection)
         {
-            IList<SeparateBoxExtViewModel> items = Items;
-            if (collection == null || items == null)
-            {
-                return;
-            }
 
-            foreach (var item in collection)
-            {
-                items.Add(new SeparateBoxExtViewModel(item));
-            }
         }
 
         public static implicit operator SeparateBoxExtViewModelObservableCollection(ObservableCollection<SeparateBoxViewModel> v)

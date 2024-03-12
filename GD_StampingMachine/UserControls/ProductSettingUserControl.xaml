@@ -411,7 +411,7 @@
                     Style="{StaticResource ProjectGridControl}" 
                     AutoGenerateColumns="None"
                     SelectionMode="Row"
-                    ItemsSource="{Binding ProductProjectVMObservableCollection}"
+                    ItemsSource="{Binding ProductProjectVMCollection}"
                     SelectedItem="{Binding SelectProductProjectVM}"
                     MinHeight="100"
                                       >
@@ -483,7 +483,7 @@
                                 <Grid Height="auto" Margin="2,5">
                                     <ProgressBar 
                                         Value="{Binding Row.PartsParameterVMObservableCollection.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
-                                             BorderThickness="0"  Foreground="DeepSkyBlue"
+                                             BorderThickness="0"  Foreground="Green"
                                              Height="auto" Minimum="0" Maximum="100" Background="White">
 
                                         <!-- <ProgressBar.Foreground>
@@ -881,20 +881,12 @@
 
                                     <TextBox Grid.Column="3" Grid.Row="4"  Width="210" Margin="0"  
                                                  Text="{Binding EditPartsParameterVM_Cloned.ParameterA, UpdateSourceTrigger=PropertyChanged}" >
-                                        <!--<TextBox.InputBindings>
-                                            <KeyBinding Command="{Binding Path=EditPartsParameterVM_ClonedParameter}" />
-                                        </TextBox.InputBindings>-->
                                     </TextBox>
 
 
                                     <TextBox Grid.Column="3" Grid.Row="6"  Width="210"
                                                  Text="{Binding  EditPartsParameterVM_Cloned.ParameterC,UpdateSourceTrigger=PropertyChanged}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewKeyUp">
-                                                <i:InvokeCommandAction Command="{Binding ChangePartsParameterVM_ClonedParameterCommand}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </TextBox>
+                                    </TextBox> 
 
                                     <ComboBox MaxDropDownHeight="275"           
                                         Margin="10,0" Padding="0" Width="210" Text="123"
@@ -1583,7 +1575,7 @@
                             <DataTemplate>
                                 <Grid Height="auto" Margin="2,5">
                                     <ProgressBar Value="{Binding Row.FinishProgress,UpdateSourceTrigger=PropertyChanged}"  
-                                             BorderThickness="0" 
+                                             BorderThickness="0"  Foreground="Green"
                                              Height="auto" Minimum="0" Maximum="100" Background="White" >
                                     </ProgressBar>
 

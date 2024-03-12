@@ -183,13 +183,13 @@ namespace GD_StampingMachine.Singletons
                     if (!string.IsNullOrEmpty(fileName) &&
                     JsonHM.ReadJsonFile(fileName, out ProductProjectModel PProject))
                     {
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(PProject));
+                        ProductSettingVM.ProductProjectVMCollection.Add(new ProductProjectViewModel(PProject));
                     }
                     else
                     {
                         //需註解找不到檔案!
                         FileNotExistedList.Add(fileName);
-                        ProductSettingVM.ProductProjectVMObservableCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
+                        ProductSettingVM.ProductProjectVMCollection.Add(new ProductProjectViewModel(new ProductProjectModel()
                         {
                             ProjectPath = EPath.ProjectPath,
                             Name = EPath.Name,
@@ -218,7 +218,7 @@ namespace GD_StampingMachine.Singletons
                         TypeSettingSettingVM.ProjectDistributeVMObservableCollection.Add(
                             new ProjectDistributeViewModel(
                                 PDistribute,
-                            ProductSettingVM.ProductProjectVMObservableCollection,
+                            ProductSettingVM.ProductProjectVMCollection,
                             ParameterSettingVM.SeparateSettingVM.SeparateBoxVMObservableCollection)
                         {
                             IsInDistributePage = false
@@ -393,6 +393,7 @@ namespace GD_StampingMachine.Singletons
                 }
                 OnPropertyChanged();
                 OnIsWorkChanged(new GD_CommonLibrary.ValueChangedEventArgs<ProjectDistributeViewModel>(oldvalue, value));
+
             }
         }
 

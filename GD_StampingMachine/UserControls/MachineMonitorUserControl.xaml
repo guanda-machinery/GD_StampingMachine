@@ -342,8 +342,7 @@
                                      CustomRowFilterCommand="{Binding NotArrangeWorkRowFilterCommand}"        
                                                 Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
-                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                                                Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection }"
+                                 ItemsSource="{Binding SelectedBoxPartsParameterVMCollection ,IsAsync=True}"
                                >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView   
@@ -516,7 +515,7 @@
                                                     </StackPanel>
                                                 </Button>
 
-                                            <ToggleButton Name="TestToggle"  Style="{StaticResource GD_ToggleButton_Gray}"
+                                            <ToggleButton Name="TestToggle"  Style="{StaticResource GD_ToggleButton_Gray}" IsChecked="{Binding ShowIsTransported}"
                                                 Content="Test" Visibility="{Binding IsDebuggerAttached , Converter={dx:BooleanToVisibilityConverter}}">
                                                 
                                             </ToggleButton>
@@ -530,8 +529,7 @@
                                      CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None" 
-                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}, IsAsync=True,
-                  Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
+                                 ItemsSource="{Binding SelectedBoxPartsParameterVMCollection, IsAsync=True}"
                                      >
                                                 <dxg:GridControl.View >
                                                     <dxg:TableView  
@@ -646,7 +644,7 @@
                                                                         </Style>
                                                                     </ToggleButton.Style>
                                                                     <ToggleButton.Content>
-                                                                        <Grid DataContext="{Binding Row}">
+                                                                        <Grid DataContext="{Binding Row, IsAsync=True}">
                                                                             <GD_SchematicDiagram:QRPlateRowDiagramControl     IsEnabled="False"
                                                                         DataContext="{Binding SettingBaseVM, IsAsync=True}" RedMeasurementLineVisibility="Collapsed" >
                                                                                 <GD_SchematicDiagram:QRPlateRowDiagramControl.LayoutTransform>
@@ -885,8 +883,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
                                      CustomRowFilterCommand="{Binding ArrangeWorkRowFilterCommand}"
                                     Style="{StaticResource ProjectGridControl}"
                                     AutoGenerateColumns="None"  
-                                 ItemsSource="{Binding Source={x:Static GD_Singletons:StampingMachineSingleton.Instance},
-                        Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
+                                 ItemsSource="{Binding SelectedBoxPartsParameterVMCollection}"
                                     MaxHeight="150"    >
                     
                     
@@ -1103,8 +1100,7 @@ Path=MachineSettingBaseCollection[0]}" ProjectName="{Binding ProductProjectName}
             CustomRowFilterCommand="{Binding BoxPartsParameterVMRowFilterCommand}"
                Background="Transparent"   MaxHeight="5000"
             Style="{StaticResource ProjectGridControl}"
-            ItemsSource="{Binding SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection, 
-                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding SelectedBoxPartsParameterVMCollection}" 
           >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SizeChanged">

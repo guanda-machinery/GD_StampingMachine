@@ -27,7 +27,7 @@ namespace GD_StampingMachine.ViewModels
         //public ObservableCollection<SeparateBoxViewModel>? SeparateBoxVMObservableCollection { get; set; }
 
        // [JsonIgnore]
-        //public ObservableCollection<ProductProjectViewModel>? ProductProjectVMObservableCollection { get; set; }
+        //public ObservableCollection<ProductProjectViewModel>? ProductProjectVMCollection { get; set; }
 
        // [JsonIgnore]
         //public bool GridControl_MachiningStatusColumnVisible { get; set; } = false;
@@ -47,9 +47,9 @@ namespace GD_StampingMachine.ViewModels
         /*public async Task ReLoadBoxPartsParameterVMCollectionAsync()
         {
             var newCollection = new ObservableCollection<PartsParameterViewModel>();
-            if (ProductProjectVMObservableCollection != null)
+            if (ProductProjectVMCollection != null)
             {
-                ProductProjectVMObservableCollection.ForEach(productProject =>
+                ProductProjectVMCollection.ForEach(productProject =>
                 {
                     productProject.PartsParameterVMObservableCollection.ForEach((productProjectPartViewModel) =>
                     {
@@ -115,16 +115,16 @@ namespace GD_StampingMachine.ViewModels
             set { _separateBoxVMObservableCollection = value; OnPropertyChanged(); }
         }
 
-        //public ObservableCollection<ProductProjectViewModel> _productProjectVMObservableCollection;
+        //public ObservableCollection<ProductProjectViewModel> _productProjectVMCollection;
         /// <summary>
         /// 
         /// </summary>
-        /*public ObservableCollection<ProductProjectViewModel> ProductProjectVMObservableCollection
+        /*public ObservableCollection<ProductProjectViewModel> ProductProjectVMCollection
         {
-            get => _productProjectVMObservableCollection;
+            get => _productProjectVMCollection;
             set
             {
-                _productProjectVMObservableCollection = value;
+                _productProjectVMCollection = value;
                 OnPropertyChanged();
             }
         }*/

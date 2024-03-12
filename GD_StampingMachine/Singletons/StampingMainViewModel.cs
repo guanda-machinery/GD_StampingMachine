@@ -93,9 +93,9 @@ namespace GD_StampingMachine.ViewModels
                 await JsonHM.WriteProjectDistributeListJsonAsync(Model_IEnumerable);
             }
 
-            if (ProductSettingVM?.ProductProjectVMObservableCollection != null)
+            if (ProductSettingVM?.ProductProjectVMCollection != null)
             {
-                var projectSaveTasks = ProductSettingVM.ProductProjectVMObservableCollection.Select(x => x.SaveProductProjectAsync());
+                var projectSaveTasks = ProductSettingVM.ProductProjectVMCollection.Select(x => x.SaveProductProjectAsync());
                 await Task.WhenAll(projectSaveTasks);
             }
         }
