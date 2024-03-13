@@ -13,11 +13,13 @@ namespace GD_MachineConnect.Machine.Interfaces
             get => _isConnected;
             set
             {
-                IsConnectedChanged?.Invoke(this, new ValueChangedEventArgs<bool>(_isConnected, value));
+                if (_isConnected != value)
+                    IsConnectedChanged?.Invoke(this, new ValueChangedEventArgs<bool>(_isConnected, value));
+
                 _isConnected = value;
             }
         }
-        public event EventHandler<ValueChangedEventArgs<bool>> IsConnectedChanged;
+        public event EventHandler<ValueChangedEventArgs<bool>>? IsConnectedChanged;
 
 
         public abstract Task<bool> ConnectAsync(string hostPath, string? user = null, string? password = null);

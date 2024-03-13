@@ -86,12 +86,9 @@
                 <Setter Property="Background" Value="#176bad" />
                     <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
                 </DataTrigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#40c4ff"/>
-                </Trigger>
-                <DataTrigger Binding="{Binding Row.ProductProjectIsFinish}" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
-                </DataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#40c4ff"/>
+            </Trigger>
 
 
 

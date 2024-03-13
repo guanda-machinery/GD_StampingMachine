@@ -134,6 +134,9 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         {
             try
             {
+
+
+
                 _addNumberSettingSavedCollection = NumberSettingSavedCollection
                    .Where(x => x.SheetStampingTypeForm == this.SheetStampingTypeForm)
                    .ToObservableCollection().DeepCloneByJson();
@@ -161,18 +164,45 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                     };
                 }
 
+
                 OnPropertyChanged(nameof(AddNumberSettingSavedCollection));
                 if (EditPartsParameterVM_Cloned != null)
                 {
                     _editNumberSettingSavedCollection = NumberSettingSavedCollection
                         .Where(x => x.SheetStampingTypeForm == EditPartsParameterVM_Cloned.SettingBaseVM.SheetStampingTypeForm)
                             .ToObservableCollection().DeepCloneByJson();
-
                 }
                 else
                     _editNumberSettingSavedCollection = NumberSettingSavedCollection.DeepCloneByJson();
+              
+                if(EditPartsParameterVM_Cloned!=null)
+                {
+                    EditNumberSettingSavedCollection.Add(EditPartsParameterVM_Cloned.SettingBaseVM);
+                    for (int i = 0; i < EditNumberSettingSavedCollection.Count; i++)
+                    {
+                        var obj = EditNumberSettingSavedCollection[i];
+                        obj.PlateNumber = EditPartsParameterVM_Cloned.ParameterA;
+                        EditPartsParameterVM_Cloned.ParameterAChanged += (s, e) =>
+                        {
+                            obj.PlateNumber = e;
+                        };
+
+                        obj.QrCodeContent = _editPartsParameterVM_Cloned.ParameterC;
+                        EditPartsParameterVM_Cloned.ParameterCChanged += (s, e) =>
+                        {
+                            obj.QrCodeContent = e;
+                        };
+
+                        obj.QR_Special_Text = _editPartsParameterVM_Cloned.QR_Special_Text;
+                        EditPartsParameterVM_Cloned.QR_Special_TextChanged += (s, e) =>
+                        {
+                            obj.QR_Special_Text = e;
+                        };
+                    }
+                }
 
                 OnPropertyChanged(nameof(EditNumberSettingSavedCollection));
+
             }
             catch(Exception ex)
             {
@@ -440,41 +470,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _editPartsParameterVM_Cloned = value;
-
-                UpdateNumberSettingSaveCollection();
-
-                try
-                {
-                    OnPropertyChanged(nameof(EditNumberSettingSavedCollection));
-                    for (int i = 0; i < _editNumberSettingSavedCollection.Count; i++)
-                    {
-                        var obj = _editNumberSettingSavedCollection[i];
-                        obj.PlateNumber = _editPartsParameterVM_Cloned.ParameterA;
-                        _editPartsParameterVM_Cloned.ParameterAChanged += (s, e) =>
-                        {
-                            obj.PlateNumber = e;
-                        };
-
-                        obj.QrCodeContent = _editPartsParameterVM_Cloned.ParameterC;
-                        _editPartsParameterVM_Cloned.ParameterCChanged += (s, e) =>
-                        {
-                            obj.QrCodeContent = e;
-                        };
-
-                        obj.QR_Special_Text = _editPartsParameterVM_Cloned.QR_Special_Text;
-                        _editPartsParameterVM_Cloned.QR_Special_TextChanged += (s, e) =>
-                        {
-                            obj.QR_Special_Text = e;
-                        };
-                    }
-
-                }
-                catch(Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                    Debugger.Break();
-                }
                 OnPropertyChanged();
+                UpdateNumberSettingSaveCollection();
             }
         }
 
@@ -919,20 +916,19 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
         }
 
 
-        private PartsParameterViewModelObservableCollection m_unBoxPartsParameterVMObservableCollection;
+        private PartsParameterViewModelObservableCollection _unBoxPartsParameterVMObservableCollection;
         /// <summary>
         /// 還沒放進箱子內的資料
         /// </summary>
-        public ReadOnlyObservableCollection<PartsParameterViewModel>  UnBoxPartsParameterVMObservableCollection
+        public PartsParameterViewModelObservableCollection UnBoxPartsParameterVMObservableCollection
         {
-            get => m_unBoxPartsParameterVMObservableCollection ??= new PartsParameterViewModelObservableCollection(PartsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
+            get => _unBoxPartsParameterVMObservableCollection ??= new PartsParameterViewModelObservableCollection(PartsParameterVMObservableCollection.Where(p => p.BoxIndex == null));
             private set
             {
-                m_unBoxPartsParameterVMObservableCollection = value;
+                _unBoxPartsParameterVMObservableCollection = value;
                 OnPropertyChanged();
             }
         }
-
 
 
 

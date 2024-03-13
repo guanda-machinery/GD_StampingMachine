@@ -193,25 +193,6 @@ namespace GD_StampingMachine.ViewModels
         {
             get => _sendMachiningCommand ??= new(async (CancellationToken token) =>
             {
-                /*var ManagerVM = new DXSplashScreenViewModel
-                {
-                    Logo = new Uri(@"pack://application:,,,/GD_StampingMachine;component/Image/svg/NewLogo_1-2.svg"),
-                    Title = "GD_StampingMachine",
-                    Status = (string)System.Windows.Application.Current.TryFindResource("Connection_MachiningProcessStart"),
-                    Progress = 0,
-                    IsIndeterminate = true,
-                    Subtitle = "",
-                    Copyright = "Copyright © 2023 GUANDA",
-                };
-                SplashScreenManager manager = DevExpress.Xpf.Core.SplashScreenManager.Create(() => new GD_CommonLibrary.SplashScreenWindows.ProcessingScreenWindow(), ManagerVM);
-
-                await Application.Current?.Dispatcher.InvokeAsync(() =>
-                {
-                    manager.Show(Application.Current?.MainWindow, WindowStartupLocation.CenterScreen, true, InputBlockMode.None);
-                });
-                */
-                //CancellationTokenSource cts = new();
-
                 try
                 {
                     StampMachineData.FirstIronPlateIDChanged += StampMachineData_FirstIronPlateIDChanged;
@@ -271,7 +252,7 @@ namespace GD_StampingMachine.ViewModels
                                  //var history = await StampMachineData.GetIronPlateDataCollection();
                                 
                                  var workableMachiningCollection = SelectedProjectDistributeVM?.StampingBoxPartsVM.SeparateBoxVMObservableCollection.SelectMany(x=>x.BoxPartsParameterVMCollection)
-                                 .Where(x => x.WorkIndex >= 0);
+                                 .Where(x => x.WorkIndex >= 0).ToList();
                                  //var workableMachiningCollection = StampingMachineSingleton.Instance.SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection.Where(x => x.WorkIndex >= 0);
                                  //var a = workableMachiningCollection?.Count(x => x.IsFinish);
 
@@ -459,6 +440,7 @@ namespace GD_StampingMachine.ViewModels
                 catch (Exception ex)
                 {
                     await LogDataSingleton.Instance.AddLogDataAsync(ViewModelName, ex.Message);
+                    MessageBox.Show(ex.Message);
                 }
                 finally
                 {
@@ -1134,8 +1116,10 @@ namespace GD_StampingMachine.ViewModels
                                         var wData = partsParameterVMCollection.Where(x => x.WorkIndex < 0 && !x.IsFinish && !x.IsSended);
                                         foreach (var partsParameter in wData)
                                         {
-                                            var unTransportedCount = SelectedProjectDistributeVM.PartsParameterVMObservableCollection
-                                                .Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsTransported);
+                                            SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.
+                                            UnscheduledPartsParameterCollection.Count(x => x.BoxIndex == partsParameter.BoxIndex);
+                                            /*var unTransportedCount = SelectedProjectDistributeVM.PartsParameterVMObservableCollection
+                                                .Count(x => x.BoxIndex == partsParameter.BoxIndex && x.WorkIndex >= 0 && !x.IsTransported);*/
                                             if (partsParameter.BoxIndex is int boxIndex)
                                             {
                                                 if (BoxCapacityDict.TryGetValue(boxIndex, out var Bvalue))

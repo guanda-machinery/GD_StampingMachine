@@ -364,8 +364,14 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             set
             {
                 _settingBaseVM = value;
-                if (value != null)
-                    PartsParameter.StampingPlate = value.StampPlateSetting;
+                if (_settingBaseVM != null)
+                {
+                    PartsParameter.StampingPlate = _settingBaseVM.StampPlateSetting;
+
+                    _settingBaseVM.PlateNumber = this.ParameterA;
+                    _settingBaseVM.QR_Special_Text = this.QR_Special_Text;
+                    _settingBaseVM.QrCodeContent = this.ParameterC;
+                }
                 OnPropertyChanged();
             }
         }
