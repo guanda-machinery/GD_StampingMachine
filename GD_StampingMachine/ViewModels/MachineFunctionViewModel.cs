@@ -75,7 +75,7 @@ namespace GD_StampingMachine.ViewModels
         }
 
 
-        private ICommand?_gridControlLoadedCommand;
+       /* private ICommand?_gridControlLoadedCommand;
         public ICommand GridControlLoadedCommand
         {
             get => _gridControlLoadedCommand ??= new AsyncRelayCommand<object>(async obj =>
@@ -90,7 +90,7 @@ namespace GD_StampingMachine.ViewModels
                     }
                 }
             });
-        }
+        }*/
 
 
 

@@ -65,9 +65,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.DistributeName;
             set
             {
-                PartsParameter.DistributeName = value; 
-                OnPropertyChanged();
-                DistributeNameChanged?.Invoke(this, value);
+                if(PartsParameter.DistributeName != value)
+                {
+                    PartsParameter.DistributeName = value;
+                    OnPropertyChanged();
+                    DistributeNameChanged?.Invoke(this, value);
+                }
             }
         }
         public event EventHandler<string>? DistributeNameChanged;
@@ -81,9 +84,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.ProductProjectName;
             set
             {
-                PartsParameter.ProductProjectName = value; 
-                OnPropertyChanged();
-              //  ProductProjectNameChanged?.Invoke(this, value); 
+                if (PartsParameter.ProductProjectName != value)
+                {
+                    PartsParameter.ProductProjectName = value;
+                    OnPropertyChanged();
+                    //  ProductProjectNameChanged?.Invoke(this, value); 
+                }
             }
         }
 
@@ -98,7 +104,8 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.ID;
             set
             {
-                PartsParameter.ID = value; OnPropertyChanged();
+                PartsParameter.ID = value;
+                OnPropertyChanged();
             }
         }
 
@@ -113,9 +120,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.DataMatrixIsFinish;
             set
             {
-                PartsParameter.DataMatrixIsFinish = value; 
-                OnPropertyChanged();
-                StateChanged?.Invoke(this, new EventArgs());
+                if (PartsParameter.DataMatrixIsFinish != value)
+                {
+                    PartsParameter.DataMatrixIsFinish = value;
+                    OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
+                }
             }
         }
         /// <summary>
@@ -126,9 +136,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.EngravingIsFinish;
             set
             {
-                PartsParameter.EngravingIsFinish = value; 
-                OnPropertyChanged();
-                StateChanged?.Invoke(this, new EventArgs());
+                if (PartsParameter.EngravingIsFinish != value)
+                {
+                    PartsParameter.EngravingIsFinish = value;
+                    OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
+                }
             }
         }
         /// <summary>
@@ -139,9 +152,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.ShearingIsFinish;
             set
             {
-                PartsParameter.ShearingIsFinish = value; 
-                OnPropertyChanged();
-                StateChanged?.Invoke(this, new EventArgs());
+                if(PartsParameter.ShearingIsFinish != value)
+                {
+                    PartsParameter.ShearingIsFinish = value;
+                    OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
+                }
             }
         }
         /// <summary>
@@ -152,10 +168,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.IsFinish;
             set
             {
-                PartsParameter.IsFinish = value; 
-                OnPropertyChanged();
-                IsFinishChanged?.Invoke(this, value);
-                StateChanged?.Invoke(this, new EventArgs());
+                if (PartsParameter.IsFinish != value)
+                {
+                    PartsParameter.IsFinish = value;
+                    OnPropertyChanged();
+                    IsFinishChanged?.Invoke(this, value);
+                    StateChanged?.Invoke(this, new EventArgs());
+                }
             }
         }
         public event EventHandler<bool>? IsFinishChanged;
@@ -165,10 +184,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.IsTransported;
             set
             {
-                PartsParameter.IsTransported = value; 
-                OnPropertyChanged();
-                IsTransportedChanged?.Invoke(this, value);
-                StateChanged?.Invoke(this, new EventArgs());
+                if (PartsParameter.IsTransported != value)
+                {
+                    PartsParameter.IsTransported = value;
+                    OnPropertyChanged();
+                    IsTransportedChanged?.Invoke(this, value);
+                    StateChanged?.Invoke(this, new EventArgs());
+                }
             }
         }
 
@@ -186,9 +208,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.SendMachineCommand.IsSended;
             set
             {
-                PartsParameter.SendMachineCommand.IsSended = value;
-                OnPropertyChanged();
-                StateChanged?.Invoke(this, new EventArgs());
+                if (PartsParameter.SendMachineCommand.IsSended != value)
+                {
+                    PartsParameter.SendMachineCommand.IsSended = value;
+                    OnPropertyChanged();
+                    StateChanged?.Invoke(this, new EventArgs());
+                }
             }
         }
 
@@ -221,9 +246,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => _isScheduled ??= WorkIndex!=-1;
             private set
             {
-                _isScheduled = value;
-                OnPropertyChanged(nameof(IsScheduled));
-                IsScheduledChanged?.Invoke(this, value);
+                if (_isScheduled != value)
+                {
+                    _isScheduled = value;
+                    OnPropertyChanged(nameof(IsScheduled));
+                    IsScheduledChanged?.Invoke(this, value);
+                }
             }
         }
 
@@ -236,11 +264,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.IronPlateString;
             set
             {
-                PartsParameter.IronPlateString = value;
-                SettingBaseVM.PlateNumber = value;
-                OnPropertyChanged();
-
-                ParameterAChanged?.Invoke(this, value);
+                if (PartsParameter.IronPlateString != value || SettingBaseVM.PlateNumber != value)
+                {
+                    PartsParameter.IronPlateString = value;
+                    SettingBaseVM.PlateNumber = value;
+                    OnPropertyChanged();
+                    ParameterAChanged?.Invoke(this, value);
+                }
             }
         }
 
@@ -261,10 +291,13 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.QrCodeContent;
             set
             {
-                PartsParameter.QrCodeContent = value;
-                SettingBaseVM.QrCodeContent = value;
-                OnPropertyChanged(nameof(ParameterC));
-                ParameterCChanged?.Invoke(this, value);
+                if (PartsParameter.QrCodeContent != value || SettingBaseVM.QrCodeContent != value)
+                {
+                    PartsParameter.QrCodeContent = value;
+                    SettingBaseVM.QrCodeContent = value;
+                    OnPropertyChanged(nameof(ParameterC));
+                    ParameterCChanged?.Invoke(this, value);
+                }
             }
         }
         public event EventHandler<string>? ParameterCChanged;
@@ -299,26 +332,16 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.QR_Special_Text;
             set
             {
-                PartsParameter.QR_Special_Text = value;
-                SettingBaseVM.QR_Special_Text = value;
-                OnPropertyChanged();
-                QR_Special_TextChanged?.Invoke(this, value);
+                if (PartsParameter.QR_Special_Text != value || SettingBaseVM.QR_Special_Text != value)
+                {
+                    PartsParameter.QR_Special_Text = value;
+                    SettingBaseVM.QR_Special_Text = value;
+                    OnPropertyChanged();
+                    QR_Special_TextChanged?.Invoke(this, value);
+                }
             }
         }
         public event EventHandler<string>? QR_Special_TextChanged;
-
-
-
-
-        /*public MachiningStatusEnum MachiningStatus
-        {
-            get => PartsParameter.MachiningStatus;
-            set
-            {
-                PartsParameter.MachiningStatus = value;
-                OnPropertyChanged(nameof(MachiningStatus));
-            }
-        }*/
 
 
         /// <summary>
@@ -329,8 +352,12 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => PartsParameter.BoxIndex;
             set
             {
-                PartsParameter.BoxIndex = value;
-                OnPropertyChanged();
+                if (
+                PartsParameter.BoxIndex != value)
+                {
+                    PartsParameter.BoxIndex = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -387,7 +414,11 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
             get => _editPartDarggableIsPopup;
             set
             {
-                _editPartDarggableIsPopup = value; OnPropertyChanged();
+                if (_editPartDarggableIsPopup != value)
+                {
+                    _editPartDarggableIsPopup = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

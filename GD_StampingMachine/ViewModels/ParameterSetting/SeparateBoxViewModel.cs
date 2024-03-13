@@ -254,13 +254,12 @@ namespace GD_StampingMachine.ViewModels.ParameterSetting
                 //已排定
                 this.BoxPieceValue = BoxPartsParameterVMCollection.Count;
                 //加工完成但尚未被移除的
-                this.UnTransportedFinishedBoxPieceValue = BoxPartsParameterVMCollection.Where(x => x.IsFinish && !x.IsTransported).Count();
+                this.UnTransportedFinishedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.IsFinish && !x.IsTransported);
                 //已經被分配加工且尚未被移除
-                this.UnTransportedBoxPieceValue = BoxPartsParameterVMCollection.Where(x => x.WorkIndex >= 0 && !x.IsTransported).Count();
+                this.UnTransportedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.WorkIndex >= 0 && !x.IsTransported);
                 //只有已完成
-                this.FinishedBoxPieceValue = BoxPartsParameterVMCollection.Where(x => x.IsFinish).Count();
-                this.UnFinishedBoxPieceValue = BoxPartsParameterVMCollection.Where(x => !x.IsFinish).Count();
-
+                this.FinishedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => x.IsFinish);
+                this.UnFinishedBoxPieceValue = BoxPartsParameterVMCollection.Count(x => !x.IsFinish);
             }
             catch
             {

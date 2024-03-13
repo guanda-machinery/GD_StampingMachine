@@ -12,6 +12,17 @@ namespace GD_CommonLibrary
             OldValue = oldValue;
             NewValue = newValue;
         }
-
     }
+    /*public class ValueEventArgs<T> : EventArgs
+    {
+        public T Message { get; }
+
+        public ValueEventArgs(T message)
+        {
+            Message = message;
+        }
+    }*/
+
+
+
 }

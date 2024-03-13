@@ -311,6 +311,7 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 ProductProjectIsFinishChanged?.Invoke(this, value);
             }
         }
+        
         public event EventHandler<bool> ProductProjectIsFinishChanged;
 
 
@@ -1233,7 +1234,6 @@ namespace GD_StampingMachine.ViewModels.ProductSetting
                 IsMarkedListChanged?.Invoke(this, value);
             }
         }
-
 
         public event EventHandler<IList<bool>?>? IsMarkedListChanged;
     }

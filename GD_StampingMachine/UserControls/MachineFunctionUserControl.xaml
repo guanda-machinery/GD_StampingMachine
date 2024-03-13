@@ -432,17 +432,17 @@
                                 Style="{StaticResource ProjectGridControl}" 
                                 ItemsSource="{Binding IsAsync=True,
                                 Source={x:Static GD_Singletons:StampingMachineSingleton.Instance}
-                                ,Path=SelectedProjectDistributeVM.StampingBoxPartsVM.BoxPartsParameterVMCollection}"
+                                ,Path=SelectedProjectDistributeVM.StampingBoxPartsVM.SeparateBoxVMObservableCollection.ScheduledPartsParameterCollection}"
                                   >
                                 <i:Interaction.Triggers>
+                                    <!-- 
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding GridControlLoadedCommand}" 
                                                    PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
+-->
 
-
-
-                                    <i:EventTrigger EventName="SizeChanged">
+                                <i:EventTrigger EventName="SizeChanged">
                                         <i:InvokeCommandAction Command="{Binding GridControlSizeChangedCommand}" 
                                                    PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
