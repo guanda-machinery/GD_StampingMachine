@@ -1256,19 +1256,16 @@
                 <GroupBox Header="{DynamicResource Text_ShearCut_Component_Hydraulic}" Visibility="{Binding ShearCut_Component_Button_IsChecked, Converter={dx:BooleanToVisibilityConverter}}">
               
                             <local:CylinderUserControl    
-                                
                                 VerticalContentAlignment="Center" HorizontalAlignment="Center"
                                 
-                                      
                                UpPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"   
                                UpPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.HydraulicCutting_Up_Command}"                                                       
                                UpPreviewMouseLeftButtonDownCommandParameter="{StaticResource TrueValue}"
                                UpPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"      
                                 
-                             CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsOrigin}"
-                        CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsStandbyPoint}"
-         
-                                                                       CylinderMiddle_IsEnabled="False"
+                               CylinderIsUpSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsOrigin}"
+                               CylinderIsMiddleSingal_IsTriggered="{Binding StampMachineData.Cylinder_HydraulicCutting_IsStandbyPoint}"      
+                               CylinderMiddle_IsEnabled="False"
                                 
                                DownPreviewMouseLeftButtonDownCommand="{Binding StampMachineData.HydraulicCutting_Down_Command}"   
                                DownPreviewMouseLeftButtonUpCommand="{Binding StampMachineData.HydraulicCutting_Down_Command}"                                                       
@@ -1276,8 +1273,7 @@
                                DownPreviewMouseLeftButtonUpCommandParameter="{StaticResource FalseValue}"      
                                 
                                CylinderIsDownSingal_IsTriggered ="{Binding StampMachineData.Cylinder_HydraulicCutting_IsCutPoint}"
-
-                                CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
+                               CylinderIsSingalPackIconForeground="Green" CylinderIsSingalPackIcon="AccessPoint" 
                                 >
 
                                 

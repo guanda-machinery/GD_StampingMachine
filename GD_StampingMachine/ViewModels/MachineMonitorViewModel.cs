@@ -147,7 +147,7 @@ namespace GD_StampingMachine.ViewModels
                          {
                              while (true)
                              {
-                                 await Task.Delay(10,token);
+                                 await Task.Delay(2000,token);
 
                                  if (token.IsCancellationRequested)
                                      token.ThrowIfCancellationRequested();
@@ -304,13 +304,17 @@ namespace GD_StampingMachine.ViewModels
                                  };
 
 
-
-
-
                                  try
                                  {
                                      _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequsetSignal"));
-                                     await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.Rdatabit, 5000, token);
+                                   
+                                     var Rdatabit = false;
+                                     var requestDatabit = StampMachineData.GetRequestDatabitAsync();
+                                     if ((await requestDatabit).Item1)
+                                         Rdatabit = (await requestDatabit).Item2;
+
+                                     if(!Rdatabit)
+                                         await WaitForCondition.WaitIsTrueAsync(() => StampMachineData.Rdatabit, 2000, token);
                                  }
                                  catch
                                  {

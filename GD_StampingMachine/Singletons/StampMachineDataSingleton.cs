@@ -1132,7 +1132,7 @@ namespace GD_StampingMachine.Singletons
                                         await opcUaClient.SubscribeNodeDataChangeAsync<bool>(StampingOpcUANode.system.sv_bRequestDatabit, (sender, e) =>
                                         {
                                             Rdatabit = e.NewValue;
-                                        });
+                                        },500);
 
 
                                         await opcUaClient.SubscribeNodeDataChangeAsync<int>(StampingOpcUANode.EngravingRotate1.sv_iThisStation, (sender, e) =>
@@ -1144,16 +1144,6 @@ namespace GD_StampingMachine.Singletons
                                                 Singletons.StampingMachineSingleton.Instance.StampingFontChangedVM.StampingTypeModel_ReadyStamping = stamptype;
                                             }
                                         });
-
-                                        /*await opcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[1].iIronPlateID", (sender, e) =>
-                                        {
-                                            FirstIronPlateID = (e.OldValue, e.NewValue);
-                                        });
-
-                                        await opcUaClient.SubscribeNodeDataChangeAsync<int>($"{StampingOpcUANode.system.sv_IronPlateData}[24].iIronPlateID", (sender, e) =>
-                                        {
-                                            LastIronPlateID = (e.OldValue, e.NewValue);
-                                        });*/
 
 
                                         await opcUaClient.SubscribeNodeDataChangeAsync<float>(StampingOpcUANode.Feeding1.sv_rFeedVelocity,
@@ -1426,12 +1416,11 @@ namespace GD_StampingMachine.Singletons
                                                 if ((await HydraulicCutting_IsCutPoint).Item1)
                                                     Cylinder_HydraulicCutting_IsCutPoint = (await HydraulicCutting_IsCutPoint).Item2;
 
+                                                var RequestDatabit = GetRequestDatabitAsync();
+                                                if ((await RequestDatabit).Item1)
+                                                    Rdatabit = (await RequestDatabit).Item2;
 
-
-
-
-
-                                                var engravingRotateStation = await GetEngravingRotateStationAsync();
+                                                    var engravingRotateStation = await GetEngravingRotateStationAsync();
                                                 if (engravingRotateStation.Item1)
                                                 {
                                                     EngravingRotateStation = engravingRotateStation.Item2;
