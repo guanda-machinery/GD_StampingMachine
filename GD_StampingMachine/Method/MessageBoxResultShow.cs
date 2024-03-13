@@ -41,7 +41,7 @@ namespace GD_CommonLibrary.Method
         /// <param name="MB_Button"></param>
         /// <param name="MB_Image"></param>
         /// <returns></returns>
-      /*  public Task<MessageBoxResult> ShowMessageBox()
+      /*  public async Task<MessageBoxResult> ShowMessageBox()
         {
             MessageBoxResult messageBoxReturn = MessageBoxResult.None;
             Application.Current.Dispatcher.Invoke(new Action(async () =>
@@ -96,7 +96,7 @@ namespace GD_CommonLibrary.Method
         {
             return new MessageBoxResultShow(Parent, MessageTitle, MessageString, MB_Button, MB_Image, lockWindow).ShowMessageBox();
         }
-        public static Task<MessageBoxResult> ShowAsync(Window? Parent, string? MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
+        public static async Task<MessageBoxResult> ShowAsync(Window? Parent, string? MessageTitle, string MessageString, MessageBoxButton MB_Button, GD_MessageBoxNotifyResult MB_Image, bool lockWindow = true)
         {
             TaskCompletionSource<MessageBoxResult> tcs = new();
             MessageBoxResult MessageBoxReturn = MessageBoxResult.None;
@@ -123,7 +123,7 @@ namespace GD_CommonLibrary.Method
                     tcs.SetException(ex);
                 }
             });
-            return tcs.Task;
+            return await tcs.Task;
         }
     
 

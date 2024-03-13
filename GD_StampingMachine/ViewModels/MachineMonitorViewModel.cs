@@ -127,28 +127,22 @@ namespace GD_StampingMachine.ViewModels
             {
                 try
                 {
-                    FirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID; 
+                    FirstIronPlateID = StampMachineData.PlateBaseObservableCollection.FirstOrDefault()?.ID;
                     MiddleIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault(x => x.EngravingIsFinish)?.ID;
                     LasttIronPlateID = StampMachineData.PlateBaseObservableCollection.LastOrDefault()?.ID;
-
-
-                    StampMachineData.PlateBaseObservableCollection.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
-
-                    StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
-                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged; 
-                    //開始計算剪切數量
-                    //鋼印下壓
-                    //_ = MonitorStampingFontAsync(() => StampMachineData.Cylinder_HydraulicEngraving_IsStopDown, cts);
 
                     //開始依序傳送資料
                     await Task.Run(async () =>
                      {
                          try
                          {
+                             StampMachineData.PlateBaseObservableCollection.CollectionChanged += PlateBaseObservableCollection_CollectionChanged;
+                             StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged += StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
+                             StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged += StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
+
                              while (true)
                              {
                                  await Task.Delay(2000,token);
-
                                  if (token.IsCancellationRequested)
                                      token.ThrowIfCancellationRequested();
                                  if (!StampMachineData.IsConnected)
@@ -206,9 +200,6 @@ namespace GD_StampingMachine.ViewModels
                                  }
                              
                                  var readyMachining = readyMachiningCollection?.First();
-                                 
-                                 //readyMachining.IsSended = true;
-                                
                                  if (readyMachining == null)
                                  {//沒有可加工的資料
                                      break;
@@ -220,9 +211,6 @@ namespace GD_StampingMachine.ViewModels
 
                                  SendMachiningProgress = progress;
 
-                                 if (token.IsCancellationRequested)
-                                     token.ThrowIfCancellationRequested();
-                                 _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequsetSignal"));
 
                                  string plateFirstValue = "";
                                  string plateSecondValue = "";
@@ -307,7 +295,7 @@ namespace GD_StampingMachine.ViewModels
                                  try
                                  {
                                      _ = Singletons.LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, (string)Application.Current.TryFindResource("Connection_WaitRequsetSignal"));
-                                   
+
                                      var Rdatabit = false;
                                      var requestDatabit = StampMachineData.GetRequestDatabitAsync();
                                      if ((await requestDatabit).Item1)
@@ -380,6 +368,13 @@ namespace GD_StampingMachine.ViewModels
                          {
                              _ = LogDataSingleton.Instance.AddLogDataAsync(this.ViewModelName, ex.Message);
                          }
+                         finally
+                         {
+                             StampMachineData.PlateBaseObservableCollection.CollectionChanged -= PlateBaseObservableCollection_CollectionChanged;
+                             StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
+                             StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
+
+                         }
                      }, token);
                 }
                 catch (OperationCanceledException oex)
@@ -393,10 +388,6 @@ namespace GD_StampingMachine.ViewModels
                 }
                 finally
                 {
-                    StampMachineData.PlateBaseObservableCollection.CollectionChanged -= PlateBaseObservableCollection_CollectionChanged;
-
-                    StampMachineData.Cylinder_HydraulicEngraving_IsStopDownChanged -= StampMachineData_Cylinder_HydraulicEngraving_IsStopDownChanged;
-                    StampMachineData.Cylinder_HydraulicCutting_IsCutPointChanged -= StampMachineData_Cylinder_HydraulicCutting_IsCutPointChanged;
 
                     //cts.Cancel();
                     //取消第一格的訂閱

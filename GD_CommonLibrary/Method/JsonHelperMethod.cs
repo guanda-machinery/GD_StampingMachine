@@ -8,9 +8,9 @@ namespace GD_CommonLibrary.Method
 {
     public class JsonHelperMethod
     {
-        public Task<bool> WriteJsonFileAsync<T>(string fileName, T JsonData)
+        public async Task<bool> WriteJsonFileAsync<T>(string fileName, T JsonData)
         {
-            return Task.Run(async () =>
+            return await Task.Run(async () =>
             {
                 for (int i = 0; i < 10; i++)
                 {

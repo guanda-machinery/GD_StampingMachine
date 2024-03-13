@@ -66,9 +66,9 @@ namespace GD_StampingMachine.Method
         {
             return ReadJsonSettingByEnum(ParameterSettingName, out JsonData, ShowMessageBox);
         }
-        public Task<bool> WriteParameterSettingJsonSettingAsync<T>(ParameterSettingNameEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
+        public async Task<bool> WriteParameterSettingJsonSettingAsync<T>(ParameterSettingNameEnum ParameterSettingName, T JsonData, bool ShowMessageBox = false)
         {
-            return WriteJsonSettingByEnumAsync(ParameterSettingName, JsonData, ShowMessageBox);
+            return await WriteJsonSettingByEnumAsync(ParameterSettingName, JsonData, ShowMessageBox);
         }
 
 
@@ -76,36 +76,36 @@ namespace GD_StampingMachine.Method
         {
             return ReadJsonSettingByEnum(MachineSettingNameEnum.CommunicationSetting, out JsonData, ShowMessageBox);
         }
-        public Task<bool> WriteCommunicationSettingAsync(CommunicationSettingModel JsonData, bool ShowMessageBox = false)
+        public async Task<bool> WriteCommunicationSettingAsync(CommunicationSettingModel JsonData, bool ShowMessageBox = false)
         {
-            return WriteJsonSettingByEnumAsync(MachineSettingNameEnum.CommunicationSetting, JsonData, ShowMessageBox);
+            return await WriteJsonSettingByEnumAsync(MachineSettingNameEnum.CommunicationSetting, JsonData, ShowMessageBox);
         }
 
         public bool ReadIO_Table<T>(out T JsonData, bool ShowMessageBox = false)
         {
             return ReadJsonSettingByEnum(MachineSettingNameEnum.IO_Table, out JsonData, ShowMessageBox);
         }
-        public Task<bool> WriteIO_TableAsync<T>(T JsonData, bool ShowMessageBox = false)
+        public async Task<bool> WriteIO_TableAsync<T>(T JsonData, bool ShowMessageBox = false)
         {
-            return WriteJsonSettingByEnumAsync(MachineSettingNameEnum.IO_Table, JsonData, ShowMessageBox);
+            return await WriteJsonSettingByEnumAsync(MachineSettingNameEnum.IO_Table, JsonData, ShowMessageBox);
         }
 
         public bool ReadUseStampingFont(out List<StampingTypeModel> JsonData, bool ShowMessageBox = false)
         {
             return ReadJsonSettingByEnum(MachineSettingNameEnum.UseStampingFont, out JsonData, ShowMessageBox);
         }
-        public Task<bool> WriteUseStampingFontAsync(List<StampingTypeModel> JsonData, bool ShowMessageBox = false)
+        public async Task<bool> WriteUseStampingFontAsync(List<StampingTypeModel> JsonData, bool ShowMessageBox = false)
         {
-            return WriteJsonSettingByEnumAsync(MachineSettingNameEnum.UseStampingFont, JsonData, ShowMessageBox);
+            return await WriteJsonSettingByEnumAsync(MachineSettingNameEnum.UseStampingFont, JsonData, ShowMessageBox);
         }
 
         public bool ReadUnUseStampingFont(out List<StampingTypeModel> JsonData, bool ShowMessageBox = false)
         {
             return ReadJsonSettingByEnum(MachineSettingNameEnum.UnUseStampingFont, out JsonData, ShowMessageBox);
         }
-        public Task<bool> WriteUnUseStampingFontAsync(List<StampingTypeModel> JsonData, bool ShowMessageBox = false)
+        public async Task<bool> WriteUnUseStampingFontAsync(List<StampingTypeModel> JsonData, bool ShowMessageBox = false)
         {
-            return WriteJsonSettingByEnumAsync(MachineSettingNameEnum.UnUseStampingFont, JsonData, ShowMessageBox);
+            return await WriteJsonSettingByEnumAsync(MachineSettingNameEnum.UnUseStampingFont, JsonData, ShowMessageBox);
         }
 
 
@@ -113,9 +113,9 @@ namespace GD_StampingMachine.Method
         {
             return ReadJsonSettingByEnum(ProjectSettingEnum.ProjectPathList, out PathList, ShowMessageBox);
         }
-        public Task<bool> WriteProjectSettingJsonAsync(List<ProjectModel> JsonData, bool ShowMessageBox = false)
+        public async Task<bool> WriteProjectSettingJsonAsync(List<ProjectModel> JsonData, bool ShowMessageBox = false)
         {
-            return WriteJsonSettingByEnumAsync(ProjectSettingEnum.ProjectPathList, JsonData, ShowMessageBox);
+            return await WriteJsonSettingByEnumAsync(ProjectSettingEnum.ProjectPathList, JsonData, ShowMessageBox);
         }
 
         /// <summary>

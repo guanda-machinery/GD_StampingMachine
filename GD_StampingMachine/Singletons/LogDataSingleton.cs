@@ -52,27 +52,27 @@ namespace GD_StampingMachine.Singletons
         {
             try
             {
-
-                var LogSource = ((string)System.Windows.Application.Current.TryFindResource(SourceName));
-                if (string.IsNullOrEmpty(LogSource))
-                    LogSource = SourceName;
-
-                var ResourceString = ((string)System.Windows.Application.Current.TryFindResource(LogString));
-                if (string.IsNullOrEmpty(ResourceString))
-                    ResourceString = LogString;
-
-                var OperatingLog = (new OperatingLogModel(DateTime.Now, LogSource, ResourceString, IsAlarm));
-                await System.Windows. Application.Current.Dispatcher.InvokeAsync((() =>
+                await Task.Run(async () =>
                 {
-                    this.DataObservableCollection.Add(new OperatingLogViewModel(OperatingLog));
-                }));
+                    var LogSource = ((string)System.Windows.Application.Current.TryFindResource(SourceName));
+                    if (string.IsNullOrEmpty(LogSource))
+                        LogSource = SourceName;
 
+                    var ResourceString = ((string)System.Windows.Application.Current.TryFindResource(LogString));
+                    if (string.IsNullOrEmpty(ResourceString))
+                        ResourceString = LogString;
 
-                _ = Task.Run(async () =>
-                {
-                    await semaphoreSlim.WaitAsync();
+                    var OperatingLog = (new OperatingLogModel(DateTime.Now, LogSource, ResourceString, IsAlarm));
+
+                    await System.Windows.Application.Current.Dispatcher.InvokeAsync((() =>
+                    {
+                        this.DataObservableCollection.Add(new OperatingLogViewModel(OperatingLog));
+                    }));
+
                     try
                     {
+                        await semaphoreSlim.WaitAsync(5000);
+
                         const string LogFileDirectory = "Logs";
                         string LogFileName = System.IO.Path.Combine(LogFileDirectory, $"Log-{DateTime.Now.ToString("yyyy-MM-dd")}");
                         LogFileName += ".csv";
@@ -110,25 +110,25 @@ namespace GD_StampingMachine.Singletons
                                 this.TempOperatingLog[LogFileName] = new List<OperatingLogModel>() { OperatingLog };
                             }
                         }
+                        semaphoreSlim.Release();
+                    }
+                    catch (OperationCanceledException ocex)
+                    {
+
                     }
                     catch (Exception ex)
                     {
+                        semaphoreSlim.Release();
                         Console.WriteLine(ex.ToString());
                     }
-                    finally
-                    {
-                        semaphoreSlim.Release();
-                    }
+
                 });
-                //將錯誤資料記錄下來
             }
-            catch (Exception)
+            catch
             {
-                //Debugger.Break();
+
             }
-            finally
-            {
-            }
+            //將錯誤資料記錄下來
         }
 
 
